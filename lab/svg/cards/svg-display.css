@@ -1,0 +1,107 @@
+.svgCard {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 1rem;
+    border: 1px solid currentColor;
+    padding: 0.75rem 0.75rem 1.5rem;
+    margin: 1rem .5rem;
+    /* margin: 2rem;
+    outline: 1px solid #fff;
+    outline-offset: 0.5rem; */
+}
+.svgTitle {
+    font-size: 24px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #fff;
+}
+.svgTitle::before { content: '<'; }
+.svgTitle::after { content: '>'; }
+.svgID {
+    position: absolute;
+    top: .5rem; right: .5rem;
+    padding: .25rem;
+    border-radius: .25rem;
+    box-shadow: 0 0 0 1px currentColor;
+}
+.svgCode {
+    /* width: 220px; */
+    max-width: 250px;
+    width: fit-content;
+    border-left: 6px solid #058;
+    background-color: #eee;
+    padding: 1rem;
+    margin: .25rem 0;
+    text-align: left;
+}
+.svgBlock {
+    border: 1px solid #058;
+    border-left: 6px solid #058;
+    background-color: #fff;
+    padding: 1rem;
+    margin: .25rem 0;
+}
+
+.svgCode p {
+    margin: 0.25rem 0;
+}
+
+.sampleCard {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 1rem;
+    outline: 1px solid #fff;
+    outline-offset: 0.5rem;
+    margin: 2rem;
+}
+.sampleTitle {
+    font-size: 24px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sampleTitle::before { content: '<'; }
+.sampleTitle::after { content: '>'; }
+.link-out {
+    padding: .5rem;
+    margin: 0.25em 0;
+}
+.link-out::before { content: 'Source: '; }
+.code-sample {
+    width: 220px;
+    border-left: 6px solid #058;
+    background-color: #eee;
+    padding: 1rem;
+    margin: .25rem 0;
+    text-align: left;
+}
+.sample {
+    border: 1px solid #058;
+    border-left: 6px solid #058;
+    background-color: #fff;
+    padding: 1rem;
+    margin: .25rem 0;
+}
+
+.punctuation { color: #777; }
+.tag { color: #c55; }
+.attr { color: #339; }
+.attr-name { color: #693; }
+.attr-val { color: #339; }
+
+.punctuation { color: #777; }
+.tag { color: #a01; }
+.attr { color: #058; }
+.attr-name { color: #063; }
+.attr-val { color: #058; }
+
+text.small { font: italic 13px sans-serif; }
+text.heavy { font: bold 30px sans-serif; }
+text.Rrrrr { font: italic 40px serif; fill: red; }
+

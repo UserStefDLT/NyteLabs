@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>SVG Cards | Nyte Labs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <link rel="stylesheet" href="svg-display.css">
+    <style>
+        input[type="checkbox"].codeToggler {display: none;}
+        .codeToggler ~ label {
+            padding: .25rem;
+            border-radius: .25rem;
+            box-shadow: 0 0 0 1px currentColor;
+        }
+        .codeToggler:checked ~ label {
+            color: #222;
+            background-color: #eee;
+        }
+        .codeToggler:not(:checked) ~ .svgCode {display: none;}
+
+        .svgCode p:not(:first-child, :last-child) {
+            position: relative;
+            left: 1rem;
+        }
+
+
+        svg {
+            background-image: 
+            repeating-linear-gradient(90deg, #0000 1px, #0000 49px, #924c 49px, #249c 51px, #0000 51px),
+            repeating-linear-gradient(180deg, #0000 1px, #0000 49px, #924c 49px, #249c 51px, #0000 51px),
+            repeating-linear-gradient(90deg, #0000 1px, #0000 10px, #2225 10px, #2225 11px, #0000 11px),
+            repeating-linear-gradient(180deg, #0000 1px, #0000 10px, #2225 10px, #2225 11px, #0000 11px);
+            transition: box-shadow 200ms ease-in-out;
+        }
+        svg:hover {
+            box-shadow: 0 0 4px 4px #39f;
+            background-image: 
+            repeating-linear-gradient(90deg, #0000 1px, #0000 49px, #924c 49px, #249c 51px, #0000 51px),
+            repeating-linear-gradient(180deg, #0000 1px, #0000 49px, #924c 49px, #249c 51px, #0000 51px);
+        }
+
+        svg.svg-bg20 {
+            background-position: -30px -30px;
+            background-size: 200% 200%;
+        }
+
+        .svgCard:nth-of-type(6n+1) .hexClr { --hue: var(--hue-1); }
+        .svgCard:nth-of-type(6n+2) .hexClr { --hue: var(--hue-2); }
+        .svgCard:nth-of-type(6n+3) .hexClr { --hue: var(--hue-3); }
+        .svgCard:nth-of-type(6n+4) .hexClr { --hue: var(--hue-4); }
+        .svgCard:nth-of-type(6n+5) .hexClr { --hue: var(--hue-5); }
+        .svgCard:nth-of-type(6n+6) .hexClr { --hue: var(--hue-6); }
+
+        .hexClr {
+            fill: hsla(var(--hue), 100%, 60%, .5);
+            stroke: hsla(var(--hue), 100%, 20%, 1);
+        }
+
+
+        .z {display: none;}
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">SVG</div>
+        <!-- <div class="subtitle">be careful</div> -->
+    </header>
+
+<main>
+    <div class="shelf hidden">
+        <div class="shelf-title">Experiment Sample</div>
+        <div class="svgCard">
+            <input type="checkbox" class="codeToggler" name="path-0" id="path-0">
+            <label for="path-0">path-0</label>
+            <div class="svgBlock">
+                <svg viewBox="0 0 100 100" height="100px" width="100px">
+                    <path d="M 10 10 h 80 v 80 h -80 Z" />
+                </svg>
+            </div>
+            <code class="svgCode">
+                <p><span class="token punctuation">&lt;</span><span class="token tag">svg</span>  <span class="token attr"><span class="token attr-name">viewBox<span class="token punctuation">=</span></span><span class="token attr-val"><span class="token punctuation">"</span>0 0 100 100<span class="token punctuation">"</span></span></span> <span class="token punctuation">&gt;</span></p>
+                <p><span class="token tag"><span class="token punctuation">&lt;</span>path </span> <span class="token attr"><span class="token attr-name">d<span class="token punctuation">=</span></span><span class="token attr-val"><span class="token punctuation">"</span>M 10 10 h 80 v 80 h -80 Z<span class="token punctuation">"</span></span></span> <span class="token punctuation">/&gt;</span></p>
+                <p><span class="token punctuation">&lt;</span><span class="token punctuation">/</span><span class="token tag">svg</span><span class="token punctuation">&gt;</span></p>
+            </code>
+        </div>
+    </div>
+
+    <div id="svgBasics" class="shelf hidden">
+        <div class="shelf-title">SVG Basics</div>
+    </div>
+    <div id="ExperimentList" class="shelf hidden">
+        <div class="shelf-title">Experiment List</div>
+    </div>
+    <div id="svgDesigns" class="shelf hidden">
+        <div class="shelf-title">SVG Designs</div>
+    </div>
+    <div id="svgCards" class="shelf">
+        <div class="shelf-title">SVG Cards</div>
+    </div>
+</main>
+
+
+</svg>
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <script src="svg-cards.js"></script>
+    <!-- <script src="svg-display.js"></script> -->
+    <!-- <script src="main.js"></script> -->
+    <!-- <script></script> -->
+    <!-- file:///C:/KStar/Projects/Github/Labst-Repo/05-Lessons/mdn/svg/svg-samples-02.html -->
+    <!-- file:///C:/KStar/Projects/Github/Labst-Repo/00-ux-periments/29-svg/svg-card/svg-cards.html -->
+</body>
+</html>
