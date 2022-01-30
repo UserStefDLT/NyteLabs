@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>SVG Clouds | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <link rel="stylesheet" href="fe-clouds.css">
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Clouds</div>
+        <!-- <div class="subtitle">SVG</div> -->
+    </header>
+
+        <main>
+            <input type="radio" id="nav-to-A" name="section" class="nav-input">
+            <input type="radio" id="nav-to-B" name="section" class="nav-input">
+            <input type="radio" id="nav-to-C" name="section" class="nav-input">
+            <input type="radio" id="nav-to-D" name="section" class="nav-input" checked>
+            <input type="radio" id="nav-to-E" name="section" class="nav-input">
+            <div class="my-radio-nav">
+                <label for="nav-to-A" class="navbtn">Start</label>
+                <label for="nav-to-B" class="navbtn">Deck</label>
+                <label for="nav-to-C" class="navbtn">List</label>
+                <label for="nav-to-D" class="navbtn">Table</label>
+                <!-- <label for="nav-to-E" class="navbtn">Settings</label> -->
+            </div>
+
+            <input type="checkbox" name="filter" id="input-o1" class="check-controller">
+            <input type="checkbox" name="filter" id="input-o2" class="check-controller">
+            <input type="checkbox" name="filter" id="input-o3" class="check-controller">
+            <input type="checkbox" name="filter" id="input-o5" class="check-controller">
+            <input type="checkbox" name="filter" id="input-sc20" class="check-controller">
+            <input type="checkbox" name="filter" id="input-sc50" class="check-controller">
+            <input type="checkbox" name="filter" id="input-sc100" class="check-controller">
+            <input type="checkbox" name="filter" id="input-sc200" class="check-controller">
+            <!-- <div class="check-controllers">
+                <label for="input-o1" class="check-label for-oct">[o1]</label>
+                <label for="input-o2" class="check-label for-oct">[o2]</label>
+                <label for="input-o3" class="check-label for-oct">[o3]</label>
+                <label for="input-o5" class="check-label for-oct">[o5]</label>
+                <label for="input-sc20" class="check-label for-scale">[sc20]</label>
+                <label for="input-sc50" class="check-label for-scale">[sc50]</label>
+                <label for="input-sc100" class="check-label for-scale">[sc100]</label>
+                <label for="input-sc200" class="check-label for-scale">[sc200]</label>
+            </div> -->
+
+            <div class="sections">
+                <section id="section-A"><h2>Start</h2>
+                <div class="desk-up bg-sky">
+                    <div class="desk-title">cloud-06</div>
+                    <div id="cloud-circle-06-back"></div>
+                    <div id="cloud-circle-06-mid"></div>
+                    <div id="cloud-circle-06-front"></div>
+                </div>
+                <div class="desk-up bg-sky">
+                    <div class="desk-title">cloud-05</div>
+                    <div id="cloud-circle-05"></div>
+                </div>
+                <div class="desk bg-sky hidden">
+                    <div class="desk-title">cloud-04</div>
+                    <div id="cloud-circle-04"></div>
+                </div>
+                <div class="desk bg-sky hidden">
+                    <div class="desk-title">cloud-03</div>
+                    <div id="cloud-circle-03"></div>
+                </div>
+                <div class="desk hidden">
+                    <div class="desk-title">cloud-02</div>
+                    <div id="cloud-circle-02"></div>
+                </div>
+                <div class="desk hidden">
+                    <div class="desk-title">cloud-start</div>
+                    <div id="cloud-square"></div>
+                    <div id="cloud-circle"></div>
+                </div>
+                <div class="desk hidden">
+                    <div id="cloud-square"></div>
+                    <div id="cloud-circle"></div>
+                    <div id="cloud-circle-02"></div>
+                </div>
+                </section>
+                <section id="section-B"><h2>Deck</h2>
+                    <!-- <div class="section-title">Catalog</div> -->
+                    <div class="deck">
+
+                        <div class="card">
+                            <div class="card-name">cloud xi-04</div>
+                            <div class="card-img bg-xc">
+                                <div id="cloud-xi-04-back"></div>
+                                <div id="cloud-xi-04-mid"></div>
+                                <div id="cloud-xi-04-front"></div>
+                            </div>
+                            <div class="card-tag-list">
+                                <div class="card-tag hover-glow">baseFrequency=".012"</div>
+                                <div class="card-tag hover-glow">numOctaves="6"</div>
+                                <div class="card-tag hover-glow">scale=100-170"</div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-name">cloud xi-03</div>
+                            <div class="card-img bg-xc">
+                                <div id="cloud-xi-03"></div>
+                            </div>
+                            <div class="card-tag-list">
+                                <div class="card-tag hover-glow">feTur.baseFrequency=".02"</div>
+                                <div class="card-tag hover-glow">feDisMap.scale = 180</div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-name">cloud xi-02</div>
+                            <div class="card-img bg-xc">
+                                <div id="cloud-xi-02"></div>
+                            </div>
+                            <div class="card-tag-list">
+                                <div class="card-tag hover-glow">feTurbulence</div>
+                                <div class="card-tag hover-glow">feDisplacementMap.scale = 180</div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-name">cloud xi</div>
+                            <div class="card-img bg1">
+                                <div id="cloud-xi-01"></div>
+                            </div>
+                            <div class="card-tag-list">
+                                <div class="card-tag hover-glow">feTurbulence</div>
+                                <div class="card-tag hover-glow">feDisplacementMap.scale = 10</div>
+                            </div>
+                        </div>
+                        <div class="card hover-glow">
+                            <div class="card-name">Card Name</div>
+                            <div class="card-img"></div>
+                            <div class="card-tag-list">
+                                <div class="card-tag">tag</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="section-C"><h2>List</h2>
+                    <div class="deck-list">
+
+                        <!-- <div class="card hidden">
+                            <div class="card-name">cloud xi-04</div>
+                            <div class="card-img bg-xc">
+                                <div id="cloud-xi-04-back"></div>
+                                <div id="cloud-xi-04-mid"></div>
+                                <div id="cloud-xi-04-front"></div>
+                            </div>
+                            <div class="card-tag-list">
+                                <div class="card-tag hover-glow">baseFrequency=".012"</div>
+                                <div class="card-tag hover-glow">numOctaves="6"</div>
+                                <div class="card-tag hover-glow">scale=100-170"</div>
+                            </div>
+                        </div> -->
+
+                        <div class="card h18w12">
+                            <div class="card-name">cloud yi-01</div>
+                            <div class="card-img bg-xc">
+                                <div id="cloud-yi-01"></div>
+                            </div>
+                            <div class="card-tag-list">
+                                <div class="card-tag hover-glow">Frequency=".1"</div>
+                                <div class="card-tag hover-glow">Octaves="5"</div>
+                                <div class="card-tag hover-glow">scale=100</div>
+                            </div>
+                        </div>
+                        <div class="card h18w12">
+                            <div class="card-name">cloud yi-02</div>
+                            <div class="card-img bg-xc">
+                                <div id="cloud-yi-02"></div>
+                            </div>
+                            <div class="card-tag-list">
+                                <div class="card-tag hover-glow">fq=".01"</div>
+                                <div class="card-tag hover-glow">oct="5"</div>
+                                <div class="card-tag hover-glow">scl=100</div>
+                            </div>
+                        </div>
+                        <div class="card h18w12">
+                            <div class="card-name">cloud yi-03</div>
+                            <div class="card-img bg-xc">
+                                <div id="cloud-yi-03"></div>
+                            </div>
+                            <div class="card-tag-list">
+                                <div class="card-tag hover-glow">fq=".001"</div>
+                                <div class="card-tag hover-glow">oct="5"</div>
+                                <div class="card-tag hover-glow">scl=100</div>
+                            </div>
+                        </div>
+
+                        <div class="card h18w12">
+                            <div class="card-name">cloud yi-04</div>
+                            <div class="card-img bg-xc">
+                                <div id="cloud-yi-04"></div>
+                            </div>
+                            <div class="card-tag-list">
+                                <div class="card-tag hover-glow">fq=".1"</div>
+                                <div class="card-tag hover-glow">oct="3"</div>
+                                <div class="card-tag hover-glow">scl=100</div>
+                            </div>
+                        </div>
+                        <div class="card h18w12">
+                            <div class="card-name">cloud yi-05</div>
+                            <div class="card-img bg-xc">
+                                <div id="cloud-yi-05"></div>
+                            </div>
+                            <div class="card-tag-list">
+                                <div class="card-tag hover-glow">fq=".01"</div>
+                                <div class="card-tag hover-glow">oct="3"</div>
+                                <div class="card-tag hover-glow">scl=100</div>
+                            </div>
+                        </div>
+                        <div class="card h18w12">
+                            <div class="card-name">cloud yi-06</div>
+                            <div class="card-img bg-xc">
+                                <div id="cloud-yi-06"></div>
+                            </div>
+                            <div class="card-tag-list">
+                                <div class="card-tag hover-glow">fq=".001"</div>
+                                <div class="card-tag hover-glow">oct="3"</div>
+                                <div class="card-tag hover-glow">scl=100</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </section>
+
+                <section id="section-D"><h2>Table</h2>
+                    <div class="check-controllers">
+                        <label for="input-o1" class="check-label for-oct">[o1]</label>
+                        <label for="input-o2" class="check-label for-oct">[o2]</label>
+                        <label for="input-o3" class="check-label for-oct">[o3]</label>
+                        <label for="input-o5" class="check-label for-oct">[o5]</label>
+                        <label for="input-sc20" class="check-label for-scale">[sc20]</label>
+                        <label for="input-sc50" class="check-label for-scale">[sc50]</label>
+                        <label for="input-sc100" class="check-label for-scale">[sc100]</label>
+                        <label for="input-sc200" class="check-label for-scale">[sc200]</label>
+                    </div>
+                    <div class="deck-set-6">
+                        <!-- ████████████████████ ─ sc20 ─ ████████████████████ -->
+                        <div class="card h18w12 card-yj-01-o1-sc20"><div class="card-name">cloud yj-01</div><div class="card-img bg-xc"><div id="cloud-yj-01-o1-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".1"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-02-o1-sc20"><div class="card-name">cloud yj-02</div><div class="card-img bg-xc"><div id="cloud-yj-02-o1-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".05"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-03-o1-sc20"><div class="card-name">cloud yj-03</div><div class="card-img bg-xc"><div id="cloud-yj-03-o1-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-04-o1-sc20"><div class="card-name">cloud yj-04</div><div class="card-img bg-xc"><div id="cloud-yj-04-o1-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".012"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-05-o1-sc20"><div class="card-name">cloud yj-05</div><div class="card-img bg-xc"><div id="cloud-yj-05-o1-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".006"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-06-o1-sc20"><div class="card-name">cloud yj-06</div><div class="card-img bg-xc"><div id="cloud-yj-06-o1-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".001"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-01-o2-sc20"><div class="card-name">cloud yj-01</div><div class="card-img bg-xc"><div id="cloud-yj-01-o2-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".1"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-02-o2-sc20"><div class="card-name">cloud yj-02</div><div class="card-img bg-xc"><div id="cloud-yj-02-o2-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".05"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-03-o2-sc20"><div class="card-name">cloud yj-03</div><div class="card-img bg-xc"><div id="cloud-yj-03-o2-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-04-o2-sc20"><div class="card-name">cloud yj-04</div><div class="card-img bg-xc"><div id="cloud-yj-04-o2-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".012"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-05-o2-sc20"><div class="card-name">cloud yj-05</div><div class="card-img bg-xc"><div id="cloud-yj-05-o2-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".006"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-06-o2-sc20"><div class="card-name">cloud yj-06</div><div class="card-img bg-xc"><div id="cloud-yj-06-o2-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".001"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-01-o3-sc20"><div class="card-name">cloud yj-01</div><div class="card-img bg-xc"><div id="cloud-yj-01-o3-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".1"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-02-o3-sc20"><div class="card-name">cloud yj-02</div><div class="card-img bg-xc"><div id="cloud-yj-02-o3-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".05"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-03-o3-sc20"><div class="card-name">cloud yj-03</div><div class="card-img bg-xc"><div id="cloud-yj-03-o3-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-04-o3-sc20"><div class="card-name">cloud yj-04</div><div class="card-img bg-xc"><div id="cloud-yj-04-o3-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".012"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-05-o3-sc20"><div class="card-name">cloud yj-05</div><div class="card-img bg-xc"><div id="cloud-yj-05-o3-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".006"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-06-o3-sc20"><div class="card-name">cloud yj-06</div><div class="card-img bg-xc"><div id="cloud-yj-06-o3-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".001"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-01-o5-sc20"><div class="card-name">cloud yj-01</div><div class="card-img bg-xc"><div id="cloud-yj-01-o5-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".1"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-02-o5-sc20"><div class="card-name">cloud yj-02</div><div class="card-img bg-xc"><div id="cloud-yj-02-o5-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".05"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-03-o5-sc20"><div class="card-name">cloud yj-03</div><div class="card-img bg-xc"><div id="cloud-yj-03-o5-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-04-o5-sc20"><div class="card-name">cloud yj-04</div><div class="card-img bg-xc"><div id="cloud-yj-04-o5-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".012"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-05-o5-sc20"><div class="card-name">cloud yj-05</div><div class="card-img bg-xc"><div id="cloud-yj-05-o5-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".006"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=20</div></div></div>
+                        <div class="card h18w12 card-yj-06-o5-sc20"><div class="card-name">cloud yj-06</div><div class="card-img bg-xc"><div id="cloud-yj-06-o5-sc20"></div></div><div class="card-tag-list"><div class="card-tag">fq=".001"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=20</div></div></div>
+                    </div>
+                    <div class="deck-set-6">
+                        <!-- ████████████████████ ─ sc50 ─ ████████████████████ -->
+                        <div class="card h18w12 card-yj-01-o1-sc50"><div class="card-name">cloud yj-01</div><div class="card-img bg-xc"><div id="cloud-yj-01-o1-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".1"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-02-o1-sc50"><div class="card-name">cloud yj-02</div><div class="card-img bg-xc"><div id="cloud-yj-02-o1-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".05"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-03-o1-sc50"><div class="card-name">cloud yj-03</div><div class="card-img bg-xc"><div id="cloud-yj-03-o1-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-04-o1-sc50"><div class="card-name">cloud yj-04</div><div class="card-img bg-xc"><div id="cloud-yj-04-o1-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".012"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-05-o1-sc50"><div class="card-name">cloud yj-05</div><div class="card-img bg-xc"><div id="cloud-yj-05-o1-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".006"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-06-o1-sc50"><div class="card-name">cloud yj-06</div><div class="card-img bg-xc"><div id="cloud-yj-06-o1-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".001"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-01-o2-sc50"><div class="card-name">cloud yj-01</div><div class="card-img bg-xc"><div id="cloud-yj-01-o2-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".1"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-02-o2-sc50"><div class="card-name">cloud yj-02</div><div class="card-img bg-xc"><div id="cloud-yj-02-o2-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".05"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-03-o2-sc50"><div class="card-name">cloud yj-03</div><div class="card-img bg-xc"><div id="cloud-yj-03-o2-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-04-o2-sc50"><div class="card-name">cloud yj-04</div><div class="card-img bg-xc"><div id="cloud-yj-04-o2-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".012"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-05-o2-sc50"><div class="card-name">cloud yj-05</div><div class="card-img bg-xc"><div id="cloud-yj-05-o2-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".006"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-06-o2-sc50"><div class="card-name">cloud yj-06</div><div class="card-img bg-xc"><div id="cloud-yj-06-o2-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".001"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-01-o3-sc50"><div class="card-name">cloud yj-01</div><div class="card-img bg-xc"><div id="cloud-yj-01-o3-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".1"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-02-o3-sc50"><div class="card-name">cloud yj-02</div><div class="card-img bg-xc"><div id="cloud-yj-02-o3-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".05"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-03-o3-sc50"><div class="card-name">cloud yj-03</div><div class="card-img bg-xc"><div id="cloud-yj-03-o3-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-04-o3-sc50"><div class="card-name">cloud yj-04</div><div class="card-img bg-xc"><div id="cloud-yj-04-o3-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".012"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-05-o3-sc50"><div class="card-name">cloud yj-05</div><div class="card-img bg-xc"><div id="cloud-yj-05-o3-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".006"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-06-o3-sc50"><div class="card-name">cloud yj-06</div><div class="card-img bg-xc"><div id="cloud-yj-06-o3-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".001"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-01-o5-sc50"><div class="card-name">cloud yj-01</div><div class="card-img bg-xc"><div id="cloud-yj-01-o5-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".1"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-02-o5-sc50"><div class="card-name">cloud yj-02</div><div class="card-img bg-xc"><div id="cloud-yj-02-o5-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".05"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-03-o5-sc50"><div class="card-name">cloud yj-03</div><div class="card-img bg-xc"><div id="cloud-yj-03-o5-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-04-o5-sc50"><div class="card-name">cloud yj-04</div><div class="card-img bg-xc"><div id="cloud-yj-04-o5-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".012"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-05-o5-sc50"><div class="card-name">cloud yj-05</div><div class="card-img bg-xc"><div id="cloud-yj-05-o5-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".006"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=50</div></div></div>
+                        <div class="card h18w12 card-yj-06-o5-sc50"><div class="card-name">cloud yj-06</div><div class="card-img bg-xc"><div id="cloud-yj-06-o5-sc50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".001"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=50</div></div></div>
+                    </div>
+                    <div class="deck-set-6">
+                        <!-- ████████████████████ ─ sc100 ─ ████████████████████ -->
+                        <div class="card h18w12 card-yj-01-o1-sc100"><div class="card-name">cloud yj-01</div><div class="card-img bg-xc"><div id="cloud-yj-01-o1-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".1"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-02-o1-sc100"><div class="card-name">cloud yj-02</div><div class="card-img bg-xc"><div id="cloud-yj-02-o1-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".05"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-03-o1-sc100"><div class="card-name">cloud yj-03</div><div class="card-img bg-xc"><div id="cloud-yj-03-o1-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-04-o1-sc100"><div class="card-name">cloud yj-04</div><div class="card-img bg-xc"><div id="cloud-yj-04-o1-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".012"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-05-o1-sc100"><div class="card-name">cloud yj-05</div><div class="card-img bg-xc"><div id="cloud-yj-05-o1-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".006"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-06-o1-sc100"><div class="card-name">cloud yj-06</div><div class="card-img bg-xc"><div id="cloud-yj-06-o1-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".001"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-01-o2-sc100"><div class="card-name">cloud yj-01</div><div class="card-img bg-xc"><div id="cloud-yj-01-o2-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".1"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-02-o2-sc100"><div class="card-name">cloud yj-02</div><div class="card-img bg-xc"><div id="cloud-yj-02-o2-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".05"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-03-o2-sc100"><div class="card-name">cloud yj-03</div><div class="card-img bg-xc"><div id="cloud-yj-03-o2-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-04-o2-sc100"><div class="card-name">cloud yj-04</div><div class="card-img bg-xc"><div id="cloud-yj-04-o2-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".012"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-05-o2-sc100"><div class="card-name">cloud yj-05</div><div class="card-img bg-xc"><div id="cloud-yj-05-o2-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".006"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-06-o2-sc100"><div class="card-name">cloud yj-06</div><div class="card-img bg-xc"><div id="cloud-yj-06-o2-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".001"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-01-o3-sc100"><div class="card-name">cloud yj-01</div><div class="card-img bg-xc"><div id="cloud-yj-01-o3-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".1"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-02-o3-sc100"><div class="card-name">cloud yj-02</div><div class="card-img bg-xc"><div id="cloud-yj-02-o3-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".05"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-03-o3-sc100"><div class="card-name">cloud yj-03</div><div class="card-img bg-xc"><div id="cloud-yj-03-o3-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-04-o3-sc100"><div class="card-name">cloud yj-04</div><div class="card-img bg-xc"><div id="cloud-yj-04-o3-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".012"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-05-o3-sc100"><div class="card-name">cloud yj-05</div><div class="card-img bg-xc"><div id="cloud-yj-05-o3-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".006"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-06-o3-sc100"><div class="card-name">cloud yj-06</div><div class="card-img bg-xc"><div id="cloud-yj-06-o3-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".001"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-01-o5-sc100"><div class="card-name">cloud yj-01</div><div class="card-img bg-xc"><div id="cloud-yj-01-o5-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".1"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-02-o5-sc100"><div class="card-name">cloud yj-02</div><div class="card-img bg-xc"><div id="cloud-yj-02-o5-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".05"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-03-o5-sc100"><div class="card-name">cloud yj-03</div><div class="card-img bg-xc"><div id="cloud-yj-03-o5-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-04-o5-sc100"><div class="card-name">cloud yj-04</div><div class="card-img bg-xc"><div id="cloud-yj-04-o5-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".012"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-05-o5-sc100"><div class="card-name">cloud yj-05</div><div class="card-img bg-xc"><div id="cloud-yj-05-o5-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".006"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=100</div></div></div>
+                        <div class="card h18w12 card-yj-06-o5-sc100"><div class="card-name">cloud yj-06</div><div class="card-img bg-xc"><div id="cloud-yj-06-o5-sc100"></div></div><div class="card-tag-list"><div class="card-tag">fq=".001"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=100</div></div></div>
+                    </div>
+                    <div class="deck-set-6">
+                        <!-- ████████████████████ ─ sc200 ─ ████████████████████ -->
+                        <div class="card h18w12 card-yj-01-o1-sc200"><div class="card-name">cloud yj-01</div><div class="card-img bg-xc"><div id="cloud-yj-01-o1-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".1"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-02-o1-sc200"><div class="card-name">cloud yj-02</div><div class="card-img bg-xc"><div id="cloud-yj-02-o1-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".05"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-03-o1-sc200"><div class="card-name">cloud yj-03</div><div class="card-img bg-xc"><div id="cloud-yj-03-o1-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-04-o1-sc200"><div class="card-name">cloud yj-04</div><div class="card-img bg-xc"><div id="cloud-yj-04-o1-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".012"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-05-o1-sc200"><div class="card-name">cloud yj-05</div><div class="card-img bg-xc"><div id="cloud-yj-05-o1-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".006"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-06-o1-sc200"><div class="card-name">cloud yj-06</div><div class="card-img bg-xc"><div id="cloud-yj-06-o1-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".001"</div><div class="card-tag">oct="1"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-01-o2-sc200"><div class="card-name">cloud yj-01</div><div class="card-img bg-xc"><div id="cloud-yj-01-o2-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".1"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-02-o2-sc200"><div class="card-name">cloud yj-02</div><div class="card-img bg-xc"><div id="cloud-yj-02-o2-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".05"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-03-o2-sc200"><div class="card-name">cloud yj-03</div><div class="card-img bg-xc"><div id="cloud-yj-03-o2-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-04-o2-sc200"><div class="card-name">cloud yj-04</div><div class="card-img bg-xc"><div id="cloud-yj-04-o2-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".012"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-05-o2-sc200"><div class="card-name">cloud yj-05</div><div class="card-img bg-xc"><div id="cloud-yj-05-o2-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".006"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-06-o2-sc200"><div class="card-name">cloud yj-06</div><div class="card-img bg-xc"><div id="cloud-yj-06-o2-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".001"</div><div class="card-tag">oct="2"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-01-o3-sc200"><div class="card-name">cloud yj-01</div><div class="card-img bg-xc"><div id="cloud-yj-01-o3-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".1"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-02-o3-sc200"><div class="card-name">cloud yj-02</div><div class="card-img bg-xc"><div id="cloud-yj-02-o3-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".05"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-03-o3-sc200"><div class="card-name">cloud yj-03</div><div class="card-img bg-xc"><div id="cloud-yj-03-o3-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-04-o3-sc200"><div class="card-name">cloud yj-04</div><div class="card-img bg-xc"><div id="cloud-yj-04-o3-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".012"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-05-o3-sc200"><div class="card-name">cloud yj-05</div><div class="card-img bg-xc"><div id="cloud-yj-05-o3-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".006"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-06-o3-sc200"><div class="card-name">cloud yj-06</div><div class="card-img bg-xc"><div id="cloud-yj-06-o3-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".001"</div><div class="card-tag">oct="3"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-01-o5-sc200"><div class="card-name">cloud yj-01</div><div class="card-img bg-xc"><div id="cloud-yj-01-o5-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".1"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-02-o5-sc200"><div class="card-name">cloud yj-02</div><div class="card-img bg-xc"><div id="cloud-yj-02-o5-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".05"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-03-o5-sc200"><div class="card-name">cloud yj-03</div><div class="card-img bg-xc"><div id="cloud-yj-03-o5-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-04-o5-sc200"><div class="card-name">cloud yj-04</div><div class="card-img bg-xc"><div id="cloud-yj-04-o5-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".012"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-05-o5-sc200"><div class="card-name">cloud yj-05</div><div class="card-img bg-xc"><div id="cloud-yj-05-o5-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".006"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-06-o5-sc200"><div class="card-name">cloud yj-06</div><div class="card-img bg-xc"><div id="cloud-yj-06-o5-sc200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".001"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=200</div></div></div>
+                    </div>
+                </section>
+                <section id="section-E"><h2>Settings &#x2699;</h2></section>
+            </div>
+            
+        </main>
+
+        <svg width="0" height="0">
+            <filter id="filter">
+                <feTurbulence type="fractalNoise" baseFrequency=".01" numOctaves="10" />
+                <feDisplacementMap in="SourceGraphic" scale="10" />
+            </filter>
+            <filter id="cloud-02">
+                <feTurbulence type="fractalNoise" baseFrequency=".01" numOctaves="10" />
+                <feDisplacementMap in="SourceGraphic" scale="10" />
+            </filter>
+            <filter id="cloud-03">
+                <feTurbulence type="fractalNoise" baseFrequency=".01" numOctaves="10" />
+                <feDisplacementMap in="SourceGraphic" scale="180" />
+            </filter>
+
+            <filter id="cloud-04">
+                <feTurbulence type="fractalNoise" baseFrequency=".01" numOctaves="10" />
+                <feDisplacementMap in="SourceGraphic" scale="180" />
+            </filter>
+            <filter id="cloud-05">
+                <feTurbulence type="fractalNoise" baseFrequency=".01" numOctaves="10" />
+                <feDisplacementMap in="SourceGraphic" scale="180" />
+            </filter>
+
+            <filter id="cloud-06-back">
+                <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="4" />
+                <feDisplacementMap in="SourceGraphic" scale="170" />
+            </filter>
+            <filter id="cloud-06-mid">
+                <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="2" />
+                <feDisplacementMap in="SourceGraphic" scale="150" />
+            </filter>
+            <filter id="cloud-06-front">
+                <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="2" />
+                <feDisplacementMap in="SourceGraphic" scale="100" />
+            </filter>
+
+            <filter id="cloud-x4-back">
+                <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="6" />
+                <feDisplacementMap in="SourceGraphic" scale="170" />
+            </filter>
+            <filter id="cloud-x4-mid">
+                <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="4" />
+                <feDisplacementMap in="SourceGraphic" scale="150" />
+            </filter>
+            <filter id="cloud-x4-front">
+                <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="2" />
+                <feDisplacementMap in="SourceGraphic" scale="100" />
+            </filter>
+
+            <filter id="cloud-x3">
+                <feTurbulence type="fractalNoise" baseFrequency=".02" numOctaves="10" />
+                <feDisplacementMap in="SourceGraphic" scale="180" />
+            </filter>
+            <filter id="cloud-x2">
+                <feTurbulence type="fractalNoise" baseFrequency=".01" numOctaves="10" />
+                <feDisplacementMap in="SourceGraphic" scale="180" />
+            </filter>
+            <filter id="cloud-x1">
+                <feTurbulence type="fractalNoise" baseFrequency=".01" numOctaves="10" />
+                <feDisplacementMap in="SourceGraphic" scale="10" />
+            </filter>
+
+            <filter id="cloud-y1">
+                <feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="5" />
+                <feDisplacementMap in="SourceGraphic" scale="100" />
+            </filter>
+            <filter id="cloud-y2">
+                <feTurbulence type="fractalNoise" baseFrequency=".01" numOctaves="5" />
+                <feDisplacementMap in="SourceGraphic" scale="100" />
+            </filter>
+            <filter id="cloud-y3">
+                <feTurbulence type="fractalNoise" baseFrequency=".001" numOctaves="5" />
+                <feDisplacementMap in="SourceGraphic" scale="100" />
+            </filter>
+
+            <filter id="cloud-y4">
+                <feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="3" />
+                <feDisplacementMap in="SourceGraphic" scale="100" />
+            </filter>
+            <filter id="cloud-y5">
+                <feTurbulence type="fractalNoise" baseFrequency=".01" numOctaves="3" />
+                <feDisplacementMap in="SourceGraphic" scale="100" />
+            </filter>
+            <filter id="cloud-y6">
+                <feTurbulence type="fractalNoise" baseFrequency=".001" numOctaves="3" />
+                <feDisplacementMap in="SourceGraphic" scale="100" />
+            </filter>
+
+            <!-- ██████████████████████████████████████████████████ -->
+            <!-- ██████████████████████████████████████████████████ -->
+        </svg>
+
+        <svg width="0" height="0">
+            <!-- ██████████████████████████████████████████████████ -->
+            <!-- ████████████████████ ─ sc20 ─ ████████████████████ -->
+            <!-- ██████████████████████████████████████████████████ -->
+
+            <filter id="cloud-y1-fx-o1-sc20"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y2-fx-o1-sc20"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y3-fx-o1-sc20"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y4-fx-o1-sc20"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y5-fx-o1-sc20"><feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y6-fx-o1-sc20"><feTurbulence type="fractalNoise" baseFrequency=".001" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y1-fx-o2-sc20"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y2-fx-o2-sc20"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y3-fx-o2-sc20"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y4-fx-o2-sc20"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y5-fx-o2-sc20"><feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y6-fx-o2-sc20"><feTurbulence type="fractalNoise" baseFrequency=".001" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y1-fx-o3-sc20"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y2-fx-o3-sc20"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y3-fx-o3-sc20"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y4-fx-o3-sc20"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y5-fx-o3-sc20"><feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y6-fx-o3-sc20"><feTurbulence type="fractalNoise" baseFrequency=".001" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y1-fx-o5-sc20"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y2-fx-o5-sc20"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y3-fx-o5-sc20"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y4-fx-o5-sc20"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y5-fx-o5-sc20"><feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-y6-fx-o5-sc20"><feTurbulence type="fractalNoise" baseFrequency=".001" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+
+            <!-- ██████████████████████████████████████████████████ -->
+            <!-- ████████████████████ ─ sc50 ─ ████████████████████ -->
+            <!-- ██████████████████████████████████████████████████ -->
+
+            <filter id="cloud-y1-fx-o1-sc50"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y2-fx-o1-sc50"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y3-fx-o1-sc50"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y4-fx-o1-sc50"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y5-fx-o1-sc50"><feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y6-fx-o1-sc50"><feTurbulence type="fractalNoise" baseFrequency=".001" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y1-fx-o2-sc50"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y2-fx-o2-sc50"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y3-fx-o2-sc50"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y4-fx-o2-sc50"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y5-fx-o2-sc50"><feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y6-fx-o2-sc50"><feTurbulence type="fractalNoise" baseFrequency=".001" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y1-fx-o3-sc50"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y2-fx-o3-sc50"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y3-fx-o3-sc50"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y4-fx-o3-sc50"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y5-fx-o3-sc50"><feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y6-fx-o3-sc50"><feTurbulence type="fractalNoise" baseFrequency=".001" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y1-fx-o5-sc50"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y2-fx-o5-sc50"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y3-fx-o5-sc50"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y4-fx-o5-sc50"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y5-fx-o5-sc50"><feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-y6-fx-o5-sc50"><feTurbulence type="fractalNoise" baseFrequency=".001" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+
+            <!-- ██████████████████████████████████████████████████ -->
+            <!-- ████████████████████ ─sc-100─ ████████████████████ -->
+            <!-- ██████████████████████████████████████████████████ -->
+
+            <filter id="cloud-y1-fx-o1-sc100"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y2-fx-o1-sc100"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y3-fx-o1-sc100"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y4-fx-o1-sc100"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y5-fx-o1-sc100"><feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y6-fx-o1-sc100"><feTurbulence type="fractalNoise" baseFrequency=".001" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y1-fx-o2-sc100"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y2-fx-o2-sc100"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y3-fx-o2-sc100"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y4-fx-o2-sc100"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y5-fx-o2-sc100"><feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y6-fx-o2-sc100"><feTurbulence type="fractalNoise" baseFrequency=".001" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y1-fx-o3-sc100"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y2-fx-o3-sc100"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y3-fx-o3-sc100"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y4-fx-o3-sc100"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y5-fx-o3-sc100"><feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y6-fx-o3-sc100"><feTurbulence type="fractalNoise" baseFrequency=".001" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y1-fx-o5-sc100"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y2-fx-o5-sc100"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y3-fx-o5-sc100"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y4-fx-o5-sc100"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y5-fx-o5-sc100"><feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-y6-fx-o5-sc100"><feTurbulence type="fractalNoise" baseFrequency=".001" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+
+            <!-- ██████████████████████████████████████████████████ -->
+            <!-- ████████████████████ ─sc-200─ ████████████████████ -->
+            <!-- ██████████████████████████████████████████████████ -->
+
+            <filter id="cloud-y1-fx-o1-sc200"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y2-fx-o1-sc200"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y3-fx-o1-sc200"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y4-fx-o1-sc200"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y5-fx-o1-sc200"><feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y6-fx-o1-sc200"><feTurbulence type="fractalNoise" baseFrequency=".001" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y1-fx-o2-sc200"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y2-fx-o2-sc200"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y3-fx-o2-sc200"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y4-fx-o2-sc200"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y5-fx-o2-sc200"><feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y6-fx-o2-sc200"><feTurbulence type="fractalNoise" baseFrequency=".001" numOctaves="2" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y1-fx-o3-sc200"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y2-fx-o3-sc200"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y3-fx-o3-sc200"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y4-fx-o3-sc200"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y5-fx-o3-sc200"><feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y6-fx-o3-sc200"><feTurbulence type="fractalNoise" baseFrequency=".001" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y1-fx-o5-sc200"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y2-fx-o5-sc200"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y3-fx-o5-sc200"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y4-fx-o5-sc200"><feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y5-fx-o5-sc200"><feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-y6-fx-o5-sc200"><feTurbulence type="fractalNoise" baseFrequency=".001" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+
+            <!-- ██████████████████████████████████████████████████ -->
+
+
+
+            <filter id="cloud-y1-fx-o10-sc100">
+                <feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="10" />
+                <feDisplacementMap in="SourceGraphic" scale="100" />
+            </filter>
+            <filter id="cloud-y2-fx-o10-sc100">
+                <feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="10" />
+                <feDisplacementMap in="SourceGraphic" scale="100" />
+            </filter>
+            <filter id="cloud-y3-fx-o10-sc100">
+                <feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="10" />
+                <feDisplacementMap in="SourceGraphic" scale="100" />
+            </filter>
+            <filter id="cloud-y4-fx-o10-sc100">
+                <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="10" />
+                <feDisplacementMap in="SourceGraphic" scale="100" />
+            </filter>
+            <filter id="cloud-y5-fx-o10-sc100">
+                <feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="10" />
+                <feDisplacementMap in="SourceGraphic" scale="100" />
+            </filter>
+            <filter id="cloud-y6-fx-o10-sc100">
+                <feTurbulence type="fractalNoise" baseFrequency=".001" numOctaves="10" />
+                <feDisplacementMap in="SourceGraphic" scale="100" />
+            </filter>
+
+            <filter id="cloud-y1-fx-o10-sc200">
+                <feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="10" />
+                <feDisplacementMap in="SourceGraphic" scale="200" />
+            </filter>
+            <filter id="cloud-y2-fx-o10-sc200">
+                <feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="10" />
+                <feDisplacementMap in="SourceGraphic" scale="200" />
+            </filter>
+            <filter id="cloud-y3-fx-o10-sc200">
+                <feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="10" />
+                <feDisplacementMap in="SourceGraphic" scale="200" />
+            </filter>
+            <filter id="cloud-y4-fx-o10-sc200">
+                <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="10" />
+                <feDisplacementMap in="SourceGraphic" scale="200" />
+            </filter>
+            <filter id="cloud-y5-fx-o10-sc200">
+                <feTurbulence type="fractalNoise" baseFrequency=".006" numOctaves="10" />
+                <feDisplacementMap in="SourceGraphic" scale="200" />
+            </filter>
+            <filter id="cloud-y6-fx-o10-sc200">
+                <feTurbulence type="fractalNoise" baseFrequency=".001" numOctaves="10" />
+                <feDisplacementMap in="SourceGraphic" scale="200" />
+            </filter>
+
+        </svg>
+
+        <footer>
+            <div class="my-name">
+                <a href="#">Back To Top</a>
+                &copy; 2022 | by Stéfano De La Torre 
+            </div>
+        </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>
