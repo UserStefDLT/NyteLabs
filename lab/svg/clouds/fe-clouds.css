@@ -161,7 +161,7 @@ section { width: 100vw; padding: 1rem 0; }
     top: -100px; left: -100px;
     top: -50px; left: -85px;
     background-color: #0000;
-    box-shadow: 120px 120px 20px -10px;
+    box-shadow: 120px 120px 20px -10px #fff;
 }
 /* #cloud-yj-01 { filter: url(#cloud-y1-fx-o5-sc100); box-shadow: 120px 120px 20px -10px; }
 #cloud-yj-02 { filter: url(#cloud-y2-fx-o5-sc100); box-shadow: 120px 120px 20px -10px; }
