@@ -19,45 +19,8 @@
             flex-direction: row;
             flex-wrap: wrap;
         }
-        .labBtn {
-            position: relative;
-            font-size: 1.25rem;
-            min-height: 3rem; width: 8rem;
-            padding: 1rem;
-            border-radius: .5rem;
-            box-shadow: inset 0 0 0 .125rem #fff;
-            text-shadow: 1px 1px 0 #111;
-            margin: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            user-select: none;
-        }
-        .labBtn::after {
-            position: absolute;
-            content: ''; top: 50%; left: 50%;
-            height: 12rem; width: 12rem;
-            transition:
-            transform 200ms ease-in-out,
-            box-shadow 200ms ease-in-out;
-            transform: translateX(-50%) translateY(-50%) rotate(0deg);
-            box-shadow: 
-            inset 0px 0 0 0px #39f,
-            inset 0px 0 0 0px #f93,
-            inset 0px 0 .5rem -4px #369,
-            inset 0px 0 .5rem -4px #963;
-            z-index: -1;
-        }
-        .labBtn:hover::after {
-            transform: translateX(-50%) translateY(-50%) rotate(45deg);
-            box-shadow: 
-            inset 40px 0 40px 10px #06c,
-            inset -40px 0 40px 10px #c60,
-            inset 96px 0 0 0px #39f,
-            inset -96px 0 0 0px #f93;
-        }
     </style>
+    <link rel="stylesheet" href="stylesheets/nybtns.css">
     <link rel="stylesheet" href="stylesheets/end.css">
 </head>
 <body>
@@ -78,6 +41,7 @@
             <li><a href="lab/layout/layout-01/"><div class="labBtn">3D Layout</div></a></li>
             <li><a href="lab/keyevents/keydown/"><div class="labBtn">Event: keydown</div></a></li>
             <li><a href="lab/canvas/canvas-map.html"><div class="labBtn">Canvas</div></a></li>
+            <li><a href="lab/canvas/spell-effect/"><div class="nybtn-spell-02">Spell Effects</div></a></li>
             <!-- <li><div class="labBtn">Cards</div></li>
             <li><div class="labBtn">Stars</div></li>
             <li><div class="labBtn">Isometric</div></li>

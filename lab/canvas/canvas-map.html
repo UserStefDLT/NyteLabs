@@ -23,45 +23,8 @@
             flex-direction: row;
             flex-wrap: wrap;
         }
-        .labBtn {
-            position: relative;
-            font-size: 1.25rem;
-            min-height: 3rem; width: 8rem;
-            padding: 1rem;
-            border-radius: .5rem;
-            box-shadow: inset 0 0 0 .125rem #fff;
-            text-shadow: 1px 1px 0 #111;
-            margin: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            user-select: none;
-        }
-        .labBtn::after {
-            position: absolute;
-            content: ''; top: 50%; left: 50%;
-            height: 12rem; width: 12rem;
-            transition:
-            transform 200ms ease-in-out,
-            box-shadow 200ms ease-in-out;
-            transform: translateX(-50%) translateY(-50%) rotate(0deg);
-            box-shadow: 
-            inset 0px 0 0 0px #39f,
-            inset 0px 0 0 0px #f93,
-            inset 0px 0 .5rem -4px #369,
-            inset 0px 0 .5rem -4px #963;
-            z-index: -1;
-        }
-        .labBtn:hover::after {
-            transform: translateX(-50%) translateY(-50%) rotate(45deg);
-            box-shadow: 
-            inset 40px 0 40px 10px #06c,
-            inset -40px 0 40px 10px #c60,
-            inset 96px 0 0 0px #39f,
-            inset -96px 0 0 0px #f93;
-        }
     </style>
+    <link rel="stylesheet" href="../../stylesheets/nybtns.css">
     <link rel="stylesheet" href="../../stylesheets/end.css">
 </head>
 <body>
@@ -73,7 +36,14 @@
 
 <main>
     <div class="shelf">
-        <!-- <div class="shelf-title">title</div> -->
+        <div class="shelf-title">Day 02</div>
+        <ul class="lablinks">
+            <li><a href="spell-effect/"><div class="nybtn-spell-02">Spell Effects</div></a></li>
+        </ul>
+    </div>
+
+    <div class="shelf">
+        <div class="shelf-title">Day 01</div>
         <ul class="lablinks">
             <!-- (li>a[href="lab/canvas/experiment/canvas-$$.html"]>div.labBtn{Canvas $$})*10 -->
             <li><a href="experiment/canvas-01.html"><div class="labBtn">Canvas 01</div></a></li>
@@ -81,7 +51,7 @@
             <li><a href="experiment/canvas-03.html"><div class="labBtn">Canvas 03</div></a></li>
             <li><a href="experiment/canvas-04.html"><div class="labBtn">Canvas 04</div></a></li>
             <li><a href="experiment/canvas-05.html"><div class="labBtn">Canvas 05</div></a></li>
-            <li><a href="experiment/canvas-06.html"><div class="labBtn">Canvas 06</div></a></li>
+            <!-- <li><a href="experiment/canvas-06.html"><div class="labBtn">Canvas 06</div></a></li> -->
             <li><a href="experiment/canvas-07.html"><div class="labBtn">Canvas 07</div></a></li>
             <li><a href="experiment/canvas-08.html"><div class="labBtn">Canvas 08</div></a></li>
             <li><a href="experiment/canvas-09.html"><div class="labBtn">Canvas 09</div></a></li>
