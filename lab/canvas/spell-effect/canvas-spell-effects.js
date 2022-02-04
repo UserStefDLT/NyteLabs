@@ -13,8 +13,8 @@ const click_spell = [];
 const s = {
     // x: 0,
     // y: 0,
-    x: window.innerWidth,
-    y: window.innerHeight,
+    x: window.innerWidth/2,
+    y: window.innerHeight/2,
     z: 30
 }
 const state = {
