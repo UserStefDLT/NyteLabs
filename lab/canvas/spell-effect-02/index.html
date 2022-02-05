@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Canvas Spells | Nyte Labs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <link rel="stylesheet" href="canvas.css">
+    <style>
+        header {
+            position: fixed;
+            top: 0;
+            z-index: 9;
+            justify-content: end;
+            box-shadow: 0 0 0 transparent;
+        }
+        header .title {padding-right: 12px; user-select: none;}
+        .backLink {user-select: none;}
+        main, .shelf {position: static;}
+        [id*="canvas"] {
+            position: absolute;
+            inset: 0;
+            background-color: #000;
+            /* height: 100vh; width: 100vw; */
+            height: 100%; width: 100%;
+            /* height: 695px; width: 960px; */
+        }
+        .fixed-controllers {
+            position: fixed;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: fit-content;
+            display: flex;
+            padding: .5rem;
+            border-radius: .5rem .5rem 0 0;
+            background: #0008;
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Canvas Spells 2</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <!-- <div class="shelf-title">title</div> -->
+        <canvas id="canvas"></canvas>
+    </div>
+</main>
+
+<div class="fixed-controllers">
+    <kbd id="Q" class="kbd-disable">Q</kbd>
+    <kbd id="W" class="kbd-disable">W</kbd>
+    <kbd id="E" class="">E</kbd>
+</div>
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <script src="canvas-spell-effects-02.js"></script>
+</body>
+</html>
