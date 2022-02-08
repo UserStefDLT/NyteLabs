@@ -1,7 +1,106 @@
 
+:root {
+    --bw0: #000;
+    --bw1: #111;
+    --bw8: #888;
+    --bwf: #fff;
+    --clr-t: transparent;
 
+    --clr-1: #f93; --clr-1-mid: #963; --clr-1-dark: #630; --bgs-1: #9633;
+    --clr-2: #9f3; --clr-2-mid: #693; --clr-2-dark: #360; --bgs-2: #6933;
+    --clr-3: #3f9; --clr-3-mid: #396; --clr-3-dark: #063; --bgs-3: #3963;
+    --clr-4: #39f; --clr-4-mid: #369; --clr-4-dark: #036; --bgs-4: #3693;
+    --clr-5: #93f; --clr-5-mid: #639; --clr-5-dark: #306; --bgs-5: #6393;
+    --clr-6: #f39; --clr-6-mid: #936; --clr-6-dark: #603; --bgs-6: #9363;
 
+    --h-045: hsla(045deg, 100%, 60%, 1);
+    --h-135: hsla(135deg, 100%, 60%, 1);
+    --h-225: hsla(225deg, 100%, 60%, 1);
+    --h-315: hsla(315deg, 100%, 60%, 1);
 
+    --bgi-card: 
+            linear-gradient(045deg, hsla(045deg, 100%, 60%, .5) 10px, var(--clr-t) 10px),
+            linear-gradient(135deg, hsla(135deg, 100%, 60%, .5) 10px, var(--clr-t) 10px),
+            linear-gradient(225deg, hsla(225deg, 100%, 60%, .5) 10px, var(--clr-t) 10px),
+            linear-gradient(315deg, hsla(315deg, 100%, 60%, .5) 10px, var(--clr-t) 10px),
+
+            linear-gradient(045deg, var(--bwf) 12px, var(--clr-t) 12px),
+            linear-gradient(135deg, var(--bwf) 12px, var(--clr-t) 12px),
+            linear-gradient(225deg, var(--bwf) 12px, var(--clr-t) 12px),
+            linear-gradient(315deg, var(--bwf) 12px, var(--clr-t) 12px),
+
+            linear-gradient(045deg, var(--h-045) 14px, var(--clr-t) 14px),
+            linear-gradient(135deg, var(--h-135) 14px, var(--clr-t) 14px),
+            linear-gradient(225deg, var(--h-225) 14px, var(--clr-t) 14px),
+            linear-gradient(315deg, var(--h-315) 14px, var(--clr-t) 14px),
+
+            repeating-conic-gradient(
+                hsla(225deg, 100%, 60%, .2) 0deg 90deg, 
+                hsla(315deg, 100%, 60%, .2) 90deg 180deg, 
+                hsla(045deg, 100%, 60%, .2) 180deg 270deg, 
+                hsla(135deg, 100%, 60%, .2) 270deg 360deg),
+
+            linear-gradient(45deg, var(--bwf) 20px, var(--clr-t) 20px),
+            linear-gradient(135deg, var(--bwf) 20px, var(--clr-t) 20px),
+            linear-gradient(225deg, var(--bwf) 20px, var(--clr-t) 20px),
+            linear-gradient(315deg, var(--bwf) 20px, var(--clr-t) 20px),
+
+            linear-gradient(045deg, var(--bw0) 21px, var(--clr-t) 21px),
+            linear-gradient(135deg, var(--bw0) 21px, var(--clr-t) 21px),
+            linear-gradient(225deg, var(--bw0) 21px, var(--clr-t) 21px),
+            linear-gradient(315deg, var(--bw0) 21px, var(--clr-t) 21px),
+
+            linear-gradient(045deg, hsla(045deg, 100%, 80%, .4) 20px, hsla(045deg, 100%, 80%, 1) 22px, var(--clr-t) 24px),
+            linear-gradient(135deg, hsla(135deg, 100%, 20%, .4) 20px, hsla(135deg, 100%, 20%, 1) 22px, var(--clr-t) 24px),
+            linear-gradient(315deg, hsla(315deg, 100%, 80%, .4) 20px, hsla(315deg, 100%, 80%, 1) 22px, var(--clr-t) 24px),
+            linear-gradient(225deg, hsla(225deg, 100%, 20%, .4) 20px, hsla(225deg, 100%, 20%, 1) 22px, var(--clr-t) 24px),
+
+            linear-gradient(045deg, hsla(045deg, 100%, 20%, 1) 24px, hsla(045deg, 100%, 20%, .4) 27px, var(--clr-t) 29px),
+            linear-gradient(135deg, hsla(135deg, 100%, 80%, 1) 24px, hsla(135deg, 100%, 80%, .4) 27px, var(--clr-t) 29px),
+            linear-gradient(315deg, hsla(315deg, 100%, 20%, 1) 24px, hsla(315deg, 100%, 20%, .4) 27px, var(--clr-t) 29px),
+            linear-gradient(225deg, hsla(225deg, 100%, 80%, 1) 24px, hsla(225deg, 100%, 80%, .4) 27px, var(--clr-t) 29px),
+            
+            repeating-conic-gradient(
+                var(--h-225) 0deg 90deg, 
+                var(--h-315) 90deg 180deg, 
+                var(--h-045) 180deg 270deg, 
+                var(--h-135) 270deg 360deg),
+            linear-gradient(315deg, var(--bwf), var(--clr-t));
+            --bgi-card-02: 
+            linear-gradient(045deg, hsla(045deg, 100%, 60%, .5) .3125em, var(--clr-t) .3125em),
+            linear-gradient(135deg, hsla(135deg, 100%, 60%, .5) .3125em, var(--clr-t) .3125em),
+            linear-gradient(225deg, hsla(225deg, 100%, 60%, .5) .3125em, var(--clr-t) .3125em),
+            linear-gradient(315deg, hsla(315deg, 100%, 60%, .5) .3125em, var(--clr-t) .3125em),
+
+            linear-gradient(045deg, var(--bwf) .375em, var(--clr-t) .375em),
+            linear-gradient(135deg, var(--bwf) .375em, var(--clr-t) .375em),
+            linear-gradient(225deg, var(--bwf) .375em, var(--clr-t) .375em),
+            linear-gradient(315deg, var(--bwf) .375em, var(--clr-t) .375em),
+
+            linear-gradient(045deg, var(--h-045) .4375em, var(--clr-t) .4375em),
+            linear-gradient(135deg, var(--h-135) .4375em, var(--clr-t) .4375em),
+            linear-gradient(225deg, var(--h-225) .4375em, var(--clr-t) .4375em),
+            linear-gradient(315deg, var(--h-315) .4375em, var(--clr-t) .4375em),
+
+            linear-gradient(45deg, var(--bwf) .625em, var(--clr-t) .625em),
+            linear-gradient(135deg, var(--bwf) .625em, var(--clr-t) .625em),
+            linear-gradient(225deg, var(--bwf) .625em, var(--clr-t) .625em),
+            linear-gradient(315deg, var(--bwf) .625em, var(--clr-t) .625em),
+
+            linear-gradient(045deg, var(--bw0) .65625em, var(--clr-t) .65625em),
+            linear-gradient(135deg, var(--bw0) .65625em, var(--clr-t) .65625em),
+            linear-gradient(225deg, var(--bw0) .65625em, var(--clr-t) .65625em),
+            linear-gradient(315deg, var(--bw0) .65625em, var(--clr-t) .65625em);
+}
+
+.lablinks {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
 
 .labBtn {
     position: relative;
@@ -9,8 +108,8 @@
     min-height: 3rem; width: 8rem;
     padding: 1rem;
     border-radius: .5rem;
-    box-shadow: inset 0 0 0 .125rem #fff;
-    text-shadow: 1px 1px 0 #111;
+    box-shadow: inset 0 0 0 .125rem var(--bwf);
+    text-shadow: 1px 1px 0 var(--bw1);
     margin: 1rem;
     display: flex;
     align-items: center;
@@ -27,10 +126,10 @@
     box-shadow 200ms ease-in-out;
     transform: translateX(-50%) translateY(-50%) rotate(0deg);
     box-shadow: 
-    inset 0px 0 0 0px #39f,
-    inset 0px 0 0 0px #f93,
-    inset 0px 0 .5rem -4px #369,
-    inset 0px 0 .5rem -4px #963;
+    inset 0px 0 0 0px var(--clr-4),
+    inset 0px 0 0 0px var(--clr-1),
+    inset 0px 0 .5rem -4px var(--clr-4-mid),
+    inset 0px 0 .5rem -4px var(--clr-1-mid);
     z-index: -1;
 }
 .labBtn:hover::after {
@@ -38,13 +137,14 @@
     box-shadow: 
     inset 40px 0 40px 10px #06c,
     inset -40px 0 40px 10px #c60,
-    inset 96px 0 0 0px #39f,
-    inset -96px 0 0 0px #f93;
+    inset 96px 0 0 0px var(--clr-4),
+    inset -96px 0 0 0px var(--clr-1);
 }
 
 
 
-.nybtn-spell-02 {
+
+.nybtn--spell-02 {
     position: relative;
     font-size: 1.25rem;
     min-height: 3rem; width: 8rem;
@@ -60,12 +160,12 @@
     transition:
     box-shadow 0ms ease-in-out 400ms;
 }
-.nybtn-spell-02:hover {
+.nybtn--spell-02:hover {
     transition:
     box-shadow 100ms ease-in-out -50ms;
     box-shadow: inset 0 0 0 .125rem #fff0;
 }
-.nybtn-spell-02::after {
+.nybtn--spell-02::after {
     position: absolute;
     content: ''; top: 50%; left: 50%;
     height: 8rem; width: 8rem;
@@ -90,19 +190,183 @@
     inset 0px 0px 0px 0px #0000;
     z-index: -1;
 }
-.nybtn-spell-02:hover::after {
+.nybtn--spell-02:hover::after {
     transform: translateX(-50%) translateY(-50%) scaleX(1) scaleY(1) rotate(90deg);
     --sat: 100%;
     --lum: 40%;
     --alp: 50%;
     border-radius: 50%;
     box-shadow: 
-    inset 0 0 0 .125rem #ffff,
+    inset 0 0 0 .125rem var(--bwf),
     0px -10px 0px 0px hsla(0, var(--sat), var(--lum), var(--alp)),
     8.7px -5px 0px 0px hsla(60, var(--sat), var(--lum), var(--alp)),
     8.7px 5px 0px 0px hsla(120, var(--sat), var(--lum), var(--alp)),
     0px 10px 0px 0px hsla(180, var(--sat), var(--lum), var(--alp)),
     -8.7px 5px 0px 0px hsla(240, var(--sat), var(--lum), var(--alp)),
     -8.7px -5px 0px 0px hsla(300, var(--sat), var(--lum), var(--alp)),
-    inset 0 0 0 .125rem #fff0;
+    inset 0 0 0 .125rem var(--clr-t);
+}
+
+
+
+
+.nybtn--card {
+    position: relative;
+    font-size: 1.25rem;
+    min-height: 3rem; width: 8rem;
+    padding: 1rem;
+    border-radius: .5rem;
+    box-shadow: inset 0 0 0 .125rem #fff;
+    text-shadow: 1px 1px 0 #111;
+    margin: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+
+    text-shadow: 0px 0px 0px #0000;
+    transform-style: preserve-3d;
+    background-image: var(--bgi-card-02);
+    background-size: 2rem 7rem;
+    background-position: center;
+    transition:
+    transform 400ms ease-in-out,
+    opacity 400ms ease-in-out,
+    background-size 200ms ease-in-out;
+}
+.nybtn--card:hover {
+    background-size: 2rem 4rem;
+    background-size: 2rem 5rem;
+}
+.nybtn--card::before,
+.nybtn--card::after {
+    position: absolute;
+    content: ''; top: 50%; left: 50%;
+    height: 4rem; width: 2rem;
+    border-radius: .25rem;
+    background-image: var(--bgi-card);
+    transform-style: preserve-3d;
+    transition:
+    transform 400ms ease-in-out,
+    opacity 400ms ease-in-out;
+    opacity: 0;
+    z-index: -1;
+    animation: card-orbit 3s ease-in-out infinite both;
+}
+.nybtn--card:hover::before,
+.nybtn--card:hover::after {
+    opacity: 1;
+}
+.nybtn--card::before {
+    animation-delay: 1.5s;
+}
+@keyframes card-orbit {
+    0% {transform: perspective(300px) translateX(-50%) translateY(-50%) rotate3d(0,1,0,90deg) rotate3d(0,0,0,0deg) rotate3d(0,0,1,0deg) translateZ(90px);}
+    50% {transform: perspective(300px) translateX(-50%) translateY(-50%) rotate3d(0,1,0,270deg) rotate3d(0,0,0,180deg) rotate3d(0,0,1,180deg) translateZ(90px);}
+    100% {transform: perspective(300px) translateX(-50%) translateY(-50%) rotate3d(0,1,0,450deg) rotate3d(0,0,0,360deg) rotate3d(0,0,1,360deg) translateZ(90px);}
+}
+
+
+
+@media (max-width: 500px){ 
+    .labBtn::after {
+        transform: translateX(-50%) translateY(-50%) rotate(45deg);
+        box-shadow: 
+        inset 40px 0 40px 10px #06c,
+        inset -40px 0 40px 10px #c60,
+        inset 96px 0 0 0px var(--clr-4),
+        inset -96px 0 0 0px var(--clr-1);
+    }
+    .nybtn--spell-02 {
+        transition:
+        box-shadow 100ms ease-in-out -50ms;
+        box-shadow: inset 0 0 0 .125rem #fff0;
+    }
+    .nybtn--spell-02::after {
+        border-radius: 50%;
+        --sat: 100%;
+        --lum: 60%;
+        --alp: 70%;
+        animation: nybtn--spell-02 3s ease-in-out infinite both;
+    }
+    .nybtn--card::before,
+    .nybtn--card::after {
+        opacity: 1;
+    }
+}
+
+
+@keyframes nybtn--spell-02 {
+    0% {
+        transform: translateX(-50%) translateY(-50%) scaleX(1) scaleY(1) rotate(0deg);
+        box-shadow: 
+        0 0 0 -.0625rem var(--bwf),
+        0px -10px 0px 0px hsla(0, var(--sat), var(--lum), var(--alp)),
+        8.7px -5px 0px 0px hsla(60, var(--sat), var(--lum), var(--alp)),
+        8.7px 5px 0px 0px hsla(120, var(--sat), var(--lum), var(--alp)),
+        0px 10px 0px 0px hsla(180, var(--sat), var(--lum), var(--alp)),
+        -8.7px 5px 0px 0px hsla(240, var(--sat), var(--lum), var(--alp)),
+        -8.7px -5px 0px 0px hsla(300, var(--sat), var(--lum), var(--alp)),
+        inset 0 0 0 0 var(--clr-t);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-50%) scaleX(1) scaleY(1) rotate(180deg);
+        box-shadow: 
+        0 0 0 .125rem var(--bwf),
+        0px 0px 0px 0px hsla(0, var(--sat), var(--lum), var(--alp)),
+        0px 0px 0px 0px hsla(60, var(--sat), var(--lum), var(--alp)),
+        0px 0px 0px 0px hsla(120, var(--sat), var(--lum), var(--alp)),
+        0px 0px 0px 0px hsla(180, var(--sat), var(--lum), var(--alp)),
+        0px 0px 0px 0px hsla(240, var(--sat), var(--lum), var(--alp)),
+        0px 0px 0px 0px hsla(300, var(--sat), var(--lum), var(--alp)),
+        inset 0px 0px 0px 0px #0000;
+    }
+    100% {
+        transform: translateX(-50%) translateY(-50%) scaleX(1) scaleY(1) rotate(360deg);
+        box-shadow: 
+        0 0 0 -.0625rem var(--bwf),
+        0px -10px 0px 0px hsla(0, var(--sat), var(--lum), var(--alp)),
+        8.7px -5px 0px 0px hsla(60, var(--sat), var(--lum), var(--alp)),
+        8.7px 5px 0px 0px hsla(120, var(--sat), var(--lum), var(--alp)),
+        0px 10px 0px 0px hsla(180, var(--sat), var(--lum), var(--alp)),
+        -8.7px 5px 0px 0px hsla(240, var(--sat), var(--lum), var(--alp)),
+        -8.7px -5px 0px 0px hsla(300, var(--sat), var(--lum), var(--alp)),
+        inset 0 0 0 0 var(--clr-t);
+    }
+}
+
+
+@keyframes labBtn-01 {
+    0% {
+        transform: translateX(-50%) translateY(-50%) rotate(0deg);
+        box-shadow: 
+        inset 0px 0 0 0px var(--clr-4),
+        inset 0px 0 0 0px var(--clr-1),
+        inset 0px 0 .5rem -4px var(--clr-4-mid),
+        inset 0px 0 .5rem -4px var(--clr-1-mid);
+    }
+    40% {
+        transform: translateX(-50%) translateY(-50%) rotate(45deg);
+        box-shadow: 
+        inset 40px 0 40px 10px #06c,
+        inset -40px 0 40px 10px #c60,
+        inset 96px 0 0 0px var(--clr-4),
+        inset -96px 0 0 0px var(--clr-1);
+    }
+    60% {
+        transform: translateX(-50%) translateY(-50%) rotate(135deg);
+        box-shadow: 
+        inset 40px 0 40px 10px #06c,
+        inset -40px 0 40px 10px #c60,
+        inset 96px 0 0 0px var(--clr-4),
+        inset -96px 0 0 0px var(--clr-1);
+    }
+    100% {
+        transform: translateX(-50%) translateY(-50%) rotate(0deg);
+        box-shadow: 
+        inset 0px 0 0 0px var(--clr-4),
+        inset 0px 0 0 0px var(--clr-1),
+        inset 0px 0 .5rem -4px var(--clr-4-mid),
+        inset 0px 0 .5rem -4px var(--clr-1-mid);
+    }
 }

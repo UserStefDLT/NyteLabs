@@ -251,7 +251,7 @@ main:hover .base {
     0%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,0deg) rotate3d(0,1,0,0deg) translateZ(calc(-30px + var(--zin)));}
     20%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,90deg) rotate3d(0,1,0,0deg) translateZ(calc(160px + var(--zin)));}
     80%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,90deg) rotate3d(0,1,0,360deg) translateZ(calc(160px + var(--zin)));}
-    100%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,0deg) rotate3d(0,1,0,360deg) translateZ(calc(-30px - var(--zin)));}
+    100%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,0deg) rotate3d(0,1,0,360deg) translateZ(calc(-30px + var(--zin)));}
 }
 
 /* nyCard-21 */
