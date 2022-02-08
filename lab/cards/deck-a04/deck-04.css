@@ -1,0 +1,393 @@
+:root {
+    --i: 0;
+    --hue: 0;
+    --cardCount: 12;
+    --hue-step: 360 / var(--cardCount);
+    --mt: 10000ms;
+}
+
+.view-3d {transform-style: preserve-3d; transform: rotate3d(0,0,1,45deg) rotate3d(1,-1,0,35.264deg);}
+.base {
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateZ(0deg);
+    transition: transform 2000ms ease-in-out;
+    height: 120px; width: 120px;
+}
+main:hover .base {
+    /* transform: rotateZ(180deg) translateX(20%) translateY(5%); */
+    /* transform: rotateZ(180deg) rotate3d(1, 1, 1, 45deg); */
+    transform: rotateZ(180deg);
+    transform: rotateZ(0deg);
+}
+
+.perspective-top .view-3d {transform: perspective(500px) rotate3d(0,0,1,0deg) rotate3d(1,1,0,0deg);}
+.perspective-front .view-3d {transform: perspective(500px) rotate3d(0,0,1,0deg) rotate3d(1,0,0,90deg);}
+.perspective-side .view-3d {transform: perspective(500px) rotate3d(0,0,1,-90deg) rotate3d(0,1,0,90deg);}
+.perspective-iso .view-3d {transform: perspective(500px) rotate3d(0,0,1,45deg) rotate3d(1,-1,0,35.264deg);}
+
+.nyCard {
+    --i2: calc(var(--i) + 12);
+    --hue: calc(var(--i2)*var(--hue-step));
+    --clr: hsla(var(--hue), 100%, 60%, 1);
+    
+    --clr-cake: hsla(var(--hue), 100%, 60%, 1);
+    --shw-cake: hsla(var(--hue), 100%, 60%, .4);
+    --shw-cake: hsla(var(--hue), 100%, 20%, 1);
+    --shw-cake2: hsla(var(--hue), 100%, 20%, .1);
+}
+.nyCard {
+    height: 15rem; width: 14rem;
+    padding: 1rem; margin: 1rem;
+    border-radius: .5rem;
+    color: #eee;
+    color: #222;
+    box-shadow: 
+    inset 0 0 0 .125rem var(--clr),
+    .5rem .5rem .25rem -.25rem #1119;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    
+    transform-style: preserve-3d;
+}
+
+.nyCard .title {
+    padding: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--clr);
+    text-align: center;
+    text-shadow: 1px 1px 0px #1119;
+}
+
+
+.nyCard .circle-1,
+.nyCard .circle-2 {
+    position: absolute;
+    top: 0; left: 0;
+    top: 50%; left: 50%;
+
+    height: 60px; width: 60px;
+    height: 120px; width: 120px;
+    transform: translateX(-50%) translateY(-50%);
+    background-color: var(--shw-cake);
+    background-color: var(--shw-cake2);
+    background-color: #fff2;
+    box-shadow: 0 0 0 .125rem var(--clr-cake);
+    transform-style: preserve-3d;
+}
+.nyCard [class|="circle"] { border-radius: 50%; }
+.nyCard .circle-1 { transform: translateX(-50%) translateY(-50%) rotate3d(0,0,0,45deg) translateZ(30px); }
+.nyCard .circle-2 { transform: translateX(-50%) translateY(-50%) rotate3d(0,0,0,45deg) translateZ(-30px); }
+.nyCard .circle-1 {
+    background-color: #fff0;
+    transform: translateX(-50%) translateY(-50%) rotate3d(0,0,0,45deg) translateZ(0px);
+    box-shadow: 0 0 0.25rem .125rem #fff0;
+}
+
+.nyCard .rect {
+    position: absolute;
+    top: 0; left: 0;
+    top: 50%; left: 50%;
+    transform-style: preserve-3d;
+}
+.nyCard [class|="rect"] { 
+    height: 60px; width: 20px;
+    transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,90deg) rotate3d(0,1,0,calc(var(--i) * 20deg)) translateZ(60px);
+    background-color: hsla(calc(var(--i) * 20), 100%, 20%, 1);
+    background-color: hsla(calc(var(--i) * 20), 100%, 20%, .2);
+    background-color: transparent;
+    box-shadow: 0 0 0 0 transparent;
+}
+
+.nyCard [class|="rect"]::after,
+.nyCard [class|="rect"]::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    top: 50%; left: 50%;
+    transform-style: preserve-3d;
+    height: 60px; width: 30px;
+    transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%) translateZ(var(--zin));
+
+    box-shadow: 0 0 0.5rem 0.25rem var(--rect-brd), inset 0 0 0 0.125rem var(--rect-brd);
+    box-shadow: 0 0 0rem 0.25rem var(--rect-brd), inset 0 0 0 0.125rem var(--rect-brd);
+    background-color: var(--rect-clr);
+}
+/* back */
+.nyCard [class|="rect"]::after {
+    /* transform: translateX(-50%) translateY(-50%) translateZ(var(--zin)); */
+    --rect-clr: hsla(calc(var(--i) * 20), 100%, 1%, 1);
+    --rect-brd: hsla(calc(var(--i) * 20), 100%, 50%, 1);
+
+    --rect-pattern: hsla(calc(var(--i) * 20), 100%, 15%, 1);
+    --rect-li1: hsla(calc(var(--i) * 20), 100%, 2%, .3);
+    --rect-li2: hsla(calc(var(--i) * 20), 100%, 30%, .3);
+
+    /* background-image: repeating-conic-gradient(#000 0deg 90deg, var(--rect-pattern) 90deg 180deg); */
+    background-image: repeating-conic-gradient(#000 0deg 90deg, #fff 90deg 180deg);
+    background-image: 
+    linear-gradient(135deg, var(--rect-li1), var(--rect-li2)),
+    repeating-conic-gradient(var(--rect-brd) 0deg 90deg, var(--rect-pattern) 90deg 180deg);
+
+    background-image: 
+            linear-gradient(045deg, hsla(045deg, 100%, 60%, .5) 10px, #fff0 10px),
+            linear-gradient(135deg, hsla(135deg, 100%, 60%, .5) 10px, #fff0 10px),
+            linear-gradient(225deg, hsla(225deg, 100%, 60%, .5) 10px, #fff0 10px),
+            linear-gradient(315deg, hsla(315deg, 100%, 60%, .5) 10px, #fff0 10px),
+
+            linear-gradient(045deg, #ffff 12px, #fff0 12px),
+            linear-gradient(135deg, #ffff 12px, #fff0 12px),
+            linear-gradient(225deg, #ffff 12px, #fff0 12px),
+            linear-gradient(315deg, #ffff 12px, #fff0 12px),
+
+            linear-gradient(045deg, hsla(045deg, 100%, 60%, 1) 14px, #fff0 14px),
+            linear-gradient(135deg, hsla(135deg, 100%, 60%, 1) 14px, #fff0 14px),
+            linear-gradient(225deg, hsla(225deg, 100%, 60%, 1) 14px, #fff0 14px),
+            linear-gradient(315deg, hsla(315deg, 100%, 60%, 1) 14px, #fff0 14px),
+
+            repeating-conic-gradient(
+                hsla(225deg, 100%, 60%, .2) 0deg 90deg, 
+                hsla(315deg, 100%, 60%, .2) 90deg 180deg, 
+                hsla(045deg, 100%, 60%, .2) 180deg 270deg, 
+                hsla(135deg, 100%, 60%, .2) 270deg 360deg),
+
+            linear-gradient(45deg, #ffff 20px, #fff0 20px),
+            linear-gradient(135deg, #ffff 20px, #fff0 20px),
+            linear-gradient(225deg, #ffff 20px, #fff0 20px),
+            linear-gradient(315deg, #ffff 20px, #fff0 20px),
+
+            linear-gradient(045deg, #000 21px, #0000 21px),
+            linear-gradient(135deg, #000 21px, #0000 21px),
+            linear-gradient(225deg, #000 21px, #0000 21px),
+            linear-gradient(315deg, #000 21px, #0000 21px),
+
+            linear-gradient(045deg, hsla(045deg, 100%, 80%, .4) 20px, hsla(045deg, 100%, 80%, 1) 22px, #fff0 24px),
+            linear-gradient(135deg, hsla(135deg, 100%, 20%, .4) 20px, hsla(135deg, 100%, 20%, 1) 22px, #fff0 24px),
+            linear-gradient(315deg, hsla(315deg, 100%, 80%, .4) 20px, hsla(315deg, 100%, 80%, 1) 22px, #fff0 24px),
+            linear-gradient(225deg, hsla(225deg, 100%, 20%, .4) 20px, hsla(225deg, 100%, 20%, 1) 22px, #fff0 24px),
+
+            linear-gradient(045deg, hsla(045deg, 100%, 20%, 1) 24px, hsla(045deg, 100%, 20%, .4) 27px, #fff0 29px),
+            linear-gradient(135deg, hsla(135deg, 100%, 80%, 1) 24px, hsla(135deg, 100%, 80%, .4) 27px, #fff0 29px),
+            linear-gradient(315deg, hsla(315deg, 100%, 20%, 1) 24px, hsla(315deg, 100%, 20%, .4) 27px, #fff0 29px),
+            linear-gradient(225deg, hsla(225deg, 100%, 80%, 1) 24px, hsla(225deg, 100%, 80%, .4) 27px, #fff0 29px),
+            
+            repeating-conic-gradient(
+                hsla(225deg, 100%, 60%, 1) 0deg 90deg, 
+                hsla(315deg, 100%, 60%, 1) 90deg 180deg, 
+                hsla(45deg, 100%, 60%, 1) 180deg 270deg, 
+                hsla(135deg, 100%, 60%, 1) 270deg 360deg),
+            linear-gradient(315deg, #ffff , #fff0);
+
+    /* background-size: 100% 100%, 1rem 1rem; */
+    box-shadow: 0 0 0rem 0.25rem var(--rect-clr), inset 0 0 0 0.0625rem var(--rect-brd);
+    background-color: var(--rect-clr);
+}
+/* front */
+.nyCard [class|="rect"]::before {
+    content: '';
+    content: 'C';
+    /* content: "" var(--i); */
+    --rect-clr: hsla(calc(var(--i) * 20), 100%, 60%, .1);
+    --rect-brd: hsla(calc(var(--i) * 20), 100%, 60%, .5);
+
+    --rect-li1: hsla(calc(var(--i) * 10), 100%, 10%, .5);
+    --rect-li2: hsla(calc(var(--i) * 20), 100%, 30%, .5);
+    --rect-li3: hsla(calc(var(--i) * 10), 100%, 50%, .5);
+    --rect-li4: hsla(calc(var(--i) * 20), 100%, 80%, .5);
+    --rect-clr2: hsla(calc(var(--i) * 20), 100%, 60%, .3);
+
+    --rect-clr: hsla(calc(var(--i) * 20), 100%, 2%, 1);
+    --rect-brd: hsla(calc(var(--i) * 20), 100%, 30%, 1);
+
+    --rect-clr: hsla(calc(var(--i) * 20), 100%, 1%, 1);
+    --rect-brd: hsla(calc(var(--i) * 20), 100%, 50%, 1);
+
+    --rect-pattern: hsla(calc(var(--i) * 20), 100%, 15%, 1);
+    --rect-li1: hsla(calc(var(--i) * 20), 100%, 2%, .3);
+    --rect-li2: hsla(calc(var(--i) * 20), 100%, 30%, .3);
+
+    background-image: 
+    linear-gradient(135deg, var(--rect-brd), var(--rect-clr)),
+    linear-gradient(135deg, var(--rect-li1), var(--rect-li2)),
+    repeating-conic-gradient(var(--rect-brd) 0deg 90deg, var(--rect-pattern) 90deg 180deg);
+    color: #fff;
+
+    /* background-size: 1rem 1rem, 1rem 1rem; */
+    /* background-size: 1rem 1rem, 1rem 1rem, 1rem 1rem; */
+    /* background-size: 100% 100%, 100% 100%, 1rem 1rem; */
+    box-shadow: 0 0 0.5rem 0.25rem var(--rect-brd), inset 0 0 0 0.125rem var(--rect-brd);
+    box-shadow: 0 0 0rem 0.25rem var(--rect-clr), inset 0 0 .5rem 0.25rem var(--rect-brd);
+    box-shadow: 0 0 0rem 0.25rem var(--rect-clr), inset 0 0 0rem 0.125rem var(--rect-brd);
+    background-color: var(--rect-clr);
+}
+/* body {background-color: #888;} */
+
+
+/* DECK
+█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█  
+       ██████   ████████   ██████ ██    ██ 
+       ██   ██  ██        ██      ██   ██  
+       ██    ██ ██████   ██       ██  ██   
+       ██    ██ ██       ██       █████    
+       ██   ██  ██        ██      ██   ██  
+       ██████   ████████   ██████ ██    ██ 
+█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█  
+*/
+
+
+/* nyCard-20 */
+.shelf:hover .nyCard-20a [class|="rect"]::after,
+.shelf:hover .nyCard-20a [class|="rect"]::before {
+    animation: nyCard-20ab 5000ms ease-in-out alternate infinite both;
+    animation: nyCard-20ab 5000ms ease-in-out both;
+}
+@keyframes nyCard-20ab {
+    0%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,0deg) rotate3d(0,1,0,0deg) translateZ(calc(-30px + var(--zin)));}
+    20%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,90deg) rotate3d(0,1,0,0deg) translateZ(calc(160px + var(--zin)));}
+    80%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,90deg) rotate3d(0,1,0,360deg) translateZ(calc(160px + var(--zin)));}
+    100%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,0deg) rotate3d(0,1,0,360deg) translateZ(calc(-30px - var(--zin)));}
+}
+
+/* nyCard-21 */
+.shelf:hover #nyCard-21 [class|="rect"]::after,
+.shelf:hover #nyCard-21 [class|="rect"]::before {
+    animation: nyCard-21a 5000ms ease-in-out alternate infinite both;
+    animation: nyCard-21a 5000ms ease-in-out both;
+}
+@keyframes nyCard-21a {
+    0%{transform: translateX(-50%) translateY(-50%) rotate3d(1,1,0,0deg) rotate3d(0,1,0,0deg) translateZ(calc(-30px + var(--zin)));}
+    20%{transform: translateX(-50%) translateY(-50%) rotate3d(1,1,0,90deg) rotate3d(0,1,0,0deg) translateZ(calc(160px + var(--zin)));}
+    80%{transform: translateX(-50%) translateY(-50%) rotate3d(1,1,0,90deg) rotate3d(0,1,0,360deg) translateZ(calc(160px + var(--zin)));}
+    100%{transform: translateX(-50%) translateY(-50%) rotate3d(1,1,0,0deg) rotate3d(0,1,0,360deg) translateZ(calc(-30px + var(--zin)));}
+}
+
+/* nyCard-22 */
+.shelf:hover #nyCard-22 [class|="rect"]::after,
+.shelf:hover #nyCard-22 [class|="rect"]::before {
+    animation: nyCard-22a 5000ms ease-in-out alternate infinite both;
+    animation: nyCard-22a 5000ms ease-in-out both;
+}
+@keyframes nyCard-22a {
+    0%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,0deg) rotate3d(01,1,0,0deg) translateZ(calc(-30px + var(--zin)));}
+    20%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,90deg) rotate3d(1,1,0,0deg) translateZ(calc(80px + var(--zin)));}
+    80%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,90deg) rotate3d(1,1,0,360deg) translateZ(calc(80px + var(--zin)));}
+    100%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,0deg) rotate3d(1,1,0,360deg) translateZ(calc(-30px + var(--zin)));}
+}
+
+
+
+
+/* nyCard-18 */
+.shelf:hover #nyCard-18 [class|="rect"]::after,
+.shelf:hover #nyCard-18 [class|="rect"]::before {
+    animation: nyCard-18a 3000ms ease-in-out alternate infinite both;
+    animation: nyCard-18a 3000ms ease-in-out both;
+}
+@keyframes nyCard-18a {
+    0%{transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,0deg) rotate3d(0,1,0,0deg) translateZ(calc(-30px + var(--zin)));}
+    20%{transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,90deg) rotate3d(0,1,0,0deg) translateZ(calc(60px + var(--zin)));}
+    80%{transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,90deg) rotate3d(0,1,0,360deg) translateZ(calc(60px + var(--zin)));}
+    100%{transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,0deg) rotate3d(0,1,0,360deg) translateZ(calc(-30px + var(--zin)));}
+}
+
+
+
+/* All */
+.shelf:hover [class|="rect"] {
+    animation: nyCard-x 3000ms ease-in-out alternate infinite both;
+    animation: nyCard-x 3000ms ease-in-out normal both;
+}
+.shelf:hover [class|="rect"]::before,
+.shelf:hover [class|="rect"]::after,
+.shelf:hover [class|="rect"] {
+    animation-delay: calc(var(--i) * 100ms) !important;
+    animation-duration: var(--mt) !important;
+}
+@keyframes nyCard-x {
+    0%{transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,90deg) rotate3d(0,1,0,0deg) translateZ(60px);}
+    100%{transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,90deg) rotate3d(0,1,0,360deg) translateZ(60px);}
+}
+
+/* Attempt for nys20 */
+.nyCard [class|="rect"] {
+    transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,0deg) rotate3d(0,1,0,0deg) translateZ(60px);
+    transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,0deg) rotate3d(0,1,0,0deg) translateZ(0px);
+    transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,0deg) rotate3d(0,1,0,0deg) translateZ(-30px);
+}
+.shelf:hover .nyCard [class|="rect"] {
+    animation: nyCard-y 5000ms ease-in-out alternate infinite both;
+    animation: nyCard-y 5000ms ease-in-out normal both;
+}
+@keyframes nyCard-y {
+    0%{transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,0deg) rotate3d(0,1,0,0deg) translateZ(0px);}
+    20%{transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,90deg) rotate3d(0,1,0,0deg) translateZ(60px);}
+    80%{transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,90deg) rotate3d(0,1,0,360deg) translateZ(60px);}
+    100%{transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,0deg) rotate3d(0,1,0,360deg) translateZ(0px);}
+}
+/* @keyframes nyCard-y2 {
+    0%{transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,0deg) rotate3d(0,1,0,0deg) translateZ(-30px);}
+    20%{transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,90deg) rotate3d(0,1,0,0deg) translateZ(60px);}
+    80%{transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,90deg) rotate3d(0,1,0,360deg) translateZ(60px);}
+    100%{transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,0deg) rotate3d(0,1,0,360deg) translateZ(-30px);}
+} */
+
+.nyCard [class|="circle"] { border-radius: 50% 50% 50% 0; }
+
+/* Specific for Debugging. */
+/* #nyCard-20 [class|="circle"] { border-radius: 50% 50% 50% 0; }
+#nyCard-20 [class|="rect"]:nth-of-type(16),
+#nyCard-20 [class|="rect"]:nth-of-type(16)::after,
+#nyCard-20 [class|="rect"]:nth-of-type(16)::before {
+    background-color: hsla(calc(var(--i) * 20), 100%, 60%, 1);
+    box-shadow: 0 0 0 1rem hsla(calc(var(--i) * 20), 100%, 20%, 1);
+} */
+
+
+
+[class|="rect"]::after { --zin: -1px; }
+[class|="rect"]::before { --zin: 0px; }
+
+
+base {
+    counter-reset: listCounter;
+}
+.rect {
+    counter-increment: listCounter;
+}
+.nyCard [class|="rect"]:nth-of-type(2):before {--zin: 1px;}
+.nyCard [class|="rect"]:nth-of-type(2):after {--zin: 0px;}
+.nyCard [class|="rect"]::before {
+    content: "[" counter(listCounter) "]";
+    content: counter(listCounter);
+    /* content: ''; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 1200px){ 
+    .shelf {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    .nyCard {
+        margin: 0 auto;
+    }
+}
+@media (max-width: 560px){ 
+    .shelf {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 1rem;
+    }
+    .nyCard {
+        margin: 0 auto;
+    }
+}
