@@ -17,3 +17,13 @@ main, .shelf {position: static;}
     height: 100%; width: 100%;
     /* height: 695px; width: 960px; */
 }
+.fixed-controllers {
+    position: fixed;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: fit-content;
+    display: flex;
+    padding: .5rem;
+    border-radius: .5rem .5rem 0 0;
+    background: #0008;
+}
