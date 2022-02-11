@@ -272,7 +272,8 @@ function paintBrush4(x,y) {
 
 /* ───── Mouse Move ───── */
 window.addEventListener('mousemove', (ev) =>{
-    if(mouseLog.length > 50) mouseLog.shift();
+    // if(mouseLog.length > 50) mouseLog.shift();
+    if(mouseLog.length > 10) mouseLog.shift();
     mouseLog.push([ev.clientX,ev.clientY]);
     // paintBrush(ev.clientX,ev.clientY);
     // paintBrush2(ev.clientX,ev.clientY);
@@ -299,7 +300,8 @@ function handleMove(evt) {
             touchLog[idx] = [];
             console.log(` ♦└♦ adding new finger #${idx+1}, you monster!`);
         }
-        if(touchLog[idx].length > 50) touchLog[idx].shift();
+        // if(touchLog[idx].length > 50) touchLog[idx].shift();
+        if(touchLog[idx].length > 10) touchLog[idx].shift();
         touchLog[idx].push([touches[i].pageX,touches[i].pageY]);
         paintBrush3(touches[i].pageX,touches[i].pageY,idx);
         if (idx >= 0) {
