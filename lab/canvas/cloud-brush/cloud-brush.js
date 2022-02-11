@@ -365,50 +365,12 @@ window.addEventListener("keydown", function (event) {
     if (event.defaultPrevented) {
         return; // Do nothing if the event was already processed
     }
-    // console.log(event.key);
-    // if(keyOptions.includes(event.key.toUpperCase())) keyDisplayToggle(event.key);
     Settings(event.key)
-    // switch (event.key) {
-    //     case "e":
-    //     case "E":
-    //         brush.erase ? brush.erase = false : brush.erase = true;
-    //         break;
-    //     case "f":
-    //     case "F":
-    //         brush.filter ? brush.filter = false : brush.filter = true;
-    //         canvas.classList.toggle('cloudy');
-    //         break;
-    //     case "w":
-    //     case "W":
-    //         brush.w ? brush.w = false : brush.w = true;
-    //         break;
-    //     case "l":
-    //     case "L":
-    //         brush.l ? brush.l = false : brush.l = true;
-    //         break;
-    //     case "c":
-    //     case "C":
-    //         brush.c ? brush.c = false : brush.c = true;
-    //         break;
-    //     case "h":
-    //     case "H":
-    //         brush.h ? brush.h = false : brush.h = true;
-    //         break;
-    //     case " ":
-    //         states.brushRainbow ? states.brushRainbow = false : states.brushRainbow = true;
-    //         brush.active ? brush.active = false : brush.active = true;
-    //         break;
-    //     case "Escape":
-    //         clearCanvas();
-    //         break;
-    //     default:
-    //         return; // Quit when this doesn't handle the key event.
-    // }
     // Cancel the default action to avoid it being handled twice
     event.preventDefault();
 }, true);
 
-function clearCanvas(){
+function ClearCanvas(){
     // ctx.fillStyle = '#000f';
     ctx.fillStyle = 'hsla(210, 0%, 5%, 100%)';
     ctx.filter = `drop-shadow(0px 0px 0px hsla(210, 0%, 5%, 0))`;
