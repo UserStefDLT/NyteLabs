@@ -465,17 +465,26 @@ function Settings(k){
             break;
         case "l":
         case "L":
-            turnOffSettings();
+            brush.erase = false;
+            brush.w = false;
+            brush.c = false;
+            brush.h = false;
             brush.l ? brush.l = false : brush.l = true;
             break;
         case "c":
         case "C":
-            turnOffSettings();
+            brush.erase = false;
+            brush.w = false;
+            brush.l = false;
+            brush.h = false;
             brush.c ? brush.c = false : brush.c = true;
             break;
         case "h":
         case "H":
-            turnOffSettings();
+            brush.erase = false;
+            brush.w = false;
+            brush.l = false;
+            brush.c = false;
             brush.h ? brush.h = false : brush.h = true;
             break;
         case " ":

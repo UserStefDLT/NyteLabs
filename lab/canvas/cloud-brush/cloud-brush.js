@@ -367,7 +367,7 @@ window.addEventListener("keydown", function (event) {
     }
     // console.log(event.key);
     // if(keyOptions.includes(event.key.toUpperCase())) keyDisplayToggle(event.key);
-    Settings2(event.key)
+    Settings(event.key)
     // switch (event.key) {
     //     case "e":
     //     case "E":
@@ -409,20 +409,14 @@ window.addEventListener("keydown", function (event) {
 }, true);
 
 function clearCanvas(){
-    ctx.fillStyle = '#000f';
+    // ctx.fillStyle = '#000f';
+    ctx.fillStyle = 'hsla(210, 0%, 5%, 100%)';
+    ctx.filter = `drop-shadow(0px 0px 0px hsla(210, 0%, 5%, 0))`;
     ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 }
 
 
-function turnOffSettings(){
-    brush.erase = false;
-    brush.w = false;
-    brush.l = false;
-    brush.c = false;
-    brush.h = false;
-}
-
-function Settings2(k){
+function Settings(k){
     switch (k) {
         case "e":
         case "E":
@@ -431,7 +425,7 @@ function Settings2(k){
         case "f":
         case "F":
             brush.filter ? brush.filter = false : brush.filter = true;
-            // canvas.classList.toggle('cloudy');
+            canvas.classList.toggle('cloudy');
             break;
         case "w":
         case "W":
@@ -439,17 +433,26 @@ function Settings2(k){
             break;
         case "l":
         case "L":
-            turnOffSettings();
+            brush.erase = false;
+            brush.w = false;
+            brush.c = false;
+            brush.h = false;
             brush.l ? brush.l = false : brush.l = true;
             break;
         case "c":
         case "C":
-            turnOffSettings();
+            brush.erase = false;
+            brush.w = false;
+            brush.l = false;
+            brush.h = false;
             brush.c ? brush.c = false : brush.c = true;
             break;
         case "h":
         case "H":
-            turnOffSettings();
+            brush.erase = false;
+            brush.w = false;
+            brush.l = false;
+            brush.c = false;
             brush.h ? brush.h = false : brush.h = true;
             break;
         case " ":
@@ -463,3 +466,53 @@ function Settings2(k){
             return; // Quit when this doesn't handle the key event.
     }
 }
+
+// function turnOffSettings(){
+//     brush.erase = false;
+//     brush.w = false;
+//     brush.l = false;
+//     brush.c = false;
+//     brush.h = false;
+// }
+
+// function Settings2(k){
+//     switch (k) {
+//         case "e":
+//         case "E":
+//             brush.erase ? brush.erase = false : brush.erase = true;
+//             break;
+//         case "f":
+//         case "F":
+//             brush.filter ? brush.filter = false : brush.filter = true;
+//             // canvas.classList.toggle('cloudy');
+//             break;
+//         case "w":
+//         case "W":
+//             brush.w ? brush.w = false : brush.w = true;
+//             break;
+//         case "l":
+//         case "L":
+//             turnOffSettings();
+//             brush.l ? brush.l = false : brush.l = true;
+//             break;
+//         case "c":
+//         case "C":
+//             turnOffSettings();
+//             brush.c ? brush.c = false : brush.c = true;
+//             break;
+//         case "h":
+//         case "H":
+//             turnOffSettings();
+//             brush.h ? brush.h = false : brush.h = true;
+//             break;
+//         case " ":
+//             states.brushRainbow ? states.brushRainbow = false : states.brushRainbow = true;
+//             brush.active ? brush.active = false : brush.active = true;
+//             break;
+//         case "Escape":
+//             ClearCanvas();
+//             break;
+//         default:
+//             return; // Quit when this doesn't handle the key event.
+//     }
+// }
