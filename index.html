@@ -42,8 +42,8 @@
     <div class="shelf" style="flex-direction: column;">
         <div class="shelf-title">added on: <span style="font-size: 16px; color: #6669;">(2022, Feb 10.)</span></div>
         <ul class="lablinks">
-            <li><a href="lab/canvas/brush/"><div class="nybtn--card-00">Brush</div></a></li>
-            <li><a href="lab/canvas/rainbow-brush"><div class="nybtn--card-00">Rainbow Brush</div></a></li>
+            <li><a href="lab/canvas/brush/"><div class="nybtn--brush-rainbow">Brush</div></a></li>
+            <li><a href="lab/canvas/rainbow-brush"><div class="nybtn--brush-rainbow">Rainbow Brush</div></a></li>
             <li><a href="lab/canvas/rainbow-brush/"><div class="nybtn--brush-rainbow-02" data-brush-name="Rainbow Brush-02">Rainbow Brush-02</div></a></li>
         </ul>
     </div>
@@ -95,6 +95,16 @@
         </ul>
     </div>
 </main>
+
+<svg style="position: absolute; top: -99999px" xmlns="http://www.w3.org/2000/svg">
+    <filter id="svgBlur" x="-5%" y="-5%" width="110%" height="110%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="5"/>
+    </filter>
+    <filter id="cloud" x="-25%" y="-25%" width="150%" height="150%" >
+        <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="5" />
+        <feDisplacementMap in="SourceGraphic" scale="100" />
+    </filter>
+</svg>
 
 
     <footer>
