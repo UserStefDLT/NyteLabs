@@ -179,18 +179,18 @@ function paintBrush3(x,y,fi) {
             hue = brush.hue;
         }
         let lum_shadow = lum-20;
-        ctx.filter = `blur(10px) drop-shadow(30px 30px 10px hsla(${hue}, ${sat}%, ${lum_shadow}%, ${alp-.5}))`;
+        ctx.filter = `drop-shadow(30px 30px 10px hsla(${hue}, ${sat}%, ${lum_shadow}%, ${alp-.5}))`;
         if(!brush.c && !brush.l && !brush.h){
             lum = 100;
             sat = 0;
             lum_shadow = 50;
-            ctx.filter = `blur(10px) drop-shadow(15px 15px 15px hsla(${hue}, ${sat}%, ${lum_shadow}%, ${alp-.5}))`;
+            ctx.filter = `drop-shadow(15px 15px 15px hsla(${hue}, ${sat}%, ${lum_shadow}%, ${alp-.5}))`;
         }
 
         clr = `hsla(${hue}, ${sat}%, ${lum}%, ${alp})`;
         if(brush.erase){
             clr = `hsla(210, 0%, 5%, 100%)`;
-            ctx.filter = `blur(0px) drop-shadow(0px 0px 0px hsla(210, 0%, 5%, 0))`;
+            ctx.filter = `drop-shadow(0px 0px 0px hsla(210, 0%, 5%, 0))`;
         }
 
         ctx.strokeStyle = clr;        
@@ -240,18 +240,18 @@ function paintBrush4(x,y) {
             hue = brush.hue;
         }
         let lum_shadow = lum-20;
-        ctx.filter = `blur(10px) drop-shadow(30px 30px 10px hsla(${hue}, ${sat}%, ${lum_shadow}%, ${alp-.5}))`;
+        ctx.filter = `drop-shadow(30px 30px 10px hsla(${hue}, ${sat}%, ${lum_shadow}%, ${alp-.5}))`;
         if(!brush.c && !brush.l && !brush.h){
             lum = 100;
             sat = 0;
             lum_shadow = 50;
-            ctx.filter = `blur(10px) drop-shadow(15px 15px 15px hsla(${hue}, ${sat}%, ${lum_shadow}%, ${alp-.5}))`;
+            ctx.filter = `drop-shadow(15px 15px 15px hsla(${hue}, ${sat}%, ${lum_shadow}%, ${alp-.5}))`;
         }
 
         clr = `hsla(${hue}, ${sat}%, ${lum}%, ${alp})`;
         if(brush.erase){
             clr = `hsla(210, 0%, 5%, 100%)`;
-            ctx.filter = `blur(0px) drop-shadow(0px 0px 0px hsla(210, 0%, 5%, 0))`;
+            ctx.filter = `drop-shadow(0px 0px 0px hsla(210, 0%, 5%, 0))`;
         }
         ctx.strokeStyle = clr;        
         ctx.beginPath();
@@ -413,7 +413,7 @@ window.addEventListener("keydown", function (event) {
 function ClearCanvas(){
     // ctx.fillStyle = '#000f';
     ctx.fillStyle = 'hsla(210, 0%, 5%, 100%)';
-    ctx.filter = `blur(0px) drop-shadow(0px 0px 0px hsla(210, 0%, 5%, 0))`;
+    ctx.filter = `drop-shadow(0px 0px 0px hsla(210, 0%, 5%, 0))`;
     ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 }
 function BrushActive(){
@@ -440,7 +440,13 @@ function CloudEraser(){
     btn.classList.toggle('kbd-disable');
 }
 
-
+function turnOffSettings(){
+    brush.erase = false;
+    brush.w = false;
+    brush.l = false;
+    brush.c = false;
+    brush.h = false;
+}
 
 function Settings(k){
     switch (k) {
@@ -459,14 +465,60 @@ function Settings(k){
             break;
         case "l":
         case "L":
+            turnOffSettings();
             brush.l ? brush.l = false : brush.l = true;
             break;
         case "c":
         case "C":
+            turnOffSettings();
             brush.c ? brush.c = false : brush.c = true;
             break;
         case "h":
         case "H":
+            turnOffSettings();
+            brush.h ? brush.h = false : brush.h = true;
+            break;
+        case " ":
+            states.brushRainbow ? states.brushRainbow = false : states.brushRainbow = true;
+            brush.active ? brush.active = false : brush.active = true;
+            break;
+        case "Escape":
+            ClearCanvas();
+            break;
+        default:
+            return; // Quit when this doesn't handle the key event.
+    }
+}
+
+
+function Settings2(k){
+    switch (k) {
+        case "e":
+        case "E":
+            brush.erase ? brush.erase = false : brush.erase = true;
+            break;
+        case "f":
+        case "F":
+            brush.filter ? brush.filter = false : brush.filter = true;
+            canvas.classList.toggle('cloudy');
+            break;
+        case "w":
+        case "W":
+            brush.w ? brush.w = false : brush.w = true;
+            break;
+        case "l":
+        case "L":
+            turnOffSettings();
+            brush.l ? brush.l = false : brush.l = true;
+            break;
+        case "c":
+        case "C":
+            turnOffSettings();
+            brush.c ? brush.c = false : brush.c = true;
+            break;
+        case "h":
+        case "H":
+            turnOffSettings();
             brush.h ? brush.h = false : brush.h = true;
             break;
         case " ":
