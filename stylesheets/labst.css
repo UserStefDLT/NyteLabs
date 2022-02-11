@@ -94,7 +94,7 @@ a.backLink:focus .backBtn::before,
 
 
 /* Keyboard Key Design */
-
+.kbd,
 kbd {
     background: linear-gradient(180deg,#f4f4f4,#d5d5d5);
     background: linear-gradient(180deg,#eee,#ddd);
