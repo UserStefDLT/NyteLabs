@@ -398,6 +398,7 @@
     opacity: 1;
 }
 .nybtn--card-02::before {
+    animation: card-orbit-03 3s ease-in-out infinite both;
     animation-delay: 1.5s;
 }
 @keyframes card-orbit-02 {
@@ -405,7 +406,11 @@
     50% {transform: perspective(300px) translateX(-50%) translateY(-50%) rotate3d(0,1,0,271deg) rotate3d(0,0,0,180deg) rotate3d(0,0,1,181deg) translateZ(90px);}
     100% {transform: perspective(300px) translateX(-50%) translateY(-50%) rotate3d(0,1,0,449deg) rotate3d(0,0,0,360deg) rotate3d(0,0,1,359deg) translateZ(90px);}
 }
-
+@keyframes card-orbit-03 {
+    0% {transform: perspective(300px) translateX(-50%) translateY(-50%) rotate3d(0,1,0,60deg) rotate3d(0,0,0,0deg) rotate3d(0,0,1,0deg) translateZ(90px);}
+    50% {transform: perspective(300px) translateX(-50%) translateY(-50%) rotate3d(0,1,0,240deg) rotate3d(0,0,0,180deg) rotate3d(0,0,1,180deg) translateZ(90px);}
+    100% {transform: perspective(300px) translateX(-50%) translateY(-50%) rotate3d(0,1,0,420deg) rotate3d(0,0,0,360deg) rotate3d(0,0,1,360deg) translateZ(90px);}
+}
 
 
 /* media queries */
