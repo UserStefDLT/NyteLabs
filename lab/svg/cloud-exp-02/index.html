@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Clouds Experiments | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="fe-clouds.css"> -->
+    <link rel="stylesheet" href="../clouds/fe-clouds.css">
+    <style>
+        :root {
+            --hue-1: 180;
+            --hue-1: 270;
+            --hue-2: 270;
+            
+            /* --hue-3: 150;
+            --hue-4: 210;
+            --hue-5: 270;
+            --hue-6: 330; */
+        }
+
+        main {
+            --hue-1: 270;
+            --hue-1: 330;
+            /* animation: clr-shift 6000s ease-in-out infinite alternate both; */
+        }
+        /* main:hover {
+            animation: clr-shift 6000s ease-in-out infinite both;
+        } */
+        /* @keyframes clr-shift {
+            0%{--hue-1: 330;}
+            20%{--hue-1: 60;}
+            40%{--hue-1: 150;}
+            60%{--hue-1: 180;}
+            80%{--hue-1: 270;}
+            100%{--hue-1: 330;}
+        } */
+
+        .my-radio-nav,
+        section h2,
+        section {
+            transition: 
+            box-shadow 400ms ease-in-out,
+            color 400ms ease-in-out,
+            background-color 400ms ease-in-out;
+        }
+
+        [class|="deck-for"] > .card:nth-child(6n+1){grid-column: 1;}
+        [class|="deck-for"] {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            padding: 1rem;
+            position: relative;
+            margin-top: 2rem;
+        }
+        [class|="deck-for"]::before {
+            content: attr(class);
+            position: absolute;
+            top: -1.5rem;
+            left: 2rem;
+            color: #fff;
+            /* margin-top: 2rem; */
+        }
+        .deck-set-4 {grid-template-columns: repeat(4, 1fr);}
+
+                
+        .deck-for-space, .deck-for-space [class|="cloud-bgi"] {
+            --hclr: hsl(var(--hue), 80%, 20%);
+            --box-shdw: 120px 120px 20px -20px #fff, 
+            120px 120px 10px 10px #1238, 
+            120px 120px 80px 20px #f39, 
+            120px 120px 5px 30px #ff32, 
+            120px 120px 0px 150px #000;
+            --bgi: radial-gradient(circle at 50% 50%,
+            #fff 00%, #fff 30%, 
+            #1238 30%, #1238 50%, 
+            #f39 50%, #f39 70%, 
+            #ff32 70%, #ff32 80%, 
+            #000 100%);
+        }
+
+        #section-E [class|="cloud-bgi"] {
+            height: 120px; width: 120px;
+            position: absolute; 
+            top: -100px; left: -100px;
+            top: -50px; left: -85px;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            background-color: transparent;
+            /* box-shadow: inset 0px 0px 0px 10px; */
+            /* background-image: var(--bgi); */
+            /* filter: url(#space-cloud); */
+            /* filter: none; */
+            border-radius: 50%;
+        }
+        #section-E .cloud-bgi-afill {
+            box-shadow: inset 0px 0px 0px 10px;
+            background-image: var(--bgi);
+            filter: url(#space-cloud-012-025);
+        }
+        #section-E .cloud-bgi-fill {
+            /* filter: url(#water-animation); */
+            top: -50px; left: -85px;
+            filter: url(#space-cloud-012-025);
+            box-shadow: var(--box-shdw);
+        }
+        #section-E .cloud-bgi-ring-3315 {
+            box-shadow: inset 0px 0px 0px 10px;
+            background-image: linear-gradient(135deg, #f39, #3f9);
+            filter: url(#space-cloud);
+        }
+
+        #section-E .sploud-f-50 {filter: url(#sploud-f-50);}
+        #section-E .sploud-f-50-200 {filter: url(#sploud-f-50-200);}
+        #section-E .sploud-f-200 {filter: url(#sploud-f-200);}
+        #section-E .sploud-t-50 {filter: url(#sploud-t-50);}
+        #section-E .sploud-t-50-200 {filter: url(#sploud-t-50-200);}
+        #section-E .sploud-t-200 {filter: url(#sploud-t-200);}
+        #section-E [class|="sploud"] {
+            --hclr: hsl(var(--hue), 80%, 20%);
+            --hclr: hsl(calc(var(--hue) - 120), 80%, 20%);
+            height: 120px; width: 120px;
+            position: absolute; 
+            top: -100px; left: -100px;
+            top: -50px; left: -85px;
+            top: -150px; left: -150px;
+            /* top: 50%; left: 50%; */
+            /* transform: translateX(-50%) translateY(-50%); */
+            background-color: #0000;
+            --box-shdw: 150px 150px 20px -20px #fff, 
+            150px 150px 10px 10px #1238, 
+            150px 150px 80px 20px var(--hclr), 
+            150px 150px 5px 30px #ff32, 
+            150px 150px 0px 150px #080012;
+            box-shadow: var(--box-shdw);
+            /* background-image: var(--bgi); */
+            /* filter: url(#space-cloud); */
+            /* filter: none; */
+            border-radius: 50%;
+            transition: box-shadow 500ms ease-in-out;
+        }
+
+        /* .sploud-space-01-f { filter: url(#space-01-f);}
+        .sploud-space-01-t { filter: url(#space-01-t);} */
+        /* .sploud-space-02 { filter: url(#space-02)}
+        .sploud-space-03 { filter: url(#space-03)} */
+
+        #section-E .sploud-space-01-f {
+            box-shadow: 120px 120px 20px -20px #fff, 
+            120px 120px 10px -10px #1238, 
+            120px 120px 80px 0px #f39, 
+            120px 120px 5px 10px #ff32, 
+            120px 120px 0px 20px #080012;
+        }
+        #section-E .card:hover .sploud-space-01-f {
+            box-shadow: 150px 150px 10px -20px #fff, 
+            150px 150px 0px -10px #1238, 
+            150px 150px 50px 0px #f39, 
+            150px 150px 0px 10px #ff32, 
+            150px 150px 0px 150px #08001288;
+        }
+        #section-E .sploud-space-01-t {
+            box-shadow: 200px 250px 20px -20px #fff, 
+            200px 250px 10px -10px #1238, 
+            200px 250px 80px 0px #f39, 
+            200px 250px 5px 10px #ff32, 
+            200px 250px 0px 20px #080012;
+        }
+        #section-E .card:hover .sploud-space-01-t {
+            box-shadow: 200px 250px 30px -10px #fff, 
+            200px 250px 20px 0px #1238, 
+            200px 250px 80px 10px #f39, 
+            200px 250px 15px 20px #ff32, 
+            200px 250px 10px 150px #08001288;
+        }
+
+        #section-E .card-space-clouds-02-fj .sploud-space-02-f {
+            box-shadow: 
+            150px 180px 20px -20px #fff, 
+            150px 180px 10px -10px #1238, 
+            150px 180px 80px 0px #f39, 
+            150px 180px 5px 10px #ff32, 
+            150px 180px 0px 150px #080012;
+        }
+        #section-E .card-space-clouds-02-fj .sploud-space-02-t {
+            box-shadow: 
+            180px 220px 30px -20px #fff, 
+            200px 280px 20px -20px #fff, 
+            200px 280px 10px -10px #1238, 
+            190px 240px 60px 0px #f39a, 
+            200px 280px 80px 0px #f39, 
+            200px 280px 5px 10px #ff32, 
+            240px 360px 0px 40px #080012;
+        }
+        .card-space-clouds-fj {filter: url(#space-01-fj);}
+
+        .card-space-clouds-02-fj {filter: url(#space-02-fj);}
+        .sploud-space-02-f { filter: url(#space-02-f);}
+        .sploud-space-02-t { filter: url(#space-02-t);}
+
+        .z {display: none;}
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Clouds Experiments</div>
+    </header>
+
+
+        <main>
+            <input type="radio" id="nav-to-E" name="section" class="nav-input" checked>
+            <!-- <input type="radio" id="nav-to-F" name="section" class="nav-input"> -->
+            <div class="my-radio-nav">
+                <label for="nav-to-E" class="navbtn">Experiments</label>
+                <!-- <label for="nav-to-F" class="navbtn">Settings</label> -->
+            </div>
+
+            <div class="sections">
+                <section id="section-E"><h2>Experiments</h2>
+                    <!-- <div class="deck-for-space">
+                        <div class="card h18w12 card-yj-03-o5-sc200"><div class="card-name">space ring-3315</div><div class="card-img bg-xc"><div class="cloud-bgi-ring-3315"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-03-o5-sc200"><div class="card-name">space afill</div><div class="card-img bg-xc"><div class="cloud-bgi-afill"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-yj-03-o5-sc200"><div class="card-name">space fill</div><div class="card-img bg-xc"><div class="cloud-bgi-fill"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=200</div></div></div>
+                    </div> -->
+
+                    <!-- <div class="deck-for-space hidden">
+                        <div class="card h18w12 card-yj-f025-o5-sc200"><div class="card-name">sploud f-50</div><div class="card-img bg-xc"><div class="sploud-f-50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl="50"</div></div></div>
+                        <div class="card h18w12 card-yj-f025_029-o5-sc200"><div class="card-name">sploud f-50-200</div><div class="card-img bg-xc"><div class="sploud-f-50-200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025-.029"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl="50-200"</div><div class="card-tag">type="fractalNoise"</div></div></div>
+                        <div class="card h18w12 card-yj-f029-o5-sc200"><div class="card-name">sploud f-200</div><div class="card-img bg-xc"><div class="sploud-f-200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".029"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl="200"</div></div></div>
+                        <div class="card h18w12 card-yj-t025-o5-sc200"><div class="card-name">sploud t-50</div><div class="card-img bg-xc"><div class="sploud-t-50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl="50"</div></div></div>
+                        <div class="card h18w12 card-yj-t025_029-o5-sc200"><div class="card-name">sploud t-50-200</div><div class="card-img bg-xc"><div class="sploud-t-50-200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025-.029"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl="50-200"</div><div class="card-tag">type="turbulence"</div></div></div>
+                        <div class="card h18w12 card-yj-t029-o5-sc200"><div class="card-name">sploud t-200</div><div class="card-img bg-xc"><div class="sploud-t-200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".029"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl="200"</div></div></div>
+                    </div> -->
+
+                    <!-- <div class="deck-for-space hidden">
+                        <div class="card h18w12 card-space-clouds-f"><div class="card-name">space card</div><div class="card-img bg-xc"><div class="sploud-space-01-f"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-space-clouds-ft"><div class="card-name">space card</div><div class="card-img bg-xc"><div class="sploud-space-01-f"></div><div class="sploud-space-01-t"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-space-clouds-t"><div class="card-name">space card</div><div class="card-img bg-xc"><div class="sploud-space-01-t"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=200</div></div></div>
+                    </div> -->
+
+                    <!-- <div class="deck-for-space">
+                        <div class="card h18w12 card-space-clouds-f"><div class="card-name">space card</div><div class="card-img bg-xc"><div class="sploud-space-01-f"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-space-clouds-ft"><div class="card-name">space card</div><div class="card-img bg-xc card-space-clouds-fj"><div class="sploud-space-02-f"></div><div class="sploud-space-02-t"></div></div><div class="card-tag-list"><div class="card-tag">fq=".018-.036"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=50-100</div></div></div>
+                        <div class="card h18w12 card-space-clouds-t"><div class="card-name">space card</div><div class="card-img bg-xc"><div class="sploud-space-01-t"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=200</div></div></div>
+                    </div> -->
+
+                    <div class="deck-for-space">
+                        <div class="card h18w12 card-yj-f025-o5-sc200"><div class="card-name">sploud f-50</div><div class="card-img bg-xc"><div class="sploud-f-50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl="50"</div></div></div>
+                        <div class="card h18w12 card-yj-f025_029-o5-sc200"><div class="card-name">sploud f-50-200</div><div class="card-img bg-xc"><div class="sploud-f-50-200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025-.029"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl="50-200"</div><div class="card-tag">type="fractalNoise"</div></div></div>
+                        <div class="card h18w12 card-yj-f029-o5-sc200"><div class="card-name">sploud f-200</div><div class="card-img bg-xc"><div class="sploud-f-200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".029"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl="200"</div></div></div>
+                        <div class="card h18w12 card-yj-t025-o5-sc200"><div class="card-name">sploud t-50</div><div class="card-img bg-xc"><div class="sploud-t-50"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl="50"</div></div></div>
+                        <div class="card h18w12 card-yj-t025_029-o5-sc200"><div class="card-name">sploud t-50-200</div><div class="card-img bg-xc"><div class="sploud-t-50-200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025-.029"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl="50-200"</div><div class="card-tag">type="turbulence"</div></div></div>
+                        <div class="card h18w12 card-yj-t029-o5-sc200"><div class="card-name">sploud t-200</div><div class="card-img bg-xc"><div class="sploud-t-200"></div></div><div class="card-tag-list"><div class="card-tag">fq=".029"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl="200"</div></div></div>
+                    </div>
+
+                    <div class="deck-for-space">
+                        <div class="card h18w12 card-space-clouds-f"><div class="card-name">space card</div><div class="card-img bg-xc"><div class="sploud-space-02-f"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=200</div></div></div>
+                        <div class="card h18w12 card-space-clouds-ft"><div class="card-name">space card</div><div class="card-img bg-xc card-space-clouds-02-fj"><div class="sploud-space-02-f"></div><div class="sploud-space-02-t"></div></div><div class="card-tag-list"><div class="card-tag">fq=".018-.036"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=50-100</div></div></div>
+                        <div class="card h18w12 card-space-clouds-t"><div class="card-name">space card</div><div class="card-img bg-xc"><div class="sploud-space-02-t"></div></div><div class="card-tag-list"><div class="card-tag">fq=".025"</div><div class="card-tag">oct="5"</div><div class="card-tag">scl=200</div></div></div>
+                    </div>
+
+                </section>
+                <!-- <section id="section-F"><h2>Settings &#x2699;</h2></section> -->
+            </div>  
+        </main>
+
+        <svg width="0" height="0">
+            <defs>
+                <filter id="space-cloud" x="-25%" y="-25%" width="150%" height="150%">
+                    <feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="5" />
+                    <feDisplacementMap in="SourceGraphic" scale="200" />
+                </filter>
+                <filter id="space-cloud-012-f" x="-25%" y="-25%" width="150%" height="150%">
+                    <feTurbulence type="fractalNoise" 
+                    baseFrequency=".012" numOctaves="5" seed="5"/>
+                    <feDisplacementMap in="SourceGraphic" scale="200" 
+                    xChannelSelector="R" yChannelSelector="R" />
+                </filter>
+                <filter id="space-cloud-012-t" x="-25%" y="-25%" width="150%" height="150%">
+                    <feTurbulence type="turbulence" 
+                    baseFrequency=".012" numOctaves="5" seed="5"/>
+                    <feDisplacementMap in="SourceGraphic" scale="200" 
+                    xChannelSelector="R" yChannelSelector="R" />
+                </filter>
+                <filter id="space-cloud-012-010-f" 
+                    x="-25%" y="-25%" width="150%" height="150%">
+                    <feTurbulence
+                        type="fractalNoise" 
+                        baseFrequency=".012"
+                        id="turbulence"
+                        numOctaves="5"
+                        result="turbulence"
+                        seed="5">
+                        <animate id="noiseAnimate"
+                            attributeName="baseFrequency"
+                            values=".012;.010;.012" from="0"
+                            to="100" dur="10s"
+                            repeatCount="indefinite" >
+                        </animate>
+                    </feTurbulence>
+                    <feDisplacementMap
+                        in="SourceGraphic"
+                        in2="turbulence"
+                        scale="200"
+                        xChannelSelector="R"
+                        yChannelSelector="R">
+                    </feDisplacementMap>
+                </filter>
+                <filter id="space-cloud-012-010-t" 
+                    x="-25%" y="-25%" width="150%" height="150%">
+                    <feTurbulence
+                        type="turbulence" 
+                        baseFrequency=".012"
+                        id="turbulence"
+                        numOctaves="5"
+                        result="turbulence"
+                        seed="5">
+                        <animate id="noiseAnimate"
+                            attributeName="baseFrequency"
+                            values=".012;.010;.012" from="0"
+                            to="100" dur="10s"
+                            repeatCount="indefinite" >
+                        </animate>
+                    </feTurbulence>
+                    <feDisplacementMap
+                        in="SourceGraphic"
+                        in2="turbulence"
+                        scale="200"
+                        xChannelSelector="R"
+                        yChannelSelector="R">
+                    </feDisplacementMap>
+                </filter>
+                <filter id="space-cloud-012-025" 
+                    x="-25%" y="-25%" width="150%" height="150%">
+                    <feTurbulence
+                        type="turbulence" 
+                        baseFrequency=".025"
+                        id="turbulence"
+                        numOctaves="5"
+                        result="turbulence"
+                        seed="5">
+                        <animate id="noiseAnimate"
+                            attributeName="baseFrequency"
+                            values=".012;.025;.012" from="0"
+                            to="100" dur="10s"
+                            repeatCount="indefinite" >
+                        </animate>
+                    </feTurbulence>
+                    <feDisplacementMap
+                        in="SourceGraphic"
+                        in2="turbulence"
+                        scale="200"
+                        xChannelSelector="R"
+                        yChannelSelector="R">
+                    </feDisplacementMap>
+                </filter>
+
+
+                <filter id="sploud-f-50" x="-25%" y="-25%" width="150%" height="150%">
+                    <feTurbulence type="fractalNoise" id="turbulence"
+                    baseFrequency=".025" numOctaves="5" seed="5"/>
+                    <feDisplacementMap in="SourceGraphic" scale="50" 
+                    xChannelSelector="R" yChannelSelector="R" />
+                </filter>
+                <filter id="sploud-f-50-200" 
+                    x="-25%" y="-25%" width="150%" height="150%">
+                    <feTurbulence type="fractalNoise" id="turbulence"
+                        baseFrequency=".025" numOctaves="5" seed="5"
+                        result="turbulence">
+                        <animate id="noiseAnimate"
+                            attributeName="baseFrequency"
+                            values=".025;.029;.025" from="0"
+                            to="100" dur="20s"
+                            repeatCount="indefinite" >
+                        </animate>
+                    </feTurbulence>
+                    <feDisplacementMap
+                        in="SourceGraphic"
+                        in2="turbulence"
+                        scale="100"
+                        xChannelSelector="R"
+                        yChannelSelector="R">
+                        <animate id="scaleAnimate"
+                        attributeName="scale"
+                        values="50;200;50" from="0"
+                        to="100" dur="10s"
+                        repeatCount="indefinite" >
+                    </feDisplacementMap>
+                </filter>
+                <filter id="sploud-f-200" x="-25%" y="-25%" width="150%" height="150%">
+                    <feTurbulence type="fractalNoise" id="turbulence"
+                    baseFrequency=".029" numOctaves="5" seed="5"/>
+                    <feDisplacementMap in="SourceGraphic" scale="200" 
+                    xChannelSelector="R" yChannelSelector="R" />
+                </filter>
+
+                <filter id="sploud-t-50" x="-25%" y="-25%" width="150%" height="150%">
+                    <feTurbulence type="turbulence" 
+                    baseFrequency=".025" numOctaves="5" seed="5"/>
+                    <feDisplacementMap in="SourceGraphic" scale="50" 
+                    xChannelSelector="R" yChannelSelector="R" />
+                </filter>
+                <filter id="sploud-t-50-200" 
+                    x="-25%" y="-25%" width="150%" height="150%">
+                    <feTurbulence
+                        type="turbulence" 
+                        baseFrequency=".025"
+                        id="turbulence"
+                        numOctaves="5"
+                        result="turbulence"
+                        seed="5">
+                        <animate id="noiseAnimate"
+                            attributeName="baseFrequency"
+                            values=".025;.029;.025" from="0"
+                            to="100" dur="10s"
+                            repeatCount="indefinite" >
+                        </animate>
+                    </feTurbulence>
+                    <feDisplacementMap
+                        in="SourceGraphic"
+                        in2="turbulence"
+                        scale="100"
+                        xChannelSelector="R"
+                        yChannelSelector="R">
+                        <animate id="scaleAnimate"
+                        attributeName="scale"
+                        values="50;200;50" from="0"
+                        to="100" dur="20s"
+                        repeatCount="indefinite" >
+                    </animate>
+                    </feDisplacementMap>
+                </filter>
+                <filter id="sploud-t-200" x="-25%" y="-25%" width="150%" height="150%">
+                    <feTurbulence type="turbulence" 
+                    baseFrequency=".029" numOctaves="5" seed="5"/>
+                    <feDisplacementMap in="SourceGraphic" scale="200" 
+                    xChannelSelector="R" yChannelSelector="R" />
+                </filter>
+
+                
+
+                <filter id="space-01-f" 
+                    x="-25%" y="-25%" width="150%" height="150%">
+                    <feTurbulence type="fractalNoise" id="turbulence"
+                        baseFrequency=".025" numOctaves="5" seed="5"
+                        result="turbulence">
+                        <animate id="noiseAnimate"
+                            attributeName="baseFrequency"
+                            values=".018;.036;.018" from="0"
+                            to="100" dur="10s"
+                            repeatCount="indefinite" >
+                        </animate>
+                    </feTurbulence>
+                    <feDisplacementMap
+                        in="SourceGraphic"
+                        in2="turbulence"
+                        scale="100"
+                        xChannelSelector="R"
+                        yChannelSelector="R">
+                        <animate id="scaleAnimate"
+                        attributeName="scale"
+                        values="50;150;50" from="0"
+                        to="100" dur="10s"
+                        repeatCount="indefinite" >
+                    </feDisplacementMap>
+                </filter>
+                <filter id="space-01-t" 
+                    x="-25%" y="-25%" width="150%" height="150%">
+                    <feTurbulence
+                        type="turbulence" 
+                        baseFrequency=".025"
+                        id="turbulence"
+                        numOctaves="5"
+                        result="turbulence"
+                        seed="5">
+                        <animate id="noiseAnimate"
+                            attributeName="baseFrequency"
+                            values=".018;.036;.018" from="0"
+                            to="100" dur="10s"
+                            repeatCount="indefinite" >
+                        </animate>
+                    </feTurbulence>
+                    <feDisplacementMap
+                        in="SourceGraphic"
+                        in2="turbulence"
+                        scale="100"
+                        xChannelSelector="R"
+                        yChannelSelector="R">
+                        <animate id="scaleAnimate"
+                        attributeName="scale"
+                        values="50;150;50" from="0"
+                        to="100" dur="10s"
+                        repeatCount="indefinite" >
+                    </animate>
+                    </feDisplacementMap>
+                </filter>
+
+                <filter id="space-01-fj" 
+                    x="-25%" y="-25%" width="150%" height="150%">
+                    <feTurbulence type="fractalNoise" id="fractalNoise"
+                        baseFrequency=".018" numOctaves="5" seed="5"
+                        result="fractalNoise">
+                        <animate id="noiseAnimate"
+                            attributeName="baseFrequency"
+                            values=".018;.012;.032;.018" from="0"
+                            to="100" dur="12s"
+                            repeatCount="indefinite" >
+                        </animate>
+                    </feTurbulence>
+                    <feTurbulence type="turbulence" id="turbulence"
+                        baseFrequency=".036" numOctaves="5" seed="5"
+                        result="turbulence">
+                        <animate id="noiseAnimate"
+                            attributeName="baseFrequency"
+                            values=".029;.036;.021;.029" from="0"
+                            to="100" dur="12s"
+                            repeatCount="indefinite" >
+                        </animate>
+                    </feTurbulence>
+                    <feDisplacementMap
+                        in="fractalNoise"
+                        in2="turbulence"
+                        scale="100"
+                        xChannelSelector="R"
+                        yChannelSelector="R"
+                        result="Displaced">
+                        <animate id="scaleAnimate"
+                            attributeName="scale"
+                            values="-40;80;-40" from="0"
+                            to="100" dur="12s"
+                            repeatCount="indefinite" >
+                        </animate>
+                    </feDisplacementMap>
+                    <feDisplacementMap
+                        in="SourceGraphic"
+                        in2="Displaced"
+                        scale="100"
+                        xChannelSelector="R"
+                        yChannelSelector="R"
+                        result="mixed">
+                        <animate id="scaleAnimate"
+                            attributeName="scale"
+                            values="80;20;80" from="0"
+                            to="100" dur="12s"
+                            repeatCount="indefinite" >
+                        </animate>
+                    </feDisplacementMap>
+                </filter>
+
+                <filter id="space-02-f" 
+                    x="-25%" y="-25%" width="150%" height="150%">
+                    <feTurbulence type="fractalNoise" id="turbulence"
+                        baseFrequency=".025" numOctaves="5" seed="5"
+                        result="turbulence">
+                        <animate id="noiseAnimate"
+                            attributeName="baseFrequency"
+                            values=".024;.029;.024" from="0"
+                            to="100" dur="10s"
+                            repeatCount="indefinite" >
+                        </animate>
+                    </feTurbulence>
+                    <feDisplacementMap
+                        in="SourceGraphic"
+                        in2="turbulence"
+                        scale="100"
+                        xChannelSelector="R"
+                        yChannelSelector="R">
+                        <animate id="scaleAnimate"
+                        attributeName="scale"
+                        values="20;80;20" from="0"
+                        to="100" dur="10s"
+                        repeatCount="indefinite" >
+                    </feDisplacementMap>
+                </filter>
+                <filter id="space-02-t" 
+                    x="-25%" y="-25%" width="150%" height="150%">
+                    <feTurbulence
+                        type="turbulence" 
+                        baseFrequency=".025"
+                        id="turbulence"
+                        numOctaves="5"
+                        result="turbulence"
+                        seed="5">
+                        <animate id="noiseAnimate"
+                            attributeName="baseFrequency"
+                            values=".024;.029;.024" from="0"
+                            to="100" dur="10s"
+                            repeatCount="indefinite" >
+                        </animate>
+                    </feTurbulence>
+                    <feDisplacementMap
+                        in="SourceGraphic"
+                        in2="turbulence"
+                        scale="100"
+                        xChannelSelector="R"
+                        yChannelSelector="R">
+                        <animate id="scaleAnimate"
+                        attributeName="scale"
+                        values="20;80;20" from="0"
+                        to="100" dur="10s"
+                        repeatCount="indefinite" >
+                    </animate>
+                    </feDisplacementMap>
+                </filter>
+
+                <filter id="space-02-fj" 
+                    x="-25%" y="-25%" width="150%" height="150%">
+                    <feTurbulence type="fractalNoise" id="fractalNoise"
+                        baseFrequency=".018" numOctaves="5" seed="5"
+                        result="fractalNoise">
+                        <animate id="noiseAnimate"
+                            attributeName="baseFrequency"
+                            values=".018;.012;.032;.018" from="0"
+                            to="100" dur="12s"
+                            repeatCount="indefinite" >
+                        </animate>
+                    </feTurbulence>
+                    <feTurbulence type="turbulence" id="turbulence"
+                        baseFrequency=".036" numOctaves="5" seed="5"
+                        result="turbulence">
+                        <animate id="noiseAnimate"
+                            attributeName="baseFrequency"
+                            values=".029;.036;.021;.029" from="0"
+                            to="100" dur="12s"
+                            repeatCount="indefinite" >
+                        </animate>
+                    </feTurbulence>
+                    <feDisplacementMap
+                        in="fractalNoise"
+                        in2="turbulence"
+                        scale="100"
+                        xChannelSelector="R"
+                        yChannelSelector="R"
+                        result="Displaced">
+                        <animate id="scaleAnimate"
+                            attributeName="scale"
+                            values="-40;80;-40" from="0"
+                            to="100" dur="12s"
+                            repeatCount="indefinite" >
+                        </animate>
+                    </feDisplacementMap>
+                    <feDisplacementMap
+                        in="SourceGraphic"
+                        in2="Displaced"
+                        scale="100"
+                        xChannelSelector="R"
+                        yChannelSelector="R"
+                        result="mixed">
+                        <animate id="scaleAnimate"
+                            attributeName="scale"
+                            values="80;20;80" from="0"
+                            to="100" dur="12s"
+                            repeatCount="indefinite" >
+                        </animate>
+                    </feDisplacementMap>
+                </filter>
+
+                <filter id="space-cloud-a" 
+                    x="-25%" y="-25%" width="150%" height="150%">
+                    <feTurbulence
+                        type="turbulence" 
+                        baseFrequency=".025"
+                        id="turbulence"
+                        numOctaves="5"
+                        result="turbulence"
+                        seed="5">
+                        <animate id="noiseAnimate"
+                            attributeName="baseFrequency"
+                            values="0;.001;.006;.012;.025;.05;.1;.05;.025;.012;.006;.001;0,0" from="0"
+                            to="100" dur="10s"
+                            repeatCount="indefinite" >
+                        </animate>
+                    </feTurbulence>
+                    <feDisplacementMap
+                        in="SourceGraphic"
+                        in2="turbulence"
+                        scale="200"
+                        xChannelSelector="R"
+                        yChannelSelector="R">
+                    </feDisplacementMap>
+                </filter>
+                <filter id="water-animation" 
+                    x="-25%" y="-25%" width="150%" height="150%">
+                    <feTurbulence
+                        type="turbulence" 
+                        baseFrequency="0.0547184"
+                        id="turbulence"
+                        numOctaves="1"
+                        result="turbulence"
+                        seed="5">
+                        <animate id="noiseAnimate"
+                            attributeName="baseFrequency"
+                            values="0;.1;0,0" from="0"
+                            to="100" dur="10s"
+                            repeatCount="indefinite" >
+                        </animate>
+                    </feTurbulence>
+                    <feDisplacementMap
+                        in="SourceGraphic"
+                        in2="turbulence"
+                        scale="30"
+                        xChannelSelector="R"
+                        yChannelSelector="R">
+                    </feDisplacementMap>
+                </filter>
+            </defs>
+        </svg>
+
+        <!-- <svg width="0" height="0">
+            <filter id="cloud-fun-y2-o5-sc20"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-fun-y3-o5-sc20"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-fun-y1-o5-sc50"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-fun-y2-o5-sc50"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="50" /></filter>
+            <filter id="cloud-fun-y1-o5-sc100"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-fun-y2-o5-sc100"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="100" /></filter>
+            <filter id="cloud-fun-y1-o1-sc200"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-fun-y2-o3-sc200"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-fun-y3-o3-sc200"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            
+            <filter id="cloud-fiya-y1-o1-sc20"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-fiya-y1-o3-sc20"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="3" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-fiya-y1-o5-sc20"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="20" /></filter>
+            <filter id="cloud-fiya-y3-o1-sc200"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="1" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            
+            <filter id="cloud-space-y1-o5-sc200"><feTurbulence type="fractalNoise" baseFrequency=".1" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+            <filter id="cloud-space-y3-o5-sc200"><feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="5" /><feDisplacementMap in="SourceGraphic" scale="200" /></filter>
+        </svg> -->
+        
+
+        <footer>
+            <div class="my-name">
+                <a href="#">Back To Top</a>
+                &copy; 2022 | by Stéfano De La Torre 
+            </div>
+        </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>

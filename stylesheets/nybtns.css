@@ -753,6 +753,86 @@
 
 
 
+/* nybtn--cloud-hue */
+.nybtn--cloud-hue {
+    --cloud-clr: var(--clr-6);
+    color: var(--bw0);
+    font-weight: bold;
+    overflow: hidden;
+}
+.nybtn--cloud-hue::before {
+    height: 3rem; width: 8rem;
+    left: 0%;
+    background: var(--clr-t);
+    color: var(--bw0);
+    box-shadow: 
+    180px -5px 15px -5px var(--bwf), 
+    240px -25px 15px -5px var(--bwf), 
+    180px 15px 15px -5px var(--cloud-clr), 
+    240px -5px 15px -5px var(--cloud-clr), 
+    180px 5px 15px 15px #ddd,
+    240px -15px 15px 15px #ddd;
+
+    filter: blur(5px) url(#cloud);
+    transform: translateX(-10rem) translateY(-50%) rotate(0deg);
+    transition: 
+    box-shadow 3000ms ease-in-out,
+    transform 3000ms ease-in-out;
+    animation: cloud-hue-bg 12s ease-in-out alternate infinite both;
+}
+.nybtn--cloud-hue:hover::before {
+    box-shadow: 
+    280px 35px 15px -5px var(--bwf), 
+    120px -5px 15px -5px var(--bwf), 
+    280px 55px 15px -5px var(--cloud-clr), 
+    120px 15px 15px -5px var(--cloud-clr), 
+    280px 45px 15px 15px #ddd,
+    120px 5px 15px 15px #ddd;
+    transform: translateX(-10rem) translateY(-4rem) rotate(10deg);
+}
+@keyframes cloud-hue-bg {
+    0% {
+        box-shadow: 
+            180px -5px 15px -5px hsl(330, 80%, 80%), 
+                240px -25px 15px -5px hsl(330, 80%, 70%), 
+            180px 15px 15px -5px hsl(330, 80%, 40%), 
+                240px -5px 15px -5px hsl(330, 80%, 40%), 
+            180px 5px 15px 15px #ddd,
+                240px -15px 15px 15px #ddd;
+        transform: translateX(-10rem) translateY(-50%) rotate(0deg);
+    }
+    35% { 
+        box-shadow: 
+            215px 10px 15px -5px hsl(210, 80%, 90%),  
+                180px -5px 15px -5px hsl(150, 80%, 70%), 
+            215px 25px 15px -5px hsl(270, 80%, 40%), 
+                180px 15px 15px -5px hsl(270, 80%, 40%), 
+            215px 20px 15px 15px #ddd,
+                180px 5px 15px 15px #ddd;
+     }
+    65% { 
+        box-shadow: 
+            245px 20px 15px -5px hsl(210, 80%, 80%), 
+                140px -5px 15px -5px hsl(210, 80%, 70%), 
+            245px 45px 15px -5px hsl(210, 80%, 40%), 
+                140px 15px 15px -5px hsl(210, 80%, 40%), 
+            245px 40px 15px 15px #ddd,
+                140px 5px 15px 15px #ddd;
+     }
+    100% {
+        box-shadow: 
+            280px 35px 15px -5px hsl(330, 80%, 80%), 
+            120px -5px 15px -5px hsl(210, 80%, 80%), 
+            280px 55px 15px -5px hsl(330, 80%, 40%), 
+            120px 15px 15px -5px hsl(210, 80%, 40%), 
+            280px 45px 15px 15px #ddd,
+            120px 5px 15px 15px #ddd;
+        transform: translateX(-10rem) translateY(-4rem) rotate(10deg);
+    }
+}
+
+
+
 
 /* media queries */
 
