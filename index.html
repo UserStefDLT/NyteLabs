@@ -19,6 +19,52 @@
             flex-direction: row;
             flex-wrap: wrap;
         }
+        body {position: relative; overflow: scroll;}
+        body::before {
+            content: '';
+            position: fixed;
+            top: -25vh; left: -25%;
+            height: 100vh; width: 100%;
+            height: 150vh; width: 150%;
+            box-sizing: border-box;
+            user-select: none;
+
+            background-image: linear-gradient(135deg, #123 10%, #39f 90%);
+            background-image: linear-gradient(135deg, #123 25%, #39f 75%);
+
+            background-attachment: scroll;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            z-index: -1;
+
+            transition: 
+            background-position 5000ms ease-in-out,
+            background-size 5000ms ease-in-out;
+        }
+
+        .shelf {
+            position: relative; overflow: hidden;
+            box-sizing: border-box;
+            width: min(100% - 2rem, 50rem);
+            flex-direction: column;
+        }
+        .shelf::before {
+            content: '';
+            position: absolute;
+            top: -25%; left: -25%;
+            height: 150%; width: 150%;
+            box-sizing: border-box;
+            user-select: none;
+            background-image: linear-gradient(135deg, #123 25%, #39f 75%);
+            background-image: linear-gradient(-45deg, #123 25%, #39f 75%);
+            background-image: linear-gradient(-45deg, #1238 25%, #39f8 75%);
+            z-index: -1;
+        }
+        .shelf:hover::before {
+            background-image: linear-gradient(0deg, #123f 30%, #ffff 70%);
+            filter: blur(10px) url(#bg-flow);
+            mix-blend-mode: difference;
+        }
     </style>
     <link rel="stylesheet" href="stylesheets/nybtns.css">
     <style>
