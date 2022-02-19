@@ -66,7 +66,7 @@
             mix-blend-mode: difference;
         }
     </style>
-    <link rel="stylesheet" href="stylesheets/nybtns-03.css">
+    <link rel="stylesheet" href="stylesheets/nybtns.css">
     <style>
         @media (max-width: 540px){ 
             main,
@@ -86,7 +86,6 @@
                 width: 90vw;
                 width: 90%;
                 margin: 0;
-                margin: 0.125rem auto;
             }
             .labBtn::before {
                 height: 400%;
@@ -98,9 +97,6 @@
                     inset -100px 0 50px 10px #c60,
                     inset 221px 0 0 0px var(--clr-4),
                     inset -221px 0 0 0px var(--clr-1);
-            }
-            .nybtn--underwatersmoke-animation {
-                min-height: 8rem;
             }
         }
         .labBtn::before {
@@ -122,42 +118,43 @@
 
 <main>
     <div class="shelf" style="flex-direction: column;">
-        <ul class="lablinks">
-            <li><a href="lab/designs/underwater-smoke/"><div class="nybtn--underwatersmoke-animation">Underwater Smoke Animation</div></a></li>
-        </ul>
-    </div>
-    <div class="shelf" style="flex-direction: column;">
+        <div class="shelf-title">added on: <span style="font-size: 16px; color: #6669;">(2022, Feb 16-17.)</span></div>
         <ul class="lablinks">
             <li><a href="lab/svg/cloud-experiments/"><div class="nybtn--cloud-normal">Cloud Experiments</div></a></li>
             <li><a href="lab/svg/cloud-exp-02/"><div class="nybtn--cloud-hue">Cloud Animations</div></a></li>
-        <!-- </ul>
+        </ul>
     </div>
     <div class="shelf" style="flex-direction: column;">
-        <ul class="lablinks"> -->
+        <div class="shelf-title">added on: <span style="font-size: 16px; color: #6669;">(2022, Feb 15.)</span></div>
+        <ul class="lablinks">
             <li><a href="lab/cards/card-designs/"><div class="nybtn--card">Card Designs</div></a></li>
         </ul>
     </div>
     <div class="shelf" style="flex-direction: column;">
+        <div class="shelf-title">added on: <span style="font-size: 16px; color: #6669;">(2022, Feb 11.)</span></div>
         <ul class="lablinks">
             <li><a href="lab/canvas/rainbow-cloud-brush/"><div class="nybtn--cloud-rainbow">Rainbow Clouds Brush</div></a></li>
-            <!-- <li><a href="lab/canvas/cloud-brush/"><div class="nybtn--cloud-normal">Normal Clouds</div></a></li> -->
+            <li><a href="lab/canvas/cloud-brush/"><div class="nybtn--cloud-normal">Normal Clouds</div></a></li>
             <li><a href="lab/canvas/cloud-brush/"><div class="nybtn--brush-cloud-normal" data-brush-name="Normal Clouds">Normal Clouds</div></a></li>
-        <!-- </ul>
+        </ul>
     </div>
     <div class="shelf" style="flex-direction: column;">
-        <ul class="lablinks"> -->
+        <div class="shelf-title">added on: <span style="font-size: 16px; color: #6669;">(2022, Feb 10.)</span></div>
+        <ul class="lablinks">
             <li><a href="lab/canvas/brush/"><div class="nybtn--brush-rainbow">Brush</div></a></li>
-            <!-- <li><a href="lab/canvas/rainbow-brush"><div class="nybtn--brush-rainbow">Rainbow Brush</div></a></li> -->
+            <li><a href="lab/canvas/rainbow-brush"><div class="nybtn--brush-rainbow">Rainbow Brush</div></a></li>
             <li><a href="lab/canvas/rainbow-brush/"><div class="nybtn--brush-rainbow-02" data-brush-name="Rainbow Brush-02">Rainbow Brush-02</div></a></li>
         </ul>
     </div>
     <div class="shelf" style="flex-direction: column;">
+        <div class="shelf-title">added on: <span style="font-size: 16px; color: #6669;">(2022, Feb 6.)</span></div>
         <ul class="lablinks">
             <li><a href="lab/cards/deck-a04/"><div class="nybtn--card">Deck 04</div></a></li>
-        <!-- </ul>
+        </ul>
     </div>
     <div class="shelf" style="flex-direction: column;">
-        <ul class="lablinks"> -->
+        <div class="shelf-title">added on: <span style="font-size: 16px; color: #6669;">(2022, Feb 4.)</span></div>
+        <ul class="lablinks">
             <li><a href="lab/canvas/spell-effect/"><div class="nybtn--spell-02">Spell Effects</div></a></li>
             <li><a href="lab/canvas/spell-effect-02/"><div class="nybtn--spell-02">Spell Effects 2</div></a></li>
         </ul>
@@ -254,57 +251,6 @@
                     attributeName="scale"
                     values="80;20;80" from="0"
                     to="100" dur="60s"
-                    repeatCount="indefinite" >
-                </animate>
-            </feDisplacementMap>
-        </filter>
-        <filter id="btn-flow" 
-            x="-25%" y="-25%" width="150%" height="150%">
-            <feTurbulence type="fractalNoise" id="fractalNoise"
-                baseFrequency=".018" numOctaves="5" seed="5"
-                result="fractalNoise">
-                <animate id="noiseAnimate"
-                    attributeName="baseFrequency"
-                    values=".018;.012;.032;.018" from="0"
-                    to="100" dur="12s"
-                    repeatCount="indefinite" >
-                </animate>
-            </feTurbulence>
-            <feTurbulence type="turbulence" id="turbulence"
-                baseFrequency=".036" numOctaves="5" seed="5"
-                result="turbulence">
-                <animate id="noiseAnimate"
-                    attributeName="baseFrequency"
-                    values=".029;.036;.021;.029" from="0"
-                    to="100" dur="12s"
-                    repeatCount="indefinite" >
-                </animate>
-            </feTurbulence>
-            <feDisplacementMap
-                in="fractalNoise"
-                in2="turbulence"
-                scale="100"
-                xChannelSelector="R"
-                yChannelSelector="R"
-                result="Displaced">
-                <animate id="scaleAnimate"
-                    attributeName="scale"
-                    values="-40;80;-40" from="0"
-                    to="100" dur="12s"
-                    repeatCount="indefinite" >
-                </animate>
-            </feDisplacementMap>
-            <feDisplacementMap
-                in="SourceGraphic"
-                in2="Displaced"
-                scale="100"
-                xChannelSelector="R"
-                yChannelSelector="R"
-                result="mixed">
-                <animate id="scaleAnimate"
-                    attributeName="scale"
-                    values="80;20;80" from="0"
-                    to="100" dur="12s"
                     repeatCount="indefinite" >
                 </animate>
             </feDisplacementMap>
