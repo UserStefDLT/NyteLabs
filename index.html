@@ -62,7 +62,8 @@
         }
         .shelf:hover::before {
             background-image: linear-gradient(0deg, #123f 30%, #ffff 70%);
-            filter: blur(10px) url(#bg-flow);
+            /* filter: blur(10px) url(#bg-flow); */
+            backdrop-filter: blur(10px);
             mix-blend-mode: difference;
         }
     </style>
