@@ -867,6 +867,68 @@
     mix-blend-mode: overlay;
 }
 
+.nybtn--kntk {
+    overflow: hidden;
+    text-shadow: 2px 2px 2px #1119;
+}
+.nybtn--kntk::after,
+.nybtn--kntk::before {
+    position: absolute;
+    top: 50%; left: 50%;
+    min-height: 12rem; min-width: 12rem;
+    border-radius: 100%;
+    background-image: repeating-conic-gradient(#fd0c 10deg, #fd00 10deg 20deg, #fd0c 20deg 30deg);
+    background-image: conic-gradient(
+        #fd0c 10deg, 
+        #fd00 10deg 20deg,
+        #fd0c 20deg 30deg,
+        #fd00 30deg 40deg,
+        #fd0c 40deg 50deg,
+        #fd00 50deg 60deg,
+        #fd0c 60deg 70deg,
+        #fd00 70deg 80deg,
+        #fd0c 80deg 90deg,
+        #fd00 90deg 180deg,
+        #fd0c 180deg 190deg,
+        #fd00 190deg 200deg,
+        #fd0c 200deg 210deg,
+        #fd00 210deg 220deg,
+        #fd0c 220deg 230deg,
+        #fd00 230deg 240deg,
+        #fd0c 240deg 250deg,
+        #fd00 250deg 260deg,
+        #fd0c 260deg 270deg,
+        #fd00 270deg 360deg
+        );
+    transform: translateX(-50%) translateY(-50%) rotate(0deg);
+    /* box-shadow:
+    0rem 1rem 0rem 0rem  hsla(50, 100%, 50%, .8); */
+    transition: box-shadow 500ms ease-in-out,
+    transform 1500ms ease-in-out;
+}
+.nybtn--kntk::after {
+    transform: translateX(-50%) translateY(-50%) rotate(45deg);
+}
+.nybtn--kntk:hover::after {
+    transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+    animation: kntk-spin1 10s ease-in-out infinite both;
+}
+.nybtn--kntk::before {
+    transform: translateX(-50%) translateY(-50%) rotate(90deg);
+}
+.nybtn--kntk:hover::before {
+    transform: translateX(-50%) translateY(-50%) rotate(90deg);
+    animation: kntk-spin2 16s linear infinite both;
+}
+@keyframes kntk-spin1 {
+    0% {transform: translateX(-50%) translateY(-50%) rotate(90deg);}
+    50% {transform: translateX(-50%) translateY(-50%) rotate(0deg);}
+    100% {transform: translateX(-50%) translateY(-50%) rotate(90deg);}
+}
+@keyframes kntk-spin2 {
+    0% {transform: translateX(-50%) translateY(-50%) rotate(360deg);}
+    100% {transform: translateX(-50%) translateY(-50%) rotate(0deg);}
+}
 
 
 /* media queries */

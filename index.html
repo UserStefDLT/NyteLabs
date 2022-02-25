@@ -184,10 +184,36 @@
             transition: transform 500ms linear;
         }
     </style>
+    <link rel="stylesheet" href="stylesheets/stars.css">
+    <style>
+        header {
+            background-color: #1230;
+            box-shadow: 0px 0px 0px #0000;
+            transition: 
+            box-shadow 200ms ease-in-out 200ms,
+            border-radius 200ms ease-in-out,
+            background-color 200ms ease-in-out,
+            backdrop-filter 200ms ease-in-out;
+        }
+        header:hover {
+            background-color: #1239;
+            backdrop-filter: blur(4px);
+            box-shadow: 0px 4px 4px #0019;
+        }
+    </style>
     <link rel="stylesheet" href="stylesheets/end.css">
 </head>
 <body>
-    <div class="bg-stars star-field">
+    <!-- <div class="bg-stars star-field">
+    </div> -->
+    <div class="bg-stars">
+        <div class="star-field">
+            <div class="star xi" style="--o-r: 540; --o-a: 330; --sz: 1.5; --clr: hsla(330, 100%, 100%, 1);"></div>
+            <div class="star xi" style="--o-r: 540; --o-a: 335; --sz: 2.0; --clr: hsla(335, 100%, 100%, 1);"></div>
+            <div class="star xi" style="--o-r: 540; --o-a: 340; --sz: 2.5; --clr: hsla(340, 100%, 100%, 1);"></div>
+
+            <div class="star xi" style="--o-r: 700; --o-a: 300; --sz: 3; --clr: hsla(340, 100%, 100%, 1);"></div>
+        </div>
     </div>
     <header>
         <a href="#" class="backLink hidden"><div class="backBtn">No Back.</div></a>
@@ -198,6 +224,11 @@
 <main>
     <div class="shelf" style="flex-direction: column;">
         <ul class="lablinks">
+            <li><a href="lab/recreate/kinetic-sculpture/"><div class="nybtn--kntk">Kinetic Sculpture</div></a></li>
+        <!-- </ul>
+    </div>
+    <div class="shelf" style="flex-direction: column;">
+        <ul class="lablinks"> -->
             <li><a href="lab/designs/underwater-smoke/"><div class="nybtn--underwatersmoke-animation">Underwater Smoke Animation</div></a></li>
         </ul>
     </div>
@@ -396,7 +427,8 @@
         </div>
     </footer>
     <div class="name-end">by St&eacute;fano.</div>
-    <script src="scripts/stars.js"></script>
+    <!-- <script src="scripts/stars.js"></script> -->
+    <script src="scripts/stars-02.js"></script>
     <script>
         window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
     </script>
