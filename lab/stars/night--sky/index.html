@@ -26,6 +26,7 @@
 
 
             --clr: #abcd;
+            --clr-border: #39f8; --clr-main: #39f; --sz-outline: 4px;
             --clr-border: #9f38; --clr-main: #9f3;
             --clr-border: #f398; --clr-main: #f39;
             --transformation-scale: 0.5;
@@ -50,6 +51,7 @@
         .star-sphere {
             position: absolute;
             height: 100%; width: 100%;
+            height: 100vmin; width: 100vmin;
             top: 50%; left: 50%;
             transform-style: preserve-3d;
             outline: 0px dashed #8880;
@@ -119,11 +121,11 @@
             transform-origin: 50% 50% var(--z-orig);
         }
         .star2 {
-            box-shadow: 
+            /* box-shadow: 
                 0 0 .25em 0em #fff, 
                 0 0 .375em .125em hsla(var(--hue), 100%, 85%, 1),
                 inset 0 0 0em 0em hsla(var(--hue), 100%, 8%, 1), 
-                inset 0 0 0em 0em hsla(var(--hue), 100%, 85%, 1);
+                inset 0 0 0em 0em hsla(var(--hue), 100%, 85%, 1); */
             transition: 
             transform 300ms ease-in-out, 
             box-shadow 300ms ease-in-out, 
@@ -230,6 +232,14 @@
         }
 
 
+        /* next:
+        - glow → toggle 'box-shadow'
+        - half-world → show stars only in half of the sphere.
+        - flat-world → show stars in a flat surface.
+        
+        */
+
+
         .label-controllers {
             position: absolute;
             top: 48px; right: 0;
@@ -319,7 +329,7 @@
     <input type="radio" name="world-zoom" id="distant-world" checked>
     <input type="radio" name="world-zoom" id="zoomed-world">
 
-    <input type="radio" name="star-shape" id="star-universe" checked>
+    <input type="radio" name="star-shape" id="star-universe">
     <input type="radio" name="star-shape" id="loopstar-universe">
 
     <input type="radio" name="world-boundaries" id="unframed-world" checked>
@@ -383,8 +393,8 @@
             console.log(`squareDiagonal: ${squareDiagonal}`);
 
             for (let index = 0; index < starCount; index++) {
-                let orbit_radius = ((Math.random() * (screenDiagonal-50)) + 50).toFixed(2);
-                // let orbit_radius = ((Math.random() * (squareDiagonal-50)) + 50).toFixed(2);
+                // let orbit_radius = ((Math.random() * (screenDiagonal-50)) + 50).toFixed(2);
+                let orbit_radius = ((Math.random() * (squareDiagonal-50)) + 50).toFixed(2);
                 let orbit_location = (Math.random() * 360).toFixed(2);
                 let sz = ((Math.random() * 3) + 1 + ((Math.random() * 89)/100)).toFixed(2);
                 let delay = ((Math.random() * 100 * starCount) + 300).toFixed(2);

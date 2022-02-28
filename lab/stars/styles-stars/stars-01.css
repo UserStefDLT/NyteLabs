@@ -1,0 +1,285 @@
+:root {
+    --bw-f: #fff;
+    --o-r: 300;
+    --o-a: 330;
+    --sz: 4;
+    --delay: 500;
+
+    --o3d-x: 100;
+    --o3d-y: 100;
+    --o3d-z: 100;
+
+
+    --clr: #abcd;
+    --clr-border: #39f8; --clr-main: #39f; --sz-outline: 4px;
+    --clr-border: #9f38; --clr-main: #9f3;
+    --clr-border: #f398; --clr-main: #f39;
+    --transformation-scale: 0.5;
+    --anima-duration: 120s;
+    --z-scale: 10px;
+    --z-min: 900px;
+}
+
+header {background-color: #1239;}
+.bg-stars {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    height: 100%; width: 100%;
+    /* height: 100vmin; width: 100vmin; */
+    background-image: 
+    radial-gradient(farthest-corner at 100% 100%, #456, #7890),
+    radial-gradient(farthest-corner at 100% 100%, #123, #123);
+    z-index: -1;
+    background-attachment: fixed;
+    overflow: hidden;
+}
+.star-sphere {
+    position: absolute;
+    height: 100%; width: 100%;
+    height: 100vmin; width: 100vmin;
+    top: 50%; left: 50%;
+    transform-style: preserve-3d;
+    outline: 0px dashed #8880;
+    border-radius: 50%;
+    transform: translateX(-50%) translateY(-50%) scale(.5) perspective(5000px) rotate3d(1,1,-1,100deg);
+    transform: translateX(-50%) translateY(-50%) scale(var(--transformation-scale)) perspective(5000px) rotate3d(1,1,-1,100deg);
+    transition: outline 500ms ease-in-out;
+}
+.star-sphere {--clr-border: #9998; --clr-main: #999; --sz-outline: 8px;}
+
+
+/* ─── Star Map ─── */
+.star-field2 {--clr-border: #39f8; --clr-main: #39f; --sz-outline: 4px;}
+.star-field2::before {--clr-border: #9f38; --clr-main: #9f3;}
+.star-field2::after {--clr-border: #f398; --clr-main: #f39;}
+.star-field2::before ,
+.star-field2::after {
+    content: '';
+    position: absolute;
+    height: 100%; width: 100%; top: 50%; left: 50%;
+    z-index: -1;
+    transition: outline 300ms ease-in-out, border-radius 200ms ease-in-out;
+    transform-style: preserve-3d;
+    border-radius: 50%;
+}
+
+.star-field2::before {
+    transform: translateX(-50%) translateY(-50%) perspective(5000px) rotate3d(1,0,0,90deg);
+}
+.star-field2 {
+    position: absolute;
+    height: 100%; width: 100%;
+    top: 50%; left: 50%;
+    transform-style: preserve-3d;
+    transform: translateX(-50%) translateY(-50%) rotate(0deg);
+    border-radius: 50%;
+    transition: transform 3000ms ease-in-out, outline 300ms ease-in-out, border-radius 200ms ease-in-out;
+}
+.star-field2::after {
+    transform: translateX(-50%) translateY(-50%) scale(1) perspective(5000px) rotate3d(0,1,0,90deg);
+}
+
+
+
+.star2 {
+    font-size: 1.5rem;
+    --o-r: 300;
+    --z-scale: 1px;
+    --z-min: 100px;
+
+    --z-scale: 10px;
+    --z-min: 900px;
+    --z-move: calc((var(--o-r) * var(--z-scale) + var(--z-min)) * -1);
+    --z-orig: calc((var(--o-r) * var(--z-scale) + var(--z-min)) * 1);
+
+    --hue: var(--o-a);
+    --clr: hsla(var(--o-a), 100%, 85%, 1);
+    --sz-hw: calc(var(--sz)*.125em);
+    position: absolute;
+    background-color: var(--clr);
+    border-radius: 50%;
+    height: var(--sz-hw); width: var(--sz-hw);
+    top: 50%; left: 50%;
+    
+    transform-style: preserve-3d;
+    transform: translateZ(var(--z-move)) rotate3d(1,0,1,calc(var(--o3d-x) * 1deg)) rotate3d(0,1,1,calc(var(--o3d-y) * 1deg)) rotate3d(1,1,0,calc(var(--o3d-z) * 1deg));
+    transform-origin: 50% 50% var(--z-orig);
+}
+.star2 {
+    box-shadow: 
+        0 0 .25em 0em #fff, 
+        0 0 .375em .125em hsla(var(--hue), 100%, 85%, 1),
+        inset 0 0 0em 0em hsla(var(--hue), 100%, 8%, 1), 
+        inset 0 0 0em 0em hsla(var(--hue), 100%, 85%, 1);
+    transition: 
+    transform 300ms ease-in-out, 
+    box-shadow 300ms ease-in-out, 
+    background-color 200ms ease-in-out;
+}
+
+
+/* world-size */
+.small-world .star2,
+#small-world:checked ~ .bg-stars .star2 {
+    --z-scale: 1px;
+    --z-min: 100px;
+}
+.large-world .star2,
+#large-world:checked ~ .bg-stars .star2 {
+    --z-scale: 10px;
+    --z-min: 900px;
+    --z-min: calc(var(--diag) * 1px);
+}
+
+/* world-speed */
+.fast-world { --anima-duration: 12s; }
+.slow-world { --anima-duration: 120s; }
+#fast-world:checked ~ .bg-stars { --anima-duration: 12s; }
+#slow-world:checked ~ .bg-stars { --anima-duration: 120s; }
+
+/* world-rotation */
+.spining-world .star-field2,
+#spining-world:checked ~ .bg-stars .star-field2 {
+    animation-name: orbit;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+
+    animation-duration: var(--anima-duration);
+}
+.rotating-world .star-sphere,
+#spin3d-world:checked ~ .bg-stars .star-sphere {
+    animation-name: orbit3d;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+
+    animation-duration: var(--anima-duration);
+}
+
+/* world-zoom */
+.distant-world .star-sphere,
+#distant-world:checked ~ .bg-stars .star-sphere {
+    --transformation-scale: 0.5;
+    transform: translateX(-50%) translateY(-50%) scale(var(--transformation-scale)) perspective(5000px) rotate3d(1,1,-1,100deg);
+}
+.zoomed-world .star-sphere,
+#zoomed-world:checked ~ .bg-stars .star-sphere {
+    --transformation-scale: 1;
+}
+
+/* crazy-world (like frootloop stars) */
+#loopstar-universe:checked ~ .bg-stars .star2 {
+    background-color: transparent;
+    transform: translateZ(var(--z-move)) rotate3d(1,0,1,calc(var(--o3d-x) * 1deg)) rotate3d(0,1,1,calc(var(--o3d-y) * 1deg)) rotate3d(1,1,0,calc(var(--o3d-z) * 1deg)) scale(3);
+    box-shadow: 
+        0 0 0rem 0rem var(--bw-f),
+        0 0 0rem .125rem hsla(var(--hue), 100%, 85%, 1),
+        inset 0 0 0rem .125rem hsla(var(--hue), 100%, 8%, 1), 
+        inset 0 0 0rem .25rem hsla(var(--hue), 100%, 85%, 1);
+}
+/* #loopstar-universe:checked ~ .bg-stars .star-sphere:hover .star2, */
+#loopstar-universe:checked ~ .bg-stars .star2:hover {
+    box-shadow: 
+        0 0 0em 0em var(--bw-f), 
+        0 0 .125em .125em hsla(var(--hue), 100%, 85%, 1),
+        inset 0 0 0em .125em hsla(var(--hue), 100%, 8%, 1), 
+        inset 0 0 .125em .125em hsla(var(--hue), 100%, 85%, 1);
+}
+#star-universe:checked ~ .bg-stars .star2 {
+    box-shadow: 
+        0 0 .25em 0em var(--bw-f), 
+        0 0 .375em .125em hsla(var(--hue), 100%, 85%, 1),
+        inset 0 0 0em 0em hsla(var(--hue), 100%, 8%, 1), 
+        inset 0 0 0em 0em hsla(var(--hue), 100%, 85%, 1);
+}
+/* #star-universe:checked ~ .bg-stars .star-sphere:hover .star2, */
+#star-universe:checked ~ .bg-stars .star2:hover {
+    box-shadow: 
+        0 0 .25em .125em var(--bw-f), 
+        0 0 .5em .1875em hsla(var(--hue), 100%, 85%, 1),
+        inset 0 0 0em 0em hsla(var(--hue), 100%, 8%, 1), 
+        inset 0 0 0em 0em hsla(var(--hue), 100%, 85%, 1);
+}
+
+
+#unframed-world:checked ~ .bg-stars .star-sphere,
+#unframed-world:checked ~ .bg-stars .star-field2,
+#unframed-world:checked ~ .bg-stars .star-field2::before ,
+#unframed-world:checked ~ .bg-stars .star-field2::after {
+    outline: 0px dashed transparent;
+}
+#framed-world:checked ~ .bg-stars .star-sphere,
+#framed-world:checked ~ .bg-stars .star-field2,
+#framed-world:checked ~ .bg-stars .star-field2::before ,
+#framed-world:checked ~ .bg-stars .star-field2::after {
+    outline: 4px dashed var(--clr-main);
+    outline: var(--sz-outline) dashed var(--clr-main);
+}
+
+
+.label-controllers {
+    position: absolute;
+    top: 48px; right: 0;
+    width: min-content;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* outline: 1px dashed #8888; */
+}
+.label-controllers label {
+    margin: .25rem; padding: 0.25rem;
+    outline: 2px dashed #8888;
+    border-radius: .25rem;
+    transition: 
+    background-color 200ms ease-in-out,
+    box-shadow 200ms ease-in-out,
+    border-radius 200ms ease-in-out,
+    outline 200ms ease-in-out,
+    color 200ms ease-in-out;
+    cursor: pointer;
+    user-select: none;
+    backdrop-filter: saturate(1.5);
+    backdrop-filter: contrast(1.5);
+}
+.label-controllers label:hover {
+    outline: 1px dashed #888f;
+    border-radius: .125rem;
+}
+
+input {display: none;}
+#small-world:checked ~ .label-controllers [for="small-world"],
+#large-world:checked ~ .label-controllers [for="large-world"],
+#spining-world:checked ~ .label-controllers [for="spining-world"],
+#spin3d-world:checked ~ .label-controllers [for="spin3d-world"],
+#fast-world:checked ~ .label-controllers [for="fast-world"],
+#slow-world:checked ~ .label-controllers [for="slow-world"],
+#distant-world:checked ~ .label-controllers [for="distant-world"],
+#zoomed-world:checked ~ .label-controllers [for="zoomed-world"],
+#star-universe:checked ~ .label-controllers [for="star-universe"],
+#loopstar-universe:checked ~ .label-controllers [for="loopstar-universe"],
+#framed-world:checked ~ .label-controllers [for="framed-world"],
+#unframed-world:checked ~ .label-controllers [for="unframed-world"]{ 
+    background-color: #1239; 
+    box-shadow: 0 0 .25rem .125rem var(--clr); 
+    color: var(--bw-f); 
+    outline: 1px dashed transparent;
+    border-radius: 0rem;
+    backdrop-filter: brightness(2);
+}
+
+/* ─── @keyframes ─── */
+
+
+@keyframes orbit25 {
+    0% {transform: translateX(-50%) translateY(-50%) rotate(0deg) scale(.25);}
+    100% {transform: translateX(-50%) translateY(-50%) rotate(360deg) scale(.25);}
+}
+
+@keyframes orbit {
+    0% {transform: translateX(-50%) translateY(-50%) rotate(0deg);}
+    100% {transform: translateX(-50%) translateY(-50%) rotate(360deg);}
+}
+@keyframes orbit3d {
+    0% {transform: translateX(-50%) translateY(-50%) rotate(0deg) scale(var(--transformation-scale)) perspective(5000px) rotate3d(1,1,-1,0deg);}
+    100% {transform: translateX(-50%) translateY(-50%) rotate(0deg) scale(var(--transformation-scale)) perspective(5000px) rotate3d(1,1,-1,360deg);}
+}

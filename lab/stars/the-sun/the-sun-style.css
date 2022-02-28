@@ -1,0 +1,212 @@
+:root {
+    --base-box-shadow: 
+        0em 0em 1em 1em #ffa,
+        0em 0em 2em 1em #fc2,
+        0em 0em 3em 1em #f93,
+        0em 0em 4em 1em #f30,
+        0em 0em 5em 1em #f30,
+        0em 0em 0em 0em #000;
+
+    --bw-f: #fff;
+    --bw-0: #000;
+
+        --sun-clrf-0: hsla(60, 100%, 100%, .9); --sun-clr-0: hsla(60, 100%, 100%, 1);
+        --sun-clrf-95: hsla(60, 100%, 95%, .9); --sun-clr-95: hsla(60, 100%, 95%, 1);
+        --sun-clrf-00: hsla(60, 100%, 100%, .9); --sun-clr-00: hsla(60, 100%, 100%, 1);
+        --sun-clrf-01: hsla(60, 100%, 80%, .9); --sun-clr-01: hsla(60, 100%, 80%, 1);
+        --sun-clrf-02: hsla(45, 100%, 60%, .8); --sun-clr-02: hsla(45, 100%, 60%, 1);
+        --sun-clrf-03: hsla(30, 100%, 50%, .7); --sun-clr-03: hsla(30, 100%, 50%, 1);
+        --sun-clrf-04: hsla(15, 100%, 50%, .6); --sun-clr-04: hsla(15, 100%, 50%, 1);
+        --sun-clrf-05: hsla(12, 100%, 40%, .5); --sun-clr-05: hsla(12, 100%, 40%, 1);
+
+
+    --bx-shdw-01: 
+        0em 0em 1em 0em var(--sun-clrf-01),
+        0em 0em 2em 0em var(--sun-clrf-02),
+        0em 0em 3em 0em var(--sun-clrf-03),
+        0em 0em 4em 0em var(--sun-clrf-04),
+        0em 0em 5em 0em var(--sun-clrf-05),
+        inset 0em 0em 1em 0em var(--sun-clrf-01),
+        inset 0em 0em 2em 0em var(--sun-clrf-02),
+        inset 0em 0em 3em 0em var(--sun-clrf-03),
+        inset 0em 0em 4em 0em var(--sun-clrf-04),
+        inset 0em 0em 5em 0em var(--sun-clrf-05),
+        0em 0em 0em 0em var(--bw-0);
+    --bx-shdw-01-hover: 
+        0em 0em 1em 1em var(--sun-clr-01),
+        0em 0em 2em 1em var(--sun-clr-02),
+        0em 0em 3em 1em var(--sun-clr-03),
+        0em 0em 4em 1em var(--sun-clr-04),
+        0em 0em 5em 1em var(--sun-clr-05),
+        inset 0em 0em 1em 1em var(--sun-clr-01),
+        inset 0em 0em 2em 1em var(--sun-clr-02),
+        inset 0em 0em 3em 1em var(--sun-clr-03),
+        inset 0em 0em 4em 1em var(--sun-clr-04),
+        inset 0em 0em 5em 1em var(--sun-clr-05),
+        0em 0em 0em 0em var(--bw-0);
+
+    --bx-shdw-02: 
+        0em 0em 1em 0em var(--sun-clrf-01),
+        0em 0em 2em 0em var(--sun-clrf-02),
+        0em 0em 3em 0em var(--sun-clrf-03),
+        0em 0em 4em 0em var(--sun-clrf-04),
+        0em 0em 5em 0em var(--sun-clrf-05),
+        inset 0em 0em 1em 0em var(--sun-clrf-01),
+        inset 0em 0em 2em 0em var(--sun-clrf-02),
+        inset 0em 0em 3em 0em var(--sun-clrf-03),
+        inset 0em 0em 4em 0em var(--sun-clrf-04),
+        inset 0em 0em 5em 0em var(--sun-clrf-05),
+        0em 0em 0em 0em var(--bw-0);
+    --bx-shdw-02-hover: 
+        0em 0em 1em 1em var(--sun-clr-01),
+        0em 0em 2em 2em var(--sun-clr-02),
+        0em 0em 3em 3em var(--sun-clr-03),
+        0em 0em 4em 4em var(--sun-clr-04),
+        0em 0em 5em 5em var(--sun-clr-05),
+        inset 0em 0em 1em 1em var(--sun-clr-01),
+        inset 0em 0em 2em 2em var(--sun-clr-02),
+        inset 0em 0em 3em 3em var(--sun-clr-03),
+        inset 0em 0em 4em 4em var(--sun-clr-04),
+        inset 0em 0em 5em 5em var(--sun-clr-05),
+        0em 0em 0em 0em var(--bw-0);
+    
+}
+
+.my-solar-system {min-width: fit-content; margin-bottom: 2rem;}
+[class|="the-sun"] {
+    min-height: 24rem; min-width: 24rem;
+    border-radius: 50%;
+    transition: box-shadow 200ms ease-in-out;
+}
+
+.the-sun-01 {
+    height: 24rem; width: 24rem;
+
+    border-radius: 50%;
+    box-shadow: var(--bx-shdw-01);
+    transition: box-shadow 200ms ease-in-out;
+}
+.the-sun-01:hover {
+    box-shadow: var(--bx-shdw-01-hover);
+}
+
+
+.the-sun-02 {
+    min-height: 24rem; min-width: 24rem;
+
+    /* outline: 4px solid #fff;
+    outline-offset: -2px;
+    filter: blur(1px); */
+
+    border-radius: 50%;
+    box-shadow: var(--bx-shdw-02);
+    transition: box-shadow 200ms ease-in-out;
+}
+.the-sun-02:hover {
+    box-shadow: var(--bx-shdw-02-hover);
+}
+
+.the-sun-03before {
+    min-height: 24rem; min-width: 24rem;
+    outline: 4px solid var(--bw-f);
+    outline-offset: -2px;
+    filter: blur(1px);
+
+    border-radius: 50%;
+    box-shadow: var(--bx-shdw-03);
+    transition: box-shadow 200ms ease-in-out;
+}
+.the-sun-03before:hover {
+    box-shadow: var(--bx-shdw-03-hover);
+}
+
+.the-sun-03after,
+.the-sun-03 {
+    outline: 4px solid var(--bw-f);
+    outline-offset: -2px;
+    filter: blur(1px);
+
+    box-shadow: 
+    0em 0em 1em 0em var(--sun-clrf-00),
+    0em 0em 2em 0em var(--sun-clrf-01),
+    0em 0em 3em 0em var(--sun-clrf-02),
+    0em 0em 4em 0em var(--sun-clrf-03),
+    0em 0em 5em 0em var(--sun-clrf-04),
+    0em 0em 6em 0em var(--sun-clrf-05),
+    inset 0em 0em .5em 0em var(--sun-clrf-00),
+    inset 0em 0em 1em 0em var(--sun-clrf-01),
+    inset 0em 0em 2em 0em var(--sun-clrf-02),
+    inset 0em 0em 3em 0em var(--sun-clrf-03),
+    inset 0em 0em 4em 0em var(--sun-clrf-04),
+    inset 0em 0em 5em 0em var(--sun-clrf-05),
+    0em 0em 0em 0em var(--bw-0);
+}
+.the-sun-03after:hover,
+.the-sun-03:hover {
+    box-shadow: 
+    0em 0em 1em 1em var(--sun-clr-00),
+    0em 0em 2em 2em var(--sun-clr-01),
+    0em 0em 3em 3em var(--sun-clr-02),
+    0em 0em 4em 4em var(--sun-clr-03),
+    0em 0em 5em 5em var(--sun-clr-04),
+    0em 0em 6em 6em var(--sun-clr-05),
+    inset 0em 0em .5em .5em var(--sun-clr-00),
+    inset 0em 0em 1em 1em var(--sun-clr-01),
+    inset 0em 0em 2em 2em var(--sun-clr-02),
+    inset 0em 0em 3em 3em var(--sun-clr-03),
+    inset 0em 0em 4em 4em var(--sun-clr-04),
+    inset 0em 0em 5em 5em var(--sun-clr-05),
+    0em 0em 0em 0em var(--bw-0);
+}
+
+
+[class|="the-sun"] {
+    min-height: 24rem; min-width: 24rem;
+    border-radius: 50%;
+    transition: box-shadow 200ms ease-in-out;
+}
+
+/* .the-sun-04,
+.the-sun-05 {
+    outline: 2px solid #fff;
+    outline-offset: -1px;
+    filter: blur(1px);
+} */
+
+.the-sun-04 {
+    outline: 2px solid #fff;
+    outline-offset: -1px;
+    filter: blur(1px);
+    /* filter: blur(1px) url(#ny-flow); */
+
+    box-shadow: 
+    0em 0em 1em 0em var(--sun-clr-95),
+    0em 0em 2em 0em var(--sun-clrf-01),
+    0em 0em 3em 0em var(--sun-clrf-02),
+    0em 0em 4em 0em var(--sun-clrf-03),
+    0em 0em 5em 0em var(--sun-clrf-04),
+    0em 0em 6em 0em var(--sun-clrf-05),
+    inset 0em 0em .5em 0em var(--sun-clr-95),
+    inset 0em 0em 1em 0em var(--sun-clrf-01),
+    inset 0em 0em 2em 0em var(--sun-clrf-02),
+    inset 0em 0em 3em 0em var(--sun-clrf-03),
+    inset 0em 0em 4em 0em var(--sun-clrf-04),
+    inset 0em 0em 5em 0em var(--sun-clrf-05),
+    0em 0em 0em 0em var(--bw-0);
+}
+.the-sun-04:hover {
+    box-shadow: 
+    0em 0em 1em 1em var(--sun-clr-95),
+    0em 0em 2em 2em var(--sun-clr-01),
+    0em 0em 3em 3em var(--sun-clr-02),
+    0em 0em 4em 4em var(--sun-clr-03),
+    0em 0em 5em 5em var(--sun-clr-04),
+    0em 0em 6em 6em var(--sun-clr-05),
+    inset 0em 0em 5em .5em var(--sun-clr-95),
+    inset 0em 0em 1em 1em var(--sun-clr-01),
+    inset 0em 0em 2em 2em var(--sun-clr-02),
+    inset 0em 0em 3em 3em var(--sun-clr-03),
+    inset 0em 0em 4em 4em var(--sun-clr-04),
+    inset 0em 0em 5em 5em var(--sun-clr-05),
+    0em 0em 0em 0em var(--bw-0);
+}

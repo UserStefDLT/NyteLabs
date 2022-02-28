@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>The Sun | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <link rel="stylesheet" href="the-sun-style.css">
+    <style>
+        .my-solar-system {min-width: fit-content; margin-bottom: 2rem;}
+        .the-sun {
+            /* position: absolute; */
+            min-height: 24rem; min-width: 24rem;
+
+            outline: 2px solid #fff;
+            outline-offset: -1px;
+            /* filter: blur(1px); */
+            /* filter: blur(1px) url(#ny-flow); */
+            background-color: var(--sun-clr-05);
+            background-color: #300;
+            /* background-image: ; */
+
+            border-radius: 50%;
+            box-shadow: 
+            0em 0em 1em 0em hsla(60, 100%, 100%, 1),
+            0em 0em 2em 0em var(--sun-clrf-01),
+            0em 0em 3em 0em var(--sun-clrf-02),
+            0em 0em 4em 0em var(--sun-clrf-03),
+            0em 0em 5em 0em var(--sun-clrf-04),
+            0em 0em 6em 0em var(--sun-clrf-05),
+            inset 0em 0em .5em 0em hsla(60, 100%, 100%, 1),
+            inset 0em 0em 1em 0em var(--sun-clrf-01),
+            inset 0em 0em 2em 0em var(--sun-clrf-02),
+            inset 0em 0em 3em 0em var(--sun-clrf-03),
+            inset 0em 0em 4em 0em var(--sun-clrf-04),
+            inset 0em 0em 5em 0em var(--sun-clrf-05),
+            0em 0em 0em 0em #000;
+            transition: box-shadow 200ms ease-in-out;
+        }
+        .the-sun:hover {
+            /* box-shadow: 
+            0em 0em 1em 1em hsla(60, 100%, 95%, 1),
+            0em 0em 2em 2em var(--sun-clr-01),
+            0em 0em 3em 3em var(--sun-clr-02),
+            0em 0em 4em 4em var(--sun-clr-03),
+            0em 0em 5em 5em var(--sun-clr-04),
+            0em 0em 6em 6em var(--sun-clr-05),
+            inset 0em 0em 5em .5em hsla(60, 100%, 95%, 1),
+            inset 0em 0em 1em 1em var(--sun-clr-01),
+            inset 0em 0em 2em 2em var(--sun-clr-02),
+            inset 0em 0em 3em 3em var(--sun-clr-03),
+            inset 0em 0em 4em 4em var(--sun-clr-04),
+            inset 0em 0em 5em 5em var(--sun-clr-05),
+            0em 0em 0em 0em #000; */
+            filter: blur(1px) url(#ny-flow);
+        }
+
+
+        .the-sun {
+            /* filter: blur(1px) url(#flow-state-00s); */
+            /* filter: blur(1px) url(#flow-state-10s); */
+            /* filter: blur(1px) url(#flow-state-20s); */
+            /* filter: blur(1px) url(#flow-state-30s); */
+            /* filter: blur(1px) url(#flow-state-40s); */
+            /* filter: blur(1px) url(#flow-state-50s); */
+            filter: blur(1px) url(#flow-state-60s);
+            /* filter: blur(1px); */
+        }
+
+        .my-star-system {
+            display: flex;
+            place-content: center;
+            place-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            gap: 6rem;
+            gap: 12rem;
+            padding: 6rem;
+            box-sizing: border-box;
+
+            min-width: fit-content; 
+            margin-bottom: 6rem;
+        }
+        [class|="star"] {
+            transform: rotate(-45deg);
+            min-height: 24rem; min-width: 24rem;
+            min-height: 12rem; min-width: 12rem;
+            font-size: 8px;
+            min-height: 24em; min-width: 24em;
+            outline: 2px solid #fff;
+            outline-offset: -1px;
+            /* filter: blur(1px); */
+            /* filter: blur(1px) url(#ny-flow); */
+            background-color: var(--sun-clr-05);
+            background-color: #300;
+
+            border-radius: 50%;
+            box-shadow: 
+            0em 0em 1em 1em hsla(60, 100%, 95%, 1),
+            0em 0em 2em 2em var(--sun-clr-01),
+            0em 0em 3em 3em var(--sun-clr-02),
+            0em 0em 4em 4em var(--sun-clr-03),
+            0em 0em 5em 5em var(--sun-clr-04),
+            0em 0em 6em 6em var(--sun-clr-05),
+            inset 0em 0em 5em .5em hsla(60, 100%, 95%, 1),
+            inset 0em 0em 1em 1em var(--sun-clr-01),
+            inset 0em 0em 2em 2em var(--sun-clr-02),
+            inset 0em 0em 3em 3em var(--sun-clr-03),
+            inset 0em 0em 4em 4em var(--sun-clr-04),
+            inset 0em 0em 5em 5em var(--sun-clr-05),
+            0em 0em 0em 0em #000;
+            box-shadow: 
+            0em 0em 1em 1em hsla(60, 100%, 95%, 1),
+            0em 0em 2em 2em var(--sun-clr-01),
+            0em 0em 3em 3em var(--sun-clr-02),
+            0em 0em 4em 4em var(--sun-clr-03),
+            0em 0em 1em 5em var(--sun-clr-04),
+            0em 0em 8em 12em var(--sun-clrf-05),
+            inset 0em 0em 5em .5em hsla(60, 100%, 95%, 1),
+            inset 0em 0em 1em 1em var(--sun-clr-01),
+            inset 0em 0em 2em 2em var(--sun-clr-02),
+            inset 0em 0em 3em 3em var(--sun-clr-03),
+            inset 0em 0em 4em 4em var(--sun-clr-04),
+            inset 0em 0em 5em 5em var(--sun-clr-05),
+            0em 0em 0em 0em #000;
+            box-shadow: 
+            0em 0em 1em 1em hsla(60, 100%, 95%, 1),
+            0em 0em 2em 2em var(--sun-clr-01),
+            0em 0em 3em 3em var(--sun-clr-02),
+            0em 0em 4em 4em var(--sun-clr-03),
+            0em 0em 1em 5em var(--sun-clr-04),
+            0em 0em 2em 6em hsla(12, 100%, 40%, 1),
+            inset 0em 0em 5em .5em hsla(60, 100%, 95%, 1),
+            inset 0em 0em 1em 1em var(--sun-clr-01),
+            inset 0em 0em 2em 2em var(--sun-clr-02),
+            inset 0em 0em 3em 3em var(--sun-clr-03),
+            inset 0em 0em 4em 4em var(--sun-clr-04),
+            inset 0em 0em 5em 5em hsla(12, 100%, 40%, 1),
+            0em 0em 0em 0em #000;
+        }
+
+        .star-00 { filter: blur(1px) url(#flow-state-00s); }
+        .star-01 { filter: blur(1px) url(#flow-state-10s); }
+        .star-02 { filter: blur(1px) url(#flow-state-20s); }
+        .star-03 { filter: blur(1px) url(#flow-state-30s); }
+        .star-04 { filter: blur(1px) url(#flow-state-40s); }
+        .star-05 { filter: blur(1px) url(#flow-state-50s); }
+        .star-06 { filter: blur(1px) url(#flow-state-60s); }
+
+        .star-a00 { filter: blur(1px) url(#flow-00); }
+        .star-a01 { filter: blur(1px) url(#flow-01); }
+        /* .star-a02 { filter: blur(1px) url(#flow-02); } */
+        /* .star-a03 { filter: blur(1px) url(#flow-03); } */
+        .star-ani {
+            font-size: 16px;
+            background-color: #fc2;
+            filter: blur(1px) url(#flow-00);
+            /* filter: blur(1px) url(#flow-01); */
+            transition: box-shadow 200ms ease-in-out;
+        }
+        .star-ani:hover {
+            box-shadow: 
+            0em 0em 1em 1em hsla(60, 100%, 95%, 1),
+            0em 0em 2em 2em var(--sun-clr-01),
+            0em 0em 3em 3em var(--sun-clr-02),
+            0em 0em 4em 4em var(--sun-clr-03),
+            0em 0em 1em 5em var(--sun-clr-04),
+            0em 0em 12em 6em hsla(12, 100%, 40%, 1),
+            inset 0em 0em 5em .5em hsla(60, 100%, 95%, 1),
+            inset 0em 0em 1em 1em var(--sun-clr-01),
+            inset 0em 0em 2em 2em var(--sun-clr-02),
+            inset 0em 0em 3em 3em var(--sun-clr-03),
+            inset 0em 0em 4em 4em var(--sun-clr-04),
+            inset 0em 0em 5em 5em hsla(12, 100%, 40%, 1),
+            0em 0em 0em 0em #000;
+        }
+        
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">The Sun</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+
+<main>
+    <div class="shelf my-star-system">
+        <div class="shelf-title">Star Animation Comparison</div>
+        <div class="star-ani"></div>
+        <!-- <div class="star-a00"></div> -->
+        <!-- <div class="star-a01"></div> -->
+        <!-- <div class="star-a02"></div>
+        <div class="star-a03"></div> -->
+    </div>
+    <!-- <div class="shelf my-star-system">
+        <div class="shelf-title">Star Comparison</div>
+        <div class="star-00"></div>
+        <div class="star-04"></div>
+        <div class="star-06"></div>
+
+        <div class="star-01"></div>
+        <div class="star-05"></div>
+
+        <div class="star-02"></div>
+        <div class="star-03"></div>
+    </div> -->
+    <div class="shelf my-solar-system">
+        <div class="shelf-title">Sun Experiment</div>
+        <div class="the-sun"></div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Sun Experiment - 04</div>
+        <div class="the-sun-04"></div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Sun Experiment - 03</div>
+        <div class="the-sun-03"></div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Sun Experiment - 02</div>
+        <div class="the-sun-02"></div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Sun Experiment - 01</div>
+        <div class="the-sun-01"></div>
+    </div>
+</main>
+
+<!--
+<feTurbulence
+    numOctaves="5" seed="5" attributeName="baseFrequency"
+    fractalNoise:   .018;.012;.032;.018;
+    turbulence:     .029;.036;.021;.029; 
+    />
+<feDisplacementMap
+    scale: -40;80;-40;
+    scale: 80;20;80;
+    />
+
+[.018, .015, .012, .022, .032, .025, .018]
+[.029, .0325, .036, .028, .021, .025, .029]
+[-40, 0, 40, 80, 40, 0, -40]
+[80, 60, 40, 20, 40, 60, 80]
+
+
+id="flow-state-00s"
+id="flow-state-10s"
+id="flow-state-20s"
+id="flow-state-30s"
+id="flow-state-40s"
+id="flow-state-50s"
+id="flow-state-60s"
+
+-->
+<svg>
+    <defs>
+        <filter id="flow-state-00s" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency=".018" numOctaves="5" seed="5"
+                result="fractalNoise">
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency=".036" numOctaves="5" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="-40"
+                result="Displaced">
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic" in2="Displaced"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="80"
+                result="mixed">
+            </feDisplacementMap>
+        </filter>
+        <filter id="flow-state-60s" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency="0.018" numOctaves="5" seed="5"
+                result="fractalNoise">
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency="0.029" numOctaves="5" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="-40"
+                result="Displaced">
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic" in2="Displaced"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="80"
+                result="mixed">
+            </feDisplacementMap>
+        </filter>
+        <filter id="flow-state-40s" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency="0.032" numOctaves="5" seed="5"
+                result="fractalNoise">
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency="0.021" numOctaves="5" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="40"
+                result="Displaced">
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic" in2="Displaced"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="40"
+                result="mixed">
+            </feDisplacementMap>
+        </filter>
+        
+        <filter id="flow-state-10s" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency="0.015" numOctaves="5" seed="5"
+                result="fractalNoise">
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency="0.0325" numOctaves="5" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="0"
+                result="Displaced">
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic" in2="Displaced"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="60"
+                result="mixed">
+            </feDisplacementMap>
+        </filter>
+        <filter id="flow-state-50s" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency="0.025" numOctaves="5" seed="5"
+                result="fractalNoise">
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency="0.025" numOctaves="5" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="0"
+                result="Displaced">
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic" in2="Displaced"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="60"
+                result="mixed">
+            </feDisplacementMap>
+        </filter>
+        
+        <filter id="flow-state-20s" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency="0.012" numOctaves="5" seed="5"
+                result="fractalNoise">
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency="0.036" numOctaves="5" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="40"
+                result="Displaced">
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic" in2="Displaced"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="40"
+                result="mixed">
+            </feDisplacementMap>
+        </filter>
+        <filter id="flow-state-30s" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency="0.022" numOctaves="5" seed="5"
+                result="fractalNoise">
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency="0.028" numOctaves="5" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="80"
+                result="Displaced">
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic" in2="Displaced"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="20"
+                result="mixed">
+            </feDisplacementMap>
+        </filter>
+        
+
+        <filter id="flow-00" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency=".018" numOctaves="5" seed="5"
+                result="fractalNoise">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values="0.021;0.018" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency=".036" numOctaves="5" seed="5"
+                result="turbulence">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values="0.029;0.036" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise"
+                in2="turbulence"
+                scale="-40"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="Displaced">  
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic"
+                in2="Displaced"
+                scale="80"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="mixed">
+            </feDisplacementMap>
+        </filter>
+        <filter id="flow-01" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency=".018" numOctaves="5" seed="5"
+                result="fractalNoise">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values="0.018;0.029;0.018" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency=".036" numOctaves="5" seed="5"
+                result="turbulence">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values="0.029;0.021;0.036" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise"
+                in2="turbulence"
+                scale="-40"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="Displaced">
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic"
+                in2="Displaced"
+                scale="80"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="mixed">
+                <animate id="scaleAnimate"
+                    attributeName="scale"
+                    values="80;70;80" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feDisplacementMap>
+        </filter>
+        <filter id="flow-02" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency=".018" numOctaves="5" seed="5"
+                result="fractalNoise">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values="0.015;0.025" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency=".036" numOctaves="5" seed="5"
+                result="turbulence">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values="0.0325;0.025" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise"
+                in2="turbulence"
+                scale="100"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="Displaced">
+                <animate id="scaleAnimate"
+                    attributeName="scale"
+                    values="0;0" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic"
+                in2="Displaced"
+                scale="100"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="mixed">
+                <animate id="scaleAnimate"
+                    attributeName="scale"
+                    values="60;60" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feDisplacementMap>
+        </filter>
+        <filter id="flow-03" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency=".018" numOctaves="5" seed="5"
+                result="fractalNoise">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values="0.012;0.022" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency=".036" numOctaves="5" seed="5"
+                result="turbulence">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values="0.036;0.028" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise"
+                in2="turbulence"
+                scale="100"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="Displaced">
+                <animate id="scaleAnimate"
+                    attributeName="scale"
+                    values="40;80" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic"
+                in2="Displaced"
+                scale="100"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="mixed">
+                <animate id="scaleAnimate"
+                    attributeName="scale"
+                    values="40;20" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feDisplacementMap>
+        </filter>
+
+        <filter id="ny-flow" 
+            x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency=".018" numOctaves="5" seed="5"
+                result="fractalNoise">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values=".018;.012;.032;.018" from="0"
+                    to="100" dur="60s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency=".036" numOctaves="5" seed="5"
+                result="turbulence">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values=".029;.036;.021;.029" from="0"
+                    to="100" dur="60s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise"
+                in2="turbulence"
+                scale="100"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="Displaced">
+                <animate id="scaleAnimate"
+                    attributeName="scale"
+                    values="-40;80;-40" from="0"
+                    to="100" dur="60s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic"
+                in2="Displaced"
+                scale="100"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="mixed">
+                <animate id="scaleAnimate"
+                    attributeName="scale"
+                    values="80;20;80" from="0"
+                    to="100" dur="60s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feDisplacementMap>
+        </filter>
+    </defs>
+</svg>
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>

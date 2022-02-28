@@ -1,0 +1,73 @@
+:root {
+    --base-box-shadow: 
+    0em 0em 1em 1em #ffa,
+    0em 0em 2em 1em #fc2,
+    0em 0em 3em 1em #f93,
+    0em 0em 4em 1em #f30,
+    0em 0em 5em 1em #f30,
+    0em 0em 0em 0em #000;
+
+    --box-shadow-02: 
+    0em 0em 1em 1em hsla(60, 100%, 80%, 1),
+    0em 0em 2em 1em hsla(45, 100%, 60%, 1),
+    0em 0em 3em 1em hsla(30, 100%, 50%, 1),
+    0em 0em 4em 1em hsla(15, 100%, 50%, 1),
+    0em 0em 5em 1em hsla(12, 100%, 40%, 1),
+    inset 0em 0em 1em 1em hsla(60, 100%, 80%, .9),
+    inset 0em 0em 2em 1em hsla(45, 100%, 60%, .8),
+    inset 0em 0em 3em 1em hsla(30, 100%, 50%, .7),
+    inset 0em 0em 4em 1em hsla(15, 100%, 50%, .6),
+    inset 0em 0em 5em 1em hsla(12, 100%, 40%, .5),
+    0em 0em 0em 0em #000;
+
+    --hover-shdw: 
+    0em 0em 1em 1em hsla(60, 100%, 80%, 1),
+    0em 0em 2em 1em hsla(45, 100%, 60%, 1),
+    0em 0em 3em 1em hsla(30, 100%, 50%, 1),
+    0em 0em 4em 1em hsla(15, 100%, 50%, 1),
+    0em 0em 5em 1em hsla(12, 100%, 40%, 1),
+    inset 0em 0em 1em 1em hsla(60, 100%, 80%, 1),
+    inset 0em 0em 2em 1em hsla(45, 100%, 60%, 1),
+    inset 0em 0em 3em 1em hsla(30, 100%, 50%, 1),
+    inset 0em 0em 4em 1em hsla(15, 100%, 50%, 1),
+    inset 0em 0em 5em 1em hsla(12, 100%, 40%, 1),
+    0em 0em 0em 0em #000;
+}
+
+.the-sun {
+    /* position: absolute; */
+    height: 24rem; width: 24rem;
+
+    border-radius: 50%;
+    box-shadow: 
+    0em 0em 1em 0em hsla(60, 100%, 80%, .9),
+    0em 0em 2em 0em hsla(45, 100%, 60%, .8),
+    0em 0em 3em 0em hsla(30, 100%, 50%, .7),
+    0em 0em 4em 0em hsla(15, 100%, 50%, .6),
+    0em 0em 5em 0em hsla(12, 100%, 40%, .5),
+    inset 0em 0em 1em 0em hsla(60, 100%, 80%, .9),
+    inset 0em 0em 2em 0em hsla(45, 100%, 60%, .8),
+    inset 0em 0em 3em 0em hsla(30, 100%, 50%, .7),
+    inset 0em 0em 4em 0em hsla(15, 100%, 50%, .6),
+    inset 0em 0em 5em 0em hsla(12, 100%, 40%, .5),
+    0em 0em 0em 0em #000;
+    transition: box-shadow 200ms ease-in-out;
+}
+.the-sun:hover {
+    /* position: absolute; */
+    height: 24rem; width: 24rem;
+
+    border-radius: 50%;
+    box-shadow: 
+    0em 0em 1em 1em hsla(60, 100%, 80%, 1),
+    0em 0em 2em 1em hsla(45, 100%, 60%, 1),
+    0em 0em 3em 1em hsla(30, 100%, 50%, 1),
+    0em 0em 4em 1em hsla(15, 100%, 50%, 1),
+    0em 0em 5em 1em hsla(12, 100%, 40%, 1),
+    inset 0em 0em 1em 1em hsla(60, 100%, 80%, 1),
+    inset 0em 0em 2em 1em hsla(45, 100%, 60%, 1),
+    inset 0em 0em 3em 1em hsla(30, 100%, 50%, 1),
+    inset 0em 0em 4em 1em hsla(15, 100%, 50%, 1),
+    inset 0em 0em 5em 1em hsla(12, 100%, 40%, 1),
+    0em 0em 0em 0em #000;
+}
