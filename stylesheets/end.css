@@ -29,10 +29,9 @@ footer .my-name{
 
 .name-end{
     position: fixed;
-    bottom: 5px;
-    right: 12px;
+    bottom: 5px; right: 12px;
     color: hsla(210, 89%, 29%, 5%);
-    font-size: 24pt;
+    font-size: 29px;
     font-family: 'Satisfy', cursive;
     user-select: none;
     transition: color .5s ease-out;
@@ -47,6 +46,29 @@ footer .my-name{
     user-select: none;
     transition: color 1s ease-out 2s;
 }
+
+.name-end-2{
+    position: fixed;
+    bottom: 5px; right: 12px;
+    color: hsla(210, 89%, 29%, 5%);
+    text-shadow: 0rem 0rem 0rem hsla(210, 29%, 89%, 0);
+    font-size: 29px;
+    font-family: 'Satisfy', cursive;
+    user-select: none;
+    filter: brightness(2);
+    transition: 
+        color 800ms ease-out,
+        text-shadow 800ms ease-out;
+}
+.name-end-2:hover{
+    color: hsla(210, 89%, 29%, .5);
+    text-shadow: -0.125rem -0.125rem 0rem #fff9;
+    text-shadow: -0.125rem -0.125rem 0rem hsla(210, 29%, 89%, 1);
+    transition: 
+        color 800ms ease-out 2000ms,
+        text-shadow 800ms ease-out 2000ms;
+}
+
 .hidden{
     display: none!important; 
     user-select: none;

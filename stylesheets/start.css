@@ -17,12 +17,12 @@
     --main-bg: hsla(210, 0%, 5%, 100%);
     --main-clr: hsla(0, 0%, 89%, 100%);
 }
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
     :root{
         --main-bg: hsla(210, 0%, 5%, 100%);
         --main-clr: hsla(0, 0%, 89%, 100%);
     }
-}
+} */
 
 /* 
  start
@@ -37,7 +37,6 @@ html {
     scroll-behavior: smooth;
     scroll-padding: 1rem;
 }
-
 body {
     background-color: var(--main-bg);
     color: var(--main-clr);

@@ -1,0 +1,203 @@
+
+
+
+
+.welcome {
+    font-size: 2rem;
+    margin: 1rem;
+}
+
+.lablinks {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0;
+}
+
+body {position: relative; overflow: scroll;}
+body::before {
+    content: '';
+    position: fixed;
+    top: -25vh; left: -25%;
+    height: 100vh; width: 100%;
+    height: 150vh; width: 150%;
+    box-sizing: border-box;
+    user-select: none;
+
+    background-image: linear-gradient(135deg, #123 10%, #39f 90%);
+    background-image: linear-gradient(135deg, #123 25%, #39f 75%);
+
+    background-image: 
+    radial-gradient(farthest-corner at 100% 100%, #456, #7890),
+    radial-gradient(farthest-corner at 100% 100%, #123, #123);
+
+    background-attachment: scroll;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    z-index: -1;
+
+    transition: 
+    background-position 5000ms ease-in-out,
+    background-size 5000ms ease-in-out;
+}
+
+.shelf {
+    position: relative; overflow: hidden;
+    box-sizing: border-box;
+    width: min(100% - 2rem, 50rem);
+    flex-direction: column;
+
+    transition: 
+    box-shadow 200ms ease-in-out,
+    border-radius 200ms ease-in-out,
+    background-color 200ms ease-in-out,
+    backdrop-filter 200ms ease-in-out;
+}
+.shelf:hover {
+    box-shadow: 
+        inset 0 -1px 1px #fff,
+        inset 0 1px 1px #fff;
+    border-radius: .25rem;
+}
+.shelf::before {
+    content: '';
+    position: absolute;
+    top: -25%; left: -25%;
+    height: 150%; width: 150%;
+    box-sizing: border-box;
+    user-select: none;
+    /* background-image: linear-gradient(135deg, #123 25%, #39f 75%);
+    background-image: linear-gradient(-45deg, #123 25%, #39f 75%);
+    background-image: linear-gradient(-45deg, #1238 25%, #39f8 75%); */
+
+    z-index: -1;
+    transition: 
+    border-radius 200ms ease-in-out,
+    background-color 200ms ease-in-out,
+    backdrop-filter 200ms ease-in-out;
+}
+.shelf:hover::before {
+    /* background-image: linear-gradient(0deg, #123f 30%, #ffff 70%); */
+    /* filter: blur(10px) url(#bg-flow); */
+    /* mix-blend-mode: difference; */
+    background-color: #fff1;
+    background-color: #01052989;
+    background-color: #1239;
+    backdrop-filter: blur(4px);
+    backdrop-filter: brightness(2) contrast(1.7);
+    backdrop-filter: contrast(1.7);
+    border-radius: .25rem;
+}
+/* <link rel="stylesheet" href="stylesheets/nybtns.css"> */
+
+@media (max-width: 540px){ 
+    main,
+    .shelf {
+        margin: 1rem auto;
+        width: 95vw;
+    }
+    ul.lablinks {
+        padding: 0; margin: 0;
+    }
+    ul.lablinks li {
+        width: 90vw;
+    }
+    .labBtn,
+    [class|="nybtn"] {
+        height: 10vh;
+        width: 90vw;
+        width: 90%;
+        margin: 0;
+        margin: 0.125rem auto;
+    }
+    .labBtn::before {
+        height: 400%;
+        width: 100%;
+    }
+    .labBtn:hover::before {
+        box-shadow: 
+            inset 100px 0 50px 10px #06c,
+            inset -100px 0 50px 10px #c60,
+            inset 221px 0 0 0px var(--clr-4),
+            inset -221px 0 0 0px var(--clr-1);
+    }
+    .nybtn--underwatersmoke-animation {
+        min-height: 8rem;
+    }
+}
+.labBtn::before {
+    box-shadow: 
+        inset 100px 0 50px 10px #06c,
+        inset -100px 0 50px 10px #c60,
+        inset 221px 0 0 0px var(--clr-4),
+        inset -221px 0 0 0px var(--clr-1);
+}
+
+/* -- */
+
+
+header {
+    background-color: #1230;
+    box-shadow: 0px 0px 0px #0000;
+    transition: 
+    box-shadow 200ms ease-in-out 200ms,
+    border-radius 200ms ease-in-out,
+    background-color 200ms ease-in-out,
+    backdrop-filter 200ms ease-in-out;
+}
+header:hover {
+    background-color: #1238;
+    backdrop-filter: blur(4px);
+    /* background-color: var(--main-bg); */
+    box-shadow: 0px 4px 4px #0019;
+}
+.bg-stars {
+    position: absolute;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    height: 100%; width: 100%;
+    /* background-color: #fff;
+    background-image: linear-gradient(135deg, #123, #789);
+    background-image: 
+    linear-gradient(135deg, #7890 20%, #456),
+    linear-gradient(135deg, #123, #123); */
+    z-index: -1;
+    background-attachment: fixed;
+}
+.star-field {
+    animation: show-in 2400ms ease-in-out 1 both 800ms;
+}
+@keyframes show-in {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+.star {
+    position: absolute;
+    background-color: #fff;
+    border-radius: 50%;
+    height: 4px; width: 4px;
+    top: 0; left: 0;
+    box-shadow: 0 0 4px 0px #fff;
+    transition: transform 500ms linear;
+}
+
+/* <link rel="stylesheet" href="stylesheets/stars.css"> */
+
+
+header {
+    background-color: #1230;
+    box-shadow: 0px 0px 0px #0000;
+    transition: 
+    box-shadow 200ms ease-in-out 200ms,
+    border-radius 200ms ease-in-out,
+    background-color 200ms ease-in-out,
+    backdrop-filter 200ms ease-in-out;
+}
+header:hover {
+    background-color: #1239;
+    backdrop-filter: blur(4px);
+    box-shadow: 0px 4px 4px #0019;
+}
+
+
