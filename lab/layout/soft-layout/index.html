@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Soft Layout | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="mycss.css"> -->
+    <style>
+        .bgf {background-image: linear-gradient(135deg, #f9fcff, #c6c9cc);}
+        
+        .soft-card {
+            min-height: 400px; min-width: 400px;
+            background-image: linear-gradient(-45deg, #f9fcff, #c6c9cc);
+            background-image: linear-gradient(-45deg, hsl(210, 100%, 99%), hsl(210, 20%, 85%));
+            border: 2px outset #98a8b8;
+            border: 2px outset #e4e8ef;
+            border: 2px outset hsl(210, 40%, 94%);
+            border-radius: 1rem;
+            padding: 1rem;
+        }
+        .card-title {
+            color: #789c;
+            color: #456c;
+            font-weight: lighter;
+            font-weight: bold;
+            margin: 1rem;
+        }
+        .btn-soft {
+            margin: 1rem; padding: 1rem;
+            border-radius: 2rem;
+            background-image: linear-gradient(90deg, hsl(210, 20%, 95%), hsl(210, 20%, 90%));
+            box-shadow: 
+            -1rem -1rem 1rem 0 hsla(210, 20%, 100%, 0.6),
+            1rem 1rem 1rem 0 hsla(210, 20%, 70%, 0.6);
+            box-shadow: 
+            -.75rem -.75rem 1rem 0 hsla(210, 20%, 100%, 0.6),
+            .75rem .75rem 1rem 0 hsla(210, 20%, 70%, 0.6);
+            box-shadow: 
+            -.75rem -.75rem .75rem 0 hsla(210, 20%, 100%, 0.6),
+            .75rem .75rem .75rem 0 hsla(210, 20%, 70%, 0.6);
+            box-shadow: 
+            -.25rem -.25rem .75rem .5rem hsla(210, 20%, 100%, 0.6),
+            .25rem .25rem .75rem .5rem hsla(210, 20%, 70%, 0.6);
+            color: #456c;
+            font-weight: bold;
+            margin: 2rem 1rem;
+        }
+        .btn-soft:nth-of-type(2) {
+            box-shadow: 
+            -1rem -1rem 1rem 0 hsla(210, 20%, 100%, 0.6),
+            1rem 1rem 1rem 0 hsla(210, 20%, 70%, 0.6);
+        }
+        .btn-soft:nth-of-type(3) {
+            box-shadow: 
+            -.75rem -.75rem 1rem 0 hsla(210, 20%, 100%, 0.6),
+            .75rem .75rem 1rem 0 hsla(210, 20%, 70%, 0.6);
+        }
+        .btn-soft:nth-of-type(4) {
+            box-shadow: 
+            -.75rem -.75rem .75rem 0 hsla(210, 20%, 100%, 0.6),
+            .75rem .75rem .75rem 0 hsla(210, 20%, 70%, 0.6);
+        }
+        .btn-soft:nth-of-type(5) {
+            box-shadow: 
+            -.25rem -.25rem .75rem .5rem hsla(210, 20%, 100%, 0.6),
+            .25rem .25rem .75rem .5rem hsla(210, 20%, 70%, 0.6);
+        }
+
+        .btn-soft:nth-of-type(6) {
+            box-shadow: 
+            -1rem -1rem 1rem 0 hsla(210, 20%, 100%, 0.6),
+            1rem 1rem 1rem 0 hsla(210, 20%, 70%, 0.6),
+            -.25rem -.25rem .75rem .5rem hsla(210, 20%, 100%, 0.6),
+            .25rem .25rem .75rem .5rem hsla(210, 20%, 70%, 0.6);
+        }
+
+
+        .z {display: none;}
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <div class="title">Soft Layout</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+
+<main>
+    <div class="shelf bgf">
+        <div class="shelf-title">btns</div>
+        <div class="soft-card">
+            <div class="card-title">CARD DESIGN</div>
+            <!-- <div class="btn-soft">Button</div> -->
+            <div class="btn-soft">Button 1</div>
+            <div class="btn-soft">Button 2</div>
+            <div class="btn-soft">Button 3</div>
+            <div class="btn-soft">Button 4</div>
+            <div class="btn-soft">Button 5</div>
+        </div>
+    </div>
+</main>
+
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>
