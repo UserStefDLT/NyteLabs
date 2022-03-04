@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Magic Circle | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        :root {
+            --hue: 330;
+            --main-bg-0: hsla(210, 0%, 5%, 100%);
+            --main-bg-0: #0d0d0d;
+        }
+        .surface {
+            position: relative;
+            transform-style: preserve-3d; 
+            transform: rotate3d(0,0,1,0deg) rotate3d(1,-1,0,0deg);
+            transition: 
+            box-shadow 600ms ease-in-out,
+            transform 600ms ease-in-out;
+        }
+        .surface:hover {transform: rotate3d(0,0,1,45deg) rotate3d(1,-1,0,35.264deg);}
+        .surface:hover {transform: perspective(900px) rotate3d(0,0,-1,45deg) rotate3d(1,1,0,35.264deg);}
+        .isometric-view {transform-style: preserve-3d; transform: rotate3d(0,0,1,45deg) rotate3d(1,-1,0,35.264deg);}
+        .circle {
+            position: relative;
+            top: 0;
+            /* --hue: 330; */
+            color: hsl(var(--hue), 100%, 60%);
+            color: hsl(var(--hue), 100%, 100%);
+            height: 500px; width: 500px;
+            border-radius: 50%;
+            box-shadow:
+            inset 0 0 .25rem 0rem currentColor,
+            0 0 .25rem 0rem currentColor;
+
+            box-shadow:
+            inset 0 0 .125rem 0rem currentColor,
+            0 0 .125rem 0rem currentColor,
+
+            inset 0 0 .25rem 0rem #39f,
+            0 0 .25rem 0rem #39f,
+
+            inset 0 0 .25rem 0rem #f39,
+            0 0 .25rem 0rem #f39,
+
+            inset 0 0 .25rem 0rem #3f3,
+            0 0 .25rem 0rem #3f3,
+
+            inset 0 0 .25rem 0rem currentColor,
+            0 0 .25rem 0rem currentColor;
+
+            box-shadow:
+            inset 0 0 0rem 0rem currentColor,
+            0 0 0rem 0rem currentColor,
+
+            inset .05rem -.086rem .5rem .125rem #39f,
+            -.05rem .086rem .5rem .125rem #39f,
+
+            inset .05rem .086rem .5rem .125rem #f39,
+            -.05rem -.086rem .5rem .125rem #f39,
+            
+            inset -.1rem 0 .5rem .125rem #3f3,
+            .1rem 0 .5rem .125rem #3f3,
+
+            inset 0 0 .125rem -0.125rem currentColor,
+            0 0 .125rem -.125rem currentColor;
+
+            /* box-shadow:
+            inset 0 0 0rem 0rem currentColor,
+            0 0 0rem 0rem currentColor,
+
+            inset .5rem -.86rem .25rem -.5rem #39f,
+            -.5rem .86rem .25rem -.5rem #39f,
+
+            inset .5rem .86rem .25rem -.5rem #f39,
+            -.5rem -.86rem .25rem -.5rem #f39,
+            
+            inset -1rem 0 .25rem -.5rem #3f3,
+            1rem 0 .25rem -.5rem #3f3,
+
+            inset 0 0 .125rem -0.125rem currentColor,
+            0 0 .125rem -.125rem currentColor; */
+
+            outline: 2px solid currentColor;
+            outline-offset: -1px;
+            /* background-image: linear-gradient(180deg, #1234, #789a); */
+            /* background-image: linear-gradient(180deg, #1234 30%, #789a 70%); */
+            /* background-image: linear-gradient(180deg, #1234 50%, #789a 50%); */
+            transform: rotate(0deg);
+            transition: 
+            box-shadow 600ms ease-in-out,
+            transform 600ms ease-in-out;
+        }
+        .circle:hover {
+            transform: rotate(0deg);
+            box-shadow:
+            inset 0 0 .5rem .25rem currentColor,
+            0 0 .5rem .25rem currentColor;
+
+            box-shadow:
+            inset 0 0 .125rem 0rem currentColor,
+            0 0 .125rem 0rem currentColor,
+
+            inset -.5rem .86rem .5rem .25rem #39f4,
+            -.5rem .86rem .5rem .25rem #39f4,
+
+            inset -.5rem -.86rem .5rem .25rem #f394,
+            -.5rem -.86rem .5rem .25rem #f394,
+
+            inset 1rem 0rem .5rem .25rem #3f34,
+            1rem 0rem .5rem .25rem #3f34,
+            
+            inset 0 0 .5rem .25rem currentColor,
+            0 0 .5rem .25rem currentColor;
+
+            box-shadow:
+            inset 0 0 0rem 0rem currentColor,
+            0 0 0rem 0rem currentColor,
+
+            inset .5rem -.86rem .25rem -.5rem #39f,
+            -.5rem .86rem .25rem -.5rem #39f,
+
+            inset .5rem .86rem .25rem -.5rem #f39,
+            -.5rem -.86rem .25rem -.5rem #f39,
+            
+            inset -1rem 0 .25rem -.5rem #3f3,
+            1rem 0 .25rem -.5rem #3f3,
+
+            inset 0 0 .125rem -0.125rem currentColor,
+            0 0 .125rem -.125rem currentColor;
+
+            animation: zotate 6s linear both infinite;
+        }
+        @keyframes zotate {
+            0% {transform: rotate(0deg);}
+            50% {transform: rotate(180deg);}
+            100% {transform: rotate(360deg);}
+        }
+        @keyframes zotate-50 {
+            0% {transform: translateX(-50%) translateY(-50%) rotate(0deg);}
+            50% {transform: translateX(-50%) translateY(-50%) rotate(180deg);}
+            100% {transform: translateX(-50%) translateY(-50%) rotate(360deg);}
+        }
+        .circle svg {
+            position: absolute;
+            top: 50%; left: 50%;
+            height: 100%; width: 100%;
+            transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+        }
+        .circle:hover svg:nth-of-type(1) { animation: zotate-50 5s linear reverse both infinite; }
+        /* .circle:hover svg:nth-of-type(2) { animation: zotate-50 6s linear reverse both infinite; } */
+
+        .magic-path {
+            color: hsl(var(--hue), 100%, 60%);
+            stroke: hsl(var(--hue), 100%, 60%);
+            stroke-width: 2;
+            fill: transparent;
+        }
+        .magic-path.over {fill:#0d0d0d;}
+        
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <div class="title">Magic Circle</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">Magic Circle 2</div>
+        <div class="surface">
+            <div class="circle">
+                <svg viewBox="0 0 1000 1000">
+                    <path class="magic-path" d="M 500 0 L 933 250 L 933 750 L 500 1000 L 67 750 L 67 250 L 500 0 L 933 750 L 67 750 Z" />
+                    <!-- <path class="magic-path" d="M 500 1000 L 67 250 L 933 250 Z"/> -->
+                </svg>
+                <svg viewBox="0 0 1000 1000">
+                    <!-- <path class="magic-path" d="M 500 0 L 933 250 L 933 750 L 500 1000 L 67 750 L 67 250 L 500 0 L 933 750 L 67 750 Z" /> -->
+                    <path class="magic-path over" d="M 500 1000 L 67 250 L 933 250 Z"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Magic Circle 1</div>
+        <div class="surface">
+            <div class="circle">
+                <svg viewBox="0 0 100 100">
+                    <path class="magic-path" d="M 50 0 L 93.3 25 L 93.3 75 L 50 100 L 6.7 75 L 6.7 25 L 50 0 L 93.3 75 L 6.7 75 Z" />
+                </svg>
+            </div>
+        </div>
+    </div>
+</main>
+
+<svg class="hidden" viewBox="0 0 100 100" height="100px" width="100px">
+    <path class="magic-path" d="M 50 0 L 93.3 25 L 93.3 75 L 50 100 L 6.7 75 L 6.7 25 Z" />
+</svg>
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>

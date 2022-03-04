@@ -105,6 +105,7 @@ header {background-color: #1239;}
     --z-min: 100px;
     --z-scale: 10px;
     --z-min: 900px;
+    --z-min: calc(var(--diag) * 1px);
 
     /* Calc */
     --z-move: calc((var(--o-r) * var(--z-scale) + var(--z-min)) * -1);

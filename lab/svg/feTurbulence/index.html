@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>feTurbulence - SVG | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        .cloud-check {
+            /* outline: 1px dashed #8888; */
+            height: 100px; width: 200px;
+            border-radius: 50% 50% 0 0;
+            border-radius: 100% 0% 100% 0%;
+            box-shadow:
+            0px 150px 20px -30px #48c,
+            0px 140px 10px -10px #bdf,
+            0px 120px 10px 0px #fff;
+            box-shadow:
+            0px 150px 20px -30px #468,
+            0px 140px 10px -10px #bdf,
+            0px 120px 10px 0px #fff;
+
+            box-shadow:
+            250px 150px 20px -30px #468,
+            250px 140px 10px -10px #bdf,
+            250px 120px 10px 0px #fff,
+
+            0px 140px 20px -20px #468,
+            0px 140px 10px -10px #bdf,
+            0px 120px 10px 0px #fff;
+
+            box-shadow:
+            250px 30px 20px -30px #468, 
+            250px 20px 10px -10px #bdf, 
+            250px 00px 10px 0px #fff, 
+            
+            -250px 30px 20px -30px #468, 
+            -250px 20px 10px -10px #bdf, 
+            -250px 00px 10px 0px #fff, 
+
+            250px 150px 20px -30px #468, 
+            250px 140px 10px -10px #bdf, 
+            250px 120px 10px 0px #fff, 
+            
+            -250px 150px 20px -30px #468, 
+            -250px 140px 10px -10px #bdf, 
+            -250px 120px 10px 0px #fff, 
+            
+            0px 150px 20px -20px #468, 
+            0px 140px 10px -10px #bdf, 
+            0px 120px 10px 0px #fff;
+
+
+            filter: url(#cloud-check);
+            transition: box-shadow 3000ms ease-in-out;
+        }
+        .cloud-check:hover {
+            --dx: -150px;
+            --dy: 150px;
+            box-shadow:
+            250px 130px 20px -30px #468, 
+            250px 120px 10px -10px #bdf, 
+            250px 100px 10px 0px #fff, 
+            
+            -250px 130px 20px -30px #468, 
+            -250px 120px 10px -10px #bdf, 
+            -250px 100px 10px 0px #fff, 
+
+            250px 250px 20px -30px #468, 
+            250px 240px 10px -10px #bdf, 
+            250px 220px 10px 0px #fff, 
+            
+            -250px 250px 20px -30px #468, 
+            -250px 240px 10px -10px #bdf, 
+            -250px 220px 10px 0px #fff, 
+            
+            0px 250px 20px -20px #468, 
+            0px 240px 10px -10px #bdf, 
+            0px 220px 10px 0px #fff;
+
+            box-shadow:
+            calc(250px + var(--dx)) calc(30px + var(--dy)) 20px -30px #468, 
+            calc(250px + var(--dx)) calc(20px + var(--dy)) 10px -10px #bdf, 
+            calc(250px + var(--dx)) calc(00px + var(--dy)) 10px 0px #fff, 
+            
+            calc(-250px + var(--dx)) calc(30px + var(--dy)) 20px -30px #468, 
+            calc(-250px + var(--dx)) calc(20px + var(--dy)) 10px -10px #bdf, 
+            calc(-250px + var(--dx)) calc(00px + var(--dy)) 10px 0px #fff,
+
+            calc(250px + var(--dx)) calc(150px + var(--dy)) 20px -30px #468, 
+            calc(250px + var(--dx)) calc(140px + var(--dy)) 10px -10px #bdf, 
+            calc(250px + var(--dx)) calc(120px + var(--dy)) 10px 0px #fff,
+            
+            calc(-250px + var(--dx)) calc(150px + var(--dy)) 20px -30px #468, 
+            calc(-250px + var(--dx)) calc(140px + var(--dy)) 10px -10px #bdf, 
+            calc(-250px + var(--dx)) calc(120px + var(--dy)) 10px 0px #fff,
+            
+            calc(0px + var(--dx)) calc(150px + var(--dy)) 20px -20px #468, 
+            calc(0px + var(--dx)) calc(140px + var(--dy)) 10px -10px #bdf, 
+            calc(0px + var(--dx)) calc(120px + var(--dy)) 10px 0px #fff;
+        }
+
+        .cloud-check-02 {
+            --clr-1: #fff;
+            --clr-2: #bdf;
+            --clr-3: #468;
+
+            /* outline: 1px dashed #8888; */
+            height: 100px; width: 200px;
+            border-radius: 50% 50% 0 0;
+            border-radius: 100% 0% 100% 0%;
+            box-shadow:
+            10px 150px 10px -20px #48c,
+            5px 140px 10px -10px #bdf,
+            0px 120px 10px 0px #fff;
+
+            box-shadow:
+            10px 150px 10px -20px #468,
+            5px 140px 10px -10px #bdf,
+            0px 120px 10px 0px #fff;
+
+            box-shadow:
+            10px 150px 12px -20px #58b, 
+            5px 140px 5px -10px #bdf, 
+            0px 120px 10px 0px #fff;
+
+            box-shadow:
+            20px 140px 25px -25px #68ad, 
+            -20px 150px 10px -35px #68a8, 
+            0px 120px 10px 0px #fff;
+
+            /* box-shadow:
+            250px 150px 20px -30px #468,
+            250px 140px 10px -10px #bdf,
+            250px 120px 10px 0px #fff,
+
+            0px 140px 20px -20px #468,
+            0px 140px 10px -10px #bdf,
+            0px 120px 10px 0px #fff; */
+
+            /* box-shadow:
+            250px 30px 20px -30px #468, 
+            250px 20px 10px -10px #bdf, 
+            250px 00px 10px 0px #fff, 
+            
+            -250px 30px 20px -30px #468, 
+            -250px 20px 10px -10px #bdf, 
+            -250px 00px 10px 0px #fff, 
+
+            250px 150px 20px -30px #468, 
+            250px 140px 10px -10px #bdf, 
+            250px 120px 10px 0px #fff, 
+            
+            -250px 150px 20px -30px #468, 
+            -250px 140px 10px -10px #bdf, 
+            -250px 120px 10px 0px #fff, 
+            
+            0px 150px 20px -20px #468, 
+            0px 140px 10px -10px #bdf, 
+            0px 120px 10px 0px #fff; */
+
+
+            filter: url(#cloud-check);
+            transition: box-shadow 3000ms ease-in-out;
+        }
+        .cloud-check-02:hover {
+
+            --clr-1: #fff;
+            --clr-2: #bdf;
+            --clr-3: #468;
+            --dx: -150px;
+            --dy: 150px;
+
+            box-shadow:
+            calc(250px + var(--dx)) calc(30px + var(--dy)) 20px -30px var(--clr-3), 
+            calc(250px + var(--dx)) calc(20px + var(--dy)) 10px -10px var(--clr-2), 
+            calc(250px + var(--dx)) calc(00px + var(--dy)) 10px 0px var(--clr-1), 
+            
+            calc(-250px + var(--dx)) calc(30px + var(--dy)) 20px -30px var(--clr-3),
+            calc(-250px + var(--dx)) calc(20px + var(--dy)) 10px -10px var(--clr-2),
+            calc(-250px + var(--dx)) calc(00px + var(--dy)) 10px 0px var(--clr-1),
+
+            calc(250px + var(--dx)) calc(150px + var(--dy)) 20px -30px var(--clr-3),
+            calc(250px + var(--dx)) calc(140px + var(--dy)) 10px -10px var(--clr-2),
+            calc(250px + var(--dx)) calc(120px + var(--dy)) 10px 0px var(--clr-1),
+            
+            calc(-250px + var(--dx)) calc(150px + var(--dy)) 20px -30px var(--clr-3),
+            calc(-250px + var(--dx)) calc(140px + var(--dy)) 10px -10px var(--clr-2),
+            calc(-250px + var(--dx)) calc(120px + var(--dy)) 10px 0px var(--clr-1),
+            
+            calc(0px + var(--dx)) calc(150px + var(--dy)) 20px -20px var(--clr-3),
+            calc(0px + var(--dx)) calc(140px + var(--dy)) 10px -10px var(--clr-2),
+            calc(0px + var(--dx)) calc(120px + var(--dy)) 10px 0px var(--clr-1);
+        }
+
+        .grass-check-01 {
+            --clr-1: #fff;
+            --clr-2: #bdf;
+            --clr-3: #468;
+            --clr-1: #9f3;
+            --clr-2: #693;
+            --clr-3: #360;
+
+            /* outline: 1px dashed #8888; */
+            height: 100px; width: 200px;
+            border-radius: 50% 50% 0 0;
+            border-radius: 100% 0% 100% 0%;
+            box-shadow:
+            10px 150px 10px -20px #48c,
+            5px 140px 10px -10px #bdf,
+            0px 120px 10px 0px #fff;
+
+            box-shadow:
+            10px 150px 10px -20px #468,
+            5px 140px 10px -10px #bdf,
+            0px 120px 10px 0px #fff;
+
+            box-shadow:
+            10px 150px 12px -20px #58b, 
+            5px 140px 5px -10px #bdf, 
+            0px 120px 10px 0px #fff;
+
+            box-shadow:
+            20px 140px 25px -25px #68ad, 
+            -20px 150px 10px -35px #68a8, 
+            0px 120px 10px 0px #fff;
+
+            box-shadow:
+            20px 140px 25px -25px var(--clr-3), 
+            -20px 150px 10px -35px var(--clr-2), 
+            0px 120px 10px 0px var(--clr-1);
+
+            filter: url(#grass-check);
+        }
+
+        .sorry-check {
+            --clr-1: #fff;
+            --clr-2: #bdf;
+            --clr-3: #468;
+            --clr-1: #9f3;
+            --clr-2: #693;
+            --clr-3: #360;
+
+            /* outline: 1px dashed #8888; */
+            height: 400px; width: 700px;
+            border-radius: 50% 50% 0 0;
+            border-radius: 100% 0% 100% 0%;
+
+            box-shadow: -20px 100px 25px 5px var(--clr-3), 
+            00px 150px 10px 35px var(--clr-2), 
+            100px 120px 10px 50px var(--clr-1);
+
+            box-shadow:
+            0px -400px 25px 5px var(--clr-3), 
+            0px -400px 10px 35px var(--clr-2), 
+            0px -400px 10px 50px var(--clr-1);
+
+
+            filter: url(#grass-check-03);
+
+            box-shadow:
+            0px -400px 250px 50px #0f08, 
+            0px -400px 10px 75px #69f9, 
+            0px -400px 10px 150px #8228;
+
+
+            mix-blend-mode: color;
+            mix-blend-mode: color-burn;
+            mix-blend-mode: saturation;
+            mix-blend-mode: difference;
+            mix-blend-mode: overlay;
+            mix-blend-mode: hard-light;
+
+            filter: url(#grass-check-04);
+
+            box-shadow:
+            0px -400px 250px 50px #0f0a,
+            0px -400px 10px 75px #09f9,
+            0px -400px 10px 150px #f08;
+            mix-blend-mode: color;
+            mix-blend-mode: color-burn;
+            mix-blend-mode: color-dodge;
+            mix-blend-mode: darken;
+            mix-blend-mode: difference;
+            mix-blend-mode: hue;
+            
+            mix-blend-mode: multiply;
+            mix-blend-mode: saturation;
+            mix-blend-mode: overlay;
+            mix-blend-mode: hard-light;
+        }
+        
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <div class="title">feTurbulence</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <!-- <div class="shelf-title">just trying different feTurbulence settings.</div> -->
+        <div class="shelf-title">just clouds</div>
+        <div class="cloud-check"></div>
+    </div>
+
+    <div class="shelf" style="margin-top: 8rem;">
+        <div class="shelf-title">more clouds</div>
+        <div class="cloud-check-02"></div>
+    </div>
+
+    <div class="shelf" style="margin-top: 8rem;">
+        <div class="shelf-title">grass</div>
+        <div class="grass-check-01"></div>
+    </div>
+</main>
+
+<!-- Patterns:
+    <feTurbulence
+        type="fractalNoise"
+        type="turbulence"
+        type="fractalNoise" + type="turbulence"
+        type="turbulence" + type="fractalNoise"
+        baseFrequency=".036" numOctaves="5" seed="5"
+    />
+
+    <feDisplacementMap
+        scale="-40"
+        xChannelSelector="R" yChannelSelector="R"
+        xChannelSelector="G" yChannelSelector="G"
+        xChannelSelector="B" yChannelSelector="B"
+        xChannelSelector="A" yChannelSelector="A"
+    />
+-->
+<svg>
+    <defs>
+        <filter id="cloud-check" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency=".012" numOctaves="5" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="SourceGraphic" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="40"
+                result="Displaced">
+            </feDisplacementMap>
+        </filter>
+        <filter id="grass-check" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency=".025" numOctaves="8" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="SourceGraphic" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="80"
+                result="Displaced">
+            </feDisplacementMap>
+        </filter>
+        <filter id="grass-check-02" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency=".010 .0145" numOctaves="5" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="SourceGraphic" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="80"
+                result="Displaced">
+            </feDisplacementMap>
+        </filter>
+        <filter id="grass-check-03" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency=".10 .145" numOctaves="5" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="SourceGraphic" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="40"
+                result="Displaced">
+            </feDisplacementMap>
+        </filter>
+        <filter id="grass-check-04-slimy" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="turbulence"
+                baseFrequency=".10 .0145" numOctaves="1" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="SourceGraphic" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="800"
+                result="Displaced">
+            </feDisplacementMap>
+        </filter>
+
+        <filter id="grass-check-04-beans" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="turbulence"
+                baseFrequency=".10 .145" numOctaves="1" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="SourceGraphic" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="800"
+                result="Displaced">
+            </feDisplacementMap>
+        </filter>
+
+
+
+        <filter id="flow-state-00s" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency=".018" numOctaves="5" seed="5"
+                result="fractalNoise">
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency=".036" numOctaves="5" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="-40"
+                result="Displaced">
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic" in2="Displaced"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="80"
+                result="mixed">
+            </feDisplacementMap>
+        </filter>
+
+    </defs>
+</svg>
+
+<svg>
+    <defs>
+        <filter id="flow-state-00s" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency=".018" numOctaves="5" seed="5"
+                result="fractalNoise">
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency=".036" numOctaves="5" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="-40"
+                result="Displaced">
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic" in2="Displaced"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="80"
+                result="mixed">
+            </feDisplacementMap>
+        </filter>
+        <filter id="flow-state-60s" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency="0.018" numOctaves="5" seed="5"
+                result="fractalNoise">
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency="0.029" numOctaves="5" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="-40"
+                result="Displaced">
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic" in2="Displaced"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="80"
+                result="mixed">
+            </feDisplacementMap>
+        </filter>
+        <filter id="flow-state-40s" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency="0.032" numOctaves="5" seed="5"
+                result="fractalNoise">
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency="0.021" numOctaves="5" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="40"
+                result="Displaced">
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic" in2="Displaced"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="40"
+                result="mixed">
+            </feDisplacementMap>
+        </filter>
+        
+        <filter id="flow-state-10s" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency="0.015" numOctaves="5" seed="5"
+                result="fractalNoise">
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency="0.0325" numOctaves="5" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="0"
+                result="Displaced">
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic" in2="Displaced"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="60"
+                result="mixed">
+            </feDisplacementMap>
+        </filter>
+        <filter id="flow-state-50s" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency="0.025" numOctaves="5" seed="5"
+                result="fractalNoise">
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency="0.025" numOctaves="5" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="0"
+                result="Displaced">
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic" in2="Displaced"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="60"
+                result="mixed">
+            </feDisplacementMap>
+        </filter>
+        
+        <filter id="flow-state-20s" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency="0.012" numOctaves="5" seed="5"
+                result="fractalNoise">
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency="0.036" numOctaves="5" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="40"
+                result="Displaced">
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic" in2="Displaced"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="40"
+                result="mixed">
+            </feDisplacementMap>
+        </filter>
+        <filter id="flow-state-30s" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency="0.022" numOctaves="5" seed="5"
+                result="fractalNoise">
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency="0.028" numOctaves="5" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="80"
+                result="Displaced">
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic" in2="Displaced"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="20"
+                result="mixed">
+            </feDisplacementMap>
+        </filter>
+        
+
+        <filter id="flow-00" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency=".018" numOctaves="5" seed="5"
+                result="fractalNoise">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values="0.021;0.018" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency=".036" numOctaves="5" seed="5"
+                result="turbulence">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values="0.029;0.036" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise"
+                in2="turbulence"
+                scale="-40"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="Displaced">  
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic"
+                in2="Displaced"
+                scale="80"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="mixed">
+            </feDisplacementMap>
+        </filter>
+        <filter id="flow-01" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency=".018" numOctaves="5" seed="5"
+                result="fractalNoise">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values="0.018;0.029;0.018" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency=".036" numOctaves="5" seed="5"
+                result="turbulence">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values="0.029;0.021;0.036" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise"
+                in2="turbulence"
+                scale="-40"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="Displaced">
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic"
+                in2="Displaced"
+                scale="80"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="mixed">
+                <animate id="scaleAnimate"
+                    attributeName="scale"
+                    values="80;70;80" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feDisplacementMap>
+        </filter>
+        <filter id="flow-02" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency=".018" numOctaves="5" seed="5"
+                result="fractalNoise">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values="0.015;0.025" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency=".036" numOctaves="5" seed="5"
+                result="turbulence">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values="0.0325;0.025" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise"
+                in2="turbulence"
+                scale="100"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="Displaced">
+                <animate id="scaleAnimate"
+                    attributeName="scale"
+                    values="0;0" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic"
+                in2="Displaced"
+                scale="100"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="mixed">
+                <animate id="scaleAnimate"
+                    attributeName="scale"
+                    values="60;60" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feDisplacementMap>
+        </filter>
+        <filter id="flow-03" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency=".018" numOctaves="5" seed="5"
+                result="fractalNoise">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values="0.012;0.022" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency=".036" numOctaves="5" seed="5"
+                result="turbulence">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values="0.036;0.028" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise"
+                in2="turbulence"
+                scale="100"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="Displaced">
+                <animate id="scaleAnimate"
+                    attributeName="scale"
+                    values="40;80" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic"
+                in2="Displaced"
+                scale="100"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="mixed">
+                <animate id="scaleAnimate"
+                    attributeName="scale"
+                    values="40;20" from="0"
+                    to="100" dur="10s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feDisplacementMap>
+        </filter>
+
+        <filter id="ny-flow" 
+            x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency=".018" numOctaves="5" seed="5"
+                result="fractalNoise">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values=".018;.012;.032;.018" from="0"
+                    to="100" dur="60s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency=".036" numOctaves="5" seed="5"
+                result="turbulence">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values=".029;.036;.021;.029" from="0"
+                    to="100" dur="60s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise"
+                in2="turbulence"
+                scale="100"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="Displaced">
+                <animate id="scaleAnimate"
+                    attributeName="scale"
+                    values="-40;80;-40" from="0"
+                    to="100" dur="60s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic"
+                in2="Displaced"
+                scale="100"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="mixed">
+                <animate id="scaleAnimate"
+                    attributeName="scale"
+                    values="80;20;80" from="0"
+                    to="100" dur="60s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feDisplacementMap>
+        </filter>
+    </defs>
+</svg>
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>
