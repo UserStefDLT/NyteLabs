@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Kinetic Sculptures | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        .xc {
+            position: relative;
+            height: 8rem; width: 8rem;
+            /* outline: 1px dashed #8888; */
+            outline-offset: 2px;
+            /* background-color: ivory; */
+            /* filter: url(#bg-flow); */
+        }
+        .xo1, .xo2 {
+            position: absolute;
+            top: 0; left: 0;
+            height: 8rem; width: 8rem;
+        }
+        .xo1 {
+            transform: rotate(0deg);
+            animation: spin1 15000ms ease-in-out infinite both;
+        }
+        .xo2 {
+            transform: rotate(90deg);
+            animation: spin2 15000ms linear infinite both;
+        }
+        @keyframes spin1 {
+            0% {transform: rotate(90deg);}
+            50% {transform: rotate(0deg);}
+            100% {transform: rotate(90deg);}
+        }
+        @keyframes spin2 {
+            0% {transform: rotate(360deg);}
+            100% {transform: rotate(0deg);}
+        }
+
+
+        .xoz {
+            position: absolute;
+            top: 50%; left: 50%;
+            height: 2rem; width: 2rem;
+            transform: translateX(-50%) translateY(-50%);
+            border-radius: 50%;
+            /* background-color: tan; */
+            /* border: .25rem solid palegoldenrod; */
+            /* box-shadow: 
+            2px 2px 2px #3339,
+            inset -1px -1px 2px #3339; */
+        }
+
+        .wave:nth-of-type(7n+1) {--deg: 0;}
+        .wave:nth-of-type(7n+2) {--deg: 15;}
+        .wave:nth-of-type(7n+3) {--deg: 30;}
+        .wave:nth-of-type(7n+4) {--deg: 45;}
+        .wave:nth-of-type(7n+5) {--deg: 60;}
+        .wave:nth-of-type(7n+6) {--deg: 75;}
+        .wave:nth-of-type(7n+7) {--deg: 90;}
+        .wave {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform-origin: 100% 50%;
+            transform: translateX(-100%) translateY(-50%) rotate(calc(var(--deg)*1deg));
+            
+            height: 4rem; width: 4rem;
+            height: 3rem; width: 3rem;
+            /* height: 2rem; width: 2rem; */
+            /* height: 1rem; width: 1rem; */
+            background-color: maroon;
+            background-color: transparent;
+            border: 1px solid transparent;
+            /* border-top: 3px solid maroon; */
+            box-shadow: 0 3px 0 #f399;
+            box-shadow: inset 0 -3px 0 maroon;
+            border-radius: 50%;
+            /* margin: .125rem; */
+        }
+        /* .xo1 .wave { border-top: 3px solid maroon; } */
+        /* .xo1 .wave:nth-of-type(n+8) { border-top: 3px solid #39f; } */
+        /* .xo2 .wave { border-bottom: 3px solid maroon; } */
+        /* .xo2 .wave { border-top: 3px solid maroon; } */
+        
+        /* .xo1 .wave { box-shadow: inset 0 3px 0 #3699; } */
+        .xo1 .wave { box-shadow: inset 0 3px 0 maroon; }
+
+        .wave:nth-of-type(n+8) { transform: translateX(-100%) translateY(-50%) rotate(calc((var(--deg) * 1deg) + 180deg)); }
+        /* .xo2 .wave { transform: translateX(0%) translateY(-50%) rotate(calc(var(--deg)*1deg)); } */
+        /* .xo2 .wave:nth-of-type(n+8) { transform: translateX(0%) translateY(-50%) rotate(calc((var(--deg) * 1deg) + 180deg)); } */
+
+        .xo1 .wave { box-shadow: inset 0 3px 0 hsla(calc(var(--i) * 15), 100%, 50%, .8); }
+        .xo2 .wave { box-shadow: inset 0 -3px 0 hsla(calc(var(--i) * 15), 100%, 50%, .8); }
+
+        .xo1 .wave { box-shadow: inset 0 3px 5px hsla(50, 100%, 50%, .8); }
+        .xo2 .wave { box-shadow: inset 0 -3px 5px hsla(50, 100%, 50%, .8); }
+        .xo2 {/* mix-blend-mode: difference; */}
+
+
+        .xc2 .xo1 .wave { box-shadow: inset 0 3px 5px hsla(calc(var(--i) * 15), 100%, 50%, .8); }
+        .xc2 .xo2 .wave { box-shadow: inset 0 -3px 5px hsla(calc(var(--i) * 15), 100%, 100%, .8); }
+        .xc2 .wave {transform: translateX(-100%) translateY(-50%) rotate(calc(var(--deg) * 2deg));}
+        .xc2 .wave:nth-of-type(n+8) {transform: translateX(-100%) translateY(-50%) rotate(calc((var(--deg) * 2deg) + 180deg));}
+
+
+        .xc3 .xo1 .wave { box-shadow: inset 0 3px 5px hsla(calc(var(--i) * 15), 100%, 50%, .8); }
+        .xc3 .xo2 .wave { box-shadow: inset 0 -3px 5px hsla(calc(var(--i) * 15), 100%, 50%, .8); }
+        .xc3 .wave {transform: translateX(-100%) translateY(-50%) rotate(calc(var(--deg) * 2deg));}
+        .xc3 .wave:nth-of-type(n+8) {transform: translateX(-100%) translateY(-50%) rotate(calc((var(--deg) * 2deg) + 180deg));}
+        .xc3 .wave {
+            mix-blend-mode: color-dodge;
+            mix-blend-mode: lighten;
+        }
+
+
+        .xc4 .xo1 .wave { box-shadow: inset 0 3px 5px hsla(calc(var(--i) * 15), 100%, 50%, .8); }
+        .xc4 .xo2 .wave { box-shadow: inset 0 -3px 5px hsla(calc(var(--i) * 15), 100%, 50%, .8); }
+        .xc4 .wave {transform: translateX(-100%) translateY(-50%) rotate(calc(var(--deg) * 2deg));}
+        .xc4 .wave:nth-of-type(n+8) {transform: translateX(-100%) translateY(-50%) rotate(calc((var(--deg) * 2deg) + 180deg));}
+        .xc4 .wave {
+            background-color: hsla(calc(var(--i) * 15), 100%, 30%, .2);
+            background-color: hsla(calc(var(--i) * 15), 100%, 20%, .1);
+            mix-blend-mode: color-dodge;
+            /* mix-blend-mode: lighten; */
+        }
+        .xc4 .xo1 .wave {
+            box-shadow: inset 0 3px 5px hsla(calc(var(--i) * 15), 100%, 50%, .8);
+        }
+
+
+        .xc5 .xo1 .wave { box-shadow: inset 0 3px 5px hsla(calc(var(--i) * 15), 100%, 50%, .8); }
+        .xc5 .xo2 .wave { box-shadow: inset 0 -3px 5px hsla(calc(var(--i) * 15), 100%, 50%, .8); }
+        .xc5 .wave {transform: translateX(-100%) translateY(-50%) rotate(calc(var(--deg) * 2deg));}
+        .xc5 .wave:nth-of-type(n+8) {transform: translateX(-100%) translateY(-50%) rotate(calc((var(--deg) * 2deg) + 180deg));}
+        .xc5 .wave {
+            background-color: hsla(calc(var(--i) * 15), 100%, 30%, .2);
+            background-color: hsla(calc(var(--i) * 15), 100%, 20%, .1);
+            background-color: transparent;
+            background-image: radial-gradient(circle at 50% 50%, hsla(calc(var(--i) * 15), 100%, 0%, 0) 30%, hsla(calc(var(--i) * 15), 100%, 10%, .1) 35%, hsla(calc(var(--i) * 15), 100%, 20%, .2));
+            background-image: radial-gradient(circle at 50% 50%, hsla(calc(var(--i) * 15), 100%, 0%, 0) 50%, hsla(calc(var(--i) * 15), 100%, 10%, .5) 50%, hsla(calc(var(--i) * 15), 100%, 20%, 1) 70%);
+            mix-blend-mode: color-dodge;
+            mix-blend-mode: screen;
+            /* filter: url(#bg-flow); */
+            /* filter: blur(10px); */
+        }
+        .xc5 .xo1 .wave {
+            box-shadow: inset 0 3px 5px hsla(calc(var(--i) * 15), 100%, 50%, .8);
+        }
+        .xc5 .xo2 {mix-blend-mode: difference;}
+
+
+        .xc6 .xo1 .wave { box-shadow: inset 0 3px 5px hsla(calc(var(--i) * 15), 100%, 50%, .8); }
+        .xc6 .xo2 .wave { box-shadow: inset 0 -3px 5px hsla(calc(var(--i) * 15), 100%, 50%, .8); }
+        .xc6 .wave {transform: translateX(-100%) translateY(-50%) rotate(calc(var(--deg) * 1deg));}
+        .xc6 .wave:nth-of-type(n+8) {transform: translateX(-100%) translateY(-50%) rotate(calc((var(--deg) * 1deg) + 180deg));}
+        .xc6 .wave {
+            background-color: hsla(calc(var(--i) * 15), 100%, 30%, .2);
+            background-color: hsla(calc(var(--i) * 15), 100%, 20%, .1);
+            background-color: transparent;
+            background-image: radial-gradient(circle at 50% 50%, hsla(calc(var(--i) * 15), 100%, 0%, 0) 30%, hsla(calc(var(--i) * 15), 100%, 10%, .1) 35%, hsla(calc(var(--i) * 15), 100%, 20%, .2));
+            background-image: radial-gradient(circle at 50% 50%, hsla(calc(var(--i) * 15), 100%, 0%, 0) 50%, hsla(calc(var(--i) * 15), 100%, 10%, .5) 50%, hsla(calc(var(--i) * 15), 100%, 20%, 1) 70%);
+            mix-blend-mode: color-dodge;
+            mix-blend-mode: screen;
+            /* filter: url(#bg-flow); */
+            /* filter: blur(10px); */
+            filter: blur(4px);
+        }
+        .xc6 .xo1 .wave {
+            box-shadow: inset 0 3px 5px hsla(calc(var(--i) * 15), 100%, 50%, .8);
+        }
+        /* .xc6 .xo2 {mix-blend-mode: difference;} */
+        .xc6 {
+            height: 6rem; width: 6rem;
+            border-radius: 50%;
+            overflow: hidden;
+            outline: 1px dashed #8888;
+            /* filter: url(#bg-flow); */
+        }
+        .xc6 .xo1 {
+            animation: none;
+            filter: blur(10px) url(#bg-flow);
+            display: none;
+        }
+        .xc6 .xo2 {
+            height: 6rem; width: 6rem;
+            animation: none;
+            filter: blur(10px) url(#bg-flow);
+        }
+
+
+        .xc7 .xo1 .wave { box-shadow: inset 0 3px 5px hsla(calc(var(--i) * 15), 100%, 50%, .8); }
+        .xc7 .xo2 .wave { box-shadow: inset 0 -3px 5px hsla(calc(var(--i) * 15), 100%, 50%, .8); }
+        .xc7 .wave {transform: translateX(-100%) translateY(-50%) rotate(calc(var(--deg) * 1deg));}
+        .xc7 .wave:nth-of-type(n+8) {transform: translateX(-100%) translateY(-50%) rotate(calc((var(--deg) * 1deg) + 180deg));}
+        .xc7 .wave {
+            background-color: transparent;
+            background-image: radial-gradient(circle at 50% 50%, hsla(calc(var(--i) * 15), 100%, 0%, 0) 50%, hsla(calc(var(--i) * 15), 100%, 10%, .5) 50%, hsla(calc(var(--i) * 15), 100%, 20%, 1) 70%);
+            mix-blend-mode: screen;
+            filter: blur(4px);
+        }
+        .xc7 {
+            height: 6rem; width: 6rem;
+            border-radius: 50%;
+            overflow: hidden;
+            /* outline: 1px dashed #8888; */
+            filter: url(#bg-flow);
+        }
+        .xc7 .xo1,
+        .xc7 .xo2 {
+            height: 6rem; width: 6rem;
+            animation: none;
+            mix-blend-mode: screen;
+            /* filter: blur(10px) url(#bg-flow); */
+        }
+
+        .xc8 .xo1 .wave { box-shadow: inset 0 3px 5px hsla(calc(var(--i) * 15), 100%, 50%, .8); }
+        .xc8 .xo2 .wave { box-shadow: inset 0 -3px 5px hsla(calc(var(--i) * 15), 100%, 50%, .8); }
+        .xc8 .wave {transform: translateX(-100%) translateY(-50%) rotate(calc(var(--deg) * 1deg));}
+        .xc8 .wave:nth-of-type(n+8) {transform: translateX(-100%) translateY(-50%) rotate(calc((var(--deg) * 1deg) + 180deg));}
+        .xc8 .wave {
+            background-color: hsla(calc(var(--i) * 15), 100%, 30%, .2);
+            background-color: hsla(calc(var(--i) * 15), 100%, 20%, .1);
+            background-color: transparent;
+            background-image: radial-gradient(circle at 50% 50%, hsla(calc(var(--i) * 15), 100%, 0%, 0) 30%, hsla(calc(var(--i) * 15), 100%, 10%, .1) 35%, hsla(calc(var(--i) * 15), 100%, 20%, .2));
+            background-image: radial-gradient(circle at 50% 50%, hsla(calc(var(--i) * 15), 100%, 0%, 0) 50%, hsla(calc(var(--i) * 15), 100%, 10%, .5) 50%, hsla(calc(var(--i) * 15), 100%, 20%, 1) 70%);
+            mix-blend-mode: color-dodge;
+            mix-blend-mode: screen;
+            /* filter: url(#bg-flow); */
+            /* filter: blur(10px); */
+            filter: blur(4px);
+        }
+        .xc8 .xo1 .wave {
+            box-shadow: inset 0 3px 5px hsla(calc(var(--i) * 15), 100%, 50%, .8);
+        }
+        .xc8 .xo2 {mix-blend-mode: difference;}
+        .xc8 {
+            height: 6rem; width: 6rem;
+            border-radius: 50%;
+            /* overflow: hidden; */
+            /* outline: 1px dashed #8888; */
+            /* filter: url(#bg-flow); */
+        }
+        .xc8 .xo1 {
+            /* animation: none; */
+            /* filter: blur(10px) url(#bg-flow); */
+            /* display: none; */
+        }
+        .xc8 .xo2 {
+            height: 6rem; width: 6rem;
+            /* animation: none; */
+            /* filter: blur(10px) url(#bg-flow); */
+        }
+
+        .xc9 {
+            filter: blur(10px) url(#bg-flow);
+        }
+
+        .z {display: none;}
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <div class="title">Kinetic Sculptures</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">Attempts 1-5</div>
+        <!-- .xc>.xo1>.wave*8^.xo2>.wave*8 -->
+        <div class="xc">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xo2">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xoz"></div>
+        </div>
+        <div class="xc xc2">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xo2">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xoz"></div>
+        </div>
+        <div class="xc xc3">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xo2">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xoz"></div>
+        </div>
+        <div class="xc xc4">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xo2">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xoz"></div>
+        </div>
+        <div class="xc xc5">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xo2">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xoz"></div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Attempts 6-9</div>
+        <div class="xc xc6">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xo2">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xoz"></div>
+        </div>
+        <div class="xc xc7">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xo2">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xoz"></div>
+        </div>
+        <div class="xc xc8">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xo2">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xoz"></div>
+        </div>
+        <div class="xc xc8 xc9">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xo2">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xoz"></div>
+        </div>
+    </div>
+    <div class="shelf hidden">
+        <div class="shelf-title">Attempt 1</div>
+        <!-- .xc>.xo1>.wave*8^.xo2>.wave*8 -->
+        <div class="xc">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xo2">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xoz"></div>
+        </div>
+    </div>
+    <div class="shelf hidden">
+        <div class="shelf-title">Attempt 2</div>
+        <div class="xc xc2">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xo2">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xoz"></div>
+        </div>
+    </div>
+    <div class="shelf hidden">
+        <div class="shelf-title">Attempt 3</div>
+        <div class="xc xc3">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xo2">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xoz"></div>
+        </div>
+    </div>
+    <div class="shelf hidden">
+        <div class="shelf-title">Attempt 4</div>
+        <div class="xc xc4">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xo2">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+            <div class="xoz"></div>
+        </div>
+    </div>
+</main>
+
+
+<svg>
+    <defs>
+        <filter id="bg-flow" 
+            x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise"
+                baseFrequency=".018" numOctaves="5" seed="5"
+                result="fractalNoise">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values=".018;.012;.032;.018" from="0"
+                    to="100" dur="60s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency=".036" numOctaves="5" seed="5"
+                result="turbulence">
+                <animate id="noiseAnimate"
+                    attributeName="baseFrequency"
+                    values=".029;.036;.021;.029" from="0"
+                    to="100" dur="60s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feTurbulence>
+            <feDisplacementMap
+                in="fractalNoise"
+                in2="turbulence"
+                scale="100"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="Displaced">
+                <animate id="scaleAnimate"
+                    attributeName="scale"
+                    values="-40;80;-40" from="0"
+                    to="100" dur="60s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feDisplacementMap>
+            <feDisplacementMap
+                in="SourceGraphic"
+                in2="Displaced"
+                scale="100"
+                xChannelSelector="R"
+                yChannelSelector="R"
+                result="mixed">
+                <animate id="scaleAnimate"
+                    attributeName="scale"
+                    values="80;20;80" from="0"
+                    to="100" dur="60s"
+                    repeatCount="indefinite" >
+                </animate>
+            </feDisplacementMap>
+        </filter>
+    </defs>
+</svg>
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>
