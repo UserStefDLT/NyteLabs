@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>SVG filter effect | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        .bgf {background: #fff;}
+        .my-outline {
+            position: relative;
+            min-height: 8rem;
+            min-width: 8rem;
+            margin: 4rem;
+            outline: 1px dashed #0008;
+            outline-offset: 2rem;
+        }
+        .my-outline::before {
+            content: attr(data-fil);
+            position: absolute;
+            width: max-content;
+            top: 0; left: 50%; transform: translateX(-50%) translateY(-120%);
+            color: #1119;
+        }
+        [class|="shape"] {
+            min-height: 8rem; min-width: 8rem;
+            background-image: 
+            linear-gradient(45deg, #123 25%, #1230 25%, #39f0 75%, #39f 75%),
+            linear-gradient(135deg, #312 25%, #3120 25%, #f390 75%, #f39 75%);
+            background-image: 
+            linear-gradient(45deg, #036 25%, #0360 25%, #39f0 75%, #39f 75%),
+            linear-gradient(135deg, #603 25%, #6030 25%, #f390 75%, #f39 75%);
+            /* filter: blur(2px); */
+            /* filter: url(#my-drop-shadow); */
+            /* image-rendering: pixelated; */
+        }
+        .shape {filter: url(#my-drop-shadow);}
+        .shape-2 {filter: url(#only-my-shadow);}
+        .shape-3 {filter: url(#my-eroding-shadow);}
+        .shape-4 {filter: url(#my-diluding-shadow);}
+        .shape-5 {filter: url(#my-erosion);}
+        .shape-6 {filter: url(#my-dilation);}
+        .shape-7 {filter: url(#feMo-ero-dil);}
+        .shape-8 {filter: url(#feMo-dil-ero);}
+        .shape-9 {filter: url(#feMo-ed-xor);}
+        .shape-10 {filter: url(#feMo-de-xor);}
+
+        .feMoed-357 {filter: url(#feMoed-357);}
+        .feMode-357 {filter: url(#feMode-357);}
+        .feMoed-753 {filter: url(#feMoed-753);}
+        .feMode-753 {filter: url(#feMode-753);}
+
+        @supports (transform-box: fill-box) {
+            /* animation code here */
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <div class="title">SVG filter effect</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+
+<main>
+    <div class="shelf bgf">
+        <div class="shelf-title">experiment</div>
+        <div class="my-outline" data-fil="feMoed-357"><div class="shape-fe feMoed-357"></div></div>
+        <div class="my-outline" data-fil="feMode-357"><div class="shape-fe feMode-357"></div></div>
+        <div class="my-outline" data-fil="feMoed-753"><div class="shape-fe feMoed-753"></div></div>
+        <div class="my-outline" data-fil="feMode-753"><div class="shape-fe feMode-753"></div></div>
+    </div>
+    <div class="shelf bgf">
+        <div class="shelf-title">drop-shadow</div>
+        <div class="my-outline" data-fil="my-drop-shadow"><div class="shape"></div></div>
+        <div class="my-outline" data-fil="only-my-shadow"><div class="shape-2"></div></div>
+
+    </div>
+    <div class="shelf bgf">
+        <div class="shelf-title">erode and dilate</div>
+        <div class="my-outline" data-fil="eroding-shadow"><div class="shape-3"></div></div>
+        <div class="my-outline" data-fil="diluding-shadow"><div class="shape-4"></div></div>
+
+        <div class="my-outline" data-fil="erosion"><div class="shape-5"></div></div>
+        <div class="my-outline" data-fil="dilation"><div class="shape-6"></div></div>
+
+        <div class="my-outline" data-fil="feMo-ero-dil"><div class="shape-7"></div></div>
+        <div class="my-outline" data-fil="feMo-dil-ero"><div class="shape-8"></div></div>
+        <div class="my-outline" data-fil="feMo-ed-xor"><div class="shape-9"></div></div>
+        <div class="my-outline" data-fil="feMo-de-xor"><div class="shape-10"></div></div>
+    </div>
+</main>
+
+<svg id="svg-feMorphology">
+<defs>
+    <filter id="my-drop-shadow" x="-25%" y="-25%" width="150%" height="150%">
+        <!-- makes a black siluete of the image by selecting 'SourceAlpha' -->
+        <!-- moves the image by 'dx' and 'dy' -->
+        <feOffset in="SourceAlpha" dx="5" dy="5"></feOffset>
+        <!-- each 'stdDeviation' extends by 2% of the total size  -->
+        <!-- a 'stdDeviation' of 5 will add a 10% -->
+        <feGaussianBlur stdDeviation="5" result="DROP"></feGaussianBlur>
+
+        <!-- fill all the space -->
+        <feFlood flood-color="#bbb" result="COLOR"></feFlood>
+
+        <!-- only keeps the intersection of both. -->
+        <!-- in this way the color of the flood only applies to the blur. -->
+        <feComposite
+            in="COLOR" in2="DROP"
+            operator="in" result="SHADOW">
+        </feComposite>
+
+        <!-- places multiple things together, like the original image and the shadow -->
+        <feMerge>
+            <feMergeNode in="SHADOW" />
+            <feMergeNode in="SourceGraphic" />
+        </feMerge>
+    </filter>
+    <filter id="only-my-shadow" x="-25%" y="-25%" width="150%" height="150%">
+        <!-- makes a black siluete of the image by selecting 'SourceAlpha' -->
+        <!-- moves the image by 'dx' and 'dy' -->
+        <feOffset in="SourceAlpha" dx="0" dy="0"></feOffset>
+        <!-- each 'stdDeviation' extends by 2% of the total size  -->
+        <!-- a 'stdDeviation' of 5 will add a 10% -->
+        <feGaussianBlur stdDeviation="4" result="DROP"></feGaussianBlur>
+
+        <!-- fill all the space -->
+        <feFlood flood-color="#bbb" result="COLOR"></feFlood>
+
+        <!-- only keeps the intersection of both. -->
+        <!-- in this way the color of the flood only applies to the blur. -->
+        <feComposite
+            in="COLOR" in2="DROP"
+            operator="in" result="SHADOW">
+        </feComposite>
+
+        <!-- places multiple things together, like the original image and the shadow -->
+        <!-- <feMerge>
+            <feMergeNode in="SHADOW" />
+            <feMergeNode in="SourceGraphic" />
+        </feMerge> -->
+    </filter>
+    <filter id="my-eroding-shadow" x="-25%" y="-25%" width="150%" height="150%">
+        <feOffset in="SourceGraphic" dx="5" dy="5"></feOffset>
+        <feGaussianBlur stdDeviation="2" result="DROP"></feGaussianBlur>
+
+        <feMorphology in="DROP" result="eroded" operator="erode" radius="5"></feMorphology>
+
+    </filter>
+    <filter id="my-diluding-shadow" x="-25%" y="-25%" width="150%" height="150%">
+        <feOffset in="SourceGraphic" dx="5" dy="5"></feOffset>
+        <feGaussianBlur stdDeviation="2" result="DROP"></feGaussianBlur>
+
+        <feMorphology in="DROP" result="dilated" operator="dilate" radius="5"></feMorphology>
+    </filter>
+    <filter id="my-erosion" x="-25%" y="-25%" width="150%" height="150%">
+        <feMorphology in="SourceGraphic" result="eroded" operator="erode" radius="3"></feMorphology>
+    </filter>
+    <filter id="my-dilation" x="-25%" y="-25%" width="150%" height="150%">
+        <feMorphology in="SourceGraphic" result="dilated" operator="dilate" radius="3"></feMorphology>
+    </filter>
+
+    <filter id="feMo-ero-dil" x="-25%" y="-25%" width="150%" height="150%">
+        <feOffset in="SourceGraphic" dx="5" dy="5"></feOffset>
+        <feGaussianBlur stdDeviation="2" result="DROP"></feGaussianBlur>
+
+        <feMorphology in="DROP" result="eroded" operator="erode" radius="3"></feMorphology>
+        <feMorphology in="eroded" result="dilated" operator="dilate" radius="3"></feMorphology>
+
+        <!-- <feComposite
+            in="eroded" in2="dilated"
+            operator="xor" result="xorOut">
+        </feComposite> -->
+
+        <!-- <feMerge>
+            <feMergeNode in="SHADOW" />
+            <feMergeNode in="SourceGraphic" />
+        </feMerge> -->
+    </filter>
+    <filter id="feMo-dil-ero" x="-25%" y="-25%" width="150%" height="150%">
+        <feOffset in="SourceGraphic" dx="5" dy="5"></feOffset>
+        <feGaussianBlur stdDeviation="2" result="DROP"></feGaussianBlur>
+
+        <feMorphology in="DROP" result="dilated" operator="dilate" radius="3"></feMorphology>
+        <feMorphology in="dilated" result="eroded" operator="erode" radius="3"></feMorphology>
+
+        <!-- <feComposite
+            in="dilated" in2="eroded"
+            operator="xor" result="xorOut">
+        </feComposite> -->
+
+        <!-- <feMerge>
+            <feMergeNode in="SHADOW" />
+            <feMergeNode in="SourceGraphic" />
+        </feMerge> -->
+    </filter>
+    <filter id="feMo-ed-xor" x="-25%" y="-25%" width="150%" height="150%">
+        <feOffset in="SourceGraphic" dx="5" dy="5"></feOffset>
+        <feGaussianBlur stdDeviation="2" result="DROP"></feGaussianBlur>
+
+        <feMorphology in="DROP" result="eroded" operator="erode" radius="3"></feMorphology>
+        <feMorphology in="DROP" result="dilated" operator="dilate" radius="3"></feMorphology>
+
+        <feComposite
+            in="eroded" in2="dilated"
+            operator="xor" result="xorOut">
+        </feComposite>
+
+        <!-- <feMerge>
+            <feMergeNode in="SHADOW" />
+            <feMergeNode in="SourceGraphic" />
+        </feMerge> -->
+    </filter>
+    <filter id="feMo-de-xor" x="-25%" y="-25%" width="150%" height="150%">
+        <feOffset in="SourceGraphic" dx="5" dy="5"></feOffset>
+        <feGaussianBlur stdDeviation="2" result="DROP"></feGaussianBlur>
+
+        <feMorphology in="DROP" result="dilated" operator="dilate" radius="3"></feMorphology>
+        <feMorphology in="DROP" result="eroded" operator="erode" radius="3"></feMorphology>
+
+        <feComposite
+            in="dilated" in2="eroded"
+            operator="xor" result="xorOut">
+        </feComposite>
+
+        <!-- <feMerge>
+            <feMergeNode in="SHADOW" />
+            <feMergeNode in="SourceGraphic" />
+        </feMerge> -->
+    </filter>
+
+    <filter id="feMoed-357" x="-25%" y="-25%" width="150%" height="150%">
+        <!-- <feOffset in="SourceGraphic" dx="5" dy="5"></feOffset> -->
+        <feGaussianBlur stdDeviation="3" result="DROP"></feGaussianBlur>
+
+        <feMorphology in="DROP" result="eroded-1" operator="erode" radius="3"></feMorphology>
+        <feMorphology in="eroded-1" result="dilated-1" operator="dilate" radius="3"></feMorphology>
+        <feMorphology in="dilated-1" result="eroded-2" operator="erode" radius="5"></feMorphology>
+        <feMorphology in="eroded-2" result="dilated-2" operator="dilate" radius="5"></feMorphology>
+        <feMorphology in="dilated-2" result="eroded-3" operator="erode" radius="7"></feMorphology>
+        <feMorphology in="eroded-3" result="dilated-3" operator="dilate" radius="7"></feMorphology>
+    </filter>
+    <filter id="feMode-357" x="-25%" y="-25%" width="150%" height="150%">
+        <!-- <feOffset in="SourceGraphic" dx="5" dy="5"></feOffset> -->
+        <feGaussianBlur stdDeviation="3" result="DROP"></feGaussianBlur>
+
+        <feMorphology in="DROP" result="dilated-1" operator="dilate" radius="3"></feMorphology>
+        <feMorphology in="dilated-1" result="eroded-1" operator="erode" radius="3"></feMorphology>
+        <feMorphology in="eroded-1" result="dilated-2" operator="dilate" radius="5"></feMorphology>
+        <feMorphology in="dilated-2" result="eroded-2" operator="erode" radius="5"></feMorphology>
+        <feMorphology in="eroded-2" result="dilated-3" operator="dilate" radius="7"></feMorphology>
+        <feMorphology in="dilated-3" result="eroded-3" operator="erode" radius="7"></feMorphology>
+    </filter>
+    <filter id="feMoed-753" x="-25%" y="-25%" width="150%" height="150%">
+        <!-- <feOffset in="SourceGraphic" dx="5" dy="5"></feOffset> -->
+        <feGaussianBlur stdDeviation="7" result="DROP"></feGaussianBlur>
+
+        <feMorphology in="DROP" result="eroded-1" operator="erode" radius="7"></feMorphology>
+        <feMorphology in="eroded-1" result="dilated-1" operator="dilate" radius="7"></feMorphology>
+        <feMorphology in="dilated-1" result="eroded-2" operator="erode" radius="5"></feMorphology>
+        <feMorphology in="eroded-2" result="dilated-2" operator="dilate" radius="5"></feMorphology>
+        <feMorphology in="dilated-2" result="eroded-3" operator="erode" radius="3"></feMorphology>
+        <feMorphology in="eroded-3" result="dilated-3" operator="dilate" radius="3"></feMorphology>
+    </filter>
+    <filter id="feMode-753" x="-25%" y="-25%" width="150%" height="150%">
+        <!-- <feOffset in="SourceGraphic" dx="5" dy="5"></feOffset> -->
+        <feGaussianBlur stdDeviation="7" result="DROP"></feGaussianBlur>
+
+        <feMorphology in="DROP" result="dilated-1" operator="dilate" radius="7"></feMorphology>
+        <feMorphology in="dilated-1" result="eroded-1" operator="erode" radius="7"></feMorphology>
+        <feMorphology in="eroded-1" result="dilated-2" operator="dilate" radius="5"></feMorphology>
+        <feMorphology in="dilated-2" result="eroded-2" operator="erode" radius="5"></feMorphology>
+        <feMorphology in="eroded-2" result="dilated-3" operator="dilate" radius="3"></feMorphology>
+        <feMorphology in="dilated-3" result="eroded-3" operator="erode" radius="3"></feMorphology>
+    </filter>
+</defs>
+</svg>
+<svg id="svg-exp"></svg>
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>

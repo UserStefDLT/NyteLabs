@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Unknown Experiment | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        [class*="unk-x"] {
+            position: relative;
+            width: fit-content;
+            margin: 8rem auto;
+            outline: 1px solid #fff8;
+            outline-offset: 2px;
+        }
+        .unk-xz {
+            margin: 0rem auto;
+        }
+
+        main .shelf--heading {
+            position: absolute;
+            top: -1.25em;
+            left: .5em;
+            width: max-content;
+            margin: 0;
+        }
+        main .shelf--heading .shelf--title {
+            border-bottom: 0px solid transparent;
+            text-decoration: underline;
+        }
+        main .shelf--heading time {
+            color: #8888;
+            text-decoration: none;
+            font-size: 12px;
+        }
+        main .shelf--heading time::before {content: "(";}
+        main .shelf--heading time::after {content: ")";}
+    </style>
+
+    <style>
+        .my-eval-container {
+            /* position: absolute;  */
+            /* top: 0px; left: 0px;  */
+            height: 180px; width: 365px; 
+            background-image: linear-gradient(90deg, #c0c8cf, #e0e8ef); 
+            color: black;
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <div class="title">Unknown Experiment</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+
+<main>
+    <!-- <div class="shelf">
+        <div class="shelf--heading">
+            <span class="shelf--title">title</span>
+            <time datetime="2022-03-05">March 5th, 2022</time>
+        </div>
+        <div class="unk-x">
+            
+        </div>
+    </div> -->
+    <div class="shelf">
+        <div class="shelf--heading">
+            <span class="shelf--title">thing progress</span>
+            <time datetime="2022-03-05">March 5th, 2022</time>
+        </div>
+        <div class="unk-xz">
+            <style>
+                .soft--progress-bar-2 {
+                    position: absolute; top: 50%; left: 50%;
+                    min-height: 12px; min-width: 90%;
+                    background-image: linear-gradient(0deg, #fff, #ddd);
+                    background-image: linear-gradient(90deg, #fff, #ddd);
+                    transform: translateX(-50%) translateY(-60%);
+                    border: 2px solid #eee;
+                    border-radius: 50px;
+                    box-shadow: 
+                        -.25rem -.25rem .25rem 0rem #e0e8efcf, 
+                        .25rem .25rem .25rem #b0b8bfcf,
+                        -.5rem -.5rem .5rem 0rem #e0e8ef, 
+                        .5rem .5rem .5rem #b0b8bf;
+                    box-shadow: 
+                        -4px -4px 4px 0 hsla(210, 20%, 100%, 0.6),
+                        4px 4px 4px 0 hsla(210, 20%, 70%, 0.6);
+                    color: transparent;
+                    text-shadow: 
+                    0px 0px 0px #9cf,
+                    1px 1px 0px #036;
+                    text-align: center;
+                    display: flex; align-items: center; justify-content: center;
+                }
+                .soft--inner-progress-2 {
+                    position: absolute; top: 50%; left: 0rem; 
+                    min-height: 12px; min-width: 25%;
+                    width: 25%;
+                    background-image: linear-gradient(90deg, #03f, #0cf);
+                    transform: translateX(0%) translateY(-50%);
+                    border-radius: 50px;
+                    color: transparent;
+                    display: flex; align-items: center; justify-content: center;
+                    mix-blend-mode: normal;
+                    transition: width 400ms ease-in-out;
+                }
+                :where(div:hover) > :where(.soft--progress-bar-2) .soft--inner-progress-2 {width: 50%;}
+                :where(.soft--progress-bar-2:hover) .soft--inner-progress-2 {width: 75%;}
+                .soft--inner-progress-2:hover {width: 100%;}
+            </style>
+            <div class="my-eval-container">
+                <div class="soft--progress-bar-2">
+                    <div class="soft--inner-progress-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf--heading">
+            <span class="shelf--title">Gold texture</span>
+            <time datetime="2022-03-05">March 5th, 2022</time>
+        </div>
+        <!-- <div class="shelf-title">Gold texture <time datetime="2022-03-05">March 5th, 2022</time></div> -->
+        <div class="unk-xz">
+            <style>
+                .gold {
+                    position: absolute; top: .5rem; left: .5rem;
+                    min-height: 2.5rem; min-width: 6.75rem;
+                    transform: translateX(0%) translateY(0%);
+                    display: flex; align-items: center; justify-content: center;
+
+                    background-image: linear-gradient(180deg, gold, #761);
+                    border: 2px outset gold;
+                    border-radius: 2px;
+                }
+                .gold-glow {
+                    position: absolute; top: 50%; left: 50%; 
+                    min-height: 2rem; min-width: 6rem;
+                    width: 6rem;
+                    background-image: linear-gradient(90deg, gold 20%, #fa2, #750, #fa2 70%,#750 90%, gold);
+                    transform: translateX(-50%) translateY(-50%);
+                    border-radius: 5px;
+                    color: transparent;
+                    display: flex; align-items: center; justify-content: center;
+                    mix-blend-mode: soft-light;
+                    transition: width 400ms ease-in-out;
+                }
+            </style>
+            <div class="my-eval-container">
+                <div class="gold">
+                    <div class="gold-glow"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf--heading">
+            <span class="shelf--title">Progress Bar with Gradient Fill 2</span>
+            <time datetime="2022-03-02">March 2nd, 2022</time>
+        </div>
+        <!-- <div class="shelf-title">Progress Bar with Gradient Fill 2 <time datetime="2022-03-02">March 2nd, 2022</time></div> -->
+        <div class="unk-xz">
+            <style>
+                .progress-bar-2 {
+                    position: absolute; top: 50%; left: 50%;
+                    min-height: 2.5rem; min-width: 6.75rem;
+                    background-image: linear-gradient(0deg, #fff, #ddd);
+                    transform: translateX(-50%) translateY(-60%);
+                    border: 2px solid #eee;
+                    border-radius: 50px;
+                    box-shadow: 
+                    -.25rem -.25rem .25rem 0rem #e0e8efcf, 
+                    .25rem .25rem .25rem #b0b8bfcf,
+                    -.5rem -.5rem .5rem 0rem #e0e8ef, 
+                    .5rem .5rem .5rem #b0b8bf;
+                    color: transparent;
+                    text-shadow: 
+                    0px 0px 0px #9cf,
+                    1px 1px 0px #036;
+                    text-align: center;
+                    display: flex; align-items: center; justify-content: center;
+                }
+                .inner-progress-2 {
+                    position: absolute; top: 50%; left: .25rem; 
+                    min-height: 2rem; min-width: 1rem;
+                    width: 2rem;
+                    background-image: linear-gradient(90deg, #f93, #f39);
+                    transform: translateX(0%) translateY(-50%);
+                    border-radius: 50px;
+                    color: transparent;
+                    display: flex; align-items: center; justify-content: center;
+                    mix-blend-mode: normal;
+                    transition: width 400ms ease-in-out;
+                }
+                .inner-progress-2:hover,
+                .inner-progress-2:focus, 
+                .progress-bar-2:focus > .inner-progress-2 {
+                    width: 6rem;
+                }
+            </style>
+            <div class="my-eval-container">
+                <div class="progress-bar-2">
+                    <div class="inner-progress-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf--heading">
+            <span class="shelf--title">Progress Bar with Gradient Fill</span>
+            <time datetime="2022-03-02">March 2nd, 2022</time>
+        </div>
+        <div class="unk-xz">
+            <style>
+                .progress-bar {
+                    position: absolute; top: 50%; left: 50%;
+                    min-height: 2.5rem; min-width: 6.75rem;
+                    background-image: linear-gradient(0deg, #fff, #bbb);
+                    transform: translateX(-50%) translateY(-60%);
+                    border: 2px solid #eee;
+                    border-radius: 50px;
+                    box-shadow: 
+                    -.25rem -.25rem .25rem 0rem #e0e8efcf, 
+                    .25rem .25rem .25rem #b0b8bfcf,
+                    -.5rem -.5rem .5rem 0rem #e0e8ef, 
+                    .5rem .5rem .5rem #b0b8bf;
+                    color: transparent;
+                    text-shadow: 
+                    0px 0px 0px #9cf,
+                    1px 1px 0px #036;
+                    text-align: center;
+                    display: flex; align-items: center; justify-content: center;
+                }
+                .inner-progress {
+                    position: absolute; top: 50%; left: .25rem; 
+                    min-height: 2rem; min-width: 1rem;
+                    width: 2rem;
+                    background-image: linear-gradient(90deg, #f93, #f39);
+                    transform: translateX(0%) translateY(-50%);
+                    border-radius: 50px;
+                    color: transparent;
+                    display: flex; align-items: center; justify-content: center;
+                    mix-blend-mode: normal;
+                    transition: width 400ms ease-in-out;
+                }
+                
+                .inner-progress:hover,
+                .inner-progress:focus, 
+                .progress-bar:focus > .inner-progress {
+                    width: 6rem;
+                }
+
+                .progress-bar-3 {
+                    position: absolute; top: 50%; left: 50%; 
+                    min-height: 2.25rem; min-width: 6.25rem; 
+                    background-image: linear-gradient(120deg, #e8fdff, #c8d0df); 
+                    transform: translateX(-50%) translateY(70%);
+                    box-shadow: 
+                    inset 12px 12px 12px -10px #9cfc,
+                    inset -12px 12px 12px -10px #9cfc,
+                    inset 10px -10px 12px -10px #036,
+                    inset -10px -10px 12px -10px #036;
+                    border-radius: 50px;
+                    color: transparent;
+                    display: flex; align-items: center; justify-content: center;
+                }
+                .inner-progress-3 {
+                    position: absolute; top: 50%; left: 50%; 
+                    min-height: 2rem; min-width: 6rem;
+                    background-image: linear-gradient(0deg, #39f,  #369);
+                    transform: translateX(-50%) translateY(-50%);
+                    border-radius: 50px;
+                    box-shadow: 
+                    inset 12px 12px 12px -10px #9cfc,
+                    inset -12px 12px 12px -10px #9cfc,
+                    inset 10px -10px 12px -10px #036,
+                    inset -10px -10px 12px -10px #036;
+                    box-shadow: 
+                    inset 0x -2px 1px -1px #123,
+                    inset 0px 2px 1px -1px #cde,
+                    inset 0px -4px 2px -2px #39f,
+                    inset 0px 4px 2px -2px #036;
+                    color: transparent;
+                    display: flex; align-items: center; justify-content: center;
+                    mix-blend-mode: normal;
+                }
+                .progress-bar-4 {
+                    position: absolute; top: 50%; left: 5%;
+                    min-height: 2.25rem; min-width: 6.25rem;
+                    background-image: linear-gradient(180deg, #fff, #bbb);
+                    transform: translateX(0%) translateY(-60%);
+                    box-shadow: 
+                    inset 12px 12px 0px -10px #9cfc,
+                    inset -12px 12px 0px -10px #9cfc,
+                    inset 10px -10px 0px -10px #036,
+                    inset -10px -10px 0px -10px #036;
+                    border-radius: 50px;
+                    color: transparent;
+                    text-shadow: 
+                    0px 0px 0px #9cf,
+                    1px 1px 0px #036;
+                    text-align: center;
+                    display: flex; align-items: center; justify-content: center;
+                    
+                }
+                .progress-bar-5 {
+                    position: absolute; top: 50%; left: 50%;
+                    min-height: 2.25rem; min-width: 6.25rem;
+                    background-image: linear-gradient(0deg, #fff, #bbb);
+                    transform: translateX(60%) translateY(-60%);
+                    box-shadow: 
+                    inset 0px 3px 0px -1px #9cfc,
+                    inset 3px 0px 0px -1px #9cfc,
+                    inset 3px 3px 0px -2px #9cfc,
+                    inset 0px 0px 0px 2px #036,
+                    inset -10px -10px 0px -10px #0360,
+                    inset 2px 2px 1px 1px #0360,
+                    inset -2px -2px 1px 1px #fff0;
+                    border-radius: 50px;
+                    color: transparent;
+                    text-shadow: 
+                    0px 0px 0px #9cf,
+                    1px 1px 0px #036;
+                    text-align: center;
+                    display: flex; align-items: center; justify-content: center;
+                    
+                }
+            </style>
+                
+                <div class="my-eval-container">
+                    <div class="progress-bar">
+                        <div class="inner-progress"></div>
+                    </div>
+                    
+                    <div class="progress-bar-3">
+                        <div class="inner-progress-3"></div>                    
+                    </div>
+                    <div class="progress-bar-4"></div>
+                    <div class="progress-bar-5"></div>
+                </div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf--heading">
+            <span class="shelf--title">Intefresting Text Effect</span>
+            <time datetime="2022-03-01">March 1st, 2022</time>
+        </div>
+        <!-- <div class="shelf-title">Intefresting Text Effect</div> -->
+        <div class="unk-xz">
+            <div class="my-eval-container">
+                <div style="position: absolute; top: 50%; left: 50%; 
+                min-height: 2rem; min-width: 6rem;
+                background-image: linear-gradient(180deg, #39f 30%, #369);
+                transform: translateX(-50%) translateY(-50%);
+                box-shadow: 
+                inset 12px 12px 12px -10px #9cfc,
+                inset -12px 12px 12px -10px #9cfc,
+                inset 10px -10px 12px -10px #036,
+                inset -10px -10px 12px -10px #036;
+                border-radius: 50px;
+                color: transparent;
+                text-shadow: 
+                0px 0px 0px #9cf,
+                1px 1px 0px #036;
+                text-align: center;
+                display: flex; align-items: center; justify-content: center;
+                "></div>
+
+                <div style="position: absolute; top: 50%; left: 50%; 
+                min-height: 2rem; min-width: 6rem;
+                /*background-image: linear-gradient(90deg, #000, #fff 50%, #000);*/
+                transform: translateX(-50%) translateY(-50%);
+                border-radius: 50px;
+                color: transparent;
+                text-shadow: 
+                -1px -1px 1px #0006,
+                0px 0px 1px #3339,
+                1px 1px 1px #fff6;
+                text-align: center;
+                display: flex; align-items: center; justify-content: center;
+                mix-blend-mode: difference;
+                ">~hi 2!</div>
+            </div>
+        </div>
+    </div>
+    <div class="shelf hidden">
+        <div class="shelf--heading">
+            <span class="shelf--title">feTurbulence in flag colors</span>
+            <time datetime="2022-02-27">Feb 27th, 2022</time>
+        </div>
+        <!-- <div class="shelf-title">unknown <time datetime="2022-02-27">Feb 27th, 2022</time></div> -->
+        <div class="unk-x">
+            <style>
+                .unknown-item {
+                    position: relative; 
+                    min-height: 8rem; min-width: 16rem; 
+                    background-image: linear-gradient(90deg, #b11, #900 28%, #fff 38%,#fff 61%,#900 71%, #700); 
+                    transform: scale(1.5); 
+                    top: 1em; left: 4rem; 
+                    box-shadow: 0rem 0rem 1rem .5rem #000; 
+                    color: black; 
+                    filter: blur(5px) url(#bg-flow-unk-2);
+                }
+            </style>
+            <div class="unknown-item"></div>
+            <svg>
+                <defs>
+                    <filter id="bg-flow-unk-2" 
+                        x="-25%" y="-25%" width="150%" height="150%">
+                        <feTurbulence type="fractalNoise" id="fractalNoise"
+                            baseFrequency=".021" numOctaves="5" seed="5"
+                            result="fractalNoise">
+                        </feTurbulence>
+                        <feTurbulence type="turbulence" id="turbulence"
+                            baseFrequency=".029" numOctaves="5" seed="5"
+                            result="turbulence">
+                        </feTurbulence>
+                        <feDisplacementMap
+                            in="fractalNoise"
+                            in2="turbulence"
+                            scale="-40"
+                            xChannelSelector="R"
+                            yChannelSelector="R"
+                            result="Displaced">
+                        </feDisplacementMap>
+                        <feDisplacementMap in="SourceGraphic" in2="Displaced" scale="89" 
+                            xChannelSelector="R" yChannelSelector="R" result="mixed">
+                        </feDisplacementMap>
+                    </filter>
+                </defs>
+            </svg>
+            <!-- <svg>
+                <defs>
+                    <filter id="bg-flow-unk-err" 
+                        x="-25%" y="-25%" width="150%" height="150%">
+                        <feTurbulence type="fractalNoise" id="fractalNoise"
+                            baseFrequency=".021" numOctaves="5" seed="5"
+                            result="fractalNoise">
+                        </feTurbulence>
+                        <feTurbulence type="turbulence" id="turbulence"
+                            baseFrequency=".029" numOctaves="5" seed="5"
+                            result="turbulence">
+                        </feTurbulence>
+                        <feDisplacementMap
+                            in="fractalNoise"
+                            in2="turbulence"
+                            scale="-40"
+                            xChannelSelector="R"
+                            yChannelSelector="R"
+                            result="Displaced">
+                        </feDisplacementMap>
+                        <feDisplacementMap in="SourceGraphic”  in2="Displaced" scale="89" xChannelSelector="R" yChannelSelector="R" result="mixed"> </feDisplacementMap>
+                    </filter>
+                </defs>
+            </svg> -->
+
+        </div>
+    </div>
+    <div class="shelf hidden">
+        <div class="shelf--heading">
+            <span class="shelf--title">feTurbulence</span>
+            <time datetime="2022-02-27">Feb 27th, 2022</time>
+        </div>
+        <div class="unk-x">
+            <style>
+                .unknown-item-1 {
+                    position: relative; 
+                    min-height: 8rem; min-width: 16rem; 
+                    background-image: linear-gradient(180deg,#fff 10%, #f39 30%,#123 70%,#39f 90%); 
+                    transform: scale(1.75); 
+                    top: 7em; left: 4rem; 
+                    box-shadow: 0rem -2rem 1rem 0rem #fff; 
+                    color: black; 
+                    filter: blur(5px) url(#bg-flow-unk-1);
+                }
+            </style>
+            <div class="unknown-item-1"></div>
+            <svg>
+                <defs>
+                    <filter id="bg-flow-unk-1" 
+                        x="-25%" y="-25%" width="150%" height="150%">
+                        <feTurbulence type="fractalNoise" id="fractalNoise"
+                            baseFrequency=".021" numOctaves="5" seed="5"
+                            result="fractalNoise">
+                        </feTurbulence>
+                        <feTurbulence type="turbulence" id="turbulence"
+                            baseFrequency=".029" numOctaves="5" seed="5"
+                            result="turbulence">
+                        </feTurbulence>
+                        <feDisplacementMap
+                            in="fractalNoise"
+                            in2="turbulence"
+                            scale="-40"
+                            xChannelSelector="R"
+                            yChannelSelector="R"
+                            result="Displaced">
+                        </feDisplacementMap>
+                        <feDisplacementMap
+                            in="SourceGraphic"
+                            in2="Displaced"
+                            scale="89"
+                            xChannelSelector="R"
+                            yChannelSelector="R"
+                            result="mixed">
+                        </feDisplacementMap>
+                    </filter>
+                </defs>
+            </svg>
+        
+        </div>
+    </div>
+    <div class="shelf hidden">
+        <div class="shelf--heading">
+            <span class="shelf--title">Failed attempt to add with custom properties</span>
+            <time datetime="2022-02-12">Feb 12th, 2022</time>
+        </div>
+        <!-- <div class="shelf-title">title</div> -->
+        <div class="unk-x">
+            <style>
+                .box {
+                    position: relative; left: 2rem;
+                    height: 12rem; width: 21rem;
+                    display: flex; align-items: center; justify-content: center;
+                    flex-wrap: wrap;
+                    background-color: #ccc9;
+                }
+                .dark { --atkbuff: 3; }
+                .bat { --atk: 52; --crit: 0.1; }
+                .onyx { --atk: '54'; --crit: 0.1; }
+                .x, .y, .c, .dark div {
+                    min-height: 3rem; min-width: 3rem;
+                    margin: .5rem;
+                    display: flex; align-items: center; justify-content: center;
+                    background-image: linear-gradient(-45deg, #123, #789);
+                    border-radius: 4px;
+                }
+                .x::before {content: 'x: ';}
+                .y::before {content: 'y: ';}
+                .c::before {content: attr(class) ': ';}
+                
+                .c-1::after {content: attr(data-x);}
+                
+                .c-2::after {content: calc(attr(data-x) * 2);}
+                
+                .dark div::before {
+                    content: "dark-";
+                }
+                .dark div::after {
+                    content: calc(var(--atk) * (1 + var(--crit)));
+                    content: '' var(--atk);
+                }
+            </style>
+                <div class="box">
+                
+                <div class="x">100</div>
+                
+                <div class="y">100</div>
+                
+                <div class="c">100</div>
+                
+                <div class="c c-1" data-x="10">x</div>
+                
+                <div class="c c-2" data-x="10">x</div>
+                
+                <div class="dark">
+                <div class="bat">bat</div>
+                <div class="onyx">onyx</div>
+                </div>
+                
+            </div>
+                
+        </div>
+    </div>
+    <!-- <div class="shelf">
+        <div class="shelf--heading">
+            <span class="shelf--title">title</span>
+            <time datetime="2022-mm-dd">Month dd-th, 2022</time>
+        </div>
+        <div class="unk-x">
+            
+        </div>
+    </div> -->
+    <!-- <div class="shelf">
+        <div class="shelf-title">title</div>
+        .unk-x
+    </div> -->
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>

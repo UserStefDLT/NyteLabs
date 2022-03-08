@@ -124,6 +124,12 @@
         <div class="deco-card deco2 turbulence--x1"></div>
         <div id="cover--x1" class="deco-card deco2 cover--x1" data-clr="0"></div>
     </div>
+
+    <div class="shelf hidden">
+        <svg viewbox="0 0 200 200" height="200px" width="200px">
+            <path d="M 10 10 L 10 190 L 190 190 L 190 10 Z" fill="url(#xB-clr)" stroke="#ffff" stroke-width="2" />
+        </svg>
+    </div>
 </main>
 
 
@@ -180,6 +186,37 @@
                 </animate>
             </feDisplacementMap>
         </filter>
+
+        <!-- background-image: linear-gradient(45deg, #123 25%, #39f 75%); -->
+        <linearGradient id="xB-clr" gradientTransform="rotate(45)">
+            <stop offset="25%"  stop-color="#123" />
+            <stop offset="75%" stop-color="#39f" />
+        </linearGradient>
+
+        <!-- background-image: linear-gradient(0deg, #123f 30%, #ffff 70%); -->
+        <linearGradient id="xT-clr" gradientTransform="rotate(0)">
+            <stop offset="30%"  stop-color="#123f" />
+            <stop offset="70%" stop-color="#ffff" />
+        </linearGradient>
+
+        <!-- background-image: linear-gradient(135deg, #123 30%, #123 35%, #fff 65%, #fff 70%); -->
+        <!-- background-image: linear-gradient(135deg, #123 35%, #fff 35%, #fff 65%, #123 65%); -->
+        <linearGradient id="xC-clr" gradientTransform="rotate(90)">
+            <stop offset="35%"  stop-color="#123" />
+            <stop offset="65%" stop-color="#fff" />
+        </linearGradient>
+
+
+        <filter id="xCover" x="-25%" y="-25%" width="150%" height="150%">
+            <feFlood result="floodFill" x="0" y="0" width="100%" height="100%"
+                flood-color="green" flood-opacity="1"/>
+            <feBlend in="SourceGraphic" in2="floodFill" mode="overlay"/>
+        </filter>
+        <filter id="spotlight">
+            <feFlood result="floodFill" x="0" y="0" width="100%" height="100%"
+                flood-color="green" flood-opacity="1"/>
+            <feBlend in="SourceGraphic" in2="floodFill" mode="multiply"/>
+          </filter>
     </defs>
 </svg>
 

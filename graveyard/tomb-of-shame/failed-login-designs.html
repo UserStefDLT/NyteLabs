@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Login Styles | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+
+
+        
+        .login-card {
+            min-height: 10rem; min-width: 8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: .5rem;
+            padding: 1rem;
+        }
+        .login-card .login--title {
+            font-size: 1.5rem;
+        }
+        .style-none {
+            background: #fff;
+            color: #000;
+            color: initial;
+        }
+
+
+
+        .login-card:not(.style-none) {
+            min-height: 10rem; min-width: 8rem;
+            border-radius: .5rem;
+            outline: 2px dashed #8888;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: .5rem;
+            padding: 1rem;
+        }
+        .login-card:not(.style-none) .login--title {
+            font-size: 2rem;
+        }
+        .login-card:not(.style-none) .login--img {
+            min-height: 5rem; min-width: 5rem;
+            border: 2px solid #333;
+            border-radius: 50%;
+        }
+        .login-card:not(.style-none) .btn-submit {
+            border: none;
+            background-color: #369;
+            border-radius: 5rem;
+            padding: 0.5rem 1rem;
+            box-shadow: 0rem 0rem 0rem #3339;
+            cursor: pointer;
+            user-select: none;
+            transition:
+            background-color 300ms ease-in-out,
+            box-shadow 300ms ease-in-out;
+        }
+        .login-card:not(.style-none) .btn-submit:hover {
+            background-color: #39f;
+            box-shadow: .25rem .25rem .25rem #3339;
+        }
+
+        .style-base {
+            --main-clr: #8888;
+            --main-shw: #3339;
+            --bgc: #369;
+            --bgc-hover: #39f;
+
+            --glow: 0rem 0rem 0rem var(--main-shw);
+            --glow-hover: .25rem .25rem .25rem var(--main-shw);
+            --outline: 2px dashed var(--main-clr);
+            --outline-offset: 0px;
+            
+            --img-border: 2px solid #333;
+            --btn-bgc: var(--bgc);
+            --btn-bgc-hover: var(--bgc-hover);
+            
+            --transition:
+                background-color 300ms ease-in-out,
+                box-shadow 300ms ease-in-out;
+        }
+
+        
+
+        .style-neon {
+            --main-clr: #f39;
+            --main-shw: #f39;
+            --bgc: transparent;
+            --bgc-hover: transparent;
+            --glow: 
+                inset 0em 0em .25rem 0 var(--main-shw),
+                0em 0em .25rem 0 var(--main-shw);
+            --glow-hover: 
+                inset 0em 0em .25rem .125rem var(--main-shw),
+                0em 0em .25rem .125rem var(--main-shw);
+            --outline: 2px solid var(--main-clr);
+            --outline-offset: -1px;
+
+            --img-border: none;
+            --btn-bgc: var(--bgc);
+            --btn-bgc-hover: var(--bgc-hover);
+                
+            --transition:
+                background-color 300ms ease-in-out,
+                box-shadow 300ms ease-in-out;
+        }
+
+        .login-card:not(.style-none) {
+            box-shadow: var(--glow);
+            outline: var(--outline);
+            outline-offset: var(--outline-offset);
+            transition: var(--transition);
+        }
+        .login-card:not(.style-none) .login--img {
+            min-height: 5rem; min-width: 5rem;
+            border: var(--img-border);
+            border-radius: 50%;
+            box-shadow: var(--glow);
+            transition: var(--transition);
+        }
+        .login-card:not(.style-none) .btn-submit {
+            border: none;
+            background-color: var(--btn-bgc);
+            border-radius: 5rem;
+            padding: 0.5rem 1rem;
+            box-shadow: var(--glow);
+            transition:
+            background-color 300ms ease-in-out,
+            box-shadow 300ms ease-in-out;
+        }
+        .login-card:not(.style-none) .btn-submit:hover {
+            background-color: var(--btn-bgc-hover);
+            box-shadow: var(--glow-hover);
+        }
+
+                
+        .style-neon > .login--img:hover,
+        .style-neon > .btn-submit:hover,
+        .style-neon:hover {
+            box-shadow: var(--glow-hover);
+        }
+
+
+        .style-glass {
+            --main-clr: #fff;
+            --main-shw: #000;
+            --bgc: transparent;
+            --bgc-hover: transparent;
+
+            --glow: none;
+            --glow-hover: none;
+
+            --outline: none;
+            --outline-offset: none;
+
+            --img-border: none;
+            --btn-bgc: #39f0;
+            --btn-bgc-hover: #39f;
+                
+            --transition:
+                background-color 300ms ease-in-out,
+                box-shadow 300ms ease-in-out;
+        }
+        .style-glass {
+            border: 1px solid #fff;
+            border-top: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+            border-radius: .5rem;
+            backdrop-filter: blur(4px);
+            overflow: hidden;
+        }
+        .style-glass .login--title { text-shadow: 2px 2px 2px #1119; }
+        .style-glass .login--img {
+            backdrop-filter: blur(20px) contrast(1.5);
+            backdrop-filter: blur(8px) contrast(2.5);
+        }
+        .style-glass .btn-submit {
+            backdrop-filter: blur(20px) contrast(2.5);
+        }
+        .style-glass #style-glass--input-email {
+            background-color: #1114;
+            backdrop-filter: blur(20px) contrast(2.5);
+        }
+        .style-glass #style-glass--input-password {
+            background-color: #1114;
+            backdrop-filter: blur(20px) contrast(2.5);
+            backdrop-filter: blur(25px) brightness(1) contrast(3);
+        }
+        .style-glass::before {
+            content: '';
+            position: absolute;
+            height: 100%; width: 100%;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            background-image: 
+            radial-gradient(circle at 50% 50%, gold, goldenrod 2rem, #f93 3rem, transparent 3rem),
+            linear-gradient(180deg, #39f0, #39f 40%, #369 80%),
+            linear-gradient(180deg, #fff, #ddd);
+            background-image: 
+            radial-gradient(circle at 50% 60%, gold, goldenrod 2rem, #f93 3rem, transparent 3rem),
+            linear-gradient(180deg, #39f0, #39f 40%, #369 80%, #f93),
+            linear-gradient(180deg, #fff, #ddd);
+            z-index: -1;
+        }
+        .style-glass::after {
+            content: '';
+            position: absolute;
+            height: 100%; width: 100%;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            backdrop-filter: blur(4px);
+            z-index: -1;
+        }
+        
+
+        .bg-sunny {
+            background-image: 
+            radial-gradient(circle at 50% 30%, gold, goldenrod 2rem, #f93 3rem, transparent 3rem),
+            linear-gradient(180deg, #39f0, #39f 40%, #369 80%),
+            linear-gradient(180deg, #fff, #ddd);
+        }
+
+
+
+
+
+
+        .style-last {
+            --main-clr: #fff;
+            --main-shw: #0007;
+            --bgc: #369;
+            --bgc-hover: #39f;
+
+            --glow: 0rem 0rem 0rem var(--main-shw);
+            --glow-hover: .25rem .25rem .25rem var(--main-shw);
+            --outline: 2px solid var(--main-clr);
+            --outline-offset: 0px;
+            
+            --img-border: 2px solid #fff;
+            --btn-bgc: var(--bgc);
+            --btn-bgc-hover: var(--bgc-hover);
+            
+            --transition:
+                background-color 300ms ease-in-out,
+                box-shadow 300ms ease-in-out;
+        }
+        .z{display: none;}
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <div class="title">Login Styles</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">style-none</div>
+        <!-- .login-card.style-none>.login--title+input:email+input:password+button:submit -->
+        <div id="style-none" class="login-card style-none">
+            <div class="login--title">Login</div>
+            <input type="email" name="email" id="style-none--input-email">
+            <input type="password" name="password" id="style-none--input-password">
+            <button type="submit">Sing in</button>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">style-base</div>
+        <div id="style-base" class="login-card style-base">
+            <div class="login--title">Login</div>
+            <div class="login--img"></div>
+            <input type="email" name="email" id="style-base--input-email" placeholder="email">
+            <input type="password" name="password" id="style-base--input-password" placeholder="password">
+            <div class="btn-submit">Sing in</div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">style-neon</div>
+        <div id="style-neon" class="login-card style-neon">
+            <div class="login--title">Login</div>
+            <div class="login--img"></div>
+            <input type="email" name="email" id="style-neon--input-email" placeholder="email">
+            <input type="password" name="password" id="style-neon--input-password" placeholder="password">
+            <div class="btn-submit">Sing in</div>
+        </div>
+    </div>
+    <div class="shelf bg-sunny">
+        <div class="shelf-title">style-glass</div>
+        <div id="style-glass" class="login-card style-glass">
+            <div class="login--title">Login</div>
+            <div class="login--img"></div>
+            <input type="email" name="email" id="style-glass--input-email" placeholder="email">
+            <input type="password" name="password" id="style-glass--input-password" placeholder="password">
+            <div class="btn-submit">Sing in</div>
+        </div>
+    </div>
+
+
+    <div class="shelf">
+        <div class="shelf-title">style-last</div>
+        <div id="style-last" class="login-card style-last">
+            <div class="login--title">Login</div>
+            <div class="login--img"></div>
+            <input type="email" name="email" id="style-last--input-email" placeholder="email">
+            <input type="password" name="password" id="style-last--input-password" placeholder="password">
+            <div class="btn-submit">Sing in</div>
+        </div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>
