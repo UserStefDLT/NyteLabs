@@ -726,11 +726,7 @@
 
 
         /* #xc69 */
-        #xc69 {
-            /* filter: url(#bg-flow2); */
-            filter: url(#bg-flow2z);
-            outline: none;
-        }
+        #xc69 {outline: none;}
         #xc69::after {color: transparent;}
         #xc69 .wave {
             --rot-wave: calc((var(--deg) * 23deg) + var(--deg-add));
@@ -819,6 +815,52 @@
             100% {box-shadow: 7px -5px 10px -3px hsla(calc(var(--i) * 2), 100%, 50%, 1), inset -7px 5px 0px -3px hsla(calc(var(--i) * 2), 100%, 50%, 1); transform: translateX(-100%) translateY(-50%) rotate(calc((var(--deg) * 23deg) + var(--deg-add)));}
         }
         
+        .xc70-79 {outline: none;}
+        .xc70-79::after {color: transparent;}
+
+        .xc70-79 .wave {
+            --rot-wave: calc((var(--deg) * 23deg) + var(--deg-add));
+            box-shadow: 7px -5px 10px -3px var(--bxshw-w-solid), inset -7px 5px 0px -3px var(--bxshw-w-solid);
+            transform: translateX(-100%) translateY(-50%) rotate(var(--rot-wave));
+            transform: translateX(-100%) translateY(-50%) rotate(calc((var(--deg) * 23deg) + var(--deg-add)));
+            mix-blend-mode: screen;
+        }
+        #xc70 .wave {animation: xc69a 29s ease-in-out infinite alternate both;}
+        #xc71 .wave {animation: xc69b 29s ease-in-out infinite alternate both;}
+        #xc72 .wave {animation: xc69c 29s ease-in-out infinite alternate both;}
+        #xc73 .wave {animation: xc69d 29s ease-in-out infinite alternate both;}
+        #xc74 .wave {animation: xc69e 29s ease-in-out infinite alternate both;}
+        #xc75 .wave {animation: xc69f 29s ease-in-out infinite alternate both;}
+        #xc76 .wave {animation: xc69g 29s ease-in-out infinite alternate both;}
+        #xc77 .wave {animation: xc69h 29s ease-in-out infinite alternate both;}
+        #xc78 .wave {animation: xc69i 29s ease-in-out infinite alternate both;}
+        #xc79 .wave {animation: xc69j 29s ease-in-out infinite alternate both;}
+        
+        #xc80 {
+            filter: url(#bg-flow2z);
+            outline: none;
+        }
+        #xc80::after {color: transparent;}
+        #xc80 .wave {
+            --rot-wave: calc((var(--deg) * 23deg) + var(--deg-add));
+            box-shadow: 7px -5px 10px -3px var(--bxshw-w-solid), inset -7px 5px 0px -3px var(--bxshw-w-solid);
+            transform: translateX(-100%) translateY(-50%) rotate(var(--rot-wave));
+            transform: translateX(-100%) translateY(-50%) rotate(calc((var(--deg) * 23deg) + var(--deg-add)));
+
+            mix-blend-mode: screen;
+            animation: xc80 24s ease-in-out infinite alternate both;
+            animation: xc80 24s linear infinite alternate both;
+            animation: xc80 29s ease-in-out infinite alternate both;
+        }
+        @keyframes xc80 {
+            0% {box-shadow: 7px -5px 10px -3px hsla(calc(var(--i) * 0), 100%, 50%, 1), inset -7px 5px 0px -3px hsla(calc(var(--i) * 0), 100%, 50%, 1); transform: translateX(-100%) translateY(-50%) rotate(calc((var(--deg) * 1deg) + var(--deg-add)));}
+            25% {box-shadow: 7px -5px 10px -3px hsla(calc(var(--i) * 25.7), 100%, 50%, 1), inset -7px 5px 0px -3px hsla(calc(var(--i) * 25.7), 100%, 50%, 1); transform: translateX(-100%) translateY(-50%) rotate(calc((var(--deg) * 11.7deg) + var(--deg-add)));}
+            50% {box-shadow: 7px -5px 10px -3px hsla(calc(var(--i) * 180), 100%, 50%, 1), inset -7px 5px 0px -3px hsla(calc(var(--i) * 180), 100%, 50%, 1); transform: translateX(-100%) translateY(-50%) rotate(calc((var(--deg) * 23.7deg) + var(--deg-add)));}
+            75% {box-shadow: 7px -5px 10px -3px hsla(calc(var(--i) * -12), 100%, 50%, 1), inset -7px 5px 0px -3px hsla(calc(var(--i) * -12), 100%, 50%, 1); transform: translateX(-100%) translateY(-50%) rotate(calc((var(--deg) * 3deg) + var(--deg-add)));}
+            100% {box-shadow: 7px -5px 10px -3px hsla(calc(var(--i) * 360), 100%, 50%, 1), inset -7px 5px 0px -3px hsla(calc(var(--i) * 360), 100%, 50%, 1); transform: translateX(-100%) translateY(-50%) rotate(calc((var(--deg) * 10deg) + var(--deg-add)));}
+        }
+
+
         .wave {
             /* filter: blur(4px); */
         }
@@ -838,7 +880,7 @@
     <header>
         <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
         <div class="title">Kinetic Sculptures</div>
-        <!-- <div class="subtitle">subtitle</div> -->
+        <div class="subtitle">Only CSS</div>
     </header>
 
 <main>
@@ -2350,6 +2392,7 @@
         </div>
     </div>
     <div class="shelf">
+        <div class="shelf-title">Experiments 60-68</div>
         <div id="xc60" class="xc60 xc60-68">
             <div class="xo1">
                 <div class="wave"></div>
@@ -2515,10 +2558,212 @@
         <div class="shelf-title">Experiments 60-68</div>
     </div>
     <div class="shelf">
-        <div class="shelf-title">Experiments 69</div>
+        <div class="shelf-title">Experiments 69-79</div>
         <!-- #xc$$.xc$$*5>.xo1>.wave*14
         #xc$$@69.xc$$@69*10>.xo1>.wave*14 -->
         <div id="xc69" class="xc69">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+        </div>
+        <!-- #xc$$@70.xc70-79.xc$$@70*10>.xo1>.wave*14 -->
+        <div id="xc70" class="xc70-79 xc70">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+        </div>
+        <div id="xc71" class="xc70-79 xc71">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+        </div>
+        <div id="xc72" class="xc70-79 xc72">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+        </div>
+        <div id="xc73" class="xc70-79 xc73">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+        </div>
+        <div id="xc74" class="xc70-79 xc74">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+        </div>
+        <div id="xc75" class="xc70-79 xc75">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+        </div>
+        <div id="xc76" class="xc70-79 xc76">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+        </div>
+        <div id="xc77" class="xc70-79 xc77">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+        </div>
+        <div id="xc78" class="xc70-79 xc78">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+        </div>
+        <div id="xc79" class="xc70-79 xc79">
+            <div class="xo1">
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Experiment 80</div>
+        <div id="xc80" class="xc80">
             <div class="xo1">
                 <div class="wave"></div>
                 <div class="wave"></div>
@@ -2547,7 +2792,7 @@
 
 <svg>
     <defs>
-        <filter id="bg-flow0" 
+        <filter id="bg-flow" 
             x="-25%" y="-25%" width="150%" height="150%">
             <feTurbulence type="fractalNoise" id="fractalNoise"
                 baseFrequency=".018" numOctaves="5" seed="5"
@@ -2600,104 +2845,31 @@
         </filter>
         <filter id="bg-flow2" 
             x="-25%" y="-25%" width="150%" height="150%">
-            <feTurbulence type="fractalNoise" id="fractalNoise"
-                baseFrequency=".018" numOctaves="5" seed="5"
-                result="fractalNoise">
-                <animate id="noiseAnimate"
-                    attributeName="baseFrequency"
-                    values=".018;.012;.032;.018" from="0"
-                    to="100" dur="20s"
-                    repeatCount="indefinite" >
-                </animate>
+            <feTurbulence type="fractalNoise" id="fractalNoise" baseFrequency=".018" numOctaves="5" seed="5" result="fractalNoise">
+                <animate id="noiseAnimate" attributeName="baseFrequency" values=".018;.012;.032;.018" from="0" to="100" dur="20s" repeatCount="indefinite" ></animate>
             </feTurbulence>
-            <feTurbulence type="turbulence" id="turbulence"
-                baseFrequency=".036" numOctaves="5" seed="5"
-                result="turbulence">
-                <animate id="noiseAnimate"
-                    attributeName="baseFrequency"
-                    values=".029;.036;.021;.029" from="0"
-                    to="100" dur="20s"
-                    repeatCount="indefinite" >
-                </animate>
+            <feTurbulence type="turbulence" id="turbulence" baseFrequency=".036" numOctaves="5" seed="5" result="turbulence">
+                <animate id="noiseAnimate" attributeName="baseFrequency" values=".029;.036;.021;.029" from="0" to="100" dur="20s" repeatCount="indefinite" ></animate>
             </feTurbulence>
-            <feDisplacementMap
-                in="fractalNoise"
-                in2="turbulence"
-                scale="100"
-                xChannelSelector="R"
-                yChannelSelector="R"
-                result="Displaced">
-                <animate id="scaleAnimate"
-                    attributeName="scale"
-                    values="-40;80;-40" from="0"
-                    to="100" dur="20s"
-                    repeatCount="indefinite" >
-                </animate>
+            <feDisplacementMap in="fractalNoise" in2="turbulence" scale="100" xChannelSelector="R" yChannelSelector="R" result="Displaced">
+                <animate id="scaleAnimate" attributeName="scale" values="-40;80;-40" from="0" to="100" dur="20s" repeatCount="indefinite" ></animate>
             </feDisplacementMap>
-            <feDisplacementMap
-                in="SourceGraphic"
-                in2="Displaced"
-                scale="100"
-                xChannelSelector="R"
-                yChannelSelector="R"
-                result="mixed">
-                <animate id="scaleAnimate"
-                    attributeName="scale"
-                    values="80;20;80" from="0"
-                    to="100" dur="20s"
-                    repeatCount="indefinite" >
-                </animate>
+            <feDisplacementMap in="SourceGraphic" in2="Displaced" scale="100" xChannelSelector="R" yChannelSelector="R" result="mixed">
+                <animate id="scaleAnimate" attributeName="scale" values="80;20;80" from="0" to="100" dur="20s" repeatCount="indefinite" ></animate>
             </feDisplacementMap>
         </filter>
-        <filter id="bg-flow2z" 
-            x="-25%" y="-25%" width="150%" height="150%">
-            <feTurbulence type="fractalNoise" id="fractalNoise"
-                baseFrequency=".018" numOctaves="5" seed="5"
-                result="fractalNoise">
-                <animate id="noiseAnimate"
-                    attributeName="baseFrequency"
-                    values=".018;.012;.032;.018" from="0"
-                    to="100" dur="10s"
-                    repeatCount="indefinite" >
-                </animate>
+        <filter id="bg-flow2z" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" id="fractalNoise" baseFrequency=".018" numOctaves="5" seed="5" result="fractalNoise">
+                <animate id="noiseAnimate" attributeName="baseFrequency" values=".018;.012;.032;.018" from="0" to="100" dur="10s" repeatCount="indefinite" ></animate>
             </feTurbulence>
-            <feTurbulence type="turbulence" id="turbulence"
-                baseFrequency=".036" numOctaves="5" seed="5"
-                result="turbulence">
-                <animate id="noiseAnimate"
-                    attributeName="baseFrequency"
-                    values=".029;.036;.021;.029" from="0"
-                    to="100" dur="10s"
-                    repeatCount="indefinite" >
-                </animate>
+            <feTurbulence type="turbulence" id="turbulence" baseFrequency=".036" numOctaves="5" seed="5" result="turbulence">
+                <animate id="noiseAnimate" attributeName="baseFrequency" values=".029;.036;.021;.029" from="0" to="100" dur="10s" repeatCount="indefinite" ></animate>
             </feTurbulence>
-            <feDisplacementMap
-                in="fractalNoise"
-                in2="turbulence"
-                scale="100"
-                xChannelSelector="R"
-                yChannelSelector="R"
-                result="Displaced">
-                <animate id="scaleAnimate"
-                    attributeName="scale"
-                    values="-40;80;-40" from="0"
-                    to="100" dur="20s"
-                    repeatCount="indefinite" >
-                </animate>
+            <feDisplacementMap in="fractalNoise" in2="turbulence" scale="100" xChannelSelector="R" yChannelSelector="R" result="Displaced">
+                <animate id="scaleAnimate" attributeName="scale" values="-40;80;-40" from="0" to="100" dur="20s" repeatCount="indefinite" ></animate>
             </feDisplacementMap>
-            <feDisplacementMap
-                in="SourceGraphic"
-                in2="Displaced"
-                scale="100"
-                xChannelSelector="R"
-                yChannelSelector="R"
-                result="mixed">
-                <animate id="scaleAnimate"
-                    attributeName="scale"
-                    values="80;20;80" from="0"
-                    to="100" dur="20s"
-                    repeatCount="indefinite" >
-                </animate>
+            <feDisplacementMap in="SourceGraphic" in2="Displaced" scale="100" xChannelSelector="R" yChannelSelector="R" result="ReDisplaced">
+                <animate id="scaleAnimate" attributeName="scale" values="80;20;80" from="0" to="100" dur="20s" repeatCount="indefinite" ></animate>
             </feDisplacementMap>
         </filter>
     </defs>
