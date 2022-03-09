@@ -37,20 +37,6 @@
             width: max-content;
         }
 
-        .xp2 {
-            position: relative;
-            min-height: 8rem; min-width: 8rem;
-            margin: 1rem;
-            background: linear-gradient(135deg, #123, #789);
-        }
-        .xp2::after {
-            content: attr(class);
-            position: absolute;
-            top: 0%; left: 50%;
-            transform: translateX(-50%) translateY(-120%);
-            color: #fff;
-        }
-
         .brick-wall {
             background: 
             repeating-linear-gradient(90deg, 
@@ -102,8 +88,6 @@
             background-blend-mode: luminosity, normal, normal, normal, normal, normal, normal;
             background-blend-mode: initial;
         }
-
-
         .brick-wall-2 {
             --wall-lighting: linear-gradient(120deg, #abca, #123a) top left / 100% 100% repeat;
             background: 
@@ -135,7 +119,6 @@
                 left top / 64px 16px repeat repeat;
             background-blend-mode: luminosity, normal, normal, normal, normal, normal, normal;
         }
-
         .r3d-wall {
             transform: rotate3d(0,0,-1,0deg) rotate3d(1,1,0,0deg);
             transform: perspective(400px) rotate3d(0,0,0,45deg) rotate3d(0,1,0,0deg);
@@ -264,66 +247,6 @@
         }
         .xclr-2 {
             background: 
-            conic-gradient(
-                #ffff 0deg 3deg,
-                #963f 3deg 45deg,
-                #0000 45deg 360deg) 
-                left 0rem top 0rem / 32px 32px repeat repeat,
-            conic-gradient(
-                #0000 0deg 89deg,
-                #ffff 89deg 92deg,
-                #693f 92deg 135deg,
-                #0000 135deg 360deg) 
-                left top / 32px 32px repeat repeat,
-            conic-gradient(
-                #0000 0deg 180deg,
-                #39ff 180deg 225deg,
-                #0000 225deg 360deg) 
-                left top / 32px 32px repeat repeat,
-            conic-gradient(
-                #0000 0deg 270deg,
-                #f39f 270deg 315deg,
-                #0000 315deg 360deg) 
-                left top / 32px 32px repeat repeat,
-            linear-gradient(135deg, #123, #789)
-                top left / 100% 100% repeat;
-
-            background: 
-            repeating-linear-gradient(180deg, 
-                #fff8 0px, #fff8 2px, 
-                #0000 2px, #0000 16px)
-                left top / 64px 16px repeat repeat,
-            conic-gradient(
-                #f938 0deg 90deg,
-                #0000 90deg 360deg) 
-                left 0px top 0px / 32px 32px repeat repeat,
-            conic-gradient(
-                #f938 0deg 90deg,
-                #0000 90deg 360deg) 
-                left 15px top 0px / 32px 32px repeat repeat,
-            conic-gradient(
-                #0000 0deg 90deg,
-                #9f32 90deg 135deg,
-                #0000 135deg 360deg) 
-                left 0rem top 0rem / 32px 32px repeat repeat,
-            conic-gradient(
-                #0000 0deg 180deg,
-                #39f8 180deg 270deg,
-                #0000 270deg 360deg) 
-                left 17px top 0px / 32px 32px repeat repeat,
-            conic-gradient(
-                #0000 0deg 180deg,
-                #39f8 180deg 270deg,
-                #0000 270deg 360deg) 
-                left 32px top 0px / 32px 32px repeat repeat,
-            conic-gradient(
-                #0000 0deg 270deg,
-                #f392 270deg 315deg,
-                #0000 315deg 360deg) 
-                left 0rem top 0rem / 32px 32px repeat repeat,
-            linear-gradient(135deg, #123, #789)
-                top left / 100% 100% repeat;
-            background: 
             repeating-linear-gradient(180deg, 
                 #000f 0px, #000f 2px, 
                 #0000 2px, #0000 16px)
@@ -451,62 +374,11 @@
             transform: perspective(var(--perspective)) rotate3d(0,0,0,45deg) rotate3d(0,1,0,30deg);
         }
 
-        /* rotate 3d room */
-        .r3d-room {
-            min-height: 8rem; min-width: 24rem;
-            min-height: 12rem; min-width: 24rem;
-            position: relative;
-            outline: 1px dashed #8888;
-        }
-        .r3d-room [class*="r3d-into"] {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform-style: preserve-3d;
-            transform-origin: 50% 50% 4rem;
-            transition: transform 200ms ease-in-out;
-            border: 0px solid;
-            margin: 0px;
-        }
-        .r3d-room [class*="r3d-into"]:nth-of-type(1) {transform: translateX(-150%) translateY(-50%);}
-        .r3d-room [class*="r3d-into"]:nth-of-type(2) {transform: translateX(-50%) translateY(-50%);}
-        .r3d-room [class*="r3d-into"]:nth-of-type(3) {transform: translateX(50%) translateY(-50%);}
-        .r3d-room [class*="r3d-into"] {--transform-start: translateX(-50%) translateY(-50%);}
-        .r3d-room:hover .r3d-into-floor {
-            transform: var(--transform-start) perspective(var(--perspective)) rotate3d(1,0,0,54.736deg) rotate3d(0,0,-1,45deg);
-        }
-        .r3d-room:hover .r3d-into-wall.left {
-            transform: var(--transform-start) perspective(var(--perspective)) rotate3d(0,1,0,45deg) rotate3d(1,0,1,-35.264deg);
-        }
-        .r3d-room:hover .r3d-into-wall.right {
-            transform: var(--transform-start) perspective(var(--perspective)) rotate3d(0,-1,0,45deg) rotate3d(1,0,-1,-35.264deg);
-        }
-
-        /* 
-        rotate3d(-1,0,0,45deg)  : 8↓ 2↑ ⥐
-        rotate3d(1,0,0,45deg)   : 8↑ 2↓ ⥎
-        rotate3d(0,1,0,45deg)   : 4↓ 6↑ ⥏
-        rotate3d(0,-1,0,45deg)  : 4↑ 6↓  ⥑
-        rotate3d(0,0,1,45deg)   : 48 ↻ ⤸
-        rotate3d(0,0,-1,45deg)  : 68 ⤹ ↺
-        */
-
-
-        /* .r3d-room:hover .xp2::after {
-            content: attr(class);
-            position: absolute;
-            top: 0%; left: 50%;
-            transform: translateX(-50%) translateY(-120%);
-            color: #0000;
-        } */
-        .xp2::after {
-            color: #0000;
-        }
-
 
 
     </style>
     <!-- <link rel="stylesheet" href="../../../end.css"> -->
-    <link rel="stylesheet" href="../../../stylesheets/end2.css">
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
     <header>
@@ -516,19 +388,6 @@
     </header>
 
 <main>
-    <div class="shelf">
-        <div class="shelf-title">room</div>
-        <div class="r3d-room">
-            <div class="xp2 brick-wall-2 r3d-into-wall left"></div>
-            <div class="xp2 chess-3 r3d-into-floor"></div>
-            <div class="xp2 brick-wall-2 r3d-into-wall right"></div>
-        </div>
-        <div class="r3d-room">
-            <div class="xp2 brick-wall r3d-into-wall left"></div>
-            <div class="xp2 chess-3 r3d-into-floor"></div>
-            <div class="xp2 brick-wall r3d-into-wall right"></div>
-        </div>
-    </div>
     <div class="shelf">
         <div class="shelf-title">experiments</div>
         <div class="xp brick-wall"></div>

@@ -1,0 +1,290 @@
+
+:root {
+    --perspective: 50000px; /* Isometric perspective */
+    --perspective: 400px;
+}
+*::before, *::after {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+.xp {
+    position: relative;
+    min-height: 8rem; min-width: 12rem;
+    margin: 1rem;
+    background: linear-gradient(135deg, #123, #789);
+}
+.xp::after {
+    content: attr(class);
+    position: absolute;
+    top: 0%; left: 50%;
+    transform: translateX(-50%) translateY(-120%);
+    color: #fff;
+    width: max-content;
+}
+
+.xp2 {
+    position: relative;
+    min-height: 8rem; min-width: 8rem;
+    margin: 1rem;
+    background: linear-gradient(135deg, #123, #789);
+}
+.xp2::after {
+    content: attr(class);
+    position: absolute;
+    top: 0%; left: 50%;
+    transform: translateX(-50%) translateY(-120%);
+    color: #fff;
+}
+
+.brick-wall {
+    --wall-lighting-120: linear-gradient(120deg, #abca, #123a) top left / 100% 100% repeat;
+    --wall-lighting-c: radial-gradient(circle at 50% 50%, #abc0, #123a);
+    --horizontal-lines: repeating-linear-gradient(180deg, 
+        #555f 0px, #dddf 2px, 
+        #0000 2px, #0000 16px)
+        left top / 64px 16px repeat repeat;
+    --wall-lighting-found: 
+    radial-gradient(ellipse at top, #e66465, transparent),
+    radial-gradient(ellipse at bottom, #4d9f0c, transparent);
+    --wall-lighting: radial-gradient(farthest-side at 50% 100%, transparent 40%, #0008 120%);
+
+    background: 
+    var(--wall-lighting),
+    var(--horizontal-lines),
+    conic-gradient(
+        #a74f 0deg 90deg,
+        #0000 90deg 360deg) 
+        left 0px top 0px / 32px 32px repeat repeat,
+    conic-gradient(
+        #a74f 0deg 90deg,
+        #0000 90deg 360deg) 
+        left 15px top 0px / 32px 32px repeat repeat,
+    conic-gradient(
+        #0000 0deg 180deg,
+        #a74f 180deg 270deg,
+        #0000 270deg 360deg) 
+        left 0px top 0px / 32px 32px repeat repeat,
+    conic-gradient(
+        #0000 0deg 180deg,
+        #a74f 180deg 270deg,
+        #0000 270deg 360deg) 
+        left 15px top 0px / 32px 32px repeat repeat,
+    linear-gradient(180deg, #555f, #555f)
+        left top / 64px 16px repeat repeat;
+    background-blend-mode: luminosity, normal, normal, normal, normal, normal, normal;
+    background-blend-mode: initial;
+}
+
+
+.brick-wall-2 {
+    --wall-lighting: linear-gradient(120deg, #abca, #123a) top left / 100% 100% repeat;
+    background: 
+    linear-gradient(120deg, #123a, #789a)
+            top left / 100% 100% repeat,
+    repeating-linear-gradient(180deg, 
+        #555f 0px, #dddf 2px, 
+        #0000 2px, #0000 16px)
+        left top / 64px 16px repeat repeat,
+    conic-gradient(
+        #a74f 0deg 90deg,
+        #0000 90deg 360deg) 
+        left 0px top 0px / 32px 32px repeat repeat,
+    conic-gradient(
+        #a74f 0deg 90deg,
+        #0000 90deg 360deg) 
+        left 15px top 0px / 32px 32px repeat repeat,
+    conic-gradient(
+        #0000 0deg 180deg,
+        #a74f 180deg 270deg,
+        #0000 270deg 360deg) 
+        left 0px top 0px / 32px 32px repeat repeat,
+    conic-gradient(
+        #0000 0deg 180deg,
+        #a74f 180deg 270deg,
+        #0000 270deg 360deg) 
+        left 15px top 0px / 32px 32px repeat repeat,
+    linear-gradient(180deg, #555f, #555f)
+        left top / 64px 16px repeat repeat;
+    background-blend-mode: luminosity, normal, normal, normal, normal, normal, normal;
+}
+
+.r3d-wall {
+    transform: rotate3d(0,0,-1,0deg) rotate3d(1,1,0,0deg);
+    transform: perspective(400px) rotate3d(0,0,0,45deg) rotate3d(0,1,0,0deg);
+    transition: transform 200ms ease-in-out;
+}
+.r3d-wall:hover {
+    transform: rotate3d(0,0,-1,45deg) rotate3d(1,1,0,54deg);
+    transform: perspective(400px) rotate3d(0,0,-1,45deg) rotate3d(1,1,0,54deg);
+    transform: perspective(400px) rotate3d(1,0,-1,15deg) rotate3d(0,1,0,54deg);
+    transform: perspective(400px) rotate3d(0,0,0,45deg) rotate3d(0,1,0,30deg);
+}
+
+.xclr {
+    background: 
+    conic-gradient(
+        #f93f 0deg 45deg,
+        #0000 45deg 360deg) 
+        left 0px top 16px / 64px 64px repeat repeat,
+    conic-gradient(
+        #0000 0deg 90deg,
+        #9f3f 90deg 135deg,
+        #0000 135deg 360deg) 
+        left -16px top 0px / 64px 64px repeat repeat,
+    conic-gradient(
+        #0000 0deg 180deg,
+        #39ff 180deg 225deg,
+        #0000 225deg 360deg) 
+        left 0px top -16px / 64px 64px repeat repeat,
+    conic-gradient(
+        #0000 0deg 270deg,
+        #f39f 270deg 315deg,
+        #0000 315deg 360deg) 
+        left 16px top 0px / 64px 64px repeat repeat,
+    linear-gradient(135deg, #123, #789)
+        top left / 100% 100% repeat;
+
+    background-blend-mode: overlay, overlay, overlay, overlay, normal;
+    background-blend-mode: hard-light;
+}
+.xclr-2 {
+    background: 
+    repeating-linear-gradient(180deg, 
+        #000f 0px, #000f 2px, 
+        #0000 2px, #0000 16px)
+        left top / 64px 16px repeat repeat,
+    conic-gradient(
+        #f93f 0deg 90deg,
+        #0000 90deg 360deg) 
+        left 0px top 0px / 32px 32px repeat repeat,
+    conic-gradient(
+        #f93f 0deg 90deg,
+        #0000 90deg 360deg) 
+        left 15px top 0px / 32px 32px repeat repeat,
+    conic-gradient(
+        #0000 0deg 90deg,
+        #9f32 90deg 135deg,
+        #0000 135deg 360deg) 
+        left 0rem top 0rem / 32px 32px repeat repeat,
+    conic-gradient(
+        #0000 0deg 180deg,
+        #39ff 180deg 270deg,
+        #0000 270deg 360deg) 
+        left 0px top 0px / 32px 32px repeat repeat,
+    conic-gradient(
+        #0000 0deg 180deg,
+        #39ff 180deg 270deg,
+        #0000 270deg 360deg) 
+        left 15px top 0px / 32px 32px repeat repeat,
+    conic-gradient(
+        #0000 0deg 270deg,
+        #f392 270deg 315deg,
+        #0000 315deg 360deg) 
+        left 0rem top 0rem / 32px 32px repeat repeat,
+    linear-gradient(135deg, #123, #789)
+        top left / 100% 100% repeat;
+}
+.xclr-3 {
+    background: 
+    conic-gradient(
+        #0000 0deg 270deg,
+        #f39f 270deg 315deg,
+        #0000 315deg 360deg)
+        left 8px top 8px / 32px 32px repeat repeat,
+    conic-gradient(
+        #0000 0deg 90deg,
+        #9f3f 90deg 135deg,
+        #0000 135deg 360deg) 
+        left -8px top -8px / 32px 32px repeat repeat,
+    conic-gradient(
+        #f930 0deg 45deg,
+        #f93f 45deg 135deg,
+        #0000 135deg 360deg) 
+        left 0px top 0px / 32px 32px repeat repeat,
+    conic-gradient(
+        #0000 0deg 225deg,
+        #39ff 225deg 315deg,
+        #0000 315deg 360deg) 
+        left 0px top 0px / 32px 32px repeat repeat,
+
+    linear-gradient(135deg, #123, #789)
+        top left / 100% 100% repeat;
+    /* background-size: 32px 32px; */
+    background-blend-mode: overlay, overlay, saturation, saturation, normal;
+}
+
+
+.chess-3 {
+    /* min-height: 8rem; min-width: 8rem; */
+    background:
+        radial-gradient(circle at 50% 50%, #0000 40%, #000d),
+        conic-gradient(#fff 0.25turn, #000 0.25turn 0.5turn, #fff 0.5turn 0.75turn, #000 0.75turn)
+        top left / 2rem 2rem repeat;
+}
+
+
+/* rotate 3d to */
+[class|="r3d-to"] {
+    transform: perspective(var(--perspective)) rotate3d(0,0,-1,0deg) rotate3d(1,1,0,0deg);
+    transition: transform 200ms ease-in-out;
+}
+.r3d-to-floor:hover {
+    transform: perspective(var(--perspective)) rotate3d(0,0,-1,45deg) rotate3d(1,1,0,54deg);
+}
+.r3d-to-wall:hover {
+    transform: perspective(var(--perspective)) rotate3d(0,0,0,45deg) rotate3d(0,1,0,30deg);
+}
+
+/* rotate 3d room */
+.r3d-room {
+    min-height: 8rem; min-width: 24rem;
+    min-height: 12rem; min-width: 24rem;
+    position: relative;
+    outline: 1px dashed #8888;
+}
+.r3d-room [class*="r3d-into"] {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform-style: preserve-3d;
+    transform-origin: 50% 50% 4rem;
+    transition: transform 200ms ease-in-out;
+    border: 0px solid;
+    margin: 0px;
+}
+.r3d-room [class*="r3d-into"]:nth-of-type(1) {transform: translateX(-150%) translateY(-50%);}
+.r3d-room [class*="r3d-into"]:nth-of-type(2) {transform: translateX(-50%) translateY(-50%);}
+.r3d-room [class*="r3d-into"]:nth-of-type(3) {transform: translateX(50%) translateY(-50%);}
+.r3d-room [class*="r3d-into"] {--transform-start: translateX(-50%) translateY(-50%);}
+.r3d-room:hover .r3d-into-floor {
+    transform: var(--transform-start) perspective(var(--perspective)) rotate3d(1,0,0,54.736deg) rotate3d(0,0,-1,45deg);
+}
+.r3d-room:hover .r3d-into-wall.left {
+    transform: var(--transform-start) perspective(var(--perspective)) rotate3d(0,1,0,45deg) rotate3d(1,0,1,-35.264deg);
+}
+.r3d-room:hover .r3d-into-wall.right {
+    transform: var(--transform-start) perspective(var(--perspective)) rotate3d(0,-1,0,45deg) rotate3d(1,0,-1,-35.264deg);
+}
+
+/* 
+rotate3d(-1,0,0,45deg)  : 8↓ 2↑ ⥐
+rotate3d(1,0,0,45deg)   : 8↑ 2↓ ⥎
+rotate3d(0,1,0,45deg)   : 4↓ 6↑ ⥏
+rotate3d(0,-1,0,45deg)  : 4↑ 6↓  ⥑
+rotate3d(0,0,1,45deg)   : 48 ↻ ⤸
+rotate3d(0,0,-1,45deg)  : 68 ⤹ ↺
+*/
+
+
+/* .r3d-room:hover .xp2::after {
+    content: attr(class);
+    position: absolute;
+    top: 0%; left: 50%;
+    transform: translateX(-50%) translateY(-120%);
+    color: #0000;
+} */
+.xp2::after {
+    color: #0000;
+}
+
+
