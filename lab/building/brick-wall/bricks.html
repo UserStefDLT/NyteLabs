@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Bricks | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="mycss.css"> -->
+    <style>
+        :root {
+            --perspective: 50000px; /* Isometric perspective */
+            --perspective: 400px;
+        }
+        *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        }
+        .xp {
+            position: relative;
+            min-height: 8rem; min-width: 12rem;
+            margin: 1rem;
+            background: linear-gradient(135deg, #123, #789);
+        }
+        .xp::after {
+            content: attr(class);
+            position: absolute;
+            top: 0%; left: 50%;
+            transform: translateX(-50%) translateY(-120%);
+            color: #fff;
+            width: max-content;
+        }
+
+        .xp2 {
+            position: relative;
+            min-height: 8rem; min-width: 8rem;
+            margin: 1rem;
+            background: linear-gradient(135deg, #123, #789);
+        }
+        .xp2::after {
+            content: attr(class);
+            position: absolute;
+            top: 0%; left: 50%;
+            transform: translateX(-50%) translateY(-120%);
+            color: #fff;
+        }
+
+        .brick-wall {
+            background: 
+            repeating-linear-gradient(90deg, 
+            #ffff 1px, #ffff 3px, 
+            #0000 3px, #0000 33px),
+            repeating-linear-gradient(180deg, 
+            #700f 5px, 
+            #0000 5px, #0000 17px),
+            conic-gradient(
+            #f93 0deg 90deg, 
+            #0000 90deg 180deg, 
+            #39f 180deg 270deg, 
+            #f39 270deg 360deg);
+
+            --wall-lighting-120: linear-gradient(120deg, #abca, #123a) top left / 100% 100% repeat;
+            --wall-lighting-c: radial-gradient(circle at 50% 50%, #abc0, #123a);
+            --horizontal-lines: repeating-linear-gradient(180deg, 
+                #555f 0px, #dddf 2px, 
+                #0000 2px, #0000 16px)
+                left top / 64px 16px repeat repeat;
+            --wall-lighting-found: 
+            radial-gradient(ellipse at top, #e66465, transparent),
+            radial-gradient(ellipse at bottom, #4d9f0c, transparent);
+            --wall-lighting: radial-gradient(farthest-side at 50% 100%, transparent 40%, #0008 120%);
+
+            background: 
+            var(--wall-lighting),
+            var(--horizontal-lines),
+            conic-gradient(
+                #a74f 0deg 90deg,
+                #0000 90deg 360deg) 
+                left 0px top 0px / 32px 32px repeat repeat,
+            conic-gradient(
+                #a74f 0deg 90deg,
+                #0000 90deg 360deg) 
+                left 15px top 0px / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 180deg,
+                #a74f 180deg 270deg,
+                #0000 270deg 360deg) 
+                left 0px top 0px / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 180deg,
+                #a74f 180deg 270deg,
+                #0000 270deg 360deg) 
+                left 15px top 0px / 32px 32px repeat repeat,
+            linear-gradient(180deg, #555f, #555f)
+                left top / 64px 16px repeat repeat;
+            background-blend-mode: luminosity, normal, normal, normal, normal, normal, normal;
+            background-blend-mode: initial;
+        }
+
+
+        .brick-wall-2 {
+            --wall-lighting: linear-gradient(120deg, #abca, #123a) top left / 100% 100% repeat;
+            background: 
+            linear-gradient(120deg, #123a, #789a)
+                    top left / 100% 100% repeat,
+            repeating-linear-gradient(180deg, 
+                #555f 0px, #dddf 2px, 
+                #0000 2px, #0000 16px)
+                left top / 64px 16px repeat repeat,
+            conic-gradient(
+                #a74f 0deg 90deg,
+                #0000 90deg 360deg) 
+                left 0px top 0px / 32px 32px repeat repeat,
+            conic-gradient(
+                #a74f 0deg 90deg,
+                #0000 90deg 360deg) 
+                left 15px top 0px / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 180deg,
+                #a74f 180deg 270deg,
+                #0000 270deg 360deg) 
+                left 0px top 0px / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 180deg,
+                #a74f 180deg 270deg,
+                #0000 270deg 360deg) 
+                left 15px top 0px / 32px 32px repeat repeat,
+            linear-gradient(180deg, #555f, #555f)
+                left top / 64px 16px repeat repeat;
+            background-blend-mode: luminosity, normal, normal, normal, normal, normal, normal;
+        }
+
+        .r3d-wall {
+            transform: rotate3d(0,0,-1,0deg) rotate3d(1,1,0,0deg);
+            transform: perspective(400px) rotate3d(0,0,0,45deg) rotate3d(0,1,0,0deg);
+            transition: transform 200ms ease-in-out;
+        }
+        .r3d-wall:hover {
+            transform: rotate3d(0,0,-1,45deg) rotate3d(1,1,0,54deg);
+            transform: perspective(400px) rotate3d(0,0,-1,45deg) rotate3d(1,1,0,54deg);
+            transform: perspective(400px) rotate3d(1,0,-1,15deg) rotate3d(0,1,0,54deg);
+            transform: perspective(400px) rotate3d(0,0,0,45deg) rotate3d(0,1,0,30deg);
+        }
+
+        .xclr {
+            background: conic-gradient(
+            #f93 0deg 90deg, 
+            #0000 90deg 180deg, 
+            #39f 180deg 270deg, 
+            #f39 270deg 360deg) top left / 25% 25% repeat,
+            linear-gradient(135deg, #123, #789)
+            top left / 100% 100% repeat;
+            background: 
+            conic-gradient(
+                #f93 0deg 90deg,
+                #0000 90deg 180deg,
+                #39f0 180deg 270deg,
+                #f93 270deg 360deg) 
+                center center / 30px 25% repeat repeat,
+            linear-gradient(135deg, #123, #789)
+                top left / 100% 100% repeat;
+            background: 
+            conic-gradient(
+                #f93f 0deg 45deg,
+                #0000 45deg 360deg) 
+                left 0rem top .5rem / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 90deg,
+                #9f3f 90deg 135deg,
+                #0000 135deg 360deg) 
+                left top / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 180deg,
+                #39ff 180deg 225deg,
+                #0000 225deg 360deg) 
+                left top / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 270deg,
+                #f39f 270deg 315deg,
+                #0000 315deg 360deg) 
+                left top / 32px 32px repeat repeat,
+            linear-gradient(135deg, #123, #789)
+                top left / 100% 100% repeat;
+
+            background: 
+            conic-gradient(
+                #f00f 0deg 1deg,
+                #f93f 0deg 45deg,
+                #0000 45deg 360deg) 
+                left 0rem top .5rem / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 90deg,
+                #9f3f 90deg 135deg,
+                #0000 135deg 360deg) 
+                left top / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 180deg,
+                #39ff 180deg 225deg,
+                #0000 225deg 360deg) 
+                left top / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 270deg,
+                #f39f 270deg 315deg,
+                #0000 315deg 360deg) 
+                left top / 32px 32px repeat repeat,
+            linear-gradient(135deg, #123, #789)
+                top left / 100% 100% repeat;
+
+            background: 
+            conic-gradient(
+                #f93f 0deg 45deg,
+                #0000 45deg 360deg) 
+                left 0rem top .5rem / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 90deg,
+                #9f3f 90deg 135deg,
+                #0000 135deg 360deg) 
+                left -.5rem top 0rem / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 180deg,
+                #39ff 180deg 225deg,
+                #0000 225deg 360deg) 
+                left 0rem top -.5rem / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 270deg,
+                #f39f 270deg 315deg,
+                #0000 315deg 360deg) 
+                left .5rem top 0rem / 32px 32px repeat repeat,
+            linear-gradient(135deg, #123, #789)
+                top left / 100% 100% repeat;
+        }
+        .xclr {
+            background: 
+            conic-gradient(
+                #f93f 0deg 45deg,
+                #0000 45deg 360deg) 
+                left 0px top 16px / 64px 64px repeat repeat,
+            conic-gradient(
+                #0000 0deg 90deg,
+                #9f3f 90deg 135deg,
+                #0000 135deg 360deg) 
+                left -16px top 0px / 64px 64px repeat repeat,
+            conic-gradient(
+                #0000 0deg 180deg,
+                #39ff 180deg 225deg,
+                #0000 225deg 360deg) 
+                left 0px top -16px / 64px 64px repeat repeat,
+            conic-gradient(
+                #0000 0deg 270deg,
+                #f39f 270deg 315deg,
+                #0000 315deg 360deg) 
+                left 16px top 0px / 64px 64px repeat repeat,
+            linear-gradient(135deg, #123, #789)
+                top left / 100% 100% repeat;
+
+            background-blend-mode: overlay, overlay, overlay, overlay, normal;
+            background-blend-mode: hard-light;
+        }
+        .xclr-2 {
+            background: 
+            conic-gradient(
+                #ffff 0deg 3deg,
+                #963f 3deg 45deg,
+                #0000 45deg 360deg) 
+                left 0rem top 0rem / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 89deg,
+                #ffff 89deg 92deg,
+                #693f 92deg 135deg,
+                #0000 135deg 360deg) 
+                left top / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 180deg,
+                #39ff 180deg 225deg,
+                #0000 225deg 360deg) 
+                left top / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 270deg,
+                #f39f 270deg 315deg,
+                #0000 315deg 360deg) 
+                left top / 32px 32px repeat repeat,
+            linear-gradient(135deg, #123, #789)
+                top left / 100% 100% repeat;
+
+            background: 
+            repeating-linear-gradient(180deg, 
+                #fff8 0px, #fff8 2px, 
+                #0000 2px, #0000 16px)
+                left top / 64px 16px repeat repeat,
+            conic-gradient(
+                #f938 0deg 90deg,
+                #0000 90deg 360deg) 
+                left 0px top 0px / 32px 32px repeat repeat,
+            conic-gradient(
+                #f938 0deg 90deg,
+                #0000 90deg 360deg) 
+                left 15px top 0px / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 90deg,
+                #9f32 90deg 135deg,
+                #0000 135deg 360deg) 
+                left 0rem top 0rem / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 180deg,
+                #39f8 180deg 270deg,
+                #0000 270deg 360deg) 
+                left 17px top 0px / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 180deg,
+                #39f8 180deg 270deg,
+                #0000 270deg 360deg) 
+                left 32px top 0px / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 270deg,
+                #f392 270deg 315deg,
+                #0000 315deg 360deg) 
+                left 0rem top 0rem / 32px 32px repeat repeat,
+            linear-gradient(135deg, #123, #789)
+                top left / 100% 100% repeat;
+            background: 
+            repeating-linear-gradient(180deg, 
+                #000f 0px, #000f 2px, 
+                #0000 2px, #0000 16px)
+                left top / 64px 16px repeat repeat,
+            conic-gradient(
+                #f93f 0deg 90deg,
+                #0000 90deg 360deg) 
+                left 0px top 0px / 32px 32px repeat repeat,
+            conic-gradient(
+                #f93f 0deg 90deg,
+                #0000 90deg 360deg) 
+                left 15px top 0px / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 90deg,
+                #9f32 90deg 135deg,
+                #0000 135deg 360deg) 
+                left 0rem top 0rem / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 180deg,
+                #39ff 180deg 270deg,
+                #0000 270deg 360deg) 
+                left 0px top 0px / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 180deg,
+                #39ff 180deg 270deg,
+                #0000 270deg 360deg) 
+                left 15px top 0px / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 270deg,
+                #f392 270deg 315deg,
+                #0000 315deg 360deg) 
+                left 0rem top 0rem / 32px 32px repeat repeat,
+            linear-gradient(135deg, #123, #789)
+                top left / 100% 100% repeat;
+        }
+        .xclr-3 {
+            background: 
+            conic-gradient(
+                #0000 0deg 270deg,
+                #f39f 270deg 315deg,
+                #0000 315deg 360deg)
+                left 8px top 8px / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 90deg,
+                #9f3f 90deg 135deg,
+                #0000 135deg 360deg) 
+                left -8px top -8px / 32px 32px repeat repeat,
+            conic-gradient(
+                #f930 0deg 45deg,
+                #f93f 45deg 135deg,
+                #0000 135deg 360deg) 
+                left 0px top 0px / 32px 32px repeat repeat,
+            conic-gradient(
+                #0000 0deg 225deg,
+                #39ff 225deg 315deg,
+                #0000 315deg 360deg) 
+                left 0px top 0px / 32px 32px repeat repeat,
+
+            linear-gradient(135deg, #123, #789)
+                top left / 100% 100% repeat;
+            /* background-size: 32px 32px; */
+            background-blend-mode: overlay, overlay, saturation, saturation, normal;
+        }
+
+
+        .chess-3 {
+            min-height: 8rem; min-width: 8rem;
+            background:
+                radial-gradient(circle at 50% 50%, #0000 40%, #000d),
+                conic-gradient(#fff 0.25turn, #000 0.25turn 0.5turn, #fff 0.5turn 0.75turn, #000 0.75turn)
+                top left / 2rem 2rem repeat;
+            border: 1px solid;
+        }
+        .chess-3d {
+            min-height: 8rem; min-width: 8rem;
+            background:
+                radial-gradient(circle at 50% 50%, #0000 40%, #000d),
+                conic-gradient(#fff 0.25turn, #000 0.25turn 0.5turn, #fff 0.5turn 0.75turn, #000 0.75turn)
+                top left / 2rem 2rem repeat;
+            border: 1px solid;
+            transform: rotate3d(0,0,-1,0deg) rotate3d(1,1,0,0deg);
+            transition: transform 200ms ease-in-out;
+        }
+        .chess-3d:hover {
+            transform: rotate3d(0,0,-1,45deg) rotate3d(1,1,0,54deg);
+            transform: perspective(400px) rotate3d(0,0,-1,45deg) rotate3d(1,1,0,54deg);
+        }
+        .chess-2 {
+            min-height: 8rem; min-width: 8rem;
+            background:
+                radial-gradient(circle at 50% 50%, #0000 40%, #000a),
+                conic-gradient(#fff 0.25turn, #000 0.25turn 0.5turn, #fff 0.5turn 0.75turn, #000 0.75turn)
+                top left / 2rem 2rem repeat;
+            border: 1px solid;
+        }
+
+        .chess {
+            min-height: 8rem; min-width: 8rem;
+            background:
+                conic-gradient(#fff 0.25turn, #000 0.25turn 0.5turn, #fff 0.5turn 0.75turn, #000 0.75turn)
+                top left / 2rem 2rem repeat;
+            border: 1px solid;
+        }
+        .sample {
+            background: repeating-conic-gradient(
+                from 3deg at 25% 25%,
+                hsl(200, 100%, 50%) 0deg 15deg,
+                hsl(200, 100%, 60%) 10deg 30deg);
+        }
+        .lines {
+            background-image:
+                repeating-conic-gradient(#fff 0 9deg, #000 9deg 18deg);
+        }
+
+
+        /* rotate 3d to */
+        [class|="r3d-to"] {
+            transform: perspective(var(--perspective)) rotate3d(0,0,-1,0deg) rotate3d(1,1,0,0deg);
+            transition: transform 200ms ease-in-out;
+        }
+        .r3d-to-floor:hover {
+            transform: perspective(var(--perspective)) rotate3d(0,0,-1,45deg) rotate3d(1,1,0,54deg);
+        }
+        .r3d-to-wall:hover {
+            transform: perspective(var(--perspective)) rotate3d(0,0,0,45deg) rotate3d(0,1,0,30deg);
+        }
+
+        /* rotate 3d room */
+        .r3d-room {
+            min-height: 8rem; min-width: 24rem;
+            min-height: 12rem; min-width: 24rem;
+            position: relative;
+            outline: 1px dashed #8888;
+        }
+        .r3d-room [class*="r3d-into"] {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform-style: preserve-3d;
+            transform-origin: 50% 50% 4rem;
+            transition: transform 200ms ease-in-out;
+            border: 0px solid;
+            margin: 0px;
+        }
+        .r3d-room [class*="r3d-into"]:nth-of-type(1) {transform: translateX(-150%) translateY(-50%);}
+        .r3d-room [class*="r3d-into"]:nth-of-type(2) {transform: translateX(-50%) translateY(-50%);}
+        .r3d-room [class*="r3d-into"]:nth-of-type(3) {transform: translateX(50%) translateY(-50%);}
+        .r3d-room [class*="r3d-into"] {--transform-start: translateX(-50%) translateY(-50%);}
+        .r3d-room:hover .r3d-into-floor {
+            transform: var(--transform-start) perspective(var(--perspective)) rotate3d(1,0,0,54.736deg) rotate3d(0,0,-1,45deg);
+        }
+        .r3d-room:hover .r3d-into-wall.left {
+            transform: var(--transform-start) perspective(var(--perspective)) rotate3d(0,1,0,45deg) rotate3d(1,0,1,-35.264deg);
+        }
+        .r3d-room:hover .r3d-into-wall.right {
+            transform: var(--transform-start) perspective(var(--perspective)) rotate3d(0,-1,0,45deg) rotate3d(1,0,-1,-35.264deg);
+        }
+
+        /* 
+        rotate3d(-1,0,0,45deg)  : 8↓ 2↑ ⥐
+        rotate3d(1,0,0,45deg)   : 8↑ 2↓ ⥎
+        rotate3d(0,1,0,45deg)   : 4↓ 6↑ ⥏
+        rotate3d(0,-1,0,45deg)  : 4↑ 6↓  ⥑
+        rotate3d(0,0,1,45deg)   : 48 ↻ ⤸
+        rotate3d(0,0,-1,45deg)  : 68 ⤹ ↺
+        */
+
+
+        /* .r3d-room:hover .xp2::after {
+            content: attr(class);
+            position: absolute;
+            top: 0%; left: 50%;
+            transform: translateX(-50%) translateY(-120%);
+            color: #0000;
+        } */
+        .xp2::after {
+            color: #0000;
+        }
+
+
+
+    </style>
+    <!-- <link rel="stylesheet" href="../../../end.css"> -->
+    <link rel="stylesheet" href="../../../stylesheets/end2.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Brick Walls</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">room</div>
+        <div class="r3d-room">
+            <div class="xp2 brick-wall-2 r3d-into-wall left"></div>
+            <div class="xp2 chess-3 r3d-into-floor"></div>
+            <div class="xp2 brick-wall-2 r3d-into-wall right"></div>
+        </div>
+        <div class="r3d-room">
+            <div class="xp2 brick-wall r3d-into-wall left"></div>
+            <div class="xp2 chess-3 r3d-into-floor"></div>
+            <div class="xp2 brick-wall r3d-into-wall right"></div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">experiments</div>
+        <div class="xp brick-wall"></div>
+        <div class="xp brick-wall-2 r3d-wall"></div>
+        <div class="xp xclr"></div>
+        <div class="xp xclr-2"></div>
+        <div class="xp xclr-3"></div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">modifying the sample</div>
+        <div class="xp chess-3d"></div>
+        <div class="xp chess-3"></div>
+        <div class="xp chess-2"></div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">sample textures</div>
+        <div class="xp chess"></div>
+        <div class="xp sample"></div>
+        <div class="xp lines"></div>
+    </div>
+</main>
+
+    <!-- <footer>
+        &copy; 2022 | by Stéfano De La Torre 
+    </footer> -->
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>
