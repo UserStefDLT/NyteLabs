@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Canvas | NyteLabs</title>
+    <title>Pattern Weaver 11 | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
@@ -21,8 +21,8 @@
 </head>
 <body>
     <header>
-        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
-        <div class="title">Canvas</div>
+        <a href="../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Pattern 11</div>
         <!-- <div class="subtitle">spotted bells</div> -->
     </header>
 
@@ -185,13 +185,13 @@
                 // }
                 if(this.x > canvas.width || this.y < 0){
                     if(Math.floor(this.hue)%2 == 0) {
-                        this.x = Math.random() * (canvas.width) + (canvas.width/8);
+                        this.x = Math.random() * (canvas.width + canvas.width/8) - (canvas.width/8);
                         this.y = Math.random() * (canvas.height/8) + canvas.height;
                     } else {
                         this.x = Math.random() * (canvas.width/8) * -1;
-                        this.y = Math.random() * (canvas.height) + (canvas.height/8);
+                        this.y = Math.random() * (canvas.height + canvas.height/8);
                     }
-                }                
+                }                 
                 // this.size += Math.random() * .2 - .1;
                 // if(this.size < .5) this.size += .15;
                 // if(this.size > 3) this.size -= .15;
@@ -202,8 +202,8 @@
                 // this.hue = (this.id%360) * ss.hue_range;
                 // this.hue += this.hueSp;
                 // if(this.hue > 360) this.hue -= 360;
-                this.hue = (this.x+this.y)%360 + Math.random() * 30;
-                if(this.hue > 360) this.hue -= 360;
+                // this.hue = (this.x+this.y)%360 + Math.random() * 30;
+                // if(this.hue > 360) this.hue -= 360;
                 // this.sat = (this.x+this.y)%20 + 80;
                 // this.lum = (this.x+this.y)%20 + 40;
 
@@ -217,10 +217,18 @@
                 // this.sat = xark*5 + 40;
                 // this.lum = (this.y)%30 + 20 + xark;
 
-                let xark = Math.cos((this.x%60)/20 - 1.5) * 20;
-                this.sat = xark + 70;
-                this.lum = (this.y)%30 + 10 + xark;
+                // let x_arc = Math.sin((this.x%60)/20 - 1.5) * 20;
+                // let x_arc = Math.sin((this.x%30)/10 - 1.5) * 10;
+                // let y_arc = Math.cos((this.y%60)/20 - 1.5) * 20;
 
+                let x_arc = Math.cos((this.x%90)/30 - 1.5) * 20;
+                let y_arc = Math.cos((this.y%60)/20 - 1.5) * 15;
+                // this.sat = x_arc + 70;
+                this.lum = (this.y%60)/2 + 20 + ((x_arc+y_arc)*.3);
+                this.hue = (this.x+this.y)%360 + (x_arc*y_arc*.5);
+
+                
+                if(this.hue > 360) this.hue -= 360;
                 
                 this.size += Math.random() * 1 - .5;
                 if(this.size < 1) this.size += 1;

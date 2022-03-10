@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en" onmousemove>
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>NyteLabs</title>
+    <link rel="stylesheet" href="stylesheets/start.css">
+    <link rel="stylesheet" href="stylesheets/labst.css">
+
+    <!-- <link rel="stylesheet" href="stylesheets/nybtns.css"> -->
+    <!-- <link rel="stylesheet" href="stylesheets/stars.css"> -->
+    <style>
+        header {backdrop-filter: contrast(1.7);}
+        .bg-stars {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            height: 100vh; width: 100vw;
+            background-image: 
+                radial-gradient(farthest-corner at 100% 100%, #456, #7890),
+                radial-gradient(farthest-corner at 100% 100%, #123, #123);
+            z-index: -1;
+            background-attachment: fixed;
+            overflow: hidden;
+        }
+
+        .shelf {
+            flex-direction: column;
+            backdrop-filter: contrast(1.7);
+            background-color: #1234;
+            margin-top: 2.5rem;
+        }
+
+        .lablinks {
+            list-style-type: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .labBtn,
+        [class|="nybtn"] {
+            position: relative;
+            
+            font-size: 1.25rem;
+            min-height: 3rem; min-width: 8rem;
+
+            margin: 1rem; 
+            margin: .5rem;
+            padding: 1rem;
+            border-radius: .5rem;
+
+            box-shadow: inset 0 0 0 .125rem #fff;
+            text-shadow: 1px 1px 1px #1119;
+
+            /* outline: 1px dashed #8888;
+            outline-offset: 2px; */
+            outline: 2px dotted #fff0;
+            outline-offset: 2px;
+            
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            cursor: pointer;
+            user-select: none;
+
+            transform-style: preserve-3d;
+            
+            transition:
+            transform 200ms ease-in-out,
+            opacity 200ms ease-in-out,
+            border-radius 200ms ease-in-out,
+            outline 200ms ease-in-out,
+            background-color 200ms ease-in-out;
+        }
+
+        .labBtn:hover,
+        [class|="nybtn"]:hover {
+            background-color: #1239;
+            background-color: #1230;
+            /* outline: 0px dashed #8880;
+            outline-offset: 0px; */
+            outline: 2px dotted #ffff;
+            outline-offset: 2px;
+            border-radius: .25rem;
+            /* backdrop-filter: brightness(2) contrast(1.7);
+            backdrop-filter: brightness(2); */
+            backdrop-filter: brightness(3) contrast(4);
+        }
+
+        /* [class|="nybtn"]::before,
+        [class|="nybtn"]::after {
+            position: absolute;
+            content: ''; top: 50%; left: 50%;
+            border-radius: .25rem;
+            transform-style: preserve-3d;
+            width: max-content;
+            transform: translateX(-50%) translateY(-50%);
+            transition:
+                transform 400ms ease-in-out,
+                opacity 400ms ease-in-out;
+            z-index: -1;
+        } */
+
+        /* .shelf:hover {
+            backdrop-filter: brightness(2) contrast(1.7);
+            backdrop-filter: contrast(1.7);
+        } */
+
+    </style>
+    <!-- <link rel="stylesheet" href="stylesheets/nybtns.css"> -->
+    <link rel="stylesheet" href="stylesheets/stars2.css">
+    <link rel="stylesheet" href="stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="#" class="backLink hidden"><div class="backBtn">No Back.</div></a>
+        <div class="title">NyteLabs</div>
+        <div class="subtitle">Welcome</div>
+        <!-- <input type="radio" name="world-size" id="large-world" checked>
+        <input type="radio" name="world-speed" id="slow-world" checked>
+        <input type="radio" name="world-zoom" id="distant-world" checked>
+        <input type="radio" name="world-boundaries" id="unframed-world" checked> -->
+    </header>
+    <!-- <input type="radio" name="world-boundaries" id="framed-world" checked> -->
+    <input type="checkbox" name="world-rotation" id="spining-world" checked>
+    <input type="radio" name="star-type" id="star-glow" checked>
+
+    <div class="bg-stars">
+        <div class="star-sphere">
+            <div class="star-field2">
+                <!-- <div class="star2 xi" style="--o-r: 900; --o-a: 0; --sz: 100; --clr: #fff; --o3d-x: 0; --o3d-y: 0; --o3d-z: 0;"></div> -->
+            </div>
+        </div>
+    </div>
+    
+    <main>
+        <div class="shelf">
+            <div class="shelf-title">Layout</div>
+            <ul class="lablinks">
+                <li><a href="lab/layout/soft-layout/"><div class="nybtn--labBtn">Soft Layout Design</div></a></li>
+
+                <li><a href="lab/layout/layout-3d/"><div class="nybtn--labBtn">3D Layout</div></a></li>
+            </ul>
+        </div>
+        <div class="shelf">
+            <div class="shelf-title">SVG experiments</div>
+            <ul class="lablinks">
+                <li><a href="lab/designs/underwater-smoke/"><div class="nybtn--underwatersmoke-animation">Underwater Smoke Animation</div></a></li>
+                
+                <li><a href="lab/svg/cloud-experiments/"><div class="nybtn--cloud-normal">Cloud Experiments</div></a></li>
+                <li><a href="lab/svg/cloud-exp-02/"><div class="nybtn--cloud-hue">Cloud Animations</div></a></li>
+                
+                <li><a href="lab/svg/cards/"><div class="labBtn">SVG Cards</div></a></li>
+                <li><a href="lab/svg/clouds/"><div class="labBtn">SVG Clouds</div></a></li>
+            </ul>
+        </div>
+        <div class="shelf">
+            <div class="shelf-title">Canvas Experiments</div>
+            <a href="lab/canvas/canvas-map.html"><div class="labBtn">All Canvas Experiments</div></a>
+            <ul class="lablinks">
+                <li><a href="lab/pattern-weaver/"><div class="nybtn--pattern-weaver">Pattern Weavers</div></a></li>
+                <li><a href="lab/canvas/rainbow-cloud-brush/"><div class="nybtn--cloud-rainbow">Rainbow Clouds Brush</div></a></li>
+                <li><a href="lab/canvas/cloud-brush/"><div class="nybtn--cloud-normal">Normal Clouds</div></a></li>
+                <!-- <li><a href="lab/canvas/brush/"><div class="nybtn--brush-rainbow">Brush</div></a></li> -->
+                <li><a href="lab/canvas/rainbow-brush"><div class="nybtn--brush-rainbow">Rainbow Brush</div></a></li>
+                <li><a href="lab/canvas/spell-effect/"><div class="nybtn--spell-02">Spell Effects</div></a></li>
+                <li><a href="lab/canvas/spell-effect-02/"><div class="nybtn--spell-02">Spell Effects 2</div></a></li>
+                <!-- <li><a href="lab/canvas/canvas-map.html"><div class="labBtn">Canvas</div></a></li> -->
+            </ul>
+        </div>
+        <div class="shelf">
+            <div class="shelf-title">Design Experiments</div>
+            <ul class="lablinks">
+                <li><a href="lab/building/3d-rooms/"><div class="nybtn--labBtn">3d Rooms</div></a></li>
+                <li><a href="lab/building/brick-wall/bricks.html"><div class="nybtn--labBtn">Brick Pattern</div></a></li>
+
+                <li><a href="lab/cards/deck-a04/"><div class="nybtn--card">Deck of Cards</div></a></li>
+                <li><a href="lab/cards/card-designs/"><div class="nybtn--card">Card Designs</div></a></li>
+
+                <li><a href="lab/recreate/kinetic-sculpture/kntk-short.html"><div class="nybtn--kntk">Kinetic Sculpture ++</div></a></li>
+                <li><a href="lab/recreate/kinetic-sculpture/"><div class="nybtn--kntk">Kinetic Sculpture</div></a></li>
+
+                <li><a href="lab/stars/the-sun/"><div class="nybtn--labBtn">The Sun</div></a></li>
+                <li><a href="lab/stars/night--sky/"><div class="nybtn--labBtn">Night Stars</div></a></li>
+            </ul>
+        </div>
+        <div class="shelf hidden">
+            <div class="shelf-title">Other</div>
+            <ul class="lablinks">
+                <li><a href="lab/keyevents/keydown/"><div class="labBtn">Event: keydown</div></a></li>
+            </ul>
+        </div>
+
+        <div class="shelf">
+            <div class="shelf-title">All</div>
+            <ul class="lablinks">
+                <li><a href="lab/pattern-weaver/"><div class="nybtn--pattern-weaver">Pattern Weavers</div></a></li>
+                <li><a href="lab/stars/canvas-stars/"><div class="nybtn--labBtn">Canvas Stars</div></a></li>
+                <li><a href="lab/building/3d-rooms/"><div class="nybtn--labBtn">3d Rooms</div></a></li>
+                <li><a href="lab/building/brick-wall/bricks.html"><div class="nybtn--labBtn">Brick Pattern</div></a></li>
+                <li><a href="lab/recreate/kinetic-sculpture/kntk-short.html"><div class="nybtn--kntk">Kinetic Sculpture ++</div></a></li>
+                <!-- <li><a href="lab/svg/filter-effect/"><div class="nybtn--labBtn">SVG Erode Dilute</div></a></li> -->
+                <li><a href="lab/layout/soft-layout/"><div class="nybtn--labBtn">Soft Layout Design</div></a></li>
+                <li><a href="lab/stars/the-sun/"><div class="nybtn--labBtn">The Sun</div></a></li>
+                <li><a href="lab/stars/night--sky/"><div class="nybtn--labBtn">Night Stars</div></a></li>
+                <li><a href="lab/recreate/kinetic-sculpture/"><div class="nybtn--kntk">Kinetic Sculpture</div></a></li>
+                <li><a href="lab/designs/underwater-smoke/"><div class="nybtn--underwatersmoke-animation">Underwater Smoke Animation</div></a></li>
+                <li><a href="lab/svg/cloud-experiments/"><div class="nybtn--cloud-normal">Cloud Experiments</div></a></li>
+                <li><a href="lab/svg/cloud-exp-02/"><div class="nybtn--cloud-hue">Cloud Animations</div></a></li>
+                <li><a href="lab/cards/card-designs/"><div class="nybtn--card">Card Designs</div></a></li>
+                <li><a href="lab/canvas/rainbow-cloud-brush/"><div class="nybtn--cloud-rainbow">Rainbow Clouds Brush</div></a></li>
+                <li><a href="lab/canvas/cloud-brush/"><div class="nybtn--cloud-normal">Normal Clouds</div></a></li>
+                <!-- <li><a href="lab/canvas/cloud-brush/"><div class="nybtn--brush-cloud-normal" data-brush-name="Normal Clouds">Normal Clouds</div></a></li> -->
+                <li><a href="lab/canvas/brush/"><div class="nybtn--brush-rainbow">Brush</div></a></li>
+                <li><a href="lab/canvas/rainbow-brush"><div class="nybtn--brush-rainbow">Rainbow Brush</div></a></li>
+                <!-- <li><a href="lab/canvas/rainbow-brush/"><div class="nybtn--brush-rainbow-02" data-brush-name="Rainbow Brush-02">Rainbow Brush-02</div></a></li> -->
+                <li><a href="lab/cards/deck-a04/"><div class="nybtn--card">Deck 04</div></a></li>
+                <!-- <li><a href="lab/canvas/spell-effect/"><div class="nybtn--spell-02">Spell Effects</div></a></li> -->
+                <li><a href="lab/canvas/spell-effect-02/"><div class="nybtn--spell-02">Spell Effects 2</div></a></li>
+                <li><a href="lab/svg/cards/"><div class="labBtn">SVG Cards</div></a></li>
+                <li><a href="lab/svg/clouds/"><div class="labBtn">SVG Clouds</div></a></li>
+                <li><a href="lab/layout/layout-3d/"><div class="labBtn">3D Layout</div></a></li>
+                <li><a href="lab/keyevents/keydown/"><div class="labBtn">Event: keydown</div></a></li>
+                <li><a href="lab/canvas/canvas-map.html"><div class="labBtn">Canvas</div></a></li>
+            </ul>
+        </div>
+
+        <!-- <div class="shelf hidden">
+            <ul class="lablinks">
+                <li><a href="lab/building/3d-rooms/"><div class="nybtn--kntk">3d Rooms</div></a></li>
+                <li><a href="lab/building/brick-wall/bricks.html"><div class="nybtn--kntk">Brick Pattern</div></a></li>
+                <li><a href="lab/recreate/kinetic-sculpture/kntk-short.html"><div class="nybtn--kntk">Kinetic Sculpture ++</div></a></li>
+                <li><a href="lab/svg/filter-effect/"><div class="nybtn--kntk">SVG Erode Dilute</div></a></li>
+                <li><a href="lab/layout/soft-layout/"><div class="nybtn--kntk">Soft Layout Design</div></a></li>
+                <li><a href="lab/stars/the-sun/"><div class="nybtn--kntk">The Sun</div></a></li>
+                <li><a href="lab/stars/night--sky/"><div class="nybtn--kntk">Night Stars</div></a></li>
+                <li><a href="lab/recreate/kinetic-sculpture/"><div class="nybtn--kntk">Kinetic Sculpture</div></a></li>
+                <li><a href="lab/designs/underwater-smoke/"><div class="nybtn--underwatersmoke-animation">Underwater Smoke Animation</div></a></li>
+                <li><a href="lab/svg/cloud-experiments/"><div class="nybtn--cloud-normal">Cloud Experiments</div></a></li>
+                <li><a href="lab/svg/cloud-exp-02/"><div class="nybtn--cloud-hue">Cloud Animations</div></a></li>
+                <li><a href="lab/cards/card-designs/"><div class="nybtn--card">Card Designs</div></a></li>
+                <li><a href="lab/canvas/rainbow-cloud-brush/"><div class="nybtn--cloud-rainbow">Rainbow Clouds Brush</div></a></li>
+                <li><a href="lab/canvas/cloud-brush/"><div class="nybtn--cloud-normal">Normal Clouds</div></a></li>
+                <li><a href="lab/canvas/cloud-brush/"><div class="nybtn--brush-cloud-normal" data-brush-name="Normal Clouds">Normal Clouds</div></a></li>
+                <li><a href="lab/canvas/brush/"><div class="nybtn--brush-rainbow">Brush</div></a></li>
+                <li><a href="lab/canvas/rainbow-brush"><div class="nybtn--brush-rainbow">Rainbow Brush</div></a></li>
+                <li><a href="lab/canvas/rainbow-brush/"><div class="nybtn--brush-rainbow-02" data-brush-name="Rainbow Brush-02">Rainbow Brush-02</div></a></li>
+                <li><a href="lab/cards/deck-a04/"><div class="nybtn--card">Deck 04</div></a></li>
+                <li><a href="lab/canvas/spell-effect/"><div class="nybtn--spell-02">Spell Effects</div></a></li>
+                <li><a href="lab/canvas/spell-effect-02/"><div class="nybtn--spell-02">Spell Effects 2</div></a></li>
+                <li><a href="lab/svg/cards/"><div class="labBtn">SVG Cards</div></a></li>
+                <li><a href="lab/svg/clouds/"><div class="labBtn">SVG Clouds</div></a></li>
+                <li><a href="lab/layout/layout-3d/"><div class="labBtn">3D Layout</div></a></li>
+                <li><a href="lab/keyevents/keydown/"><div class="labBtn">Event: keydown</div></a></li>
+                <li><a href="lab/canvas/canvas-map.html"><div class="labBtn">Canvas</div></a></li>
+            </ul>
+        </div> -->
+        <div class="shelf hidden">
+            <ul class="lablinks">
+                <li><a href="lab/recreate/kinetic-sculpture/"><div class="nybtn--kntk">Kinetic Sculpture</div></a></li>
+                <li><a href="lab/designs/underwater-smoke/"><div class="nybtn--underwatersmoke-animation">Underwater Smoke Animation</div></a></li>
+                <li><a href="lab/svg/cloud-experiments/"><div class="nybtn--cloud-normal">Cloud Experiments</div></a></li>
+                <li><a href="lab/svg/cloud-exp-02/"><div class="nybtn--cloud-hue">Cloud Animations</div></a></li>
+                <li><a href="lab/cards/card-designs/"><div class="nybtn--card">Card Designs</div></a></li>
+                <li><a href="lab/canvas/rainbow-cloud-brush/"><div class="nybtn--cloud-rainbow">Rainbow Clouds Brush</div></a></li>
+                <li><a href="lab/canvas/cloud-brush/"><div class="nybtn--cloud-normal">Normal Clouds</div></a></li>
+                <li><a href="lab/canvas/cloud-brush/"><div class="nybtn--brush-cloud-normal" data-brush-name="Normal Clouds">Normal Clouds</div></a></li>
+                <li><a href="lab/canvas/brush/"><div class="nybtn--brush-rainbow">Brush</div></a></li>
+                <li><a href="lab/canvas/rainbow-brush"><div class="nybtn--brush-rainbow">Rainbow Brush</div></a></li>
+                <li><a href="lab/canvas/rainbow-brush/"><div class="nybtn--brush-rainbow-02" data-brush-name="Rainbow Brush-02">Rainbow Brush-02</div></a></li>
+                <li><a href="lab/cards/deck-a04/"><div class="nybtn--card">Deck 04</div></a></li>
+                <li><a href="lab/canvas/spell-effect/"><div class="nybtn--spell-02">Spell Effects</div></a></li>
+                <li><a href="lab/canvas/spell-effect-02/"><div class="nybtn--spell-02">Spell Effects 2</div></a></li>
+                <li><a href="lab/svg/cards/"><div class="labBtn">SVG Cards</div></a></li>
+                <li><a href="lab/svg/clouds/"><div class="labBtn">SVG Clouds</div></a></li>
+                <li><a href="lab/layout/layout-01/"><div class="labBtn">3D Layout</div></a></li>
+                <li><a href="lab/keyevents/keydown/"><div class="labBtn">Event: keydown</div></a></li>
+                <li><a href="lab/canvas/canvas-map.html"><div class="labBtn">Canvas</div></a></li>
+                <li><a href="lab/canvas/experiment/canvas-02.html"><div class="labBtn">Canvas 02</div></a></li>
+                <li><a href="lab/canvas/experiment/canvas-03.html"><div class="labBtn">Canvas 03</div></a></li>
+                <li><a href="lab/canvas/experiment/canvas-04.html"><div class="labBtn">Canvas 04</div></a></li>
+                <li><a href="lab/canvas/experiment/canvas-05.html"><div class="labBtn">Canvas 05</div></a></li>
+                <li><a href="lab/canvas/experiment/canvas-07.html"><div class="labBtn">Canvas 07</div></a></li>
+                <li><a href="lab/canvas/experiment/canvas-08.html"><div class="labBtn">Canvas 08</div></a></li>
+                <li><a href="lab/canvas/experiment/canvas-09.html"><div class="labBtn">Canvas 09</div></a></li>
+                <li><a href="lab/canvas/experiment/canvas-10.html"><div class="labBtn">Canvas 10</div></a></li>
+            </ul>
+        </div>
+    </main>
+
+
+    <!-- <svg style="display: none;">
+        <defs>
+            <filter id="x_svgBlur" x="-5%" y="-5%" width="110%" height="110%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="5"/>
+            </filter>
+            <filter id="x_cloud" x="-25%" y="-25%" width="150%" height="150%" >
+                <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="5" />
+                <feDisplacementMap in="SourceGraphic" scale="100" />
+            </filter>
+            <filter id="x_bg-flow" 
+                x="-25%" y="-25%" width="150%" height="150%">
+                <feTurbulence type="fractalNoise" id="fractalNoise"
+                    baseFrequency=".018" numOctaves="5" seed="5"
+                    result="fractalNoise">
+                    <animate id="noiseAnimate"
+                        attributeName="baseFrequency"
+                        values=".018;.012;.032;.018" from="0"
+                        to="100" dur="60s"
+                        repeatCount="indefinite" >
+                    </animate>
+                </feTurbulence>
+                <feTurbulence type="turbulence" id="turbulence"
+                    baseFrequency=".036" numOctaves="5" seed="5"
+                    result="turbulence">
+                    <animate id="noiseAnimate"
+                        attributeName="baseFrequency"
+                        values=".029;.036;.021;.029" from="0"
+                        to="100" dur="60s"
+                        repeatCount="indefinite" >
+                    </animate>
+                </feTurbulence>
+                <feDisplacementMap
+                    in="fractalNoise"
+                    in2="turbulence"
+                    scale="100"
+                    xChannelSelector="R"
+                    yChannelSelector="R"
+                    result="Displaced">
+                    <animate id="scaleAnimate"
+                        attributeName="scale"
+                        values="-40;80;-40" from="0"
+                        to="100" dur="60s"
+                        repeatCount="indefinite" >
+                    </animate>
+                </feDisplacementMap>
+                <feDisplacementMap
+                    in="SourceGraphic"
+                    in2="Displaced"
+                    scale="100"
+                    xChannelSelector="R"
+                    yChannelSelector="R"
+                    result="mixed">
+                    <animate id="scaleAnimate"
+                        attributeName="scale"
+                        values="80;20;80" from="0"
+                        to="100" dur="60s"
+                        repeatCount="indefinite" >
+                    </animate>
+                </feDisplacementMap>
+            </filter>
+            <filter id="x_btn-flow" 
+                x="-25%" y="-25%" width="150%" height="150%">
+                <feTurbulence type="fractalNoise" id="fractalNoise"
+                    baseFrequency=".018" numOctaves="5" seed="5"
+                    result="fractalNoise">
+                    <animate id="noiseAnimate"
+                        attributeName="baseFrequency"
+                        values=".018;.012;.032;.018" from="0"
+                        to="100" dur="12s"
+                        repeatCount="indefinite" >
+                    </animate>
+                </feTurbulence>
+                <feTurbulence type="turbulence" id="turbulence"
+                    baseFrequency=".036" numOctaves="5" seed="5"
+                    result="turbulence">
+                    <animate id="noiseAnimate"
+                        attributeName="baseFrequency"
+                        values=".029;.036;.021;.029" from="0"
+                        to="100" dur="12s"
+                        repeatCount="indefinite" >
+                    </animate>
+                </feTurbulence>
+                <feDisplacementMap
+                    in="fractalNoise"
+                    in2="turbulence"
+                    scale="100"
+                    xChannelSelector="R"
+                    yChannelSelector="R"
+                    result="Displaced">
+                    <animate id="scaleAnimate"
+                        attributeName="scale"
+                        values="-40;80;-40" from="0"
+                        to="100" dur="12s"
+                        repeatCount="indefinite" >
+                    </animate>
+                </feDisplacementMap>
+                <feDisplacementMap
+                    in="SourceGraphic"
+                    in2="Displaced"
+                    scale="100"
+                    xChannelSelector="R"
+                    yChannelSelector="R"
+                    result="mixed">
+                    <animate id="scaleAnimate"
+                        attributeName="scale"
+                        values="80;20;80" from="0"
+                        to="100" dur="12s"
+                        repeatCount="indefinite" >
+                    </animate>
+                </feDisplacementMap>
+            </filter>
+        </defs>
+    </svg> -->
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end-2">by St&eacute;fano.</div>
+    <!-- <script src="scripts/stars.js"></script> -->
+    <script src="scripts/stars-02.js"></script>
+    <script>
+        // window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>

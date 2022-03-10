@@ -5,24 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Canvas | NyteLabs</title>
+    <title>Pattern Weaver 03 | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
     <link rel="stylesheet" href="../../../stylesheets/deck.css">
     <link rel="stylesheet" href="../../../stylesheets/canvas.css">
     <style>
-        header {
-            /* backdrop-filter: brightness(5) blur(5px); */
-            backdrop-filter: brightness(1) blur(5px);
-        }
+        header {backdrop-filter: brightness(1) blur(5px);}
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
     <header>
-        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
-        <div class="title">Canvas</div>
+        <a href="../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Pattern 03</div>
         <!-- <div class="subtitle">subtitle</div> -->
     </header>
 
@@ -198,13 +195,11 @@
                 // this.spX = Math.random() * .5 + .5;
                 // this.spY = Math.random() * .5 - 1;
 
-                // this.spX = Math.random() * 1 + 1;
-                // this.spY = Math.random() * -1 - 1;
+                this.spX = Math.random() * 1 + 1;
+                this.spY = Math.random() * -1 - 1;
 
                 // this.spX = canvas.width * .001;
                 // this.spY = canvas.height * -.001;
-                this.spX = canvas.width * .005;
-                this.spY = canvas.height * -.005;
             }
             update(){
                 // this.spX += Math.random() * .2 - .1;
@@ -224,13 +219,13 @@
                 // }
                 if(this.x > canvas.width || this.y < 0){
                     if(Math.floor(this.hue)%2 == 0) {
-                        this.x = Math.random() * (canvas.width) + (canvas.width/8);
+                        this.x = Math.random() * (canvas.width + canvas.width/8) - (canvas.width/8);
                         this.y = Math.random() * (canvas.height/8) + canvas.height;
                     } else {
                         this.x = Math.random() * (canvas.width/8) * -1;
-                        this.y = Math.random() * (canvas.height) + (canvas.height/8);
+                        this.y = Math.random() * (canvas.height + canvas.height/8);
                     }
-                }                
+                }
                 // this.size += Math.random() * .2 - .1;
                 // if(this.size < .5) this.size += .15;
                 // if(this.size > 3) this.size -= .15;
@@ -241,7 +236,7 @@
                 // this.hue = (this.id%360) * ss.hue_range;
                 // this.hue += this.hueSp;
                 // if(this.hue > 360) this.hue -= 360;
-                this.hue = (this.x+this.y)%360 + Math.random() * 30;
+                this.hue = (this.x+this.y)%360 + Math.random() * 10;
                 if(this.hue > 360) this.hue -= 360;
                 // this.sat = (this.x+this.y)%20 + 80;
                 // this.lum = (this.x+this.y)%20 + 40;
@@ -250,15 +245,12 @@
                 // this.lum = (this.y)%20 + 40;
 
                 this.sat = (this.x)%20 + 80;
-                // this.lum = (this.y)%35 + 20 + Math.random() * 5;
-
-                let xark = Math.cos((this.x%30)/10 - 1.5) * 10;
-                this.lum = (this.y)%30 + 20 + xark;
+                this.lum = (this.y)%40 + 20;
 
                 
                 this.size += Math.random() * 1 - .5;
-                if(this.size < 1) this.size += 1;
-                if(this.size > 4) this.size -= 1;
+                if(this.size < 4) this.size += 1;
+                if(this.size > 8) this.size -= 1;
             }
             draw(){
                 // ctx.fillStyle = '#f398';

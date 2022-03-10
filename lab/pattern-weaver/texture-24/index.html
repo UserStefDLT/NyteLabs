@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Canvas | NyteLabs</title>
+    <title>Pattern Weaver | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
@@ -21,8 +21,8 @@
 </head>
 <body>
     <header>
-        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
-        <div class="title">Canvas</div>
+        <a href="../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Pattern 24</div>
         <!-- <div class="subtitle">spotted bells</div> -->
     </header>
 
@@ -89,8 +89,6 @@
             s.z = (scale * 10)+20;
         }
         let scale = 1;
-        // const el = document.querySelector('#canvas-stars');
-        // el.onwheel = zoom;
         canvas.onwheel = zoom;
 
         function hueHelix(){
@@ -123,119 +121,90 @@
         class Star {
             constructor(id = 0){
                 this.id = id;
-                // this.x = s.x;
-                // this.y = s.y;
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                // this.x = canvas.width/2;
-                // this.y = canvas.height/2;
 
                 this.hue = Math.random() * 360;
-                // this.hue = (this.id%360) * ss.hue_range;
-                // this.hueSp = Math.random() * 3;
-                // this.hueSp = Math.random() * 1 + .5;
                 this.hueSp = Math.random() * .25 + 1;
                 this.sat = 100;
                 this.lum = 70;
+                this.alp = 1;
+                this.size = Math.random() * 4 + 12;
+                this.sizeMode = 0;
 
-                // if(Math.floor(this.hue)%2 == 0) {
-                //     this.x = Math.random() * (canvas.width) + (canvas.width/8);
-                //     this.y = Math.random() * (canvas.height/8) + canvas.height;
-                // } else {
-                //     this.x = Math.random() * (canvas.width/8) * -1;
-                //     this.y = Math.random() * (canvas.height) + (canvas.height/8);
-                // }
-
-                // this.size = Math.random() * 5 + 1;
-                // this.size = Math.random() * 5 + 5;
-                // this.size = Math.random() * 1 + .5;
-                this.size = Math.random() * 4 + 4;
-                // this.spX = Math.random() * 3 - 1.5;
-                // this.spY = Math.random() * 3 - 1.5;
-
-                // this.spX = Math.random() * 1 - .5;
-                // this.spY = Math.random() * 1 - .5;
-
-                // this.spX = Math.random() * .5 + .5;
-                // this.spY = Math.random() * .5 - 1;
-
-                // this.spX = Math.random() * 1 + 1;
-                // this.spY = Math.random() * -1 - 1;
-
-                // this.spX = canvas.width * .001;
-                // this.spY = canvas.height * -.001;
                 this.spX = canvas.width * .005;
                 this.spY = canvas.height * -.005;
             }
             update(){
-                // this.spX += Math.random() * .2 - .1;
-                // if(this.spX < 1) {this.spX += .25;}
-                // if(this.spX > 2) {this.spX -= .25;}
-                // this.spY += Math.random() * -.2 + .1;
-                // if(this.spY > -1) {this.spY -= .25;}
-                // if(this.spY < -2) {this.spY += .25;}
-
                 this.x += this.spX;
                 this.y += this.spY;
-                // if(this.y > canvas.height || this.x > canvas.width || this.y < 0 || this.x < 0){
-                //     // this.x = Math.random() * (canvas.width/2) + (canvas.width/4);
-                //     // this.y = Math.random() * (canvas.height/2) + (canvas.height/4);
-                //     // this.x = canvas.width/2;
-                //     // this.y = canvas.height/2;
-                // }
                 if(this.x > canvas.width || this.y < 0){
                     if(Math.floor(this.hue)%2 == 0) {
-                        this.x = Math.random() * (canvas.width) + (canvas.width/8);
+                        this.x = Math.random() * (canvas.width + canvas.width/8) - (canvas.width/8);
                         this.y = Math.random() * (canvas.height/8) + canvas.height;
                     } else {
                         this.x = Math.random() * (canvas.width/8) * -1;
-                        this.y = Math.random() * (canvas.height) + (canvas.height/8);
+                        this.y = Math.random() * (canvas.height + canvas.height/8);
                     }
-                }                
-                // this.size += Math.random() * .2 - .1;
-                // if(this.size < .5) this.size += .15;
-                // if(this.size > 3) this.size -= .15;
-                // if(this.size < .1){
-                //     this.size = 1;
+                }
+
+                // Math.cos(5*5)*5;
+                // for (let index = 0; index < 10; index++) {
+                //     let rep = Math.cos(1+((index-5)/10))*10;
+                //     let r2 = Math.round(rep);
+                //     console.log('-'.repeat(5+r2));
                 // }
 
-                // this.hue = (this.id%360) * ss.hue_range;
-                // this.hue += this.hueSp;
-                // if(this.hue > 360) this.hue -= 360;
-                this.hue = (this.x+this.y)%360 + Math.random() * 30;
+                // let x_arc = Math.cos((Math.abs(this.x)%300)/100 - 1.5) * 30;
+                // let y_arc = Math.cos((Math.abs(this.y)%300)/100 - 1.5) * 30;
+                
+                // let ratio = (Math.floor((this.x+this.y)/100))%45 + 15;
+                let ratio = 300;
+                let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+                let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+                let xy_arc = (x_arc*y_arc);
+                // this.hue = ((x_arc*y_arc)%60) + ((this.x+this.y)%360);
+                // this.hue = ((x_arc*y_arc)%60) + ((this.x+this.y)%360) + Math.random() * 10;
+                // this.hue = ((x_arc*y_arc)%180);
+                // this.hue = 15 + ((Math.floor((xy_arc%80)/40)) * 180) + ((xy_arc)%30);
+                // this.hue = 15 + ((Math.floor((xy_arc%80)/40)) * 180) + ((xy_arc)%5);
+                // this.hue = 25 + ((Math.floor((xy_arc%80)/40)) * 180) + ((xy_arc)%5);
+                // this.hue = 25 + ((Math.floor((xy_arc%120)/20)) * 60) + ((xy_arc)%10);
+                // this.hue = 85 + ((Math.floor((xy_arc%120)/20)) * 60) + ((xy_arc)%10);
+                this.hue = ((x_arc*y_arc)%360) + ((this.x*this.y*.01)%360);
+                
                 if(this.hue > 360) this.hue -= 360;
-                // this.sat = (this.x+this.y)%20 + 80;
-                // this.lum = (this.x+this.y)%20 + 40;
-
-                // this.sat = (this.x)%20 + 80;
-                // this.lum = (this.y)%20 + 40;
-
-                // this.sat = (this.x)%20 + 80;
-                // this.lum = (this.y)%35 + 20 + Math.random() * 5;
                 
-                // let xark = Math.cos((this.x%30)/10 - 1.5) * 10;
-                // this.sat = xark*5 + 40;
-                // this.lum = (this.y)%30 + 20 + xark;
+                // this.size = (x_arc*y_arc*.5)%3 + .5;
+                // this.size -= ((xy_arc)%10)/500;
+                this.size -= ((xy_arc)%10)/250;
+                // this.lum = ((xy_arc)%60)+5;
+                // this.lum = ((this.x+this.y)%60)+5;
+                this.lum = ((xy_arc*.25)%60)+5;
+                this.alp = ((xy_arc)%5)/10+.2;
 
-                // let x_arc = Math.sin((this.x%60)/20 - 1.5) * 20;
-                let x_arc = Math.sin((this.x%30)/10 - 1.5) * 10;
-                // let y_arc = Math.cos((this.y%60)/20 - 1.5) * 20;
-                this.sat = x_arc + 70;
-                this.lum = (this.y)%30 + 10 + x_arc;
 
+                if(this.size < .2) {
+                    this.size += .2;
+                    this.sizeMode = 1;
+                }
+                if(this.sizeMode) {
+                    // this.size = ((x_arc*y_arc*.5)%10)/5 + .5;
+                    this.size = (x_arc*y_arc*.5)%3 + .5;
+                }
                 
-                this.size += Math.random() * 1 - .5;
-                if(this.size < 1) this.size += 1;
-                if(this.size > 4) this.size -= 1;
+                // if(this.size > 4) this.size -= 1;
             }
             draw(){
                 // ctx.filter = `blur(10px) drop-shadow(30px 30px 10px hsla(${hue}, ${sat}%, ${lum_shadow}%, ${alp-.5}))`;
-                ctx.fillStyle = `hsl(${this.hue}, ${this.sat}%, ${this.lum}%)`;
+                // ctx.fillStyle = `hsl(${this.hue}, ${this.sat}%, ${this.lum}%)`;
+                ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp.toFixed(2)})`;
                 
 
                 // ctx.filter = `blur(2px) drop-shadow(0px 0px 4px hsla(${hue}, 100%, 80%, .5))`;
                 // ctx.fillStyle = `hsl(60, 100%, 40%)`;
                 ctx.beginPath();
+                // console.log(`x:${this.x}, y:${this.y}, sz:${this.size}`);
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
             }
@@ -257,13 +226,6 @@
         }
 
         function animate (){
-            // ctx.clearRect(0,0,canvas.width, canvas.height);
-            // ctx.fillStyle = `hsla(${hue}, 100%, 5%, ${s.z}%)`;
-            // ctx.filter = `brightness(.5)`;
-            // ctx.backdropFilter = `blur(.5)`;
-            // ctx.fillStyle = `#00000005`;
-            // ctx.fillRect(0, 0, canvas.width, canvas.height);
-            // hueHelix();
             handleParticles();
             requestAnimationFrame(animate);
         }
