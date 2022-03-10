@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" onmousemove>
 <head>
     <meta charset="UTF-8">
     <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
@@ -29,6 +29,7 @@
             flex-direction: column;
             backdrop-filter: contrast(1.7);
             background-color: #1234;
+            margin-top: 2.5rem;
         }
 
         .lablinks {
@@ -111,6 +112,7 @@
         } */
 
     </style>
+    <!-- <link rel="stylesheet" href="stylesheets/nybtns.css"> -->
     <link rel="stylesheet" href="stylesheets/stars2.css">
     <link rel="stylesheet" href="stylesheets/end.css">
 </head>
@@ -138,14 +140,72 @@
     
     <main>
         <div class="shelf">
+            <div class="shelf-title">Layout</div>
             <ul class="lablinks">
-                <li><a href="lab/building/3d-rooms/"><div class="nybtn--kntk">3d Rooms</div></a></li>
-                <li><a href="lab/building/brick-wall/bricks.html"><div class="nybtn--kntk">Brick Pattern</div></a></li>
+                <li><a href="lab/layout/soft-layout/"><div class="nybtn--labBtn">Soft Layout Design</div></a></li>
+
+                <li><a href="lab/layout/layout-3d/"><div class="nybtn--labBtn">3D Layout</div></a></li>
+            </ul>
+        </div>
+        <div class="shelf">
+            <div class="shelf-title">SVG experiments</div>
+            <ul class="lablinks">
+                <li><a href="lab/designs/underwater-smoke/"><div class="nybtn--underwatersmoke-animation">Underwater Smoke Animation</div></a></li>
+                
+                <li><a href="lab/svg/cloud-experiments/"><div class="nybtn--cloud-normal">Cloud Experiments</div></a></li>
+                <li><a href="lab/svg/cloud-exp-02/"><div class="nybtn--cloud-hue">Cloud Animations</div></a></li>
+                
+                <li><a href="lab/svg/cards/"><div class="labBtn">SVG Cards</div></a></li>
+                <li><a href="lab/svg/clouds/"><div class="labBtn">SVG Clouds</div></a></li>
+            </ul>
+        </div>
+        <div class="shelf">
+            <div class="shelf-title">Canvas Experiments</div>
+            <a href="lab/canvas/canvas-map.html"><div class="labBtn">All Canvas Experiments</div></a>
+            <ul class="lablinks">
+                <li><a href="lab/canvas/rainbow-cloud-brush/"><div class="nybtn--cloud-rainbow">Rainbow Clouds Brush</div></a></li>
+                <li><a href="lab/canvas/cloud-brush/"><div class="nybtn--cloud-normal">Normal Clouds</div></a></li>
+                <!-- <li><a href="lab/canvas/brush/"><div class="nybtn--brush-rainbow">Brush</div></a></li> -->
+                <li><a href="lab/canvas/rainbow-brush"><div class="nybtn--brush-rainbow">Rainbow Brush</div></a></li>
+                <li><a href="lab/canvas/spell-effect/"><div class="nybtn--spell-02">Spell Effects</div></a></li>
+                <li><a href="lab/canvas/spell-effect-02/"><div class="nybtn--spell-02">Spell Effects 2</div></a></li>
+                <!-- <li><a href="lab/canvas/canvas-map.html"><div class="labBtn">Canvas</div></a></li> -->
+            </ul>
+        </div>
+        <div class="shelf">
+            <div class="shelf-title">Design Experiments</div>
+            <ul class="lablinks">
+                <li><a href="lab/building/3d-rooms/"><div class="nybtn--labBtn">3d Rooms</div></a></li>
+                <li><a href="lab/building/brick-wall/bricks.html"><div class="nybtn--labBtn">Brick Pattern</div></a></li>
+
+                <li><a href="lab/cards/deck-a04/"><div class="nybtn--card">Deck of Cards</div></a></li>
+                <li><a href="lab/cards/card-designs/"><div class="nybtn--card">Card Designs</div></a></li>
+
                 <li><a href="lab/recreate/kinetic-sculpture/kntk-short.html"><div class="nybtn--kntk">Kinetic Sculpture ++</div></a></li>
-                <!-- <li><a href="lab/svg/filter-effect/"><div class="nybtn--kntk">SVG Erode Dilute</div></a></li> -->
-                <li><a href="lab/layout/soft-layout/"><div class="nybtn--kntk">Soft Layout Design</div></a></li>
-                <li><a href="lab/stars/the-sun/"><div class="nybtn--kntk">The Sun</div></a></li>
-                <li><a href="lab/stars/night--sky/"><div class="nybtn--kntk">Night Stars</div></a></li>
+                <li><a href="lab/recreate/kinetic-sculpture/"><div class="nybtn--kntk">Kinetic Sculpture</div></a></li>
+
+                <li><a href="lab/stars/the-sun/"><div class="nybtn--labBtn">The Sun</div></a></li>
+                <li><a href="lab/stars/night--sky/"><div class="nybtn--labBtn">Night Stars</div></a></li>
+            </ul>
+        </div>
+        <div class="shelf hidden">
+            <div class="shelf-title">Other</div>
+            <ul class="lablinks">
+                <li><a href="lab/keyevents/keydown/"><div class="labBtn">Event: keydown</div></a></li>
+            </ul>
+        </div>
+
+        <div class="shelf">
+            <div class="shelf-title">All</div>
+            <ul class="lablinks">
+                <li><a href="lab/stars/canvas-stars/"><div class="nybtn--labBtn">Canvas Stars</div></a></li>
+                <li><a href="lab/building/3d-rooms/"><div class="nybtn--labBtn">3d Rooms</div></a></li>
+                <li><a href="lab/building/brick-wall/bricks.html"><div class="nybtn--labBtn">Brick Pattern</div></a></li>
+                <li><a href="lab/recreate/kinetic-sculpture/kntk-short.html"><div class="nybtn--kntk">Kinetic Sculpture ++</div></a></li>
+                <!-- <li><a href="lab/svg/filter-effect/"><div class="nybtn--labBtn">SVG Erode Dilute</div></a></li> -->
+                <li><a href="lab/layout/soft-layout/"><div class="nybtn--labBtn">Soft Layout Design</div></a></li>
+                <li><a href="lab/stars/the-sun/"><div class="nybtn--labBtn">The Sun</div></a></li>
+                <li><a href="lab/stars/night--sky/"><div class="nybtn--labBtn">Night Stars</div></a></li>
                 <li><a href="lab/recreate/kinetic-sculpture/"><div class="nybtn--kntk">Kinetic Sculpture</div></a></li>
                 <li><a href="lab/designs/underwater-smoke/"><div class="nybtn--underwatersmoke-animation">Underwater Smoke Animation</div></a></li>
                 <li><a href="lab/svg/cloud-experiments/"><div class="nybtn--cloud-normal">Cloud Experiments</div></a></li>
@@ -158,7 +218,7 @@
                 <li><a href="lab/canvas/rainbow-brush"><div class="nybtn--brush-rainbow">Rainbow Brush</div></a></li>
                 <!-- <li><a href="lab/canvas/rainbow-brush/"><div class="nybtn--brush-rainbow-02" data-brush-name="Rainbow Brush-02">Rainbow Brush-02</div></a></li> -->
                 <li><a href="lab/cards/deck-a04/"><div class="nybtn--card">Deck 04</div></a></li>
-                <li><a href="lab/canvas/spell-effect/"><div class="nybtn--spell-02">Spell Effects</div></a></li>
+                <!-- <li><a href="lab/canvas/spell-effect/"><div class="nybtn--spell-02">Spell Effects</div></a></li> -->
                 <li><a href="lab/canvas/spell-effect-02/"><div class="nybtn--spell-02">Spell Effects 2</div></a></li>
                 <li><a href="lab/svg/cards/"><div class="labBtn">SVG Cards</div></a></li>
                 <li><a href="lab/svg/clouds/"><div class="labBtn">SVG Clouds</div></a></li>
@@ -167,6 +227,37 @@
                 <li><a href="lab/canvas/canvas-map.html"><div class="labBtn">Canvas</div></a></li>
             </ul>
         </div>
+
+        <!-- <div class="shelf hidden">
+            <ul class="lablinks">
+                <li><a href="lab/building/3d-rooms/"><div class="nybtn--kntk">3d Rooms</div></a></li>
+                <li><a href="lab/building/brick-wall/bricks.html"><div class="nybtn--kntk">Brick Pattern</div></a></li>
+                <li><a href="lab/recreate/kinetic-sculpture/kntk-short.html"><div class="nybtn--kntk">Kinetic Sculpture ++</div></a></li>
+                <li><a href="lab/svg/filter-effect/"><div class="nybtn--kntk">SVG Erode Dilute</div></a></li>
+                <li><a href="lab/layout/soft-layout/"><div class="nybtn--kntk">Soft Layout Design</div></a></li>
+                <li><a href="lab/stars/the-sun/"><div class="nybtn--kntk">The Sun</div></a></li>
+                <li><a href="lab/stars/night--sky/"><div class="nybtn--kntk">Night Stars</div></a></li>
+                <li><a href="lab/recreate/kinetic-sculpture/"><div class="nybtn--kntk">Kinetic Sculpture</div></a></li>
+                <li><a href="lab/designs/underwater-smoke/"><div class="nybtn--underwatersmoke-animation">Underwater Smoke Animation</div></a></li>
+                <li><a href="lab/svg/cloud-experiments/"><div class="nybtn--cloud-normal">Cloud Experiments</div></a></li>
+                <li><a href="lab/svg/cloud-exp-02/"><div class="nybtn--cloud-hue">Cloud Animations</div></a></li>
+                <li><a href="lab/cards/card-designs/"><div class="nybtn--card">Card Designs</div></a></li>
+                <li><a href="lab/canvas/rainbow-cloud-brush/"><div class="nybtn--cloud-rainbow">Rainbow Clouds Brush</div></a></li>
+                <li><a href="lab/canvas/cloud-brush/"><div class="nybtn--cloud-normal">Normal Clouds</div></a></li>
+                <li><a href="lab/canvas/cloud-brush/"><div class="nybtn--brush-cloud-normal" data-brush-name="Normal Clouds">Normal Clouds</div></a></li>
+                <li><a href="lab/canvas/brush/"><div class="nybtn--brush-rainbow">Brush</div></a></li>
+                <li><a href="lab/canvas/rainbow-brush"><div class="nybtn--brush-rainbow">Rainbow Brush</div></a></li>
+                <li><a href="lab/canvas/rainbow-brush/"><div class="nybtn--brush-rainbow-02" data-brush-name="Rainbow Brush-02">Rainbow Brush-02</div></a></li>
+                <li><a href="lab/cards/deck-a04/"><div class="nybtn--card">Deck 04</div></a></li>
+                <li><a href="lab/canvas/spell-effect/"><div class="nybtn--spell-02">Spell Effects</div></a></li>
+                <li><a href="lab/canvas/spell-effect-02/"><div class="nybtn--spell-02">Spell Effects 2</div></a></li>
+                <li><a href="lab/svg/cards/"><div class="labBtn">SVG Cards</div></a></li>
+                <li><a href="lab/svg/clouds/"><div class="labBtn">SVG Clouds</div></a></li>
+                <li><a href="lab/layout/layout-3d/"><div class="labBtn">3D Layout</div></a></li>
+                <li><a href="lab/keyevents/keydown/"><div class="labBtn">Event: keydown</div></a></li>
+                <li><a href="lab/canvas/canvas-map.html"><div class="labBtn">Canvas</div></a></li>
+            </ul>
+        </div> -->
         <div class="shelf hidden">
             <ul class="lablinks">
                 <li><a href="lab/recreate/kinetic-sculpture/"><div class="nybtn--kntk">Kinetic Sculpture</div></a></li>

@@ -32,6 +32,6 @@ function starNebula2(starCount = 10){
 window.addEventListener('load', (ev) => {
     console.log(`Welcome to my Lab!`);
     // starNebula2(150);
-    // starNebula2(50);
-    starNebula2(100);
+    starNebula2(50);
+    // starNebula2(100);
 });
