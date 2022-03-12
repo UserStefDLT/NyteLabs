@@ -100,41 +100,29 @@
             s.canvas.vmin = Math.min(canvas.height, canvas.width);
             s.canvas.vmax = Math.max(canvas.height, canvas.width);
 
-            // console.log(`window.innerWidth: ${window.innerWidth}`);
-            // console.log(`window.innerHeight: ${window.innerHeight}`);
-
-            // console.log(`s.c.vmin: ${s.canvas.vmin}`);
-            // console.log(`s.c.vmax: ${s.canvas.vmax}`);
-
-            s.canvas.cirRad = s.canvas.vmin/2;
-            s.canvas.xCen = canvas.width/2;
-            s.canvas.yCen = canvas.height/2;
-            // console.log('s.canvas:');
-            // console.log(s.canvas);
+            // s.canvas.cirMin = Math.min(canvas.height, canvas.width);
+            // s.canvas.cirMax = Math.max(canvas.height, canvas.width);
         }
         updateFrame();
-
         window.addEventListener('resize', () =>{
-            console.log(`window.innerWidth: ${window.innerWidth}`);
-            console.log(`window.innerHeight: ${window.innerHeight}`);
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            updateFrame();
+            // s.canvas.frameExtension = 20;
+            // s.canvas.y8 = frameExtension * -1;
+            // s.canvas.x4 = frameExtension * -1;
+            // s.canvas.y2 = canvas.height + frameExtension;
+            // s.canvas.x6 = canvas.width + frameExtension;
+            // s.canvas.vmin = Math.min(canvas.height, canvas.width);
+            // s.canvas.vmax = Math.max(canvas.height, canvas.width);
+            updateFrame()
         });
         window.addEventListener('mousemove', (ev) =>{
             // let chance = Math.floor(Math.random()*100) + 1;
             s.x = ev.clientX;
             s.y = ev.clientY;
             // hueHelix();
-            // s.mouse.x = ev.clientX;
-            // s.mouse.y = ev.clientY;
-
-            // console.log(`s.x: ${s.x}`);
-            // console.log(`s.y: ${s.y}`);
-
-            // s.canvas.cirRad = s.canvas.vmin/4;
-            // s.canvas.xCen = ev.clientX;
-            // s.canvas.yCen = ev.clientY;
+            s.mouse.x = ev.clientX;
+            s.mouse.y = ev.clientY;
         });
 
         function zoom(event) {
@@ -151,9 +139,10 @@
             // s.z = (scale)+.125;
             // // 0.25, 1.58, 2.9, 4.125
 
-            // .25 to 12.125;
-            scale = Math.min(Math.max(.25, scale), 12);
-            s.z = (scale)+.25;
+            // .25 to 4.125;
+            scale = Math.min(Math.max(.125, scale), 12);
+            s.z = (scale)+.125;
+            // 0.25, 1.58, 2.9, 4.125
 
             console.log(`s.z: ${s.z}`);
         }
@@ -186,18 +175,15 @@
         }
 
         const stars = [];
-        // const ss = {"len":50, "hue_range": 15};
+        const ss = {"len":50, "hue_range": 15};
         class Star {
-            constructor(id = 0, galaxyLen = 10){
+            constructor(id = 0){
                 this.id = id;
                 // this.x = Math.random() * canvas.width;
                 // this.y = Math.random() * canvas.height;
                 this.x = (s.canvas.x6/2);
                 this.y = (s.canvas.y2/2);
                 this.outFrame = false;
-                this.angle = id*6;
-                this.gLen = galaxyLen;
-                this.angle = id*(360/this.gLen);
 
                 this.hue = Math.random() * 360;
                 this.hueSp = Math.random() * .25 + 1;
@@ -205,8 +191,7 @@
                 this.lum = 70;
                 this.alp = 1;
                 // this.size = Math.random() * 4 + 12;
-                // this.size = Math.random() * 4 + 1;
-                this.size = Math.random() * 2 + 1;
+                this.size = Math.random() * 4 + 1;
                 this.sizeMode = 0;
                 // this.spX = canvas.width * .005;
                 // this.spY = canvas.height * -.005;
@@ -215,17 +200,9 @@
                 this.scaleSp = 5;
                 this.spX = this.angleX * this.scaleSp;
                 this.spY = this.angleY * this.scaleSp;
-                // this.spX = this.angleX * this.scaleSp * ((this.gLen - this.id)/this.glen + 1);
-                // this.spY = this.angleY * this.scaleSp * ((this.gLen - this.id)/this.glen + 1);
-
-                this.wait = id;
-            }
-            rewait(){
-                this.wait = this.id;
             }
             calAngle() {
-                // this.angle = Math.random() * 360;
-                this.angle += this.gLen + Math.random() * 3;
+                this.angle = Math.random() * 360;
                 this.angleX = Math.cos(Math.PI*(this.angle/180));
                 this.angleY = Math.sin(Math.PI*(this.angle/180));
                 // this.offCenter = s.canvas.vmin / 4;
@@ -235,32 +212,103 @@
             update(){
                 this.x += this.spX;
                 this.y += this.spY;
-                let xOff = Math.abs((s.canvas.xCen) - this.x);
-                let yOff = Math.abs((s.canvas.yCen) - this.y);
-                let absDist = Math.sqrt(xOff*xOff + yOff*yOff);
-                if(absDist > s.canvas.cirRad){
+                this.inFrame = false;
+                this.outFrame = (this.x > s.canvas.x6) || (this.y > s.canvas.y2) || (this.x < s.canvas.x4) || (this.y < s.canvas.y8);
+                if(this.outFrame){
                     // console.log(`♦Star #${this.id} found out of canvas.`);
                     this.calAngle();
                     this.scaleSp -= .2;
                     if(this.scaleSp < 1) this.scaleSp = 1;
                     this.spX = this.angleX * this.scaleSp;
                     this.spY = this.angleY * this.scaleSp;
-                    // this.x = (s.canvas.x6/2) + (canvas.width/8) * this.angleX * -1;
-                    // this.y = (s.canvas.y2/2) + (canvas.height/8) * this.angleY * -1;
-                    this.x = (s.canvas.xCen);
-                    this.y = (s.canvas.yCen);
+                    // this.x = (s.canvas.x6/2) + (canvas.width/4) * this.angleX * -1;
+                    // this.y = (s.canvas.y2/2) + (canvas.height/4) * this.angleY * -1;
+                    this.x = (s.canvas.x6/2);
+                    this.y = (s.canvas.y2/2);
+                    // this.x = (s.canvas.x6/2) + Math.random() * (canvas.width/8) * this.angleX * -1;
+                    // this.y = (s.canvas.y2/2) + Math.random() * (canvas.height/8) * this.angleY * -1;
+                    // if(Math.floor(this.hue)%2 == 0) {
+                    //     this.x = Math.random() * (canvas.width + canvas.width/8) - (canvas.width/8);
+                    //     this.y = Math.random() * (canvas.height/8) + canvas.height;
+                    // } else {
+                    //     this.x = Math.random() * (canvas.width/8) * -1;
+                    //     this.y = Math.random() * (canvas.height + canvas.height/8);
+                    // }
+                    // this.size -= ((xy_arc)%10)/10;
+                    // this.size /= 2;
+                    // this.size -= this.size/4;
+                    // this.size -= this.size/8;
+                    // this.size -= this.size/5;
                     this.size -= .5;
                 }
+                // if(this.x > canvas.width || this.y < 0){
+                //     if(Math.floor(this.hue)%2 == 0) {
+                //         this.x = Math.random() * (canvas.width + canvas.width/8) - (canvas.width/8);
+                //         this.y = Math.random() * (canvas.height/8) + canvas.height;
+                //     } else {
+                //         this.x = Math.random() * (canvas.width/8) * -1;
+                //         this.y = Math.random() * (canvas.height + canvas.height/8);
+                //     }
+                //     let ratio = (Math.floor((this.x+this.y)*500)%2 + 1) * 300;
+                //     let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+                //     let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+                //     let xy_arc = (x_arc*y_arc);
+                //     // this.size -= ((xy_arc)%10)/10;
+                //     // this.size /= 2;
+                //     this.size -= this.size/4;
+                // }
+                // if(this.x > canvas.width){
+                //     this.x = Math.random() * -50;
+                //     this.y = Math.random() * (canvas.height + 20) - 10;
+                //     // this.size -= ((xy_arc)%10)/10;
+                //     this.size -= this.size/8;
+                // }
+
+                // Math.cos(5*5)*5;
+                // for (let index = 0; index < 10; index++) {
+                //     let rep = Math.cos(1+((index-5)/10))*10;
+                //     let r2 = Math.round(rep);
+                //     console.log('-'.repeat(5+r2));
+                // }
+
+                // let x_arc = Math.cos((Math.abs(this.x)%300)/100 - 1.5) * 30;
+                // let y_arc = Math.cos((Math.abs(this.y)%300)/100 - 1.5) * 30;
                 
+                // let ratio = (Math.floor((this.x+this.y)/100))%45 + 15;
+                // let ratio = 300;
+                // let ratio = (Math.floor((this.x+this.y)/100)%3 + 1) * 15;
                 let ratio = (Math.floor((this.x+this.y)*500)%2 + 1) * 300;
                 let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
                 let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
                 let xy_arc = (x_arc*y_arc);
+                // this.hue = ((x_arc*y_arc)%60) + ((this.x+this.y)%360);
+                // this.hue = ((x_arc*y_arc)%60) + ((this.x+this.y)%360) + Math.random() * 10;
+                // this.hue = ((x_arc*y_arc)%180);
+                // this.hue = 15 + ((Math.floor((xy_arc%80)/40)) * 180) + ((xy_arc)%30);
+                // this.hue = 15 + ((Math.floor((xy_arc%80)/40)) * 180) + ((xy_arc)%5);
+                // this.hue = 25 + ((Math.floor((xy_arc%80)/40)) * 180) + ((xy_arc)%5);
+                // this.hue = 25 + ((Math.floor((xy_arc%120)/20)) * 60) + ((xy_arc)%10);
+                // this.hue = 85 + ((Math.floor((xy_arc%120)/20)) * 60) + ((xy_arc)%10);
+                // this.hue = ((x_arc*y_arc)%180) + ((this.x*this.y*.01)%360);
+                // this.hue = ((x_arc*y_arc)%180) + ((this.x*this.y*.01)%180);
+                // this.hue = ((x_arc*y_arc)%180) + ((this.x*this.y*.005)%360);
+                // this.hue = 85 + ((Math.floor((xy_arc%120)/20)) * 60) + ((xy_arc)%10);
+                // this.hue = 85 + ((Math.floor((xy_arc%120)/20)) * 60) + ((this.x*this.y*.005)%30);
+                // this.hue = 95 + ((Math.floor((xy_arc%120)/20)) * 60);
+                // this.hue = ((Math.cos(this.x*this.y)*15)%360) + 200;
                 
+                // this.hue = 85 + ((Math.floor((xy_arc%120)/20)) * 60) + ((xy_arc)%10) + ((this.x*this.y*.005)%30);
+                // this.hue = ((x_arc*y_arc)%180) + ((this.x*this.y*.001)%360);
+                // this.hue = ((Math.cos(this.x*this.y)*15)%360) + 180 + ((x_arc*y_arc)%40);
                 this.hue = ((x_arc*y_arc)%180) + ((this.x*this.y*.001)%360);
                 
                 if(this.hue > 360) this.hue -= 360;
                 
+                // this.size = (x_arc*y_arc*.5)%3 + .5;
+                // this.size -= ((xy_arc)%10)/500;
+                // this.size -= ((xy_arc)%10)/250;
+                // this.lum = ((xy_arc)%60)+5;
+                // this.lum = ((this.x+this.y)%60)+5;
                 this.lum = ((xy_arc*.25)%60)+5;
                 this.alp = ((xy_arc)%5)/10+.2;
 
@@ -271,9 +319,14 @@
                     console.log(`this.sizeMode = ${this.sizeMode}`);
                 }
                 if(this.sizeMode) {
+                    // this.size = ((x_arc*y_arc*.5)%10)/5 + .5;
+                    // this.size = (x_arc*y_arc*.5)%3 + .5;
+                    // this.size = ((x_arc*y_arc*.5)%10)/5 + .25;
+                    // this.size = ((x_arc*y_arc)%10)/25 + .25;
                     this.size = 1 * (s.z);
                     // console.log(`this.size = ${this.size}`);
                 }
+                
                 // if(this.size > 4) this.size -= 1;
             }
             draw(){
@@ -292,22 +345,17 @@
         }
 
         function start(){
-            let starCount = 60;
-            for (let index = 0; index < starCount; index++) {
-                stars.push(new Star(index, starCount));
+            for (let index = 0; index < 50; index++) {
+                stars.push(new Star(index));
             }
-            // ss.len = 50;
-            // ss["hue_range"] = 360/ss.len;
+            ss.len = 50;
+            ss["hue_range"] = 360/ss.len;
         }
         function handleParticles(){
             for (let index = 0; index < stars.length; index++) {
                 const element = stars[index];
-                if(element.wait > 0) {
-                    element.wait -= 1;
-                } else {
-                    element.update();
-                    element.draw();
-                }
+                element.update();
+                element.draw();
             }
         }
 
@@ -315,36 +363,6 @@
             handleParticles();
             requestAnimationFrame(animate);
         }
-
-
-
-        window.addEventListener('click', (ev) => {
-            s.mouse.x = ev.clientX;
-            s.mouse.y = ev.clientY;
-
-            let starCount = 60;
-            for (let index = 0; index < stars.length; index++) {
-                stars[index].rewait();
-            }
-            
-            console.log(`ev.clientX: ${ev.clientX}`);
-            console.log(`ev.clientY: ${ev.clientY}`);
-
-            s.canvas.cirRad = s.canvas.vmin/4;
-            s.canvas.xCen = ev.clientX;
-            s.canvas.yCen = ev.clientY;
-            
-            
-            // console.log(`s.x: ${s.x}`);
-            // console.log(`s.y: ${s.y}`);
-            
-
-            // console.log(`s.c.vmin: ${s.canvas.vmin}`);
-            // console.log(`s.c.vmax: ${s.canvas.vmax}`);
-            // console.log('s.canvas:');
-            // console.log(s.canvas);
-        });
-
 
         window.addEventListener('load', (ev) => {
             console.log(`Welcome to my Lab!`);
