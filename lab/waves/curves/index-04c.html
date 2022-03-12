@@ -27,18 +27,6 @@
             --clr-5: #93f; --clr-5-mid: #639; --clr-5-dark: #306; --bgs-5: #6393;
             --clr-6: #f39; --clr-6-mid: #936; --clr-6-dark: #603; --bgs-6: #9363;
 
-            --bs4-4: #39f4; --bs4-4: hsla(210, 100%, 60%, 0.267); 
-            --bs4-4-mid: #3694; --bs4-4-mid: hsla(210, 50%, 40%, 0.267); 
-            --bs4-4-mid: #06c4; --bs4-4-mid: #0066cc44; 
-            --bs4-4-dark: #0364; --bs4-4-dark: hsla(210, 100%, 20%, 0.267);
-
-            --bs4-1: #f934; --bs4-1-mid: #9634; --bs4-1-dark: #6304;
-            --bs4-2: #9f34; --bs4-2-mid: #6934; --bs4-2-dark: #3604;
-            --bs4-3: #3f94; --bs4-3-mid: #3964; --bs4-3-dark: #0634;
-            --bs4-4: #39f4; --bs4-4-mid: #3694; --bs4-4-dark: #0364;
-            --bs4-5: #93f4; --bs4-5-mid: #6394; --bs4-5-dark: #3064;
-            --bs4-6: #f394; --bs4-6-mid: #9364; --bs4-6-dark: #6034;
-            
             --h-045: hsla(045deg, 100%, 60%, 1);
             --h-135: hsla(135deg, 100%, 60%, 1);
             --h-225: hsla(225deg, 100%, 60%, 1);
@@ -72,7 +60,7 @@
             height: 324px; 
             width: 34px;
             display: flex;
-            align-items: flex-end;
+            align-items: end;
             justify-content: center;
             flex-direction: row;
             padding-bottom: 2px;
@@ -83,12 +71,14 @@
             position: relative;
             min-height: 5px;
             width: 30px;
+            /* background-image: linear-gradient(-30deg, #036, #369, #39f); */
         }
         .bar-container:hover .bar {
             outline: 1px solid #fff;
             outline-offset: -1px;
         }
         .bar::after {
+            /* content: attr(id); */
             content: attr(data-id);
             position: absolute;
             top: 100%; left: 50%;
@@ -108,7 +98,6 @@
             color: hsla(210, 100%, 100%, 1);
         }
 
-        
         .bar-2 {
             position: relative;
             min-height: 5px;
@@ -127,19 +116,26 @@
             transform: translateX(-50%) translateY(50%);
         }
 
+        .bar,
+        .bar-2:nth-of-type(1) {--clr: var(--clr-4); --clr-dark: var(--clr-4-dark); --hue: var(--hue-4); --tY: -1.5rem;}
+        .bar-2:nth-of-type(2) {--clr: var(--clr-1); --clr-dark: var(--clr-1-dark); --hue: var(--hue-1); --tY: -2.5rem;}
         .bar, .bar-2 {
-            --hue: 210;
-            --clr: hsla(var(--hue), 100%, 60%, 1);
-            --clr-dark: hsla(var(--hue), 100%, 20%, 1);
-            --bs4: hsla(var(--hue), 100%, 60%, .3);
-            --bs4-dark: hsla(var(--hue), 100%, 20%, .3);
-            /* background-image: linear-gradient(-30deg, var(--bs4-dark), var(--bs4));
             box-shadow: 
             0px 0px 4px 2px var(--clr),
             inset 1px 1px 0px 0px var(--clr),
-            inset -1px -1px 0px 0px var(--clr-dark); */
+            inset -1px -1px 0px 0px var(--clr-dark);
         }
+        .bar,
+        .bar-2:nth-of-type(1) {background-image: linear-gradient(-30deg, #0364, #3694, #39f4);}
+        .bar-2:nth-of-type(2) {background-image: linear-gradient(-30deg, #6304, #9634, #f934);}
 
+        /* .bar-container:hover .bar,
+        .bar-container-2:hover .bar-2:nth-of-type(1) {background-image: linear-gradient(-30deg, #036, #369, #39f);}
+        .bar-container-2:hover .bar-2:nth-of-type(2) {background-image: linear-gradient(-30deg, #630, #963, #f93);} */
+        .bar-container:hover .bar,
+        .bar-container-2:hover .bar-2:nth-of-type(1) {background-image: linear-gradient(-30deg, #036,#39f);}
+        .bar-container-2:hover .bar-2:nth-of-type(2) {background-image: linear-gradient(-30deg, #630,#f93);}
+        
 
         .bar-2::before {
             content: attr(data-h);
@@ -162,7 +158,6 @@
             color: hsla(var(--hue), 100%, 60%, 1);
         }
 
-
         .mid-line {
             --clr-a: var(--clr-6);
             --clr-b: var(--clr-3);
@@ -182,115 +177,6 @@
         }
 
     </style>
-    <style>
-        input[type="radio"] {display: none;}
-        label {
-            --clr-left: var(--clr-4);
-            --clr-dark-left: var(--clr-4-dark);
-            --clr-right: var(--clr-1);
-            --clr-dark-right: var(--clr-1-dark);
-            position: relative;
-            /* min-height: 6rem; */
-            min-width: 6rem;
-            margin: .125rem;
-            padding: .25rem .5rem;
-            border-radius: .125rem;
-            color: #fff;
-            text-shadow: 2px 2px 2px #1119;
-            cursor: pointer;
-            user-select: none;
-
-            /* background-image: linear-gradient(120deg, var(--bs4-4-dark), var(--bs4-1-dark)); */
-        }
-        label:hover { outline: 1px solid #fffc; outline-offset: 2px; }
-        [for="style--fill"] {background-image: linear-gradient(120deg, var(--clr-4) 50%, var(--clr-1) 50%);}
-        [for="style--ghost"] {background-image: linear-gradient(120deg, var(--bs4-4), var(--bs4-1));}
-        [for="style--ghost"],
-        [for="style--glow"] {
-            box-shadow: 
-            -1px -1px 3px 0px var(--clr-left),
-            inset 1px 1px 0px 0px var(--clr-left),
-            /* inset -1px -1px 0px 0px var(--clr-dark-left), */
-            1px 1px 3px 0px var(--clr-right),
-            /* inset -1px -1px 0px 0px var(--clr-right), */
-            inset -1px -1px 0px 0px var(--clr-dark-right);
-        }
-
-        :where(#style--fill:checked, #style--ghost:checked, #style--glow:checked) ~ main label::before,
-        :where(#style--fill:checked, #style--ghost:checked, #style--glow:checked) ~ main label::after {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translateX(-50%) translateY(-50%);
-            z-index: -1;
-        }
-        #style--fill:checked ~ main label[for="style--fill"]::before,
-        #style--ghost:checked ~ main label[for="style--ghost"]::before,
-        #style--glow:checked ~ main label[for="style--glow"]::before {
-            height: 2rem; width: 2rem;
-            height: 1rem; width: 1rem;
-            height: 1.25rem; width: 1.25rem;
-            color: #fc0;
-            border-radius: .125rem;
-            transform: translateX(-50%) translateY(-50%) rotate(45deg);
-            box-shadow: 
-            6px 6px 0 0px #fc0,
-            -6px -6px 0 0px #fc0;
-        }
-        #style--fill:checked ~ main label[for="style--fill"]::after,
-        #style--ghost:checked ~ main label[for="style--ghost"]::after,
-        #style--glow:checked ~ main label[for="style--glow"]::after {
-            height: 150%; width: 110%;
-            border-radius: .5rem;
-            background: #000;
-            box-shadow: 
-            inset 0 6px 0 -4px #fc0,
-            inset 0 -6px 0 -4px #fc0;
-
-            background: hsla(210, 0%, 5%, 100%);
-            height: 125%; width: 115%;
-            box-shadow: 
-            0 6px 0 -4px #fc0,
-            0 -6px 0 -4px #fc0;
-        }
-
-        /* #style--fill:checked ~ main [for="style--fill"] {background-image: linear-gradient(120deg, var(--clr-4) 50%, var(--clr-1) 50%);}
-        #style--ghost:checked ~ main [for="style--ghost"] {background-image: linear-gradient(120deg, var(--clr-4) 50%, var(--clr-1) 50%);}
-        #style--glow:checked ~ main [for="style--glow"] {background-image: linear-gradient(120deg, var(--clr-4) 50%, var(--clr-1) 50%);} */
-
-        .bar,
-        .bar-2:nth-of-type(1) {--hue: var(--hue-4);}
-        .bar-2:nth-of-type(2) {--hue: var(--hue-1);}
-        .bar, .bar-2 {
-            --hue: 210;
-            --clr: hsla(var(--hue), 100%, 60%, 1);
-            --clr-dark: hsla(var(--hue), 100%, 20%, 1);
-            --bs4: hsla(var(--hue), 100%, 60%, .3);
-            --bs4-dark: hsla(var(--hue), 100%, 20%, .3);
-        }
-
-        #style--fill:checked ~ main .bar,
-        #style--fill:checked ~ main .bar-2:nth-of-type(1) {background-image: linear-gradient(-30deg, var(--clr-dark), var(--clr));}
-        #style--fill:checked ~ main .bar-2:nth-of-type(2) {background-image: linear-gradient(-30deg, var(--clr-dark), var(--clr));}
-
-        #style--glow:checked ~ main .bar,
-        #style--glow:checked ~ main .bar-2,
-        #style--ghost:checked ~ main .bar,
-        #style--ghost:checked ~ main .bar-2 {
-            box-shadow: 
-            0px 0px 4px 2px var(--clr),
-            inset 1px 1px 0px 0px var(--clr),
-            inset -1px -1px 0px 0px var(--clr-dark);
-        }
-        #style--ghost:checked ~ main .bar,
-        #style--ghost:checked ~ main .bar-2:nth-of-type(1) {background-image: linear-gradient(-30deg, var(--bs4-dark), var(--bs4));}
-        #style--ghost:checked ~ main .bar-2:nth-of-type(2) {background-image: linear-gradient(-30deg, var(--bs4-dark), var(--bs4));}
-        #style--ghost:checked ~ main .bar-container:hover .bar,
-        #style--ghost:checked ~ main .bar-container-2:hover .bar-2:nth-of-type(1) {background-image: linear-gradient(-30deg, var(--clr-dark), var(--clr));}
-        #style--ghost:checked ~ main .bar-container-2:hover .bar-2:nth-of-type(2) {background-image: linear-gradient(-30deg, var(--clr-dark), var(--clr));}
-        
-
-    </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
@@ -300,18 +186,10 @@
         <!-- <div class="subtitle">subtitle</div> -->
     </header>
 
-    <!-- <input type="radio" name="style-color" id="style-color--solid">
-    <input type="radio" name="style-color" id="style-color--gradient"> -->
-    <input type="radio" name="style" id="style--fill" checked>
-    <input type="radio" name="style" id="style--ghost">
-    <input type="radio" name="style" id="style--glow">
 <main id="myMain">
-    <div class="shelf">
-        <div class="shelf-title">Styles</div>
-        <label for="style--fill">Fill</label>
-        <label for="style--ghost">Ghost</label>
-        <label for="style--glow">Glow</label>
-    </div>
+    <!-- <div class="shelf">
+        <div class="shelf-title">Welcome</div>
+    </div> -->
 </main>
 
 

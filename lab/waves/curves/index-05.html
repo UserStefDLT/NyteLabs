@@ -72,7 +72,7 @@
             height: 324px; 
             width: 34px;
             display: flex;
-            align-items: flex-end;
+            align-items: end;
             justify-content: center;
             flex-direction: row;
             padding-bottom: 2px;
@@ -185,78 +185,21 @@
     <style>
         input[type="radio"] {display: none;}
         label {
-            --clr-left: var(--clr-4);
-            --clr-dark-left: var(--clr-4-dark);
-            --clr-right: var(--clr-1);
-            --clr-dark-right: var(--clr-1-dark);
-            position: relative;
             /* min-height: 6rem; */
             min-width: 6rem;
             margin: .125rem;
             padding: .25rem .5rem;
             border-radius: .125rem;
+            background-image: linear-gradient(120deg, var(--bs4-4-dark), var(--bs4-1-dark));
             color: #fff;
             text-shadow: 2px 2px 2px #1119;
             cursor: pointer;
             user-select: none;
-
-            /* background-image: linear-gradient(120deg, var(--bs4-4-dark), var(--bs4-1-dark)); */
-        }
-        label:hover { outline: 1px solid #fffc; outline-offset: 2px; }
-        [for="style--fill"] {background-image: linear-gradient(120deg, var(--clr-4) 50%, var(--clr-1) 50%);}
-        [for="style--ghost"] {background-image: linear-gradient(120deg, var(--bs4-4), var(--bs4-1));}
-        [for="style--ghost"],
-        [for="style--glow"] {
-            box-shadow: 
-            -1px -1px 3px 0px var(--clr-left),
-            inset 1px 1px 0px 0px var(--clr-left),
-            /* inset -1px -1px 0px 0px var(--clr-dark-left), */
-            1px 1px 3px 0px var(--clr-right),
-            /* inset -1px -1px 0px 0px var(--clr-right), */
-            inset -1px -1px 0px 0px var(--clr-dark-right);
         }
 
-        :where(#style--fill:checked, #style--ghost:checked, #style--glow:checked) ~ main label::before,
-        :where(#style--fill:checked, #style--ghost:checked, #style--glow:checked) ~ main label::after {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translateX(-50%) translateY(-50%);
-            z-index: -1;
-        }
-        #style--fill:checked ~ main label[for="style--fill"]::before,
-        #style--ghost:checked ~ main label[for="style--ghost"]::before,
-        #style--glow:checked ~ main label[for="style--glow"]::before {
-            height: 2rem; width: 2rem;
-            height: 1rem; width: 1rem;
-            height: 1.25rem; width: 1.25rem;
-            color: #fc0;
-            border-radius: .125rem;
-            transform: translateX(-50%) translateY(-50%) rotate(45deg);
-            box-shadow: 
-            6px 6px 0 0px #fc0,
-            -6px -6px 0 0px #fc0;
-        }
-        #style--fill:checked ~ main label[for="style--fill"]::after,
-        #style--ghost:checked ~ main label[for="style--ghost"]::after,
-        #style--glow:checked ~ main label[for="style--glow"]::after {
-            height: 150%; width: 110%;
-            border-radius: .5rem;
-            background: #000;
-            box-shadow: 
-            inset 0 6px 0 -4px #fc0,
-            inset 0 -6px 0 -4px #fc0;
-
-            background: hsla(210, 0%, 5%, 100%);
-            height: 125%; width: 115%;
-            box-shadow: 
-            0 6px 0 -4px #fc0,
-            0 -6px 0 -4px #fc0;
-        }
-
-        /* #style--fill:checked ~ main [for="style--fill"] {background-image: linear-gradient(120deg, var(--clr-4) 50%, var(--clr-1) 50%);}
+        #style--fill:checked ~ main [for="style--fill"] {background-image: linear-gradient(120deg, var(--clr-4) 50%, var(--clr-1) 50%);}
         #style--ghost:checked ~ main [for="style--ghost"] {background-image: linear-gradient(120deg, var(--clr-4) 50%, var(--clr-1) 50%);}
-        #style--glow:checked ~ main [for="style--glow"] {background-image: linear-gradient(120deg, var(--clr-4) 50%, var(--clr-1) 50%);} */
+        #style--glow:checked ~ main [for="style--glow"] {background-image: linear-gradient(120deg, var(--clr-4) 50%, var(--clr-1) 50%);}
 
         .bar,
         .bar-2:nth-of-type(1) {--hue: var(--hue-4);}
@@ -307,7 +250,7 @@
     <input type="radio" name="style" id="style--glow">
 <main id="myMain">
     <div class="shelf">
-        <div class="shelf-title">Styles</div>
+        <div class="shelf-title">Controllers</div>
         <label for="style--fill">Fill</label>
         <label for="style--ghost">Ghost</label>
         <label for="style--glow">Glow</label>
