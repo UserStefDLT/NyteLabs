@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Curves | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        .grid-h {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            margin: 2rem 0;
+        }
+        .bar-container {
+            position: relative;
+            height: 324px; 
+            width: 20px;
+            width: 30px;
+            width: 34px;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            padding-bottom: 2px;
+            margin: 0 3px;
+            /* margin: 0 1px; */
+            outline: 1px dashed #8888;
+        }
+        [data-h="1"] {--h: 1;}
+        [data-h="2"] {--h: 2;}
+        [data-h="3"] {--h: 3;}
+        [data-h="4"] {--h: 4;}
+        [data-h="5"] {--h: 5;}
+        [data-h="6"] {--h: 6;}
+        [data-h="7"] {--h: 7;}
+        [data-h="8"] {--h: 8;}
+        [data-h="9"] {--h: 9;}
+        [data-h="10"] {--h: 10;}
+        [data-h] {height: calc(var(--h) * 30px);}
+        .bar {
+            position: relative;
+            min-height: 5px;
+            width: 16px;
+            width: 24px;
+            width: 30px;
+            /* background-image: linear-gradient(-20deg, #39f, #369, #036); */
+            background-image: linear-gradient(-20deg, #036, #369, #39f);
+        }
+        .bar::after {
+            content: attr(id);
+            position: absolute;
+            top: 100%; left: 50%;
+            transform: translateX(-50%) translateY(50%);
+        }
+        .bar::before {
+            content: attr(data-h);
+            position: absolute;
+            top: 100%; left: 50%;
+            transform: translateX(-50%) translateY(-320px) rotate(-90deg);
+            transform: translateX(-50%) translateY(-330px) rotate(-60deg);
+            top: 0%; left: 50%;
+            transform: translateX(-50%) translateY(-120%) rotate(0deg);
+        }
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <div class="title">Curves</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">Grid Check</div>
+        <div id="mygrid" class="grid-h">
+
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Grid Sample</div>
+        <div class="grid-h">
+            <!-- .bar-container*10>.bar[data-h="$"] -->
+            <div class="bar-container">
+                <div class="bar" data-h="1"></div>
+            </div>
+            <div class="bar-container">
+                <div class="bar" data-h="2"></div>
+            </div>
+            <div class="bar-container">
+                <div class="bar" data-h="3"></div>
+            </div>
+            <div class="bar-container">
+                <div class="bar" data-h="4"></div>
+            </div>
+            <div class="bar-container">
+                <div class="bar" data-h="5"></div>
+            </div>
+            <div class="bar-container">
+                <div class="bar" data-h="6"></div>
+            </div>
+            <div class="bar-container">
+                <div class="bar" data-h="7"></div>
+            </div>
+            <div class="bar-container">
+                <div class="bar" data-h="8"></div>
+            </div>
+            <div class="bar-container">
+                <div class="bar" data-h="9"></div>
+            </div>
+            <div class="bar-container">
+                <div class="bar" data-h="10"></div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        /* stats */
+        const s = {};
+        function perceptionRoll(){
+            let wh = window.innerHeight;
+            let ww = window.innerWidth;
+            console.log(`Height: ${wh}`);
+            console.log(`Width: ${ww}`);
+
+            let w90 = ww*.9;
+            let widthPerCol = 40;
+            let xw = Math.round(w90/widthPerCol);
+            console.log(`xw: ${xw}`);
+
+            s['xw'] = xw;
+        }
+        function buildGraph() {
+            let mygrid = document.getElementById('mygrid');
+            for (let i = 0; i < s.xw; i++) {
+                let xc = document.createElement('div');
+                xc.classList.add('bar-container');
+                let xi = document.createElement('div');
+                xi.classList.add('bar');
+                let hToAdd = Math.floor(Math.random() * 300);
+                xi.style.height = `${hToAdd}px`;
+                xi.dataset.h = hToAdd;
+                xi.dataset.id = i;
+                xi.id = i;
+
+                xc.appendChild(xi);
+                mygrid.appendChild(xc);
+            }
+        }
+
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            perceptionRoll();
+            buildGraph();
+        });
+    </script>
+</body>
+</html>

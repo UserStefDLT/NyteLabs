@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Curves | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        :root {
+            --bw0: #000;
+            --bw1: #111;
+            --bw8: #888;
+            --bwf: #fff;
+            --clr-t: transparent;
+
+            --clr-1: #f93; --clr-1-mid: #963; --clr-1-dark: #630; --bgs-1: #9633;
+            --clr-2: #9f3; --clr-2-mid: #693; --clr-2-dark: #360; --bgs-2: #6933;
+            --clr-3: #3f9; --clr-3-mid: #396; --clr-3-dark: #063; --bgs-3: #3963;
+            --clr-4: #39f; --clr-4-mid: #369; --clr-4-dark: #036; --bgs-4: #3693;
+            --clr-5: #93f; --clr-5-mid: #639; --clr-5-dark: #306; --bgs-5: #6393;
+            --clr-6: #f39; --clr-6-mid: #936; --clr-6-dark: #603; --bgs-6: #9363;
+
+            --h-045: hsla(045deg, 100%, 60%, 1);
+            --h-135: hsla(135deg, 100%, 60%, 1);
+            --h-225: hsla(225deg, 100%, 60%, 1);
+            --h-315: hsla(315deg, 100%, 60%, 1);
+        }
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        .grid-h {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            margin: 2rem 0;
+        }
+        .bar-container {
+            position: relative;
+            height: 324px; 
+            width: 34px;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            padding-bottom: 2px;
+            margin: 0 3px;
+            outline: 1px dashed #8888;
+        }
+        .bar {
+            position: relative;
+            min-height: 5px;
+            width: 30px;
+            background-image: linear-gradient(-30deg, #036, #369, #39f);
+        }
+        .bar-container:hover .bar {
+            outline: 1px solid #fff;
+            outline-offset: -1px;
+        }
+        .bar::after {
+            /* content: attr(id); */
+            content: attr(data-id);
+            position: absolute;
+            top: 100%; left: 50%;
+            transform: translateX(-50%) translateY(50%);
+        }
+        .bar::before {
+            content: attr(data-h);
+            position: absolute;
+            /* top: 100%; left: 50%;
+            transform: translateX(-50%) translateY(-320px) rotate(-90deg);
+            transform: translateX(-50%) translateY(-330px) rotate(-60deg); */
+            top: 0%; left: 50%;
+            transform: translateX(-50%) translateY(-120%) rotate(0deg);
+        }
+
+        .mid-line {
+            --clr-a: #f398;
+            --clr-b: #f938;
+            --clr-a: #f39;
+            --clr-b: #f93;
+            position: absolute;
+            bottom: 2px; left: 50%;
+            transform: translateX(-50%);
+            height: 100%; 
+            /* width: 100%; */
+            background-image: 
+            linear-gradient(180deg, var(--clr-t) 112px, var(--clr-a) 113px, var(--clr-t) 114px ),
+            linear-gradient(180deg, var(--clr-t) 162px, var(--clr-a) 163px, var(--clr-t) 164px ),
+            linear-gradient(180deg, var(--clr-t) 212px, var(--clr-a) 213px, var(--clr-t) 214px );
+
+            height: 300px; 
+            /* width: 100%; */
+            background-image: 
+            linear-gradient(180deg, var(--clr-t) 50px, var(--clr-b) 50px, var(--clr-t) 51px ),
+            linear-gradient(180deg, var(--clr-t) 150px, var(--clr-a) 150px, var(--clr-t) 151px ),
+            linear-gradient(180deg, var(--clr-t) 250px, var(--clr-b) 250px, var(--clr-t) 251px );
+            z-index: 5;
+        }
+        .grid-h:hover .mid-line {
+            --clr-a: #f39;
+            --clr-b: #f93;
+            --clr-a: #f398;
+            --clr-b: #f938;
+        }
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <div class="title">Curves</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">Grid Check</div>
+        <div id="mygrid" class="grid-h">
+            <div id="mid-markers" class="mid-line"></div>
+
+        </div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        /* stats */
+        const s = {
+            widthPerCol: 40,
+            z: 0
+        };
+        function perceptionRoll(){
+            let wh = window.innerHeight;
+            let ww = window.innerWidth;
+            console.log(`Height: ${wh}`);
+            console.log(`Width: ${ww}`);
+
+            let w90 = ww*.9;
+            let xw = Math.round(w90/s.widthPerCol);
+            console.log(`xw: ${xw}`);
+            s['grid_w'] = xw*s.widthPerCol;
+
+            s['xw'] = xw;
+        }
+        function buildGraph() {
+            let mygrid = document.getElementById('mygrid');
+            for (let i = 0; i < s.xw; i++) {
+                let xc = document.createElement('div');
+                xc.classList.add('bar-container');
+                let xi = document.createElement('div');
+                xi.classList.add('bar');
+                xi.dataset.id = i;
+                // xi.id = i;
+
+                let hToAdd = Math.floor(Math.random() * 300);
+                xi.style.height = `${hToAdd}px`;
+                xi.dataset.h = hToAdd;
+
+                xc.appendChild(xi);
+                mygrid.appendChild(xc);
+            }
+        }
+        
+        function buildGraph2() {
+            let mygrid = document.getElementById('mygrid');
+            let myMarkers = document.getElementById('mid-markers');
+            let markersW = s.grid_w - 6;
+            myMarkers.style.width = `${markersW}px`;
+            for (let i = 0; i < s.xw; i++) {
+                let xc = document.createElement('div');
+                xc.classList.add('bar-container');
+                let xi = document.createElement('div');
+                xi.classList.add('bar');
+                xi.dataset.id = i;
+                // xi.id = i;
+                
+                // let hToAdd = Math.floor(Math.random() * 300);
+                
+                let hToAdd = Math.floor(Math.cos(i)*100 + 150);
+                xi.style.height = `${hToAdd}px`;
+                xi.dataset.h = hToAdd;
+
+                xc.appendChild(xi);
+                mygrid.appendChild(xc);
+            }
+        }
+
+
+
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            perceptionRoll();
+            // buildGraph();
+            buildGraph2();
+        });
+    </script>
+</body>
+</html>
