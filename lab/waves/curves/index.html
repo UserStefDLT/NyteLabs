@@ -302,8 +302,8 @@
 
     <!-- <input type="radio" name="style-color" id="style-color--solid">
     <input type="radio" name="style-color" id="style-color--gradient"> -->
-    <input type="radio" name="style" id="style--fill" checked>
-    <input type="radio" name="style" id="style--ghost">
+    <input type="radio" name="style" id="style--fill">
+    <input type="radio" name="style" id="style--ghost" checked>
     <input type="radio" name="style" id="style--glow">
 <main id="myMain">
     <div class="shelf">
@@ -341,62 +341,6 @@
             s['grid_w'] = xw*s.widthPerCol;
 
             s['xw'] = xw;
-        }
-
-        const fs = {
-            f_cos: {
-                name: 'Cosine Wave',
-                xcy: 'Math.cos(i)*100',
-                rangeH: 100,
-                offH: 150,
-            },
-            f_sin: {
-                name: 'Sine Wave',
-                xcy: 'Math.sin(i)*100',
-                rangeH: 100,
-                offH: 150,
-            },
-            f_exp: {
-                name: 'Exponential Curve',
-                hLim: '(s.xw-1)*(s.xw-1)',
-                xcy: 'i*i * arScale',
-                rangeH: 200,
-                offH: 50,
-            },
-            f_sqr: {
-                name: 'Squared Curve',
-                hLim: 'Math.sqrt(s.xw-1)',
-                xcy: 'Math.sqrt(i) * arScale',
-                rangeH: 200,
-                offH: 50,
-            },
-            f_exsq: {
-                name: 'Exponential Squared Curve',
-                hLim: 'Math.sqrt(s.xw-1)*(s.xw-1)',
-                xcy: 'Math.sqrt(i)*i * arScale',
-                rangeH: 200,
-                offH: 50,
-            },
-            f_frc: {
-                name: 'Fractional Curve',
-                hLim: '1/(1)',
-                xcy: '1/(i+1) * arScale',
-                rangeH: 200,
-                offH: 50,
-            },
-            f_lin: {
-                name: 'Linear Progression',
-                hLim: '(s.xw-1)',
-                xcy: 'i * arScale',
-                rangeH: 200,
-                offH: 50,
-            },
-            f_z: {
-                name: 'none',
-                xcy: '100',
-                rangeH: 200,
-                offH: 50,
-            }
         }
 
         function buildGraph() {
@@ -485,6 +429,73 @@
         }
 
         
+        const fs = {
+            f_bez0: {
+                name: 'Bézier curve: [(1 − t) ** 3]',
+                hLim: '(1-(s.xw-1))**3',
+                xcy: '((1-i)**3) * arScale',
+                rangeH: 200, offH: 50,
+            },
+            f_bez1: {
+                name: 'Bézier curve: [t ** 3]',
+                hLim: '((s.xw-1))**3',
+                xcy: '(i**3) * arScale',
+                rangeH: 200, offH: 50,
+            },
+            f_cos: {
+                name: 'Cosine Wave',
+                xcy: 'Math.cos(i)*100',
+                rangeH: 100,
+                offH: 150,
+            },
+            f_sin: {
+                name: 'Sine Wave',
+                xcy: 'Math.sin(i)*100',
+                rangeH: 100,
+                offH: 150,
+            },
+            f_exp: {
+                name: 'Exponential Curve',
+                hLim: '(s.xw-1)*(s.xw-1)',
+                xcy: 'i*i * arScale',
+                rangeH: 200,
+                offH: 50,
+            },
+            f_sqr: {
+                name: 'Squared Curve',
+                hLim: 'Math.sqrt(s.xw-1)',
+                xcy: 'Math.sqrt(i) * arScale',
+                rangeH: 200,
+                offH: 50,
+            },
+            f_exsq: {
+                name: 'Exponential Squared Curve',
+                hLim: 'Math.sqrt(s.xw-1)*(s.xw-1)',
+                xcy: 'Math.sqrt(i)*i * arScale',
+                rangeH: 200,
+                offH: 50,
+            },
+            f_frc: {
+                name: 'Fractional Curve',
+                hLim: '1/(1)',
+                xcy: '1/(i+1) * arScale',
+                rangeH: 200,
+                offH: 50,
+            },
+            f_lin: {
+                name: 'Linear Progression',
+                hLim: '(s.xw-1)',
+                xcy: 'i * arScale',
+                rangeH: 200,
+                offH: 50,
+            },
+            f_z: {
+                name: 'none',
+                xcy: '100',
+                rangeH: 200,
+                offH: 50,
+            }
+        }
         function buildGraph4() {
             let main = document.getElementById('myMain');
             Object.keys(fs).forEach(key=>{
@@ -533,6 +544,131 @@
                     eval(`xcy = ${fs[key].xcy};`);
 
                     let hToAdd = Math.round(xcy%rangeH) + offH;
+                    xi.style.height = `${hToAdd}px`;
+                    xi.dataset.h = hToAdd;
+                    xc.appendChild(xi);
+                    myGrid.appendChild(xc);
+                }
+            });
+        }
+        
+        const fs1 = {
+            f_bez0: {
+                name: 'Bézier curve: [(1 − t) ** 3]',
+                xcy: '((1-x)**3)',
+                rangeH: 200, offH: 50,
+            },
+            f_bez1: {
+                name: 'Bézier curve: [t ** 3]',
+                xcy: '(x**3)',
+                rangeH: 200, offH: 50,
+            },
+            f_bez2: {
+                name: 'Bézier curve: [(3(1 − t)**2) * t]',
+                xcy: '3 * ((1 - x)**2) * x',
+                rangeH: 200, offH: 50,
+            },
+            f_bez3: {
+                name: 'Bézier curve: [3(1 − x) * (x**2)]',
+                xcy: '3*(1 - x)*(x**2)',
+                rangeH: 200, offH: 50,
+            },
+            f_cos: {
+                name: 'Cosine Wave',
+                xcy: 'Math.cos(i)',
+                rangeH: 100,
+                offH: 150,
+            },
+            f_sin: {
+                name: 'Sine Wave',
+                xcy: 'Math.sin(i)',
+                rangeH: 100,
+                offH: 150,
+            },
+            f_exp: {
+                name: 'Exponential Curve',
+                hLim: '(s.xw-1)*(s.xw-1)',
+                xcy: 'x*x',
+                rangeH: 200,
+                offH: 50,
+            },
+            f_sqr: {
+                name: 'Squared Curve',
+                hLim: 'Math.sqrt(s.xw-1)',
+                xcy: 'Math.sqrt(x)',
+                rangeH: 200,
+                offH: 50,
+            },
+            f_frc: {
+                name: 'Fractional Curve',
+                xcy: '1/(i+1)',
+                rangeH: 200,
+                offH: 50,
+            },
+            f_lin: {
+                name: 'Linear Progression',
+                xcy: 'x',
+                rangeH: 200,
+                offH: 50,
+            },
+            f_z: {
+                name: 'none',
+                xcy: '.5',
+                rangeH: 200,
+                offH: 50,
+            }
+        }
+        function buildGraph5() {
+            let main = document.getElementById('myMain');
+            Object.keys(fs1).forEach(key=>{
+                let shelf = document.createElement('div');
+                shelf.classList.add('shelf');
+                let shelfTitle = document.createElement('div');
+                shelfTitle.classList.add('shelf-title');
+                shelfTitle.innerHTML = fs1[key].name;
+                console.log(`name = ${fs1[key].name};`);
+                let myGrid = document.createElement('div');
+                myGrid.classList.add('grid-h');
+                let myMarkers = document.createElement('div');
+                myMarkers.classList.add('mid-line');
+                let myMarkersW = s.grid_w - 6;
+                myMarkers.style.width = `${myMarkersW}px`;
+                myGrid.appendChild(myMarkers);
+                
+                shelf.appendChild(shelfTitle);
+                shelf.appendChild(myGrid);
+                main.appendChild(shelf);
+
+                let rangeH = fs1[key].rangeH;
+                let offH = fs1[key].offH;
+
+                let hLim = 1;
+                if(fs1[key].hLim) {
+                    eval(`hLim = ${fs1[key].hLim};`);
+                }
+                let rScale = hLim/(rangeH-.25);
+                let arScale = 1/(hLim/(rangeH-.25));
+
+                // let xcyEval = fs1[key].xcy;
+                // console.log(`xcy = ${xcyEval};`);
+
+                // for (let i = 0; i < s.xw; i++) {
+                for (let i = 0; i < 11; i++) {
+                    let xc = document.createElement('div');
+                    xc.classList.add('bar-container');
+                    let xi = document.createElement('div');
+                    xi.classList.add('bar');
+                    xi.dataset.id = i;
+                    // xi.id = i;
+
+                    // let xcy = 50;
+                    let x = i/10;
+                    let xcy = 0;
+                    /* xcy should give a number between 0 and 1 or -1 and 1 */
+                    eval(`xcy = ${fs1[key].xcy};`);
+
+                    // let hToAdd = Math.round(xcy%rangeH) + offH;
+                    let hToAdd = Math.round(xcy*rangeH) + offH;
                     xi.style.height = `${hToAdd}px`;
                     xi.dataset.h = hToAdd;
                     xc.appendChild(xi);
@@ -635,8 +771,9 @@
             perceptionRoll();
             // buildGraph();
             // buildGraph2();
-            buildGraph4();
-            buildGraph8();
+            // buildGraph4();
+            buildGraph5();
+            // buildGraph8();
         });
     </script>
 </body>

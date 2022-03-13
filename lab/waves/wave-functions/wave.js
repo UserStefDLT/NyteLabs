@@ -39,6 +39,20 @@ for (let index = 0; index < 150; index++) {
 }
 // ♦♦♦
 
+for (let i = 10; i > 0; i--) {
+    let r1 = Math.sqrt(i) * 20;
+    let r2 = Math.round(r1);
+    console.log('.'.repeat(20+r2));
+}
+for (let i = 10; i > 0; i--) {
+    let r1 = Math.sqrt(i);
+    console.log(r1);
+}
+for (let i = 10; i > 0; i--) {
+    let r1 = (i*i)/10;
+    console.log(r1);
+}
+
 
 for (let index = 0; index < 150; index++) {
     let r0 = index - (150/2);

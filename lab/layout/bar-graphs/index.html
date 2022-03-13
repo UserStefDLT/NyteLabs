@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Particles | NyteLabs</title>
+    <title>Bar Graphs | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     
@@ -181,18 +181,6 @@
             /* z-index: 5; */
         }
 
-        [data-h="1"] {--h: 1;}
-        [data-h="2"] {--h: 2;}
-        [data-h="3"] {--h: 3;}
-        [data-h="4"] {--h: 4;}
-        [data-h="5"] {--h: 5;}
-        [data-h="6"] {--h: 6;}
-        [data-h="7"] {--h: 7;}
-        [data-h="8"] {--h: 8;}
-        [data-h="9"] {--h: 9;}
-        [data-h="10"] {--h: 10;}
-        [data-h] {height: calc(var(--h) * 30px);}
-
     </style>
     <style>
         input[type="radio"] {display: none;}
@@ -303,168 +291,28 @@
         
 
     </style>
-    <style>
-        .grid-v {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-        .row-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: row;
-            margin: 2px 0;
-        }
-        .row-container:hover {
-            outline: 1px dashed #8888;
-        }
-        .node {
-            position: relative;
-            min-height: 16px; min-width: 16px;
-            min-height: 1em; min-width: 1em;
-            min-height: 2em; min-width: 2em;
-            min-height: 2rem; min-width: 2rem;
-            max-height: 30px; max-width: 30px;
-            font-size: 12px;
-            border-radius: 50%;
-            box-shadow: 0 0 1px 1px #8888;
-            margin: 0 2px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            user-select: none;
-            --val: 0;
-            --vhue: calc(var(--val) * 40);
-            --valp: calc(var(--val) * .1);
-            --vhclr: hsla(var(--vhue), 100%, 60%, var(--valp));
-            background-color: var(--vhclr);
-            transition: background-color 200ms ease-in-out;
-        }
-        .node:hover {
-            outline: 1px solid #fff;
-            outline-offset: 2px;
-        }
-        .node::before,
-        .node::after {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translateX(-50%) translateY(-50%);
-            height: 100%; width: 100%;
-            border-radius: 50%;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .node::before {
-            /* content: attr(data-id); */
-            content: attr(data-val);
-        }
-        .node::after {
-            /* content: attr(data-val); */
-            content: attr(data-id);
-            background: #0d0d0d;
-            opacity: 0;
-            transition: opacity 200ms ease-in-out;
-        }
-        .node:hover::after {
-            opacity: 1;
-        }
-
-        /* [data-row="5"] {outline: 1px solid #39f;}
-        [data-col="8"] {outline: 1px solid #39f;} */
-        [data-row="4"] {outline: 1px solid #39f;}
-        [data-col="7"] {outline: 1px solid #39f;}
-
-        .grid-update-btn {
-            min-width: 6rem;
-            margin: .125rem;
-            padding: .25rem .5rem;
-            color: #fff;
-            text-shadow: 2px 2px 2px #1119;
-            cursor: pointer;
-            user-select: none;
-
-            min-width: 6rem;
-            background-color: var(--clr-1-mid);
-            box-shadow: 
-            inset 0 4px 4px 0 var(--bs4-1),
-            inset 0 -4px 4px 0 var(--bs4-1-dark);
-            border-radius: 2rem;
-            border: none;
-            transition: box-shadow 200ms ease-in-out;
-        }
-        .grid-update-btn:hover {
-            box-shadow: 
-            inset 0 4px 4px 2px var(--clr-1),
-            inset 0 -4px 4px 2px var(--clr-1-dark);
-        }
-
-    </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
     <header>
         <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
-        <div class="title">Particles</div>
+        <div class="title">Bar Graphs</div>
         <!-- <div class="subtitle">subtitle</div> -->
     </header>
 
     <!-- <input type="radio" name="style-color" id="style-color--solid">
     <input type="radio" name="style-color" id="style-color--gradient"> -->
-    <input type="radio" name="style" id="style--fill">
-    <input type="radio" name="style" id="style--ghost" checked>
+    <input type="radio" name="style" id="style--fill" checked>
+    <input type="radio" name="style" id="style--ghost">
     <input type="radio" name="style" id="style--glow">
 <main id="myMain">
     <div class="shelf">
-        <div class="shelf-title">Styles</div>
+        <div class="shelf-title">Choose a style</div>
         <label for="style--fill">Fill</label>
         <label for="style--ghost">Ghost</label>
         <label for="style--glow">Glow</label>
-        <button class="grid-update-btn" onclick="UpdateGrid()">Update</button>
-    </div>
-    <div id="MyGridContainer" class="shelf"></div>
-
-    <div class="shelf">
-        <div class="shelf-title">Grid Sample</div>
-        <div class="grid-h">
-            <div class="bar-container">
-                <div class="bar" data-h="1"></div>
-            </div>
-            <div class="bar-container">
-                <div class="bar" data-h="2"></div>
-            </div>
-            <div class="bar-container">
-                <div class="bar" data-h="3"></div>
-            </div>
-            <div class="bar-container">
-                <div class="bar" data-h="4"></div>
-            </div>
-            <div class="bar-container">
-                <div class="bar" data-h="5"></div>
-            </div>
-            <div class="bar-container">
-                <div class="bar" data-h="6"></div>
-            </div>
-            <div class="bar-container">
-                <div class="bar" data-h="7"></div>
-            </div>
-            <div class="bar-container">
-                <div class="bar" data-h="8"></div>
-            </div>
-            <div class="bar-container">
-                <div class="bar" data-h="9"></div>
-            </div>
-            <div class="bar-container">
-                <div class="bar" data-h="10"></div>
-            </div>
-        </div>
     </div>
 </main>
-
 
     <footer>
         <div class="my-name">
@@ -493,123 +341,80 @@
 
             s['xw'] = xw;
         }
-        
-        const g = {
-            h: 9,
-            w: 15,
-            y: 5,
-            x: 8,
-            z: 0
-        }
-        const xyGrid = [];
-        function StartGrid() {
-            for (let y = 0; y < g.h; y++) {
-                xyGrid.push([]);
-                for (let x = 0; x < g.w; x++) {
-                    xyGrid[y].push(0);
-                }
-            }
-            console.log(xyGrid);
-        }
-        function BuildGrid() {
-            let MyGridContainer = document.getElementById('MyGridContainer');
-            let myGrid = document.createElement('div');
-            myGrid.classList.add('grid-v');
-            for (let y = 0; y < g.h; y++) {
-                let xc_row = document.createElement('div');
-                xc_row.classList.add('row-container');
-                xc_row.dataset.row = y;
-                for (let x = 0; x < g.w; x++) {
-                    let xi_node = document.createElement('div');
-                    xi_node.classList.add('node');
-                    xi_node.dataset.row = y;
-                    xi_node.dataset.col = x;
-                    xi_node.dataset.id = `${y}|${x}`;
-                    xi_node.dataset.xy = `${x}${y}`;
-                    xi_node.addEventListener('click', (ev) => {
-                        GridPush(ev);
-                        UpdateDisplay();
-                    });
 
-                    xc_row.appendChild(xi_node);
-                }
-                myGrid.appendChild(xc_row);
-            }
-            MyGridContainer.appendChild(myGrid);
-        }
-        const NodeArea = [
-            [1,-1],[1,0],[1,1],
-            [0,-1],[0,0],[0,1],
-            [-1,-1],[-1,0],[-1,1]
-        ];
-        const NodeAreaScale = [
-            .7,1,.7,
-            1,0,1,
-            .7,1,.7,
-        ];
-        function UpdateNode(y,x){
-            console.log(`y:${y}, x:${x}`);
-            let xv = xyGrid[y][x];
-            let xu = (xv*xv)/10;
-            if(xu < .1) xu = 0;
-            xyGrid[y][x] = xu;
-            console.log(`xyGrid[${y}][${x}]: ${xyGrid[y][x]}`);
-
-            if(xu > 0) {
-                let xvn = xv-1;
-                console.log(`xvn: ${xvn}`);
-    
-                for (let yx = 0; yx < 9; yx++) {
-                    let nextY = y+NodeArea[yx][0];
-                    let nextX = x+NodeArea[yx][1];
-                    console.log(`nextY:${nextY}, nextX:${nextX}`);
-    
-                    let inGrid = (nextY > -1 && nextY < g.h) && (nextX > -1 && nextX < g.w);
-                    if(inGrid) {
-                        let isLower = xvn > xyGrid[nextY][nextX];
-                        if(isLower){
-                            let xvn2 = (xvn-xyGrid[nextY][nextX])/2;
-        
-                            let addyx = xvn2*NodeAreaScale[yx];
-                            console.log(`addyx: ${addyx}`);
-                            
-                            xyGrid[nextY][nextX] += addyx;
-                        }
-                    }
-                }
+        const fs = {
+            f_cos: {
+                name: 'Cosine Wave',
+                xcy: 'Math.cos(i)*100',
+                rangeH: 100,
+                offH: 150,
+            },
+            f_sin: {
+                name: 'Sine Wave',
+                xcy: 'Math.sin(i)*100',
+                rangeH: 100,
+                offH: 150,
+            },
+            f_exp: {
+                name: 'Exponential Curve',
+                hLim: '(s.xw-1)*(s.xw-1)',
+                xcy: 'i*i * arScale',
+                rangeH: 200,
+                offH: 50,
+            },
+            f_sqr: {
+                name: 'Squared Curve',
+                hLim: 'Math.sqrt(s.xw-1)',
+                xcy: 'Math.sqrt(i) * arScale',
+                rangeH: 200,
+                offH: 50,
+            },
+            f_exsq: {
+                name: 'Exponential Squared Curve',
+                hLim: 'Math.sqrt(s.xw-1)*(s.xw-1)',
+                xcy: 'Math.sqrt(i)*i * arScale',
+                rangeH: 200,
+                offH: 50,
+            },
+            f_frc: {
+                name: 'Fractional Curve',
+                hLim: '1/(1)',
+                xcy: '1/(i+1) * arScale',
+                rangeH: 200,
+                offH: 50,
+            },
+            f_lin: {
+                name: 'Linear Progression',
+                hLim: '(s.xw-1)',
+                xcy: 'i * arScale',
+                rangeH: 200,
+                offH: 50,
+            },
+            f_z: {
+                name: 'none',
+                xcy: '100',
+                rangeH: 200,
+                offH: 50,
             }
         }
-        function UpdateGrid() {
-            let updateList = [];
-            for (let y = 0; y < g.h; y++) {
-                for (let x = 0; x < g.w; x++) {
-                    if(xyGrid[y][x]>0) {
-                        console.log(`y:${y}, x:${x}`);
-                        updateList.push([y,x]);
-                    }
-                }
+
+        function buildGraph() {
+            let mygrid = document.getElementById('mygrid');
+            for (let i = 0; i < s.xw; i++) {
+                let xc = document.createElement('div');
+                xc.classList.add('bar-container');
+                let xi = document.createElement('div');
+                xi.classList.add('bar');
+                xi.dataset.id = i;
+                // xi.id = i;
+
+                let hToAdd = Math.floor(Math.random() * 300);
+                xi.style.height = `${hToAdd}px`;
+                xi.dataset.h = hToAdd;
+
+                xc.appendChild(xi);
+                mygrid.appendChild(xc);
             }
-            updateList.forEach(node => {
-                UpdateNode(node[0],node[1]);
-            });
-
-            UpdateDisplay();
-        }
-        function UpdateDisplay() {
-            let nodeList = document.querySelectorAll('.node');
-            nodeList.forEach(node =>{
-                let nid = node.dataset.id.split('|');
-                let val = xyGrid[nid[0]][nid[1]].toFixed(1);
-                node.dataset.val = val;
-                node.style = `--val: ${val};`;
-            });
-        }
-
-        function GridPush(ev) {
-            let node = ev.target;
-            let nid = node.dataset.id.split('|');
-            xyGrid[nid[0]][nid[1]] += 9;
-            console.log(xyGrid);
         }
         
         function buildGraph2() {
@@ -678,61 +483,7 @@
             }
         }
 
-        const fs = {
-            f_cos: {
-                name: 'Cosine Wave',
-                xcy: 'Math.cos(i)*100',
-                rangeH: 100,
-                offH: 150,
-            },
-            f_sin: {
-                name: 'Sine Wave',
-                xcy: 'Math.sin(i)*100',
-                rangeH: 100,
-                offH: 150,
-            },
-            f_exp: {
-                name: 'Exponential Curve',
-                hLim: '(s.xw-1)*(s.xw-1)',
-                xcy: 'i*i * arScale',
-                rangeH: 200,
-                offH: 50,
-            },
-            f_sqr: {
-                name: 'Squared Curve',
-                hLim: 'Math.sqrt(s.xw-1)',
-                xcy: 'Math.sqrt(i) * arScale',
-                rangeH: 200,
-                offH: 50,
-            },
-            f_exsq: {
-                name: 'Exponential Squared Curve',
-                hLim: 'Math.sqrt(s.xw-1)*(s.xw-1)',
-                xcy: 'Math.sqrt(i)*i * arScale',
-                rangeH: 200,
-                offH: 50,
-            },
-            f_frc: {
-                name: 'Fractional Curve',
-                hLim: '1/(1)',
-                xcy: '1/(i+1) * arScale',
-                rangeH: 200,
-                offH: 50,
-            },
-            f_lin: {
-                name: 'Linear Progression',
-                hLim: '(s.xw-1)',
-                xcy: 'i * arScale',
-                rangeH: 200,
-                offH: 50,
-            },
-            f_z: {
-                name: 'none',
-                xcy: '100',
-                rangeH: 200,
-                offH: 50,
-            }
-        }
+        
         function buildGraph4() {
             let main = document.getElementById('myMain');
             Object.keys(fs).forEach(key=>{
@@ -876,19 +627,15 @@
             });
         }
 
-        
+
 
         window.addEventListener('load', (ev) => {
             console.log(`Welcome to my Lab!`);
-            // perceptionRoll();
+            perceptionRoll();
             // buildGraph();
             // buildGraph2();
-            // buildGraph4();
-            // buildGraph8();
-
-            StartGrid();
-            BuildGrid();
-            UpdateDisplay();
+            buildGraph4();
+            buildGraph8();
         });
     </script>
 </body>
