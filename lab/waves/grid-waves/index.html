@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Grid Waves | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <link rel="stylesheet" href="graph-bar-style.css">
+    <link rel="stylesheet" href="grid-particle-style-02.css">
+    <style>
+        main {margin: 0 auto;}
+        .shelf {
+            margin-top: .5rem;
+            padding: .25rem 0;
+        }
+        main .shelf.no-border {
+            max-width: 600px;
+            margin: 0 auto;
+            border: none;
+            outline: none;
+            box-shadow: none;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: .5rem;
+            align-items: center;
+            justify-content: space-around;
+            justify-items: center;
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Grid Waves</div>
+    </header>
+
+    <input type="radio" name="style-spacing" id="style-spacing--overlap" checked>
+    <input type="radio" name="style-spacing" id="style-spacing--spaced">
+    <input type="radio" name="style" id="style--fill">
+    <input type="radio" name="style" id="style--ghost" checked>
+    <input type="radio" name="style" id="style--glow">
+<main id="myMain">
+    <div class="shelf no-border">
+        <label class="label--style" for="style--fill">Fill</label>
+        <label class="label--style" for="style--ghost">Ghost</label>
+        <label class="label--style" for="style--glow">Glow</label>
+        <label class="label--style-spacing" for="style-spacing--overlap">
+            Overlap
+            <div class="node-in-btn" style="--val: 1;"></div>
+            <div class="node-in-btn" style="--val: 1;"></div>
+        </label>
+        <label class="label--style-spacing" for="style-spacing--spaced">
+            Spaced
+            <div class="node-in-btn" style="--val: 1;"></div>
+            <div class="node-in-btn" style="--val: 1;"></div>
+        </label>
+        <button class="grid-update-btn" onclick="UpdateGrid()">Update</button>
+    </div>
+    <div id="MyGridContainer" class="shelf"></div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <script src="grid-particle-script.js"></script>
+    <!-- <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script> -->
+</body>
+</html>

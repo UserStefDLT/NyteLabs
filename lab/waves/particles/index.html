@@ -11,298 +11,8 @@
     
     <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
     <link rel="stylesheet" href="../../../stylesheets/deck.css">
-    <!-- <link rel="stylesheet" href="my-css.css"> -->
-    <style>
-        :root {
-            --bw0: #000;
-            --bw1: #111;
-            --bw8: #888;
-            --bwf: #fff;
-            --clr-t: transparent;
-
-            --clr-1: #f93; --clr-1-mid: #963; --clr-1-dark: #630; --bgs-1: #9633;
-            --clr-2: #9f3; --clr-2-mid: #693; --clr-2-dark: #360; --bgs-2: #6933;
-            --clr-3: #3f9; --clr-3-mid: #396; --clr-3-dark: #063; --bgs-3: #3963;
-            --clr-4: #39f; --clr-4-mid: #369; --clr-4-dark: #036; --bgs-4: #3693;
-            --clr-5: #93f; --clr-5-mid: #639; --clr-5-dark: #306; --bgs-5: #6393;
-            --clr-6: #f39; --clr-6-mid: #936; --clr-6-dark: #603; --bgs-6: #9363;
-
-            --bs4-4: #39f4; --bs4-4: hsla(210, 100%, 60%, 0.267); 
-            --bs4-4-mid: #3694; --bs4-4-mid: hsla(210, 50%, 40%, 0.267); 
-            --bs4-4-mid: #06c4; --bs4-4-mid: #0066cc44; 
-            --bs4-4-dark: #0364; --bs4-4-dark: hsla(210, 100%, 20%, 0.267);
-
-            --bs4-1: #f934; --bs4-1-mid: #9634; --bs4-1-dark: #6304;
-            --bs4-2: #9f34; --bs4-2-mid: #6934; --bs4-2-dark: #3604;
-            --bs4-3: #3f94; --bs4-3-mid: #3964; --bs4-3-dark: #0634;
-            --bs4-4: #39f4; --bs4-4-mid: #3694; --bs4-4-dark: #0364;
-            --bs4-5: #93f4; --bs4-5-mid: #6394; --bs4-5-dark: #3064;
-            --bs4-6: #f394; --bs4-6-mid: #9364; --bs4-6-dark: #6034;
-            
-            --h-045: hsla(045deg, 100%, 60%, 1);
-            --h-135: hsla(135deg, 100%, 60%, 1);
-            --h-225: hsla(225deg, 100%, 60%, 1);
-            --h-315: hsla(315deg, 100%, 60%, 1);
-
-            --hue-1: 30;
-            --hue-2: 90;
-            --hue-3: 150;
-            --hue-4: 210;
-            --hue-5: 270;
-            --hue-6: 330;
-
-        }
-        /* *::before, *::after {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translateX(-50%) translateY(-50%);
-        } */
-        .grid-h {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: row;
-            flex-wrap: nowrap;
-            margin: 2rem 0;
-        }
-        .bar-container-2,
-        .bar-container {
-            position: relative;
-            height: 324px; 
-            width: 34px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            flex-direction: row;
-            padding-bottom: 2px;
-            margin: 0 3px;
-            outline: 1px dashed #8888;
-        }
-        .bar {
-            position: relative;
-            min-height: 5px;
-            width: 30px;
-        }
-        .bar-container:hover .bar {
-            outline: 1px solid #fff;
-            outline-offset: -1px;
-        }
-        .bar::after {
-            content: attr(data-id);
-            position: absolute;
-            top: 100%; left: 50%;
-            transform: translateX(-50%) translateY(50%);
-        }
-        .bar::before {
-            content: attr(data-h);
-            position: absolute;
-            /* top: 100%; left: 50%;
-            transform: translateX(-50%) translateY(-320px) rotate(-90deg);
-            transform: translateX(-50%) translateY(-330px) rotate(-60deg); */
-            top: 0%; left: 50%;
-            transform: translateX(-50%) translateY(-120%) rotate(0deg);
-            color: hsla(210, 100%, 100%, .5);
-        }
-        .bar-container:hover .bar::before {
-            color: hsla(210, 100%, 100%, 1);
-        }
-
-        
-        .bar-2 {
-            position: relative;
-            min-height: 5px;
-            width: 15px;
-            width: 12px;
-            margin: 0 2px;
-        }
-        .bar-container-2:hover .bar-2 {
-            outline: 1px solid #fff;
-            outline-offset: -1px;
-        }
-        .bar-container-2::after {
-            content: attr(data-id);
-            position: absolute;
-            top: 100%; left: 50%;
-            transform: translateX(-50%) translateY(50%);
-        }
-
-        .bar, .bar-2 {
-            --hue: 210;
-            --clr: hsla(var(--hue), 100%, 60%, 1);
-            --clr-dark: hsla(var(--hue), 100%, 20%, 1);
-            --bs4: hsla(var(--hue), 100%, 60%, .3);
-            --bs4-dark: hsla(var(--hue), 100%, 20%, .3);
-            /* background-image: linear-gradient(-30deg, var(--bs4-dark), var(--bs4));
-            box-shadow: 
-            0px 0px 4px 2px var(--clr),
-            inset 1px 1px 0px 0px var(--clr),
-            inset -1px -1px 0px 0px var(--clr-dark); */
-        }
-
-
-        .bar-2::before {
-            content: attr(data-h);
-            position: absolute;
-            top: 0%; left: 50%;
-            transform: translateX(-50%) translateY(-150%) rotate(-60deg);
-            transform: translateX(-50%) translateY(-150%) rotate(-90deg);
-            color: hsla(var(--hue), 100%, 60%, .5);
-            font-size: 10px;
-            transition: 
-            transform 100ms ease-in-out,
-            font-size 100ms ease-in-out;
-        }
-        .bar-container-2:hover .bar-2::before {
-            font-size: 14px;
-            transform: translateX(-50%) translateY(-150%) rotate(-60deg);
-            transform: translateX(-50%) translateY(-150%) rotate(0deg);
-            transform: translateX(-50%) translateY(var(--tY)) rotate(0deg);
-            transform: translateX(-50%) translateY(-150%) rotate(-60deg);
-            color: hsla(var(--hue), 100%, 60%, 1);
-        }
-
-
-        .mid-line {
-            --clr-a: var(--clr-6);
-            --clr-b: var(--clr-3);
-            /* --clr-a: #fffa;
-            --clr-b: #fffa; */
-            --clr-a: var(--clr-5);
-            --clr-b: var(--clr-5);
-            position: absolute;
-            bottom: 2px; left: 50%;
-            transform: translateX(-50%);
-            height: 300px; 
-            background-image: 
-            linear-gradient(180deg, var(--clr-t) 50px, var(--clr-b) 50px, var(--clr-t) 51px ),
-            linear-gradient(180deg, var(--clr-t) 150px, var(--clr-a) 150px, var(--clr-t) 151px ),
-            linear-gradient(180deg, var(--clr-t) 250px, var(--clr-b) 250px, var(--clr-t) 251px );
-            /* z-index: 5; */
-        }
-
-        [data-h="1"] {--h: 1;}
-        [data-h="2"] {--h: 2;}
-        [data-h="3"] {--h: 3;}
-        [data-h="4"] {--h: 4;}
-        [data-h="5"] {--h: 5;}
-        [data-h="6"] {--h: 6;}
-        [data-h="7"] {--h: 7;}
-        [data-h="8"] {--h: 8;}
-        [data-h="9"] {--h: 9;}
-        [data-h="10"] {--h: 10;}
-        [data-h] {height: calc(var(--h) * 30px);}
-
-    </style>
-    <style>
-        input[type="radio"] {display: none;}
-        label {
-            --clr-left: var(--clr-4);
-            --clr-dark-left: var(--clr-4-dark);
-            --clr-right: var(--clr-1);
-            --clr-dark-right: var(--clr-1-dark);
-            position: relative;
-            /* min-height: 6rem; */
-            min-width: 6rem;
-            margin: .125rem;
-            padding: .25rem .5rem;
-            border-radius: .125rem;
-            color: #fff;
-            text-shadow: 2px 2px 2px #1119;
-            cursor: pointer;
-            user-select: none;
-
-            /* background-image: linear-gradient(120deg, var(--bs4-4-dark), var(--bs4-1-dark)); */
-        }
-        label:hover { outline: 1px solid #fffc; outline-offset: 2px; }
-        [for="style--fill"] {background-image: linear-gradient(120deg, var(--clr-4) 50%, var(--clr-1) 50%);}
-        [for="style--ghost"] {background-image: linear-gradient(120deg, var(--bs4-4), var(--bs4-1));}
-        [for="style--ghost"],
-        [for="style--glow"] {
-            box-shadow: 
-            -1px -1px 3px 0px var(--clr-left),
-            inset 1px 1px 0px 0px var(--clr-left),
-            /* inset -1px -1px 0px 0px var(--clr-dark-left), */
-            1px 1px 3px 0px var(--clr-right),
-            /* inset -1px -1px 0px 0px var(--clr-right), */
-            inset -1px -1px 0px 0px var(--clr-dark-right);
-        }
-
-        :where(#style--fill:checked, #style--ghost:checked, #style--glow:checked) ~ main label::before,
-        :where(#style--fill:checked, #style--ghost:checked, #style--glow:checked) ~ main label::after {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translateX(-50%) translateY(-50%);
-            z-index: -1;
-        }
-        #style--fill:checked ~ main label[for="style--fill"]::before,
-        #style--ghost:checked ~ main label[for="style--ghost"]::before,
-        #style--glow:checked ~ main label[for="style--glow"]::before {
-            height: 2rem; width: 2rem;
-            height: 1rem; width: 1rem;
-            height: 1.25rem; width: 1.25rem;
-            color: #fc0;
-            border-radius: .125rem;
-            transform: translateX(-50%) translateY(-50%) rotate(45deg);
-            box-shadow: 
-            6px 6px 0 0px #fc0,
-            -6px -6px 0 0px #fc0;
-        }
-        #style--fill:checked ~ main label[for="style--fill"]::after,
-        #style--ghost:checked ~ main label[for="style--ghost"]::after,
-        #style--glow:checked ~ main label[for="style--glow"]::after {
-            height: 150%; width: 110%;
-            border-radius: .5rem;
-            background: #000;
-            box-shadow: 
-            inset 0 6px 0 -4px #fc0,
-            inset 0 -6px 0 -4px #fc0;
-
-            background: hsla(210, 0%, 5%, 100%);
-            height: 125%; width: 115%;
-            box-shadow: 
-            0 6px 0 -4px #fc0,
-            0 -6px 0 -4px #fc0;
-        }
-
-        /* #style--fill:checked ~ main [for="style--fill"] {background-image: linear-gradient(120deg, var(--clr-4) 50%, var(--clr-1) 50%);}
-        #style--ghost:checked ~ main [for="style--ghost"] {background-image: linear-gradient(120deg, var(--clr-4) 50%, var(--clr-1) 50%);}
-        #style--glow:checked ~ main [for="style--glow"] {background-image: linear-gradient(120deg, var(--clr-4) 50%, var(--clr-1) 50%);} */
-
-        .bar,
-        .bar-2:nth-of-type(1) {--hue: var(--hue-4);}
-        .bar-2:nth-of-type(2) {--hue: var(--hue-1);}
-        .bar, .bar-2 {
-            --hue: 210;
-            --clr: hsla(var(--hue), 100%, 60%, 1);
-            --clr-dark: hsla(var(--hue), 100%, 20%, 1);
-            --bs4: hsla(var(--hue), 100%, 60%, .3);
-            --bs4-dark: hsla(var(--hue), 100%, 20%, .3);
-        }
-
-        #style--fill:checked ~ main .bar,
-        #style--fill:checked ~ main .bar-2:nth-of-type(1) {background-image: linear-gradient(-30deg, var(--clr-dark), var(--clr));}
-        #style--fill:checked ~ main .bar-2:nth-of-type(2) {background-image: linear-gradient(-30deg, var(--clr-dark), var(--clr));}
-
-        #style--glow:checked ~ main .bar,
-        #style--glow:checked ~ main .bar-2,
-        #style--ghost:checked ~ main .bar,
-        #style--ghost:checked ~ main .bar-2 {
-            box-shadow: 
-            0px 0px 4px 2px var(--clr),
-            inset 1px 1px 0px 0px var(--clr),
-            inset -1px -1px 0px 0px var(--clr-dark);
-        }
-        #style--ghost:checked ~ main .bar,
-        #style--ghost:checked ~ main .bar-2:nth-of-type(1) {background-image: linear-gradient(-30deg, var(--bs4-dark), var(--bs4));}
-        #style--ghost:checked ~ main .bar-2:nth-of-type(2) {background-image: linear-gradient(-30deg, var(--bs4-dark), var(--bs4));}
-        #style--ghost:checked ~ main .bar-container:hover .bar,
-        #style--ghost:checked ~ main .bar-container-2:hover .bar-2:nth-of-type(1) {background-image: linear-gradient(-30deg, var(--clr-dark), var(--clr));}
-        #style--ghost:checked ~ main .bar-container-2:hover .bar-2:nth-of-type(2) {background-image: linear-gradient(-30deg, var(--clr-dark), var(--clr));}
-        
-
-    </style>
+    <link rel="stylesheet" href="graph-bar-style.css">
+    <!-- <link rel="stylesheet" href="grid-particle-style.css"> -->
     <style>
         .grid-v {
             display: flex;
@@ -336,12 +46,16 @@
             justify-content: center;
             cursor: pointer;
             user-select: none;
-            --val: 0;
+            /* --val: 0;
             --vhue: calc(var(--val) * 40);
             --valp: calc(var(--val) * .1);
             --vhclr: hsla(var(--vhue), 100%, 60%, var(--valp));
+
+            --valp-shw: calc(var(--val) * .05);
+            --vhclr-shw: hsla(var(--vhue), 100%, 60%, var(--valp-shw));
+
             background-color: var(--vhclr);
-            transition: background-color 200ms ease-in-out;
+            transition: background-color 200ms ease-in-out; */
         }
         .node:hover {
             outline: 1px solid #fff;
@@ -359,48 +73,96 @@
             align-items: center;
             justify-content: center;
         }
-        .node::before {
-            /* content: attr(data-id); */
-            content: attr(data-val);
-        }
+        .node::before {content: attr(data-val);}
         .node::after {
-            /* content: attr(data-val); */
             content: attr(data-id);
             background: #0d0d0d;
             opacity: 0;
             transition: opacity 200ms ease-in-out;
         }
-        .node:hover::after {
-            opacity: 1;
-        }
+        .node:hover::after {opacity: 1;}
 
-        /* [data-row="5"] {outline: 1px solid #39f;}
-        [data-col="8"] {outline: 1px solid #39f;} */
-        [data-row="4"] {outline: 1px solid #39f;}
-        [data-col="7"] {outline: 1px solid #39f;}
+        /* [data-row="4"] {outline: 1px solid #39f;}
+        [data-col="7"] {outline: 1px solid #39f;} */
+        [data-row="4"][data-col="7"] {outline: 1px solid #39f;}
 
         .grid-update-btn {
             min-width: 6rem;
             margin: .125rem;
             padding: .25rem .5rem;
+            background-color: transparent;
+            border-radius: 2rem;
+            border: none;
+            
             color: #fff;
             text-shadow: 2px 2px 2px #1119;
             cursor: pointer;
             user-select: none;
-
-            min-width: 6rem;
-            background-color: var(--clr-1-mid);
-            box-shadow: 
-            inset 0 4px 4px 0 var(--bs4-1),
-            inset 0 -4px 4px 0 var(--bs4-1-dark);
-            border-radius: 2rem;
-            border: none;
             transition: box-shadow 200ms ease-in-out;
         }
         .grid-update-btn:hover {
+            outline: 1px solid #fffc; outline-offset: 2px; 
+        }
+
+        .grid-update-btn {
+            --clr-left: var(--clr-4);
+            --clr-dark-left: var(--clr-4-dark);
+            --clr-right: var(--clr-1);
+            --clr-dark-right: var(--clr-1-dark);
+
+            --fill-bgi: linear-gradient(-30deg, var(--clr-4), var(--clr-1));
+            --ghost-bgi: linear-gradient(120deg, var(--bs4-4), var(--bs4-1));
+            --glow-shadow: 
+            0px 0px 4px 2px var(--clr),
+            inset 1px 1px 0px 0px var(--clr),
+            inset -1px -1px 0px 0px var(--clr-dark);
+            --glow-shadow: 
+            -1px -1px 3px 0px var(--clr-left),
+            inset 1px 1px 0px 0px var(--clr-left),
+            1px 1px 3px 0px var(--clr-right),
+            inset -1px -1px 0px 0px var(--clr-dark-right);
+        }
+        #style--fill:checked ~ main .grid-update-btn {background-image: var(--fill-bgi);}
+        #style--ghost:checked ~ main .grid-update-btn {background-image: var(--ghost-bgi);}
+        #style--ghost:checked ~ main .grid-update-btn,
+        #style--glow:checked ~ main .grid-update-btn {box-shadow: var(--glow-shadow);}
+
+        /* Styles for the nodes. */
+        .node {
+            --val: 0;
+            --vhue: calc(var(--val) * 40);
+            --valp: calc(var(--val) * .1);
+            --vhclr: hsla(var(--vhue), 100%, 60%, var(--valp));
+            --vhclr-dark: hsla(var(--vhue), 100%, 20%, var(--valp));
+
+            --valp-shw: calc(var(--val) * .05);
+            --vhclr-shw: hsla(var(--vhue), 100%, 60%, var(--valp-shw));
+            --vhclr-shw-dark: hsla(var(--vhue), 100%, 20%, var(--valp-shw));
+            
+            /* background-color: var(--vhclr); */
+            transition: 
+            box-shadow 200ms ease-in-out,
+            background-color 200ms ease-in-out;
+        }
+
+        #style--fill:checked ~ main .node {background-image: linear-gradient(-30deg, var(--vhclr-dark), var(--vhclr));}
+        #style--fill:checked ~ main .node {
+            background-color: var(--vhclr);
+            box-shadow: inset 0 0 2px 1px var(--vhclr-dark);
+        }
+        #style--ghost:checked ~ main .node {
+            background-color: var(--vhclr-shw);
             box-shadow: 
-            inset 0 4px 4px 2px var(--clr-1),
-            inset 0 -4px 4px 2px var(--clr-1-dark);
+            0px 0px 4px 2px var(--vhclr),
+            inset 1px 1px 0px 0px var(--vhclr),
+            inset -1px -1px 0px 0px var(--vhclr-dark),
+            inset 0px 0px 2px 1px var(--vhclr-shw-dark);
+        }
+        #style--glow:checked ~ main .node {
+            box-shadow: 
+            0px 0px 4px 2px var(--vhclr),
+            inset 1px 1px 0px 0px var(--vhclr),
+            inset -1px -1px 0px 0px var(--vhclr-dark);
         }
 
     </style>
@@ -428,7 +190,7 @@
     </div>
     <div id="MyGridContainer" class="shelf"></div>
 
-    <div class="shelf">
+    <div class="shelf hidden">
         <div class="shelf-title">Grid Sample</div>
         <div class="grid-h">
             <div class="bar-container">
@@ -473,423 +235,9 @@
         </div>
     </footer>
     <div class="name-end">by St&eacute;fano.</div>
-    <!-- <script src="main.js"></script> -->
-    <script>
-        /* stats */
-        const s = {
-            widthPerCol: 40,
-            z: 0
-        };
-        function perceptionRoll(){
-            let wh = window.innerHeight;
-            let ww = window.innerWidth;
-            console.log(`Height: ${wh}`);
-            console.log(`Width: ${ww}`);
-
-            let w90 = ww*.9;
-            let xw = Math.round(w90/s.widthPerCol);
-            console.log(`xw: ${xw}`);
-            s['grid_w'] = xw*s.widthPerCol;
-
-            s['xw'] = xw;
-        }
-        
-        const g = {
-            h: 9,
-            w: 15,
-            y: 5,
-            x: 8,
-            z: 0
-        }
-        const xyGrid = [];
-        function StartGrid() {
-            for (let y = 0; y < g.h; y++) {
-                xyGrid.push([]);
-                for (let x = 0; x < g.w; x++) {
-                    xyGrid[y].push(0);
-                }
-            }
-            console.log(xyGrid);
-        }
-        function BuildGrid() {
-            let MyGridContainer = document.getElementById('MyGridContainer');
-            let myGrid = document.createElement('div');
-            myGrid.classList.add('grid-v');
-            for (let y = 0; y < g.h; y++) {
-                let xc_row = document.createElement('div');
-                xc_row.classList.add('row-container');
-                xc_row.dataset.row = y;
-                for (let x = 0; x < g.w; x++) {
-                    let xi_node = document.createElement('div');
-                    xi_node.classList.add('node');
-                    xi_node.dataset.row = y;
-                    xi_node.dataset.col = x;
-                    xi_node.dataset.id = `${y}|${x}`;
-                    xi_node.dataset.xy = `${x}${y}`;
-                    xi_node.addEventListener('click', (ev) => {
-                        GridPush(ev);
-                        UpdateDisplay();
-                    });
-
-                    xc_row.appendChild(xi_node);
-                }
-                myGrid.appendChild(xc_row);
-            }
-            MyGridContainer.appendChild(myGrid);
-        }
-        const NodeArea = [
-            [1,-1],[1,0],[1,1],
-            [0,-1],[0,0],[0,1],
-            [-1,-1],[-1,0],[-1,1]
-        ];
-        const NodeAreaScale = [
-            .7,1,.7,
-            1,0,1,
-            .7,1,.7,
-        ];
-        function UpdateNode(y,x){
-            console.log(`y:${y}, x:${x}`);
-            let xv = xyGrid[y][x];
-            let xu = (xv*xv)/10;
-            if(xu < .1) xu = 0;
-            xyGrid[y][x] = xu;
-            console.log(`xyGrid[${y}][${x}]: ${xyGrid[y][x]}`);
-
-            if(xu > 0) {
-                let xvn = xv-1;
-                console.log(`xvn: ${xvn}`);
-    
-                for (let yx = 0; yx < 9; yx++) {
-                    let nextY = y+NodeArea[yx][0];
-                    let nextX = x+NodeArea[yx][1];
-                    console.log(`nextY:${nextY}, nextX:${nextX}`);
-    
-                    let inGrid = (nextY > -1 && nextY < g.h) && (nextX > -1 && nextX < g.w);
-                    if(inGrid) {
-                        let isLower = xvn > xyGrid[nextY][nextX];
-                        if(isLower){
-                            let xvn2 = (xvn-xyGrid[nextY][nextX])/2;
-        
-                            let addyx = xvn2*NodeAreaScale[yx];
-                            console.log(`addyx: ${addyx}`);
-                            
-                            xyGrid[nextY][nextX] += addyx;
-                        }
-                    }
-                }
-            }
-        }
-        function UpdateGrid() {
-            let updateList = [];
-            for (let y = 0; y < g.h; y++) {
-                for (let x = 0; x < g.w; x++) {
-                    if(xyGrid[y][x]>0) {
-                        console.log(`y:${y}, x:${x}`);
-                        updateList.push([y,x]);
-                    }
-                }
-            }
-            updateList.forEach(node => {
-                UpdateNode(node[0],node[1]);
-            });
-
-            UpdateDisplay();
-        }
-        function UpdateDisplay() {
-            let nodeList = document.querySelectorAll('.node');
-            nodeList.forEach(node =>{
-                let nid = node.dataset.id.split('|');
-                let val = xyGrid[nid[0]][nid[1]].toFixed(1);
-                node.dataset.val = val;
-                node.style = `--val: ${val};`;
-            });
-        }
-
-        function GridPush(ev) {
-            let node = ev.target;
-            let nid = node.dataset.id.split('|');
-            xyGrid[nid[0]][nid[1]] += 9;
-            console.log(xyGrid);
-        }
-        
-        function buildGraph2() {
-            let mygrid = document.getElementById('mygrid');
-            let myMarkers = document.getElementById('mid-markers');
-            let markersW = s.grid_w - 6;
-            myMarkers.style.width = `${markersW}px`;
-
-            // /* Option 1: */
-            // // let xcy = Math.cos(i)*100;
-            // let rangeH = 100;
-            // let offH = 150;
-
-            // /* Option 2: */
-            // // let xcy = i*i * .5;
-            // let rangeH = 200;
-            // let offH = 50;
-
-            let rangeH = 200;
-            let offH = 50;
-            let hLim = (s.xw-1)*(s.xw-1);
-            let rScale = hLim/(rangeH-.25);
-            let arScale = 1/(hLim/(rangeH-.25));
-            
-            console.log(`hLim: ${hLim} | rScale: ${rScale} | (1/rScale): ${(1/rScale)}`);
-
-            for (let i = 0; i < s.xw; i++) {
-                let xc = document.createElement('div');
-                xc.classList.add('bar-container');
-                let xi = document.createElement('div');
-                xi.classList.add('bar');
-                xi.dataset.id = i;
-                // xi.id = i;
-                
-                // let xcy = Math.floor(Math.random() * 100);
-                // let xcy = Math.floor(Math.cos(i)*100);
-                // let xcy = Math.floor(Math.sin(i)*100);
-                // let xcy = Math.sin(i)*100;
-                // let hToAdd = Math.floor(xcy) + 150;
-                // let hToAdd = xcy + 150;
-                // let hToAdd = (xcy%100) + 150;
-                // let hToAdd = Math.floor(xcy%100) + 150;
-                // let offH = 150;
-                // let hToAdd = Math.floor(xcy%100) + offH;
-
-                // /* Option 1: */
-                // let xcy = Math.cos(i)*100;
-                // let rangeH = 100;
-                // let offH = 150;
-
-                // /* Option 2: */
-                // let xcy = i*i * .5;
-                // let rangeH = 200;
-                // let offH = 50;
-
-                /* Option 3: */
-                let xcy = i*i * rScale;
-
-
-                let hToAdd = Math.round(xcy%rangeH) + offH;
-                xi.style.height = `${hToAdd}px`;
-                xi.dataset.h = hToAdd;
-
-                xc.appendChild(xi);
-                mygrid.appendChild(xc);
-            }
-        }
-
-        const fs = {
-            f_cos: {
-                name: 'Cosine Wave',
-                xcy: 'Math.cos(i)*100',
-                rangeH: 100,
-                offH: 150,
-            },
-            f_sin: {
-                name: 'Sine Wave',
-                xcy: 'Math.sin(i)*100',
-                rangeH: 100,
-                offH: 150,
-            },
-            f_exp: {
-                name: 'Exponential Curve',
-                hLim: '(s.xw-1)*(s.xw-1)',
-                xcy: 'i*i * arScale',
-                rangeH: 200,
-                offH: 50,
-            },
-            f_sqr: {
-                name: 'Squared Curve',
-                hLim: 'Math.sqrt(s.xw-1)',
-                xcy: 'Math.sqrt(i) * arScale',
-                rangeH: 200,
-                offH: 50,
-            },
-            f_exsq: {
-                name: 'Exponential Squared Curve',
-                hLim: 'Math.sqrt(s.xw-1)*(s.xw-1)',
-                xcy: 'Math.sqrt(i)*i * arScale',
-                rangeH: 200,
-                offH: 50,
-            },
-            f_frc: {
-                name: 'Fractional Curve',
-                hLim: '1/(1)',
-                xcy: '1/(i+1) * arScale',
-                rangeH: 200,
-                offH: 50,
-            },
-            f_lin: {
-                name: 'Linear Progression',
-                hLim: '(s.xw-1)',
-                xcy: 'i * arScale',
-                rangeH: 200,
-                offH: 50,
-            },
-            f_z: {
-                name: 'none',
-                xcy: '100',
-                rangeH: 200,
-                offH: 50,
-            }
-        }
-        function buildGraph4() {
-            let main = document.getElementById('myMain');
-            Object.keys(fs).forEach(key=>{
-                let shelf = document.createElement('div');
-                shelf.classList.add('shelf');
-                let shelfTitle = document.createElement('div');
-                shelfTitle.classList.add('shelf-title');
-                shelfTitle.innerHTML = fs[key].name;
-                console.log(`name = ${fs[key].name};`);
-                let myGrid = document.createElement('div');
-                myGrid.classList.add('grid-h');
-                let myMarkers = document.createElement('div');
-                myMarkers.classList.add('mid-line');
-                let myMarkersW = s.grid_w - 6;
-                myMarkers.style.width = `${myMarkersW}px`;
-                myGrid.appendChild(myMarkers);
-                
-                shelf.appendChild(shelfTitle);
-                shelf.appendChild(myGrid);
-                main.appendChild(shelf);
-
-                let rangeH = fs[key].rangeH;
-                let offH = fs[key].offH;
-
-                let hLim = 1;
-                if(fs[key].hLim) {
-                    eval(`hLim = ${fs[key].hLim};`);
-                }
-                let rScale = hLim/(rangeH-.25);
-                let arScale = 1/(hLim/(rangeH-.25));
-
-                // let xcyEval = fs[key].xcy;
-                // console.log(`xcy = ${xcyEval};`);
-
-                for (let i = 0; i < s.xw; i++) {
-                    let xc = document.createElement('div');
-                    xc.classList.add('bar-container');
-                    let xi = document.createElement('div');
-                    xi.classList.add('bar');
-                    xi.dataset.id = i;
-                    // xi.id = i;
-
-                    // let xcy = 50;
-                    let xcy = 0;
-                    // eval(`xcy = ${xcyEval};`);
-                    eval(`xcy = ${fs[key].xcy};`);
-
-                    let hToAdd = Math.round(xcy%rangeH) + offH;
-                    xi.style.height = `${hToAdd}px`;
-                    xi.dataset.h = hToAdd;
-                    xc.appendChild(xi);
-                    myGrid.appendChild(xc);
-                }
-            });
-        }
-
-        const fs2 = {
-            f_cos_sin: {
-                name: 'Cosine & Sine Waves',
-                xcy_2: 'Math.cos(i)*100',
-                xcy_1: 'Math.sin(i)*100',
-                rangeH: 100,
-                offH: 150,
-            },
-            f_exp_sqr: {
-                name: 'Exponential & Squared Curves',
-                hLim_2: '(s.xw-1)*(s.xw-1)',
-                xcy_2: 'i*i * arScale_2',
-                hLim_1: 'Math.sqrt(s.xw-1)',
-                xcy_1: 'Math.sqrt(i) * arScale_1',
-                rangeH: 200,
-                offH: 50,
-            },
-            f_lin: {
-                name: 'Linear Progression',
-                hLim_2: '(s.xw-1)',
-                xcy_2: 'i * arScale_2',
-                hLim_1: '(s.xw-1)',
-                xcy_1: '100',
-                rangeH: 200,
-                offH: 50,
-            }
-        }
-        function buildGraph8() {
-            let main = document.getElementById('myMain');
-            Object.keys(fs2).forEach(key=>{
-                let shelf = document.createElement('div');
-                shelf.classList.add('shelf');
-                let shelfTitle = document.createElement('div');
-                shelfTitle.classList.add('shelf-title');
-                shelfTitle.innerHTML = fs2[key].name;
-                console.log(`name = ${fs2[key].name};`);
-                let myGrid = document.createElement('div');
-                myGrid.classList.add('grid-h');
-                let myMarkers = document.createElement('div');
-                myMarkers.classList.add('mid-line');
-                let myMarkersW = s.grid_w - 6;
-                myMarkers.style.width = `${myMarkersW}px`;
-                myGrid.appendChild(myMarkers);
-                
-                shelf.appendChild(shelfTitle);
-                shelf.appendChild(myGrid);
-                main.appendChild(shelf);
-
-                let rangeH = fs2[key].rangeH;
-                let offH = fs2[key].offH;
-
-                let hLim_2 = 1;
-                if(fs2[key].hLim_2) {eval(`hLim_2 = ${fs2[key].hLim_2};`);}
-                let arScale_2 = 1/(hLim_2/(rangeH-.25));
-
-                let hLim_1 = 1;
-                if(fs2[key].hLim_1) {eval(`hLim_1 = ${fs2[key].hLim_1};`);}
-                let arScale_1 = 1/(hLim_1/(rangeH-.25));
-
-                for (let i = 0; i < s.xw; i++) {
-                    let xc = document.createElement('div');
-                    xc.classList.add('bar-container-2');
-                    xc.dataset.id = i;
-                    
-                    let xi_2 = document.createElement('div');
-                    xi_2.classList.add('bar-2');
-                    let xcy_2 = 0;
-                    eval(`xcy_2 = ${fs2[key].xcy_2};`);
-                    let hToAdd_2 = Math.round(xcy_2%rangeH) + offH;
-                    xi_2.style.height = `${hToAdd_2}px`;
-                    xi_2.dataset.h = hToAdd_2;
-                    xc.appendChild(xi_2);
-                    
-                    let xi_1 = document.createElement('div');
-                    xi_1.classList.add('bar-2');
-                    let xcy_1 = 0;
-                    eval(`xcy_1 = ${fs2[key].xcy_1};`);
-                    let hToAdd_1 = Math.round(xcy_1%rangeH) + offH;
-                    xi_1.style.height = `${hToAdd_1}px`;
-                    xi_1.dataset.h = hToAdd_1;
-                    xc.appendChild(xi_1);
-
-                    myGrid.appendChild(xc);
-                }
-            });
-        }
-
-        
-
-        window.addEventListener('load', (ev) => {
-            console.log(`Welcome to my Lab!`);
-            // perceptionRoll();
-            // buildGraph();
-            // buildGraph2();
-            // buildGraph4();
-            // buildGraph8();
-
-            StartGrid();
-            BuildGrid();
-            UpdateDisplay();
-        });
-    </script>
+    <script src="grid-particle-script.js"></script>
+    <!-- <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script> -->
 </body>
 </html>

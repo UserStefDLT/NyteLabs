@@ -155,8 +155,7 @@ main {
 
 .shelf {
     margin-top: 1.5em;
-    margin-top: 2.5rem;
-    padding: 1em 0 1em 0;
+    padding: 1em 0;
 
     position: relative;
     min-height: 1rem;
@@ -172,6 +171,7 @@ main {
     inset 0 -1px 1px #39f,
     inset 0 1px 1px #39f;
 }
+.shelf:not(:first-of-type){margin-top: 2.5rem;}
 main .shelf-title {
     position: absolute;
     top: -1.5em;
