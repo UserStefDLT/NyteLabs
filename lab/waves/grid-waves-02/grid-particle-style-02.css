@@ -10,10 +10,17 @@
     justify-content: center;
     flex-direction: row;
 }
-/* .row-container:hover {outline: 1px dashed #8888;} */
+.row-container:hover {
+    outline: 1px dashed #8888;
+}
 [class*="node"] {
     position: relative;
+    min-height: 16px; min-width: 16px;
+    min-height: 1em; min-width: 1em;
+    min-height: 2rem; min-width: 2rem;
+    max-height: 30px; max-width: 30px;
     border-radius: 50%;
+    /* box-shadow: 0 0 1px 1px #8888; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -21,15 +28,14 @@
     user-select: none;
 
     min-height: 2em; min-width: 2em;
-    /* min-height: 1em; min-width: 1em; */
     font-size: 18px;
     margin: 2px;
 }
-/* [class*="node"]:hover {
+[class*="node"]:hover {
     outline: 1px solid #fff;
     outline-offset: 2px;
-} */
-/* [class*="node"]::before,
+}
+[class*="node"]::before,
 [class*="node"]::after {
     position: absolute;
     top: 50%; left: 50%;
@@ -40,20 +46,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
-} */
-/* [class*="node"]::before {content: attr(data-val);} */
-/* [class*="node"]::after {
-    content: attr(data-id);
+}
+[class*="node"]::before {content: attr(data-val);}
+[class*="node"]::after {
+    /* content: attr(data-id); */
     background: #0d0d0d;
     opacity: 0;
     transition: opacity 200ms ease-in-out;
 }
-[class*="node"]:hover::after {opacity: 1;} */
+[class*="node"]:hover::after {opacity: 1;}
 
 /* [data-row="4"] {outline: 1px solid #39f;}
 [data-col="7"] {outline: 1px solid #39f;} */
 /* [data-row="4"][data-col="7"] {outline: 1px solid #39f;} */
-/* [data-row="7"][data-col="7"] {outline: 1px solid #39f;} */
+[data-row="7"][data-col="7"] {outline: 1px solid #39f;}
 
 label {
     max-width: 8rem;
@@ -117,14 +123,14 @@ label {
     --vhclr-shw-dark: hsla(var(--vhue), 100%, 20%, var(--valp-shw));
     
     transition: 
-    box-shadow 100ms ease-in-out,
-    background-color 100ms ease-in-out;
+    box-shadow 200ms ease-in-out,
+    background-color 200ms ease-in-out;
 }
 
 #style--fill:checked ~ main [class*="node"] {
     background-color: var(--vhclr);
-    /* background-image: linear-gradient(-30deg, var(--vhclr-dark), var(--vhclr)); */
-    /* box-shadow: inset 0 0 2px 1px var(--vhclr-dark); */
+    background-image: linear-gradient(-30deg, var(--vhclr-dark), var(--vhclr));
+    box-shadow: inset 0 0 2px 1px var(--vhclr-dark);
 }
 #style--ghost:checked ~ main [class*="node"] {background-color: var(--vhclr-shw);}
 #style--ghost:checked ~ main [class*="node"],
@@ -221,10 +227,8 @@ label {
 
 
 
-/* #style-spacing--overlap:checked ~ main [class*="node"] {font-size: 18px; margin: -4px;} */
-/* #style-spacing--overlap:checked ~ main [class*="node"] {font-size: 18px; margin: -4px; min-height: 1em; min-width: 1em; color: transparent;} */
-#style-spacing--overlap:checked ~ main [class*="node"] {font-size: 18px; margin: -2px; min-height: 1em; min-width: 1em; color: transparent;}
-#style-spacing--spaced:checked ~ main [class*="node"] {font-size: 16px; margin: 2px; min-height: 2em; min-width: 2em;}
+#style-spacing--overlap:checked ~ main [class*="node"] {font-size: 18px; margin: -4px}
+#style-spacing--spaced:checked ~ main [class*="node"] {font-size: 16px; margin: 2px}
 
 /* [class*="node"] {
     min-height: 2em; min-width: 2em;
