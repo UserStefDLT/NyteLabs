@@ -36,11 +36,11 @@ const xyGridTimeLine = [];
 function StartGrid() {
     for (let y = 0; y < g.h; y++) {
         xyGrid.push([]);
-        // xyGridDirection.push([]);
+        xyGridDirection.push([]);
         xyGridForces.push([]);
         for (let x = 0; x < g.w; x++) {
             xyGrid[y].push(0);
-            // xyGridDirection[y].push(0);
+            xyGridDirection[y].push(0);
             xyGridForces[y].push(0);
         }
     }
@@ -88,26 +88,23 @@ function BuildGrid() {
     myGrid.classList.add('grid-v');
     for (let y = 0; y < g.h; y++) {
         let xc_row = document.createElement('div');
-        xc_row.classList.add('row');
-        // xc_row.dataset.row = y;
+        xc_row.classList.add('row-container');
+        xc_row.dataset.row = y;
         for (let x = 0; x < g.w; x++) {
             let xi_node = document.createElement('div');
             xi_node.classList.add('node');
-            // xi_node.dataset.row = y;
-            // xi_node.dataset.col = x;
-            xi_node.id = `xi-${y}-${x}`;
-            xi_node.dataset.y = y;
-            xi_node.dataset.x = x;
-            xi_node.dataset.active = false;
+            xi_node.dataset.row = y;
+            xi_node.dataset.col = x;
             xi_node.dataset.id = `${y}|${x}`;
-            // xi_node.dataset.xy = `${x}${y}`;
+            xi_node.dataset.xy = `${x}${y}`;
             xi_node.addEventListener('click', (ev) => {
-                ev.target.dataset.active = true;
-                GridPush(ev.target.dataset.y,ev.target.dataset.x);
+                GridPush(ev);
+                UpdateDisplay();
             });
-            xi_node.addEventListener('mousemove', (ev) => {
-                ev.target.dataset.active = true;
-                GridSpark(ev.target.dataset.y,ev.target.dataset.x);
+            // 'mousemove', 'mouseenter', 'mouseover'
+            xi_node.addEventListener('mouseenter', (ev) => {
+                GridSpark(ev);
+                // UpdateDisplay();
             });
 
             xc_row.appendChild(xi_node);
@@ -164,49 +161,26 @@ const NodeArea = [
     [0,-1],[0,0],[0,1],
     [-1,-1],[-1,0],[-1,1]
 ];
-const NodeAreaScale = [
-    .7,1,.7,
-    1,0,1,
-    .7,1,.7,
-];
-
 const NodeAreaDeg = [
     315,0,45,
     270,0,90,
     225,180,135,
 ];
-
-const NodeArea_rod = [
-    [1,-1],[1,0],[0,0],
-    [0,-1],[0,0],[0,1],
-    [-1,-1],[-1,0],[0,0]
-];
-const NodeAreaScale_rod = [
-    1,1,0,
+const NodeAreaScale = [
+    .7,1,.7,
     1,0,1,
-    1,1,0,
+    .7,1,.7,
 ];
-const NodeArea_roe = [
-    [0,0],[1,0],[1,1],
-    [0,-1],[0,0],[0,1],
-    [0,0],[-1,0],[-1,1]
-];
-const NodeAreaScale_roe = [
-    0,1,1,
-    1,0,1,
-    0,1,1,
-];
-
 function isStable(){
-    // let gridIsStable = true;
+    let gridIsStable = true;
     let gridErr = false;
     let yxErr = [];
-    // g.state = false;
+    g.state = false;
     for (let y = 0; y < g.h; y++) {
         for (let x = 0; x < g.w; x++) {
             if(xyGrid[y][x] != 0) {
-                // gridIsStable = false;
-                // g.state = true;
+                gridIsStable = false;
+                g.state = true;
             }
             if(xyGrid[y][x] > 20) {
                 gridErr = true;
@@ -214,27 +188,19 @@ function isStable(){
             }
         }
     }
-    // if(!gridIsStable && !gridErr) {
-    //     setTimeout(() => {
-    //         console.log(`time: ${timeMark}`); 
-    //         UpdateGrid();
-    //     }, 10);
-    //     // UpdateGrid();
-    // }
-    if(!gridErr) {
+    if(!gridIsStable && !gridErr) {
         setTimeout(() => {
-            // console.log(`time: ${timeMark}`); 
+            console.log(`time: ${timeMark}`); 
             UpdateGrid();
-        }, 100);
-        // UpdateGrid();
+        }, 10);
     }
-    // if(gridErr) {
-    //     console.log(`─`.repeat(12));
-    //     let nodeErr = xyGrid[yxErr[0][0]][yxErr[0][1]];
-    //     console.log(`♦Error!: Node(${yxErr[0][0]},${yxErr[0][1]}) reached critical measurment of ${nodeErr}!`);
-    //     console.log(xyGridTimeLine);
-    //     // g.state = false;
-    // }
+    if(gridErr) {
+        console.log(`─`.repeat(12));
+        let nodeErr = xyGrid[yxErr[0][0]][yxErr[0][1]];
+        console.log(`♦Error!: Node(${yxErr[0][0]},${yxErr[0][1]}) reached critical measurment of ${nodeErr}!`);
+        console.log(xyGridTimeLine);
+        // g.state = false;
+    }
 }
 function UpdateNodes(){
     for (let y = 0; y < g.h; y++) {
@@ -244,12 +210,6 @@ function UpdateNodes(){
             if(xvf != 0) {
                 xyGrid[y][x] += xvf;
                 xyGridForces[y][x] = 0;
-                if(xyGrid[y][x] > 0){
-                    let node = document.getElementById(`xi-${y}-${x}`);
-                    if(node.dataset.active == "false"){
-                        node.dataset.active = true;
-                    }
-                }
             }
         }
     }
@@ -257,15 +217,11 @@ function UpdateNodes(){
 function UpdateNodeForces(y,x){
     // console.log(`y:${y}, x:${x}`);
     let xv = xyGrid[y][x];
-    let rod = (y%2 == 0);
     
-    // xu = value update;
-    let xu = 0;
-    // xvn = value for neigbor node;
-    let xvn = 0;
-
     // let xu = (xv*xv)/10;
     // let xu = xv-(Math.sqrt(xv));
+    let xu = 0;
+    let xvn = 0;
     // if(xv>10) {
     //     // xu = xv-(xv*.25);
     //     // xu = (xv*xv)/10;
@@ -278,22 +234,7 @@ function UpdateNodeForces(y,x){
     // xu = (xv*xv);
     // xu = xv-(xv*.2);
     // xu = xv-(xv*.1);
-    // xvn = xv*.9;
-    // xu = xv-(xv*.2);
-    // xu = xv-(xv*.15);
-
-    // xu = xv-(xv*.1);
-    // xvn = xv*.9;
-
-    // xu = xv-(xv*.3);
-    // xvn = xv*.9;
-
     xu = xv-(xv*.2);
-    xvn = xu*.8;
-
-    // xu = xv-(xv*.15);
-    // xvn = xv*.8;
-
     if(xu < .1) xu = 0;
 
     // xyGrid[y][x] = xu;
@@ -304,33 +245,21 @@ function UpdateNodeForces(y,x){
         // xvn = xv-1;
         // xvn = xv-.2;
         // xvn = xv;
-        // xvn = xv*.9;
-        // xvn = xv*.7;
-        // xvn = xv*.8;
-        // xvn = xv*.85;
+        xvn = xv*.7;
         // console.log(`xvn: ${xvn}`);
 
         for (let yx = 0; yx < 9; yx++) {
-            let nextY = y+NodeArea_roe[yx][0];
-            let nextX = x+NodeArea_roe[yx][1];
-            if(rod){
-                nextY = y+NodeArea_rod[yx][0];
-                nextX = x+NodeArea_rod[yx][1];
-            }
-            // nextY = y+NodeArea[yx][0];
-            // nextX = x+NodeArea[yx][1];
+            let nextY = y+NodeArea[yx][0];
+            let nextX = x+NodeArea[yx][1];
             // console.log(`nextY:${nextY}, nextX:${nextX}`);
-            // let inGrid = (nextY > -1 && nextY < g.h) && (nextX > -1 && nextX < g.w);
-            if((nextY > -1 && nextY < g.h) && (nextX > -1 && nextX < g.w)) {
-                // let isLower = xvn > xyGrid[nextY][nextX];
-                if(xvn > xyGrid[nextY][nextX]){
+
+            let inGrid = (nextY > -1 && nextY < g.h) && (nextX > -1 && nextX < g.w);
+            if(inGrid) {
+                let isLower = xvn > xyGrid[nextY][nextX];
+                if(isLower){
                     let xvn2 = (xvn-xyGrid[nextY][nextX])/2;
 
-                    let addyx = xvn2*NodeAreaScale_roe[yx];
-                    if(rod){
-                        addyx = xvn2*NodeAreaScale_rod[yx];
-                    }
-                    // let addyx = xvn2;
+                    let addyx = xvn2*NodeAreaScale[yx];
                     // console.log(`addyx: ${addyx}`);
                     xyGridForces[nextY][nextX] += addyx;
                     if(xyGridForces[nextY][nextX] > 9) {xyGridForces[nextY][nextX] = 9;}
@@ -352,55 +281,71 @@ function UpdateGrid() {
     updateList.forEach(node => {
         UpdateNodeForces(node[0],node[1]);
     });
-
-    // xyGridTimeLine.push({});
+    xyGridTimeLine.push({});
     // RecordForcesFrame();
 
     UpdateNodes();
     UpdateDisplay();
 
     // RecordGridFrame();
-    // timeMark++;
+    timeMark++;
 
     isStable();
 }
 function UpdateDisplay() {
-    let nodeList = document.querySelectorAll(`[data-active="true"]`);
+    let nodeList = document.querySelectorAll('.node');
     nodeList.forEach(node =>{
-        let y = node.dataset.y;
-        let x = node.dataset.x;
-        let val = xyGrid[y][x].toFixed(1);
+        let nid = node.dataset.id.split('|');
+        let val = xyGrid[nid[0]][nid[1]].toFixed(1);
         node.dataset.val = val;
         node.style = `--val: ${val};`;
-        if(xyGrid[y][x] == 0){node.dataset.active = false;}
     });
 }
 
-function GridPush(y,x) {
-    // let node = ev.target;
-    // let nid = node.dataset.id.split('|');
-    if(xyGrid[y][x] == 0) {
-        xyGrid[y][x] = g.magnitude;
+function GridPush(ev) {
+    let node = ev.target;
+    let nid = node.dataset.id.split('|');
+    if(xyGrid[nid[0]][nid[1]] == 0) {
+        xyGrid[nid[0]][nid[1]] = g.magnitude;
     } else {
-        let toLimit = g.magnitude-xyGrid[y][x];
+        let toLimit = g.magnitude-xyGrid[nid[0]][nid[1]];
         let adding = toLimit*.7;
-        xyGrid[y][x] += adding;
+        xyGrid[nid[0]][nid[1]] += adding;
     }
-    // console.log(xyGrid);
+    console.log(xyGrid);
     // UpdateGrid();
     // if(!g.state) {
     //     UpdateGrid();
     // }
 }
-function GridSpark(y,x) {
-    let adding = (g.magnitude-xyGrid[y][x])*.7;
-    xyGrid[y][x] += adding;
+function GridSpark(ev) {
+    // let node = ev.target;
+    let nid = ev.target.dataset.id.split('|');
+    // if(xyGrid[nid[0]][nid[1]] == 0) {
+    //     xyGrid[nid[0]][nid[1]] = g.magnitude;
+    // } else {
+    //     let toLimit = g.magnitude-xyGrid[nid[0]][nid[1]];
+    //     let adding = toLimit*.7;
+    //     xyGrid[nid[0]][nid[1]] += adding;
+    // }
+    let toLimit = g.magnitude-xyGrid[nid[0]][nid[1]];
+    let adding = toLimit*.7;
+    xyGrid[nid[0]][nid[1]] += adding;
+
+    // if(!g.state) {
+    //     UpdateGrid();
+    // }
+
+    // console.log(xyGrid);
+    // UpdateGrid();
 }
 
 window.addEventListener('load', (ev) => {
     console.log(`Welcome to my Lab!`);
+    
     StartGrid();
     BuildGrid();
+    UpdateDisplay();
     UpdateGrid();
 });
 

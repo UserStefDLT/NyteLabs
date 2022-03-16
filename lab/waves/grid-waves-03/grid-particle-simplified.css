@@ -11,21 +11,6 @@
     flex-direction: row;
 }
 /* .row-container:hover {outline: 1px dashed #8888;} */
-.row, .rod, .roe {
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    flex-direction: row;
-
-    /* font-size: 32px; */
-    position: relative;
-    margin-top: -.567em;
-    /* margin-top: -.134em; */
-}
-.row:nth-of-type(2n) {transform:translateX(.25em);}
-/* .row:nth-of-type(2n) {transform:translateX(.5em);} */
-
-
 [class*="node"] {
     position: relative;
     border-radius: 50%;
@@ -39,35 +24,7 @@
     /* min-height: 1em; min-width: 1em; */
     font-size: 18px;
     margin: 2px;
-
-    /* height: 1em; width: 1em;
-    line-height: 1em;
-    margin: 0 -.25em; */
 }
-/* .row, .rod, .roe {--y-clr: var(--i);}
-.hex, .node {
---x-clr: var(--i);
---yx-clr: calc(var(--y-clr) + var(--x-clr));
---clr: hsla(var(--yx-clr), 100%, 50%, .25);
-} */
-.hex {
-height: 1em; width: 1em;
-line-height: 1em;
-margin: 0 -.25em;
-border-radius: 50%;
-background-color: var(--clr);
-box-shadow: inset 0 0 2px 1px #39f;
-}
-[class*="node"] {
-    transition: 
-    box-shadow 100ms ease-in-out,
-    transform 100ms ease-in-out,
-    background-color 100ms ease-in-out;
-    /* outline: 1px solid #fff2; */
-    /* outline-offset: 2px; */
-}
-
-
 /* [class*="node"]:hover {
     outline: 1px solid #fff;
     outline-offset: 2px;
@@ -154,7 +111,6 @@ label {
     --valp: calc(var(--val) * 1);
     --vhclr: hsla(var(--vhue), 100%, 60%, var(--valp));
     --vhclr-dark: hsla(var(--vhue), 100%, 20%, var(--valp));
-
     --valp-shw: calc(var(--val) * .5);
     --vhclr-shw: hsla(var(--vhue), 100%, 60%, var(--valp-shw));
     --vhclr-shw-dark: hsla(var(--vhue), 100%, 20%, var(--valp-shw));
@@ -163,21 +119,17 @@ label {
     box-shadow 100ms ease-in-out,
     background-color 100ms ease-in-out;
 } */
-/* [class*="node"] {
+[class*="node"] {
     transition: 
     box-shadow 50ms ease-in-out,
     background-color 50ms ease-in-out;
-} */
+}
 #style--fill:checked ~ main [class*="node"] {
     --val: 0;
-    /* --vhue: calc(var(--val) * 360); */
-    /* --vsz: calc(var(--val) * .7 + .7); */
-    /* --vsz: calc(var(--val) + .7); */
-    --vhue: calc(var(--val) * 36);
+    --vhue: calc(var(--val) * 360);
     --valp: calc(var(--val) * 1);
     --vhclr: hsla(var(--vhue), 100%, 60%, var(--valp));
-    /* --valp-shw: calc(var(--val) * .5);
-    --vhclr-shw: hsla(var(--vhue), 100%, 60%, var(--valp-shw)); */
+    /* --vhclr: hsla(var(--vhue), 100%, 60%, .5); */
 
     background-color: var(--vhclr);
     /* background-color: hsla(calc(var(--val) * 360), 100%, 60%, .5); */
@@ -196,44 +148,16 @@ label {
 
 /* spaced out vs compact */
 [for="style-spacing--overlap"] {
-    --sz: 1em;
     --fsz: 18px;
-    --margin: 0 -.25em;
-    --margin-add: -.25em;
+    --margin: 0 -4px;
+    --margin-add: -4px;
     --trX: .75em;
 }
 [for="style-spacing--spaced"] {
-    --sz: 2em;
     --fsz: 16px;
     --margin: 0 2px;
     --margin-add: 2px;
     --trX: 1.125em;
-}
-
-[class*="node"] {
-    --sz: 1em;
-    --fsz: 18px;
-    --margin: 0 -.25em;
-    /* --margin: 0 0em; */
-    --margin-add: -.25em;
-    /* --margin-add: 0em; */
-    --trX: .75em;
-
-    font-size: var(--fsz); 
-    margin: var(--margin); 
-    min-height: var(--sz); 
-    min-width: var(--sz);
-    line-height: var(--sz);
-    color: transparent;
-
-    /* transform: scale(var(--vsz)); */
-
-    /* box-shadow: 
-    0px 0px 4px 2px var(--vhclr),
-    inset 0px 0px 0px 1px var(--vhclr);
-    box-shadow: 
-    0px 0px 4px 2px var(--vhclr-shw),
-    inset 0px 0px 0px 1px var(--vhclr-shw); */
 }
 .node-in-btn:nth-of-type(1) {--tDist: calc(var(--trX) * -1);}
 .node-in-btn:nth-of-type(2) {--tDist: calc(var(--trX) * 1);}
@@ -254,8 +178,8 @@ label {
 
 /* #style-spacing--overlap:checked ~ main [class*="node"] {font-size: 18px; margin: -4px;} */
 /* #style-spacing--overlap:checked ~ main [class*="node"] {font-size: 18px; margin: -4px; min-height: 1em; min-width: 1em; color: transparent;} */
-/* #style-spacing--overlap:checked ~ main [class*="node"] {font-size: 18px; margin: -2px; min-height: 1em; min-width: 1em; color: transparent;}
-#style-spacing--spaced:checked ~ main [class*="node"] {font-size: 16px; margin: 2px; min-height: 2em; min-width: 2em;} */
+#style-spacing--overlap:checked ~ main [class*="node"] {font-size: 18px; margin: -2px; min-height: 1em; min-width: 1em; color: transparent;}
+#style-spacing--spaced:checked ~ main [class*="node"] {font-size: 16px; margin: 2px; min-height: 2em; min-width: 2em;}
 
 
 

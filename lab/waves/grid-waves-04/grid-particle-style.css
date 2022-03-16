@@ -1,0 +1,252 @@
+.grid-v {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.row-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+.row-container:hover {
+    outline: 1px dashed #8888;
+}
+[class*="node"],
+.node {
+    position: relative;
+    min-height: 16px; min-width: 16px;
+    min-height: 1em; min-width: 1em;
+    min-height: 2rem; min-width: 2rem;
+    max-height: 30px; max-width: 30px;
+    border-radius: 50%;
+    /* box-shadow: 0 0 1px 1px #8888; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+
+    min-height: 2em; min-width: 2em;
+    font-size: 18px;
+    margin: 2px;
+}
+.node:hover {
+    outline: 1px solid #fff;
+    outline-offset: 2px;
+}
+.node::before,
+.node::after {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    height: 100%; width: 100%;
+    border-radius: 50%;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.node::before {content: attr(data-val);}
+.node::after {
+    /* content: attr(data-id); */
+    background: #0d0d0d;
+    opacity: 0;
+    transition: opacity 200ms ease-in-out;
+}
+.node:hover::after {opacity: 1;}
+
+/* [data-row="4"] {outline: 1px solid #39f;}
+[data-col="7"] {outline: 1px solid #39f;} */
+/* [data-row="4"][data-col="7"] {outline: 1px solid #39f;} */
+[data-row="7"][data-col="7"] {outline: 1px solid #39f;}
+
+.grid-update-btn {
+    min-width: 6rem;
+    margin: .125rem;
+    padding: .25rem .5rem;
+    background-color: transparent;
+    border-radius: 2rem;
+    border: none;
+    
+    color: #fff;
+    text-shadow: 2px 2px 2px #1119;
+    cursor: pointer;
+    user-select: none;
+    transition: box-shadow 200ms ease-in-out;
+}
+.grid-update-btn:hover {
+    outline: 1px solid #fffc; outline-offset: 2px; 
+}
+
+.grid-update-btn {
+    --clr-left: var(--clr-4);
+    --clr-dark-left: var(--clr-4-dark);
+    --clr-right: var(--clr-1);
+    --clr-dark-right: var(--clr-1-dark);
+
+    --fill-bgi: linear-gradient(-30deg, var(--clr-4), var(--clr-1));
+    --ghost-bgi: linear-gradient(120deg, var(--bs4-4), var(--bs4-1));
+    --glow-shadow: 
+    0px 0px 4px 2px var(--clr),
+    inset 1px 1px 0px 0px var(--clr),
+    inset -1px -1px 0px 0px var(--clr-dark);
+    --glow-shadow: 
+    -1px -1px 3px 0px var(--clr-left),
+    inset 1px 1px 0px 0px var(--clr-left),
+    1px 1px 3px 0px var(--clr-right),
+    inset -1px -1px 0px 0px var(--clr-dark-right);
+}
+#style--fill:checked ~ main .grid-update-btn {background-image: var(--fill-bgi);}
+#style--ghost:checked ~ main .grid-update-btn {background-image: var(--ghost-bgi);}
+#style--ghost:checked ~ main .grid-update-btn,
+#style--glow:checked ~ main .grid-update-btn {box-shadow: var(--glow-shadow);}
+
+/* Styles for the nodes. */
+.node-in-btn,
+.node {
+    --val: 0;
+    --vhue: calc(var(--val) * 40);
+    --valp: calc(var(--val) * .1);
+    --vhclr: hsla(var(--vhue), 100%, 60%, var(--valp));
+    --vhclr-dark: hsla(var(--vhue), 100%, 20%, var(--valp));
+
+    --valp-shw: calc(var(--val) * .05);
+    --vhclr-shw: hsla(var(--vhue), 100%, 60%, var(--valp-shw));
+    --vhclr-shw-dark: hsla(var(--vhue), 100%, 20%, var(--valp-shw));
+    
+    transition: 
+    box-shadow 200ms ease-in-out,
+    background-color 200ms ease-in-out;
+}
+
+#style--fill:checked ~ main .node {
+    background-color: var(--vhclr);
+    background-image: linear-gradient(-30deg, var(--vhclr-dark), var(--vhclr));
+    box-shadow: inset 0 0 2px 1px var(--vhclr-dark);
+}
+#style--ghost:checked ~ main .node {background-color: var(--vhclr-shw);}
+#style--ghost:checked ~ main .node,
+#style--glow:checked ~ main .node {
+    box-shadow: 
+    0px 0px 4px 2px var(--vhclr),
+    inset 0px 0px 2px 0px var(--vhclr),
+    inset 0px 0px 0px 1px var(--vhclr),
+    inset 0px 0px 4px 2px var(--vhclr-shw);
+}
+
+/* spaced out vs compact */
+
+#style-spacing--overlap:checked ~ main [for="style-spacing--overlap"] {
+    --fsz: 18px;
+    --margin: -4px;
+    --trX: -2em;
+}
+#style-spacing--spaced:checked ~ main [for="style-spacing--spaced"] {
+    --fsz: 16px;
+    --margin: 2px;
+    --trX: 2em;
+}
+
+
+
+.node-in-btn:nth-of-type(1) {--tDist: calc(var(--trX) * -1);}
+.node-in-btn:nth-of-type(2) {--tDist: calc(var(--trX) * 1);}
+.node-in-btn {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    /* --tDist: calc(var(--trX) * 1); */
+    transform: translateX(calc(var(--tDist) - 36px)) translateY(-50%);
+}
+/* .label--style-spacing::before,
+.label--style-spacing::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    min-height: 2em; min-width: 2em;
+    font-size: var(--fsz);
+    margin: var(--margin);
+
+    --val: 9;
+    --vhue: calc(var(--val) * 40);
+    --valp: calc(var(--val) * .1);
+    --vhclr: hsla(var(--vhue), 100%, 60%, var(--valp));
+    --vhclr-dark: hsla(var(--vhue), 100%, 20%, var(--valp));
+
+    --valp-shw: calc(var(--val) * .05);
+    --vhclr-shw: hsla(var(--vhue), 100%, 60%, var(--valp-shw));
+    --vhclr-shw-dark: hsla(var(--vhue), 100%, 20%, var(--valp-shw));
+
+    transition: 
+    box-shadow 200ms ease-in-out,
+    background-color 200ms ease-in-out;
+}
+
+#style--fill:checked ~ main .label--style-spacing::before, 
+#style--fill:checked ~ main .label--style-spacing::after {
+    background-color: var(--vhclr);
+    background-image: linear-gradient(-30deg, var(--vhclr-dark), var(--vhclr));
+    box-shadow: inset 0 0 2px 1px var(--vhclr-dark);
+}
+#style--ghost:checked ~ main .label--style-spacing::before,
+#style--ghost:checked ~ main .label--style-spacing::after {
+    background-color: var(--vhclr-shw);
+}
+:where(#style-spacing--overlap:checked, #style-spacing--spaced:checked) ~ main .label--style-spacing:where(::before,::after) {
+    box-shadow: 
+    0px 0px 4px 2px var(--vhclr),
+    inset 0px 0px 2px 0px var(--vhclr),
+    inset 0px 0px 0px 1px var(--vhclr),
+    inset 0px 0px 4px 2px var(--vhclr-shw);
+} */
+
+
+
+#style-spacing--overlap:checked ~ main .node {font-size: 18px; margin: -4px}
+#style-spacing--spaced:checked ~ main .node {font-size: 16px; margin: 2px}
+
+/* .node {
+    min-height: 2em; min-width: 2em;
+    font-size: 12px;
+    margin: 2px;
+} */
+
+
+
+/* :where(#style-spacing--overlap:checked, #style-spacing--overlap:checked) ~ main label::before,
+:where(#style-spacing--overlap:checked, #style-spacing--overlap:checked) ~ main label::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: -1;
+} */
+label::before,
+label::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: -1;
+}
+#style-spacing--overlap:checked ~ main label[for="style-spacing--overlap"]::before,
+#style-spacing--spaced:checked ~ main label[for="style-spacing--spaced"]::before {
+    height: 1.25rem; width: 1.25rem;
+    border-radius: .125rem;
+    transform: translateX(-50%) translateY(-50%) rotate(45deg);
+    box-shadow: 
+    6px 6px 0 0px #fc0,
+    -6px -6px 0 0px #fc0;
+}
+#style-spacing--overlap:checked ~ main label[for="style-spacing--overlap"]::after,
+#style-spacing--spaced:checked ~ main label[for="style-spacing--spaced"]::after{
+    height: 125%; width: 115%;
+    background: hsla(210, 0%, 5%, 100%);
+    border-radius: .5rem;
+    box-shadow: 
+    0 6px 0 -4px #fc0,
+    0 -6px 0 -4px #fc0;
+}

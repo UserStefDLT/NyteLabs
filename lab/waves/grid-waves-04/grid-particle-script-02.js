@@ -88,6 +88,7 @@ function BuildGrid() {
     myGrid.classList.add('grid-v');
     for (let y = 0; y < g.h; y++) {
         let xc_row = document.createElement('div');
+        // xc_row.classList.add('row-container');
         xc_row.classList.add('row');
         // xc_row.dataset.row = y;
         for (let x = 0; x < g.w; x++) {
@@ -98,6 +99,7 @@ function BuildGrid() {
             xi_node.id = `xi-${y}-${x}`;
             xi_node.dataset.y = y;
             xi_node.dataset.x = x;
+            xi_node.dataset.rod = 0;
             xi_node.dataset.active = false;
             xi_node.dataset.id = `${y}|${x}`;
             // xi_node.dataset.xy = `${x}${y}`;
@@ -109,6 +111,10 @@ function BuildGrid() {
                 ev.target.dataset.active = true;
                 GridSpark(ev.target.dataset.y,ev.target.dataset.x);
             });
+            // xi_node.addEventListener('mouseenter', (ev) => {
+            //     ev.target.dataset.active = true;
+            //     GridSpark(ev.target.dataset.y,ev.target.dataset.x);
+            // });
 
             xc_row.appendChild(xi_node);
         }
@@ -159,44 +165,46 @@ function AddingForces(a, b) {
 
 }
 
-const NodeArea = [
+const NodeArea_o = [
     [1,-1],[1,0],[1,1],
     [0,-1],[0,0],[0,1],
     [-1,-1],[-1,0],[-1,1]
 ];
-const NodeAreaScale = [
-    .7,1,.7,
-    1,0,1,
-    .7,1,.7,
-];
-
-const NodeAreaDeg = [
+const NodeAreaDeg_o = [
     315,0,45,
     270,0,90,
     225,180,135,
 ];
-
+const NodeAreaScale_o = [
+    .7,1,.7,
+    1,0,1,
+    .7,1,.7,
+];
 const NodeArea_rod = [
     [1,-1],[1,0],[0,0],
     [0,-1],[0,0],[0,1],
     [-1,-1],[-1,0],[0,0]
+];
+const NodeArea = [
+    [0,0],[1,0],[1,1],
+    [0,-1],[0,0],[0,1],
+    [0,0],[-1,0],[-1,1]
+];
+const NodeAreaDeg = [
+    315,0,45,
+    270,0,90,
+    225,180,135,
 ];
 const NodeAreaScale_rod = [
     1,1,0,
     1,0,1,
     1,1,0,
 ];
-const NodeArea_roe = [
-    [0,0],[1,0],[1,1],
-    [0,-1],[0,0],[0,1],
-    [0,0],[-1,0],[-1,1]
-];
-const NodeAreaScale_roe = [
+const NodeAreaScale = [
     0,1,1,
     1,0,1,
     0,1,1,
 ];
-
 function isStable(){
     // let gridIsStable = true;
     let gridErr = false;
@@ -257,15 +265,13 @@ function UpdateNodes(){
 function UpdateNodeForces(y,x){
     // console.log(`y:${y}, x:${x}`);
     let xv = xyGrid[y][x];
+
     let rod = (y%2 == 0);
     
-    // xu = value update;
-    let xu = 0;
-    // xvn = value for neigbor node;
-    let xvn = 0;
-
     // let xu = (xv*xv)/10;
     // let xu = xv-(Math.sqrt(xv));
+    let xu = 0;
+    let xvn = 0;
     // if(xv>10) {
     //     // xu = xv-(xv*.25);
     //     // xu = (xv*xv)/10;
@@ -311,8 +317,8 @@ function UpdateNodeForces(y,x){
         // console.log(`xvn: ${xvn}`);
 
         for (let yx = 0; yx < 9; yx++) {
-            let nextY = y+NodeArea_roe[yx][0];
-            let nextX = x+NodeArea_roe[yx][1];
+            let nextY = y+NodeArea[yx][0];
+            let nextX = x+NodeArea[yx][1];
             if(rod){
                 nextY = y+NodeArea_rod[yx][0];
                 nextX = x+NodeArea_rod[yx][1];
@@ -326,7 +332,7 @@ function UpdateNodeForces(y,x){
                 if(xvn > xyGrid[nextY][nextX]){
                     let xvn2 = (xvn-xyGrid[nextY][nextX])/2;
 
-                    let addyx = xvn2*NodeAreaScale_roe[yx];
+                    let addyx = xvn2*NodeAreaScale[yx];
                     if(rod){
                         addyx = xvn2*NodeAreaScale_rod[yx];
                     }
@@ -363,6 +369,15 @@ function UpdateGrid() {
     // timeMark++;
 
     isStable();
+}
+function UpdateDisplay1() {
+    let nodeList = document.querySelectorAll('.node');
+    nodeList.forEach(node =>{
+        let nid = node.dataset.id.split('|');
+        let val = xyGrid[nid[0]][nid[1]].toFixed(1);
+        node.dataset.val = val;
+        node.style = `--val: ${val};`;
+    });
 }
 function UpdateDisplay() {
     let nodeList = document.querySelectorAll(`[data-active="true"]`);
