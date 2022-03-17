@@ -3,6 +3,10 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    outline: 1px solid #fff2;
+    /* outline-offset: 2px; */
+    margin: .125rem;
+    padding: .5rem .5rem .125rem .25rem;
 }
 .row-container {
     display: flex;
@@ -172,7 +176,8 @@ label {
     --val: 0;
     /* --vhue: calc(var(--val) * 360); */
     /* --vsz: calc(var(--val) * .7 + .7); */
-    /* --vsz: calc(var(--val) + .7); */
+    --vsz: calc(var(--val) * .5 + .7);
+    --vty: calc(var(--val) * -15px);
     --vhue: calc(var(--val) * 36);
     --valp: calc(var(--val) * 1);
     --vhclr: hsla(var(--vhue), 100%, 60%, var(--valp));
@@ -227,6 +232,8 @@ label {
     color: transparent;
 
     /* transform: scale(var(--vsz)); */
+    transform: translateY(var(--vty));
+    transform: translateY(var(--vty)) scale(var(--vsz));
 
     /* box-shadow: 
     0px 0px 4px 2px var(--vhclr),

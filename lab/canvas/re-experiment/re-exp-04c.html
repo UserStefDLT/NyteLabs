@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Canvas 04c | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <link rel="stylesheet" href="../../../stylesheets/canvas.css">
+    <style>
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Canvas 04c</div>
+        <!-- <div class="subtitle">mouse effects (previously in canvas 04 - 07)</div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <!-- <div class="shelf-title">title</div> -->
+        <canvas id="canvas"></canvas>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () =>{
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            s.x = window.innerWidth/2;
+            s.y = window.innerHeight/2;
+
+            s.midX = window.innerWidth/2;
+            s.midY = window.innerHeight/2;
+        });
+
+        const particles = [];
+        const click_particles = [];
+        const mouse_particles = [];
+        const s = {
+            x: 0,
+            y: 0,
+
+            r: 3,
+            c: 0,
+            hue: 0,
+            hue_steps: 6,
+            hue_step: 360/6,
+            lum_step: 20,
+            z: 30
+        }
+        window.addEventListener('mousemove', (ev) =>{
+            // let chance = Math.floor(Math.random()*100) + 1;
+            s.x = ev.clientX;
+            s.y = ev.clientY;
+            // hueHelix();
+
+            // let centerX = canvas.width/2;
+            // let centerY = canvas.height/2;
+        });
+
+        function zoom(event) {
+            event.preventDefault();
+            scale += event.deltaY * -0.01;
+            scale = Math.min(Math.max(.125, scale), 4);
+            s.z = (scale * 10)+20;
+        }
+        let scale = 1;
+        // const el = document.querySelector('#canvas');
+        canvas.onwheel = zoom;
+
+
+        const s2 = {
+            x: 0,
+            y: 0,
+            
+            r: 3,
+            c: 0,
+            hue: 0,
+            hue_steps: 6,
+            hue_step: 360/6,
+            lum_step: 20,
+            z: 30
+        }
+        function hueHelix(){
+            let chance = Math.floor(Math.random()*100) + 1;
+            // let hue_add = Math.floor(Math.random()*2) + 1;
+            let hue_add = 1;
+            s.hue = s.hue + hue_add;
+            if(chance > 0){
+                for (let index = 0; index < s.hue_steps; index++) {
+                    let hue = s.hue + (index * s.hue_step);
+                    let dotOff = (Math.floor(Math.random()*s.z) + 20);
+                    let radius = Math.floor(Math.random()*s.r) + 1;
+                    let lum = dotOff - 10;
+
+                    let cirX = Math.cos(Math.PI*(hue/180)) * dotOff;
+                    let cirY = Math.sin(Math.PI*(hue/180)) * dotOff;
+                    let x = cirX + s.x;
+                    let y = cirY + s.y;
+            
+                    ctx.fillStyle = `hsl(${hue}, 100%, ${lum}%)`;
+                    ctx.beginPath();
+                    ctx.arc(x, y, radius, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+
+        class Particle {
+            constructor(){
+                // this.x = s.x;
+                // this.y = s.y;
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.hue = Math.random() * 360;
+                // this.hueSp = Math.random() * 3;
+                this.hueSp = Math.random() + .5;
+                
+                this.hueOff = Math.random() * 300;
+
+                // this.size = Math.random() * 5 + 1;
+                // this.size = Math.random() * 5 + 5;
+                this.size = Math.random() * 2 + .1;
+                this.spX = Math.random() * 3 - 1.5;
+                this.spY = Math.random() * 3 - 1.5;
+            }
+            update(){
+                // this.x += this.spX;
+                // this.y += this.spY;
+
+                let cirX = Math.cos(Math.PI*(this.hue/180)) * this.hueOff;
+                let cirY = Math.sin(Math.PI*(this.hue/180)) * this.hueOff;
+                // let xGo = cirX + s.x;
+                // let yGo = cirY + s.y;
+                this.x = cirX + s.x;
+                this.y = cirY + s.y;
+
+                // if(this.y > canvas.height || this.x > canvas.width || this.y < 0 || this.x < 0){
+                //     this.x = Math.random() * (canvas.width/2) + (canvas.width/4);
+                //     this.y = Math.random() * (canvas.height/2) + (canvas.height/4);
+                // }
+
+                // this.size += Math.random() * 2 - 1;
+                if(this.size < 2) this.size += 1;
+                if(this.size > 5) this.size -= 1;
+
+                this.hue += this.hueSp;
+                if(this.hue > 360) this.hue -= 360;
+            }
+            draw(){
+                // ctx.fillStyle = '#f398';
+                ctx.fillStyle = `hsl(${this.hue}, 100%, 40%)`;
+                // ctx.fillStyle = `hsl(60, 100%, 40%)`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        class Spark {
+            constructor(){
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.angle = Math.random() * 360;
+                this.rotSp = Math.random() + .5;
+                this.radius = Math.random() * 50;
+                this.entropy = Math.random() * 2 + 1;
+                this.rlimit = 100;
+                
+                this.hue = 60;
+                this.sat = 100;
+                this.lum = 60;
+                this.alp = 1;
+
+                this.size = Math.random() * 2 + .1;
+                this.spX = Math.random() * 3 - 1.5;
+                this.spY = Math.random() * 3 - 1.5;
+            }
+            update(){
+                let sizeLim = 5;
+                let hueRange = 60;
+
+                this.radius += this.entropy;
+                if(this.radius > this.rlimit) {
+                    this.radius = Math.random() * 3 + 2;
+                    this.angle = Math.random() * 360;
+                }
+                this.alp = Math.floor(100 - (this.radius/(this.rlimit/100)))/100;
+                this.hue = Math.floor(hueRange - (this.radius/(this.rlimit/hueRange)));
+                this.size = Math.floor(sizeLim - (this.radius/(this.rlimit/sizeLim))) + .5;
+                
+                let gravity = 10;
+
+                let cirX = Math.cos(Math.PI*(this.angle/180)) * this.radius;
+                let cirY = Math.sin(Math.PI*(this.angle/180)) * this.radius;
+
+                this.x = cirX + s.x;
+                this.y = cirY + s.y;
+                // this.y = cirY + s.y + (this.gravity * this.radius);
+
+                // this.angle += this.rotSp;
+                if(this.angle > 360) this.angle -= 360;
+            }
+            draw(){
+                ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        class FireWorks {
+            constructor(){
+                // this.x = s.x;
+                // this.y = s.y;
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.angle = Math.random() * 360;
+                this.rotSp = Math.random() + .5;
+                // this.radius = Math.random() * 50;
+                this.radius = Math.random() * 5;
+                // this.entropy = Math.random() * 2 + 1;
+                // this.entropy = Math.random() * 1 + .5;
+                
+                this.time = 100;
+                this.entropy = .5;
+                
+                this.hue = 0;
+                this.sat = 100;
+                this.lum = 60;
+                this.alp = 1;
+                
+                this.sizeLim = 3;
+                this.hueStart = 180;
+                // this.hueRange = 60;
+                this.hueRange = 180;
+                this.hueRange = 360;
+                this.radius_limit = 200;
+
+                this.size = Math.random() * 2 + .1;
+                this.spX = Math.random() * 3 - 1.5;
+                this.spY = Math.random() * 3 - 1.5;
+            }
+            update(){
+                this.time -= this.entropy;
+                if(this.time < 1){
+                    this.time = 100;
+                    this.angle = Math.random() * 360;
+                    this.radius = Math.random() * 3 + 2;
+                }
+                let timef = this.time / 100;
+                let timefs = 1-(this.time / 100);
+                this.radius = (timefs * 200) + 10;
+
+                // this.radius += this.entropy * 2;
+                // if(this.radius > this.radius_limit) {
+                //     this.radius = Math.random() * 3 + 2;
+                //     this.angle = Math.random() * 360;
+                // }
+                let radius_percent = this.radius / this.radius_limit;
+                // this.alp = Math.floor(100 * (1 - radius_percent))/100;
+                // this.hue = Math.floor(this.hueRange * (1-radius_percent)) + this.hueStart;
+                // this.size = this.sizeLim * (1-radius_percent) + 1;
+                
+                // this.alp = Math.floor(100 * timefs)/100;
+                this.alp = Math.floor(((3*(1 - timefs)**2) * timefs)*100)/100;
+                this.hue = Math.floor(this.hueRange * this.alp) + this.hueStart;
+                this.size = this.sizeLim * timefs + 1;
+                
+                let rr = radius_percent;
+                let gravity = (rr * rr) * (this.radius_limit / 5);
+
+                let cirX = Math.cos(Math.PI*(this.angle/180)) * this.radius;
+                let cirY = Math.sin(Math.PI*(this.angle/180)) * this.radius;
+                this.x = cirX + s.x;
+                // this.y = cirY + s.y;
+                this.y = cirY + s.y + gravity;
+
+                // if(this.y > canvas.height || this.x > canvas.width || this.y < 0 || this.x < 0){
+                //     this.x = Math.random() * (canvas.width/2) + (canvas.width/4);
+                //     this.y = Math.random() * (canvas.height/2) + (canvas.height/4);
+                // }
+
+                // this.size -= Math.random() * .2;
+                // this.size -= .01;
+                if(this.size < .5) this.size = .5;
+                if(this.size > 5) this.size -= 1;
+
+                // this.angle += this.rotSp;
+                // if(this.angle > 360) this.angle -= 360;
+            }
+            draw(){
+                // ctx.fillStyle = '#f398';
+                // ctx.fillStyle = `hsl(${this.hue}, 100%, 40%)`;
+                // ctx.fillStyle = `hsl(60, 100%, 40%)`;
+                // ctx.filter = `drop-shadow(15px 15px 15px hsla(${hue}, ${sat}%, ${lum_shadow}%, ${alp-.5})) blur(5px) url(#cloud)`;
+                // ctx.filter = `drop-shadow(15px 15px 15px hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${alp_shadow})) blur(5px)`;
+                // let lum_shadow = this.lum/2;
+                // let alp_shadow = this.alp/2;
+                // ctx.filter = `drop-shadow(0px 0px 5px hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${alp_shadow}))`;
+
+                
+                ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        class FireWorks2 {
+            constructor(id, count){
+                this.id = id;
+                this.nodeCount = count;
+                this.depth = (this.id / this.nodeCount);
+                this.xc = s.x;
+                this.yc = s.y;
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.angle = Math.random() * 360;
+                this.angleZ = Math.random() * 360;
+                this.rotSp = Math.random() + .5;
+                this.radius = Math.random() * 5;
+
+                this.time = 100;
+                this.entropy = .5;
+                
+                this.hue = 0;
+                this.sat = 100;
+                this.lum = 60;
+                this.alp = 1;
+                
+                this.sizeLim = 2;
+                this.hueStart = Math.random() * 20 - 10;
+                this.hueRange = 60;
+                this.hueRange = 360;
+                this.radius_limit = 200;
+
+                this.size = Math.random() * 2 + .1;
+                this.spX = Math.random() * 3 - 1.5;
+                this.spY = Math.random() * 3 - 1.5;
+            }
+            update(){
+                this.time -= this.entropy;
+                if(this.time < 1){
+                    this.time = 0;
+                    this.angle = Math.random() * 360;
+                    this.angleZ = Math.random() * 360;
+                }
+                let timef = this.time / 100;
+                let timefs = 1-(this.time / 100);
+                this.radius = (timefs * 200) + 5;
+
+                let radius_percent = this.radius / this.radius_limit;
+
+                this.alp = Math.floor(((3*(1 - timefs)**2) * timefs)*100)/100;
+                this.hue = Math.floor(this.hueRange * this.alp) + this.hueStart;
+                this.size = this.sizeLim * timefs + 1;
+                
+                let gravity = (timefs * timefs) * (this.radius_limit / 3);
+
+                this.lum = 10 + (this.depth*50);
+
+                let cirZx = Math.cos(Math.PI*(this.angleZ/180));
+                let cirX = Math.cos(Math.PI*(this.angle/180)) * this.radius * cirZx;
+                let cirY = Math.sin(Math.PI*(this.angle/180)) * this.radius;
+                this.x = cirX + this.xc;
+                this.y = cirY + this.yc + gravity;
+
+            }
+            draw(){
+                ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        class FireWorksMouse {
+            constructor(id, count){
+                this.id = id;
+                this.nodeCount = count;
+                this.depth = (this.id / this.nodeCount);
+                this.xc = s.x;
+                this.yc = s.y;
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.angle = Math.random() * 360;
+                this.angleZ = Math.random() * 360;
+                this.rotSp = Math.random() + .5;
+                this.radius = Math.random() * 1;
+
+                this.time = 50;
+                this.entropy = 1;
+                
+                this.hue = 0;
+                this.sat = 100;
+                this.lum = 60;
+                this.alp = 1;
+                
+                this.timeLim = 50;
+
+                this.sizeLim = 2;
+                this.sizeMin = .5;
+                // this.hueStart = Math.random() * 10;
+                this.hueStart = Math.random() * 10 + (this.xc + this.yc)%360;
+                this.hueRange = 60;
+                this.radiusLim = 50;
+                this.radiusMin = 1;
+
+                this.size = Math.random() * 2 + .1;
+                this.spX = Math.random() * 3 - 1.5;
+                this.spY = Math.random() * 3 - 1.5;
+            }
+            update(){
+                this.time -= this.entropy;
+                if(this.time < 1){
+                    this.time = 0;
+                    this.angle = Math.random() * 360;
+                    this.angleZ = Math.random() * 360;
+                }
+                let timef = this.time / this.timeLim;
+                let timefs = 1-(this.time / this.timeLim);
+                this.radius = (timefs * this.radiusLim) + this.radiusMin;
+
+                // this.alp = Math.floor(((3*(1 - timefs)**2) * timefs)*100)/100;
+                // this.alp = 1 - Math.floor((timef+.001)**-2)/100;
+                // this.alp = 1 - Math.floor(timefs**5)/100;
+                // this.alp = 1;
+                this.alp = Math.floor(((3*timef**2) * timefs)*100)/100;
+                this.hue = Math.floor(this.hueRange * timef) + this.hueStart;
+                this.size = this.sizeLim * timefs + this.sizeMin;
+                
+                let gravity = (timefs * timefs) * (this.radiusLim / 3);
+
+                this.lum = 10 + (this.depth*50);
+
+                let cirZx = Math.cos(Math.PI*(this.angleZ/180));
+                let cirX = Math.cos(Math.PI*(this.angle/180)) * this.radius * cirZx;
+                let cirY = Math.sin(Math.PI*(this.angle/180)) * this.radius;
+                this.x = cirX + this.xc;
+                this.y = cirY + this.yc + gravity;
+
+                // if(this.time == 0) {
+                //     this.alp = 0;
+                // }
+
+            }
+            draw(){
+                ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        class Nebula {
+            constructor(id, count){
+                this.id = id;
+                this.nodeCount = count;
+                this.depth = (this.id / this.nodeCount);
+                this.xc = s.x;
+                this.yc = s.y;
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.angle = Math.random() * 360;
+                this.angleZ = Math.random() * 360;
+                this.rotSp = Math.random() + .5;
+                this.radius = Math.random() * 1;
+
+                this.timeLim = 200;
+                this.time = this.timeLim;
+                this.entropy = 1;
+                
+                this.hue = 0;
+                this.sat = 100;
+                this.lum = 60;
+                this.alp = 1;
+
+                this.sizeLim = 2;
+                this.sizeMin = .5;
+                this.hueStart = Math.random() * 10 + (this.xc + this.yc)%360;
+                this.hueRange = 60;
+                this.radiusLim = 200;
+                this.radiusMin = 1;
+
+                this.size = Math.random() * 2 + .1;
+                this.spX = Math.random() * 3 - 1.5;
+                this.spY = Math.random() * 3 - 1.5;
+            }
+            update(){
+                this.time -= this.entropy;
+                if(this.time < 1){
+                    this.time = 0;
+                    this.angle = Math.random() * 360;
+                    this.angleZ = Math.random() * 360;
+                }
+                let timef = this.time / this.timeLim;
+                let timefs = 1-(this.time / this.timeLim);
+
+                this.angle += 2;
+                if(this.angle > 360) this.angle -=360;
+                this.radius = ((3*(1 - timefs) * (timefs**2)) * this.radiusLim) + this.radiusMin;
+
+                this.alp = 1;
+                this.hue = Math.floor(this.hueRange * timef) + this.hueStart;
+                this.size = this.sizeLim * timefs + this.sizeMin;
+                
+                // let gravity = (timefs * timefs) * (this.radiusLim / 3);
+
+                this.lum = 10 + (this.depth*50);
+
+                let cirZx = Math.cos(Math.PI*(this.angleZ/180));
+                let cirX = Math.cos(Math.PI*(this.angle/180)) * this.radius * cirZx;
+                let cirY = Math.sin(Math.PI*(this.angle/180)) * this.radius;
+                this.x = cirX + this.xc;
+                this.y = cirY + this.yc;
+                // this.y = cirY + this.yc + gravity;
+            }
+            draw(){
+                ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        class Nebula2 {
+            constructor(id, count, orbit, lives = 3){
+                this.orbit = orbit;
+                this.lives = lives - 1;
+                this.secondScout = 1;
+                this.id = id;
+                this.nodeCount = count;
+                this.depth = (this.id / this.nodeCount);
+                this.xc = s.x;
+                this.yc = s.y;
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.angle = Math.random() * 360;
+                this.angleZ = Math.random() * 360;
+                this.rotSp = Math.random() + .5;
+                this.radius = Math.random() * 1;
+
+                this.timeLim = 200;
+                this.time = this.timeLim;
+                this.entropy = 1;
+                
+                this.hue = 0;
+                this.sat = 100;
+                this.lum = 60;
+                this.alp = 1;
+
+                this.sizeLim = 2;
+                this.sizeMin = .5;
+                this.hueStart = Math.random() * 10 + (this.xc + this.yc)%360;
+                this.hueRange = 60;
+                this.radiusLim = 300;
+                this.radiusMin = 1;
+                this.highestRadius = 0;
+
+                this.size = Math.random() * 2 + .1;
+                this.spX = Math.random() * 3 - 1.5;
+                this.spY = Math.random() * 3 - 1.5;
+            }
+            orbitalExtension(){
+                // click_particles.push(new Nebula(index, spellBook.particles));
+                // orbit
+                // console.log("prepearing scout.");
+                if(this.lives > 0){
+                    // this.orbit.push(new Nebula2(this.id, this.nodeCount, this.orbit, this.lives));
+                    // constructor(x, y, angle, angleZ, id, count)
+                    // this.orbit.push(new NebulaScout(this.x, this.y, this.angle, this.angleZ, this.id, this.nodeCount));
+                    this.orbit.push(new NebulaScout2(this.x, this.y, this.angle, this.angleZ, this.hue, this.id, this.nodeCount, this.orbit, this.lives));
+                    // constructor(x, y, angle, angleZ, hue, id, count, orbit, lives = 3){
+                    this.secondScout = 0;
+                    // console.log("sending a second scout.");
+                }
+            }
+            update(){
+                this.time -= this.entropy;
+                if(this.time < 1){
+                    this.time = 0;
+                    this.angle = Math.random() * 360;
+                    this.angleZ = Math.random() * 360;
+                }
+                let timef = this.time / this.timeLim;
+                let timefs = 1-(this.time / this.timeLim);
+
+                this.angle += 2;
+                if(this.angle > 360) this.angle -=360;
+                this.radius = ((3*(1 - timefs) * (timefs**2)) * this.radiusLim) + this.radiusMin;
+                if(this.secondScout == 1){
+                    this.highestRadius > this.radius ? this.orbitalExtension() : this.highestRadius = this.radius;
+                }
+
+                this.alp = 1;
+                this.hue = Math.floor(this.hueRange * timef) + this.hueStart;
+                this.size = this.sizeLim * timefs + this.sizeMin;
+                
+                // let gravity = (timefs * timefs) * (this.radiusLim / 3);
+
+                this.lum = 10 + (this.depth*50);
+
+                let cirZx = Math.cos(Math.PI*(this.angleZ/180));
+                let cirX = Math.cos(Math.PI*(this.angle/180)) * this.radius * cirZx;
+                let cirY = Math.sin(Math.PI*(this.angle/180)) * this.radius;
+                this.x = cirX + this.xc;
+                this.y = cirY + this.yc;
+                // this.y = cirY + this.yc + gravity;
+            }
+            draw(){
+                ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        class NebulaMouse {
+            constructor(id, count){
+                this.id = id;
+                this.nodeCount = count;
+                this.depth = (this.id / this.nodeCount);
+                this.xc = s.x;
+                this.yc = s.y;
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.angle = Math.random() * 360;
+                this.angleZ = Math.random() * 360;
+                this.rotSp = Math.random() + .5;
+                this.radius = Math.random() * 1;
+
+                this.time = 50;
+                this.entropy = 1;
+                
+                this.hue = 0;
+                this.sat = 100;
+                this.lum = 60;
+                this.alp = 1;
+                
+                this.timeLim = 50;
+
+                this.sizeLim = 1;
+                this.sizeMin = .5;
+                this.hueStart = Math.random() * 10 + (this.xc + this.yc)%360;
+                this.hueRange = 60;
+                this.radiusLim = 50;
+                this.radiusMin = 1;
+
+                this.size = Math.random() * 2 + .1;
+                this.spX = Math.random() * 3 - 1.5;
+                this.spY = Math.random() * 3 - 1.5;
+            }
+            update(){
+                this.time -= this.entropy;
+                if(this.time < 1){
+                    this.time = 0;
+                    this.angle = Math.random() * 360;
+                    this.angleZ = Math.random() * 360;
+                }
+                let timef = this.time / this.timeLim;
+                let timefs = 1-(this.time / this.timeLim);
+
+                this.angle += 2;
+                if(this.angle > 360) this.angle -=360;
+                this.angleZ += 2;
+                if(this.angleZ > 360) this.angleZ -=360;
+                this.radius = ((3*(1 - timefs) * (timefs**2)) * this.radiusLim) + this.radiusMin;
+
+                this.alp = 7;
+                this.hue = Math.floor(this.hueRange * timef) + this.hueStart;
+                this.hue = (this.x + this.y)%360 + Math.floor(this.hueRange * timef);
+                this.size = this.sizeLim * timefs + this.sizeMin;
+                
+                // let gravity = (timefs * timefs) * (this.radiusLim / 3);
+
+                // this.lum = 10 + (this.depth*50);
+
+                let cirZx = Math.cos(Math.PI*(this.angleZ/180));
+                let cirX = Math.cos(Math.PI*(this.angle/180)) * this.radius * cirZx;
+                let cirY = Math.sin(Math.PI*(this.angle/180)) * this.radius;
+                // this.x = cirX + this.xc;
+                // this.y = cirY + this.yc + gravity;
+                this.x = cirX + s.x;
+                this.y = cirY + s.y;
+                // this.y = cirY + s.y + gravity;
+            }
+            draw(){
+                ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        class NebulaMouse2 {
+            constructor(id, count){
+                this.id = id;
+                this.nodeCount = count;
+                this.depth = (this.id / this.nodeCount);
+                this.xc = s.x;
+                this.yc = s.y;
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.angle = Math.random() * 360;
+                this.angleZ = Math.random() * 360;
+                this.rotSp = Math.random() + .5;
+                this.radius = Math.random() * 1;
+
+                this.time = 50;
+                this.entropy = 1;
+                
+                this.hue = 0;
+                this.sat = 100;
+                this.lum = 60;
+                this.alp = 1;
+                
+                this.timeLim = 50;
+
+                this.sizeLim = 1;
+                this.sizeMin = .5;
+                this.hueStart = Math.random() * 10 + (this.xc + this.yc)%360;
+                this.hueRange = 60;
+                this.radiusLim = 150;
+                this.radiusMin = 1;
+
+                this.size = Math.random() * 2 + .1;
+                this.spX = Math.random() * 3 - 1.5;
+                this.spY = Math.random() * 3 - 1.5;
+            }
+            update(){
+                this.time -= this.entropy;
+                if(this.time < 1){
+                    this.time = 0;
+                    this.angle = Math.random() * 360;
+                    this.angleZ = Math.random() * 360;
+                }
+                let timef = this.time / this.timeLim;
+                let timefs = 1-(this.time / this.timeLim);
+
+                this.angle += 2;
+                if(this.angle > 360) this.angle -=360;
+                this.angleZ += 2;
+                if(this.angleZ > 360) this.angleZ -=360;
+                this.radius = ((3*(1 - timefs) * (timefs**2)) * this.radiusLim) + this.radiusMin;
+
+                this.alp = 7;
+                this.hue = Math.floor(this.hueRange * timef) + this.hueStart;
+                this.hue = (this.x + this.y)%360 + Math.floor(this.hueRange * timef);
+                this.size = this.sizeLim * timefs + this.sizeMin;
+                
+                // let gravity = (timefs * timefs) * (this.radiusLim / 3);
+
+                // this.lum = 10 + (this.depth*50);
+
+                let cirZx = Math.cos(Math.PI*(this.angleZ/180));
+                let cirX = Math.cos(Math.PI*(this.angle/180)) * this.radius * cirZx;
+                let cirY = Math.sin(Math.PI*(this.angle/180)) * this.radius;
+                this.x = cirX + this.xc;
+                this.y = cirY + this.yc;
+                // this.y = cirY + this.yc + gravity;
+                // this.x = cirX + s.x;
+                // this.y = cirY + s.y;
+                // this.y = cirY + s.y + gravity;
+            }
+            draw(){
+                ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+       
+        class NebulaScout {
+            constructor(x, y, angle, angleZ, hue, id, count){
+                // this.orbit = orbit;
+                // this.lives = lives - 1;
+                // this.secondScout = 1;
+
+                this.id = id;
+                this.nodeCount = count;
+                this.depth = (this.id / this.nodeCount);
+                this.xc = x;
+                this.yc = y;
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.angle = angle;
+                this.angleZ = angleZ;
+                this.rotSp = Math.random() + .5;
+                this.radius = Math.random() * 1;
+
+                this.timeLim = 200;
+                this.time = this.timeLim;
+                this.entropy = 1;
+                
+                this.hue = hue;
+                this.sat = 100;
+                this.lum = 60;
+                this.alp = 1;
+
+                this.sizeLim = 2;
+                this.sizeMin = .5;
+                // this.hueStart = Math.random() * 10 + (this.xc + this.yc)%360;
+                this.hueStart = hue;
+                // this.hueRange = 60;
+                this.hueRange = 10;
+                this.radiusLim = 200;
+                this.radiusMin = 1;
+                this.highestRadius = 0;
+
+                this.size = Math.random() * 2 + .1;
+                this.spX = Math.random() * 3 - 1.5;
+                this.spY = Math.random() * 3 - 1.5;
+            }
+            // orbitalExtension(){
+            //     // click_particles.push(new Nebula(index, spellBook.particles));
+            //     // orbit
+            //     console.log("prepearing scout.");
+            //     if(this.lives > 0){
+            //         this.orbit.push(new Nebula2(this.id, this.nodeCount, this.orbit, this.lives));
+            //         this.secondScout = 0;
+            //         console.log("sending a second scout.");
+            //     }
+            // }
+            update(){
+                this.time -= this.entropy;
+                if(this.time < 1){
+                    this.time = 0;
+                    this.angle = Math.random() * 360;
+                    this.angleZ = Math.random() * 360;
+                }
+                let timef = this.time / this.timeLim;
+                let timefs = 1-(this.time / this.timeLim);
+
+                this.angle += 2;
+                if(this.angle > 360) this.angle -=360;
+                this.radius = ((3*(1 - timefs) * (timefs**2)) * this.radiusLim) + this.radiusMin;
+                // this.highestRadius < this.radius ? this.highestRadius = this.radius : this.orbitalExtension();
+
+                this.alp = 1;
+                this.hue = Math.floor(this.hueRange * timef) + this.hueStart;
+                this.size = this.sizeLim * timefs + this.sizeMin;
+                
+                // let gravity = (timefs * timefs) * (this.radiusLim / 3);
+
+                this.lum = 10 + (this.depth*50);
+
+                let cirZx = Math.cos(Math.PI*(this.angleZ/180));
+                let cirX = Math.cos(Math.PI*(this.angle/180)) * this.radius * cirZx;
+                let cirY = Math.sin(Math.PI*(this.angle/180)) * this.radius;
+                this.x = cirX + this.xc;
+                this.y = cirY + this.yc;
+                // this.y = cirY + this.yc + gravity;
+            }
+            draw(){
+                ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        class NebulaScout2 {
+            constructor(x, y, angle, angleZ, hue, id, count, orbit, lives = 3){
+                this.orbit = orbit;
+                this.lives = lives - 1;
+                this.secondScout = 1;
+
+                this.id = id;
+                this.nodeCount = count;
+                this.depth = (this.id / this.nodeCount);
+                this.xc = x;
+                this.yc = y;
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.angle = angle;
+                this.angleZ = angleZ;
+                this.rotSp = Math.random() + .5;
+                this.radius = Math.random() * 1;
+
+                this.timeLim = 200;
+                this.time = this.timeLim;
+                this.entropy = 1;
+                
+                this.hue = hue;
+                this.sat = 100;
+                this.lum = 60;
+                this.alp = 1;
+
+                this.sizeLim = 2;
+                this.sizeMin = .5;
+                // this.hueStart = Math.random() * 10 + (this.xc + this.yc)%360;
+                this.hueStart = hue;
+                // this.hueRange = 60;
+                this.hueRange = 10;
+                this.radiusLim = 200;
+                this.radiusMin = 1;
+                this.highestRadius = 0;
+
+                this.size = Math.random() * 2 + .1;
+                this.spX = Math.random() * 3 - 1.5;
+                this.spY = Math.random() * 3 - 1.5;
+            }
+            orbitalExtension(){
+                // click_particles.push(new Nebula(index, spellBook.particles));
+                // orbit
+                // console.log("prepearing scout.");
+                if(this.lives > 0){
+                    // this.orbit.push(new Nebula2(this.id, this.nodeCount, this.orbit, this.lives));
+                    // this.orbit.push(new NebulaScout2(this.x, this.y, this.angle, this.angleZ, this.id, this.nodeCount, this.orbit, this.lives));
+                    this.orbit.push(new NebulaScout2(this.x, this.y, this.angle, this.angleZ, this.hue, this.id, this.nodeCount, this.orbit, this.lives));
+                    this.secondScout = 0;
+                    // console.log("sending a second scout.");
+                }
+            }
+            update(){
+                this.time -= this.entropy;
+                if(this.time < 1){
+                    this.time = 0;
+                    this.angle = Math.random() * 360;
+                    this.angleZ = Math.random() * 360;
+                }
+                let timef = this.time / this.timeLim;
+                let timefs = 1-(this.time / this.timeLim);
+
+                this.angle += 2;
+                if(this.angle > 360) this.angle -=360;
+                this.radius = ((3*(1 - timefs) * (timefs**2)) * this.radiusLim) + this.radiusMin;
+                // this.highestRadius < this.radius ? this.highestRadius = this.radius : this.orbitalExtension();
+                if(this.secondScout == 1){
+                    this.highestRadius > this.radius ? this.orbitalExtension() : this.highestRadius = this.radius;
+                }
+
+                this.alp = 1;
+                this.hue = Math.floor(this.hueRange * timef) + this.hueStart;
+                this.size = this.sizeLim * timefs + this.sizeMin;
+                
+                // let gravity = (timefs * timefs) * (this.radiusLim / 3);
+
+                this.lum = 10 + (this.depth*50);
+
+                let cirZx = Math.cos(Math.PI*(this.angleZ/180));
+                let cirX = Math.cos(Math.PI*(this.angle/180)) * this.radius * cirZx;
+                let cirY = Math.sin(Math.PI*(this.angle/180)) * this.radius;
+                this.x = cirX + this.xc;
+                this.y = cirY + this.yc;
+                // this.y = cirY + this.yc + gravity;
+            }
+            draw(){
+                ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+
+        function start(){
+            // for (let index = 0; index < 100; index++) {
+            //     particles.push(new Particle());
+            // }
+            let nodeCount = 50;
+            for (let index = 0; index < nodeCount; index++) {
+                // particles.push(new Spark());
+                // particles.push(new FireWorks());
+                // particles.push(new FireWorks2(index, nodeCount));
+                // particles.push(new FireWorksMouse(index, nodeCount));
+                click_particles.push(new Nebula(index, nodeCount));
+            }
+        }
+        function handleParticles(){
+
+            /* mouse_particles */
+            if(mouse_particles.length > 0){
+                // console.log(`Mouse Particles Len: ${mouse_particles.length}`);
+                for (let index = 0; index < mouse_particles.length; index++) {
+                    const element = mouse_particles[index];
+                    element.update();
+                    element.draw();
+                    if(element.time == 0) {
+                        mouse_particles.splice(index,1);
+                        index--;
+                    }
+                }
+            }
+            /* click_particles */
+            if(click_particles.length > 0){
+                // console.log(`Clic Particles Len: ${click_particles.length}`);
+                for (let index = 0; index < click_particles.length; index++) {
+                    const element = click_particles[index];
+                    element.update();
+                    element.draw();
+                    if(element.time == 0) {
+                        click_particles.splice(index,1);
+                        index--;
+                    }
+                }
+            }
+            
+
+            if(particles.length > 0) {
+                // console.log(`Particles Len: ${particles.length}`);
+                for (let index = 0; index < particles.length; index++) {
+                    const element = particles[index];
+                    element.update();
+                    element.draw();
+                    if(element.time == 0) {
+                        particles.splice(index,1);
+                        index--;
+                    }
+                }
+            }
+        }
+
+        function animate (){
+            // ctx.fillStyle = `#0008`;
+            ctx.fillStyle = `#0002`;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            let particleCount = particles.length + click_particles.length + mouse_particles.length;
+            if(particleCount > 0){
+                // console.log(particleCount);
+                handleParticles();
+            }
+
+            // ctx.clearRect(0,0,canvas.width, canvas.height);
+            // hueHelix();
+            // handleParticles();
+            requestAnimationFrame(animate);
+        }
+
+        var spellBook = {
+            "boom": false,
+            "particles": 100,
+            "whoob": true,
+            "whoobly": 20,
+            "pause": false,
+            "current": "none"
+        }
+        window.addEventListener('click', (ev) =>{
+            if(spellBook.boom){
+                for (let index = 0; index < spellBook.particles; index++) {
+                    click_particles.push(new FireWorks2(index, spellBook.particles));
+                }
+            }
+            if(spellBook.whoob){
+                for (let index = 0; index < spellBook.whoobly; index++) {
+                    // click_particles.push(new Nebula(index, spellBook.particles));
+                    click_particles.push(new Nebula2(index, spellBook.whoobly, click_particles, 3));
+                }
+            }
+        });
+
+        /* ───── Mouse Move ───── */
+        window.addEventListener('mousemove', (ev) =>{
+            s.x = ev.clientX;
+            s.y = ev.clientY;
+            // let mSp = (s.x + s.y);
+            let mSp = (s.x%50 == 0 || s.y%50 == 0);
+            if(mSp) {
+                moveSpark();
+            }
+        });
+        function moveSpark() {
+            // let nodeCount = 50;
+            // if(mouse_particles.length < nodeCount) {
+            //     for (let index = 0; index < nodeCount; index++) {
+            //         mouse_particles.push(new FireWorksMouse(index, nodeCount));
+            //     }
+            // }
+            // let nodeCount = 2;
+            // if(mouse_particles.length < 100) {
+            //     for (let index = 0; index < nodeCount; index++) {
+            //         mouse_particles.push(new NebulaMouse(index, nodeCount));
+            //     }
+            // }
+            let nodeCount = 1;
+            if(mouse_particles.length < 20) {
+                // mouse_particles.push(new NebulaMouse(0, nodeCount));
+                mouse_particles.push(new NebulaMouse2(0, nodeCount));
+                // for (let index = 0; index < nodeCount; index++) {
+                // }
+            }
+        }
+
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            s.x = canvas.width/2;
+            s.y = canvas.height/2;
+            start();
+            animate();
+        });
+    </script>
+</body>
+</html>

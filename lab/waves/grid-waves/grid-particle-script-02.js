@@ -198,15 +198,15 @@ const NodeAreaScale_roe = [
 ];
 
 function isStable(){
-    // let gridIsStable = true;
+    let gridIsStable = true;
     let gridErr = false;
     let yxErr = [];
-    // g.state = false;
+    g.state = false;
     for (let y = 0; y < g.h; y++) {
         for (let x = 0; x < g.w; x++) {
             if(xyGrid[y][x] != 0) {
-                // gridIsStable = false;
-                // g.state = true;
+                gridIsStable = false;
+                g.state = true;
             }
             if(xyGrid[y][x] > 20) {
                 gridErr = true;
@@ -214,20 +214,19 @@ function isStable(){
             }
         }
     }
-    // if(!gridIsStable && !gridErr) {
-    //     setTimeout(() => {
-    //         console.log(`time: ${timeMark}`); 
-    //         UpdateGrid();
-    //     }, 10);
-    //     // UpdateGrid();
-    // }
-    if(!gridErr) {
+    if(!gridIsStable && !gridErr) {
         setTimeout(() => {
-            // console.log(`time: ${timeMark}`); 
+            console.log(`time: ${timeMark}`); 
             UpdateGrid();
         }, 100);
-        // UpdateGrid();
     }
+    // if(!gridErr) {
+    //     setTimeout(() => {
+    //         // console.log(`time: ${timeMark}`); 
+    //         UpdateGrid();
+    //     }, 100);
+    //     // UpdateGrid();
+    // }
     // if(gridErr) {
     //     console.log(`─`.repeat(12));
     //     let nodeErr = xyGrid[yxErr[0][0]][yxErr[0][1]];
@@ -388,13 +387,16 @@ function GridPush(y,x) {
     }
     // console.log(xyGrid);
     // UpdateGrid();
-    // if(!g.state) {
-    //     UpdateGrid();
-    // }
+    if(!g.state) {
+        UpdateGrid();
+    }
 }
 function GridSpark(y,x) {
     let adding = (g.magnitude-xyGrid[y][x])*.7;
     xyGrid[y][x] += adding;
+    if(!g.state) {
+        UpdateGrid();
+    }
 }
 
 window.addEventListener('load', (ev) => {

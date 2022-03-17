@@ -52,7 +52,26 @@ for (let i = 10; i > 0; i--) {
     let r1 = (i*i)/10;
     console.log(r1);
 }
+for (let i = 0; i < 12; i++) {
+    let r0 = i/10;
+    let r1 = Math.floor(((3*(1 - r0)**2) * r0)*100)/100;
+    console.log(r1);
+}
 
+for (let i = 100; i > 0; i--) {
+    let r0 = i/10;
+    let r1 = r0*r0;
+    console.log(r1);
+}
+
+for (let i = 10; i > 0; i--) {
+    let r0 = i/10;
+    let r1 = (r0**-2)/100;
+    console.log(r1);
+}
+
+
+// Math.floor(((3(1 - timefs)**2) * timefs))/100
 
 for (let index = 0; index < 150; index++) {
     let r0 = index - (150/2);

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Canvas 03 | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <link rel="stylesheet" href="../../../stylesheets/canvas.css">
+    <style>
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Canvas 03</div>
+        <!-- <div class="subtitle">particles</div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <!-- <div class="shelf-title">title</div> -->
+        <canvas id="canvas-03"></canvas>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    
+    <script>
+        const canvas = document.getElementById('canvas-03');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // window.addEventListener('resize', () =>{
+        //     // canvas.width = window.innerWidth;
+        //     // canvas.height = window.innerHeight;
+        // });
+        // // → https://www.youtube.com/watch?v=Yvz_axxWG4Y
+        // // → 11:00
+
+
+        const particles = [];
+        const s = {
+            x: 0,
+            y: 0,
+
+            r: 3,
+            c: 0,
+            hue: 0,
+            hue_steps: 6,
+            hue_step: 360/6,
+            lum_step: 20,
+            z: 30
+        }
+
+        window.addEventListener('mousemove', (ev) =>{
+            // let chance = Math.floor(Math.random()*100) + 1;
+            s.x = ev.clientX;
+            s.y = ev.clientY;
+            // hueHelix();
+        });
+
+        function zoom(event) {
+            event.preventDefault();
+            scale += event.deltaY * -0.01;
+            scale = Math.min(Math.max(.125, scale), 4);
+            s.z = (scale * 10)+20;
+        }
+        
+        let scale = 1;
+        const el = document.querySelector('#canvas-03');
+        el.onwheel = zoom;
+
+
+        const s2 = {
+            x: 0,
+            y: 0,
+            
+            r: 3,
+            c: 0,
+            hue: 0,
+            hue_steps: 6,
+            hue_step: 360/6,
+            lum_step: 20,
+            z: 30
+        }
+        function hueHelix(){
+            let chance = Math.floor(Math.random()*100) + 1;
+            // let hue_add = Math.floor(Math.random()*2) + 1;
+            let hue_add = 1;
+            s.hue = s.hue + hue_add;
+            if(chance > 0){
+                for (let index = 0; index < s.hue_steps; index++) {
+                    let hue = s.hue + (index * s.hue_step);
+                    let dotOff = (Math.floor(Math.random()*s.z) + 20);
+                    let radius = Math.floor(Math.random()*s.r) + 1;
+                    let lum = dotOff - 10;
+
+                    let cirX = Math.cos(Math.PI*(hue/180)) * dotOff;
+                    let cirY = Math.sin(Math.PI*(hue/180)) * dotOff;
+                    let x = cirX + s.x;
+                    let y = cirY + s.y;
+            
+                    ctx.fillStyle = `hsl(${hue}, 100%, ${lum}%)`;
+                    ctx.beginPath();
+                    ctx.arc(x, y, radius, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+
+        class Particle {
+            constructor(){
+                // this.x = s.x;
+                // this.y = s.y;
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.hue = Math.random() * 360;
+                this.hueSp = Math.random() * 3;
+
+                // this.size = Math.random() * 5 + 1;
+                // this.size = Math.random() * 5 + 5;
+                this.size = Math.random() * 2 + 1;
+                this.spX = Math.random() * 3 - 1.5;
+                this.spY = Math.random() * 3 - 1.5;
+            }
+            update(){
+                this.x += this.spX;
+                this.y += this.spY;
+                if(this.y > canvas.height || this.x > canvas.width || this.y < 0 || this.x < 0){
+                    this.x = Math.random() * (canvas.width/2) + (canvas.width/4);
+                    this.y = Math.random() * (canvas.height/2) + (canvas.height/4);
+                }
+                this.size += Math.random() * 2 - 1;
+                if(this.size < 2) this.size += 1;
+                if(this.size > 5) this.size -= 1;
+                this.hue += this.hueSp;
+                if(this.hue > 360) this.hue -= 360;
+            }
+            draw(){
+                // ctx.fillStyle = '#f398';
+                // ctx.fillStyle = `hsl(${this.hue}, 100%, 40%)`;
+                ctx.fillStyle = `hsl(60, 100%, 40%)`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function start(){
+            for (let index = 0; index < 100; index++) {
+                particles.push(new Particle());
+            }
+        }
+        start();
+        function handleParticles(){
+            for (let index = 0; index < particles.length; index++) {
+                const element = particles[index];
+                element.update();
+                element.draw();
+            }
+        }
+
+        function animate (){
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            // hueHelix();
+            handleParticles();
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>

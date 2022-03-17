@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Canvas 05 | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <link rel="stylesheet" href="../../../stylesheets/canvas.css">
+    <style>
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Canvas 05</div>
+        <!-- <div class="subtitle">animations (previously in canvas 08 - 10)</div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <!-- <div class="shelf-title">title</div> -->
+        <canvas id="canvas-08"></canvas>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    
+    <script>
+        const canvas = document.getElementById('canvas-08');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () =>{
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        const particles = [];
+        const s = {
+            xC: canvas.width/2,
+            yC: canvas.height/2,
+            x: 0,
+            y: 0,
+            z: 0
+        }
+
+        class Particle {
+            constructor(id, previous = false, r = 1){
+                this.id = `x-${id}`;
+
+                this.x = canvas.width/2;
+                this.y = canvas.height/2;
+                this.hue = Math.random() * 360;
+                // this.hueSp = Math.random() * .5 + .5;
+                // this.radius = Math.random() * 300 + 20;
+                this.radius = Math.random() * 30 + 20;
+                // this.hueSp = (Math.random() + 1) * (1 - (this.radius / 320));
+                this.hueSp = 3;
+    
+                this.size = 2;
+
+                this.previous = false;
+                this.px = this.x;
+                this.py = this.y;
+                if(previous != false){
+                    this.previous = previous;
+                    this.px = this.previous.x;
+                    this.py = this.previous.y;
+                    this.size = this.previous.size + .5;
+                    this.radius = this.previous.radius + 10;
+                    // this.hueSp = (Math.random() + 1) * (1 - (this.radius / 320));
+                    // this.hueSp = this.previous.hueSp - .1;
+                    this.hueSp = this.previous.hueSp - .1;
+                    // this.hue = this.previous.hue - Math.random() * 5;
+                    this.hue = this.previous.hue - 10;
+                }
+
+                if(r == 0) {
+                    this.radius = 0;
+                }
+            }
+            update(){
+                let cirX = Math.cos(Math.PI*(this.hue/180)) * this.radius;
+                let cirY = Math.sin(Math.PI*(this.hue/180)) * this.radius;
+                this.x = cirX + s.xC;
+                this.y = cirY + s.yC;
+
+                this.hue += this.hueSp;
+                if(this.hue > 360) this.hue -= 360;
+            }
+            constelation(){
+                this.px = this.previous.x;
+                this.py = this.previous.y;
+                // let xdist = this.x - this.px
+                // let ydist = this.y - this.py
+                ctx.strokeStyle = `hsla(${this.hue}, 100%, 100%, .5)`;
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.px, this.py);
+                ctx.stroke();
+            }
+            draw(){
+                if(this.previous){
+                    this.constelation();
+                }
+                ctx.fillStyle = `hsl(${this.hue}, 100%, 40%)`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+        }
+
+        function start(){
+            particles.push(new Particle(-1, false, 0));
+            // for (let index = 0; index < 50; index++) {
+            //     particles.push(new Particle(index));
+            // }
+            for (let index = 0; index < 30; index++) {
+                particles.push(new Particle(index, particles[index]));
+            }
+        }
+        start();
+
+        function handleParticles(){
+            for (let index = 0; index < particles.length; index++) {
+                const element = particles[index];
+                element.update();
+                element.draw();
+            }
+        }
+
+        function animate (){
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            handleParticles();
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+
+        /*
+        var gradient = ctx.createLinearGradient(20,0, 220,0);
+
+        // Add three color stops
+        gradient.addColorStop(0, 'green');
+        gradient.addColorStop(.5, 'cyan');
+        gradient.addColorStop(1, 'green');
+
+        // Set the fill style and draw a rectangle
+        ctx.fillStyle = gradient;
+        */
+
+        // ─── Events ───
+
+        window.addEventListener('mousemove', (ev) =>{
+            s.x = ev.clientX;
+            s.y = ev.clientY;
+        });
+        function zoom(event) {
+            event.preventDefault();
+            scale += event.deltaY * -0.01;
+            // scale = Math.min(Math.max(.125, scale), 4);
+            scale = Math.min(Math.max(.125, scale), 10);
+            s.z = (scale * 30)+5;
+        }
+        let scale = 1;
+        const el = document.querySelector('#canvas-08');
+        el.onwheel = zoom;
+
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            s.x = canvas.width/2;
+            s.y = canvas.height/2;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Backgrounds | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        .vox-m {
+            --sky: #d7e9ee;
+            --cloud: #f0eff2;
+            --cloud-2: #dee0e0;
+            --building: #a0bdd3;
+            --sun: #f1f2f6;
+            --moon: #f8dad2;
+            --bird: #b9d0dd;
+
+            --wall: #91a8c2;
+            --wall: #7994a6;
+            --wall: #93abc3;
+            --wall: #d5cdd4;
+            --wall: #93a1ba;
+            --wall: #988686;
+            --wall: #4c3d44;
+            --wall: #c65250;
+            --tower: #edeff3;
+
+            --front-wall: #3a2c3c;
+        }
+        .sky {--clr: #d7e9ee;}
+        .sun {--clr: #f1f2f6;}
+        .moon {--clr: #f8dad2;}
+        .cloud {--clr: #f0eff2;}
+        .mountain {--clr: #a0bdd3;}
+        .ground {--clr: #92886b; --clr: #988686;}
+        .ground-2 {--clr: #92886b; --clr: hsl(330, 12%, 42%);}
+        .front-wall {--clr: #3a2c3c;}
+        .window {--clr: #302428;}
+
+        .sky,
+        .sun, .moon, .cloud,
+        .mountain, .ground, .ground-2,
+        .front-wall, .window {fill: var(--clr);}
+
+        /* 
+        Paper Size	Inches	Millimeters
+        A3	11-3/4 x 16-1/2 in	297 x 420 mm
+        A4	8-1/4 x 11-3/4 in	210 x 297 mm
+        A5	5-7/8 x 8-1/4 in	148 x 210 mm
+        A6	4-1/8 x 5-7/8 in	105 x 148 mm
+        */
+
+        .a5-sz {
+            height: 800px; width: 550px;
+            background-color: #d7e9ee;
+            margin: .5rem auto;
+        }
+        .a5-size {
+            height: 210mm; width: 148mm;
+            background-color: #d7e9ee;
+            margin: .5rem auto;
+        }
+
+        /* path:hover, circle:hover {
+            stroke: #0008;
+            stroke-width: 1;
+        } */
+
+        .my-moon {
+            height: 30px; width: 30px;
+            border-radius: 50%;
+            background-image: radial-gradient(circle at 50% 50%, #f52 50%, #ec2 60%, #ffd);
+            position: absolute;
+            top: 0%; left: 50%;
+            transform: translateX(10px) translateY(44px);
+            mix-blend-mode: color-burn;
+            filter: blur(5px);
+        }
+
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <div class="title">Backgrounds</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+
+<main>
+    <!-- <div class="shelf">
+        <div class="a5-size">check</div>
+    </div> -->
+    <div class="shelf">
+        <div class="shelf-title">Vox-M</div>
+        <!-- <div class="my-moon"></div> -->
+        <div class="bg-vox-m">
+            <svg class="a5-sz" viewBox="0 0 550 800">
+                <path class="sky" d="M 0 0 h 550 v 800 h -550 Z" />
+                <circle class="sun" cx="200" cy="200" r="40" />
+                <circle class="moon" cx="300" cy="35" r="15" />
+                <path class="cloud" d="M 0 0 l 240 0 l -125 30 h -115 Z" />
+                <path class="cloud" d="M 0 100 l 500 -20 l -80 -35 l 120 -10 h 10 v 80 l -275 15 l -275 30 Z" />
+                <path class="cloud" d="M 0 210 l 550 -10 v 30 h -550 Z" />
+                <path class="mountain" d="M 0 400 
+                l 100 -30 
+                    l 40 -35
+                        l 50 -30
+                            l 30 -60
+                                l 20 -10
+                                    l 10 -60
+                                        h 20
+                                    l 10 35
+                                l 35 25
+                                l 15 45
+                            l 40 20
+                        l 35 60
+                    l 50 40
+                l 75 10 
+                h 70
+                h -550 Z" />
+
+                <path class="ground" d="M 0 400 h 550 v 400 h -550 Z" />
+                <path class="ground-2" d="M 0 700 
+                c 150 -100, 100 -250, 300 -300 
+                h 20 
+                c -200 50, 100 200, 230 250 
+                v 150 h -550 Z" />
+
+
+                <!-- <path class="front-wall" d="M 0 690 l 550 30 v 80 h -550 Z" /> -->
+                <!-- <path class="window" d="M 130 740 l 75 10 v 50 h -75 Z" />
+                <path class="window" d="M 320 760 l 85 5 v 40 h -85 Z" />
+                <path class="window" d="M 510 770 l 40 5 v 30 h -40 Z" /> -->
+
+            </svg>
+        </div>
+    </div>
+</main>
+
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>
