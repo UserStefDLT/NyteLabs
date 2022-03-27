@@ -164,13 +164,9 @@
             top: 50%; left: 50%;
             transform: translateX(-50%) translateY(-50%);
             --sz: calc(var(--i) * 3);
-            /* --sz: calc(var(--i) * 5); */
-            /* --sz: 15; */
-            /* --sz: calc(var(--i) * 10px); */
+            --sz: calc(var(--i) * 3);
             height: calc(var(--sz) * 1rem);
             width: calc(var(--sz) * 1rem);
-            /* height: calc(var(--sz) + 1rem);
-            width: calc(var(--sz) + 1rem); */
             /* background: #aaaa; */
             border-radius: 50%;
             box-shadow: var(--box-shadow-06);
@@ -186,30 +182,6 @@
             font-size 1500ms ease-in-out;
         }
         @keyframes fsz_cycle {
-            0% {
-                font-size: 12px;
-                height: calc((var(--sz) * .5rem) + .5rem);
-                width: calc((var(--sz) * .5rem)  + .5rem);
-            }
-            100% {
-                font-size: 24px;
-                height: calc((var(--sz) * 1rem) + 2rem);
-                width: calc((var(--sz) * 1rem) + 2rem);
-            }
-        }
-        @keyframes fsz_cycle_3 {
-            0% {
-                font-size: 12px;
-                height: calc(var(--sz) + .5rem);
-                width: calc(var(--sz) + .5rem);
-            }
-            100% {
-                font-size: 24px;
-                height: calc(var(--sz) + 4rem);
-                width: calc(var(--sz) + 4rem);
-            }
-        }
-        @keyframes fsz_cycle_2 {
             0% {
                 font-size: 10px;
                 height: calc(var(--sz) * .5rem);
@@ -243,7 +215,7 @@
     <header>
         <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
         <div class="title">Wave Blur</div>
-        <!-- <div class="subtitle">subtitle</div> -->
+        <!-- <div class="subtitle">pulsing</div> -->
     </header>
 
 <main>
