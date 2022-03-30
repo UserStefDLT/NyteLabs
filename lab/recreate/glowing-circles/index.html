@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Glowing Circles | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        :root {
+            /*circular size*/
+            --csz: 9rem;
+        }
+
+        .xc {
+            position: relative;
+            height: var(--csz);
+            width: var(--csz);
+            transform-style: preserve-3d;
+            transform: rotate3d(1,1,0,20deg);
+            transform: perspective(5000px) rotate3d(1,0,0,-20deg) rotate3d(0,1,0,10deg);
+            transition: transform 3000ms ease-in-out;
+            animation: spin 6000ms linear infinite normal both;
+            animation: spin_01 3000ms linear infinite normal both;
+        }
+        .xc:focus,
+        .xc:hover {
+            transform: perspective(5000px) rotate3d(1,0,0,-20deg) rotate3d(0,1,0,200deg);
+            animation: spin 6000ms ease-in-out infinite normal both;
+            animation: spin 6000ms ease-in infinite normal both;
+            animation: spin 3000ms linear infinite normal both;
+            animation: spin_01 3000ms linear infinite normal both;
+            animation: spin 6000ms linear infinite normal both;
+        }
+        @keyframes spin {
+            0% {transform: perspective(5000px) rotate3d(1,0,0,340deg) rotate3d(0,1,0,0deg);}
+            25% {transform: perspective(400px) rotate3d(1,0,0,250deg) rotate3d(0,1,0,90deg);}
+            50% {transform: perspective(5500px) rotate3d(1,0,0,160deg) rotate3d(0,1,0,180deg);}
+            75% {transform: perspective(400px) rotate3d(1,0,0,70deg) rotate3d(0,1,0,270deg);}
+            100% {transform: perspective(5000px) rotate3d(1,0,0,-20deg) rotate3d(0,1,0,360deg);}
+        }
+        @keyframes spin_02 {
+            0% {transform: perspective(5000px) rotate3d(1,0,0,340deg) rotate3d(0,1,0,0deg);}
+            25% {transform: perspective(2500px) rotate3d(1,0,0,250deg) rotate3d(0,1,0,90deg);}
+            50% {transform: perspective(500px) rotate3d(1,0,0,160deg) rotate3d(0,1,0,180deg);}
+            75% {transform: perspective(2500px) rotate3d(1,0,0,70deg) rotate3d(0,1,0,270deg);}
+            100% {transform: perspective(5000px) rotate3d(1,0,0,-20deg) rotate3d(0,1,0,360deg);}
+        }
+        @keyframes spin_01 {
+            0% {transform: perspective(5000px) rotate3d(1,0,0,-20deg) rotate3d(0,1,0,0deg);}
+            50% {transform: perspective(1000px) rotate3d(1,0,0,20deg) rotate3d(0,1,0,180deg);}
+            100% {transform: perspective(5000px) rotate3d(1,0,0,-20deg) rotate3d(0,1,0,360deg);}
+        }
+
+        .circle {
+            height: var(--csz);
+            width: var(--csz);
+            border-radius: 50%;
+        }
+
+        .xo {
+            position: absolute;
+            top: 50%; left: 50%;
+            /* height: var(--csz);
+            width: var(--csz); */
+            /* transform: translateX(-50%) translateY(-50%); */
+            /* --hue: calc(var(--i) * 60); */
+            --hue: calc(var(--i) * 50);
+            box-shadow: inset 0 0 0 10px hsla(var(--hue), 80%, 60%, .8);
+            box-shadow: 
+            0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), 
+            inset 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), 
+            0 0 15px 10px hsla(var(--hue), 80%, 80%, .4), 
+            inset 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4);
+            color: hsla(var(--hue), 80%, 70%, .4);
+            box-shadow: 
+            0 0 0px 10px currentColor, 
+            inset 0 0 0px 10px currentColor, 
+            0 0 15px 10px currentColor, 
+            inset 0 0 15px 10px currentColor;
+            /* transform: translateX(-50%) translateY(-50%) rotate3d(0,1,0,calc(var(--i)*30deg)); */
+            transform: translateX(-50%) translateY(-50%) translateZ(50px) rotate3d(0,1,0,calc(var(--i)*30deg));
+            /* transform: translateX(-50%) translateY(-50%) translateZ(250px) rotate3d(0,1,0,calc(var(--i)*30deg)); */
+            transform-style: preserve-3d;
+            /* animation: iridescence 12000ms linear infinite normal both; */
+            /* animation-delay: calc(var(--i) * 1000ms); */
+            /* animation: shadow_iridescence 6000ms linear infinite normal both;
+            animation-delay: calc(var(--i) * 500ms); */
+        }
+        @keyframes shadow_iridescence {
+            0% {--hue: 30; box-shadow: 0 0 0px 10px hsla(30, 80%, 60%, .4), inset 0 0 0px 10px hsla(30, 80%, 60%, .4), 0 0 15px 10px hsla(30, 80%, 80%, .4), inset 0 0 15px 10px hsla(30, 80%, 80%, .4);}
+            10% {--hue: 60; box-shadow: 0 0 0px 10px hsla(60, 80%, 60%, .4), inset 0 0 0px 10px hsla(60, 80%, 60%, .4), 0 0 15px 10px hsla(60, 80%, 80%, .4), inset 0 0 15px 10px hsla(60, 80%, 80%, .4);}
+            20% {--hue: 90; box-shadow: 0 0 0px 10px hsla(90, 80%, 60%, .4), inset 0 0 0px 10px hsla(90, 80%, 60%, .4), 0 0 15px 10px hsla(90, 80%, 80%, .4), inset 0 0 15px 10px hsla(90, 80%, 80%, .4);}
+            30% {--hue: 120; box-shadow: 0 0 0px 10px hsla(120, 80%, 60%, .4), inset 0 0 0px 10px hsla(120, 80%, 60%, .4), 0 0 15px 10px hsla(120, 80%, 80%, .4), inset 0 0 15px 10px hsla(120, 80%, 80%, .4);}
+            40% {--hue: 150; box-shadow: 0 0 0px 10px hsla(150, 80%, 60%, .4), inset 0 0 0px 10px hsla(150, 80%, 60%, .4), 0 0 15px 10px hsla(150, 80%, 80%, .4), inset 0 0 15px 10px hsla(150, 80%, 80%, .4);}
+            50% {--hue: 180; box-shadow: 0 0 0px 10px hsla(180, 80%, 60%, .4), inset 0 0 0px 10px hsla(180, 80%, 60%, .4), 0 0 15px 10px hsla(180, 80%, 80%, .4), inset 0 0 15px 10px hsla(180, 80%, 80%, .4);}
+            60% {--hue: 210; box-shadow: 0 0 0px 10px hsla(210, 80%, 60%, .4), inset 0 0 0px 10px hsla(210, 80%, 60%, .4), 0 0 15px 10px hsla(210, 80%, 80%, .4), inset 0 0 15px 10px hsla(210, 80%, 80%, .4);}
+            70% {--hue: 240; box-shadow: 0 0 0px 10px hsla(240, 80%, 60%, .4), inset 0 0 0px 10px hsla(240, 80%, 60%, .4), 0 0 15px 10px hsla(240, 80%, 80%, .4), inset 0 0 15px 10px hsla(240, 80%, 80%, .4);}
+            80% {--hue: 270; box-shadow: 0 0 0px 10px hsla(270, 80%, 60%, .4), inset 0 0 0px 10px hsla(270, 80%, 60%, .4), 0 0 15px 10px hsla(270, 80%, 80%, .4), inset 0 0 15px 10px hsla(270, 80%, 80%, .4);}
+            90% {--hue: 300; box-shadow: 0 0 0px 10px hsla(300, 80%, 60%, .4), inset 0 0 0px 10px hsla(300, 80%, 60%, .4), 0 0 15px 10px hsla(300, 80%, 80%, .4), inset 0 0 15px 10px hsla(300, 80%, 80%, .4);}
+            100% {--hue: 330; box-shadow: 0 0 0px 10px hsla(330, 80%, 60%, .4), inset 0 0 0px 10px hsla(330, 80%, 60%, .4), 0 0 15px 10px hsla(330, 80%, 80%, .4), inset 0 0 15px 10px hsla(330, 80%, 80%, .4);}
+        }
+        @keyframes shadow_iridescence_01 {
+            0% {--hue: 30; box-shadow: 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), inset 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4), inset 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4);}
+            10% {--hue: 60; box-shadow: 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), inset 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4), inset 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4);}
+            20% {--hue: 90; box-shadow: 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), inset 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4), inset 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4);}
+            30% {--hue: 120; box-shadow: 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), inset 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4), inset 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4);}
+            40% {--hue: 150; box-shadow: 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), inset 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4), inset 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4);}
+            50% {--hue: 180; box-shadow: 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), inset 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4), inset 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4);}
+            60% {--hue: 210; box-shadow: 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), inset 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4), inset 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4);}
+            70% {--hue: 240; box-shadow: 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), inset 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4), inset 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4);}
+            80% {--hue: 270; box-shadow: 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), inset 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4), inset 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4);}
+            90% {--hue: 300; box-shadow: 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), inset 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4), inset 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4);}
+            100% {--hue: 330; box-shadow: 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), inset 0 0 0px 10px hsla(var(--hue), 80%, 60%, .4), 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4), inset 0 0 15px 10px hsla(var(--hue), 80%, 80%, .4);}
+        }
+        @keyframes iridescence {
+            0% {color: hsla(0, 80%, 60%, .4);}
+            25% {color: hsla(90, 80%, 60%, .4);}
+            50% {color: hsla(180, 80%, 60%, .4);}
+            75% {color: hsla(270, 80%, 60%, .4);}
+            100% {color: hsla(360, 80%, 60%, .4);}
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <div class="title">Glowing Circles</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">attempt 1</div>
+        <!-- .xc>.xo.circle*12 -->
+        <div class="xc">
+            <div class="xo circle"></div>
+            <div class="xo circle"></div>
+            <div class="xo circle"></div>
+            <div class="xo circle"></div>
+            <div class="xo circle"></div>
+            <div class="xo circle"></div>
+            <div class="xo circle"></div>
+            <div class="xo circle"></div>
+            <div class="xo circle"></div>
+            <div class="xo circle"></div>
+            <div class="xo circle"></div>
+            <div class="xo circle"></div>
+        </div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>
