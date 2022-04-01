@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <!-- <title>St&eacute;fano's Lab</title> -->
+    <title>Holonomy Go | Labst</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <style>
+        kbd {
+            background: linear-gradient(180deg,#f4f4f4,#d5d5d5);
+            background: linear-gradient(180deg,#eee,#ddd);
+            background-color: #f4f4f4;
+            border: 1px solid #d5d5d5;
+            border: 0px solid #d5d5d5;
+            border-bottom: 2px solid #aaa;
+            border-radius: 6px;
+            border-radius: 4px;
+            /* box-shadow: 0 1px 2px 1px #d5d5d5; */
+            font-family: consolas,"Liberation Mono",courier,monospace;
+            font-size: .9rem;
+            font-weight: 700;
+            line-height: 1;
+            margin: 3px;
+            margin: .25rem;
+            /* margin: .375rem; */
+            padding: 4px 6px;
+            white-space: nowrap;
+            color: #111;
+            min-height: 1rem;
+        }
+        .kbd-disable {
+            background: linear-gradient(180deg,#bbb,#999);
+            background: linear-gradient(180deg,#999,#777);
+            color: #444;
+            background: linear-gradient(180deg,#777,#555);
+            color: #333;
+            border: 1px solid transparent;
+            border: 0px solid transparent;
+            border-bottom: 2px solid transparent;
+            border-bottom: 2px solid #444;
+        }
+        .display-log {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        .display-log p {
+            width: 100%;
+            margin: .25rem 0;
+            text-align: left;
+            box-shadow: 0 .0625rem .125rem 0 #1119;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .display-log span {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 2rem;
+            margin-right: .25rem;
+        }
+
+        :root {
+            --xr: 35.264deg;
+            --yr: 45deg;
+            --zr: 0deg;
+
+            --xr3d: rotate3d(1,0,0, 35.264deg);
+            --yr3d: rotate3d(0,-1,1, 45deg);
+            --zr3d: rotate3d(0,0,1, 0deg);
+
+            --xr3d: rotate3d(0,0,0, 0deg);
+            --yr3d: rotate3d(0,1,0, 45deg);
+            --zr3d: rotate3d(-1,0,0, 35.264deg);
+
+            --h: 6rem;
+            --w: 6rem;
+            --sz: 6rem;
+
+            --bgi: linear-gradient(135deg, #123, #789);
+            --bgi-1: linear-gradient(-45deg, #1238, #39f8);
+            --bgi-2: linear-gradient(-45deg, #3128, #f398);
+
+            --holonomy-x: 0deg;
+            --holonomy-y: 0deg;
+            --holonomy-z: 0deg;
+        }
+
+        #HolonomyCheck {
+            height: var(--sz);
+            width: var(--sz);
+            /* background-image: var(--bgi); */
+            transform-style: preserve-3d;
+            transform-origin: 50% 50% calc(var(--sz) * .5);
+            transform: translateX(-3rem) translateY(-3rem) rotate3d(var(--holonomy-x),var(--holonomy-y),var(--holonomy-z), 360deg);
+            transform: translateX(-3rem) translateY(-3rem) rotate3d(var(--holonomy-x),var(--holonomy-y),var(--holonomy-z), 45deg);
+            transform: 
+            translateX(-3rem) translateY(-3rem) 
+            rotate3d(1,0,0, var(--holonomy-x)) 
+            rotate3d(0,1,0, var(--holonomy-y)) 
+            rotate3d(0,0,1, var(--holonomy-z));
+            transition: transform 100ms ease-in-out;
+            transition: transform 300ms ease-in-out;
+        }
+        .shelf:nth-of-type(1) { position: relative; height: calc(var(--sz) * 1.5); }
+
+        .rx, .ry, .rz,
+        .x, .y, .z {
+            /* position: absolute;
+            inset: auto; */
+            height: var(--sz);
+            width: var(--sz);
+            transform-style: preserve-3d;
+        }
+
+        .x {
+            /* transform: perspective(9000px) rotate3d(1,0,0, 35.264deg); */
+            /* transform: rotate3d(1,0,0, 35.264deg); */
+            /* background-image: var(--bgi-1); */
+        }
+
+        /* .x { transform: rotate3d(1,0,0, 35.264deg); }
+        .y { transform: rotate3d(0,1,0, 45deg); }
+        .z { transform: rotate3d(0,0,1, 0deg); } */
+
+        .x { transform: var(--xr3d); }
+        .y { transform: var(--yr3d); }
+        .z { transform: var(--zr3d); }
+
+        .z { position: absolute; top: 25%; left: 25%; }
+        .rz { position: absolute; top: 25%; left: 25%; 
+            box-shadow: inset 0 0 0 1px #f93c;
+        }
+
+        .rx { background-image: var(--bgi-2); box-shadow: inset 0 0 0 1px #fffa; }
+        .ry { box-shadow: inset 0 0 0 1px #f39c; }
+
+        .rx { transform: rotate3d(0,0,1, 45deg); }
+        .ry { transform: rotate3d(1,0,0, 54deg); }
+        .rz { transform: rotate3d(0,0,0, 0deg); }
+
+        [class|="side"] { height: var(--sz); width: var(--sz); position: absolute; top: 0%; left: 0%; transform-origin: 50% 50% calc(var(--sz) * .5);}
+        [class|="side"]:nth-of-type(1) { transform: rotate3d(-1,0,0, 90deg); background-color: var(--bgs-1); }
+        [class|="side"]:nth-of-type(2) { transform: rotate3d(0,-1,0, 90deg); background-color: var(--bgs-2); }
+        [class|="side"]:nth-of-type(3) { transform: rotate3d(0,0,0, 90deg); background-color: var(--bgs-3); }
+        [class|="side"]:nth-of-type(4) { transform: rotate3d(0,1,0, 90deg); background-color: var(--bgs-4); }
+        [class|="side"]:nth-of-type(5) { transform: rotate3d(1,0,0, 90deg); background-color: var(--bgs-5); }
+        [class|="side"]:nth-of-type(6) { transform: rotate3d(1,0,0, 180deg); background-color: var(--bgs-6); }
+
+        .rz { display: none; }
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Holonomy Go</div>
+        <div class="subtitle">use the arrow keys</div>
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">holonomy</div>
+        <div id="HolonomyCheck">
+            <div class="z">
+                <div class="y">
+                    <div class="x">
+                        <div class="side-1"></div>
+                        <div class="side-2"></div>
+                        <div class="side-3"></div>
+                        <div class="side-4"></div>
+                        <div class="side-5"></div>
+                        <div class="side-6"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="rz">
+                <div class="ry">
+                    <div class="rx">o</div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">keylog</div>
+        <div id="display" class="display-log"></div>
+    </div>
+</main>
+
+    <footer>
+        &copy; 2021 | by Stéfano De La Torre 
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <script src="holonomy.js"></script>
+    <!-- <script>window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });</script> -->
+</body>
+</html>

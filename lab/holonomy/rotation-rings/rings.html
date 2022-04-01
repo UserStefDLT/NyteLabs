@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <!-- <title>St&eacute;fano's Lab</title> -->
+    <title>Rotation Rings | Labst</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <style>
+        :root {
+            --radius: 12rem;
+            --rsc: 10deg;
+            --sz: calc(var(--radius)*2);
+            --sz2: 2.5rem;
+        }
+        .r-1, .r-1::after, .r-1::before { --rn: 1; }
+        .r-2, .r-2::after, .r-2::before { --rn: 2; }
+        .r-3, .r-3::after, .r-3::before { --rn: 3; }
+        .r-4, .r-4::after, .r-4::before { --rn: 4; }
+        .r-5, .r-5::after, .r-5::before { --rn: 5; }
+        .r-6, .r-6::after, .r-6::before { --rn: 6; }
+        .r-7, .r-7::after, .r-7::before { --rn: 7; }
+        .r-8, .r-8::after, .r-8::before { --rn: 8; }
+        .r-9, .r-9::after, .r-9::before { --rn: 9; }
+        .r-10, .r-10::after, .r-10::before { --rn: 10; }
+        .r-11, .r-11::after, .r-11::before { --rn: 11; }
+        .r-12, .r-12::after, .r-12::before { --rn: 12; }
+        .r-13, .r-13::after, .r-13::before { --rn: 13; }
+        .r-14, .r-14::after, .r-14::before { --rn: 14; }
+        .r-15, .r-15::after, .r-15::before { --rn: 15; }
+        .r-16, .r-16::after, .r-16::before { --rn: 16; }
+        .r-17, .r-17::after, .r-17::before { --rn: 17; }
+        .r-18, .r-18::after, .r-18::before { --rn: 18; }
+        .r-19, .r-19::after, .r-19::before { --rn: 19; }
+        .r-20, .r-20::after, .r-20::before { --rn: 20; }
+        .r-21, .r-21::after, .r-21::before { --rn: 21; }
+        .r-22, .r-22::after, .r-22::before { --rn: 22; }
+        .r-23, .r-23::after, .r-23::before { --rn: 23; }
+        .r-24, .r-24::after, .r-24::before { --rn: 24; }
+        .r-25, .r-25::after, .r-25::before { --rn: 25; }
+        .r-26, .r-26::after, .r-26::before { --rn: 26; }
+        .r-27, .r-27::after, .r-27::before { --rn: 27; }
+        .r-28, .r-28::after, .r-28::before { --rn: 28; }
+        .r-29, .r-29::after, .r-29::before { --rn: 29; }
+        .r-30, .r-30::after, .r-30::before { --rn: 30; }
+        .r-31, .r-31::after, .r-31::before { --rn: 31; }
+        .r-32, .r-32::after, .r-32::before { --rn: 32; }
+        .r-33, .r-33::after, .r-33::before { --rn: 33; }
+        .r-34, .r-34::after, .r-34::before { --rn: 34; }
+        .r-35, .r-35::after, .r-35::before { --rn: 35; }
+        .r-36, .r-36::after, .r-36::before { --rn: 36; }
+
+        .rings {
+            position: relative;
+            height: var(--sz);
+            width: var(--sz);
+            border-radius: 50%;
+            outline: 1px solid #fff8;
+            transform-style: preserve-3d;
+            transform: rotate3d(1,1,1,90deg);
+            animation: spinx 5s alternate infinite;
+        }
+        @keyframes spinx {
+            0% {transform: rotate3d(1,1,1,-45deg);};
+            25% {transform: rotate3d(1,0,0,90deg);};
+            50% {transform: rotate3d(1,-1,0,90deg);};
+            75% {transform: rotate3d(1,1,1,90deg);};
+            100% {transform: rotate3d(1,-1,-1,135deg);};
+        }
+
+        [class|="ring2"] {
+            position: absolute;
+            inset: 0;
+            height: var(--sz);
+            width: var(--sz);
+            border-radius: 50%;
+            outline: 1px solid #fff8;
+            transform-style: preserve-3d;
+        }
+        .ring2-x { transform: rotate3d(1,0,0,90deg); }
+        .ring2-y { transform: rotate3d(0,1,0,90deg); }
+        .ring2-z { transform: rotate3d(0,0,1,90deg); }
+        
+        .ring2 {
+            position: relative;
+            height: var(--sz);
+            width: var(--sz);
+            border-radius: 50%;
+            outline: 1px solid #fff8;
+            transform-style: preserve-3d;
+            transform: rotate3d(1,1,1,90deg);
+            animation: spin 3s alternate infinite;
+        }
+        @keyframes spin {
+            0% {transform: rotate3d(1,1,1,0deg);};
+            100% {transform: rotate3d(1,1,1,90deg);};
+        }
+        /* .r-$ {--rn: 1;} */
+
+        [class|="r"] {
+            --radius2: calc(var(--radius) + var(--sz2));
+            position: absolute;
+            height: var(--sz2);
+            width: var(--sz2);
+            inset: 0;
+            transform-style: preserve-3d;
+            background-color: hsl(calc(var(--rn)*10), 80%, 30%);
+            transform-origin: 50% var(--radius);
+            transform-origin: 0% var(--radius);
+            transform: translateX(var(--radius)) rotate(calc(var(--rn) * var(--rsc)));
+            animation: ringex 3s alternate infinite;
+        }
+        @keyframes ringex {
+            0%{transform-origin: 0% 3rem;}
+            100%{transform-origin: 0% 12rem;}
+        }
+
+        [class|="r"]::before,
+        [class|="r"]::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            height: 2.5rem; width: 2.5rem;
+            transform-style: preserve-3d;
+            transform: rotate3d(1,1,1,45deg);
+        }
+        [class|="r"]::before {
+            background-color: hsl(calc(var(--rn)*10), 80%, 40%);
+            transform: rotate3d(1,.5,.5,-90deg);
+        }
+        [class|="r"]::after {
+            background-color: hsl(calc(var(--rn)*10), 80%, 50%);
+            transform: rotate3d(1,.5,.5,90deg);
+        }
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Rings</div>
+        <div class="subtitle">animated</div>
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">ring</div>
+        <!-- .x> -->
+        <!-- .ring2>.r-$*36 -->
+        <!-- <div class="ring2">
+            <div class="r-1"></div>
+            <div class="r-2"></div>
+            <div class="r-3"></div>
+            <div class="r-4"></div>
+            <div class="r-5"></div>
+            <div class="r-6"></div>
+            <div class="r-7"></div>
+            <div class="r-8"></div>
+            <div class="r-9"></div>
+            <div class="r-10"></div>
+            <div class="r-11"></div>
+            <div class="r-12"></div>
+            <div class="r-13"></div>
+            <div class="r-14"></div>
+            <div class="r-15"></div>
+            <div class="r-16"></div>
+            <div class="r-17"></div>
+            <div class="r-18"></div>
+            <div class="r-19"></div>
+            <div class="r-20"></div>
+            <div class="r-21"></div>
+            <div class="r-22"></div>
+            <div class="r-23"></div>
+            <div class="r-24"></div>
+            <div class="r-25"></div>
+            <div class="r-26"></div>
+            <div class="r-27"></div>
+            <div class="r-28"></div>
+            <div class="r-29"></div>
+            <div class="r-30"></div>
+            <div class="r-31"></div>
+            <div class="r-32"></div>
+            <div class="r-33"></div>
+            <div class="r-34"></div>
+            <div class="r-35"></div>
+            <div class="r-36"></div>
+        </div> -->
+        
+        <div class="rings">
+            <div class="ring2-x">
+                <div class="r-1"></div>
+                <div class="r-2"></div>
+                <div class="r-3"></div>
+                <div class="r-4"></div>
+                <div class="r-5"></div>
+                <div class="r-6"></div>
+                <div class="r-7"></div>
+                <div class="r-8"></div>
+                <div class="r-9"></div>
+                <div class="r-10"></div>
+                <div class="r-11"></div>
+                <div class="r-12"></div>
+                <div class="r-13"></div>
+                <div class="r-14"></div>
+                <div class="r-15"></div>
+                <div class="r-16"></div>
+                <div class="r-17"></div>
+                <div class="r-18"></div>
+                <div class="r-19"></div>
+                <div class="r-20"></div>
+                <div class="r-21"></div>
+                <div class="r-22"></div>
+                <div class="r-23"></div>
+                <div class="r-24"></div>
+                <div class="r-25"></div>
+                <div class="r-26"></div>
+                <div class="r-27"></div>
+                <div class="r-28"></div>
+                <div class="r-29"></div>
+                <div class="r-30"></div>
+                <div class="r-31"></div>
+                <div class="r-32"></div>
+                <div class="r-33"></div>
+                <div class="r-34"></div>
+                <div class="r-35"></div>
+                <div class="r-36"></div>
+            </div>
+            <div class="ring2-y">
+                <div class="r-1"></div>
+                <div class="r-2"></div>
+                <div class="r-3"></div>
+                <div class="r-4"></div>
+                <div class="r-5"></div>
+                <div class="r-6"></div>
+                <div class="r-7"></div>
+                <div class="r-8"></div>
+                <div class="r-9"></div>
+                <div class="r-10"></div>
+                <div class="r-11"></div>
+                <div class="r-12"></div>
+                <div class="r-13"></div>
+                <div class="r-14"></div>
+                <div class="r-15"></div>
+                <div class="r-16"></div>
+                <div class="r-17"></div>
+                <div class="r-18"></div>
+                <div class="r-19"></div>
+                <div class="r-20"></div>
+                <div class="r-21"></div>
+                <div class="r-22"></div>
+                <div class="r-23"></div>
+                <div class="r-24"></div>
+                <div class="r-25"></div>
+                <div class="r-26"></div>
+                <div class="r-27"></div>
+                <div class="r-28"></div>
+                <div class="r-29"></div>
+                <div class="r-30"></div>
+                <div class="r-31"></div>
+                <div class="r-32"></div>
+                <div class="r-33"></div>
+                <div class="r-34"></div>
+                <div class="r-35"></div>
+                <div class="r-36"></div>
+            </div>
+            <div class="ring2-z">
+                <div class="r-1"></div>
+                <div class="r-2"></div>
+                <div class="r-3"></div>
+                <div class="r-4"></div>
+                <div class="r-5"></div>
+                <div class="r-6"></div>
+                <div class="r-7"></div>
+                <div class="r-8"></div>
+                <div class="r-9"></div>
+                <div class="r-10"></div>
+                <div class="r-11"></div>
+                <div class="r-12"></div>
+                <div class="r-13"></div>
+                <div class="r-14"></div>
+                <div class="r-15"></div>
+                <div class="r-16"></div>
+                <div class="r-17"></div>
+                <div class="r-18"></div>
+                <div class="r-19"></div>
+                <div class="r-20"></div>
+                <div class="r-21"></div>
+                <div class="r-22"></div>
+                <div class="r-23"></div>
+                <div class="r-24"></div>
+                <div class="r-25"></div>
+                <div class="r-26"></div>
+                <div class="r-27"></div>
+                <div class="r-28"></div>
+                <div class="r-29"></div>
+                <div class="r-30"></div>
+                <div class="r-31"></div>
+                <div class="r-32"></div>
+                <div class="r-33"></div>
+                <div class="r-34"></div>
+                <div class="r-35"></div>
+                <div class="r-36"></div>
+            </div>
+        </div>
+
+        
+    </div>
+</main>
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>
