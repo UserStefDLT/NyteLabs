@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Pattern Weaver | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <link rel="stylesheet" href="../../../stylesheets/canvas.css">
+    <style>
+        header {backdrop-filter: brightness(1) blur(5px);}
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Node Step</div>
+        <!-- <div class="subtitle">Horizontal Weaver</div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <!-- <div class="shelf-title">title</div> -->
+        <canvas id="canvas-stars"></canvas>
+    </div>
+</main>
+
+<svg style="position: absolute; top: -99999px" xmlns="http://www.w3.org/2000/svg">
+    <filter id="svgBlur" x="-5%" y="-5%" width="110%" height="110%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="5"/>
+    </filter>
+    <filter id="cloud" x="-25%" y="-25%" width="150%" height="150%" >
+        <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="5" />
+        <feDisplacementMap in="SourceGraphic" scale="100" />
+    </filter>
+</svg>
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    
+    <script>
+        const canvas = document.getElementById('canvas-stars');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        // let canvasCheck = {
+        //         frameExtension: 20,
+        //         y8: frameExtension * -1,
+        //         y2: canvas.height + frameExtension,
+        //         x4: frameExtension * -1,
+        //         x6: canvas.width + frameExtension,
+        //         vmin: Math.min(canvas.height, canvas.width),
+        //         vmax: Math.max(canvas.height, canvas.width),
+        //         z: 0
+        // }
+        const s = {
+            mouse: {
+                x: 0,
+                y: 0,
+                z: 30
+            },
+            canvas: {
+                frameExtension: 0,
+                y8: 0,
+                y2: 0,
+                x4: 0,
+                x6: 0,
+                vmin: 0,
+                vmax: 0,
+                pause: 0,
+                z: 0
+            },
+            brush: {
+                old_count: 69,
+                times4_count: 278,
+                count: 69
+            },
+            x: 0,
+            y: 0,
+            r: 3,
+            c: 0,
+            hue: 0,
+            hue_steps: 6,
+            hue_step: 360/6,
+            lum_step: 20,
+            z: 1
+        }
+        function updateFrame(){
+            s.canvas.frameExtension = 20;
+            s.canvas.y8 = s.canvas.frameExtension * -1;
+            s.canvas.x4 = s.canvas.frameExtension * -1;
+            s.canvas.y2 = canvas.height + s.canvas.frameExtension;
+            s.canvas.x6 = canvas.width + s.canvas.frameExtension;
+            s.canvas.vmin = Math.min(canvas.height, canvas.width);
+            s.canvas.vmax = Math.max(canvas.height, canvas.width);
+
+            // console.log(`window.innerWidth: ${window.innerWidth}`);
+            // console.log(`window.innerHeight: ${window.innerHeight}`);
+
+            // console.log(`s.c.vmin: ${s.canvas.vmin}`);
+            // console.log(`s.c.vmax: ${s.canvas.vmax}`);
+
+            s.canvas.cirRad = s.canvas.vmin/2;
+            s.canvas.xCen = canvas.width/2;
+            s.canvas.yCen = canvas.height/2;
+            // console.log('s.canvas:');
+            // console.log(s.canvas);
+        }
+        updateFrame();
+
+        window.addEventListener('resize', () =>{
+            console.log(`window.innerWidth: ${window.innerWidth}`);
+            console.log(`window.innerHeight: ${window.innerHeight}`);
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            updateFrame();
+        });
+        window.addEventListener('mousemove', (ev) =>{
+            // let chance = Math.floor(Math.random()*100) + 1;
+            s.x = ev.clientX;
+            s.y = ev.clientY;
+            // hueHelix();
+            // s.mouse.x = ev.clientX;
+            // s.mouse.y = ev.clientY;
+
+            // console.log(`s.x: ${s.x}`);
+            // console.log(`s.y: ${s.y}`);
+
+            // s.canvas.cirRad = s.canvas.vmin/4;
+            // s.canvas.xCen = ev.clientX;
+            // s.canvas.yCen = ev.clientY;
+        });
+
+        function zoom(event) {
+            event.preventDefault();
+            scale += event.deltaY * -0.01;
+            console.log(`event.deltaY: ${event.deltaY}`);
+            console.log(`scale: ${scale}`);
+            // // 21.25 to 60;
+            // scale = Math.min(Math.max(.125, scale), 4);
+            // s.z = (scale * 10)+20;
+
+            // // .25 to 4.125;
+            // scale = Math.min(Math.max(.125, scale), 4);
+            // s.z = (scale)+.125;
+            // // 0.25, 1.58, 2.9, 4.125
+
+            // .25 to 12.125;
+            scale = Math.min(Math.max(.25, scale), 12);
+            s.z = (scale)+.25;
+
+            console.log(`s.z: ${s.z}`);
+        }
+        let scale = 1;
+        canvas.onwheel = zoom;
+
+        function hueHelix(){
+            let chance = Math.floor(Math.random()*100) + 1;
+            // let hue_add = Math.floor(Math.random()*2) + 1;
+            let hue_add = 1;
+            s.hue = s.hue + hue_add;
+            if(chance > 0){
+                for (let index = 0; index < s.hue_steps; index++) {
+                    let hue = s.hue + (index * s.hue_step);
+                    let dotOff = (Math.floor(Math.random()*s.z) + 20);
+                    let radius = Math.floor(Math.random()*s.r) + 1;
+                    let lum = dotOff - 10;
+
+                    let cirX = Math.cos(Math.PI*(hue/180)) * dotOff;
+                    let cirY = Math.sin(Math.PI*(hue/180)) * dotOff;
+                    let x = cirX + s.x;
+                    let y = cirY + s.y;
+            
+                    ctx.fillStyle = `hsl(${hue}, 100%, ${lum}%)`;
+                    ctx.beginPath();
+                    ctx.arc(x, y, radius, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+
+        const stars = [];
+        const brush = [];
+        // const ss = {"len":50, "hue_range": 15};
+        class Star {
+            constructor(id = 0, galaxyLen = 10){
+                this.id = id;
+                // this.x = Math.random() * canvas.width;
+                // this.y = Math.random() * canvas.height;
+                this.x = (s.canvas.x6/2);
+                this.y = (s.canvas.y2/2);
+                this.outFrame = false;
+                this.angle = id*6;
+                this.gLen = galaxyLen;
+                this.angle = id*(360/this.gLen);
+
+                this.hue = Math.random() * 360;
+                this.hueSp = Math.random() * .25 + 1;
+                this.sat = 100;
+                this.lum = 70;
+                this.alp = 1;
+                // this.size = Math.random() * 4 + 12;
+                // this.size = Math.random() * 4 + 1;
+                this.size = Math.random() * 2 + 1;
+                this.sizeMode = 0;
+                // this.spX = canvas.width * .005;
+                // this.spY = canvas.height * -.005;
+
+                this.calAngle();
+                this.scaleSp = 5;
+                this.spX = this.angleX * this.scaleSp;
+                this.spY = this.angleY * this.scaleSp;
+                // this.spX = this.angleX * this.scaleSp * ((this.gLen - this.id)/this.glen + 1);
+                // this.spY = this.angleY * this.scaleSp * ((this.gLen - this.id)/this.glen + 1);
+
+                this.wait = id;
+            }
+            rewait(){
+                this.wait = this.id;
+            }
+            calAngle() {
+                // this.angle = Math.random() * 360;
+                this.angle += this.gLen + Math.random() * 3;
+                this.angleX = Math.cos(Math.PI*(this.angle/180));
+                this.angleY = Math.sin(Math.PI*(this.angle/180));
+                // this.offCenter = s.canvas.vmin / 4;
+                // this.cirX = Math.cos(Math.PI*(this.angle/180)) * offCenter;
+                // this.cirY = Math.sin(Math.PI*(this.angle/180)) * offCenter;
+            }
+            update_circle(){
+
+
+                this.x += this.spX;
+                this.y += this.spY;
+                let xOff = Math.abs((s.canvas.xCen) - this.x);
+                let yOff = Math.abs((s.canvas.yCen) - this.y);
+                let absDist = Math.sqrt(xOff*xOff + yOff*yOff);
+                if(absDist > s.canvas.cirRad){
+                    // console.log(`♦Star #${this.id} found out of canvas.`);
+                    this.calAngle();
+                    this.scaleSp -= .2;
+                    if(this.scaleSp < 1) this.scaleSp = 1;
+                    this.spX = this.angleX * this.scaleSp;
+                    this.spY = this.angleY * this.scaleSp;
+                    // this.x = (s.canvas.x6/2) + (canvas.width/8) * this.angleX * -1;
+                    // this.y = (s.canvas.y2/2) + (canvas.height/8) * this.angleY * -1;
+                    this.x = (s.canvas.xCen);
+                    this.y = (s.canvas.yCen);
+                    this.size -= .5;
+                }
+                
+                let ratio = (Math.floor((this.x+this.y)*500)%2 + 1) * 300;
+                let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+                let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+                let xy_arc = (x_arc*y_arc);
+                
+                this.hue = ((x_arc*y_arc)%180) + ((this.x*this.y*.001)%360);
+                
+                if(this.hue > 360) this.hue -= 360;
+                
+                this.lum = ((xy_arc*.25)%60)+5;
+                this.alp = ((xy_arc)%5)/10+.2;
+
+                if(this.size < .2) {
+                    this.size += .2;
+                    this.sizeMode = 1;
+                    console.log(`this.sizeMode = ${this.sizeMode}`);
+                }
+                if(this.sizeMode) {
+                    this.size = 1 * (s.z);
+                }
+
+            }
+            update(){
+                this.x += this.spX;
+                this.y += this.spY;
+                let xOff = Math.abs((s.canvas.xCen) - this.x);
+                let yOff = Math.abs((s.canvas.yCen) - this.y);
+                let absDist = Math.sqrt(xOff*xOff + yOff*yOff);
+                if(absDist > s.canvas.cirRad){
+                    // console.log(`♦Star #${this.id} found out of canvas.`);
+                    this.calAngle();
+                    this.scaleSp -= .2;
+                    if(this.scaleSp < 1) this.scaleSp = 1;
+                    this.spX = this.angleX * this.scaleSp;
+                    this.spY = this.angleY * this.scaleSp;
+                    // this.x = (s.canvas.x6/2) + (canvas.width/8) * this.angleX * -1;
+                    // this.y = (s.canvas.y2/2) + (canvas.height/8) * this.angleY * -1;
+                    this.x = (s.canvas.xCen);
+                    this.y = (s.canvas.yCen);
+                    this.size -= .5;
+                }
+                
+                let ratio = (Math.floor((this.x+this.y)*500)%2 + 1) * 300;
+                let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+                let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+                let xy_arc = (x_arc*y_arc);
+                
+                this.hue = ((x_arc*y_arc)%180) + ((this.x*this.y*.001)%360);
+                
+                if(this.hue > 360) this.hue -= 360;
+                
+                this.lum = ((xy_arc*.25)%60)+5;
+                this.alp = ((xy_arc)%5)/10+.2;
+                
+                if(this.size < .2) {
+                    this.size += .2;
+                    this.sizeMode = 1;
+                    console.log(`this.sizeMode = ${this.sizeMode}`);
+                }
+                if(this.sizeMode) {
+                    this.size = 1 * (s.z);
+                }
+
+            }
+            draw(){
+                // ctx.filter = `blur(10px) drop-shadow(30px 30px 10px hsla(${hue}, ${sat}%, ${lum_shadow}%, ${alp-.5}))`;
+                // ctx.fillStyle = `hsl(${this.hue}, ${this.sat}%, ${this.lum}%)`;
+                ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp.toFixed(2)})`;
+                
+
+                // ctx.filter = `blur(2px) drop-shadow(0px 0px 4px hsla(${hue}, 100%, 80%, .5))`;
+                // ctx.fillStyle = `hsl(60, 100%, 40%)`;
+                ctx.beginPath();
+                // console.log(`x:${this.x}, y:${this.y}, sz:${this.size}`);
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        class StarDust {
+            constructor(id = 0, galaxyLen = 10){
+                this.id = id;
+
+                // this.x = (s.canvas.x6/2);
+                // this.y = (s.canvas.y2/2);
+                this.x = s.mouse.x;
+                this.y = s.mouse.y;
+                this.outFrame = false;
+                this.angle = id*6;
+                this.gLen = galaxyLen;
+                this.angle = id*(360/this.gLen);
+
+                this.hue = Math.random() * 360;
+                this.hueSp = Math.random() * .25 + 1;
+                this.sat = 100;
+                this.lum = 70;
+                this.alp = 1;
+
+                this.size = .5;
+                this.sizeMode = 0;
+
+                this.calAngle();
+                this.scaleSp = 5;
+                this.spX = this.angleX * this.scaleSp;
+                this.spY = this.angleY * this.scaleSp;
+
+                this.wait = id;
+            }
+            rewait(){
+                this.wait = this.id;
+            }
+            calAngle() {
+                // this.angle = Math.random() * 360;
+                this.angle += this.gLen + Math.random() * 3;
+                this.angleX = Math.cos(Math.PI*(this.angle/180));
+                this.angleY = Math.sin(Math.PI*(this.angle/180));
+            }
+            update(){
+                this.x += this.spX;
+                this.y += this.spY;
+                let xOff = Math.abs((s.canvas.xCen) - this.x);
+                let yOff = Math.abs((s.canvas.yCen) - this.y);
+                let absDist = Math.sqrt(xOff*xOff + yOff*yOff);
+                if(absDist > s.canvas.cirRad){
+                    // console.log(`♦Star #${this.id} found out of canvas.`);
+                    this.calAngle();
+                    this.scaleSp -= .2;
+                    if(this.scaleSp < 1) this.scaleSp = 1;
+                    this.spX = this.angleX * this.scaleSp;
+                    this.spY = this.angleY * this.scaleSp;
+                    // this.x = (s.canvas.x6/2) + (canvas.width/8) * this.angleX * -1;
+                    // this.y = (s.canvas.y2/2) + (canvas.height/8) * this.angleY * -1;
+                    this.x = (s.canvas.xCen);
+                    this.y = (s.canvas.yCen);
+                    // this.size -= .5;
+                    this.size -= .2;
+                }
+                
+                let ratio = (Math.floor((this.x+this.y)*500)%2 + 1) * 300;
+                let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+                let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+                let xy_arc = (x_arc*y_arc);
+                
+                this.hue = ((x_arc*y_arc)%180) + ((this.x*this.y*.001)%360);
+                
+                if(this.hue > 360) this.hue -= 360;
+                
+                this.lum = ((xy_arc*.25)%60)+5;
+                this.alp = ((xy_arc)%5)/10+.2;
+                
+                if(this.size < .2) {
+                    this.size += .2;
+                    this.sizeMode = 1;
+                    // console.log(`this.sizeMode = ${this.sizeMode}`);
+                }
+                // if(this.sizeMode) {
+                //     this.size = 1 * (s.z);
+                // }
+
+            }
+            draw(){
+                // ctx.filter = `blur(10px) drop-shadow(30px 30px 10px hsla(${hue}, ${sat}%, ${lum_shadow}%, ${alp-.5}))`;
+                // ctx.fillStyle = `hsl(${this.hue}, ${this.sat}%, ${this.lum}%)`;
+                ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp.toFixed(2)})`;
+                
+
+                // ctx.filter = `blur(2px) drop-shadow(0px 0px 4px hsla(${hue}, 100%, 80%, .5))`;
+                // ctx.fillStyle = `hsl(60, 100%, 40%)`;
+                ctx.beginPath();
+                // console.log(`x:${this.x}, y:${this.y}, sz:${this.size}`);
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        class Brush {
+            constructor(id = 0, galaxyLen = s.brush.count){
+                this.id = id;
+                this.yrange = s.canvas.y2/s.brush.count;
+
+                this.x = (this.yrange/2);
+                // this.y = (this.yrange)*(id+.5);
+                this.y = (this.yrange)*(id);
+
+                this.outFrame = false;
+                this.angle = id*6;
+                this.gLen = galaxyLen;
+                this.angle = id*(360/this.gLen);
+
+                this.hue = Math.random() * 360;
+                this.hueSp = Math.random() * .25 + 1;
+                this.sat = 100;
+                this.lum = 70;
+                this.alp = 1;
+
+                // this.size = this.yrange/4;
+                // this.sizeProgress = 2;
+                this.size = this.yrange;
+                // this.sizeCount = 5;
+                // this.size = this.yrange/this.sizeCount;
+                this.sizeProgress = 0;
+                this.sizeMode = 0;
+
+                this.wait = id;
+                // this.done = 0;
+                this.done = 7;
+                // this.done = 1;
+                // this.done = 3;
+                // this.done = 15;
+            }
+            rewait(){
+                this.wait = this.id;
+            }
+            calAngle() {
+                // this.angle = Math.random() * 360;
+                this.angle += this.gLen + Math.random() * 3;
+                this.angleX = Math.cos(Math.PI*(this.angle/180));
+                this.angleY = Math.sin(Math.PI*(this.angle/180));
+            }
+            update_1(){
+                // this.x += this.size / 1;
+                // this.x += this.size / 2;
+                // this.x += this.size * .5;
+                this.x += this.size;
+                // this.x += this.size*2;
+                if(this.x > s.canvas.x6){
+                    this.x = -10;
+                    // this.y = (this.yrange * this.id) + (Math.random() * this.yrange);
+                    this.y = (this.yrange * this.id) + (this.sizeProgress * this.size);
+                    if(this.sizeProgress <= 0){
+                        if(this.id==0) console.log(this.size);
+                        this.size -= (this.size/2);
+                        // this.size -= (this.size/(Math.random()*2+2));
+                        // this.size -= (this.size/3);
+                        this.sizeProgress = this.yrange/this.size;
+                    }
+                    this.sizeProgress--;
+                }
+                
+                let ratio = (Math.floor((this.x+this.y)*500)%2 + 1) * 300;
+                let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+                let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+                let xy_arc = (x_arc*y_arc);
+                
+                this.hue = ((x_arc*y_arc)%180) + ((this.x*this.y*.001)%360);
+                
+                if(this.hue > 360) this.hue -= 360;
+                
+                this.lum = ((xy_arc*.25)%60)+5;
+                // this.alp = ((xy_arc)%5)/10+.2;
+                this.alp = 1;
+                
+                if(this.size < .5) {
+                    this.size = .5;
+                    this.sizeMode = 1;
+                    this.alp = ((xy_arc)%5)/10+.2;
+                }
+            }
+            update(){
+                this.x += this.size;
+                if(this.x > s.canvas.x6){
+                    this.x = -10;
+                    this.y = (this.yrange * this.id) + (this.sizeProgress * this.size);
+                    if(this.sizeProgress <= 0){
+                        if(this.id==0) console.log(this.size);
+                        this.size -= (this.size/2);
+                        // this.size /= 4;
+                        this.sizeProgress = this.yrange/this.size;
+                    }
+                    this.sizeProgress--;
+                    // this.sizeCount--;
+                    // this.done = this.sizeCount + 1;
+                    // this.done = 0;
+                    this.done--;
+                }
+                
+                // let ratio = (Math.floor((this.x+this.y)*500)%2 + 1) * 300;
+                // let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+                // let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+                // let xy_arc = (x_arc*y_arc);
+                
+                // this.hue = ((x_arc*y_arc)%180) + ((this.x*this.y*.001)%360);
+                // this.sat = ((xy_arc*.25)%60)+5;
+                // this.lum = ((xy_arc*.25)%60)+5;
+                // // this.alp = ((xy_arc)%5)/10+.2;
+                // this.alp = 1;
+                
+                // this.hue = ((this.x*this.y)%360);
+                // this.sat = ((this.x*.25)%60)+35;
+                // this.lum = ((this.y*.25)%60)+5;
+                // this.alp = 1;
+
+                // this.hue = ((this.x*this.y)%360);
+                // this.sat = ((this.x*.25)%50)+25;
+                // this.lum = ((this.y*.25)%50)+25;
+                // this.alp = ((this.x+this.y)%50)+25;
+                
+                // this.hue = ((this.x+this.y)%360);
+                // this.hue = ((this.x*this.y)%360);
+                // this.hue = ((this.x+this.y)%24)*15;
+                /* default */
+                // this.hue = ((this.x+this.y)%360);
+                // let lim = 360;
+                // if((lim*0) < this.x && this.x < (lim*1)) { this.hue = ((this.x+this.y)%360); }
+                // else if((lim*1) < this.x && this.x < (lim*2)) { this.hue = ((this.x*this.y)%360); }
+                // else if((lim*2) < this.x && this.x < (lim*3)) { this.hue = ((this.x-this.y)%360); }
+                // else if((lim*3) < this.x && this.x < (lim*4)) { this.hue = (((this.x+this.y)*.25)%24)*15; }
+                
+                // this.hue = 210;
+                // this.sat = ((this.x*.165)%50)+25;
+                // this.lum = ((this.y*.165)%50)+25;
+
+                // // let xscl = 50;
+                // // let xscl = 12;
+                // let xscl = 25;
+                // // let xscl = s.z*5;
+                // // let xcr = xscl*Math.cos(this.x*(1/xscl));
+                // // let xcr = xscl*Math.cos(this.x*(1/xscl)) + Math.cos(this.y);
+                // // let xcr = xscl*Math.cos(this.x*(1/xscl)) + xscl*Math.cos(this.y);
+                // // let xcr = xscl*Math.cos(this.x*(1/xscl)) * Math.cos(this.x**2);
+                // // let xcr = xscl*Math.cos(this.x*(1/xscl)) * Math.cos(this.y);
+                // // let xcr = xscl*Math.cos(this.x) * Math.cos(this.y);
+                // let xcr = xscl*Math.cos(this.x*(1/xscl)) * Math.cos(this.x*this.y);
+                // this.hue = ((this.y)%360) + xcr;
+                // // this.lum = ((this.y*.165)%35)+25+xcr;
+                // // this.sat = 75+xcr;
+                // this.sat = 75-xcr;
+                // this.lum = 50+xcr;
+
+                /* Base Shape */
+                // let xscl = 25;
+                // let xcr = xscl*Math.cos(this.x*(1/xscl)) * Math.cos(this.x*this.y);
+                // this.hue = ((this.y)%360) + xcr;
+                // this.lum = 50+xcr;
+
+                /*Good one*/
+                // let xscl = 25;
+                // let xcr = xscl*Math.cos(this.x*(1/xscl)) * Math.cos(this.x*this.y);
+                // this.hue = ((this.y)%360) + xcr;
+                // this.sat = 75-xcr;
+                // this.lum = 50+xcr;
+
+                /* HNext */
+                // let xscl = 50;
+                // let xscl = 12;
+                // let xscl = 4;
+                // let xscl = s.z*5;
+                // let xcr = xscl*Math.cos(this.x*(1/xscl));
+                // let xcr = xscl*Math.cos(this.x*(1/xscl)) + Math.cos(this.y);
+                // let xcr = xscl*Math.cos(this.x*(1/xscl)) + xscl*Math.cos(this.y);
+                // let xcr = xscl*Math.cos(this.x*(1/xscl)) * Math.cos(this.x**2);
+                // let xcr = xscl*Math.cos(this.x*(1/xscl)) * Math.cos(this.y);
+                // let xcr = xscl*Math.cos(this.x) * Math.cos(this.y);
+                // let xcr = xscl*Math.cos(this.x*(1/xscl)) * Math.cos(this.x*this.y);
+                // let xcr = xscl*xscl*Math.cos(this.x*(1/xscl)) * Math.cos(this.y*(1/xscl));
+                // let xcr = xscl*Math.cos(this.x*(1/xscl)) * Math.cos(this.y);
+                // let xcr = xscl*xscl*Math.cos(this.x*(1/xscl)) * Math.cos(this.x*this.y*(1/xscl));
+                // let xcr = (xscl**2)*Math.cos(this.x*(xscl)) * Math.cos(this.x*this.y);
+                // let xcr = (xscl**2)*Math.cos(this.x*(1/xscl)) * Math.cos(this.x*this.y);
+                // this.hue = ((this.y)%360) + xcr;
+                // this.lum = ((this.y*.165)%35)+25+xcr;
+                // this.sat = 75+xcr;
+                // this.sat = 75-xcr;
+                // this.lum = 50+(xcr*2);
+                // this.lum = 50+xcr;
+                // this.lum = 50+(Math.sqrt(xcr));
+
+                /* Model 12 */
+                // let scl = .125
+                // let x = this.x * scl;
+                // let y = this.y * scl;
+                // let xscl = 20;
+                // let xcr = xscl*Math.cos(x*(1/xscl)) * Math.cos(x*y);
+                // this.hue = ((this.y)%360) + xcr;
+                // this.lum = 50+(xcr/2);
+
+                /* Next 13 */
+                // let scl = .0625;
+                // let x = this.x * scl;
+                // let y = this.y * scl;
+                // let xscl = 20;
+                // let xcr = xscl*Math.cos(x*(1/xscl)) * Math.cos(x*y);
+                // // let xcr = (xscl**2)*Math.cos(x*(xscl)) * Math.cos(x*y);
+                // this.hue = ((this.y)%360) + xcr;
+                // this.lum = 50+(xcr/2);
+
+                /* Next 14 */
+                // let scl = .0625;
+                // let x = this.x * scl;
+                // let y = this.y * scl;
+                // let xscl = 20;
+                // // let yadd = xscl*Math.cos(x*(1/xscl)) * Math.cos(x*y);
+                // // let yadd = Math.abs(Math.cos(x)*x);
+                // let yadd = Math.cos(x)*x;
+                // this.hue = ((this.y)%360) + yadd;
+                // this.lum = 50+(yadd%25);
+
+                /* Next 15 */
+                // let scl = .0625;
+                // let x = this.x * scl;
+                // // let y = this.y * scl;
+                // let y = (this.y+500) * scl;
+                // let xscl = 20;
+                // // let yadd = xscl*Math.cos(x*(1/xscl)) * Math.cos(x*y);
+                // // let yadd = Math.abs(Math.cos(x)*x);
+                // let yadd = Math.cos(x)*x*Math.sin(y);
+                // this.hue = ((this.y)%360) + yadd;
+                // this.lum = 50+(yadd%25);
+
+                /* Next 16 */
+                // let scl = .0625;
+                // let x = (this.x+500) * scl;
+                // let y = this.y * scl;
+                // // let y = (this.y+500) * scl;
+                // let xscl = 20;
+                // // let yadd = xscl*Math.cos(x*(1/xscl)) * Math.cos(x*y);
+                // // let yadd = Math.abs(Math.cos(x)*x);
+                // let yadd = Math.cos(x)*x*Math.sin(y);
+                // this.hue = ((this.y)%360) + yadd;
+                // this.lum = 50+(yadd%25);
+
+                /* Next 17 */
+                // let scl = .0625;
+                // let x = (this.x+500) * scl;
+                // let y = (this.y) * scl;
+                // // let y = (this.y+500) * scl;
+                // let xscl = 20;
+                // // let yadd = xscl*Math.cos(x*(1/xscl)) * Math.cos(x*y);
+                // // let yadd = Math.abs(Math.cos(x)*x);
+                // let yadd = Math.cos(x)*x*Math.cos(y);
+                // this.hue = ((this.y)%360) + yadd;
+                // this.lum = 50+(yadd%25);
+
+                /* Next 18 */
+                // let scl = .0625;
+                // let x = (this.x+500) * scl;
+                // let y = (this.y) * scl;
+                // // let y = (this.y+500) * scl;
+                // let xscl = 20;
+                // // let yadd = xscl*Math.cos(x*(1/xscl)) * Math.cos(x*y);
+                // // let yadd = Math.abs(Math.cos(x)*x);
+                // // let yadd = Math.cos(x)*x*Math.cos(y);
+                // let yadd = Math.abs(Math.cos(x)*x*Math.cos(y));
+                // this.hue = ((this.y)%360) + yadd;
+                // this.lum = 50+(yadd%25);
+
+                /* Next 19 */
+                // let scl = .0625;
+                // let x = (this.x+500) * scl;
+                // let y = (this.y) * scl;
+                // let yadd = Math.abs(Math.cos(x)*x*Math.cos(y));
+                // this.hue = ((this.y)%360) + yadd;
+                // this.lum = 25+(yadd%25);
+                // this.alp = 50+(yadd%50);
+
+                /* Next 20 */
+                // let scl = .0625;
+                // let x = (this.x+500) * scl;
+                // let y = (this.y) * scl;
+                // let yadd = Math.abs(Math.cos(x)*x*Math.cos(y));
+                // let yadd2 = Math.abs(Math.cos(x)*x*Math.cos(y*x));
+                // this.hue = ((this.y)%360) + yadd + yadd2;
+                // this.lum = 25+(yadd%25);
+                // this.alp = 25+(yadd%75);
+
+                /* Next 21 */
+                // let scl = .0625;
+                // let x = (this.x+500) * scl;
+                // let y = (this.y) * scl;
+                // let yadd1 = Math.abs(Math.cos(x)*x);
+                // let yadd = Math.abs(Math.cos(x)*x*Math.cos(y));
+                // let yadd2 = Math.abs(Math.cos(x)*x*Math.cos(y*x));
+                // this.hue = ((this.y)%360) + yadd + yadd2 + yadd1;
+                // this.lum = 25+(yadd%25);
+                // this.alp = 25+(yadd%75);
+
+                /* Next 22 */
+                // let scl = .0625;
+                // let x = (this.x) * scl;
+                // // let x = (this.x+500) * scl;
+                // let y = (this.y) * .0625;
+                // let yadd1 = Math.abs(Math.cos(x)*x);
+                // let yadd = Math.abs(Math.cos(x)*x*Math.cos(y));
+                // let yadd2 = Math.abs(Math.cos(x)*x*Math.cos(y*x));
+                // this.hue = ((this.y)%360) + yadd + yadd2 + yadd1;
+                // this.lum = 25+((yadd+yadd2)%25);
+                // this.alp = 25+(yadd%75);
+
+                /* Next 23 */
+                // let scl = .03125;
+                // let x = (this.x) * scl;
+                // let y = (this.y) * scl;
+                // let yadd1 = Math.abs(Math.cos(x)*x);
+                // let yadd = Math.abs(Math.cos(x)*x*Math.cos(y));
+                // let yadd2 = Math.abs(Math.cos(x)*x*Math.cos(y*x));
+                // this.hue = ((this.y)%360) + yadd + yadd2 + yadd1;
+                // this.lum = 25+((yadd+yadd2)%25);
+                // this.alp = 25+(yadd%75);
+
+                /* Next 24 */
+                // let scl = 1;
+                // let x = (this.x-690) * scl;
+                // let y = (this.y-390) * scl;
+                // let yaddn = (9*Math.cos(x*9)*Math.cos(y*9)) - Math.sin(2*x/y) * Math.tan(9*y/x);
+                // this.hue = ((this.y)%360) + yaddn;
+                // this.lum = 25+((yaddn)%25);
+                // this.alp = 25+(yaddn%75);
+
+                /* Next 25 */
+                // // on size 15;
+                // let scl = 1;
+                // let x = (this.x-690) * scl;
+                // let y = (this.y-390) * scl;
+                // let yadd1 = Math.abs(Math.cos(x)*x);
+                // let yaddn = (9*Math.cos(x*9)*Math.cos(y*9));
+                // let yaddn2 = (9*Math.cos(x*.1)*Math.cos(y*.1));
+                // this.hue = ((this.y)%360) + yaddn + yadd1 + yaddn2;
+                // this.lum = 25+((yaddn)%25);
+                // this.alp = 25+(yaddn%75);
+
+                /* Next 26 */
+                // // on size 1;
+                // let scl = 1;
+                // let x = (this.x-690) * scl;
+                // let y = (this.y-390) * scl;
+                // let yadd1 = Math.abs(Math.cos(x)*x);
+                // let yaddn = (9*Math.cos(x*9)*Math.cos(y*9));
+                // let yaddn2 = (9*Math.cos(x*.1)*Math.cos(y*.1));
+                // this.hue = ((this.y)%360) + yaddn + yadd1 + yaddn2;
+                // this.lum = 25+((yaddn)%25);
+                // this.alp = 25+(yaddn%75);
+
+                /* Next 27 */
+                // let scl = .0625;
+                // let x = (this.x-690) * scl;
+                // let y = (this.y-390) * scl;
+                // let yaddn2 = (9*Math.cos(x*5)*Math.cos(y*5));
+                // this.hue = ((this.y)%360) + yaddn2;
+
+                /* Next 28 */
+                // // on size 7;
+                // let scl = .0625;
+                // let x = (this.x-690) * scl;
+                // let y = (this.y-390) * scl;
+                // let yaddn = (9*Math.cos(x*x)*Math.cos(y));
+                // this.hue = ((this.y)%360) + yaddn;
+
+                /* Next 29 */
+                // // On size 3;
+                // let scl = .0625;
+                // let x = (this.x-690) * scl;
+                // let y = (this.y-390) * scl;
+                // let yadd = (Math.abs(Math.cos(x))*-1*x)/Math.sqrt(3);
+                // this.hue = ((this.y)%360) + yadd;
+
+                /* Next 30 */
+                let scl = .0625;
+                // let scl = 1;
+                let x = (this.x-690) * scl;
+                let y = (this.y-390) * scl;
+                // let x = (this.x) * scl;
+                // let y = (this.y) * scl;
+                // // let y = (this.y+500) * scl;
+                // // let yadd = xscl*Math.cos(x*(1/xscl)) * Math.cos(x*y);
+                // let yadd1 = Math.abs(Math.cos(x)*x);
+                // // let yadd = Math.cos(x)*x*Math.cos(y);
+                // let yadd = Math.abs(Math.cos(x)*x*Math.cos(y));
+                // let yadd2 = Math.abs(Math.cos(x)*x*Math.cos(y*x));
+                // let yaddn = (9*Math.cos(x)) - Math.sin(2*x/y) * Math.tan(9*y/x);
+                // let yaddn2 = (Math.cos(9*x)) - Math.sin(2*x/y) * Math.tan(9*y/x);
+                // let yaddn3 = (9*Math.cos(x)*Math.cos(y)) - Math.sin(2*x/y) * Math.tan(9*y/x);
+                // let yaddn = (9*Math.cos(x*9)*Math.cos(y*9)) - Math.sin(2*x/y) * Math.tan(9*y/x);
+                // let yadd1 = Math.abs(Math.cos(x)*x);
+                // let yaddn = (9*Math.cos(x*9)*Math.cos(y*9));
+                // let yaddn = (9*Math.cos(x*x)*Math.cos(y));
+                // let yadd = Math.abs(Math.abs(Math.cos(x))*-1*x);
+                // let yadd = (Math.abs(Math.cos(x))*-1*x)/y;
+                let yadd = (Math.abs(Math.cos(x))*-1*x)/Math.sqrt(3);
+                // let yadd = Math.abs(Math.cos(x)*x*Math.cos(y));
+                // this.hue = ((this.y)%360) + yaddn + yadd1 + yaddn2;
+                // this.hue = ((this.y)%360) + yaddn;
+                this.hue = ((this.y)%360) + yadd;
+                // this.lum = 25+((yaddn)%25);
+                // this.alp = 25+(yaddn%75);
+
+
+                this.sat = 100;
+                this.lum = 60;
+                this.alp = 1;
+                
+                // let xyLim = (Math.floor(this.x)%lim) * (Math.floor(this.y)%lim);
+                // if(xyLim == 0) this.lum = 0;
+                
+                if(this.hue > 360) this.hue -= 360;
+
+                if(this.size < .5) {
+                    this.size = .5;
+                    this.sizeMode = 1;
+                    // this.alp = ((xy_arc)%5)/10+.2;
+                    this.alp = 1;
+                }
+            }
+            draw(){
+                ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp.toFixed(2)})`;
+                
+                ctx.beginPath();
+                // console.log(`x:${this.x}, y:${this.y}, sz:${this.size}`);
+                // ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.rect(this.x, this.y, this.size, this.size);
+                ctx.fill();
+            }
+        }
+
+        function start(){
+            let starCount = s.brush.count;
+            for (let index = 0; index < starCount; index++) {
+                // stars.push(new Star(index, starCount));
+                brush.push(new Brush(index, starCount));
+            }
+            // ss.len = 50;
+            // ss["hue_range"] = 360/ss.len;
+        }
+        function handleParticles(){
+            // for (let index = 0; index < stars.length; index++) {
+            //     const element = stars[index];
+            //     if(!s.canvas.pause){element.update();}
+            //     element.draw();
+            //     if(element.sizeMode) {
+            //         stars.splice(index,1);
+            //         index--;
+            //     }
+
+            //     // if(element.wait > 0) {
+            //     //     element.wait -= 1;
+            //     // } else {
+            //     //     element.update();
+            //     //     element.draw();
+            //     // }
+            // }
+
+            for (let index = 0; index < brush.length; index++) {
+                const element = brush[index];
+                // if(!s.canvas.pause){element.update();}
+                // if(!s.canvas.pause && !element.done){element.update();}
+                if(!s.canvas.pause && element.done > 0){element.update();}
+                // if(element.wait > 0) {
+                //     element.wait -= 1;
+                // } else {
+                //     element.update();
+                //     element.draw();
+                // }
+                // element.update();
+                element.draw();
+            }
+        }
+
+        function animate (){
+            handleParticles();
+            requestAnimationFrame(animate);
+        }
+
+
+
+        window.addEventListener('click', (ev) => {
+            s.canvas.pause ? s.canvas.pause = 0 : s.canvas.pause = 1;
+
+            // s.mouse.x = ev.clientX;
+            // s.mouse.y = ev.clientY;
+
+            // let starCount = 69;
+            // for (let index = 0; index < starCount; index++) {
+            //     if(stars.length < starCount) {
+            //         stars.push(new Star(index, starCount));
+            //     }
+            //     stars[index].rewait();
+            // }
+            
+            // console.log(`ev.clientX: ${ev.clientX}`);
+            // console.log(`ev.clientY: ${ev.clientY}`);
+
+            // s.canvas.cirRad = s.canvas.vmin/4;
+            // s.canvas.xCen = ev.clientX;
+            // s.canvas.yCen = ev.clientY;
+        });
+
+
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            console.log(s);
+            start();
+            animate();
+        });
+
+/*
+
+this.hue = Math.random() * 360;
+this.hueSp = Math.random() * .25 + 1;
+this.sat = 100;
+this.lum = 70;
+this.alp = 1;
+──
+
+♦Pattern 01:
+this.hue = (this.x+this.y)%360 + Math.random() * 10;
+if(this.hue > 360) this.hue -= 360;
+this.sat = (this.x+this.y)%20 + 80;
+this.lum = (this.x+this.y)%20 + 40;
+──
+♦Pattern 02:
+this.hue = (this.x+this.y)%360 + Math.random() * 10;
+if(this.hue > 360) this.hue -= 360;
+this.sat = (this.x)%20 + 80;
+this.lum = (this.y)%20 + 40;
+──
+♦Pattern 03:
+this.hue = (this.x+this.y)%360 + Math.random() * 10;
+if(this.hue > 360) this.hue -= 360;
+this.sat = (this.x)%20 + 80;
+this.lum = (this.y)%40 + 20;
+──
+♦Pattern 04:
+this.hue = (this.x+this.y)%360 + Math.random() * 30;
+if(this.hue > 360) this.hue -= 360;
+this.sat = (this.x)%20 + 80;
+this.lum = (this.y)%40 + 20;
+──
+♦Pattern 05:
+this.hue = (this.x+this.y)%360 + Math.random() * 30;
+if(this.hue > 360) this.hue -= 360;
+this.sat = (this.x)%20 + 80;
+this.lum = (this.y)%35 + 20 + Math.random() * 5;
+──
+♦Pattern 06:
+this.hue = (this.x+this.y)%360 + Math.random() * 30;
+if(this.hue > 360) this.hue -= 360;
+let xark = Math.cos((this.x%30)/10 - 1.5) * 10;
+this.lum = (this.y)%30 + 20 + xark;
+──
+♦Pattern 07:
+this.hue = (this.x+this.y)%360 + Math.random() * 30;
+if(this.hue > 360) this.hue -= 360;
+let xark = Math.cos((this.x%60)/20 - 1.5) * 20;
+this.sat = xark + 70;
+this.lum = (this.y)%30 + 10 + xark;
+──
+♦Pattern 08:
+this.hue = (this.x+this.y)%360 + Math.random() * 30;
+if(this.hue > 360) this.hue -= 360;
+let x_arc = Math.sin((this.x%60)/20 - 1.5) * 20;
+this.sat = x_arc + 70;
+this.lum = (this.y)%30 + 10 + x_arc;
+──
+♦Pattern 09:
+this.hue = (this.x+this.y)%360 + Math.random() * 30;
+if(this.hue > 360) this.hue -= 360;
+let x_arc = Math.sin((this.x%30)/10 - 1.5) * 10;
+this.sat = x_arc + 70;
+this.lum = (this.y)%30 + 10 + x_arc;
+──
+♦Pattern 10:
+let x_arc = Math.cos((this.x%90)/30 - 1.5) * 20;
+let y_arc = Math.cos((this.y%30)/10 - 1.5) * 10;
+this.lum = (this.y)%30 + 20 + x_arc;
+this.hue = (this.x+this.y)%360 + (x_arc*y_arc*.5);
+if(this.hue > 360) this.hue -= 360;
+──
+♦Pattern 11:
+let x_arc = Math.cos((this.x%90)/30 - 1.5) * 20;
+let y_arc = Math.cos((this.y%60)/20 - 1.5) * 15;
+this.lum = (this.y%60)/2 + 20 + ((x_arc+y_arc)*.3);
+this.hue = (this.x+this.y)%360 + (x_arc*y_arc*.5);
+if(this.hue > 360) this.hue -= 360;
+──
+♦Pattern 12:
+let x_arc = Math.cos((this.x%90)/30 - 1.5) * 20;
+let y_arc = Math.cos((this.y%60)/20 - 1.5) * 15;
+this.lum = 20 + (x_arc+y_arc);
+this.hue = (this.x+this.y)%360 + (x_arc*y_arc*.5);
+if(this.id == 0){
+    console.log(`x:${x_arc} + y:${y_arc} = ${x_arc+y_arc}`);
+}
+if(this.hue > 360) this.hue -= 360;
+──
+♦Pattern 13:
+let x_arc = Math.cos((Math.abs(this.x)%90)/30 - 1.5) * 20;
+let y_arc = Math.cos((Math.abs(this.y)%60)/20 - 1.5) * 15;
+this.hue = (this.x+this.y)%360 + (x_arc*y_arc*.5);
+if(this.id == 0){
+    console.log(`x:${x_arc} + y:${y_arc} = ${x_arc+y_arc}`);
+}
+if(this.hue > 360) this.hue -= 360;
+this.size = (x_arc+y_arc)%3 + .5;
+this.lum = ((x_arc*y_arc*.5)%50)+10;
+──
+♦Pattern 14:
+let x_arc = Math.cos((Math.abs(this.x)%120)/40 - 1.5) * 20;
+let y_arc = Math.cos((Math.abs(this.y)%120)/40 - 1.5) * 20;
+this.hue = (this.x+this.y)%360 + (x_arc*y_arc*.5);
+if(this.hue > 360) this.hue -= 360;
+this.size = (x_arc*y_arc*.5)%3 + .5;
+this.lum = ((x_arc*y_arc*.5)%60)+5;
+this.alp = ((x_arc*y_arc*.5)%9)/10+.1;
+──
+♦Pattern 15:
+let x_arc = Math.cos((Math.abs(this.x)%120)/40 - 1.5) * 20;
+let y_arc = Math.cos((Math.abs(this.y)%120)/40 - 1.5) * 20;
+this.hue = (x_arc*y_arc)%360 + ((this.x+this.y)%24)*15;
+if(this.hue > 360) this.hue -= 360;
+this.size = (x_arc*y_arc*.5)%3 + .5;
+this.lum = ((x_arc*y_arc*.5)%60)+5;
+this.alp = ((x_arc*y_arc*.5)%9)/10+.1;
+──
+♦Pattern 16:
+let x_arc = Math.cos((Math.abs(this.x)%120)/40 - 1.5) * 20;
+let y_arc = Math.cos((Math.abs(this.y)%120)/40 - 1.5) * 20;
+this.hue = ((x_arc*y_arc)%60) + ((this.x+this.y)%360);
+if(this.hue > 360) this.hue -= 360;
+this.size = (x_arc*y_arc*.5)%3 + .5;
+this.lum = ((x_arc*y_arc*.5)%60)+5;
+this.alp = ((x_arc*y_arc*.5)%5)/10+.2;
+──
+♦Pattern 17:
+let x_arc = Math.cos((Math.abs(this.x)%300)/100 - 1.5) * 30;
+let y_arc = Math.cos((Math.abs(this.y)%300)/100 - 1.5) * 30;
+this.hue = ((x_arc*y_arc)%60) + ((this.x+this.y)%360);
+if(this.hue > 360) this.hue -= 360;
+this.size = (x_arc*y_arc*.5)%3 + .5;
+this.lum = ((x_arc*y_arc*.5)%60)+5;
+this.alp = ((x_arc*y_arc*.5)%5)/10+.2;
+──
+♦Pattern 18:
+let x_arc = Math.cos((Math.abs(this.x)%300)/100 - 1.5) * 30;
+let y_arc = Math.cos((Math.abs(this.y)%300)/100 - 1.5) * 30;
+this.hue = ((x_arc*y_arc)%60) + ((this.x+this.y)%360);
+if(this.hue > 360) this.hue -= 360;
+this.size = (x_arc*y_arc*.5)%3 + .5;
+this.lum = ((x_arc*y_arc*.5)%60)+5;
+this.alp = ((x_arc*y_arc*.5)%5)/10+.2;
+──
+♦Pattern 19:
+let x_arc = Math.cos((Math.abs(this.x)%300)/100 - 1.5) * 30;
+let y_arc = Math.cos((Math.abs(this.y)%300)/100 - 1.5) * 30;
+this.hue = ((x_arc*y_arc)%60) + ((this.x+this.y)%360);
+if(this.hue > 360) this.hue -= 360;
+this.size -= ((x_arc*y_arc*.5)%10)/500;
+this.lum = ((x_arc*y_arc*.5)%60)+5;
+this.alp = ((x_arc*y_arc*.5)%5)/10+.2;
+──
+♦Pattern 20:
+let x_arc = Math.cos((Math.abs(this.x)%300)/100 - 1.5) * 30;
+let y_arc = Math.cos((Math.abs(this.y)%300)/100 - 1.5) * 30;
+let xy_arc = (x_arc*y_arc)
+this.hue = ((x_arc*y_arc)%60) + ((this.x+this.y)%360);
+this.hue = 15 + ((Math.floor((xy_arc%80)/40)) * 180) + ((xy_arc)%30);
+if(this.hue > 360) this.hue -= 360;
+this.size -= ((xy_arc)%10)/500;
+this.lum = ((xy_arc)%60)+5;
+this.alp = ((xy_arc)%5)/10+.2;
+──
+♦Pattern 21:
+let x_arc = Math.cos((Math.abs(this.x)%150)/50 - 1.5) * 30;
+let y_arc = Math.cos((Math.abs(this.y)%150)/50 - 1.5) * 30;
+let xy_arc = (x_arc*y_arc);
+this.hue = 85 + ((Math.floor((xy_arc%120)/20)) * 60) + ((xy_arc)%10);
+if(this.hue > 360) this.hue -= 360;
+this.size -= ((xy_arc)%10)/250;
+this.lum = ((xy_arc)%60)+5;
+this.alp = ((xy_arc)%5)/10+.2;
+──
+♦Pattern 22:
+let ratio = 300;
+let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+let xy_arc = (x_arc*y_arc);
+this.hue = ((x_arc*y_arc)%60) + ((this.x+this.y)%360);
+if(this.hue > 360) this.hue -= 360;
+this.size -= ((xy_arc)%10)/250;
+this.lum = ((xy_arc*.25)%60)+5;
+──
+♦Pattern 23:
+let ratio = 300;
+let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+let xy_arc = (x_arc*y_arc);
+this.hue = ((x_arc*y_arc)%60) + ((this.x*this.y*.1)%360);
+if(this.hue > 360) this.hue -= 360;
+this.size -= ((xy_arc)%10)/250;
+this.lum = ((xy_arc*.25)%60)+5;
+──
+♦Pattern 24:
+let ratio = 300;
+let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+let xy_arc = (x_arc*y_arc);
+this.hue = ((x_arc*y_arc)%360) + ((this.x*this.y*.01)%360);
+if(this.hue > 360) this.hue -= 360;
+this.size -= ((xy_arc)%10)/250;
+this.lum = ((xy_arc*.25)%60)+5;
+this.alp = ((xy_arc)%5)/10+.2;
+──
+♦Pattern 25:
+let ratio = 300;
+let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+let xy_arc = (x_arc*y_arc);
+this.hue = ((x_arc*y_arc)%180) + ((this.x*this.y*.005)%360);
+if(this.hue > 360) this.hue -= 360;
+this.size -= ((xy_arc)%10)/250;
+this.lum = ((xy_arc*.25)%60)+5;
+
+
+♦Pattern 26:
+let ratio = 300;
+let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+let xy_arc = (x_arc*y_arc);
+this.hue = 85 + ((Math.floor((xy_arc%120)/20)) * 60) + ((xy_arc)%10) + ((this.x*this.y*.005)%30);
+if(this.hue > 360) this.hue -= 360;
+this.lum = ((xy_arc*.25)%60)+5;
+──
+♦Pattern 27:
+let ratio = 300;
+let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+let xy_arc = (x_arc*y_arc);
+this.hue = ((x_arc*y_arc)%180) + ((this.x*this.y*.001)%360);
+if(this.hue > 360) this.hue -= 360;
+this.size -= ((xy_arc)%10)/250;
+this.lum = ((xy_arc*.25)%60)+5;
+──
+♦Pattern 28:
+let ratio = 300;
+let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+let xy_arc = (x_arc*y_arc);
+this.hue = ((Math.cos(this.x*this.y)*15)%360) + 200;
+if(this.hue > 360) this.hue -= 360;
+this.lum = ((xy_arc*.25)%60)+5;
+──
+♦Pattern 29:
+let ratio = (Math.floor((this.x+this.y)*500)%2 + 1) * 300;
+let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+let xy_arc = (x_arc*y_arc);
+this.hue = ((Math.cos(this.x*this.y)*15)%360) + 180 + ((x_arc*y_arc)%40);
+
+if(this.hue > 360) this.hue -= 360;
+this.lum = ((xy_arc*.25)%60)+5;
+──
+♦Pattern 30:
+let ratio = (Math.floor((this.x+this.y)*500)%2 + 1) * 300;
+let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+let xy_arc = (x_arc*y_arc);
+this.hue = ((x_arc*y_arc)%180) + ((this.x*this.y*.001)%360);
+if(this.hue > 360) this.hue -= 360;
+this.lum = ((xy_arc*.25)%60)+5;
+──
+♦Pattern 31:
+let ratio = (Math.floor((this.x+this.y)*500)%2 + 1) * 300;
+let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+let xy_arc = (x_arc*y_arc);
+this.hue = ((x_arc*y_arc)%180) + ((this.x*this.y*.001)%360);
+if(this.hue > 360) this.hue -= 360;
+this.lum = ((xy_arc*.25)%60)+5;
+this.alp = ((xy_arc)%5)/10+.2;
+──
+♦Pattern 32:
+let ratio = (Math.floor((this.x+this.y)*500)%2 + 1) * 300;
+let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+let xy_arc = (x_arc*y_arc);
+this.hue = ((x_arc*y_arc)%180) + ((this.x*this.y*.001)%360);
+if(this.hue > 360) this.hue -= 360;
+this.lum = ((xy_arc*.25)%60)+5;
+this.alp = ((xy_arc)%5)/10+.2;
+──
+♦Pattern 33:
+let ratio = (Math.floor((this.x+this.y)*500)%2 + 1) * 300;
+let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+let xy_arc = (x_arc*y_arc);
+this.hue = ((x_arc*y_arc)%180) + ((this.x*this.y*.001)%360);
+if(this.hue > 360) this.hue -= 360;
+this.lum = ((xy_arc*.25)%60)+5;
+this.alp = ((xy_arc)%5)/10+.2;
+──
+♦Pattern 34:
+let ratio = (Math.floor((this.x+this.y)*500)%2 + 1) * 300;
+let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+let xy_arc = (x_arc*y_arc);
+this.hue = ((x_arc*y_arc)%180) + ((this.x*this.y*.001)%360);
+if(this.hue > 360) this.hue -= 360;
+this.lum = ((xy_arc*.25)%60)+5;
+this.alp = ((xy_arc)%5)/10+.2;
+──
+♦Pattern 35:
+let ratio = (Math.floor((this.x+this.y)*500)%2 + 1) * 300;
+let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+let xy_arc = (x_arc*y_arc);
+this.hue = ((x_arc*y_arc)%180) + ((this.x*this.y*.001)%360);
+if(this.hue > 360) this.hue -= 360;
+this.lum = ((xy_arc*.25)%60)+5;
+this.alp = ((xy_arc)%5)/10+.2;
+──
+♦Pattern 36:
+let ratio = (Math.floor((this.x+this.y)*500)%2 + 1) * 300;
+let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
+let y_arc = Math.cos((Math.abs(this.y)%ratio)/(ratio/3) - 1.5) * 30;
+let xy_arc = (x_arc*y_arc);
+this.hue = ((x_arc*y_arc)%180) + ((this.x*this.y*.001)%360);
+if(this.hue > 360) this.hue -= 360;
+this.lum = ((xy_arc*.25)%60)+5;
+this.alp = ((xy_arc)%5)/10+.2;
+──
+*/
+    </script>
+</body>
+</html>
