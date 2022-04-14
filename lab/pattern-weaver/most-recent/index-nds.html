@@ -533,6 +533,10 @@
                     // this.done = 0;
                     this.done--;
                 }
+                this.hue = 210;
+                this.sat = 100;
+                this.lum = 60;
+                this.alp = 1;
                 
                 // let ratio = (Math.floor((this.x+this.y)*500)%2 + 1) * 300;
                 // let x_arc = Math.cos((Math.abs(this.x)%ratio)/(ratio/3) - 1.5) * 30;
@@ -680,16 +684,16 @@
                 // this.lum = 50+(yadd%25);
 
                 /* Next 17 */
-                // let scl = .0625;
-                // let x = (this.x+500) * scl;
-                // let y = (this.y) * scl;
-                // // let y = (this.y+500) * scl;
-                // let xscl = 20;
-                // // let yadd = xscl*Math.cos(x*(1/xscl)) * Math.cos(x*y);
-                // // let yadd = Math.abs(Math.cos(x)*x);
-                // let yadd = Math.cos(x)*x*Math.cos(y);
-                // this.hue = ((this.y)%360) + yadd;
-                // this.lum = 50+(yadd%25);
+                let scl = .0625;
+                let x = (this.x+500) * scl;
+                let y = (this.y) * scl;
+                // let y = (this.y+500) * scl;
+                let xscl = 20;
+                // let yadd = xscl*Math.cos(x*(1/xscl)) * Math.cos(x*y);
+                // let yadd = Math.abs(Math.cos(x)*x);
+                let yadd = Math.cos(x)*x*Math.cos(y);
+                this.hue = ((this.y)%360) + yadd;
+                this.lum = 50+(yadd%25);
 
                 /* Next 18 */
                 // let scl = .0625;
@@ -813,40 +817,42 @@
                 // let yadd = (Math.abs(Math.cos(x))*-1*x)/Math.sqrt(3);
                 // this.hue = ((this.y)%360) + yadd;
 
-                /* Next 30 */
-                let scl = .0625;
-                // let scl = 1;
-                let x = (this.x-690) * scl;
-                let y = (this.y-390) * scl;
-                // let x = (this.x) * scl;
-                // let y = (this.y) * scl;
-                // // let y = (this.y+500) * scl;
-                // // let yadd = xscl*Math.cos(x*(1/xscl)) * Math.cos(x*y);
-                // let yadd1 = Math.abs(Math.cos(x)*x);
-                // // let yadd = Math.cos(x)*x*Math.cos(y);
-                // let yadd = Math.abs(Math.cos(x)*x*Math.cos(y));
-                // let yadd2 = Math.abs(Math.cos(x)*x*Math.cos(y*x));
-                // let yaddn = (9*Math.cos(x)) - Math.sin(2*x/y) * Math.tan(9*y/x);
-                // let yaddn2 = (Math.cos(9*x)) - Math.sin(2*x/y) * Math.tan(9*y/x);
-                // let yaddn3 = (9*Math.cos(x)*Math.cos(y)) - Math.sin(2*x/y) * Math.tan(9*y/x);
-                // let yaddn = (9*Math.cos(x*9)*Math.cos(y*9)) - Math.sin(2*x/y) * Math.tan(9*y/x);
-                // let yadd1 = Math.abs(Math.cos(x)*x);
-                // let yaddn = (9*Math.cos(x*9)*Math.cos(y*9));
-                // let yaddn = (9*Math.cos(x*x)*Math.cos(y));
-                // let yadd = Math.abs(Math.abs(Math.cos(x))*-1*x);
-                // let yadd = (Math.abs(Math.cos(x))*-1*x)/y;
-                let yadd = (Math.abs(Math.cos(x))*-1*x)/Math.sqrt(3);
-                // let yadd = Math.abs(Math.cos(x)*x*Math.cos(y));
-                // this.hue = ((this.y)%360) + yaddn + yadd1 + yaddn2;
-                // this.hue = ((this.y)%360) + yaddn;
-                this.hue = ((this.y)%360) + yadd;
-                // this.lum = 25+((yaddn)%25);
-                // this.alp = 25+(yaddn%75);
+                // /* Next 30 */
+                // let scl = .0625;
+                // // let scl = 1;
+                // let x = (this.x-690) * scl;
+                // let y = (this.y-390) * scl;
+                // // let x = (this.x) * scl;
+                // // let y = (this.y) * scl;
+                // // // let y = (this.y+500) * scl;
+                // // // let yadd = xscl*Math.cos(x*(1/xscl)) * Math.cos(x*y);
+                // // let yadd1 = Math.abs(Math.cos(x)*x);
+                // // // let yadd = Math.cos(x)*x*Math.cos(y);
+                // // let yadd = Math.abs(Math.cos(x)*x*Math.cos(y));
+                // // let yadd2 = Math.abs(Math.cos(x)*x*Math.cos(y*x));
+                // // let yaddn = (9*Math.cos(x)) - Math.sin(2*x/y) * Math.tan(9*y/x);
+                // // let yaddn2 = (Math.cos(9*x)) - Math.sin(2*x/y) * Math.tan(9*y/x);
+                // // let yaddn3 = (9*Math.cos(x)*Math.cos(y)) - Math.sin(2*x/y) * Math.tan(9*y/x);
+                // // let yaddn = (9*Math.cos(x*9)*Math.cos(y*9)) - Math.sin(2*x/y) * Math.tan(9*y/x);
+                // // let yadd1 = Math.abs(Math.cos(x)*x);
+                // // let yaddn = (9*Math.cos(x*9)*Math.cos(y*9));
+                // // let yaddn = (9*Math.cos(x*x)*Math.cos(y));
+                // // let yadd = Math.abs(Math.abs(Math.cos(x))*-1*x);
+                // // let yadd = (Math.abs(Math.cos(x))*-1*x)/y;
+                // let yadd = (Math.abs(Math.cos(x))*-1*x)/Math.sqrt(3);
+                // // let yadd = Math.abs(Math.cos(x)*x*Math.cos(y));
+                // // this.hue = ((this.y)%360) + yaddn + yadd1 + yaddn2;
+                // // this.hue = ((this.y)%360) + yaddn;
+                // this.hue = ((this.y)%360) + yadd;
+                // // this.lum = 25+((yaddn)%25);
+                // // this.alp = 25+(yaddn%75);
 
 
-                this.sat = 100;
-                this.lum = 60;
-                this.alp = 1;
+
+
+                // this.sat = 100;
+                // this.lum = 60;
+                // this.alp = 1;
                 
                 // let xyLim = (Math.floor(this.x)%lim) * (Math.floor(this.y)%lim);
                 // if(xyLim == 0) this.lum = 0;
