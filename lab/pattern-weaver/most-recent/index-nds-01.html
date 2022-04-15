@@ -684,16 +684,16 @@
                 // this.lum = 50+(yadd%25);
 
                 /* Next 17 */
-                // let scl = .0625;
-                // let x = (this.x+500) * scl;
-                // let y = (this.y) * scl;
-                // // let y = (this.y+500) * scl;
-                // let xscl = 20;
-                // // let yadd = xscl*Math.cos(x*(1/xscl)) * Math.cos(x*y);
-                // // let yadd = Math.abs(Math.cos(x)*x);
-                // let yadd = Math.cos(x)*x*Math.cos(y);
-                // this.hue = ((this.y)%360) + yadd;
-                // this.lum = 50+(yadd%25);
+                let scl = .0625;
+                let x = (this.x+500) * scl;
+                let y = (this.y) * scl;
+                // let y = (this.y+500) * scl;
+                let xscl = 20;
+                // let yadd = xscl*Math.cos(x*(1/xscl)) * Math.cos(x*y);
+                // let yadd = Math.abs(Math.cos(x)*x);
+                let yadd = Math.cos(x)*x*Math.cos(y);
+                this.hue = ((this.y)%360) + yadd;
+                this.lum = 50+(yadd%25);
 
                 /* Next 18 */
                 // let scl = .0625;
@@ -847,197 +847,9 @@
                 // // this.lum = 25+((yaddn)%25);
                 // // this.alp = 25+(yaddn%75);
 
-                /* Next 31 */
-                // let scl = .0625;
-                // let x = (this.x+500) * scl;
-                // let y = (this.y) * scl;
-                // // let y = (this.y+500) * scl;
-                // let xscl = 20;
-                // // let yadd = xscl*Math.cos(x*(1/xscl)) * Math.cos(x*y);
-                // // let yadd = Math.abs(Math.cos(x)*x);
-                // let yadd = Math.cos(x)*x*Math.cos(y);
-                // // this.hue = ((this.y)%360) + yadd;
-                // this.lum = 50+(yadd%25);
-                // this.hue = 195+(yadd%10);
-
-                let scl, x, y, xscl, yadd;
-                /* Next 32 */
-                // scl = .0625;
-                // x = (this.x) * scl;
-                // y = (this.y) * scl;
-                // xscl = 20;
-                // yadd = Math.cos(x)*x*Math.cos(y);
-                // this.lum = 50+(yadd%25);
-                // this.hue = 15+(yadd%10)+((yadd%2)*180);
-
-                /* Next 33 */
-                // scl = .0625;
-                // x = (this.x) * scl;
-                // y = (this.y) * scl;
-                // xscl = 20;
-                // yadd = Math.cos(x)*x*Math.cos(y);
-                // this.lum = 50+(yadd%25);
-                // this.hue = 15+(yadd%10)+((Math.round(yadd%2))*180);
-
-                /* Next 34 */
-                // scl = .0625;
-                // x = (this.x) * scl;
-                // y = (this.y) * scl;
-                // xscl = 20;
-                // yadd = Math.cos(x)*x*Math.cos(y);
-                // this.lum = 50+(yadd%5);
-                // this.hue = 15+(yadd%10)+((Math.round(yadd%4))*90);
-
-                /* Next 35 */
-                // scl = .0625;
-                // x = (this.x) * scl;
-                // y = (this.y) * scl;
-                // xscl = 20;
-                // yadd = Math.cos(x)*x*Math.cos(y);
-                // this.lum = 50+(yadd%10);
-                // this.hue = 15+(yadd%10)+((Math.round(yadd%5))*72);
-
-                /* Next 36 */
-                // scl = .0625;
-                // x = (this.x) * scl;
-                // y = (this.y) * scl;
-                // xscl = 20;
-                // yadd = Math.cos(x)*x*Math.cos(y);
-                // this.lum = 50+(yadd%5);
-                // this.hue = (yadd%10)+((Math.round(yadd%6))*60);
-                // // this.hue = 15+(yadd%10)+((Math.round(yadd%6))*60);
-                // // this.hue = 30+(yadd%10)+((Math.round(yadd%6))*60);
-
-                /* Next 37 */
-                // scl = .0625;
-                // x = (this.x) * scl;
-                // y = (this.y) * scl;
-                // xscl = 20;
-                // yadd = Math.cos(x)*x*Math.cos(y);
-                // this.lum = 50+(yadd%5);
-                // this.hue = 30+(yadd%10)+((Math.round(yadd%3))*120);
-
-                /* Next 38 */
-                // scl = .0625;
-                // x = (this.x) * scl;
-                // y = (this.y) * scl;
-                // xscl = 20;
-                // yadd = Math.cos(x)*x*Math.cos(y);
-                // this.hue = 90+(yadd%10)+((Math.round(yadd%3))*120);
-
-                /* Next 39 */
-                // scl = .0625;
-                // x = (this.x-350) * scl;
-                // y = (this.y-350) * scl;
-                // xscl = 20;
-                // yadd = Math.cos(x)*x*Math.cos(y);
-                // this.lum = 50+(yadd%15);
-                // this.hue = ((Math.round(yadd%2))*189);
-
-                /* Next 40 */
-                // scl = .0625;
-                // x = (this.x) * scl;
-                // // x = (this.x+350) * scl;
-                // y = (this.y) * scl;
-                // yadd = Math.cos(x)*x*Math.cos(y);
-                // this.lum = 50+(yadd%15);
-                // // this.hue = (yadd%10)+((Math.round(yadd%2))*189);
-                // this.hue = ((Math.round(yadd%10))*189);
-
-                /* Next 41 */
-                // scl = .125;
-                // x = (this.x) * scl;
-                // y = (this.y) * scl;
-                // yadd = Math.cos(x)*x*Math.cos(y);
-                // this.lum = 50+(yadd%15);
-                // this.hue = ((Math.round(yadd%10))*189);
-
-                /* Next 42 */
-                // scl = .03125;
-                // x = (this.x) * scl;
-                // y = (this.y) * scl;
-                // yadd = Math.cos(x)*x*Math.cos(y);
-                // this.lum = 50+(yadd%15);
-                // this.hue = ((Math.round(yadd%10))*189);
-
-                /* Next 43 */
-                // scl = .03125;
-                // x = (this.x) * scl;
-                // y = (this.y) * scl;
-                // xscl = 20;
-                // yadd = xscl*Math.cos(x)*x*Math.cos(y);
-                // this.lum = 50+(yadd%15);
-                // this.hue = ((Math.round(yadd%10))*189);
-
-                /* Next 44 */
-                // scl = .0625;
-                // x = (this.x) * scl;
-                // y = (this.y) * scl;
-                // xscl = 20;
-                // yadd = Math.cos(x)*x*Math.cos(y);
-                // this.lum = 50+(yadd%20);
-                // this.hue = ((Math.round(yadd%2))*115)%360;
-
-                /* Next 45 */
-                // scl = .0625;
-                // x = (this.x) * scl;
-                // y = (this.y) * scl;
-                // xscl = 20;
-                // yadd = Math.cos(x)*x*Math.cos(y);
-                // this.lum = 50+(yadd%20);
-                // this.hue = 210+((Math.round(yadd%3))*120)%360;
-
-                /* Next 46 */
-                // scl = .0625;
-                // x = (this.x) * scl;
-                // y = (this.y) * scl;
-                // yadd = Math.cos(x)*x*Math.cos(y);
-                // this.hue = 210+((Math.round(yadd%3))*129)%360;
-                // this.lum = 50+(yadd%25);
-                // this.alp = 60+((yadd%30)/100);
-
-                /* Next 47 */
-                scl = .0625;
-                x = (this.x) * scl;
-                y = (this.y) * scl;
-                yadd = Math.cos(x)*x*Math.cos(y);
-                this.hue = 210+((Math.round(yadd%3))*129)%360;
-                this.lum = 50+(yadd%25);
-                // this.alp = 60+((yadd%30)/100);
-
-                /* Next 40 */
-                // scl = .0625;
-                // x = (this.x) * scl;
-                // // x = (this.x+350) * scl;
-                // y = (this.y) * scl;
-                // xscl = 20;
-                // yadd = Math.cos(x)*x*Math.cos(y);
-                // this.lum = 50+(yadd%15);
-                // // this.hue = (yadd%10)+((Math.round(yadd%2))*189);
-                // this.hue = ((Math.round(yadd%10))*189);
-
-                /* Next 40 */
-                // scl = .0625;
-                // x = (this.x) * scl;
-                // // x = (this.x+350) * scl;
-                // y = (this.y) * scl;
-                // xscl = 20;
-                // yadd = Math.cos(x)*x*Math.cos(y);
-                // this.lum = 50+(yadd%15);
-                // // this.hue = (yadd%10)+((Math.round(yadd%2))*189);
-                // this.hue = ((Math.round(yadd%10))*189);
-
-                /* Next 41 */
-                // scl = .0625;
-                // x = (this.x) * scl;
-                // y = (this.y) * scl;
-                // xscl = 20;
-                // yadd = Math.cos(x)*x*Math.cos(y);
-                // this.lum = 50+(yadd%5);
-                // this.hue = 90+(yadd%10)+((Math.round(yadd%3))*120);
 
 
-                // this.hue = 360;
+
                 // this.sat = 100;
                 // this.lum = 60;
                 // this.alp = 1;
