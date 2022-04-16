@@ -113,7 +113,17 @@
         } */
 
     </style>
-    <link rel="stylesheet" href="stylesheets/nybtns.css">
+    <style>
+        .unwelcome{
+            opacity: 0;
+            transition: opacity 500ms ease-in-out;
+        }
+        .unwelcome:hover{
+            opacity: .5;
+            transition: opacity 500ms ease-in-out 200ms;
+        }
+    </style>
+    <!-- <link rel="stylesheet" href="stylesheets/nybtns.css"> -->
     <link rel="stylesheet" href="stylesheets/stars2.css">
     <link rel="stylesheet" href="stylesheets/end.css">
 </head>
@@ -121,7 +131,7 @@
     <header>
         <a href="#" class="backLink hidden"><div class="backBtn">No Back.</div></a>
         <div class="title">NyteLabs</div>
-        <div class="subtitle">Welcome</div>
+        <div class="subtitle"><a class="unwelcome" href="index-nds-02.html">un</a>Welcome</div>
         <!-- <input type="radio" name="world-size" id="large-world" checked>
         <input type="radio" name="world-speed" id="slow-world" checked>
         <input type="radio" name="world-zoom" id="distant-world" checked>
