@@ -1,0 +1,477 @@
+:root {
+    --i: 0;
+    --hue: 0;
+    --cardCount: 12;
+    --hue-step: 360 / var(--cardCount);
+    --mt: 10000ms;
+
+    --bw0: #000;
+    --bw1: #111;
+    --bw8: #888;
+    --bwf: #fff;
+    --bwt: transparent;
+    --clr-t: transparent;
+
+    --NyCard-back:
+        linear-gradient(045deg, hsla(045deg, 100%, 60%, .5) 10px, var(--bwt) 10px),
+        linear-gradient(135deg, hsla(135deg, 100%, 60%, .5) 10px, var(--bwt) 10px),
+        linear-gradient(225deg, hsla(225deg, 100%, 60%, .5) 10px, var(--bwt) 10px),
+        linear-gradient(315deg, hsla(315deg, 100%, 60%, .5) 10px, var(--bwt) 10px),
+
+        linear-gradient(045deg, var(--bwf) 12px, var(--bwt) 12px),
+        linear-gradient(135deg, var(--bwf) 12px, var(--bwt) 12px),
+        linear-gradient(225deg, var(--bwf) 12px, var(--bwt) 12px),
+        linear-gradient(315deg, var(--bwf) 12px, var(--bwt) 12px),
+
+        linear-gradient(045deg, hsla(045deg, 100%, 60%, 1) 14px, var(--bwt) 14px),
+        linear-gradient(135deg, hsla(135deg, 100%, 60%, 1) 14px, var(--bwt) 14px),
+        linear-gradient(225deg, hsla(225deg, 100%, 60%, 1) 14px, var(--bwt) 14px),
+        linear-gradient(315deg, hsla(315deg, 100%, 60%, 1) 14px, var(--bwt) 14px),
+
+        repeating-conic-gradient(
+            hsla(225deg, 100%, 60%, .2) 0deg 90deg, 
+            hsla(315deg, 100%, 60%, .2) 90deg 180deg, 
+            hsla(045deg, 100%, 60%, .2) 180deg 270deg, 
+            hsla(135deg, 100%, 60%, .2) 270deg 360deg),
+
+        linear-gradient(45deg, var(--bwf) 20px, var(--bwt) 20px),
+        linear-gradient(135deg, var(--bwf) 20px, var(--bwt) 20px),
+        linear-gradient(225deg, var(--bwf) 20px, var(--bwt) 20px),
+        linear-gradient(315deg, var(--bwf) 20px, var(--bwt) 20px),
+
+        linear-gradient(045deg, var(--bw0) 21px, var(--bwt) 21px),
+        linear-gradient(135deg, var(--bw0) 21px, var(--bwt) 21px),
+        linear-gradient(225deg, var(--bw0) 21px, var(--bwt) 21px),
+        linear-gradient(315deg, var(--bw0) 21px, var(--bwt) 21px),
+
+        linear-gradient(045deg, hsla(045deg, 100%, 80%, .4) 20px, hsla(045deg, 100%, 80%, 1) 22px, var(--bwt) 24px),
+        linear-gradient(135deg, hsla(135deg, 100%, 20%, .4) 20px, hsla(135deg, 100%, 20%, 1) 22px, var(--bwt) 24px),
+        linear-gradient(315deg, hsla(315deg, 100%, 80%, .4) 20px, hsla(315deg, 100%, 80%, 1) 22px, var(--bwt) 24px),
+        linear-gradient(225deg, hsla(225deg, 100%, 20%, .4) 20px, hsla(225deg, 100%, 20%, 1) 22px, var(--bwt) 24px),
+
+        linear-gradient(045deg, hsla(045deg, 100%, 20%, 1) 24px, hsla(045deg, 100%, 20%, .4) 27px, var(--bwt) 29px),
+        linear-gradient(135deg, hsla(135deg, 100%, 80%, 1) 24px, hsla(135deg, 100%, 80%, .4) 27px, var(--bwt) 29px),
+        linear-gradient(315deg, hsla(315deg, 100%, 20%, 1) 24px, hsla(315deg, 100%, 20%, .4) 27px, var(--bwt) 29px),
+        linear-gradient(225deg, hsla(225deg, 100%, 80%, 1) 24px, hsla(225deg, 100%, 80%, .4) 27px, var(--bwt) 29px),
+        
+        repeating-conic-gradient(
+            hsla(225deg, 100%, 60%, 1) 0deg 90deg, 
+            hsla(315deg, 100%, 60%, 1) 90deg 180deg, 
+            hsla(45deg, 100%, 60%, 1) 180deg 270deg, 
+            hsla(135deg, 100%, 60%, 1) 270deg 360deg),
+        linear-gradient(315deg, var(--bwf) , var(--bwt));
+    
+    --NyCard-front: ;
+    
+    /* --rect-clr: hsla(calc(var(--i) * 20), 100%, 60%, .1);
+    --rect-brd: hsla(calc(var(--i) * 20), 100%, 60%, .5);
+
+    --rect-li1: hsla(calc(var(--i) * 10), 100%, 10%, .5);
+    --rect-li2: hsla(calc(var(--i) * 20), 100%, 30%, .5);
+    --rect-li3: hsla(calc(var(--i) * 10), 100%, 50%, .5);
+    --rect-li4: hsla(calc(var(--i) * 20), 100%, 80%, .5);
+    --rect-clr2: hsla(calc(var(--i) * 20), 100%, 60%, .3);
+
+    --rect-clr: hsla(calc(var(--i) * 20), 100%, 2%, 1);
+    --rect-brd: hsla(calc(var(--i) * 20), 100%, 30%, 1); */
+
+    --rect-clr: hsla(calc(var(--i) * 20), 100%, 1%, 1);
+    --rect-brd: hsla(calc(var(--i) * 20), 100%, 50%, 1);
+
+    --rect-pattern: hsla(calc(var(--i) * 20), 100%, 15%, 1);
+    --rect-li1: hsla(calc(var(--i) * 20), 100%, 2%, .3);
+    --rect-li2: hsla(calc(var(--i) * 20), 100%, 30%, .3);
+
+    --NyCard-front: 
+        linear-gradient(135deg, var(--rect-brd), var(--bw0)),
+        linear-gradient(135deg, var(--rect-li1), var(--rect-li2)),
+        repeating-conic-gradient(var(--rect-brd) 0deg 90deg, var(--rect-pattern) 90deg 180deg);
+
+}
+
+
+/* NyDeck
+█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█  
+       ██████   ████████   ██████ ██    ██ 
+       ██   ██  ██        ██      ██   ██  
+       ██    ██ ██████   ██       ██  ██   
+       ██    ██ ██       ██       █████    
+       ██   ██  ██        ██      ██   ██  
+       ██████   ████████   ██████ ██    ██ 
+█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█  
+*/
+
+/* .shelf[data-deck="NyDeck-20"] {}
+[class*="NyDeck"] {} */
+
+[class*="NyDeck"] {
+    --clr: hsla(var(--hue), 100%, 60%, 1);
+    --clr-cake: hsla(var(--hue), 100%, 60%, 1);
+    --shw-cake: hsla(var(--hue), 100%, 20%, 1);
+    --shw-cake2: hsla(var(--hue), 100%, 20%, .1);
+
+    height: 15rem; width: 14rem;
+    padding: 1rem; margin: 1rem;
+    border-radius: .5rem;
+
+    color: #eee;
+    color: #222;
+    
+    box-shadow: 
+    inset 0 0 0 .125rem var(--clr),
+    .5rem .5rem .25rem -.25rem #1119;
+    
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    
+    transform-style: preserve-3d;
+}
+[class*="NyDeck"] .title {
+    padding: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--clr);
+    text-align: center;
+    text-shadow: 1px 1px 0px #1119;
+}
+
+
+/* 
+█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█ 
+*/
+
+/* 3D Perspective */
+.view-3d {
+    transform-style: preserve-3d; 
+    transform: rotate3d(0,0,1,45deg) rotate3d(1,-1,0,35.264deg);
+}
+.perspective-top .view-3d {transform: perspective(500px) rotate3d(0,0,1,0deg) rotate3d(1,1,0,0deg);}
+.perspective-front .view-3d {transform: perspective(500px) rotate3d(0,0,1,0deg) rotate3d(1,0,0,90deg);}
+.perspective-side .view-3d {transform: perspective(500px) rotate3d(0,0,1,-90deg) rotate3d(0,1,0,90deg);}
+.perspective-iso .view-3d {transform: perspective(500px) rotate3d(0,0,1,45deg) rotate3d(1,-1,0,35.264deg);}
+.base {
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateZ(0deg);
+    transition: transform 2000ms ease-in-out;
+    height: 120px; width: 120px;
+}
+
+/* 
+█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█ 
+*/
+
+/* Circle */
+[class*="NyDeck"] .circle-1,
+[class*="NyDeck"] .circle-2 {
+    position: absolute;
+    top: 0; left: 0;
+    top: 50%; left: 50%;
+
+    height: 60px; width: 60px;
+    height: 120px; width: 120px;
+    transform: translateX(-50%) translateY(-50%);
+    background-color: var(--shw-cake);
+    background-color: var(--shw-cake2);
+    background-color: #fff2;
+    box-shadow: 0 0 0 .125rem var(--clr-cake);
+    transform-style: preserve-3d;
+}
+[class*="NyDeck"] [class|="circle"] { border-radius: 50%; }
+[class*="NyDeck"] .circle-1 { transform: translateX(-50%) translateY(-50%) rotate3d(0,0,0,45deg) translateZ(30px); }
+[class*="NyDeck"] .circle-2 { transform: translateX(-50%) translateY(-50%) rotate3d(0,0,0,45deg) translateZ(-30px); }
+[class*="NyDeck"] .circle-1 {
+    background-color: var(--bwt);
+    transform: translateX(-50%) translateY(-50%) rotate3d(0,0,0,45deg) translateZ(0px);
+    box-shadow: 0 0 0.25rem .125rem var(--bwt);
+}
+[class*="NyDeck"] [class|="circle"] { border-radius: 50% 50% 50% 0; }
+
+
+/* NyCards */
+/* CARDS
+█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█  
+    ██████  ██████  ███████  ██████     ████   
+   ██      ██    ██ ██    ██ ██   ██  ██    ██ 
+  ██       ██    ██ ██    ██ ██    ██   ██     
+  ██       ████████ ██████   ██    ██     ██   
+   ██      ██    ██ ██   ██  ██   ██  ██    ██ 
+    ██████ ██    ██ ██    ██ ██████     ████   
+█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█  
+*/
+
+[class*="NyDeck"] .NyCard {
+    position: absolute;
+    top: 0; left: 0;
+    top: 50%; left: 50%;
+    transform-style: preserve-3d;
+}
+[class*="NyDeck"] .NyCard { 
+    height: 60px; width: 20px;
+    /* height: 80px; width: 50px; */
+    transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,90deg) rotate3d(0,1,0,calc(var(--i) * 20deg)) translateZ(60px);
+    background-color: transparent;
+    box-shadow: 0 0 0 0 transparent;
+}
+[class*="NyDeck"] .NyCard::after,
+[class*="NyDeck"] .NyCard::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    height: 80px; width: 50px;
+    height: 60px; width: 30px;
+    color: #fff;
+    background-color: var(--bw0);
+
+    transform-style: preserve-3d;
+    transform: translateX(-50%) translateY(-50%) translateZ(var(--zin));
+    box-shadow: 0 0 0rem 0.25rem var(--rect-brd), inset 0 0 0 0.125rem var(--rect-brd);
+}
+
+/* front */
+[class*="NyDeck"] .NyCard::before {
+    content: '';
+    color: #fff;
+    background-color: var(--bw0);
+
+    --rect-brd: hsla(calc(var(--i) * 20), 100%, 50%, 1);
+    background-image: linear-gradient(135deg, var(--rect-brd), var(--bw0));
+    box-shadow: 0 0 0rem 0.25rem var(--bw0), inset 0 0 0rem 0.125rem var(--rect-brd);
+}
+
+
+[class*="NyDeck"] .NyCard {
+    transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,0deg) rotate3d(0,1,0,0deg) translateZ(60px);
+    transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,0deg) rotate3d(0,1,0,0deg) translateZ(0px);
+    transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,0deg) rotate3d(0,1,0,0deg) translateZ(-30px);
+}
+.shelf:hover [class*="NyDeck"] .NyCard {
+    animation: nyCard-y 5000ms ease-in-out alternate infinite both;
+    animation: nyCard-y 5000ms ease-in-out normal both;
+}
+@keyframes nyCard-y {
+    0%{transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,0deg) rotate3d(0,1,0,0deg) translateZ(0px);}
+    20%{transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,90deg) rotate3d(0,1,0,0deg) translateZ(60px);}
+    80%{transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,90deg) rotate3d(0,1,0,360deg) translateZ(60px);}
+    100%{transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,0deg) rotate3d(0,1,0,360deg) translateZ(0px);}
+}
+
+.NyCard::after { --zin: -1px; }
+.NyCard::before { --zin: 0px; }
+
+base { counter-reset: listCounter; }
+.NyCard { counter-increment: listCounter; }
+[class*="NyDeck"] .NyCard:nth-of-type(2):before {--zin: 1px;}
+[class*="NyDeck"] .NyCard:nth-of-type(2):after {--zin: 0px;}
+[class*="NyDeck"] .NyCard::before {
+    content: "[" counter(listCounter) "]";
+    content: counter(listCounter);
+    /* content: ''; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* back */
+[class*="NyDeck"] .NyCard::after {
+    --rect-clr: hsla(calc(var(--i) * 20), 100%, 1%, 1);
+    --rect-brd: hsla(calc(var(--i) * 20), 100%, 50%, 1);
+    background-image: var(--NyCard-back);
+    box-shadow: 0 0 0rem 0.25rem var(--bw0), inset 0 0 0 0.0625rem var(--rect-brd);
+    background-color: var(--bw0);
+}
+
+
+/* 
+█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█ 
+*/
+
+/* nyCard-20 */
+.shelf:hover .NyDeck-20 .NyCard::after,
+.shelf:hover .NyDeck-20 .NyCard::before {
+    animation: nyCard-20ab 5000ms ease-in-out alternate infinite both;
+    animation: nyCard-20ab 5000ms ease-in-out both;
+}
+@keyframes nyCard-20ab {
+    0%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,0deg) rotate3d(0,1,0,0deg) translateZ(calc(-30px + var(--zin)));}
+    20%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,90deg) rotate3d(0,1,0,0deg) translateZ(calc(160px + var(--zin)));}
+    80%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,90deg) rotate3d(0,1,0,360deg) translateZ(calc(160px + var(--zin)));}
+    100%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,0deg) rotate3d(0,1,0,360deg) translateZ(calc(-30px + var(--zin)));}
+}
+
+/* All */
+.shelf:hover .NyCard {
+    animation: nyCard-x 3000ms ease-in-out alternate infinite both;
+    animation: nyCard-x 3000ms ease-in-out normal both;
+}
+.shelf:hover .NyCard::before,
+.shelf:hover .NyCard::after,
+.shelf:hover .NyCard {
+    animation-delay: calc(var(--i) * 100ms) !important;
+    animation-duration: var(--mt) !important;
+}
+@keyframes nyCard-x {
+    0%{transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,90deg) rotate3d(0,1,0,0deg) translateZ(60px);}
+    100%{transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,90deg) rotate3d(0,1,0,360deg) translateZ(60px);}
+}
+
+
+
+/*
+█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█ █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█ █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+████████████████ ███████████████ ████████████████ ████████████████ ███████████████ ████████████████ ████████████████ ███████████████ ████████████████
+████████████████ ███████████████ ████████████████ ████████████████ ███████████████ ████████████████ ████████████████ ███████████████ ████████████████
+████████████████ ███████████████ ████████████████ ████████████████ ███████████████ ████████████████ ████████████████ ███████████████ ████████████████
+█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█ █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█ █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
+Cards
+*/
+
+[class|="NyteCard"] {
+    /* position: absolute; */
+    top: 50%; left: 50%;
+    /* height: 60px; width: 30px; */
+    /* height: 68px; width: 38px; */
+    height: 69px; width: 40px;
+    height: 89px; width: 55px;
+    height: 80px; width: 50px;
+    height: 60px; width: 30px;
+    transform-style: preserve-3d;
+
+    color: #fff;
+
+    --rect-clr: hsla(210, 100%, 1%, 1);
+    --rect-brd: hsla(210, 100%, 50%, 1);
+
+    --rect-pattern: hsla(210, 100%, 15%, 1);
+    --rect-li1: hsla(210, 100%, 2%, .3);
+    --rect-li2: hsla(210, 100%, 30%, .3);
+
+
+    --rect-clr: hsla(calc(var(--i) * 20), 100%, 1%, 1);
+    --rect-brd: hsla(calc(var(--i) * 20), 100%, 50%, 1);
+
+    --rect-pattern: hsla(calc(var(--i) * 20), 100%, 15%, 1);
+    --rect-li1: hsla(calc(var(--i) * 20), 100%, 2%, .3);
+    --rect-li2: hsla(calc(var(--i) * 20), 100%, 30%, .3);
+
+    background-color: var(--bw0);
+    margin: 1rem .25rem;
+}
+
+.NyCardFill-01 {
+    --ny-bgi: linear-gradient(135deg, var(--rect-li1), var(--rect-li2));
+}
+.NyCardFill-02 {
+    --ny-bgi: repeating-conic-gradient(var(--rect-brd) 0deg 90deg, var(--rect-pattern) 90deg 180deg);
+}
+.NyCardFill-03 {
+    --ny-bgi: linear-gradient(135deg, var(--rect-brd), var(--bw0));
+}
+.NyCardFill-04 {
+    --ny-bgi: linear-gradient(115deg, var(--rect-li1) 50%, var(--rect-li2) 50%);
+}
+.NyCardShadow-01 {
+    --ny-box-shw: 0 0 0.5rem 0.25rem var(--rect-brd), inset 0 0 0 0.125rem var(--rect-brd);
+}
+.NyCardShadow-02 {
+    --ny-box-shw: 0 0 0rem 0.25rem var(--bw0), inset 0 0 .5rem 0.25rem var(--rect-brd);
+}
+.NyCardShadow-03 {
+    --ny-box-shw: 0 0 0rem 0.25rem var(--bw0), inset 0 0 0rem 0.125rem var(--rect-brd);
+}
+.NyCardShadow-04 {
+    --ny-box-shw: 0 0 .5rem 0.25rem var(--bw0), inset 0 0 .5rem 0.125rem var(--rect-brd);
+}
+
+[class|="NyteCard"] {
+    background-image: var(--ny-bgi);
+    box-shadow: var(--ny-box-shw);
+}
+
+
+
+
+/*
+█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
+ */
+.shelfs {
+    display: flex; flex-direction: column;
+    gap: 1rem;
+}
+.DeckCheck {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    /* flex-direction: column; */
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.DeckCheck .NyCard-front {
+    /* position: absolute; */
+    top: 50%; left: 50%;
+    height: 69px; width: 40px;
+    height: 60px; width: 20px;
+    height: 60px; width: 30px;
+    /* height: 68px; width: 38px; */
+
+    transform-style: preserve-3d;
+    /* transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,90deg) rotate3d(0,1,0,calc(var(--i) * 20deg)) translateZ(60px); */
+    
+    /* background-color: transparent; */
+    /* box-shadow: 0 0 0 0 transparent; */
+}
+.DeckCheck .NyCard-front {
+    --rect-clr: hsla(calc(var(--i) * 20), 100%, 1%, 1);
+    --rect-brd: hsla(calc(var(--i) * 20), 100%, 50%, 1);
+
+    --rect-pattern: hsla(calc(var(--i) * 20), 100%, 15%, 1);
+    --rect-li1: hsla(calc(var(--i) * 20), 100%, 2%, .3);
+    --rect-li2: hsla(calc(var(--i) * 20), 100%, 30%, .3);
+
+    background-image: linear-gradient(135deg, var(--rect-brd), var(--bw0));
+    background-image: linear-gradient(135deg, var(--rect-li1), var(--rect-li2));
+    background-image: repeating-conic-gradient(var(--rect-brd) 0deg 90deg, var(--rect-pattern) 90deg 180deg);
+    background-image: 
+    linear-gradient(135deg, var(--rect-brd), var(--bw0)),
+    linear-gradient(135deg, var(--rect-li1), var(--rect-li2)),
+    repeating-conic-gradient(var(--rect-brd) 0deg 90deg, var(--rect-pattern) 90deg 180deg);
+
+    color: #fff;
+
+    /* background-size: 1rem 1rem, 1rem 1rem; */
+    /* background-size: 1rem 1rem, 1rem 1rem, 1rem 1rem; */
+    /* background-size: 100% 100%, 100% 100%, 1rem 1rem; */
+    /* box-shadow: 0 0 0.5rem 0.25rem var(--rect-brd), inset 0 0 0 0.125rem var(--rect-brd); */
+    /* box-shadow: 0 0 0rem 0.25rem var(--bw0), inset 0 0 .5rem 0.25rem var(--rect-brd); */
+    box-shadow: 0 0 0rem 0.25rem var(--bw0), inset 0 0 0rem 0.125rem var(--rect-brd);
+    background-color: var(--bw0);
+}
+
+.DeckCheck .NyCard-befaft {
+    --rect-clr: hsla(calc(var(--i) * 20), 100%, 1%, 1);
+    --rect-brd: hsla(calc(var(--i) * 20), 100%, 50%, 1);
+    /* content: ''; */
+    /* position: absolute; */
+    top: 50%; left: 50%;
+    height: 60px; width: 30px;
+
+    transform-style: preserve-3d;
+    transform: translateX(-50%) translateY(-50%) translateZ(var(--zin));
+
+    box-shadow: 0 0 0.5rem 0.25rem var(--rect-brd), inset 0 0 0 0.125rem var(--rect-brd);
+    box-shadow: 0 0 0rem 0.25rem var(--rect-brd), inset 0 0 0 0.125rem var(--rect-brd);
+    background-color: var(--bw0);
+}
+
+
