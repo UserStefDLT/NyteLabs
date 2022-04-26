@@ -66,7 +66,7 @@
                 var(--h-045) 180deg 270deg, 
                 var(--h-135) 270deg 360deg),
             linear-gradient(315deg, var(--bwf), var(--clr-t));
-            --bgi-card-02: 
+        --bgi-card-02: 
             linear-gradient(045deg, hsla(045deg, 100%, 60%, .5) .3125em, var(--clr-t) .3125em),
             linear-gradient(135deg, hsla(135deg, 100%, 60%, .5) .3125em, var(--clr-t) .3125em),
             linear-gradient(225deg, hsla(225deg, 100%, 60%, .5) .3125em, var(--clr-t) .3125em),

@@ -1,0 +1,14 @@
+:root {
+    --bw0: #000;
+    --bw1: #111;
+    --bw8: #888;
+    --bwf: #fff;
+    --clr-t: transparent;
+
+    --clr-1: #f93; --clr-1-mid: #963; --clr-1-dark: #630; --bgs-1: #9633;
+    --clr-2: #9f3; --clr-2-mid: #693; --clr-2-dark: #360; --bgs-2: #6933;
+    --clr-3: #3f9; --clr-3-mid: #396; --clr-3-dark: #063; --bgs-3: #3963;
+    --clr-4: #39f; --clr-4-mid: #369; --clr-4-dark: #036; --bgs-4: #3693;
+    --clr-5: #93f; --clr-5-mid: #639; --clr-5-dark: #306; --bgs-5: #6393;
+    --clr-6: #f39; --clr-6-mid: #936; --clr-6-dark: #603; --bgs-6: #9363;
+}
