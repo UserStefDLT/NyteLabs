@@ -11,4 +11,248 @@
     --clr-4: #39f; --clr-4-mid: #369; --clr-4-dark: #036; --bgs-4: #3693;
     --clr-5: #93f; --clr-5-mid: #639; --clr-5-dark: #306; --bgs-5: #6393;
     --clr-6: #f39; --clr-6-mid: #936; --clr-6-dark: #603; --bgs-6: #9363;
+
+    --h-045: hsla(045deg, 100%, 60%, 1);
+    --h-135: hsla(135deg, 100%, 60%, 1);
+    --h-225: hsla(225deg, 100%, 60%, 1);
+    --h-315: hsla(315deg, 100%, 60%, 1);
+    --bgi-card: 
+            linear-gradient(045deg, hsla(045deg, 100%, 60%, .5) 10px, var(--clr-t) 10px),
+            linear-gradient(135deg, hsla(135deg, 100%, 60%, .5) 10px, var(--clr-t) 10px),
+            linear-gradient(225deg, hsla(225deg, 100%, 60%, .5) 10px, var(--clr-t) 10px),
+            linear-gradient(315deg, hsla(315deg, 100%, 60%, .5) 10px, var(--clr-t) 10px),
+
+            linear-gradient(045deg, var(--bwf) 12px, var(--clr-t) 12px),
+            linear-gradient(135deg, var(--bwf) 12px, var(--clr-t) 12px),
+            linear-gradient(225deg, var(--bwf) 12px, var(--clr-t) 12px),
+            linear-gradient(315deg, var(--bwf) 12px, var(--clr-t) 12px),
+
+            linear-gradient(045deg, var(--h-045) 14px, var(--clr-t) 14px),
+            linear-gradient(135deg, var(--h-135) 14px, var(--clr-t) 14px),
+            linear-gradient(225deg, var(--h-225) 14px, var(--clr-t) 14px),
+            linear-gradient(315deg, var(--h-315) 14px, var(--clr-t) 14px),
+
+            repeating-conic-gradient(
+                hsla(225deg, 100%, 60%, .2) 0deg 90deg, 
+                hsla(315deg, 100%, 60%, .2) 90deg 180deg, 
+                hsla(045deg, 100%, 60%, .2) 180deg 270deg, 
+                hsla(135deg, 100%, 60%, .2) 270deg 360deg),
+
+            linear-gradient(45deg, var(--bwf) 20px, var(--clr-t) 20px),
+            linear-gradient(135deg, var(--bwf) 20px, var(--clr-t) 20px),
+            linear-gradient(225deg, var(--bwf) 20px, var(--clr-t) 20px),
+            linear-gradient(315deg, var(--bwf) 20px, var(--clr-t) 20px),
+
+            linear-gradient(045deg, var(--bw0) 21px, var(--clr-t) 21px),
+            linear-gradient(135deg, var(--bw0) 21px, var(--clr-t) 21px),
+            linear-gradient(225deg, var(--bw0) 21px, var(--clr-t) 21px),
+            linear-gradient(315deg, var(--bw0) 21px, var(--clr-t) 21px),
+
+            linear-gradient(045deg, hsla(045deg, 100%, 80%, .4) 20px, hsla(045deg, 100%, 80%, 1) 22px, var(--clr-t) 24px),
+            linear-gradient(135deg, hsla(135deg, 100%, 20%, .4) 20px, hsla(135deg, 100%, 20%, 1) 22px, var(--clr-t) 24px),
+            linear-gradient(315deg, hsla(315deg, 100%, 80%, .4) 20px, hsla(315deg, 100%, 80%, 1) 22px, var(--clr-t) 24px),
+            linear-gradient(225deg, hsla(225deg, 100%, 20%, .4) 20px, hsla(225deg, 100%, 20%, 1) 22px, var(--clr-t) 24px),
+
+            linear-gradient(045deg, hsla(045deg, 100%, 20%, 1) 24px, hsla(045deg, 100%, 20%, .4) 27px, var(--clr-t) 29px),
+            linear-gradient(135deg, hsla(135deg, 100%, 80%, 1) 24px, hsla(135deg, 100%, 80%, .4) 27px, var(--clr-t) 29px),
+            linear-gradient(315deg, hsla(315deg, 100%, 20%, 1) 24px, hsla(315deg, 100%, 20%, .4) 27px, var(--clr-t) 29px),
+            linear-gradient(225deg, hsla(225deg, 100%, 80%, 1) 24px, hsla(225deg, 100%, 80%, .4) 27px, var(--clr-t) 29px),
+            
+            repeating-conic-gradient(
+                var(--h-225) 0deg 90deg, 
+                var(--h-315) 90deg 180deg, 
+                var(--h-045) 180deg 270deg, 
+                var(--h-135) 270deg 360deg),
+            linear-gradient(315deg, var(--bwf), var(--clr-t));
+    --bgi-card-02: 
+            linear-gradient(045deg, hsla(045deg, 100%, 60%, .5) .3125em, var(--clr-t) .3125em),
+            linear-gradient(135deg, hsla(135deg, 100%, 60%, .5) .3125em, var(--clr-t) .3125em),
+            linear-gradient(225deg, hsla(225deg, 100%, 60%, .5) .3125em, var(--clr-t) .3125em),
+            linear-gradient(315deg, hsla(315deg, 100%, 60%, .5) .3125em, var(--clr-t) .3125em),
+
+            linear-gradient(045deg, var(--bwf) .375em, var(--clr-t) .375em),
+            linear-gradient(135deg, var(--bwf) .375em, var(--clr-t) .375em),
+            linear-gradient(225deg, var(--bwf) .375em, var(--clr-t) .375em),
+            linear-gradient(315deg, var(--bwf) .375em, var(--clr-t) .375em),
+
+            linear-gradient(045deg, var(--h-045) .4375em, var(--clr-t) .4375em),
+            linear-gradient(135deg, var(--h-135) .4375em, var(--clr-t) .4375em),
+            linear-gradient(225deg, var(--h-225) .4375em, var(--clr-t) .4375em),
+            linear-gradient(315deg, var(--h-315) .4375em, var(--clr-t) .4375em),
+
+            linear-gradient(45deg, var(--bwf) .625em, var(--clr-t) .625em),
+            linear-gradient(135deg, var(--bwf) .625em, var(--clr-t) .625em),
+            linear-gradient(225deg, var(--bwf) .625em, var(--clr-t) .625em),
+            linear-gradient(315deg, var(--bwf) .625em, var(--clr-t) .625em),
+
+            linear-gradient(045deg, var(--bw0) .65625em, var(--clr-t) .65625em),
+            linear-gradient(135deg, var(--bw0) .65625em, var(--clr-t) .65625em),
+            linear-gradient(225deg, var(--bw0) .65625em, var(--clr-t) .65625em),
+            linear-gradient(315deg, var(--bw0) .65625em, var(--clr-t) .65625em);
+
+}
+.lablinks {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0;
+}
+
+
+header {backdrop-filter: contrast(1.7);}
+.bg-stars {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    height: 100vh; width: 100vw;
+    background-image: 
+        radial-gradient(farthest-corner at 100% 100%, #456, #7890),
+        radial-gradient(farthest-corner at 100% 100%, #123, #123);
+    z-index: -1;
+    background-attachment: fixed;
+    overflow: hidden;
+}
+
+.shelf {
+    flex-direction: column;
+    backdrop-filter: contrast(1.7);
+    background-color: #1234;
+    margin-top: 2.5rem;
+}
+
+.lablinks {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.labBtn,
+[class|="nybtn"] {
+    position: relative;
+    
+    font-size: 1.25rem;
+    min-height: 3rem; min-width: 8rem;
+
+    margin: 1rem; 
+    margin: .5rem;
+    padding: 1rem;
+    border-radius: .5rem;
+
+    box-shadow: inset 0 0 0 .125rem #fff;
+    text-shadow: 1px 1px 1px #1119;
+
+    outline: 2px ridge #fff0;
+    outline-offset: 2px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    cursor: pointer;
+    user-select: none;
+
+    transform-style: preserve-3d;
+    
+    transition:
+    transform 200ms ease-in-out,
+    opacity 200ms ease-in-out,
+    border-radius 200ms ease-in-out,
+    outline 200ms ease-in-out,
+    background-color 200ms ease-in-out;
+}
+
+.labBtn:hover,
+[class|="nybtn"]:hover {
+    background-color: #1239;
+    background-color: #1230;
+    /* outline: 0px dashed #8880;
+    outline-offset: 0px; */
+    /* outline: 2px dotted #ffff; */
+    outline: 2px ridge #ffff;
+    outline-offset: 2px;
+    border-radius: .25rem;
+    /* backdrop-filter: brightness(2) contrast(1.7);
+    backdrop-filter: brightness(2); */
+    backdrop-filter: brightness(3) contrast(4);
+}
+
+
+
+
+
+
+/* 
+──────────────────── ──────────────────── ────────────────────
+──────────────────── ──────────────────── ────────────────────
+──────────────────── ──────────────────── ────────────────────
+*/
+
+.nybtn--card {
+    position: relative;
+    font-size: 1.25rem;
+    min-height: 3rem; width: 8rem;
+    padding: 1rem;
+    border-radius: .5rem;
+    box-shadow: inset 0 0 0 .125rem #fff;
+    text-shadow: 1px 1px 0 #111;
+    margin: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+
+    text-shadow: 0px 0px 0px #0000;
+    transform-style: preserve-3d;
+    background-image: var(--bgi-card-02);
+    background-size: 2rem 7rem;
+    background-position: center;
+    transition:
+    transform 400ms ease-in-out,
+    opacity 400ms ease-in-out,
+    background-size 200ms ease-in-out;
+}
+.nybtn--card:hover {
+    background-size: 2rem 4rem;
+    background-size: 2rem 5rem;
+}
+.nybtn--card::before,
+.nybtn--card::after {
+    position: absolute;
+    content: ''; top: 50%; left: 50%;
+    height: 4rem; width: 2rem;
+    border-radius: .25rem;
+    background-image: var(--bgi-card);
+    transform-style: preserve-3d;
+    transition:
+    transform 400ms ease-in-out,
+    opacity 400ms ease-in-out;
+    opacity: 0;
+    z-index: -1;
+    animation: card-orbit 3s ease-in-out infinite both;
+}
+.nybtn--card:hover::before,
+.nybtn--card:hover::after {
+    opacity: 1;
+}
+.nybtn--card::before {
+    animation-delay: 1.5s;
+}
+@keyframes card-orbit {
+    0% {transform: perspective(300px) translateX(-50%) translateY(-50%) rotate3d(0,1,0,90deg) rotate3d(0,0,0,0deg) rotate3d(0,0,1,0deg) translateZ(90px);}
+    50% {transform: perspective(300px) translateX(-50%) translateY(-50%) rotate3d(0,1,0,270deg) rotate3d(0,0,0,180deg) rotate3d(0,0,1,180deg) translateZ(90px);}
+    100% {transform: perspective(300px) translateX(-50%) translateY(-50%) rotate3d(0,1,0,450deg) rotate3d(0,0,0,360deg) rotate3d(0,0,1,360deg) translateZ(90px);}
+}
+
+.nybtn--card-02::before,
+.nybtn--card-02::after {
+    opacity: .5;
+}
+.nybtn--card::before,
+.nybtn--card::after {
+    opacity: 1;
 }
