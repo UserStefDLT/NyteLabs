@@ -31,61 +31,6 @@
         }
     </style>
     <link rel="stylesheet" href="../../../stylesheets/nybtns-02.css">
-    <style>
-        .nyte-nav {
-            margin-top: 1.5em;
-            padding: 1em 0;
-
-            position: relative;
-            min-height: 1rem;
-            width: 100%;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-evenly;
-            flex-direction: row;
-            flex-wrap: wrap;
-
-            box-shadow: 
-            inset 0 -1px 1px #39f,
-            inset 0 1px 1px #39f;
-
-            flex-direction: column;
-            backdrop-filter: contrast(1.7);
-            background-color: #1234;
-            margin-top: 2.5rem;
-        }
-        .nyte-nav:not(:first-of-type){margin-top: 2.5rem;}
-        main .shelf-title {
-            position: absolute;
-            top: -1.5em;
-            left: .5em;
-            border-bottom: 1px solid #789;
-            width: max-content;
-            margin: 0;
-        }
-
-        [class|="nsbtn"] {
-            height: 5rem;
-            width: 8rem;
-            padding: .5rem 1rem;
-            /* margin: .5rem 1rem; */
-            /* border-radius: .25rem; */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            outline: 1px dashed #fff9;
-        }
-        [class|="nsbtn"]:hover {
-            outline: 1px dashed #fff9;
-            outline-offset: .25em;
-        }
-        .nsbtn--card {}
-        .nsbtn--pattern-weaver {}
-        .nsbtn--spell-02 {}
-        .nsbtn--kntk {}
-        .nsbtn--default {}
-    </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
@@ -94,18 +39,23 @@
         <div class="title">NyteLabs Buttons</div>
         <!-- <div class="subtitle">subtitle</div> -->
     </header>
-    <div class="bg-stars"></div>
+    <div class="bg-stars">
+        <div class="star-sphere">
+            <div class="star-field2">
+            </div>
+        </div>
+    </div>
 
 <main>
     <div class="nyte-nav">
-        <!-- <div class="shelf-title">Simplified</div> -->
+        <div class="shelf-title">Sections</div>
         <div class="lablinks">
-            <a href="lab/cards/deck-a04/"><div class="nsbtn--card">Deck</div></a>
-            <a href="lab/pattern-weaver/"><div class="nsbtn--pattern-weaver">Pattern Weavers</div></a>
-            <a href="lab/canvas/spell-effect-02/"><div class="nsbtn--spell-02">Spell Effects 2</div></a>
+            <a href="lab/cards/deck-a04/"><div class="nybtn--card">Deck 04</div></a>
+            <a href="lab/pattern-weaver/"><div class="nybtn--pattern-weaver">Pattern Weavers</div></a>
+            <a href="lab/canvas/spell-effect-02/"><div class="nybtn--spell-02">Spell Effects 2</div></a>
 
-            <a href="lab/recreate/kinetic-sculpture/kntk-short.html"><div class="nsbtn--kntk">Kinetic Sculpture++</div></a>
-            <a href="lab/canvas/canvas-map.html"><div class="nsbtn--default">Canvas</div></a>
+            <a href="lab/recreate/kinetic-sculpture/kntk-short.html"><div class="nybtn--kntk">Kinetic Sculpture ++</div></a>
+            <a href="lab/canvas/canvas-map.html"><div class="labBtn">Canvas</div></a>
         </div>
     </div>
     <div class="shelf">

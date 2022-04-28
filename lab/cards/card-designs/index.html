@@ -13,6 +13,354 @@
     <link rel="stylesheet" href="../../../stylesheets/deck.css">
     <link rel="stylesheet" href="cards.css">
     <style>
+        :root {
+            --bw0: #000;
+            --bw1: #111;
+            --bw8: #888;
+            --bwf: #fff;
+            --clr-t: transparent;
+            --h-045: hsla(045deg, 100%, 60%, 1);
+            --h-135: hsla(135deg, 100%, 60%, 1);
+            --h-225: hsla(225deg, 100%, 60%, 1);
+            --h-315: hsla(315deg, 100%, 60%, 1);
+            --bgi-card: 
+            linear-gradient(045deg, hsla(045deg, 100%, 60%, .5) 10px, var(--clr-t) 10px),
+            linear-gradient(135deg, hsla(135deg, 100%, 60%, .5) 10px, var(--clr-t) 10px),
+            linear-gradient(225deg, hsla(225deg, 100%, 60%, .5) 10px, var(--clr-t) 10px),
+            linear-gradient(315deg, hsla(315deg, 100%, 60%, .5) 10px, var(--clr-t) 10px),
+
+            linear-gradient(045deg, var(--bwf) 12px, var(--clr-t) 12px),
+            linear-gradient(135deg, var(--bwf) 12px, var(--clr-t) 12px),
+            linear-gradient(225deg, var(--bwf) 12px, var(--clr-t) 12px),
+            linear-gradient(315deg, var(--bwf) 12px, var(--clr-t) 12px),
+
+            linear-gradient(045deg, var(--h-045) 14px, var(--clr-t) 14px),
+            linear-gradient(135deg, var(--h-135) 14px, var(--clr-t) 14px),
+            linear-gradient(225deg, var(--h-225) 14px, var(--clr-t) 14px),
+            linear-gradient(315deg, var(--h-315) 14px, var(--clr-t) 14px),
+
+            repeating-conic-gradient(
+                hsla(225deg, 100%, 60%, .2) 0deg 90deg, 
+                hsla(315deg, 100%, 60%, .2) 90deg 180deg, 
+                hsla(045deg, 100%, 60%, .2) 180deg 270deg, 
+                hsla(135deg, 100%, 60%, .2) 270deg 360deg),
+
+            linear-gradient(45deg, var(--bwf) 20px, var(--clr-t) 20px),
+            linear-gradient(135deg, var(--bwf) 20px, var(--clr-t) 20px),
+            linear-gradient(225deg, var(--bwf) 20px, var(--clr-t) 20px),
+            linear-gradient(315deg, var(--bwf) 20px, var(--clr-t) 20px),
+
+            linear-gradient(045deg, var(--bw0) 21px, var(--clr-t) 21px),
+            linear-gradient(135deg, var(--bw0) 21px, var(--clr-t) 21px),
+            linear-gradient(225deg, var(--bw0) 21px, var(--clr-t) 21px),
+            linear-gradient(315deg, var(--bw0) 21px, var(--clr-t) 21px),
+
+            linear-gradient(045deg, hsla(045deg, 100%, 80%, .4) 20px, hsla(045deg, 100%, 80%, 1) 22px, var(--clr-t) 24px),
+            linear-gradient(135deg, hsla(135deg, 100%, 20%, .4) 20px, hsla(135deg, 100%, 20%, 1) 22px, var(--clr-t) 24px),
+            linear-gradient(315deg, hsla(315deg, 100%, 80%, .4) 20px, hsla(315deg, 100%, 80%, 1) 22px, var(--clr-t) 24px),
+            linear-gradient(225deg, hsla(225deg, 100%, 20%, .4) 20px, hsla(225deg, 100%, 20%, 1) 22px, var(--clr-t) 24px),
+
+            linear-gradient(045deg, hsla(045deg, 100%, 20%, 1) 24px, hsla(045deg, 100%, 20%, .4) 27px, var(--clr-t) 29px),
+            linear-gradient(135deg, hsla(135deg, 100%, 80%, 1) 24px, hsla(135deg, 100%, 80%, .4) 27px, var(--clr-t) 29px),
+            linear-gradient(315deg, hsla(315deg, 100%, 20%, 1) 24px, hsla(315deg, 100%, 20%, .4) 27px, var(--clr-t) 29px),
+            linear-gradient(225deg, hsla(225deg, 100%, 80%, 1) 24px, hsla(225deg, 100%, 80%, .4) 27px, var(--clr-t) 29px),
+            
+            repeating-conic-gradient(
+                var(--h-225) 0deg 90deg, 
+                var(--h-315) 90deg 180deg, 
+                var(--h-045) 180deg 270deg, 
+                var(--h-135) 270deg 360deg),
+            linear-gradient(315deg, var(--bwf), var(--clr-t));
+
+            --sz-px: 2px; --sz-em: .0625em;
+            --sz-px: 2px; --sz-em: .125em;
+            --sz-px: 4px; --sz-em: .25em;
+            --sz-px: 8px; --sz-em: .5em;
+            --sz-px: 10px; --sz-em: .625em;
+            --sz-px: 12px; --sz-em: .75em;
+            --sz-px: 14px; --sz-em: .875em;
+            --sz-px: 16px; --sz-em: 1em;
+            --sz-px: 20px; --sz-em: 1.25em;
+            --sz-px: 21px; --sz-em: 1.3125em;
+            --sz-px: 22px; --sz-em: 1.325em;
+            --sz-px: 24px; --sz-em: 1.5em;
+            --sz-px: 27px; --sz-em: 1.6875em;
+            --sz-px: 29px; --sz-em: 1.8125em;
+        }
+        .nyd-00 {
+            --hue-card-1: 225deg;
+            --hue-card-2: 315deg;
+            --hue-card-3: 045deg;
+            --hue-card-4: 135deg;
+            --bgi-card: 
+            linear-gradient(045deg, hsla(045deg, 100%, 60%, .5) .75em, var(--clr-t) .75em),
+            linear-gradient(135deg, hsla(135deg, 100%, 60%, .5) .75em, var(--clr-t) .75em),
+            linear-gradient(225deg, hsla(225deg, 100%, 60%, .5) .75em, var(--clr-t) .75em),
+            linear-gradient(315deg, hsla(315deg, 100%, 60%, .5) .75em, var(--clr-t) .75em),
+
+            linear-gradient(045deg, var(--bwf) 1em, var(--clr-t) 1em),
+            linear-gradient(135deg, var(--bwf) 1em, var(--clr-t) 1em),
+            linear-gradient(225deg, var(--bwf) 1em, var(--clr-t) 1em),
+            linear-gradient(315deg, var(--bwf) 1em, var(--clr-t) 1em),
+
+            repeating-conic-gradient(
+                hsla(var(--hue-card-1), 100%, 60%, .2) 0deg 90deg, 
+                hsla(var(--hue-card-2), 100%, 60%, .2) 90deg 180deg, 
+                hsla(var(--hue-card-3), 100%, 60%, .2) 180deg 270deg, 
+                hsla(var(--hue-card-4), 100%, 60%, .2) 270deg 360deg),
+
+            linear-gradient(45deg, var(--bwf) 1.25em, var(--clr-t) 1.25em),
+            linear-gradient(135deg, var(--bwf) 1.25em, var(--clr-t) 1.25em),
+            linear-gradient(225deg, var(--bwf) 1.25em, var(--clr-t) 1.25em),
+            linear-gradient(315deg, var(--bwf) 1.25em, var(--clr-t) 1.25em),
+
+            linear-gradient(045deg, var(--bw0) 1.3125em, var(--clr-t) 1.3125em),
+            linear-gradient(135deg, var(--bw0) 1.3125em, var(--clr-t) 1.3125em),
+            linear-gradient(225deg, var(--bw0) 1.3125em, var(--clr-t) 1.3125em),
+            linear-gradient(315deg, var(--bw0) 1.3125em, var(--clr-t) 1.3125em),
+
+            linear-gradient(045deg, hsla(045deg, 100%, 80%, .4) 1.25em, hsla(045deg, 100%, 80%, 1) 1.325em, var(--clr-t) 1.5em),
+            linear-gradient(135deg, hsla(135deg, 100%, 20%, .4) 1.25em, hsla(135deg, 100%, 20%, 1) 1.325em, var(--clr-t) 1.5em),
+            linear-gradient(315deg, hsla(315deg, 100%, 80%, .4) 1.25em, hsla(315deg, 100%, 80%, 1) 1.325em, var(--clr-t) 1.5em),
+            linear-gradient(225deg, hsla(225deg, 100%, 20%, .4) 1.25em, hsla(225deg, 100%, 20%, 1) 1.325em, var(--clr-t) 1.5em),
+
+            linear-gradient(045deg, hsla(045deg, 100%, 20%, 1) 1.5em, hsla(045deg, 100%, 20%, .4) 1.6875em, var(--clr-t) 1.8125em),
+            linear-gradient(135deg, hsla(135deg, 100%, 80%, 1) 1.5em, hsla(135deg, 100%, 80%, .4) 1.6875em, var(--clr-t) 1.8125em),
+            linear-gradient(315deg, hsla(315deg, 100%, 20%, 1) 1.5em, hsla(315deg, 100%, 20%, .4) 1.6875em, var(--clr-t) 1.8125em),
+            linear-gradient(225deg, hsla(225deg, 100%, 80%, 1) 1.5em, hsla(225deg, 100%, 80%, .4) 1.6875em, var(--clr-t) 1.8125em),
+            
+            repeating-conic-gradient(
+                var(--h-225) 0deg 90deg, 
+                var(--h-315) 90deg 180deg, 
+                var(--h-045) 180deg 270deg, 
+                var(--h-135) 270deg 360deg),
+            linear-gradient(315deg, var(--bwf), var(--clr-t));
+        }
+        .nyd-01 {
+            --bgi-card: 
+            linear-gradient(045deg, hsla(045deg, 100%, 60%, .5) .625em, var(--clr-t) .625em),
+            linear-gradient(135deg, hsla(135deg, 100%, 60%, .5) .625em, var(--clr-t) .625em),
+            linear-gradient(225deg, hsla(225deg, 100%, 60%, .5) .625em, var(--clr-t) .625em),
+            linear-gradient(315deg, hsla(315deg, 100%, 60%, .5) .625em, var(--clr-t) .625em),
+
+            linear-gradient(045deg, var(--bwf) .75em, var(--clr-t) .75em),
+            linear-gradient(135deg, var(--bwf) .75em, var(--clr-t) .75em),
+            linear-gradient(225deg, var(--bwf) .75em, var(--clr-t) .75em),
+            linear-gradient(315deg, var(--bwf) .75em, var(--clr-t) .75em),
+
+            linear-gradient(045deg, var(--h-045) .875em, var(--clr-t) .875em),
+            linear-gradient(135deg, var(--h-135) .875em, var(--clr-t) .875em),
+            linear-gradient(225deg, var(--h-225) .875em, var(--clr-t) .875em),
+            linear-gradient(315deg, var(--h-315) .875em, var(--clr-t) .875em),
+
+            repeating-conic-gradient(
+                hsla(225deg, 100%, 60%, .2) 0deg 90deg, 
+                hsla(315deg, 100%, 60%, .2) 90deg 180deg, 
+                hsla(045deg, 100%, 60%, .2) 180deg 270deg, 
+                hsla(135deg, 100%, 60%, .2) 270deg 360deg),
+
+            linear-gradient(45deg, var(--bwf) 1.25em, var(--clr-t) 1.25em),
+            linear-gradient(135deg, var(--bwf) 1.25em, var(--clr-t) 1.25em),
+            linear-gradient(225deg, var(--bwf) 1.25em, var(--clr-t) 1.25em),
+            linear-gradient(315deg, var(--bwf) 1.25em, var(--clr-t) 1.25em),
+
+            linear-gradient(045deg, var(--bw0) 1.3125em, var(--clr-t) 1.3125em),
+            linear-gradient(135deg, var(--bw0) 1.3125em, var(--clr-t) 1.3125em),
+            linear-gradient(225deg, var(--bw0) 1.3125em, var(--clr-t) 1.3125em),
+            linear-gradient(315deg, var(--bw0) 1.3125em, var(--clr-t) 1.3125em),
+
+            linear-gradient(045deg, hsla(045deg, 100%, 80%, .4) 1.25em, hsla(045deg, 100%, 80%, 1) 1.325em, var(--clr-t) 1.5em),
+            linear-gradient(135deg, hsla(135deg, 100%, 20%, .4) 1.25em, hsla(135deg, 100%, 20%, 1) 1.325em, var(--clr-t) 1.5em),
+            linear-gradient(315deg, hsla(315deg, 100%, 80%, .4) 1.25em, hsla(315deg, 100%, 80%, 1) 1.325em, var(--clr-t) 1.5em),
+            linear-gradient(225deg, hsla(225deg, 100%, 20%, .4) 1.25em, hsla(225deg, 100%, 20%, 1) 1.325em, var(--clr-t) 1.5em),
+
+            linear-gradient(045deg, hsla(045deg, 100%, 20%, 1) 1.5em, hsla(045deg, 100%, 20%, .4) 1.6875em, var(--clr-t) 1.8125em),
+            linear-gradient(135deg, hsla(135deg, 100%, 80%, 1) 1.5em, hsla(135deg, 100%, 80%, .4) 1.6875em, var(--clr-t) 1.8125em),
+            linear-gradient(315deg, hsla(315deg, 100%, 20%, 1) 1.5em, hsla(315deg, 100%, 20%, .4) 1.6875em, var(--clr-t) 1.8125em),
+            linear-gradient(225deg, hsla(225deg, 100%, 80%, 1) 1.5em, hsla(225deg, 100%, 80%, .4) 1.6875em, var(--clr-t) 1.8125em),
+            
+            repeating-conic-gradient(
+                var(--h-225) 0deg 90deg, 
+                var(--h-315) 90deg 180deg, 
+                var(--h-045) 180deg 270deg, 
+                var(--h-135) 270deg 360deg),
+            linear-gradient(315deg, var(--bwf), var(--clr-t));
+        }
+        .nyd-02 {
+            --bgi-card: 
+            linear-gradient(045deg, hsla(045deg, 100%, 60%, .5) 10px, var(--clr-t) 10px),
+            linear-gradient(135deg, hsla(135deg, 100%, 60%, .5) 10px, var(--clr-t) 10px),
+            linear-gradient(225deg, hsla(225deg, 100%, 60%, .5) 10px, var(--clr-t) 10px),
+            linear-gradient(315deg, hsla(315deg, 100%, 60%, .5) 10px, var(--clr-t) 10px),
+
+            linear-gradient(045deg, var(--bwf) 12px, var(--clr-t) 12px),
+            linear-gradient(135deg, var(--bwf) 12px, var(--clr-t) 12px),
+            linear-gradient(225deg, var(--bwf) 12px, var(--clr-t) 12px),
+            linear-gradient(315deg, var(--bwf) 12px, var(--clr-t) 12px),
+
+            linear-gradient(045deg, var(--h-045) 14px, var(--clr-t) 14px),
+            linear-gradient(135deg, var(--h-135) 14px, var(--clr-t) 14px),
+            linear-gradient(225deg, var(--h-225) 14px, var(--clr-t) 14px),
+            linear-gradient(315deg, var(--h-315) 14px, var(--clr-t) 14px),
+
+            repeating-conic-gradient(
+                hsla(225deg, 100%, 60%, .2) 0deg 90deg, 
+                hsla(315deg, 100%, 60%, .2) 90deg 180deg, 
+                hsla(045deg, 100%, 60%, .2) 180deg 270deg, 
+                hsla(135deg, 100%, 60%, .2) 270deg 360deg),
+
+            linear-gradient(045deg, hsla(045deg, 100%, 80%, .4) 20px, hsla(045deg, 100%, 80%, 1) 22px, var(--clr-t) 24px),
+            linear-gradient(135deg, hsla(135deg, 100%, 20%, .4) 20px, hsla(135deg, 100%, 20%, 1) 22px, var(--clr-t) 24px),
+            linear-gradient(315deg, hsla(315deg, 100%, 80%, .4) 20px, hsla(315deg, 100%, 80%, 1) 22px, var(--clr-t) 24px),
+            linear-gradient(225deg, hsla(225deg, 100%, 20%, .4) 20px, hsla(225deg, 100%, 20%, 1) 22px, var(--clr-t) 24px),
+
+            linear-gradient(045deg, hsla(045deg, 100%, 20%, 1) 24px, hsla(045deg, 100%, 20%, .4) 27px, var(--clr-t) 29px),
+            linear-gradient(135deg, hsla(135deg, 100%, 80%, 1) 24px, hsla(135deg, 100%, 80%, .4) 27px, var(--clr-t) 29px),
+            linear-gradient(315deg, hsla(315deg, 100%, 20%, 1) 24px, hsla(315deg, 100%, 20%, .4) 27px, var(--clr-t) 29px),
+            linear-gradient(225deg, hsla(225deg, 100%, 80%, 1) 24px, hsla(225deg, 100%, 80%, .4) 27px, var(--clr-t) 29px),
+            
+            repeating-conic-gradient(
+                var(--h-225) 0deg 90deg, 
+                var(--h-315) 90deg 180deg, 
+                var(--h-045) 180deg 270deg, 
+                var(--h-135) 270deg 360deg),
+            linear-gradient(315deg, var(--bwf), var(--clr-t));
+        }
+        .nyd-03 {
+            --bgi-card: 
+            linear-gradient(045deg, hsla(045deg, 100%, 60%, .5) 10px, var(--clr-t) 10px),
+            linear-gradient(135deg, hsla(135deg, 100%, 60%, .5) 10px, var(--clr-t) 10px),
+            linear-gradient(225deg, hsla(225deg, 100%, 60%, .5) 10px, var(--clr-t) 10px),
+            linear-gradient(315deg, hsla(315deg, 100%, 60%, .5) 10px, var(--clr-t) 10px),
+
+            linear-gradient(045deg, var(--bwf) 12px, var(--clr-t) 12px),
+            linear-gradient(135deg, var(--bwf) 12px, var(--clr-t) 12px),
+            linear-gradient(225deg, var(--bwf) 12px, var(--clr-t) 12px),
+            linear-gradient(315deg, var(--bwf) 12px, var(--clr-t) 12px),
+
+            linear-gradient(045deg, var(--h-045) 14px, var(--clr-t) 14px),
+            linear-gradient(135deg, var(--h-135) 14px, var(--clr-t) 14px),
+            linear-gradient(225deg, var(--h-225) 14px, var(--clr-t) 14px),
+            linear-gradient(315deg, var(--h-315) 14px, var(--clr-t) 14px),
+
+            repeating-conic-gradient(
+                hsla(225deg, 100%, 60%, .2) 0deg 90deg, 
+                hsla(315deg, 100%, 60%, .2) 90deg 180deg, 
+                hsla(045deg, 100%, 60%, .2) 180deg 270deg, 
+                hsla(135deg, 100%, 60%, .2) 270deg 360deg),
+
+            linear-gradient(45deg, var(--bwf) 20px, var(--clr-t) 20px),
+            linear-gradient(135deg, var(--bwf) 20px, var(--clr-t) 20px),
+            linear-gradient(225deg, var(--bwf) 20px, var(--clr-t) 20px),
+            linear-gradient(315deg, var(--bwf) 20px, var(--clr-t) 20px),
+
+            /* linear-gradient(045deg, var(--bw0) 21px, var(--clr-t) 21px),
+            linear-gradient(135deg, var(--bw0) 21px, var(--clr-t) 21px),
+            linear-gradient(225deg, var(--bw0) 21px, var(--clr-t) 21px),
+            linear-gradient(315deg, var(--bw0) 21px, var(--clr-t) 21px), */
+            
+            repeating-conic-gradient(
+                var(--h-225) 0deg 90deg, 
+                var(--h-315) 90deg 180deg, 
+                var(--h-045) 180deg 270deg, 
+                var(--h-135) 270deg 360deg),
+            linear-gradient(315deg, var(--bwf), var(--clr-t));
+        }
+        .nyCard {
+            position: relative;
+            margin: .5rem 1rem;
+            outline: 1px dashed #fff8;
+            outline-offset: 4px;
+            background-image: var(--bgi-card);
+        }
+        .nysz-2x4 {
+            width: 2em; height: 4em;
+        }
+        .nysz-5x8 {
+            width: 5em; height: 8em;
+            width: 2.5em; height: 4em;
+        }
+        .nysz-8x13 {
+            width: 8em; height: 13em;
+            width: 2em; height: 3.25em;
+        }
+
+        .nyCard.nyd-00 {
+            --hue-card-1: 225deg;
+            --hue-card-2: 315deg;
+            --hue-card-3: 045deg;
+            --hue-card-4: 135deg;
+            background: 
+                linear-gradient(045deg, hsla(045deg, 100%, 60%, .5) .75em, var(--clr-t) .75em),
+                linear-gradient(135deg, hsla(135deg, 100%, 60%, .5) .75em, var(--clr-t) .75em),
+                linear-gradient(225deg, hsla(225deg, 100%, 60%, .5) .75em, var(--clr-t) .75em),
+                linear-gradient(315deg, hsla(315deg, 100%, 60%, .5) .75em, var(--clr-t) .75em),
+
+                linear-gradient(045deg, var(--bwf) 1em, var(--clr-t) 1em),
+                linear-gradient(135deg, var(--bwf) 1em, var(--clr-t) 1em),
+                linear-gradient(225deg, var(--bwf) 1em, var(--clr-t) 1em),
+                linear-gradient(315deg, var(--bwf) 1em, var(--clr-t) 1em),
+
+                repeating-conic-gradient(
+                    hsla(var(--hue-card-1), 100%, 60%, 1) 0deg 90deg, 
+                    hsla(var(--hue-card-2), 100%, 60%, 1) 90deg 180deg, 
+                    hsla(var(--hue-card-3), 100%, 60%, 1) 180deg 270deg, 
+                    hsla(var(--hue-card-4), 100%, 60%, 1) 270deg 360deg) center / 1em 1em no-repeat,
+                repeating-conic-gradient(from 45deg,
+                    hsla(var(--hue-card-1), 100%, 20%, 1) -45deg 45deg, 
+                    hsla(var(--hue-card-2), 100%, 20%, 1) 45deg 135deg, 
+                    hsla(var(--hue-card-3), 100%, 20%, 1) 135deg 225deg, 
+                    hsla(var(--hue-card-4), 100%, 20%, 1) 225deg 315deg) center / 1em 4em no-repeat,
+
+                repeating-conic-gradient(
+                    hsla(var(--hue-card-1), 100%, 60%, .2) 0deg 90deg, 
+                    hsla(var(--hue-card-2), 100%, 60%, .2) 90deg 180deg, 
+                    hsla(var(--hue-card-3), 100%, 60%, .2) 180deg 270deg, 
+                    hsla(var(--hue-card-4), 100%, 60%, .2) 270deg 360deg),
+                
+                repeating-conic-gradient(
+                    var(--h-225) 0deg 90deg, 
+                    var(--h-315) 90deg 180deg, 
+                    var(--h-045) 180deg 270deg, 
+                    var(--h-135) 270deg 360deg),
+                linear-gradient(315deg, var(--bwf), var(--clr-t));
+            background: 
+                linear-gradient(045deg, hsla(045deg, 100%, 60%, .5) .75em, var(--clr-t) .75em),
+                linear-gradient(135deg, hsla(135deg, 100%, 60%, .5) .75em, var(--clr-t) .75em),
+                linear-gradient(225deg, hsla(225deg, 100%, 60%, .5) .75em, var(--clr-t) .75em),
+                linear-gradient(315deg, hsla(315deg, 100%, 60%, .5) .75em, var(--clr-t) .75em),
+
+                linear-gradient(045deg, var(--bwf) 1em, var(--clr-t) 1em),
+                linear-gradient(135deg, var(--bwf) 1em, var(--clr-t) 1em),
+                linear-gradient(225deg, var(--bwf) 1em, var(--clr-t) 1em),
+                linear-gradient(315deg, var(--bwf) 1em, var(--clr-t) 1em),
+
+                repeating-conic-gradient(
+                    hsla(var(--hue-card-1), 100%, 60%, 1) 0deg 90deg, 
+                    hsla(var(--hue-card-2), 100%, 60%, 1) 90deg 180deg, 
+                    hsla(var(--hue-card-3), 100%, 60%, 1) 180deg 270deg, 
+                    hsla(var(--hue-card-4), 100%, 60%, 1) 270deg 360deg) center / 1em 1em no-repeat,
+                repeating-conic-gradient(from 45deg,
+                    hsla(var(--hue-card-1), 100%, 20%, 1) -45deg 45deg, 
+                    hsla(var(--hue-card-2), 100%, 20%, 1) 45deg 135deg, 
+                    hsla(var(--hue-card-3), 100%, 20%, 1) 135deg 225deg, 
+                    hsla(var(--hue-card-4), 100%, 20%, 1) 225deg 315deg) center / 2em 2em no-repeat,
+
+                repeating-conic-gradient(
+                    hsla(var(--hue-card-1), 100%, 60%, .2) 0deg 90deg, 
+                    hsla(var(--hue-card-2), 100%, 60%, .2) 90deg 180deg, 
+                    hsla(var(--hue-card-3), 100%, 60%, .2) 180deg 270deg, 
+                    hsla(var(--hue-card-4), 100%, 60%, .2) 270deg 360deg),
+                
+                repeating-conic-gradient(
+                    var(--h-225) 0deg 90deg, 
+                    var(--h-315) 90deg 180deg, 
+                    var(--h-045) 180deg 270deg, 
+                    var(--h-135) 270deg 360deg),
+                linear-gradient(315deg, var(--bwf), var(--clr-t));
+        }
+
+        .z {display: none;}
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
@@ -24,8 +372,47 @@
     </header>
 
 <main>
+    <div class="shelf hidden">
+        <div class="shelf-title">Card Ratios</div>
+        <div class="nyCard nyd-03 nysz-2x4"></div>
+        <div class="nyCard nyd-02 nysz-2x4"></div>
+        <div class="nyCard nyd-01 nysz-2x4"></div>
+        <div class="nyCard nyd-00 nysz-2x4"></div>
+        <div class="nyCard nyd-00 nysz-5x8"></div>
+        <!-- <div class="nyCard nyd-00 nysz-8x13"></div> -->
+    </div>
     <div class="shelf">
-        <div class="shelf-title">Cards</div>
+        <div class="shelf-title">Cards (1x2)</div>
+        <div class="nyCard-01"></div>
+        <div class="nyCard-02"></div>
+        <div class="nyCard-03"></div>
+        <div class="nyCard-04"></div>
+        <div class="nyCard-05"></div>
+        <div class="nyCard-06"></div>
+        <div class="nyCard-07"></div>
+        <div class="nyCard-08"></div>
+        <div class="nyCard-09"></div>
+        <div class="nyCard-10"></div>
+        <div class="nyCard-11"></div>
+        <div class="nyCard-12"></div>
+    </div>
+    <div class="shelf nysz-to-5x8">
+        <div class="shelf-title">Cards (5x8)</div>
+        <div class="nyCard-01"></div>
+        <div class="nyCard-02"></div>
+        <div class="nyCard-03"></div>
+        <div class="nyCard-04"></div>
+        <div class="nyCard-05"></div>
+        <div class="nyCard-06"></div>
+        <div class="nyCard-07"></div>
+        <div class="nyCard-08"></div>
+        <div class="nyCard-09"></div>
+        <div class="nyCard-10"></div>
+        <div class="nyCard-11"></div>
+        <div class="nyCard-12"></div>
+    </div>
+    <div class="shelf nysz-to-2x2">
+        <div class="shelf-title">Cards (2x2)</div>
         <div class="nyCard-01"></div>
         <div class="nyCard-02"></div>
         <div class="nyCard-03"></div>

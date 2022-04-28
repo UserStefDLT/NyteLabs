@@ -4,6 +4,12 @@
     --cz: transparent;
     --c1: #fff;
 
+    --bw0: #000;
+    --bw1: #111;
+    --bw8: #888;
+    --bwf: #fff;
+    --clr-t: transparent;
+
     --h-225: hsla(225deg, 100%, 60%, 1);
     --h-315: hsla(315deg, 100%, 60%, 1);
     --h-045: hsla(45deg, 100%, 60%, 1);
@@ -14,7 +20,16 @@
     --h2-045: hsla(45deg, 100%, 60%, .5);
     --h2-135: hsla(135deg, 100%, 60%, .5);
 
+    --hue-card-1: 225deg;
+    --hue-card-2: 315deg;
+    --hue-card-3: 045deg;
+    --hue-card-4: 135deg;
 
+    --h225: 225deg;
+    --h315: 315deg;
+    --h045: 045deg;
+    --h135: 135deg;
+    
 }
 
 
@@ -36,6 +51,35 @@
     transform: translateX(-50%) translateY(-50%);
     transform: translateX(4px) translateY(-50%);
 }
+
+.nysz-to-5x8 [class|="nyCard"] {
+    --side-marging: .5em;
+    --card-height: 4em;
+    --card-width: 2.5em;
+    height: var(--card-height); width: calc((var(--card-width) * 2) + var(--side-marging));
+}
+.nysz-to-5x8 [class|="nyCard"]::after,
+.nysz-to-5x8 [class|="nyCard"]::before {
+    width: 2.5em; height: 4em;
+}
+.nysz-to-5x8 [class|="nyCard"]::after {
+    transform: translateX(-2.75em) translateY(-50%);
+}
+
+.nysz-to-2x2 [class|="nyCard"] {
+    --side-marging: .5em;
+    --card-height: 4em;
+    --card-width: 4em;
+    height: var(--card-height); width: calc((var(--card-width) * 2) + var(--side-marging));
+}
+.nysz-to-2x2 [class|="nyCard"]::after,
+.nysz-to-2x2 [class|="nyCard"]::before {
+    width: 4em; height: 4em;
+}
+.nysz-to-2x2 [class|="nyCard"]::after {
+    transform: translateX(-4.25em) translateY(-50%);
+}
+
 
 /* back */
 [class|="nyCard"]::after,
@@ -177,11 +221,6 @@
 }
 
 .nyCard-03::before {
-    --c: #fc3;
-    --c: #3f6;
-    --c: #36f;
-    --c: #f3c;
-
     background-image: 
     linear-gradient(045deg, hsla(045deg, 100%, 60%, .5) 10px, #fff0 10px),
     linear-gradient(135deg, hsla(135deg, 100%, 60%, .5) 10px, #fff0 10px),
@@ -228,11 +267,6 @@
 }
 
 .nyCard-04::before {
-    --c: #fc3;
-    --c: #3f6;
-    --c: #36f;
-    --c: #f3c;
-
     background-image: 
     linear-gradient(045deg, hsla(045deg, 100%, 60%, .5) 10px, #fff0 10px),
     linear-gradient(135deg, hsla(135deg, 100%, 60%, .5) 10px, #fff0 10px),
@@ -352,139 +386,343 @@
 }
 
 .nyCard-06::before {
-    --c: #fc3;
-    --c: #3f6;
-    --c: #36f;
-    --c: #f3c;
-
     background-image: 
-    linear-gradient(045deg, hsla(045deg, 100%, 60%, .5) 10px, #fff0 10px),
-    linear-gradient(135deg, hsla(135deg, 100%, 60%, .5) 10px, #fff0 10px),
-    linear-gradient(225deg, hsla(225deg, 100%, 60%, .5) 10px, #fff0 10px),
-    linear-gradient(315deg, hsla(315deg, 100%, 60%, .5) 10px, #fff0 10px),
+    linear-gradient(045deg, hsla(var(--h045), 100%, 60%, .5) 10px, var(--clr-t) 10px),
+    linear-gradient(135deg, hsla(var(--h135), 100%, 60%, .5) 10px, var(--clr-t) 10px),
+    linear-gradient(225deg, hsla(var(--h225), 100%, 60%, .5) 10px, var(--clr-t) 10px),
+    linear-gradient(315deg, hsla(var(--h315), 100%, 60%, .5) 10px, var(--clr-t) 10px),
 
-    linear-gradient(045deg, #ffff 12px, #fff0 12px),
-    linear-gradient(135deg, #ffff 12px, #fff0 12px),
-    linear-gradient(225deg, #ffff 12px, #fff0 12px),
-    linear-gradient(315deg, #ffff 12px, #fff0 12px),
+    linear-gradient(045deg, var(--bwf) 12px, var(--clr-t) 12px),
+    linear-gradient(135deg, var(--bwf) 12px, var(--clr-t) 12px),
+    linear-gradient(225deg, var(--bwf) 12px, var(--clr-t) 12px),
+    linear-gradient(315deg, var(--bwf) 12px, var(--clr-t) 12px),
 
-    linear-gradient(045deg, hsla(045deg, 100%, 60%, 1) 14px, #fff0 14px),
-    linear-gradient(135deg, hsla(135deg, 100%, 60%, 1) 14px, #fff0 14px),
-    linear-gradient(225deg, hsla(225deg, 100%, 60%, 1) 14px, #fff0 14px),
-    linear-gradient(315deg, hsla(315deg, 100%, 60%, 1) 14px, #fff0 14px),
+    linear-gradient(045deg, hsla(var(--h045), 100%, 60%, 1) 14px, var(--clr-t) 14px),
+    linear-gradient(135deg, hsla(var(--h135), 100%, 60%, 1) 14px, var(--clr-t) 14px),
+    linear-gradient(225deg, hsla(var(--h225), 100%, 60%, 1) 14px, var(--clr-t) 14px),
+    linear-gradient(315deg, hsla(var(--h315), 100%, 60%, 1) 14px, var(--clr-t) 14px),
 
     repeating-conic-gradient(
-        hsla(225deg, 100%, 60%, .2) 0deg 90deg, 
-        hsla(315deg, 100%, 60%, .2) 90deg 180deg, 
-        hsla(045deg, 100%, 60%, .2) 180deg 270deg, 
-        hsla(135deg, 100%, 60%, .2) 270deg 360deg),
+        hsla(var(--hue-card-1), 100%, 60%, .2) 0deg 90deg, 
+        hsla(var(--hue-card-2), 100%, 60%, .2) 90deg 180deg, 
+        hsla(var(--hue-card-3), 100%, 60%, .2) 180deg 270deg, 
+        hsla(var(--hue-card-4), 100%, 60%, .2) 270deg 360deg),
 
-    linear-gradient(45deg, #ffff 20px, #fff0 20px),
-    linear-gradient(135deg, #ffff 20px, #fff0 20px),
-    linear-gradient(225deg, #ffff 20px, #fff0 20px),
-    linear-gradient(315deg, #ffff 20px, #fff0 20px),
+    linear-gradient(045deg, var(--bwf) 20px, var(--clr-t) 20px),
+    linear-gradient(135deg, var(--bwf) 20px, var(--clr-t) 20px),
+    linear-gradient(225deg, var(--bwf) 20px, var(--clr-t) 20px),
+    linear-gradient(315deg, var(--bwf) 20px, var(--clr-t) 20px),
 
-    linear-gradient(045deg, #000 21px, #0000 21px),
-    linear-gradient(135deg, #000 21px, #0000 21px),
-    linear-gradient(225deg, #000 21px, #0000 21px),
-    linear-gradient(315deg, #000 21px, #0000 21px),
+    linear-gradient(045deg, var(--bw0) 21px, var(--clr-t) 21px),
+    linear-gradient(135deg, var(--bw0) 21px, var(--clr-t) 21px),
+    linear-gradient(225deg, var(--bw0) 21px, var(--clr-t) 21px),
+    linear-gradient(315deg, var(--bw0) 21px, var(--clr-t) 21px),
 
-    linear-gradient(045deg, hsla(045deg, 100%, 40%, .4) 20px, hsla(045deg, 100%, 40%, 1) 22px, #fff0 24px),
-    linear-gradient(135deg, hsla(135deg, 100%, 20%, .4) 20px, hsla(135deg, 100%, 20%, 1) 22px, #fff0 24px),
-    linear-gradient(315deg, hsla(315deg, 100%, 40%, .4) 20px, hsla(315deg, 100%, 40%, 1) 22px, #fff0 24px),
-    linear-gradient(225deg, hsla(225deg, 100%, 20%, .4) 20px, hsla(225deg, 100%, 20%, 1) 22px, #fff0 24px),
+    linear-gradient(045deg, hsla(var(--h045), 100%, 40%, .4) 20px, hsla(var(--h045), 100%, 40%, 1) 22px, var(--clr-t) 24px),
+    linear-gradient(135deg, hsla(var(--h135), 100%, 20%, .4) 20px, hsla(var(--h135), 100%, 20%, 1) 22px, var(--clr-t) 24px),
+    linear-gradient(315deg, hsla(var(--h315), 100%, 40%, .4) 20px, hsla(var(--h315), 100%, 40%, 1) 22px, var(--clr-t) 24px),
+    linear-gradient(225deg, hsla(var(--h225), 100%, 20%, .4) 20px, hsla(var(--h225), 100%, 20%, 1) 22px, var(--clr-t) 24px),
 
-    linear-gradient(045deg, hsla(045deg, 100%, 20%, 1) 24px, hsla(045deg, 100%, 20%, .4) 27px, #fff0 29px),
-    linear-gradient(135deg, hsla(135deg, 100%, 40%, 1) 24px, hsla(135deg, 100%, 40%, .4) 27px, #fff0 29px),
-    linear-gradient(315deg, hsla(315deg, 100%, 20%, 1) 24px, hsla(315deg, 100%, 20%, .4) 27px, #fff0 29px),
-    linear-gradient(225deg, hsla(225deg, 100%, 40%, 1) 24px, hsla(225deg, 100%, 40%, .4) 27px, #fff0 29px),
+    linear-gradient(045deg, hsla(var(--h045), 100%, 20%, 1) 24px, hsla(var(--h045), 100%, 20%, .4) 27px, var(--clr-t) 29px),
+    linear-gradient(135deg, hsla(var(--h135), 100%, 40%, 1) 24px, hsla(var(--h135), 100%, 40%, .4) 27px, var(--clr-t) 29px),
+    linear-gradient(315deg, hsla(var(--h315), 100%, 20%, 1) 24px, hsla(var(--h315), 100%, 20%, .4) 27px, var(--clr-t) 29px),
+    linear-gradient(225deg, hsla(var(--h225), 100%, 40%, 1) 24px, hsla(var(--h225), 100%, 40%, .4) 27px, var(--clr-t) 29px),
     
     /* radial-gradient(circle at 20% 20%, var(--rect-clr), var(--rect-clr2)), */
     /* radial-gradient(circle at 20% 20%, #fff, var(--rect-clr2), #111), */
     /* radial-gradient(circle at 20% 20%, #fff, var(--rect-clr2), #fff), */
     repeating-conic-gradient(
-        hsla(225deg, 100%, 60%, 1) 0deg 90deg, 
-        hsla(315deg, 100%, 60%, 1) 90deg 180deg, 
-        hsla(45deg, 100%, 60%, 1) 180deg 270deg, 
-        hsla(135deg, 100%, 60%, 1) 270deg 360deg),
+        hsla(var(--hue-card-1), 100%, 60%, 1) 0deg 90deg, 
+        hsla(var(--hue-card-2), 100%, 60%, 1) 90deg 180deg, 
+        hsla(var(--hue-card-3), 100%, 60%, 1) 180deg 270deg, 
+        hsla(var(--hue-card-4), 100%, 60%, 1) 270deg 360deg),
 
     repeating-conic-gradient(
         hsla(45deg, 100%, 60%, .8) 0deg 90deg, 
         hsla(135deg, 100%, 60%, .8) 90deg 180deg, 
         hsla(225deg, 100%, 60%, .8) 180deg 270deg, 
         hsla(315deg, 100%, 60%, .8) 270deg 360deg),
-    linear-gradient(315deg, #ffff , #fff0);
+    linear-gradient(315deg, var(--bwf) , #fff0);
 
-    box-shadow: 0 0 0rem 0.125rem #fff, inset 0 0 0rem 0.125rem #000;
+    box-shadow: 0 0 0rem 0.125rem var(--bwf), inset 0 0 0rem 0.125rem #000;
 }
 
 .nyCard-07::before {
-    --c: #fc3;
-    --c: #3f6;
-    --c: #36f;
-    --c: #f3c;
-
     background-image: 
-    linear-gradient(045deg, hsla(045deg, 100%, 60%, .5) 10px, #fff0 10px),
-    linear-gradient(135deg, hsla(135deg, 100%, 60%, .5) 10px, #fff0 10px),
-    linear-gradient(225deg, hsla(225deg, 100%, 60%, .5) 10px, #fff0 10px),
-    linear-gradient(315deg, hsla(315deg, 100%, 60%, .5) 10px, #fff0 10px),
+    linear-gradient(045deg, hsla(var(--h045), 100%, 60%, .5) 10px, var(--clr-t) 10px),
+    linear-gradient(135deg, hsla(var(--h135), 100%, 60%, .5) 10px, var(--clr-t) 10px),
+    linear-gradient(225deg, hsla(var(--h225), 100%, 60%, .5) 10px, var(--clr-t) 10px),
+    linear-gradient(315deg, hsla(var(--h315), 100%, 60%, .5) 10px, var(--clr-t) 10px),
 
-    linear-gradient(045deg, #ffff 12px, #fff0 12px),
-    linear-gradient(135deg, #ffff 12px, #fff0 12px),
-    linear-gradient(225deg, #ffff 12px, #fff0 12px),
-    linear-gradient(315deg, #ffff 12px, #fff0 12px),
+    linear-gradient(045deg, var(--bwf) 12px, var(--clr-t) 12px),
+    linear-gradient(135deg, var(--bwf) 12px, var(--clr-t) 12px),
+    linear-gradient(225deg, var(--bwf) 12px, var(--clr-t) 12px),
+    linear-gradient(315deg, var(--bwf) 12px, var(--clr-t) 12px),
 
-    linear-gradient(045deg, hsla(045deg, 100%, 60%, 1) 14px, #fff0 14px),
-    linear-gradient(135deg, hsla(135deg, 100%, 60%, 1) 14px, #fff0 14px),
-    linear-gradient(225deg, hsla(225deg, 100%, 60%, 1) 14px, #fff0 14px),
-    linear-gradient(315deg, hsla(315deg, 100%, 60%, 1) 14px, #fff0 14px),
+    linear-gradient(045deg, hsla(var(--h045), 100%, 60%, 1) 14px, var(--clr-t) 14px),
+    linear-gradient(135deg, hsla(var(--h135), 100%, 60%, 1) 14px, var(--clr-t) 14px),
+    linear-gradient(225deg, hsla(var(--h225), 100%, 60%, 1) 14px, var(--clr-t) 14px),
+    linear-gradient(315deg, hsla(var(--h315), 100%, 60%, 1) 14px, var(--clr-t) 14px),
 
     repeating-conic-gradient(
-        hsla(225deg, 100%, 60%, .2) 0deg 90deg, 
-        hsla(315deg, 100%, 60%, .2) 90deg 180deg, 
-        hsla(045deg, 100%, 60%, .2) 180deg 270deg, 
-        hsla(135deg, 100%, 60%, .2) 270deg 360deg),
+        hsla(var(--hue-card-1), 100%, 60%, .2) 0deg 90deg, 
+        hsla(var(--hue-card-2), 100%, 60%, .2) 90deg 180deg, 
+        hsla(var(--hue-card-3), 100%, 60%, .2) 180deg 270deg, 
+        hsla(var(--hue-card-4), 100%, 60%, .2) 270deg 360deg),
 
-    linear-gradient(45deg, #ffff 20px, #fff0 20px),
-    linear-gradient(135deg, #ffff 20px, #fff0 20px),
-    linear-gradient(225deg, #ffff 20px, #fff0 20px),
-    linear-gradient(315deg, #ffff 20px, #fff0 20px),
+    linear-gradient(045deg, var(--bwf) 20px, var(--clr-t) 20px),
+    linear-gradient(135deg, var(--bwf) 20px, var(--clr-t) 20px),
+    linear-gradient(225deg, var(--bwf) 20px, var(--clr-t) 20px),
+    linear-gradient(315deg, var(--bwf) 20px, var(--clr-t) 20px),
 
-    linear-gradient(045deg, #000 21px, #0000 21px),
-    linear-gradient(135deg, #000 21px, #0000 21px),
-    linear-gradient(225deg, #000 21px, #0000 21px),
-    linear-gradient(315deg, #000 21px, #0000 21px),
+    linear-gradient(045deg, var(--bw0) 21px, var(--clr-t) 21px),
+    linear-gradient(135deg, var(--bw0) 21px, var(--clr-t) 21px),
+    linear-gradient(225deg, var(--bw0) 21px, var(--clr-t) 21px),
+    linear-gradient(315deg, var(--bw0) 21px, var(--clr-t) 21px),
 
-    linear-gradient(045deg, hsla(045deg, 100%, 40%, 1) 20px, hsla(045deg, 100%, 40%, 1) 22px, #fff0 24px),
-    linear-gradient(135deg, hsla(135deg, 100%, 20%, 1) 20px, hsla(135deg, 100%, 20%, 1) 22px, #fff0 24px),
-    linear-gradient(315deg, hsla(315deg, 100%, 40%, 1) 20px, hsla(315deg, 100%, 40%, 1) 22px, #fff0 24px),
-    linear-gradient(225deg, hsla(225deg, 100%, 20%, 1) 20px, hsla(225deg, 100%, 20%, 1) 22px, #fff0 24px),
+    linear-gradient(045deg, hsla(var(--h045), 100%, 40%, 1) 20px, hsla(var(--h045), 100%, 40%, 1) 22px, var(--clr-t) 24px),
+    linear-gradient(135deg, hsla(var(--h135), 100%, 20%, 1) 20px, hsla(var(--h135), 100%, 20%, 1) 22px, var(--clr-t) 24px),
+    linear-gradient(315deg, hsla(var(--h315), 100%, 40%, 1) 20px, hsla(var(--h315), 100%, 40%, 1) 22px, var(--clr-t) 24px),
+    linear-gradient(225deg, hsla(var(--h225), 100%, 20%, 1) 20px, hsla(var(--h225), 100%, 20%, 1) 22px, var(--clr-t) 24px),
 
-    linear-gradient(045deg, hsla(045deg, 100%, 20%, 1) 24px, hsla(045deg, 100%, 20%, 1) 27px, #fff0 29px),
-    linear-gradient(135deg, hsla(135deg, 100%, 40%, 1) 24px, hsla(135deg, 100%, 40%, 1) 27px, #fff0 29px),
-    linear-gradient(315deg, hsla(315deg, 100%, 20%, 1) 24px, hsla(315deg, 100%, 20%, 1) 27px, #fff0 29px),
-    linear-gradient(225deg, hsla(225deg, 100%, 40%, 1) 24px, hsla(225deg, 100%, 40%, 1) 27px, #fff0 29px),
+    linear-gradient(045deg, hsla(var(--h045), 100%, 20%, 1) 24px, hsla(var(--h045), 100%, 20%, 1) 27px, var(--clr-t) 29px),
+    linear-gradient(135deg, hsla(var(--h135), 100%, 40%, 1) 24px, hsla(var(--h135), 100%, 40%, 1) 27px, var(--clr-t) 29px),
+    linear-gradient(315deg, hsla(var(--h315), 100%, 20%, 1) 24px, hsla(var(--h315), 100%, 20%, 1) 27px, var(--clr-t) 29px),
+    linear-gradient(225deg, hsla(var(--h225), 100%, 40%, 1) 24px, hsla(var(--h225), 100%, 40%, 1) 27px, var(--clr-t) 29px),
     
     /* radial-gradient(circle at 20% 20%, var(--rect-clr), var(--rect-clr2)), */
     /* radial-gradient(circle at 20% 20%, #fff, var(--rect-clr2), #111), */
     /* radial-gradient(circle at 20% 20%, #fff, var(--rect-clr2), #fff), */
     repeating-conic-gradient(
-        hsla(225deg, 100%, 60%, 1) 0deg 90deg, 
-        hsla(315deg, 100%, 60%, 1) 90deg 180deg, 
-        hsla(45deg, 100%, 60%, 1) 180deg 270deg, 
-        hsla(135deg, 100%, 60%, 1) 270deg 360deg),
+        hsla(var(--hue-card-1), 100%, 60%, 1) 0deg 90deg, 
+        hsla(var(--hue-card-2), 100%, 60%, 1) 90deg 180deg, 
+        hsla(var(--hue-card-3), 100%, 60%, 1) 180deg 270deg, 
+        hsla(var(--hue-card-4), 100%, 60%, 1) 270deg 360deg),
 
     repeating-conic-gradient(
         hsla(45deg, 100%, 60%, .8) 0deg 90deg, 
         hsla(135deg, 100%, 60%, .8) 90deg 180deg, 
         hsla(225deg, 100%, 60%, .8) 180deg 270deg, 
         hsla(315deg, 100%, 60%, .8) 270deg 360deg),
-    linear-gradient(315deg, #ffff , #fff0);
+    linear-gradient(315deg, var(--bwf) , var(--clr-t));
 
-    box-shadow: 0 0 0rem 0.125rem #fff, inset 0 0 0rem 0.125rem #000;
+    box-shadow: 0 0 0rem 0.125rem var(--bwf), inset 0 0 0rem 0.125rem var(--bw0);
 }
 
+.nyCard-08::before {
+    background-image: 
+        linear-gradient(045deg, hsla(var(--h045), 100%, 60%, .5) 10px, var(--clr-t) 10px),
+        linear-gradient(135deg, hsla(var(--h135), 100%, 60%, .5) 10px, var(--clr-t) 10px),
+        linear-gradient(225deg, hsla(var(--h225), 100%, 60%, .5) 10px, var(--clr-t) 10px),
+        linear-gradient(315deg, hsla(var(--h315), 100%, 60%, .5) 10px, var(--clr-t) 10px),
+
+        linear-gradient(045deg, var(--bwf) 12px, var(--clr-t) 12px),
+        linear-gradient(135deg, var(--bwf) 12px, var(--clr-t) 12px),
+        linear-gradient(225deg, var(--bwf) 12px, var(--clr-t) 12px),
+        linear-gradient(315deg, var(--bwf) 12px, var(--clr-t) 12px),
+
+        linear-gradient(045deg, hsla(var(--h045), 100%, 60%, 1) 14px, var(--clr-t) 14px),
+        linear-gradient(135deg, hsla(var(--h135), 100%, 60%, 1) 14px, var(--clr-t) 14px),
+        linear-gradient(225deg, hsla(var(--h225), 100%, 60%, 1) 14px, var(--clr-t) 14px),
+        linear-gradient(315deg, hsla(var(--h315), 100%, 60%, 1) 14px, var(--clr-t) 14px),
+
+        repeating-conic-gradient(
+            hsla(var(--hue-card-1), 100%, 60%, .2) 0deg 90deg, 
+            hsla(var(--hue-card-2), 100%, 60%, .2) 90deg 180deg, 
+            hsla(var(--hue-card-3), 100%, 60%, .2) 180deg 270deg, 
+            hsla(var(--hue-card-4), 100%, 60%, .2) 270deg 360deg),
+
+        linear-gradient(45deg, var(--bwf) 20px, var(--clr-t) 20px),
+        linear-gradient(135deg, var(--bwf) 20px, var(--clr-t) 20px),
+        linear-gradient(225deg, var(--bwf) 20px, var(--clr-t) 20px),
+        linear-gradient(315deg, var(--bwf) 20px, var(--clr-t) 20px),
+        
+        repeating-conic-gradient(
+            hsla(var(--hue-card-1), 100%, 60%, 1) 0deg 90deg, 
+            hsla(var(--hue-card-2), 100%, 60%, 1) 90deg 180deg, 
+            hsla(var(--hue-card-3), 100%, 60%, 1) 180deg 270deg, 
+            hsla(var(--hue-card-4), 100%, 60%, 1) 270deg 360deg),
+        linear-gradient(315deg, var(--bwf), var(--clr-t));
+
+    box-shadow: 0 0 0rem 0.125rem var(--bwf), inset 0 0 0rem 0.125rem var(--bw0);
+}
+
+.nyCard-09::before {
+    background-image: 
+        linear-gradient(045deg, hsla(var(--h045), 100%, 60%, .5) 10px, var(--clr-t) 10px),
+        linear-gradient(135deg, hsla(var(--h135), 100%, 60%, .5) 10px, var(--clr-t) 10px),
+        linear-gradient(225deg, hsla(var(--h225), 100%, 60%, .5) 10px, var(--clr-t) 10px),
+        linear-gradient(315deg, hsla(var(--h315), 100%, 60%, .5) 10px, var(--clr-t) 10px),
+
+        linear-gradient(045deg, var(--bwf) 12px, var(--clr-t) 12px),
+        linear-gradient(135deg, var(--bwf) 12px, var(--clr-t) 12px),
+        linear-gradient(225deg, var(--bwf) 12px, var(--clr-t) 12px),
+        linear-gradient(315deg, var(--bwf) 12px, var(--clr-t) 12px),
+
+        linear-gradient(045deg, hsla(var(--h045), 100%, 60%, 1) 14px, var(--clr-t) 14px),
+        linear-gradient(135deg, hsla(var(--h135), 100%, 60%, 1) 14px, var(--clr-t) 14px),
+        linear-gradient(225deg, hsla(var(--h225), 100%, 60%, 1) 14px, var(--clr-t) 14px),
+        linear-gradient(315deg, hsla(var(--h315), 100%, 60%, 1) 14px, var(--clr-t) 14px),
+
+        repeating-conic-gradient(
+            hsla(var(--hue-card-1), 100%, 60%, .2) 0deg 90deg, 
+            hsla(var(--hue-card-2), 100%, 60%, .2) 90deg 180deg, 
+            hsla(var(--hue-card-3), 100%, 60%, .2) 180deg 270deg, 
+            hsla(var(--hue-card-4), 100%, 60%, .2) 270deg 360deg),
+
+        linear-gradient(045deg, hsla(var(--h045), 100%, 80%, .4) 20px, hsla(var(--h045), 100%, 80%, 1) 22px, var(--clr-t) 24px),
+        linear-gradient(135deg, hsla(var(--h135), 100%, 20%, .4) 20px, hsla(var(--h135), 100%, 20%, 1) 22px, var(--clr-t) 24px),
+        linear-gradient(315deg, hsla(var(--h315), 100%, 80%, .4) 20px, hsla(var(--h315), 100%, 80%, 1) 22px, var(--clr-t) 24px),
+        linear-gradient(225deg, hsla(var(--h225), 100%, 20%, .4) 20px, hsla(var(--h225), 100%, 20%, 1) 22px, var(--clr-t) 24px),
+
+        linear-gradient(045deg, hsla(var(--h045), 100%, 20%, 1) 24px, hsla(var(--h045), 100%, 20%, .4) 27px, var(--clr-t) 29px),
+        linear-gradient(135deg, hsla(var(--h135), 100%, 80%, 1) 24px, hsla(var(--h135), 100%, 80%, .4) 27px, var(--clr-t) 29px),
+        linear-gradient(315deg, hsla(var(--h315), 100%, 20%, 1) 24px, hsla(var(--h315), 100%, 20%, .4) 27px, var(--clr-t) 29px),
+        linear-gradient(225deg, hsla(var(--h225), 100%, 80%, 1) 24px, hsla(var(--h225), 100%, 80%, .4) 27px, var(--clr-t) 29px),
+        
+        repeating-conic-gradient(
+            hsla(var(--hue-card-1), 100%, 60%, 1) 0deg 90deg, 
+            hsla(var(--hue-card-2), 100%, 60%, 1) 90deg 180deg, 
+            hsla(var(--hue-card-3), 100%, 60%, 1) 180deg 270deg, 
+            hsla(var(--hue-card-4), 100%, 60%, 1) 270deg 360deg),
+        linear-gradient(315deg, var(--bwf), var(--clr-t));
+
+    box-shadow: 0 0 0rem 0.125rem var(--bwf), inset 0 0 0rem 0.125rem var(--bw0);
+}
+
+.nyCard-10::before {
+    background: 
+        linear-gradient(045deg, hsla(var(--h045), 100%, 60%, .5) .75em, var(--clr-t) .75em),
+        linear-gradient(135deg, hsla(var(--h135), 100%, 60%, .5) .75em, var(--clr-t) .75em),
+        linear-gradient(225deg, hsla(var(--h225), 100%, 60%, .5) .75em, var(--clr-t) .75em),
+        linear-gradient(315deg, hsla(var(--h315), 100%, 60%, .5) .75em, var(--clr-t) .75em),
+
+        linear-gradient(045deg, var(--bwf) 1em, var(--clr-t) 1em),
+        linear-gradient(135deg, var(--bwf) 1em, var(--clr-t) 1em),
+        linear-gradient(225deg, var(--bwf) 1em, var(--clr-t) 1em),
+        linear-gradient(315deg, var(--bwf) 1em, var(--clr-t) 1em),
+
+        repeating-conic-gradient(
+            hsla(var(--hue-card-1), 100%, 60%, 1) 0deg 90deg, 
+            hsla(var(--hue-card-2), 100%, 60%, 1) 90deg 180deg, 
+            hsla(var(--hue-card-3), 100%, 60%, 1) 180deg 270deg, 
+            hsla(var(--hue-card-4), 100%, 60%, 1) 270deg 360deg) center / 1em 1em no-repeat,
+        repeating-conic-gradient(from 45deg,
+            hsla(var(--hue-card-1), 100%, 20%, 1) -45deg 45deg, 
+            hsla(var(--hue-card-2), 100%, 20%, 1) 45deg 135deg, 
+            hsla(var(--hue-card-3), 100%, 20%, 1) 135deg 225deg, 
+            hsla(var(--hue-card-4), 100%, 20%, 1) 225deg 315deg) center / 2em 2em no-repeat,
+
+        repeating-conic-gradient(
+            hsla(var(--hue-card-1), 100%, 60%, .2) 0deg 90deg, 
+            hsla(var(--hue-card-2), 100%, 60%, .2) 90deg 180deg, 
+            hsla(var(--hue-card-3), 100%, 60%, .2) 180deg 270deg, 
+            hsla(var(--hue-card-4), 100%, 60%, .2) 270deg 360deg),
+        
+        repeating-conic-gradient(
+            hsla(var(--hue-card-1), 100%, 60%, 1) 0deg 90deg, 
+            hsla(var(--hue-card-2), 100%, 60%, 1) 90deg 180deg, 
+            hsla(var(--hue-card-3), 100%, 60%, 1) 180deg 270deg, 
+            hsla(var(--hue-card-4), 100%, 60%, 1) 270deg 360deg),
+        linear-gradient(315deg, var(--bwf), var(--clr-t));
+    box-shadow: 0 0 0rem 0.125rem var(--bwf), inset 0 0 0rem 0.125rem var(--bw0);
+}
+
+.nyCard-11::before {
+    background: 
+        linear-gradient(045deg, hsla(var(--h045), 100%, 60%, .5) .75em, var(--clr-t) .75em),
+        linear-gradient(135deg, hsla(var(--h135), 100%, 60%, .5) .75em, var(--clr-t) .75em),
+        linear-gradient(225deg, hsla(var(--h225), 100%, 60%, .5) .75em, var(--clr-t) .75em),
+        linear-gradient(315deg, hsla(var(--h315), 100%, 60%, .5) .75em, var(--clr-t) .75em),
+
+        linear-gradient(045deg, var(--bwf) 1em, var(--clr-t) 1em),
+        linear-gradient(135deg, var(--bwf) 1em, var(--clr-t) 1em),
+        linear-gradient(225deg, var(--bwf) 1em, var(--clr-t) 1em),
+        linear-gradient(315deg, var(--bwf) 1em, var(--clr-t) 1em),
+
+        repeating-conic-gradient(
+            hsla(var(--hue-card-1), 100%, 60%, 1) 0deg 90deg, 
+            hsla(var(--hue-card-2), 100%, 60%, 1) 90deg 180deg, 
+            hsla(var(--hue-card-3), 100%, 60%, 1) 180deg 270deg, 
+            hsla(var(--hue-card-4), 100%, 60%, 1) 270deg 360deg) center / 2em 1em no-repeat,
+        repeating-conic-gradient(from 45deg,
+            hsla(var(--hue-card-1), 100%, 20%, 1) -45deg 45deg, 
+            hsla(var(--hue-card-2), 100%, 20%, 1) 45deg 135deg, 
+            hsla(var(--hue-card-3), 100%, 20%, 1) 135deg 225deg, 
+            hsla(var(--hue-card-4), 100%, 20%, 1) 225deg 315deg) center / 1em 4em no-repeat,
+
+        repeating-conic-gradient(
+            hsla(var(--hue-card-1), 100%, 60%, .2) 0deg 90deg, 
+            hsla(var(--hue-card-2), 100%, 60%, .2) 90deg 180deg, 
+            hsla(var(--hue-card-3), 100%, 60%, .2) 180deg 270deg, 
+            hsla(var(--hue-card-4), 100%, 60%, .2) 270deg 360deg),
+        
+        repeating-conic-gradient(
+            hsla(var(--hue-card-1), 100%, 60%, 1) 0deg 90deg, 
+            hsla(var(--hue-card-2), 100%, 60%, 1) 90deg 180deg, 
+            hsla(var(--hue-card-3), 100%, 60%, 1) 180deg 270deg, 
+            hsla(var(--hue-card-4), 100%, 60%, 1) 270deg 360deg),
+        linear-gradient(315deg, var(--bwf), var(--clr-t));
+    box-shadow: 0 0 0rem 0.125rem var(--bwf), inset 0 0 0rem 0.125rem var(--bw0);
+}
+
+.nyCard-12::before {
+    background: 
+        linear-gradient(045deg, hsla(var(--h045), 100%, 60%, .5) .75em, var(--clr-t) .75em),
+        linear-gradient(135deg, hsla(var(--h135), 100%, 60%, .5) .75em, var(--clr-t) .75em),
+        linear-gradient(225deg, hsla(var(--h225), 100%, 60%, .5) .75em, var(--clr-t) .75em),
+        linear-gradient(315deg, hsla(var(--h315), 100%, 60%, .5) .75em, var(--clr-t) .75em),
+
+        linear-gradient(045deg, var(--bwf) 1em, var(--clr-t) 1em),
+        linear-gradient(135deg, var(--bwf) 1em, var(--clr-t) 1em),
+        linear-gradient(225deg, var(--bwf) 1em, var(--clr-t) 1em),
+        linear-gradient(315deg, var(--bwf) 1em, var(--clr-t) 1em),
+
+        repeating-conic-gradient(
+            hsla(var(--hue-card-1), 100%, 60%, 1) 0deg 90deg, 
+            hsla(var(--hue-card-2), 100%, 60%, 1) 90deg 180deg, 
+            hsla(var(--hue-card-3), 100%, 60%, 1) 180deg 270deg, 
+            hsla(var(--hue-card-4), 100%, 60%, 1) 270deg 360deg) center / 6em 1em no-repeat,
+        repeating-conic-gradient(from 45deg,
+            hsla(var(--hue-card-1), 100%, 20%, 1) -45deg 45deg, 
+            hsla(var(--hue-card-2), 100%, 20%, 1) 45deg 135deg, 
+            hsla(var(--hue-card-3), 100%, 20%, 1) 135deg 225deg, 
+            hsla(var(--hue-card-4), 100%, 20%, 1) 225deg 315deg) center / 1em 6em no-repeat,
+                    
+        repeating-conic-gradient(
+            hsla(var(--hue-card-1), 100%, 60%, .2) 0deg 90deg, 
+            hsla(var(--hue-card-2), 100%, 60%, .2) 90deg 180deg, 
+            hsla(var(--hue-card-3), 100%, 60%, .2) 180deg 270deg, 
+            hsla(var(--hue-card-4), 100%, 60%, .2) 270deg 360deg),
+
+        linear-gradient(045deg, var(--bwf) 20px, var(--clr-t) 20px),
+        linear-gradient(135deg, var(--bwf) 20px, var(--clr-t) 20px),
+        linear-gradient(225deg, var(--bwf) 20px, var(--clr-t) 20px),
+        linear-gradient(315deg, var(--bwf) 20px, var(--clr-t) 20px),
+
+        linear-gradient(045deg, var(--bw0) 21px, var(--clr-t) 21px),
+        linear-gradient(135deg, var(--bw0) 21px, var(--clr-t) 21px),
+        linear-gradient(225deg, var(--bw0) 21px, var(--clr-t) 21px),
+        linear-gradient(315deg, var(--bw0) 21px, var(--clr-t) 21px),
+
+        linear-gradient(045deg, hsla(var(--h045), 100%, 40%, .4) 20px, hsla(var(--h045), 100%, 40%, 1) 22px, var(--clr-t) 24px),
+        linear-gradient(135deg, hsla(var(--h135), 100%, 20%, .4) 20px, hsla(var(--h135), 100%, 20%, 1) 22px, var(--clr-t) 24px),
+        linear-gradient(315deg, hsla(var(--h315), 100%, 40%, .4) 20px, hsla(var(--h315), 100%, 40%, 1) 22px, var(--clr-t) 24px),
+        linear-gradient(225deg, hsla(var(--h225), 100%, 20%, .4) 20px, hsla(var(--h225), 100%, 20%, 1) 22px, var(--clr-t) 24px),
+
+        linear-gradient(045deg, hsla(var(--h045), 100%, 20%, 1) 24px, hsla(var(--h045), 100%, 20%, .4) 27px, var(--clr-t) 29px),
+        linear-gradient(135deg, hsla(var(--h135), 100%, 40%, 1) 24px, hsla(var(--h135), 100%, 40%, .4) 27px, var(--clr-t) 29px),
+        linear-gradient(315deg, hsla(var(--h315), 100%, 20%, 1) 24px, hsla(var(--h315), 100%, 20%, .4) 27px, var(--clr-t) 29px),
+        linear-gradient(225deg, hsla(var(--h225), 100%, 40%, 1) 24px, hsla(var(--h225), 100%, 40%, .4) 27px, var(--clr-t) 29px),
+        
+        repeating-conic-gradient(
+            hsla(var(--hue-card-1), 100%, 60%, 1) 0deg 90deg, 
+            hsla(var(--hue-card-2), 100%, 60%, 1) 90deg 180deg, 
+            hsla(var(--hue-card-3), 100%, 60%, 1) 180deg 270deg, 
+            hsla(var(--hue-card-4), 100%, 60%, 1) 270deg 360deg),
+        linear-gradient(315deg, var(--bwf), var(--clr-t));
+    box-shadow: 0 0 0rem 0.125rem var(--bwf), inset 0 0 0rem 0.125rem var(--bw0);
+}
 
 .shelf {
     counter-reset: listCounter;
@@ -492,6 +730,8 @@
 [class|="nyCard"] {
     counter-increment: listCounter;
 }
+.nysz-to-2x2 [class|="nyCard"]::after,
+.nysz-to-5x8 [class|="nyCard"]::after,
 [class|="nyCard"]::after {
     content: "[" counter(listCounter) "]";
     content: counter(listCounter);
@@ -501,3 +741,4 @@
     justify-content: center;
     text-shadow: 1px 1px 1px #1119;
 }
+

@@ -1,0 +1,67 @@
+
+/* Tables */
+.bg0 {
+    background-color: #111;
+    background-image: linear-gradient(135deg, #222, #000);
+}
+.bgf {
+    background-color: #ddd;
+    background-image: linear-gradient(135deg, #eee, #ccc);
+    color: #111;
+}
+
+/* Color Scheme */
+.bg0 .btn {
+    --clr-main: hsla(var(--hue), 100%, 60%, 1);
+    --clr-dark: hsla(var(--hue), 50%, 40%, 1);
+    --clr-glow: hsla(var(--hue), 100%, 60%, .4);
+}
+.bgf .btn {
+    --clr-main: hsla(var(--hue), 100%, 60%, 1);
+    --clr-dark: hsla(var(--hue), 50%, 40%, 1);
+    --clr-glow: hsla(var(--hue), 100%, 60%, .4);
+}
+.btn {
+    --bg-gradient: linear-gradient(180deg, var(--clr-main), var(--clr-dark));
+    --bg-solid: var(--clr-main);
+    --bdr-clr: var(--clr-dark);
+
+    /* variables to edit */
+    --bg-c: var(--clr-t); --bdr-c: var(--clr-t); 
+    --bgi: linear-gradient(180deg, var(--clr-t), var(--clr-t));
+    --clr: var(--bwf);
+}
+/* Types */
+.btn-gradient {
+    --bg-c: var(--bg-solid);
+    --bdr-c: var(--bdr-clr);
+    --bgi: var(--bg-gradient);
+}
+.btn-solid { --bg-c: var(--bg-solid); --bdr-c: var(--bdr-clr); }
+.btn-border { --bdr-c: var(--bdr-clr); --clr: var(--clr-main); }
+.btn-empty { --clr: var(--clr-dark); --clr: var(--clr-main); }
+/* Using types */
+.btn {
+    background-color: var(--bg-c);
+    background-image: var(--bgi);
+    border: solid .125em var(--clr-t);
+    color: var(--clr);
+    padding: .5em 1em;
+    margin: .5em 1em;
+    font-weight: bold;
+    border-radius: .5em;
+}
+.btn-glow {
+    border: solid .125em var(--clr-main);
+    box-shadow: 
+    inset 0 0 .5rem .25rem var(--clr-glow),
+    0 0 .5rem .25rem var(--clr-glow);
+}
+.btn-glow-2 {
+    border: solid .125em var(--clr-main);
+    background-color: var(--clr-glow);
+    box-shadow: 0 0 .5em .25rem var(--clr-glow);
+}
+.btn-border { 
+    border: solid .125em var(--bdr-c);
+}
