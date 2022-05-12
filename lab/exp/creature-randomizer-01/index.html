@@ -35,112 +35,59 @@
             margin: 1rem 2rem;
             padding: 1rem;
             border-radius: .25rem;
-            background-color: var(--hex);
+            background: var(--hex);
             z-index: 1;
-            overflow: hidden;
-
-            background-image: linear-gradient(-45deg, black, transparent);
-            box-shadow: 0 0 1.5rem 0.125rem transparent;
-            transition: box-shadow 300ms ease-in-out;
-        }
-        .creature-card:hover {
-            box-shadow: 0 0 1.5rem 0.125rem var(--hex);
         }
         .creature-card div {
             position: relative;
             font-size: 2rem;
             font-weight: bold;
-            /* background-color: var(--hex); */
-            background-color: transparent;
-            /* mix-blend-mode: soft-light; */
+            background-color: var(--hex);
 
             color: #fff;
             text-shadow: 1px 1px 1px #000;
 
             border: 1px dashed var(--hex);
-            border: 1px dashed transparent;
             outline: 1px dashed #fff0;
 
             padding: .125rem;
-            padding: .125rem .5rem;
-            /* transition: 
-            border 200ms ease-in-out 100ms, 
-            outline 200ms ease-in-out 100ms; */
-            transition: 
-            border 200ms ease-in-out, 
-            outline 200ms ease-in-out;
+            transition: border 200ms ease-in-out, outline 200ms ease-in-out;
         }
         .creature-card:hover div {
             border: 1px dashed #000;
             outline: 1px dashed #fff;
-            outline: 1px dashed var(--hex);
-            background-color: #0008;
-            /* mix-blend-mode: soft-light; */
-            /* backdrop-filter: brightness(50%) blur(5px); */
-            backdrop-filter: brightness(60%) blur(4px);
-
-            /* border: 1px dashed var(--hex); */
-            /* transition: 
-            border 200ms ease-in-out, 
-            outline 200ms ease-in-out; */
-            transition: 
-            border 200ms ease-in-out 100ms, 
-            outline 200ms ease-in-out 100ms;
         }
 
-        .creature-card::before {
-            content: 'nytelabst';
+        /* .creature-card::after {
+            content: '';
             height: 100%; width: 100%;
             position: absolute;
             top: 50%; left: 50%;
-            transform: translateX(-50%) translateY(-50%) rotate(60deg);
+            transform: translateX(-50%) translateY(-50%);
             border-radius: .25rem;
-            /* background: #fff; */
-            /* background: var(--hex); */
-            color: #fff9;
-            color: #fff2;
-            color: #fff;
-            color: #ffffff08;
+            background: #fff;
+            background: var(--hex);
             mix-blend-mode: difference;
-            mix-blend-mode: soft-light;
-            mix-blend-mode: overlay;
-            font-size: 89px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: color 400ms ease-in-out 200ms;
-        }
-        .creature-card:hover::before { 
-            color: #fff;
-            transition: color 800ms ease-in-out 5000ms;
-        }
-
-
+        } */
         .creature-card div::before {
             content: attr(class);
             position: absolute;
             top: 0; left: 50%;
             transform: translateX(-50%) translateY(-40%);
             color: var(--hex);
-            color: transparent;
             text-shadow: 1px 1px 1px #0000;
             font-size: 16px;
             font-weight: normal;
             transition: 
-            color 200ms ease-in-out 100ms, 
-            transform 200ms ease-in-out 100ms, 
-            text-shadow 200ms ease-in-out 100ms;
+            color 200ms ease-in-out, 
+            transform 200ms ease-in-out, 
+            text-shadow 200ms ease-in-out;
             z-index: -1;
         }
         .creature-card:hover div::before {
             transform: translateX(-50%) translateY(-120%);
             color: #fff;
             text-shadow: 1px 1px 1px #000;
-
-            transition: 
-            color 200ms ease-in-out, 
-            transform 200ms ease-in-out, 
-            text-shadow 200ms ease-in-out;
         }
         .creature-card .color {}
         .creature-card .element {}
