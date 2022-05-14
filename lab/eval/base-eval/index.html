@@ -18,30 +18,75 @@
             top: 50%; left: 50%;
             transform: translateX(-50%) translateY(-50%);
         } */
+        .shelf-col {
+            display: flex;
+            flex-direction: column;
+        }
+        #html-input {
+            background: #0000;
+            background-color: #123; color: #ff9f; 
+            border-radius: 0px; 
+            border: 2px solid #369; 
+            border-right: 1px solid #ffc9;
+            border-left: 1px solid #ffc9;
+            margin: .25rem auto;
+            width: 90vw;
+            max-width: 356px;
+        }
+        .btn,
+        [class|="nybtn"] {
+            border: 2px solid transparent;
+            padding: 8px 12px;
+            font-size: 16px;
+            color: black;
+            margin: .125rem .25rem;
+            border-radius: .25rem;
+        }
+        .nybtn-eval {
+            background-color: hsla(calc(var(--i) * 60),100%,60%,1); 
+            background-color: hsla(210,100%,60%,1);
+            color: #fff;
+        }
+        .nybtn-reset {
+            --clr: hsla(210,0%,60%,1);
+            border: 2px solid var(--clr);
+            color: var(--clr);
+            background-color: transparent;
+
+        }
+        .row-btns {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+        }
         
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
     <header>
-        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
         <div class="title">Eval</div>
         <!-- <div class="subtitle">subtitle</div> -->
     </header>
 
 <main>
-    <div class="shelf">
-        <div class="shelf-title">title</div>
-        <div id="html-display">
-<button style="background-color: hsla(210,100%,60%,1); color: black;" class="btn">Sample</button></div>
-    </div>
-    <div class="shelf">
-        <textarea name="html-input" id="html-input" cols="30" rows="10">
-<button style="background-color: hsla(210,100%,60%,1); color: black;" class="btn">Sample</button></textarea>
-    </div>
-    <div class="shelf">
-        <button type="button" data-cmd="eval" class="btn btn-primary">Eval</button>
-        <button type="button" data-cmd="reset" class="btn btn-outline-secondary ml-1">Reset</button>
+    <div class="shelf shelf-col">
+        <div class="shelf-title">Code and Display</div>
+        <div id="html-display"><button style="background-color: hsla(210,100%,60%,1); color: black;" class="btn">Sample</button></div>
+        <textarea name="html-input" id="html-input" cols="30" rows="10"><style>
+    .btn {
+        background-color: hsla(calc(var(--i) * 60), 100%, 60%, 1);
+    }
+</style>
+<button class="btn">Sample</button>
+<button class="btn">Sample</button>
+<button class="btn">Sample</button></textarea>
+        <div class="row-btns">
+            <button type="button" data-cmd="eval" class="nybtn-eval">Eval</button>
+            <button type="button" data-cmd="reset" class="nybtn-reset">Reset</button>
+        </div>
     </div>
 </main>
 
@@ -55,7 +100,13 @@
     <div class="name-end">by St&eacute;fano.</div>
     <!-- <script src="main.js"></script> -->
     <script>
-        var sample = `<button style="\nbackground-color: hsla(210,100%,60%,1); \ncolor: white;\n" class="btn">Sample</button>`;
+        // var sample = `<button style="\nbackground-color: hsla(210,100%,60%,1); \ncolor: white;\n" class="btn">Sample</button>`;
+        var sample = `<style>
+.btn {background-color: hsla(calc(var(--i) * 60), 100%, 60%, 1);}
+</style>
+<button class="btn">Sample</button>
+<button class="btn">Sample</button>
+<button class="btn">Sample</button>`;
         var htmlInput = document.getElementById('html-input');
         var htmlDisplay = document.getElementById('html-display');
         
