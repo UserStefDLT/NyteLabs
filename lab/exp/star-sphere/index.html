@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>(🚧Under Construction🚧) Star Sphere | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="styles-stars/stars-01.css"> -->
+    <link rel="stylesheet" href="../../stars/styles-stars/stars-02.css">
+
+    <style>
+
+        .star-field {
+            transform-style: preserve-3d;
+        }
+
+    </style>
+
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Star Sphere</div>
+    </header>
+
+    <input type="radio" name="world-size" id="large-world">
+    <input type="radio" name="world-size" id="small-world" checked>
+
+    <input type="checkbox" name="world-rotation" id="spining-world">
+    <input type="checkbox" name="world-rotation" id="spin3d-world" checked>
+
+    <input type="radio" name="world-speed" id="slow-world" checked>
+    <input type="radio" name="world-speed" id="fast-world">
+
+    <input type="radio" name="world-zoom" id="distant-world" checked>
+    <input type="radio" name="world-zoom" id="zoomed-world">
+
+    <input type="radio" name="star-shape" id="star-universe" checked>
+    <input type="radio" name="star-shape" id="loopstar-universe">
+
+    <input type="radio" name="world-boundaries" id="unframed-world" checked>
+    <input type="radio" name="world-boundaries" id="framed-world">
+
+    <div class="label-controllers">
+
+        <label for="large-world">expanded</label>
+        <label for="small-world">compact</label>
+
+        <label for="spining-world">spining</label>
+        <label for="spin3d-world">spin3d</label>
+
+        <label for="slow-world">slow</label>
+        <label for="fast-world">fast</label>
+
+        <label for="distant-world">distant</label>
+        <label for="zoomed-world">zoomed</label>
+
+        <label for="star-universe">star</label>
+        <label for="loopstar-universe">loops?</label>
+
+        <label for="unframed-world">open</label>
+        <label for="framed-world">framed</label>
+
+    </div>
+    <div class="bg-stars">
+        <div class="star-sphere">
+            <div class="star-field">
+                <div class="star2 xi" style="--o-r: 300; --o-a: 330; --sz: 1.5; --clr: #fff; --o3d-x: 330; --o3d-y: 330; --o3d-z: 330;"></div>
+                <div class="star2 xi" style="--o-r: 300; --o-a: 335; --sz: 2.0; --clr: #fff; --o3d-x: 335; --o3d-y: 335; --o3d-z: 335;"></div>
+                <div class="star2 xi" style="--o-r: 300; --o-a: 340; --sz: 2.5; --clr: #fff; --o3d-x: 340; --o3d-y: 340; --o3d-z: 340;"></div>
+
+                <div class="star2 xi" style="--o-r: 50; --o-a: 30; --sz: 5.0; --clr: #fff; --o3d-x: 30; --o3d-y: 30; --o3d-z: 30;"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="../../scripts/stars-02.js"></script> -->
+    <script src="star-sphere.js"></script>
+</body>
+</html>
