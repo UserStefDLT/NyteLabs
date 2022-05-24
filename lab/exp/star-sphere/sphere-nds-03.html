@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Spherical Animation | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="styles-stars/stars-01.css"> -->
+    <!-- <link rel="stylesheet" href="../../stars/styles-stars/stars-02.css"> -->
+    <link rel="stylesheet" href="stars.css">
+
+    <style>
+        .star-field {
+            transform-style: preserve-3d;
+        }
+    </style>
+
+    <style>
+        .xc {
+            position: relative;
+            height: 300px;
+            transform-style: preserve-3d;
+            transform: perspective(500px) rotate3d(1,0,0,90deg) rotate3d(0,0,0,90deg) rotate3d(0,0,1,180deg);
+            animation: rolling 5000ms linear infinite both;
+
+            background-color: #1111;
+            outline: 1px solid #fff9;
+            width: 18em;
+            border-radius: .75em;
+        }
+        .xc:hover {
+            /* animation: rolling 15000ms linear infinite both; */
+            animation-duration: 15000ms;
+        }
+        @keyframes rolling {
+                0% {transform: perspective(500px) rotate3d(1,0,0,60deg) rotate3d(0,0,0,90deg) rotate3d(0,0,1,0deg);}
+                50% {transform: perspective(500px) rotate3d(1,0,0,60deg) rotate3d(0,0,0,90deg) rotate3d(0,0,1,180deg);}
+                100% {transform: perspective(500px) rotate3d(1,0,0,60deg) rotate3d(0,0,0,90deg) rotate3d(0,0,1,360deg);}
+        }
+        @keyframes rolling-02 {
+                0% {transform: rotate3d(1,0,0,60deg) rotate3d(0,0,0,90deg) rotate3d(0,0,1,0deg);}
+                50% {transform: rotate3d(1,0,0,60deg) rotate3d(0,0,0,90deg) rotate3d(0,0,1,180deg);}
+                100% {transform: rotate3d(1,0,0,60deg) rotate3d(0,0,0,90deg) rotate3d(0,0,1,360deg);}
+        }
+        @keyframes rolling-01 {
+                0% {transform: rotate3d(1,0,0,90deg) rotate3d(0,0,0,90deg) rotate3d(0,0,1,0deg);}
+                50% {transform: rotate3d(1,0,0,90deg) rotate3d(0,0,0,90deg) rotate3d(0,0,1,180deg);}
+                100% {transform: rotate3d(1,0,0,90deg) rotate3d(0,0,0,90deg) rotate3d(0,0,1,360deg);}
+        }
+        .xi {
+            --clr: hsla(calc(var(--i) * 20), 100%, 60%, 1);
+            /* --glow: hsla(calc(var(--i) * 20), 100%, 60%, .9); */
+            background-color: var(--clr);
+            /* box-shadow: 0 0 .25em var(--clr);
+            box-shadow: 0 0 .5em .5em var(--glow);
+            mix-blend-mode: overlay;
+            mix-blend-mode: lighten;
+            mix-blend-mode: plus-lighter; */
+            /* min-height: 4px; min-width: 4px; */
+            /* --move_x: calc(var(--i) * 10px);
+            --move_y: calc(var(--i) * 45px);
+            --xdeg: calc(var(--i) * 10deg);
+            --ydeg: calc(var(--i) * 20deg);
+            --move_z: 80px;
+            --move_z: 120px;
+            transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--xdeg)) rotate3d(0,1,0,var(--ydeg)) translateZ(80px);
+
+            --x3: 0;
+            --y3: 0;
+            --z3: 0; */
+            transition: transform 200ms ease-in-out;
+            
+            /* animation: falling 5000ms linear infinite both; */
+            /* animation-delay: calc(var(--i) * 280ms) !important; */
+
+            background-color: hsla(calc(var(--i) * 20), 100%, 60%, .8);
+            color: #fff0; text-shadow: 1px 1px 1px #0000;
+            position: absolute; top: 50%; left: 50%;
+            height: .25em; width: .25em;
+            height: 1.5em; width: 1.5em;
+            min-height: 1px; min-width: 1px;
+            border-radius: 50%;
+            --move_x: calc(var(--i) * 10px);
+            --move_y: calc(var(--i) * 45px);
+            --xdeg: calc(var(--i) * 10deg);
+            --ydeg: calc(var(--i) * 20deg);
+            transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--xdeg)) rotate3d(0,1,0,var(--ydeg)) translateZ(80px);
+
+            transform-style: preserve-3d;
+            animation: falling 1600ms linear infinite both;
+        }
+        @keyframes falling {
+            0% {transform: translateX(-50%) translateY(-50%) rotate3d(0,0,1,calc(var(--i) * 20deg)) rotate3d(0,1,0,0deg) translateZ(100px) scale(.25);}
+            50% {transform: translateX(-50%) translateY(-50%) rotate3d(0,0,1,calc(var(--i) * 20deg)) rotate3d(0,1,0,45deg) translateZ(100px) scale(1);}
+            100% {transform: translateX(-50%) translateY(-50%) rotate3d(0,0,1,calc(var(--i) * 20deg)) rotate3d(0,1,0,90deg) translateZ(100px) scale(0);}
+        }
+        @keyframes falling-x3 {
+            0% {transform: translateX(-50%) translateY(-50%) rotate3d(0,0,1,calc(var(--i) * 20deg)) rotate3d(0,1,0,0deg) translateZ(0px) scale(.25);}
+            50% {transform: translateX(-50%) translateY(-50%) rotate3d(0,0,1,calc(var(--i) * 20deg)) rotate3d(0,1,0,45deg) translateZ(100px) scale(1);}
+            100% {transform: translateX(-50%) translateY(-50%) rotate3d(0,0,1,calc(var(--i) * 20deg)) rotate3d(0,1,0,90deg) translateZ(120px) scale(0);}
+        }
+        @keyframes falling-x2 {
+            0% {transform: translateX(-50%) translateY(-50%) rotate3d(0,0,1,calc(var(--i) * 20deg)) rotate3d(0,1,0,0deg) translateZ(100px) scale(.25);}
+            50% {transform: translateX(-50%) translateY(-50%) rotate3d(0,0,1,calc(var(--i) * 20deg)) rotate3d(0,1,0,45deg) translateZ(100px) scale(1);}
+            100% {transform: translateX(-50%) translateY(-50%) rotate3d(0,0,1,calc(var(--i) * 20deg)) rotate3d(0,1,0,90deg) translateZ(100px) scale(0);}
+        }
+        @keyframes falling-x {
+            0% {transform: translateX(-50%) translateY(-50%) rotate3d(0,0,1,calc(var(--i) * 20deg)) rotate3d(0,1,0,0deg) translateZ(100px) scale(1);}
+            100% {transform: translateX(-50%) translateY(-50%) rotate3d(0,0,1,calc(var(--i) * 20deg)) rotate3d(0,1,0,90deg) translateZ(100px) scale(0);}
+        }
+        @keyframes falling-02 {
+            0% {transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--xdeg)) rotate3d(0,1,0,var(--ydeg)) translateZ(80px) scale(1.5);}
+            50% {transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--xdeg)) rotate3d(0,1,0,var(--ydeg)) translateZ(80px) scale(1);}
+            100% {transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--xdeg)) rotate3d(0,1,0,var(--ydeg)) translateZ(80px) scale(.5);}
+        }
+
+        .xi:nth-of-type(n+19) {
+            animation-delay: 400ms;
+        }
+        .xi:nth-of-type(n+37) {
+            animation-delay: 800ms;
+        }
+        .xi:nth-of-type(n+55) {
+            animation-delay: 1200ms;
+        }
+
+    </style>
+
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Spherical Animation</div>
+    </header>
+
+    <main>
+        <div class="xc">
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            
+            </div>          
+    </main>
+    
+    <!-- <div class="bg-stars">
+        <div class="star-sphere">
+            <div class="star-field">
+                <div class="star2 xi" style="--o-r: 300; --o-a: 330; --sz: 1.5; --clr: #fff; --o3d-x: 330; --o3d-y: 330; --o3d-z: 330;"></div>
+                <div class="star2 xi" style="--o-r: 300; --o-a: 335; --sz: 2.0; --clr: #fff; --o3d-x: 335; --o3d-y: 335; --o3d-z: 335;"></div>
+                <div class="star2 xi" style="--o-r: 300; --o-a: 340; --sz: 2.5; --clr: #fff; --o3d-x: 340; --o3d-y: 340; --o3d-z: 340;"></div>
+
+                <div class="star2 xi" style="--o-r: 50; --o-a: 30; --sz: 5.0; --clr: #fff; --o3d-x: 30; --o3d-y: 30; --o3d-z: 30;"></div>
+            </div>
+        </div>
+    </div> -->
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="../../scripts/stars-02.js"></script> -->
+    <!-- <script src="star-sphere.js"></script> -->
+</body>
+</html>
