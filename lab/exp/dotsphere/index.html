@@ -13,6 +13,14 @@
     <link rel="stylesheet" href="../../../stylesheets/deck.css">
     <!-- <link rel="stylesheet" href="my-css.css"> -->
     <style>
+        .shelf {
+            --clr-outline: #39f;
+            box-shadow: 
+            inset 0 -1px 1px var(--clr-outline),
+            inset 0 1px 1px var(--clr-outline);
+        }
+    </style>
+    <style>
         /* *::before, *::after {
             position: absolute;
             top: 50%; left: 50%;
@@ -79,6 +87,9 @@
             50% {--i-deg2: calc(var(--i) * 20deg); transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--i-deg)) rotate3d(0,1,0,var(--i-deg2)) translateZ(100px);}
             100% {--i-deg2: calc(var(--i) * 30deg); transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--i-deg)) rotate3d(0,1,0,var(--i-deg2)) translateZ(100px);}
         }
+        .xi {
+            --zin: var(--i);
+        }
         .xi::before {
             content: '';
 
@@ -100,20 +111,218 @@
 
             height: 10px; width: 10px;
             height: 50px; width: 50px;
+            transition: transform 1000ms ease-in-out;
             transform: translateX(-50%) translateY(-50%) translateZ(-54px);
             transform: translateX(-50%) translateY(-50%) rotate3d(1,-1,1,calc(var(--i) * 10deg)) translateZ(20px);
             transform: translateX(-50%) translateY(-50%) rotate3d(1,-1,1,90deg) translateZ(20px);
             transform: translateX(-50%) translateY(-50%) rotate3d(1,-1,1,90deg) translateZ(120px);
             transform: translateX(-50%) translateY(-50%) rotate3d(1,-1,1,90deg) translateZ(-250px);
+            --twirl-scale: 3px;
+            --twirl-start: -30px; /* no less than -30px */
+            --twirl: calc((var(--zin) * var(--twirl-scale)) + var(--twirl-start));
+            transform: translateX(-50%) translateY(-50%) rotate3d(1,-1,1,90deg) translateZ(var(--twirl));
+            transform: translateX(-50%) translateY(-50%) rotate3d(1,1,1,0deg) translateZ(var(--twirl));
             border-radius: 50%;
             /* background: #f39; */
             /* background: #369; */
             /* background: #036; */
             /* background: #603; */
-            box-shadow: 0 0 0 0.125rem #603;
-            box-shadow: 0 0 0rem 0.25rem hsla(calc(var(--i) * 10), 100%, 60%, .8);
+            /* box-shadow: 0 0 0 0.125rem #603; */
+            /* box-shadow: 0rem .25rem 0rem 0.25rem hsla(calc(var(--i) * 10), 100%, 60%, .8); */
+            background: hsla(calc(var(--i) * 10), 100%, 60%, .8);
+            background: hsla(calc(var(--i) * 10), 100%, 60%, 1);
         }
-        
+        /* .xi::after {
+            content: '';
+
+            position: absolute;
+            top: 50%; left: 50%;
+
+            height: 10px; width: 10px;
+            transform: translateX(-50%) translateY(-50%) translateZ(-54px);
+            border-radius: 50%;
+            background: #f39;
+            background: #369;
+            background: #036;
+            background: #603;
+        } */
+        .vh60 {height: 60vh;}
+    </style>
+
+    <style>
+        :root {
+            --global-perspective: 5000px;
+            /* --global-perspective: 500px; */
+        }
+        [class|='xc'] {
+            position: relative;
+            min-height: 200px; min-width: 200px;
+            --sz-view: 200px;
+            height: var(--sz-view); width: var(--sz-view);
+            transform-style: preserve-3d;
+            transform: rotate3d(1,1,0,45deg);
+            transform: rotate3d(1,0,0,90deg) rotate3d(0,1,0,90deg) rotate3d(0,0,1,90deg);
+            transition: transform 1000ms ease-in-out;
+            animation: display-rotate-yxp 8000ms linear infinite both;
+        }
+        @keyframes display-rotate-yxp {
+            0% {transform: perspective(var(--global-perspective)) rotate3d(1,0,0,0deg) rotate3d(0,1,0,0deg) rotate3d(0,0,1,0deg);}
+            50% {transform: perspective(var(--global-perspective)) rotate3d(1,0,0,360deg) rotate3d(0,1,0,180deg) rotate3d(0,0,1,0deg);}
+            100% {transform: perspective(var(--global-perspective)) rotate3d(1,0,0,720deg) rotate3d(0,1,0,360deg) rotate3d(0,0,1,0deg);}
+        }
+
+
+        [class|='xi'] {
+            position: absolute;
+            top: 50%; left: 50%;
+            
+            --sz: 10px;
+            height: var(--sz); width: var(--sz);
+            
+            border-radius: 50%;
+            background: #39f;
+
+            transform-style: preserve-3d;
+            transition: transform 1000ms ease-in-out;
+
+            --clr: hsla(calc(var(--i) * 12), 100%, 60%, 1);
+            --clr-dark: hsla(calc(var(--i) * 12), 100%, 20%, 1);
+            --clr-glow: hsla(calc(var(--i) * 12), 100%, 60%, .4);
+
+            --i-deg: calc(var(--i) * 10deg);
+            --i-deg2: calc(var(--i) * 20deg);
+            transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--i-deg)) rotate3d(0,1,0,var(--i-deg2)) translateZ(100px);
+            
+            --zin: var(--i);
+        }
+        .xi-n {
+            --i-deg: calc(var(--i) * 5deg);
+            /* good for: 0,3,5,10,15,40,60,72,75,85,87,88(heart),90 */
+            --i-deg: calc(var(--i) * 10deg);
+            /* good for: 0,2,5,10,20,30,60,72,80,85,89, */
+            --i-deg: calc(var(--i) * 20deg);
+            /* good for marks: 0,2,10,20,25,30,50,60 */
+            /* good for half marks: 2,15,25,45, */
+            /* good for sphere marks: 39,41,58-62,65,75,85, */
+            
+            --i-deg: calc(var(--i) * 10deg);
+            --i-deg2: calc(var(--i) * 20deg);
+
+            transform: translateX(-50%) translateY(-50%) rotate3d(1,1,0,var(--i-deg)) translateZ(50px);
+            transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--i-deg)) rotate3d(0,1,0,var(--i-deg2)) translateZ(100px);
+        }
+        .xi-1 {
+            --i-deg: calc(var(--i) * 10deg);
+            --i-deg2: calc(var(--i) * 20deg);
+            transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--i-deg)) rotate3d(0,1,0,var(--i-deg2)) translateZ(100px);
+        }
+        .xi-2 {
+            --i-deg: calc(var(--i) * 0deg);
+            --i-deg2: calc(var(--i) * 30deg);
+            transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--i-deg)) rotate3d(0,1,0,var(--i-deg2)) translateZ(100px);
+        }
+        .xi-3 {
+            --i-deg: calc(var(--i) * 10deg);
+            --i-deg2: calc(var(--i) * 30deg);
+            transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--i-deg)) rotate3d(0,1,0,var(--i-deg2)) translateZ(100px);
+        }
+        /* .xi-4,
+        .xi-5,
+        .xi-6 {
+            --i-deg: calc(var(--i) * 20deg);
+            --i-deg2: calc(var(--i) * 50deg);
+            transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--i-deg)) rotate3d(0,1,0,var(--i-deg2)) translateZ(100px);
+        } */
+
+        [class|='xi']::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            height: 10px; width: 10px;
+            transform: translateX(-50%) translateY(-50%) translateZ(-1px);
+            border-radius: 50%;
+            background: #036;
+        }
+        [class|='xi']::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            height: 10px; width: 10px;
+            border-radius: 50%;
+            background: hsla(calc(var(--i) * 10), 100%, 60%, 1);
+            transition: transform 1000ms ease-in-out;
+            transform: translateX(-50%) translateY(-50%) translateZ(-54px);
+
+            --twirl-scale: 3px;
+            --twirl-start: -30px; /* no less than -30px */
+            --twirl: calc((var(--zin) * var(--twirl-scale)) + var(--twirl-start));
+        }
+        .xi-n::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+
+            height: 10px; width: 10px;
+            height: 50px; width: 50px;
+            transition: transform 1000ms ease-in-out;
+            transform: translateX(-50%) translateY(-50%) translateZ(-54px);
+            transform: translateX(-50%) translateY(-50%) rotate3d(1,-1,1,calc(var(--i) * 10deg)) translateZ(20px);
+            transform: translateX(-50%) translateY(-50%) rotate3d(1,-1,1,90deg) translateZ(20px);
+            transform: translateX(-50%) translateY(-50%) rotate3d(1,-1,1,90deg) translateZ(120px);
+            transform: translateX(-50%) translateY(-50%) rotate3d(1,-1,1,90deg) translateZ(-250px);
+            --twirl-scale: 3px;
+            --twirl-start: -30px; /* no less than -30px */
+            --twirl: calc((var(--zin) * var(--twirl-scale)) + var(--twirl-start));
+            transform: translateX(-50%) translateY(-50%) rotate3d(1,-1,1,90deg) translateZ(var(--twirl));
+            transform: translateX(-50%) translateY(-50%) rotate3d(1,1,1,0deg) translateZ(var(--twirl));
+            border-radius: 50%;
+            /* background: #f39; */
+            /* background: #369; */
+            /* background: #036; */
+            /* background: #603; */
+            /* box-shadow: 0 0 0 0.125rem #603; */
+            /* box-shadow: 0rem .25rem 0rem 0.25rem hsla(calc(var(--i) * 10), 100%, 60%, .8); */
+            background: hsla(calc(var(--i) * 10), 100%, 60%, .8);
+            background: hsla(calc(var(--i) * 10), 100%, 60%, 1);
+        }
+        .xi-1::after {transform: translateX(-50%) translateY(-50%) translateZ(-54px);}
+        .xi-2::after {transform: translateX(-50%) translateY(-50%) rotate3d(1,-1,1,30deg) translateZ(-50px);}
+        .xi-3::after {transform: translateX(-50%) translateY(-50%) rotate3d(1,-1,1,90deg) translateZ(-20px);}
+        .xi-4::after {transform: translateX(-50%) translateY(-50%) rotate3d(1,-1,1,90deg) translateZ(-250px);}
+        .xi-5::after {
+            --twirl-scale: -1px;
+            --twirl-start: 0px;
+            --twirl: calc((var(--zin) * var(--twirl-scale)) + var(--twirl-start));
+            transform: translateX(-50%) translateY(-50%) rotate3d(1,1,1,0deg) translateZ(var(--twirl));
+        }
+        .xi-6::after {
+            --twirl-scale: -2px;
+            --twirl-start: -10px;
+            --twirl: calc((var(--zin) * var(--twirl-scale)) + var(--twirl-start));
+            transform: translateX(-50%) translateY(-50%) rotate3d(1,0,1,30deg) translateZ(var(--twirl));
+        }
+
+        .xc-4 {
+            /* --sz-view: 500px; */
+            width: 432px;
+            width: calc((var(--sz-view) * 2) + 2rem);
+        }
+
+        .shelf:not(:first-of-type) {margin-top: 1.5rem;}
+        main .shelf-title {top: 0.5em;}
+        .shelf {
+            width: max-content;
+            padding: .5rem;
+            overflow: hidden;
+        }
+        .shelfBundle {
+            display: flex;
+            flex-direction: row;
+            gap: 3rem 1rem;
+            gap: 1rem 1rem;
+            flex-wrap: wrap;
+        }
+
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
@@ -124,9 +333,49 @@
         <!-- <div class="subtitle">subtitle</div> -->
     </header>
 
-<main>
-
-    <div class="shelf">
+<main id="main" class="shelfBundle">
+    <div class="shelf vh60 hidden">
+        <div class="shelf-title">dots</div>
+        <div class="xc">
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+            <div class="xi"></div>
+        </div>
+    </div>
+    <div class="shelf hidden">
         <div class="shelf-title">dots</div>
         <div class="xc">
             <div class="xi"></div>
@@ -179,7 +428,99 @@
     <div class="name-end">by St&eacute;fano.</div>
     <!-- <script src="main.js"></script> -->
     <script>
-        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+        /* BuildSphere()
+         * parameters:
+         *   ─> numberOfElements: int
+         *   ─> classForElements: string
+         *   ─> classForParent: string
+         * returns an element with a specified number of elements with a class name.
+         */
+        function BuildSphere(numberOfElements = 12, classForElements = 'xi', classForParent = 'xc'){
+            let parentElement = document.createElement('div');
+            parentElement.classList.add(classForParent);
+            for (let i = 0; i < numberOfElements; i++) {
+                let childElement = document.createElement('div');
+                childElement.classList.add(classForElements);
+                parentElement.appendChild(childElement);
+            }
+            return parentElement;
+        }
+        /* BuildShelves()
+         * parameters:
+         *   ─> numberOfShelves: int
+         *   ─> shelfTitles: string[]
+         *   ─> styleForAllShelves: string
+         *   ─> styleForEachShelves: string[]
+         *   ─> classForShelves: string
+         * returns an element with a specified number of elements with a class name.
+         */
+        // function BuildShelves(numberOfShelves = 1, shelfTitles = [], styleForShelves = [], classForShelves = 'shelf'){
+        function BuildShelves(numberOfShelves = 1, shelfTitles = [], styleForAllShelves = '', styleForEachShelves = [], classForShelves = 'shelf'){
+            let shelfBundle = [];
+            // let shelfBundle = document.createElement('div');
+            for (let i = 0; i < numberOfShelves; i++) {
+                let shelf = document.createElement('div');
+                console.log(`classForShelves: ${classForShelves}`);
+                console.dir(shelf.classList);
+                shelf.classList.add(classForShelves);
+                console.dir(shelf.classList);
+                if(shelfTitles.length != 0 && shelfTitles.length > i){
+                    let shelfTitle = document.createElement('div');
+                    shelfTitle.classList.add('shelf-title');
+                    shelfTitle.innerText = shelfTitles[i];
+                    shelf.appendChild(shelfTitle);
+                } else {
+                    let shelfTitle = document.createElement('div');
+                    shelfTitle.classList.add('shelf-title');
+                    shelfTitle.innerText = `Shelf-${i+1}`;
+                    shelf.appendChild(shelfTitle);
+                }
+                if(styleForAllShelves.length != 0){
+                    shelf.style = styleForAllShelves;
+                }
+                if(styleForEachShelves.length != 0 && styleForEachShelves.length > i){
+                    shelf.style = styleForEachShelves[i];
+                }
+                // shelfBundle.appendChild(shelf);
+                shelfBundle.push(shelf);
+            }
+            return shelfBundle;
+        }
+        var myMain = document.getElementsByTagName('main')[0];
+        var shelfBundle;
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            // var myMain = document.getElementsByTagName('main')[0];
+            // console.log(myMain);
+            // myMain.style = "background-color: #39f;";
+
+            // let shelfBundle = BuildShelves(1, shelfTitles = [], styleForShelves = []);
+            // shelfBundle = BuildShelves(3, shelfTitles = ['Shelf-1','Shelf-2','Shelf-3'], styleForAllShelves = '--clr-outline: hsla(calc(var(--i) * 60), 100%, 60%, .8);');
+            shelfBundle = BuildShelves(6, shelfTitles = [], styleForAllShelves = '--clr-outline: hsla(calc(var(--i) * 60), 100%, 60%, .8);');
+            console.log(shelfBundle);
+            console.dir(shelfBundle);
+            for (let i = 0; i < shelfBundle.length; i++) {
+                const shelf = shelfBundle[i];
+                myMain.appendChild(shelf);
+                // let xc = BuildSphere(12,`xi-${i+1}`,`xc-${i}`);
+                // let xc = BuildSphere(3,`xi-${i}`,`xc-${i}`);
+                // let xc = BuildSphere(12,`xi-${i+1}`,`xc`);
+                // let xc = BuildSphere(36,`xi-${i+1}`,`xc-${i}`);
+                let xc = BuildSphere(36,`xi-${i+1}`,`xc-${i+1}`);
+                console.log(xc);
+                shelf.appendChild(xc);
+            }
+            
+            
+
+
+            // shelfBundle[0].app
+            // let shelf = document.createElement('div');
+            // shelf.classList.add = 'shelf';
+            // main.appendChild(shelf);
+            // let xc1 = BuildSphere(12,'xi1','xc1');
+            // shelf.appendChild(xc1);
+        });
     </script>
 </body>
 </html>

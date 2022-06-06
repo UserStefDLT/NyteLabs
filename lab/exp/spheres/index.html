@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Dome Animation | NyteLabs</title>
+    <title>Spheres | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     
@@ -14,13 +14,18 @@
     <!-- <link rel="stylesheet" href="styles-stars/stars-01.css"> -->
     <!-- <link rel="stylesheet" href="../../stars/styles-stars/stars-02.css"> -->
     <!-- <link rel="stylesheet" href="stars.css"> -->
-
     <style>
-        header {
-            background-color: #1239;
-        }
         .star-field {
             transform-style: preserve-3d;
+        }
+        .btn,
+        [class*="xi"] {
+            border: 2px solid transparent;
+            padding: 8px 12px;
+            font-size: 16px;
+            color: black;
+            margin: .125rem .25rem;
+            border-radius: .25rem;
         }
     </style>
 
@@ -34,6 +39,7 @@
 
             background-color: #1111;
             outline: 1px solid #fff9;
+            outline: 1px solid #ff09;
             width: 18em;
             border-radius: .75em;
         }
@@ -135,12 +141,113 @@
 
     </style>
 
+<style>
+
+    .xc2 {
+        --p3d: 100px;
+        --p3d-2: 150px;
+        position: relative;
+        height: 300px;
+        transform-style: preserve-3d;
+        transform: rotate3d(1,0,0,90deg) rotate3d(0,0,0,90deg) rotate3d(0,0,1,180deg);
+        transform: rotate3d(1,0,0,0deg) rotate3d(0,1,0,0deg) rotate3d(0,0,1,0deg);
+        
+        transform: perspective(var(--p3d-2)) rotate3d(1,0,0,90deg) rotate3d(0,1,0,0deg) rotate3d(0,0,1,0deg);
+        transform: perspective(5000px) rotate3d(1,0,0,90deg) rotate3d(0,1,0,0deg) rotate3d(0,0,1,0deg);
+        
+        /* animation: rolling 5000ms linear infinite both; */
+        background-color: #1111;
+        outline: 1px solid #fff9;
+        outline: 1px solid #0ff9;
+        width: 18em;
+        border-radius: .75em;
+    
+    }
+    
+    .xc2:hover, .xc2:focus {
+        animation: rolling 5000ms linear infinite both;
+        
+        animation: rolling 5000ms linear infinite both 1000ms;
+        
+        animation: rolling-p 5000ms linear infinite both 100ms;
+        
+    }
+    /* @keyframes rolling {
+            0% {transform: rotate3d(1,0,0,90deg) rotate3d(0,1,0,0deg) rotate3d(0,0,1,0deg);}
+            25% {transform: rotate3d(1,0,0,60deg) rotate3d(0,1,0,0deg) rotate3d(0,0,1,90deg);}
+            50% {transform: rotate3d(1,0,0,30deg) rotate3d(0,1,0,0deg) rotate3d(0,0,1,180deg);}
+            75% {transform: rotate3d(1,0,0,60deg) rotate3d(0,1,0,0deg) rotate3d(0,0,1,270deg);}
+            100% {transform: rotate3d(1,0,0,90deg) rotate3d(0,1,0,0deg) rotate3d(0,0,1,360deg);}
+    }
+     */
+    @keyframes rolling-p {
+            0% {transform: perspective(var(--p3d)) rotate3d(1,0,0,90deg) rotate3d(0,1,0,0deg) rotate3d(0,0,1,0deg);}
+            25% {transform: perspective(var(--p3d)) rotate3d(1,0,0,90deg) rotate3d(0,1,0,0deg) rotate3d(0,0,1,90deg);}
+            50% {transform: perspective(var(--p3d)) rotate3d(1,0,0,90deg) rotate3d(0,1,0,0deg) rotate3d(0,0,1,180deg);}
+            75% {transform: perspective(var(--p3d)) rotate3d(1,0,0,90deg) rotate3d(0,1,0,0deg) rotate3d(0,0,1,270deg);}
+            100% {transform: perspective(var(--p3d)) rotate3d(1,0,0,90deg) rotate3d(0,1,0,0deg) rotate3d(0,0,1,360deg);}
+    }
+    
+    /* @keyframes rolling-01 {
+            0% {transform: rotate3d(1,0,0,0deg) rotate3d(0,1,0,0deg) rotate3d(0,0,1,0deg);}
+            50% {transform: rotate3d(1,0,0,60deg) rotate3d(0,1,0,0deg) rotate3d(0,0,1,90deg);}
+            100% {transform: rotate3d(1,0,0,0deg) rotate3d(0,1,0,0deg) rotate3d(0,0,1,0deg);}
+    } */
+    
+    .xi2 {
+        background-color: hsla(calc(var(--i) * 20), 100%, 60%, 1);
+        color: #fff0; text-shadow: 1px 1px 1px #0000;
+        /*box-shadow: 0 0 .25em .25em hsla(calc(var(--i) * 20), 100%, 60%, .4);*/
+        position: absolute; top: 50%; left: 50%;
+        height: .25em; width: .25em;
+        min-height: 1px; min-width: 1px;
+        border-radius: 50%;
+        --move_x: calc(var(--i) * 10px);
+        --move_y: calc(var(--i) * 45px);
+        --xdeg: calc(var(--i) * 10deg);
+        --ydeg: calc(var(--i) * 20deg);
+        transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--xdeg)) rotate3d(0,1,0,var(--ydeg)) translateZ(80px);
+        
+        mix-blend-mode: lighten;
+        
+        /* mix-blend-mode: difference; */
+        
+        transform-style: preserve-3d;
+        animation: falling 16000ms linear infinite both calc(var(--i) * 100ms); animation: falling 16000ms linear infinite both;
+        
+        animation: falling-xi2 1600ms linear infinite both;
+        
+    }
+    
+    @keyframes falling-xi2 {
+        0% {transform: translateX(-50%) translateY(-50%) rotate3d(0,0,1,calc(var(--i) * 20deg)) rotate3d(0,1,0,0deg) translateZ(100px) scale(0);}
+        
+        10% {transform: translateX(-50%) translateY(-50%) rotate3d(0,0,1,calc(var(--i) * 20deg)) rotate3d(0,1,0,0deg) translateZ(100px) scale(1);}
+        
+        50% {transform: translateX(-50%) translateY(-50%) rotate3d(0,0,1,calc(var(--i) * 20deg)) rotate3d(0,1,0,90deg) translateZ(100px) scale(0);}
+        
+        90% {transform: translateX(-50%) translateY(-50%) rotate3d(0,0,1,calc(var(--i) * 20deg)) rotate3d(0,1,0,180deg) translateZ(100px) scale(2);}
+        
+        100% {transform: translateX(-50%) translateY(-50%) rotate3d(0,0,1,calc(var(--i) * 20deg)) rotate3d(0,1,0,180deg) translateZ(100px) scale(0);}
+    }
+    /* @keyframes falling-xy {
+        0% {transform: translateX(-50%) translateY(-50%) rotate3d(0,0,1,calc(var(--i) * 20deg)) rotate3d(0,1,0,0deg) translateZ(100px) scale(1);}
+        50% {transform: translateX(-50%) translateY(-50%) rotate3d(0,0,1,calc(var(--i) * 20deg)) rotate3d(0,1,0,90deg) translateZ(100px) scale(0);}
+        100% {transform: translateX(-50%) translateY(-50%) rotate3d(0,0,1,calc(var(--i) * 20deg)) rotate3d(0,1,0,180deg) translateZ(100px) scale(2);}
+    } */
+    .xi2 {
+        animation: falling-xi2 1600ms linear infinite both calc(var(--i) * 200ms);
+    }
+        
+    
+    </style>
+    
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
     <header>
         <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
-        <div class="title">Dome Animation</div>
+        <div class="title">Spheres</div>
     </header>
 
     <main>
@@ -229,7 +336,155 @@
             <div class="xi"></div>
             <div class="xi"></div>
             
-            </div>          
+        </div>          
+        <div class="xc2">
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+            <div class="xi2"></div>
+        </div>
+        <!-- <div class="xc3">
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+            <div class="btn"></div>
+        </div> -->
     </main>
     
     <!-- <div class="bg-stars">

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Grid Boxes | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        #target {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0;
+            height: 60vh;
+        }
+        .box {
+            --sz: 5;
+            --h: calc(var(--sz) * 10px);
+            --w: calc(var(--sz) * 10px);
+            height: var(--h);
+            width: var(--w);
+        }
+
+        .box {
+            --x: 1;
+            --y: 1;
+            /* --hue: calc((var(--x)*10) + (var(--y)*10));
+            --clr: hsla(var(--hue), 100%, 60%, .2); */
+            --hue: calc((var(--x)*12) + (var(--y)*12));
+            --clr: hsla(var(--hue), 70%, 40%, .9);
+            --alp: .4;
+            --clr: hsla(var(--hue), 70%, 40%, var(--alp));
+
+            background-color: var(--clr);
+
+            --xx: calc(var(--x) * var(--w));
+            --yy: calc(var(--y) * var(--h));
+
+            position: absolute;
+            left: var(--xx);
+            top: var(--yy);
+
+            transition: background-color 500ms ease-in-out;
+        }
+        .box:hover {
+            --alp: 1;
+            transition: background-color 50ms ease-in-out;
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <div class="title">Grid Boxes</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">attempt</div>
+        <div id="target">
+
+        </div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+
+        // var yxLim = 12;
+        // var xLim = yxLim;
+        // var yLim = yxLim;
+        var xLim = 12;
+        var yLim = 8;
+        var boxes = [];
+        function Start(){
+            let target = document.getElementById("target");
+            for(let y = 0; y<yLim; y++){
+                for(let x = 0; x<xLim; x++){
+                    let box = document.createElement("div");
+                    box.classList.add("box");
+                    box.style = `--x: ${x}; --y: ${y};`;
+                    boxes.push(box);
+                    target.appendChild(box);
+                }
+            }
+        }
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            Start();
+        });
+    </script>
+</body>
+</html>
