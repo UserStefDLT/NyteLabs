@@ -5,13 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Glowing Chip | NyteLabs</title>
+    <title>Glowing Chip Selector | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     
     <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
     <link rel="stylesheet" href="../../../stylesheets/deck.css">
     <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        main {
+            width: 100vw;
+            overflow: hidden;
+            padding: 0 0 1rem;
+        }
+        .shelf {
+            width: 98%;
+        }
+    </style>
     <style>
         /* *::before, *::after {
             position: absolute;
@@ -39,6 +49,7 @@
             background-color: #111;
             padding: 2rem;
             border-radius: 1.25rem;
+            margin: 2rem auto;
 
             /* background-image: 
             linear-gradient(90deg, hsl(270, 80%, 70%), hsl(15, 90%, 60%)),
@@ -73,7 +84,7 @@
             transform: translateX(-50%) translateY(-50%);
             border-radius: 1.25rem;
             /* height: calc(100% + 1px); width: calc(100% + 1px); */
-            height: 88%; width: 88%;
+            height: 88%; width: 87%;
             background-image: linear-gradient(90deg, var(--clr-1) 10%, var(--clr-2) 90%);
             background-image: linear-gradient(90deg, var(--clr-1) 10%, var(--clr-3) 50%, var(--clr-2) 90%);
             /* background-image: linear-gradient(90deg, var(--glow-1) 10%, var(--glow-2) 90%); */
@@ -91,6 +102,7 @@
             position: relative;
             width: max-content;
             padding: 2rem;
+            padding: 1.25rem;
             border-radius: .5rem;
             border-radius: .75rem;
             border-radius: 1rem;
@@ -113,8 +125,8 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            gap: 1rem;
-            gap: .75rem;
+            /* gap: 1rem; */
+            /* gap: .75rem; */
         }
         /* .card::before {
             content: '';
@@ -140,6 +152,7 @@
             min-height: 2.5rem;
             min-height: 3rem;
             min-width: 18rem;
+            min-width: 14rem;
             border-radius: .25rem;
             border-radius: .5rem;
             border-radius: 6px;
@@ -168,6 +181,7 @@
             padding: .25rem;
             padding: .5rem;
             padding-left: 2rem;
+            margin: .25rem auto;
 
             box-sizing: border-box;
 
@@ -253,6 +267,43 @@
 
         input[type="radio"] {display: none;}
 
+        /* #0d0d0d */
+        .bgt {
+            --clr-1: hsl(270, 80%, 80%);
+            --clr-2: hsl(330, 70%, 60%);
+            --clr-3: hsl(3, 90%, 75%);
+            position: relative;
+            height: 200px; width: 20rem;
+            background-color: hsla(calc(var(--i) * 60), 100%, 60%, 1);
+            background-color: transparent;
+            background-image: 
+            linear-gradient( 90deg, #0d0d0d 20%, #0d0d0d00 20%, #0d0d0d00 80%, #0d0d0d 80%),
+            repeating-linear-gradient(90deg, #0d0d0d 0px, #0d0d0d 40px, transparent 40px, transparent 42px), 
+            linear-gradient(transparent 2%, var(--clr-1)  10%, var(--clr-2) 18%, var(--clr-3) 25%, var(--clr-3) 75%, var(--clr-2)  82%, var(--clr-1) 90%, transparent 98%);
+            /* background-image: 
+            linear-gradient( 90deg, #0d0d0d 20%, #0d0d0d00 20%, #0d0d0d00 80%, #0d0d0d 80%),
+            repeating-linear-gradient(90deg, #0d0d0d 0px, #0d0d0d 40px, transparent 40px, transparent 42px, #0d0d0d 42px, #0d0d0d 50px), 
+            linear-gradient(transparent 2%, var(--clr-1)  10%, var(--clr-2) 18%, var(--clr-3) 25%, var(--clr-3) 75%, var(--clr-2)  82%, var(--clr-1) 90%, transparent 98%); */
+            /* background-image: 
+            repeating-linear-gradient(90deg, #0d0d0d 0px, #0d0d0d 40px, transparent 40px, transparent 42px, #0d0d0d 42px, #0d0d0d 50px), 
+            linear-gradient(transparent 2%, var(--clr-1)  10%, var(--clr-2) 18%, var(--clr-3) 25%, var(--clr-3) 75%, var(--clr-2)  82%, var(--clr-1) 90%, transparent 98%); */
+
+            /* box-shadow: 0 0 .25rem #0d0d0d; */
+            /* box-shadow: inset 0 0 .5rem 1rem #0d0d0d, 0 0 .5rem 1rem #0d0d0d; */
+            /* border: 0px solid #0d0d0d; */
+            position: absolute;
+            height: 125%; width: 120%;
+            z-index: -2;
+
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+
+            /* outline: 1px dashed #fff9; */
+            /* outline-offset: .25rem; */
+            /* clip: rect(auto, 342px, auto, 39px); */
+        }
+
+
         /* .shelf-title {} */
         .shelf-title {display: flex; flex-direction: row;}
         .tooltip {
@@ -279,12 +330,20 @@
             transform: translateX(0%) translateY(-50%) rotateX(0deg);
             transition: transform 300ms ease-in-out 100ms;
         }
+        @media (max-width: 540px){
+            .tooltip-tip {
+                transform: translateX(-80%) translateY(60%) rotateX(-90deg);
+            }
+            .tooltip:hover .tooltip-tip {
+                transform: translateX(-80%) translateY(60%) rotateX(0deg);
+            }
+        }
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
     <header>
-        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
         <div class="title">Glowing Chip</div>
         <!-- <div class="subtitle">subtitle</div> -->
     </header>
@@ -303,6 +362,7 @@
         <!-- .chip-container>.card>label.block[for="option"]*5>.span{0-core}+.selection-details -->
         <!-- .chip-container>.card>label.block[for="option"]*5>.core{0-core}+.selection-details -->
         <div class="chip-container">
+            <div class="bgt"></div>
             <div class="chip-card">
                 <label for="option-1" class="block">
                     <div class="core">2-core</div>
@@ -326,6 +386,7 @@
                 </label>
             </div>
         </div>
+        <!-- <div class="bgt"></div> -->
     </div>
 </main>
 

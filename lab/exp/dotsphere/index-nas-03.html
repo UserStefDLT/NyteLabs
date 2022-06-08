@@ -167,11 +167,6 @@
             animation: display-rotate-yxp 8000ms linear infinite both;
         }
         @keyframes display-rotate-yxp {
-            0% {transform: perspective(var(--global-perspective)) rotateX(0deg) rotateY(0deg) rotateZ(0deg);}
-            50% {transform: perspective(var(--global-perspective)) rotateX(360deg) rotateY(180deg) rotateZ(0deg);}
-            100% {transform: perspective(var(--global-perspective)) rotateX(720deg) rotateY(360deg) rotateZ(0deg);}
-        }
-        @keyframes display-rotate-yxp-1 {
             0% {transform: perspective(var(--global-perspective)) rotate3d(1,0,0,0deg) rotate3d(0,1,0,0deg) rotate3d(0,0,1,0deg);}
             50% {transform: perspective(var(--global-perspective)) rotate3d(1,0,0,360deg) rotate3d(0,1,0,180deg) rotate3d(0,0,1,0deg);}
             100% {transform: perspective(var(--global-perspective)) rotate3d(1,0,0,720deg) rotate3d(0,1,0,360deg) rotate3d(0,0,1,0deg);}
@@ -200,7 +195,6 @@
             transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--i-deg)) rotate3d(0,1,0,var(--i-deg2)) translateZ(100px);
             
             --zin: var(--i);
-            backface-visibility: hidden;
         }
         .xi-n {
             --i-deg: calc(var(--i) * 5deg);
@@ -247,10 +241,8 @@
             top: 50%; left: 50%;
             height: 10px; width: 10px;
             transform: translateX(-50%) translateY(-50%) translateZ(-1px);
-            transform: translateX(-50%) translateY(-50%) rotateX(180deg) translateZ(0px);
             border-radius: 50%;
             background: #036;
-            backface-visibility: hidden;
         }
         [class|='xi']::after {
             content: '';
@@ -339,24 +331,14 @@
             height: max-content;
             width: 300px;
             width: 100%;
-            max-width: 500px;
             margin: 1rem auto;
             padding: .5rem 0;
-            /* box-shadow: 0 0 0 .125rem #39f; */
+            box-shadow: 0 0 0 .125rem #39f;
             background: #39f6;
-            background: #39f3;
-            /* outline: 2px outset #39f; */
-
-            box-shadow: 0 0 .25rem 0.125rem #39f;
-            box-shadow: 0 0 .25rem 0rem #39f;
 
             display: flex;
             flex-direction: column;
-            /* transition: height 300ms ease-in-out; */
-            transition: box-shadow 200ms ease-in-out;
-        }
-        .settings:hover {
-            box-shadow: 0 0 .25rem 0.125rem #39f;
+            transition: height 300ms ease-in-out;
         }
         .settings .option {margin: .25rem 0;}
         /* .deg-label,
@@ -368,25 +350,7 @@
             margin: 0rem .25rem;
         }
         .var-label {}
-        .var-input {
-            background: #39f0;
-            /* background: #39f6; */
-            /* background: #39f3; */
-            box-shadow: 0 0 .25rem 0.125rem #39f;
-            box-shadow: 0 0 .25rem 0rem #39f;
-            /* box-shadow: 0 0 .25rem 0rem #39f0; */
-            /* box-shadow: 0px 2px 1px -1px #39f; */
-            color: #fff;
-            text-shadow: 1px 1px 1px #000;
-            border: 0;
-            padding: 1px 2px;
-            text-align: center;
-        }
-        .var-input:focus-visible,
-        .var-input:hover {
-            box-shadow: 0 0 .25rem 0.125rem #39f;
-            outline: 0;
-        }
+        .var-input {}
         .var-input:invalid {
             background-color: hsl(348, 83%, 67%);
             border-color: crimson;
@@ -445,8 +409,6 @@
             --i-deg2: calc(var(--i) * var(--deg-2) * 1deg);
             transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--i-deg)) rotate3d(0,1,0,var(--i-deg2)) translateZ(100px);
             transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--i-deg)) rotate3d(0,1,0,var(--i-deg2)) translateZ(calc(var(--move-z) * 1px));
-
-            transform: translateX(-50%) translateY(-50%) rotateX(var(--i-deg)) rotateY(var(--i-deg2)) translateZ(calc(var(--move-z) * 1px));
             
             /* --twirl: calc((var(--zin) * var(--twirl-scale) * 1px) + (var(--twirl-start) * 1px));
             transform: translateX(-50%) translateY(-50%) rotate3d(1,1,1,0deg) translateZ(var(--twirl)); */
@@ -486,7 +448,6 @@
             background-color: #fff;
             transition: background-color 200ms ease-in-out;
         }
-        .option-check:hover::after { color: #39f9; }
         .option-check::after {
             content: '✓';
             position: absolute;
@@ -503,12 +464,6 @@
 
         #dotSphere-option:checked ~ .settings .dotSphere-check {background-color: #39f;}
         #dotSphere-option:checked ~ #ShelfSphere {--dotSphere-option: 1;}
-
-        #twirl-option:checked ~ .settings .twirl-check:hover,
-        #dotSphere-option:checked ~ .settings .dotSphere-check:hover {background-color: #39f9;}
-        #twirl-option:checked ~ .settings .twirl-check:hover::after,
-        #dotSphere-option:checked ~ .settings .dotSphere-check:hover::after {color: #fff9;}
-
 
         .xi {background: hsla(210, 100%, 60%, var(--dotSphere-option));}
         .xi::before {background: hsla(210, 100%, 20%, var(--dotSphere-option));}
