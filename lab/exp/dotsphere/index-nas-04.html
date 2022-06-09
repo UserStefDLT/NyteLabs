@@ -153,7 +153,6 @@
         :root {
             --global-perspective: 5000px;
             /* --global-perspective: 500px; */
-            --hue: 210;
         }
         [class|='xc'] {
             position: relative;
@@ -393,7 +392,6 @@
             border-color: crimson;
         }
         [type="checkbox"] {display: none;}
-        .update-btn,
         .var-btn {
             /* background: #9f3; */
             border: 0px;
@@ -401,15 +399,12 @@
             padding: .25rem .75rem;
             cursor: pointer;
         }
-        .update-btn::after {content: attr(data-new-val);}
         .var-btn::after {content: attr(data-by);}
         .data-add::before {content: '+';}
         /* .data-reduce::before {content: '';} */
         
         .data-add {--hue: 110;}
         .data-reduce {--hue: 350;}
-        .data-update {--hue: 45;}
-        .update-btn,
         .var-btn {
             --sat: 100%;
             --lum: 50%;
@@ -419,20 +414,18 @@
             outline-offset: .125rem;
             transition: outline 200ms ease-in-out;
         }
-        .update-btn:hover, 
         .var-btn:hover {
             outline: 1px solid hsla(var(--hue), var(--sat), var(--lum), var(--alp));
         }
         @supports selector(:focus-visible) {
-            .update-btn:focus-visible, 
             .var-btn:focus-visible {
                 outline: 1px solid hsla(var(--hue), var(--sat), var(--lum), var(--alp));
             }
         }
 
         #ShelfSphere {
-            --deg-x: 10; 
-            --deg-y: 20;
+            --deg-1: 10; 
+            --deg-2: 20;
             --move-z: 100;
 
             /* 
@@ -448,8 +441,8 @@
             --transform-after: translateX(-50%) translateY(-50%) translateZ(var(--move-z-after));
         }
         #ShelfSphere .xi {
-            --i-deg: calc(var(--i) * var(--deg-x) * 1deg);
-            --i-deg2: calc(var(--i) * var(--deg-y) * 1deg);
+            --i-deg: calc(var(--i) * var(--deg-1) * 1deg);
+            --i-deg2: calc(var(--i) * var(--deg-2) * 1deg);
             transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--i-deg)) rotate3d(0,1,0,var(--i-deg2)) translateZ(100px);
             transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--i-deg)) rotate3d(0,1,0,var(--i-deg2)) translateZ(calc(var(--move-z) * 1px));
 
@@ -525,65 +518,6 @@
         }
 
     </style>
-    <style>
-        #PreSettings {
-            height: max-content;
-            width: 300px;
-            width: 100%;
-            max-width: 600px;
-            margin: 1rem auto;
-            padding: .5rem 0;
-            background: #39f3;
-            box-shadow: 0 0 .25rem 0rem #39f;
-            display: flex;
-            align-items: center;
-            justify-content: center; 
-            flex-direction: row;
-            transition: box-shadow 200ms ease-in-out;
-        }
-        #PreSettings:hover {
-            box-shadow: 0 0 .25rem 0.125rem #39f;
-        }
-        .preset-section {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            /* flex-direction: row;
-            flex-wrap: wrap; */
-            margin: .25rem;
-        }
-        .preset-section .var-btn2 {
-            --sat: 100%;
-            --lum: 50%;
-            --alp: 1;
-
-            --clr: hsla(calc(var(--i) * 10), var(--sat), var(--lum), 1);
-            --clr-glow: hsla(calc(var(--i) * 10), var(--sat), 40%, .3);
-            --clr-glow2: hsla(calc(var(--i) * 10), var(--sat), 60%, .9);
-            
-            margin: .25rem;
-            border-radius: .25rem;
-            padding: .25rem .75rem;
-
-            background-color: var(--clr-glow);
-            box-shadow: 0 0 0 .125rem var(--clr), 0 0 0 0 var(--clr-glow);
-            text-shadow: 1px 1px 1px #000;
-            cursor: pointer;
-
-            transition: 
-            background-color 200ms ease-in-out, 
-            box-shadow 200ms ease-in-out;
-        }
-        .var-btn2::after {content: attr(data-by);}
-        .preset-section .var-btn2:hover {
-            /* background-color: hsla(calc(var(--i) * 10), 80%, 40%, .7); */
-            background-color: var(--clr-glow2);
-            box-shadow: 0 0 0 .125rem var(--clr), 0 0 .125rem .125rem var(--clr-glow);
-            box-shadow: 0 0 0 .125rem var(--clr), 0 0 .5rem .25rem var(--clr);
-            box-shadow: 0 0 0 .125rem var(--clr), 0 0 .25rem .25rem var(--clr-glow2);
-            /* outline: 1px solid hsla(calc(var(--i) * 10), 80%, 40%, 1); */
-            /* outline: 0px solid hsla(0, 80%, 40%, 0); */
-        }
-    </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
@@ -639,22 +573,22 @@
     </div>
     <div class="settings">
         <div class="option">
-            <label class="var-label" for="deg-x">x:</label>
-            <input class="var-input" type="number" name="rotation-deg" id="deg-x" min="0" max="360" value="10">
-            <button class="var-btn data-add" data-by="5" data-var="deg-x" data-step="1"></button>
-            <button class="var-btn data-reduce" data-by="-5" data-var="deg-x" data-step="1"></button>
+            <label class="var-label" for="deg-1">x:</label>
+            <input class="var-input" type="number" name="rotation-deg" id="deg-1" min="0" max="360" value="10">
+            <button class="var-btn data-add" data-by="5" data-var="deg-1"></button>
+            <button class="var-btn data-reduce" data-by="-5" data-var="deg-1"></button>
         </div>
         <div class="option">
-            <label class="var-label" for="deg-y">y:</label>
-            <input class="var-input" type="number" name="rotation-deg" id="deg-y" min="0" max="360" value="20">
-            <button class="var-btn data-add" data-by="5" data-var="deg-y" data-step="1"></button>
-            <button class="var-btn data-reduce" data-by="-5" data-var="deg-y" data-step="1"></button>
+            <label class="var-label" for="deg-2">y:</label>
+            <input class="var-input" type="number" name="rotation-deg" id="deg-2" min="0" max="360" value="20">
+            <button class="var-btn data-add" data-by="5" data-var="deg-2"></button>
+            <button class="var-btn data-reduce" data-by="-5" data-var="deg-2"></button>
         </div>
         <div class="option">
             <label class="var-label" for="move-z">Radius:</label>
             <input class="var-input" type="number" name="translate" id="move-z" min="10" max="100" value="100">
-            <button class="var-btn data-add" data-by="10" data-var="move-z" data-step="1"></button>
-            <button class="var-btn data-reduce" data-by="-10" data-var="move-z" data-step="1"></button>
+            <button class="var-btn data-add" data-by="10" data-var="move-z"></button>
+            <button class="var-btn data-reduce" data-by="-10" data-var="move-z"></button>
         </div>
         <div class="option">
             <label class="var-label for-check" for="twirl-option">Twirl Option: <div class="option-check twirl-check"></div></label>
@@ -662,8 +596,8 @@
         <div class="option twirl-option">
             <label class="var-label" for="twirl-start">Color Start:</label>
             <input class="var-input" type="number" name="twirl" id="twirl-start" min="-50" max="50" value="-10">
-            <button class="var-btn data-add" data-by="5" data-var="twirl-start" data-step="1"></button>
-            <button class="var-btn data-reduce" data-by="-5" data-var="twirl-start" data-step="1"></button>
+            <button class="var-btn data-add" data-by="5" data-var="twirl-start"></button>
+            <button class="var-btn data-reduce" data-by="-5" data-var="twirl-start"></button>
         </div>
         <div class="option twirl-option">
             <label class="var-label" for="twirl-scale">Twirl Scale:</label>
@@ -674,15 +608,7 @@
         <div class="option twirl-option">
             <label class="var-label for-check" for="dotSphere-option">DotSphere Option: <div class="option-check dotSphere-check"></div></label>
         </div>
-        <div class="option">
-            <label class="var-label" for="update-btn">Button Scale:</label>
-            <button class="update-btn data-update" data-new-val="1"></button>
-            <button class="update-btn data-update" data-new-val="2"></button>
-            <button class="update-btn data-update" data-new-val="5"></button>
-            <button class="update-btn data-update" data-new-val="10"></button>
-        </div>
     </div>
-    <div id="PreSettings" class="hidden"></div>
 </main>
 
 
@@ -756,16 +682,16 @@
         // var shelfBundle;
         
         var defaultSettings = {
-            "deg-x": 10,
-            "deg-y": 20,
+            "deg-1": 10,
+            "deg-2": 20,
             "move-z": 100,
             "twirl-scale": 10,
             "twirl-start": 20,
             "z-end": 0
         };
         var settings = {
-            "deg-x": 10,
-            "deg-y": 20,
+            "deg-1": 10,
+            "deg-2": 20,
             "move-z": 100,
 
             // "twirl-option": 0,
@@ -828,25 +754,6 @@
             settings[dataVar] = parseInt(settings[dataVar]) + parseInt(val);
             updateSphere();
         }
-        function btn_UpdateInto(e) {
-            let dataVar = e.target.dataset.var;
-            let dataVal = e.target.dataset.val;
-            console.log(`dataVar: ${dataVar} | dataVal: ${dataVal}`);
-            settings[dataVar] = parseInt(dataVal);
-            updateSphere();
-        }
-        function btn_UpdateBtns(e) {
-            let newVal = e.target.dataset.newVal;
-            console.log(newVal);
-            let stepBtns = document.querySelectorAll('[data-step="1"]');
-            stepBtns.forEach(btn => {
-                if(btn.classList.contains("data-add")) {
-                    btn.dataset.by = newVal;
-                } else {
-                    btn.dataset.by = -1 * newVal;
-                }
-            });
-        }
 
         var varBtns;
         var varInputs;
@@ -860,35 +767,11 @@
             varInputs = document.querySelectorAll('.var-input');
             varInputs.forEach(varInput => {varInput.addEventListener('input', input_UpdateValue);})
 
-            updateBtns = document.querySelectorAll('.update-btn');
-            updateBtns.forEach(btn => {btn.addEventListener('click', btn_UpdateBtns);})
-
             // varChecks = document.querySelectorAll('.var-check');
             // varChecks.forEach(varCheck => {varCheck.addEventListener('input', input_UpdateCheck);})
-            BuildPresets('x');
-            BuildPresets('y');
         });
 
-        let presetings = document.getElementById('PreSettings');
-        var presets = {};
-        var all_marks = [0, 2, 3, 5, 9, 10, 15, 20, 25, 30, 39, 40, 41, 45, 50, 58, 59, 60, 61, 62, 65, 72, 75, 80, 85, 87, 88, 89, 90];
-        // var all_presets = {}
-        function BuildPresets(n){
-            presets[n] = document.createElement('div');
-            presets[n].classList.add("preset-section");
-            presets[n].dataset.xy = n;
-            all_marks.forEach(option => {
-                let optionBtn = document.createElement('div');
-                optionBtn.innerText = option;
-                optionBtn.classList.add('var-btn2');
-                optionBtn.dataset.var = `deg-${n}`;
-                optionBtn.dataset.val = option;
-                optionBtn.addEventListener("click", btn_UpdateInto);
-                presets[n].appendChild(optionBtn);
-            });
-            presetings.appendChild(presets[n]);
-        }
-
+        /* note: nas = node algorithm step. (for when I use javascript.) */
     </script>
 </body>
 </html>
