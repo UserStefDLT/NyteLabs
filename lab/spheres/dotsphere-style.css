@@ -1,0 +1,254 @@
+/* *::before, *::after {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+} */
+
+:root {
+    --global-perspective: 5000px;
+    /* --global-perspective: 500px; */
+    --hue: 210;
+}
+
+
+/* for main.css */
+.shelf {
+    --clr-outline: #39f;
+    box-shadow: 
+    inset 0 -1px 1px var(--clr-outline),
+    inset 0 1px 1px var(--clr-outline);
+}
+.shelf {
+    width: max-content;
+    padding: .5rem;
+    overflow: hidden;
+    margin: 0 auto;
+}
+.vh60 {height: 60vh;}
+
+
+
+/* 'xc' and 'xi' */
+[class|='xc'] {
+    position: relative;
+    min-height: 200px; min-width: 200px;
+    --sz-view: 300px;
+    height: var(--sz-view); width: var(--sz-view);
+    transform-style: preserve-3d;
+
+    transform: rotate3d(1,1,0,45deg);
+    transform: rotate3d(1,0,0,90deg) rotate3d(0,1,0,90deg) rotate3d(0,0,1,90deg);
+    transition: transform 1000ms ease-in-out;
+
+    animation: display-rotate-yxp 8000ms linear infinite both;
+    animation-duration: var(--animation-duration);
+}
+@keyframes display-rotate-yxp {
+    0% {transform: perspective(var(--global-perspective)) rotateX(0deg) rotateY(0deg) rotateZ(0deg);}
+    50% {transform: perspective(var(--global-perspective)) rotateX(360deg) rotateY(180deg) rotateZ(0deg);}
+    100% {transform: perspective(var(--global-perspective)) rotateX(720deg) rotateY(360deg) rotateZ(0deg);}
+}
+
+
+[class|='xi']::before,
+[class|='xi'],
+[class|='xi']::after {
+    position: absolute;
+    top: 50%; left: 50%;
+
+    --sz: 10px;
+    height: var(--sz); width: var(--sz);
+    border-radius: 50%;
+
+    transform-style: preserve-3d;
+    transition: transform 1000ms ease-in-out;
+
+    backface-visibility: hidden;
+}
+[class|='xi']::before,
+[class|='xi']::after {content: '';}
+
+[class|='xi'] {
+    /* background: #39f; */
+
+    --clr: hsla(calc(var(--i) * 12), 100%, 60%, 1);
+    --clr-dark: hsla(calc(var(--i) * 12), 100%, 20%, 1);
+    --clr-glow: hsla(calc(var(--i) * 12), 100%, 60%, .4);
+
+    --i-deg: calc(var(--i) * 10deg);
+    --i-deg2: calc(var(--i) * 20deg);
+    transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--i-deg)) rotate3d(0,1,0,var(--i-deg2)) translateZ(100px);
+    
+    --zin: var(--i);
+}
+[class|='xi']::before {
+    /* background: #036; */
+    transform: translateX(-50%) translateY(-50%) rotateX(180deg) translateZ(1px);
+}
+[class|='xi']::after {
+    /* background: hsla(calc(var(--i) * 10), 100%, 60%, 1); */
+    transform: translateX(-50%) translateY(-50%) translateZ(-54px);
+}
+
+
+/* ────────────────────  ────────────────────  ──────────────────── */
+
+.settings {
+    height: max-content;
+    width: 100%;
+    max-width: 500px;
+    margin: .25rem auto;
+    padding: .25rem 0;
+    
+    display: flex;
+    flex-direction: column;
+    
+    background: #39f3;
+    box-shadow: 0 0 .25rem 0rem #39f;
+    transition: box-shadow 200ms ease-in-out;
+}
+.settings:hover {
+    box-shadow: 0 0 .25rem 0.125rem #39f;
+}
+.settings .option {margin: .125rem 0;}
+
+.option,
+.option :is(label, input, button) {
+    font-size: 20px;
+    margin: 0rem .25rem;
+}
+/* .var-label {} */
+.var-input {
+    background: #39f0;
+    box-shadow: 0 0 .25rem 0rem #39f;
+    color: #fff;
+    text-shadow: 1px 1px 1px #000;
+    border: 0;
+    padding: 1px 2px;
+    text-align: center;
+}
+.var-input:focus-visible,
+.var-input:hover {
+    box-shadow: 0 0 .25rem 0.125rem #39f;
+    outline: 0;
+}
+.var-input:invalid {
+    background-color: hsl(348, 83%, 67%);
+    border-color: crimson;
+}
+[type="checkbox"] {display: none;}
+
+.update-btn,
+.var-btn {
+    border: 0px;
+    border-radius: .25rem;
+    padding: .25rem .75rem;
+    cursor: pointer;
+}
+.update-btn::after {content: attr(data-new-val);}
+.var-btn::after {content: attr(data-by);}
+.data-add::before {content: '+';}
+
+.data-add {--hue: 120; --sat: 100%; --lum: 50%; --alp: 1;}
+.data-reduce {--hue: 360; --sat: 100%; --lum: 50%; --alp: 1;}
+.data-update {--hue: 45; --sat: 100%; --lum: 50%; --alp: 1;}
+.update-btn,
+.var-btn {
+    background-color: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+    outline: 1px solid hsla(var(--hue), var(--sat), var(--lum), 0);
+    outline-offset: .125rem;
+    transition: outline 200ms ease-in-out;
+}
+.update-btn:hover, 
+.var-btn:hover {
+    outline: 1px solid hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+}
+
+/* ────────────────────  ────────────────────  ──────────────────── */
+
+#ShelfSphere {
+    --deg-x: 10; 
+    --deg-y: 20;
+    --move-z: 100;
+
+    --dotSphere-option: 0;
+    --twirl-option: 0;
+    
+    --twirl-scale: 0;
+    --twirl-start: -54;
+
+    --twirl-scale: -2;
+    --twirl-start: -10;
+
+    --transform-after: translateX(-50%) translateY(-50%) translateZ(var(--move-z-after));
+
+}
+#ShelfSphere .xi {
+    --i-deg-x: calc(var(--i) * var(--deg-x) * 1deg);
+    --i-deg-y: calc(var(--i) * var(--deg-y) * 1deg);
+    transform: translateX(-50%) translateY(-50%) rotateX(var(--i-deg-x)) rotateY(var(--i-deg-y)) translateZ(calc(var(--move-z) * 1px));
+    --zin: var(--i);
+}
+#ShelfSphere .xi::after {
+    --twirl-scale-after: calc(var(--twirl-scale) * 1px);
+    --twirl-start-after: calc(var(--twirl-start) * 1px);
+    --twirl-after: calc((var(--zin) * var(--twirl-scale-after)) + var(--twirl-start-after));
+    transform: translateX(-50%) translateY(-50%) translateZ(var(--twirl-after));
+}
+
+/* ────────────────────  ────────────────────  ──────────────────── */
+
+.option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+[for="twirl-option"],
+[for="dotSphere-option"],
+.for-check {
+    width: max-content;
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+}
+.option-check {
+    position: relative;
+    height: 1.5rem; width: 1.5rem;
+    border-radius: .25rem;
+    margin: 0 0.5rem;
+    cursor: pointer;
+    background-color: #fff;
+    transition: background-color 200ms ease-in-out;
+}
+.option-check:hover::after { color: #39f9; }
+.option-check::after {
+    content: '✓';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    height: 1.5rem; width: 1.5rem;
+    color: #fff;
+    line-height: 1.5rem;
+}
+#twirl-option:checked ~ .settings .twirl-check {background-color: #39f;}
+#twirl-option:not(:checked) ~ .settings .twirl-option {display: none;}
+#twirl-option:checked ~ #ShelfSphere {--twirl-option: 1;}
+
+#dotSphere-option:checked ~ .settings .dotSphere-check {background-color: #39f;}
+#dotSphere-option:checked ~ #ShelfSphere {--dotSphere-option: 1;}
+
+#twirl-option:checked ~ .settings .twirl-check:hover,
+#dotSphere-option:checked ~ .settings .dotSphere-check:hover {background-color: #39f9;}
+#twirl-option:checked ~ .settings .twirl-check:hover::after,
+#dotSphere-option:checked ~ .settings .dotSphere-check:hover::after {color: #fff9;}
+
+
+.xi {background: hsla(210, 100%, 60%, var(--dotSphere-option));}
+.xi::before {background: hsla(210, 100%, 20%, var(--dotSphere-option));}
+.xi::after {
+    --alp-after: var(--twirl-option);
+    background: hsla(calc(var(--i) * 10), 100%, 60%, var(--twirl-option));
+}
+
+/* ────────────────────  ────────────────────  ──────────────────── */

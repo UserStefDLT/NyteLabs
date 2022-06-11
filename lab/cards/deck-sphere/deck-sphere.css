@@ -12,6 +12,8 @@
     --bwt: transparent;
     --clr-t: transparent;
 
+    --flip: 0deg;
+
     --NyCard-back:
         linear-gradient(045deg, hsla(045deg, 100%, 60%, .5) 10px, var(--bwt) 10px),
         linear-gradient(135deg, hsla(135deg, 100%, 60%, .5) 10px, var(--bwt) 10px),
@@ -325,6 +327,57 @@ base { counter-reset: listCounter; }
 }
 
 
+
+/* nyCard-21 */
+.NyDeck-21 .NyCard::after,
+.NyDeck-21 .NyCard::before {
+    transform: translateX(-50%) translateY(-50%) translateZ(var(--zin));
+
+    --y-deg: calc(var(--i) * 18deg);
+    transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,90deg) rotateY(var(--y-deg)) translateZ(calc(160px + var(--zin)));
+    animation: nyCard-21ab 5000ms ease-in-out infinite both;
+}
+.NyDeck-21 .NyCard {
+    transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,0deg) rotate3d(0,1,0,0deg) translateZ(60px);
+    transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,0deg) rotate3d(0,1,0,0deg) translateZ(0px);
+    transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,0deg) rotate3d(0,1,0,0deg) translateZ(-30px);
+
+    --y-deg: calc(var(--i) * 18deg);
+    transform: translateX(-50%) translateY(-50%) rotateX(90deg) rotateY(var(--y-deg)) translateZ(60px);
+
+    animation: nyCard-y21 5000ms ease-in-out normal infinite both;
+}
+
+
+.shelf:hover .NyDeck-21 .NyCard {
+    animation: nyCard-y21 5000ms ease-in-out alternate infinite both;
+    animation: nyCard-y21 5000ms ease-in-out normal both;
+}
+@keyframes nyCard-y21 {
+    0%{transform: translateX(-50%) translateY(-50%) rotatex(0deg) rotateY(0deg) translateZ(0px);}
+    20%{transform: translateX(-50%) translateY(-50%) rotatex(90deg) rotateY(0deg) translateZ(60px);}
+    80%{transform: translateX(-50%) translateY(-50%) rotatex(90deg) rotateY(360deg) translateZ(60px);}
+    100%{transform: translateX(-50%) translateY(-50%) rotatex(0deg) rotateY(360deg) translateZ(0px);}
+}
+
+.shelf:hover .NyDeck-21 .NyCard::after,
+.shelf:hover .NyDeck-21 .NyCard::before {
+    animation: nyCard-21ab 5000ms ease-in-out alternate infinite both;
+    animation: nyCard-21ab 5000ms ease-in-out both;
+}
+@keyframes nyCard-21ab {
+    0%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,0deg) rotateY(0deg) translateZ(calc(-30px + var(--zin)));}
+    20%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,90deg) rotateY(0deg) translateZ(calc(160px + var(--zin)));}
+    80%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,90deg) rotateY(360deg) translateZ(calc(160px + var(--zin)));}
+    100%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,0deg) rotateY(360deg) translateZ(calc(-30px + var(--zin)));}
+}
+
+.NyDeck-21 .NyCard::before,
+.NyDeck-21 .NyCard::after,
+.NyDeck-21 .NyCard {
+    animation-delay: calc(var(--i) * 100ms) !important;
+    animation-duration: var(--mt) !important;
+}
 
 /*
 █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█ █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█ █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
