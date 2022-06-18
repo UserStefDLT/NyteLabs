@@ -25,10 +25,6 @@
             --sat: 100%;
             --lum: 60%;
             --alp: 1;
-            --xc-tilt-x: -20;
-            --xc-tilt-x: 60;
-            /* --xc-tilt-x: 90deg; */
-            --xc-rotate-z: 90;
         }
         /* for main.css */
         .shelf {
@@ -67,35 +63,34 @@
 
             transform: rotateX(-20deg) rotateY(-30deg);
             transition: transform 1000ms ease-in-out;
-            /* animation: display-tilt-30-60 8000ms ease-in-out infinite both; */
-            /* animation: display-tilt-0-90 8000ms ease-in-out infinite both; */
-            /* animation: display-tilt-0-360 16000ms linear infinite both; */
-            /* animation: display-spin-0-360 16000ms linear infinite both; */
-            /* --xc-tilt-x: -20deg; */
-            /* --xc-tilt-x: 60deg; */
-            /* --xc-tilt-x: 90deg; */
-            --xc-tilt-xdeg: calc(var(--xc-tilt-x) * 1deg);
-            transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateY(0deg) rotateZ(0deg);
+            animation: display-tilt-30-60 8000ms ease-in-out infinite both;
+            animation: display-tilt-0-90 8000ms ease-in-out infinite both;
+            animation: display-tilt-0-360 16000ms linear infinite both;
+            animation: display-spin-0-360 16000ms linear infinite both;
+            --tild-x: -20deg;
+            --tild-x: 60deg;
+            /* --tild-x: 90deg; */
+            transform: perspective(var(--global-perspective)) rotateX(var(--tild-x)) rotateY(0deg) rotateZ(0deg);
         }
         @keyframes display-spin-0-360 {
-            0% {transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateY(0deg) rotateZ(0deg);}
-            50% {transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateY(0deg) rotateZ(180deg);}
-            100% {transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateY(0deg) rotateZ(360deg);}
+            0% {transform: perspective(var(--global-perspective)) rotateX(var(--tild-x)) rotateY(0deg) rotateZ(0deg);}
+            50% {transform: perspective(var(--global-perspective)) rotateX(var(--tild-x)) rotateY(0deg) rotateZ(180deg);}
+            100% {transform: perspective(var(--global-perspective)) rotateX(var(--tild-x)) rotateY(0deg) rotateZ(360deg);}
         }
         @keyframes display-tilt-0-360 {
-            0% {transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateY(0deg) rotateZ(0deg);}
-            50% {transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateY(180deg) rotateZ(0deg);}
-            100% {transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateY(360deg) rotateZ(0deg);}
+            0% {transform: perspective(var(--global-perspective)) rotateX(var(--tild-x)) rotateY(0deg) rotateZ(0deg);}
+            50% {transform: perspective(var(--global-perspective)) rotateX(var(--tild-x)) rotateY(180deg) rotateZ(0deg);}
+            100% {transform: perspective(var(--global-perspective)) rotateX(var(--tild-x)) rotateY(360deg) rotateZ(0deg);}
         }
         @keyframes display-tilt-0-90 {
-            0% {transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateY(0deg) rotateZ(0deg);}
-            50% {transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateY(-90deg) rotateZ(0deg);}
-            100% {transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateY(0deg) rotateZ(0deg);}
+            0% {transform: perspective(var(--global-perspective)) rotateX(var(--tild-x)) rotateY(0deg) rotateZ(0deg);}
+            50% {transform: perspective(var(--global-perspective)) rotateX(var(--tild-x)) rotateY(-90deg) rotateZ(0deg);}
+            100% {transform: perspective(var(--global-perspective)) rotateX(var(--tild-x)) rotateY(0deg) rotateZ(0deg);}
         }
         @keyframes display-tilt-30-60 {
-            0% {transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateY(-30deg) rotateZ(0deg);}
-            50% {transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateY(-60deg) rotateZ(0deg);}
-            100% {transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateY(-30deg) rotateZ(0deg);}
+            0% {transform: perspective(var(--global-perspective)) rotateX(var(--tild-x)) rotateY(-30deg) rotateZ(0deg);}
+            50% {transform: perspective(var(--global-perspective)) rotateX(var(--tild-x)) rotateY(-60deg) rotateZ(0deg);}
+            100% {transform: perspective(var(--global-perspective)) rotateX(var(--tild-x)) rotateY(-30deg) rotateZ(0deg);}
         }
         @keyframes display-rotate-yxp {
             0% {transform: perspective(var(--global-perspective)) rotateX(0deg) rotateY(0deg) rotateZ(0deg);}
@@ -241,11 +236,6 @@
 
             --transform-after: translateX(-50%) translateY(-50%) translateZ(var(--move-z-after));
 
-            --xc-tilt-x: -20;
-            --xc-tilt-x: 60;
-            /* --xc-tilt-x: 90; */
-            --xi-size: 24;
-            --xc-rotate-z: 90;
         }
         #ShelfSphere .xi {
             --i-deg-x: calc(var(--i) * var(--deg-x) * 1deg);
@@ -320,6 +310,37 @@
         /* ────────────────────  ────────────────────  ──────────────────── */
     </style>
     <style>
+        /* [class*="xi-n"]::before,
+        [class*="xi-n"],
+        [class*="xi-n"]::after {
+            position: absolute;
+            top: 50%; left: 50%;
+
+            --sz: 10px;
+            height: var(--sz); width: var(--sz);
+            border-radius: 50%;
+
+            transform-style: preserve-3d;
+            transition: transform 1000ms ease-in-out;
+
+            backface-visibility: hidden;
+        } */
+        /* [class|='xi']::before,
+        [class|='xi']::after {content: '';}
+
+        [class|='xi'] {
+            --clr: hsla(calc(var(--i) * 12), 100%, 60%, 1);
+            --clr-dark: hsla(calc(var(--i) * 12), 100%, 20%, 1);
+            --clr-glow: hsla(calc(var(--i) * 12), 100%, 60%, .4);
+
+            --i-deg: calc(var(--i) * 10deg);
+            --i-deg2: calc(var(--i) * 20deg);
+            transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,var(--i-deg)) rotate3d(0,1,0,var(--i-deg2)) translateZ(100px);
+            
+            --zin: var(--i);
+        }
+        [class|='xi']::before {transform: translateX(-50%) translateY(-50%) rotateX(180deg) translateZ(1px);} */
+
         #ShelfSphere [class*="xi-n"]::before,
         #ShelfSphere [class*="xi-n"],
         #ShelfSphere [class*="xi-n"]::after {
@@ -328,7 +349,6 @@
 
             --sz: 10px;
             --sz: 24px;
-            --sz: calc(var(--xi-size) * 1px);
             height: var(--sz); width: var(--sz);
             border-radius: 50%;
 
@@ -339,7 +359,31 @@
 
             --zin: var(--i);
         }
+        /* #ShelfSphere [class*='xi-n']::before {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-shadow: 1px 1px 2px #000;
+            transform: translateX(-50%) translateY(-50%) rotateX(0deg) translateZ(1px);
+        } */
 
+        /* #ShelfSphere .xi-n::after {
+            --twirl-scale-after: calc(var(--twirl-scale) * 1px);
+            --twirl-start-after: calc(var(--twirl-start) * 1px);
+            --twirl-after: calc((var(--zin) * var(--twirl-scale-after)) + var(--twirl-start-after));
+            transform: translateX(-50%) translateY(-50%) translateZ(var(--twirl-after));
+        } */
+
+        /* .xi-n {background: hsla(210, 100%, 100%, var(--dotSphere-option));}
+        .xi-n::before {background: hsla(210, 0%, 50%, var(--dotSphere-option));}
+        .xi-n::after {
+            --alp-after: var(--twirl-option);
+            background: hsla(calc(var(--i) * 10), 100%, 60%, var(--twirl-option));
+            background: hsla(calc(var(--i) * 10), 100%, 60%, 0);
+        } */
+
+        
         [class*="xi-n"] {
             --t1: translateX(-50%) translateY(-50%);
             --t2: rotateX(20deg) rotateZ(0deg) rotateY(0deg);
@@ -354,7 +398,6 @@
 
             --hue-step: 15deg;
             --hue: calc(var(--i) * var(--hue-step));
-            --hue: 210;
 
             --t2: rotateX(var(--xdeg)) rotateZ(var(--zdeg)) rotateY(var(--ydeg));
             --t2: rotateY(var(--ydeg)) rotateZ(var(--zdeg)) rotateX(var(--xdeg));
@@ -362,17 +405,12 @@
 
         [class*="xi-n"] {
             transform: var(--t1) var(--t2) var(--t3);
-            /* --bg: hsla(var(--hue), 100%, 60%, var(--dotSphere-option)); */
-            /* --bg: hsla(210, 100%, 60%, var(--dotSphere-option)); */
-            /* background-color: var(--bg); */
-            background-color: hsla(var(--hue), 100%, 60%, var(--dotSphere-option));
+            --bg: hsla(var(--hue), 100%, 60%, var(--dotSphere-option));
+            background-color: var(--bg);
         }
         [class*="xi-n"]::before {
-            /* --bg: hsla(var(--hue), 100%, 20%, var(--dotSphere-option)); */
-            /* --bg: hsla(210, 100%, 20%, var(--dotSphere-option)); */
-            /* --bg: hsla(210, 50%, 12%, .6); */
-            /* background-color: var(--bg); */
-            background-color: hsla(var(--hue), 100%, 20%, var(--dotSphere-option));
+            --bg: hsla(var(--hue), 100%, 20%, var(--dotSphere-option));
+            background-color: var(--bg);
         }
         [class*="xi-n"]::after {content: attr(data-id);}
         #ShelfSphere [class*="xi-n"]::after {
@@ -383,74 +421,77 @@
             text-shadow: 1px 1px 2px #000;
             transform: translateX(-50%) translateY(-50%) rotateX(0deg) translateZ(1px);
         }
-        
+        /* [class*="xi-n"]:nth-of-type(n+25) {
+            --xdeg: 15deg;
+            --ydeg-n: 15deg;
+            --zdeg: 60deg;
+            --t2: rotateY(var(--ydeg)) rotateZ(var(--zdeg)) rotateX(var(--xdeg));
+            --t2: rotateY(var(--ydeg)) rotateZ(var(--zdeg)) rotateY(var(--ydeg-n));
+        }
+        [class*="xi-n"]:nth-of-type(n+49) {--ydeg-n: 30deg;}
+        [class*="xi-n"]:nth-of-type(n+73) {--ydeg-n: 45deg;} */
+
+
+        /* [class*="xi-n"]:nth-of-type(n) {--deg-y: 60; --deg-z-add: 0;}
+        [class*="xi-n"]:nth-of-type(n+7) {--deg-y: 120; --deg-z-add: 30;}
+        [class*="xi-n"]:nth-of-type(6n+1) {--deg-z: 0;}
+        [class*="xi-n"]:nth-of-type(6n+2) {--deg-z: 0;}
+        [class*="xi-n"]:nth-of-type(6n+3) {--deg-z: 72;}
+        [class*="xi-n"]:nth-of-type(6n+4) {--deg-z: 144;}
+        [class*="xi-n"]:nth-of-type(6n+5) {--deg-z: 216;}
+        [class*="xi-n"]:nth-of-type(6n+6) {--deg-z: 288;} */
+        /* [class*="xi-n"]:nth-of-type(1) {--deg-z: 0;}
+        [class*="xi-n"]:nth-of-type(2) {--deg-z: 72;}
+        [class*="xi-n"]:nth-of-type(3) {--deg-z: 144;}
+        [class*="xi-n"]:nth-of-type(4) {--deg-z: 216;}
+        [class*="xi-n"]:nth-of-type(5) {--deg-z: 288;} */
+
+        /* [class*="xi-n"]:nth-of-type(1) {--deg-z: 0; --deg-y: 0;}
+        [class*="xi-n"]:nth-of-type(7) {--deg-y: 180;}
+        [class*="xi-n"]:nth-of-type(13) {--deg-z: 0;--deg-y: 180; --deg-z-add: 0;}
         [class*="xi-n"] {
-            --dotSphere-option: .5;
+            --deg-x: 0;
+            --deg-z-2: calc(var(--deg-z) + var(--deg-z-add));
+            --t2: rotateY(var(--ydeg)) rotateZ(var(--zdeg)) rotateX(var(--xdeg));
+            --t2: rotateX(calc(var(--deg-x) * 1deg)) rotateZ(calc(var(--deg-z) * 1deg)) rotateY(calc(var(--deg-y) * 1deg));
+            --t2: rotateX(calc(var(--deg-x) * 1deg)) rotateZ(calc(var(--deg-z-2) * 1deg)) rotateY(calc(var(--deg-y) * 1deg));
+        } */
+
+
+        /* [class*="xi-n"]:nth-of-type(5n+1) {--z-index: 1;}
+        [class*="xi-n"]:nth-of-type(5n+2) {--z-index: 2;}
+        [class*="xi-n"]:nth-of-type(5n+3) {--z-index: 3;}
+        [class*="xi-n"]:nth-of-type(5n+4) {--z-index: 4;}
+        [class*="xi-n"]:nth-of-type(5n+5) {--z-index: 5;}
+
+        [class*="xi-n"]:nth-of-type(n){--deg-z-scl: 1;}
+        [class*="xi-n"]:nth-of-type(n+16){--deg-z-scl: 1.5;}
+        [class*="xi-n"]:nth-of-type(n){--deg-z-scl: 0;}
+        [class*="xi-n"]:nth-of-type(n+16){--deg-z-scl: 36;}
+
+        [class*="xi-n"]:nth-of-type(n){--deg-y: 40;}
+        [class*="xi-n"]:nth-of-type(n+6){--deg-y: 80;}
+        [class*="xi-n"]:nth-of-type(n+11){--deg-y: 120;}
+
+        [class*="xi-n"]:nth-of-type(n+16){--deg-y: 60;}
+        [class*="xi-n"]:nth-of-type(n+21){--deg-y: 100;}
+        [class*="xi-n"]:nth-of-type(n+26){--deg-y: 140;}
+
+        [class*="xi-n"]:nth-of-type(31){--deg-z-scl: 0; --deg-y: 0;}
+        [class*="xi-n"]:nth-of-type(32){--deg-z-scl: 0; --deg-y: 180;}
+        [class*="xi-n"] {
+            --deg-x: 0;
+            --deg-z: calc((72 * var(--z-index)) + var(--deg-z-scl));
+            --t2: rotateX(calc(var(--deg-x) * 1deg)) rotateZ(calc(var(--deg-z) * 1deg)) rotateY(calc(var(--deg-y) * 1deg));
+        }
+        [class*="xi-n"]:nth-child(n+11):nth-child(-n+20),
+        [class*="xi-n"]:nth-child(n+31):nth-child(-n+32) {
+            outline: 1px dashed #fff;
+            outline-offset: 2px;
+        } */
+        [class*="xi-n"] {
             --xdeg: 0;
             --t2: rotateX(calc(var(--xdeg) * 1deg)) rotateZ(calc(var(--zdeg) * 1deg)) rotateY(calc(var(--ydeg) * 1deg));
-        }
-
-        [id|="xip"] {
-            --hue: 90;
-            --move-z: 102;
-            outline: 2px dashed #fff;
-            outline: 2px dashed #9f3;
-            outline: 2px dashed hsla(var(--hue), 100%, 60%, 1);
-        }
-        #xip-1 {
-            --hue: 270;
-            --xdeg: 0;
-            --zdeg: 0;
-            --ydeg: 0;
-            --zdeg-2: 0;
-            --ydeg-2: 0;
-            /* --t2: rotateX(calc(var(--xdeg) * 1deg)) rotateZ(calc(var(--zdeg) * 1deg)) rotateY(calc(var(--ydeg) * 1deg)); */
-            /* --t2: rotateY(calc(var(--ydeg) * 1deg)) rotateZ(calc(var(--zdeg) * 1deg)) rotateY(calc(var(--ydeg-2) * 1deg)); */
-            --t2: rotateZ(calc(var(--zdeg) * 1deg)) rotateY(calc(var(--ydeg) * 1deg)) rotateZ(calc(var(--zdeg-2) * 1deg)) rotateY(calc(var(--ydeg-2) * 1deg));
-        }
-        #xip-2 {
-            --hue: 270;
-            --xdeg: 0;
-            --zdeg: 0;
-            --ydeg: 180;
-            --zdeg-2: 0;
-            --ydeg-2: 0;
-            /* --t2: rotateX(calc(var(--xdeg) * 1deg)) rotateZ(calc(var(--zdeg) * 1deg)) rotateY(calc(var(--ydeg) * 1deg)); */
-            /* --t2: rotateY(calc(var(--ydeg) * 1deg)) rotateZ(calc(var(--zdeg) * 1deg)) rotateY(calc(var(--ydeg-2) * 1deg)); */
-            --t2: rotateZ(calc(var(--zdeg) * 1deg)) rotateY(calc(var(--ydeg) * 1deg)) rotateZ(calc(var(--zdeg-2) * 1deg)) rotateY(calc(var(--ydeg-2) * 1deg));
-        }
-
-        /* #xc2.xc-2>#xip-3.xi-n */
-
-        .xc-2 {
-            position: absolute;
-
-            /* --xc-tilt-x: 90deg; */
-            /* --xc-tilt-xdeg: calc(var(--xc-tilt-x) * 1deg); */
-            /* transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateY(0deg) rotateZ(0deg); */
-        }
-        #xc2 {
-            transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateY(0deg) rotateZ(0deg);
-            transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateY(0deg) rotateZ(var(--xc-rotate-zdeg));
-            transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateZ(36deg) rotateY(120deg) rotateZ(var(--xc-rotate-zdeg));
-
-            transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateZ(90deg) rotateY(120deg) rotateZ(var(--xc-rotate-zdeg));
-            transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateZ(90deg) rotateY(120deg) rotateZ(0deg);
-            transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateZ(90deg) rotateY(0deg) rotateZ(0deg);
-        }
-        #xc2 #xip-3.xi-n {
-            --move-z: 104;
-            --hue: 90;
-            --xdeg: 0;
-            /* --zdeg: 126;
-            --ydeg: 60; */
-            --zdeg: 0;
-            --ydeg: 0;
-            --zdeg-2: 0;
-            --ydeg-2: 0;
-            /* --t2: rotateX(calc(var(--xdeg) * 1deg)) rotateZ(calc(var(--zdeg) * 1deg)) rotateY(calc(var(--ydeg) * 1deg)); */
-            /* --t2: rotateY(calc(var(--ydeg) * 1deg)) rotateZ(calc(var(--zdeg) * 1deg)) rotateY(calc(var(--ydeg-2) * 1deg)); */
-            --t2: rotateZ(calc(var(--zdeg) * 1deg)) rotateY(calc(var(--ydeg) * 1deg)) rotateZ(calc(var(--zdeg-2) * 1deg)) rotateY(calc(var(--ydeg-2) * 1deg));
         }
 
         .xc2 {
@@ -459,7 +500,7 @@
         }
     </style>
     <style>
-        /* xi-w */
+
         #ShelfSphere [class*="xi-w"]::before,
         #ShelfSphere [class*="xi-w"],
         #ShelfSphere [class*="xi-w"]::after {
@@ -525,40 +566,6 @@
         } */
         /* #ShelfSphere [class*="xi-w"] {display: none;} */
     </style>
-    <style>
-        /* Settings 2 (new) */
-        [class|="xc"] {
-            /* --xc-rotate-z: 90; */
-            --xc-rotate-zdeg: calc(var(--xc-rotate-z) * 1deg);
-            transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateY(0deg) rotateZ(90deg);
-            transform: perspective(var(--global-perspective)) rotateX(var(--xc-tilt-xdeg)) rotateY(0deg) rotateZ(var(--xc-rotate-zdeg));
-        }
-        .settings2 .option,
-        .settings2 .option :is(label, input, button) {
-            margin: 0.25rem;
-        }
-        #xc-rotation:checked ~ #ShelfSphere [class|='xc'] {
-            /* --xc-tilt-x: -20;
-            --xc-tilt-x: 60;
-            --xc-tilt-x: 90; */
-            animation: display-spin-0-360 16000ms linear infinite both;
-        }
-        [for="xc-rotation"] {
-            border: 2px solid #fff0;
-            border-radius: .5rem;
-            padding: .125rem .5rem;
-            background-color: #fff0;
-            transition: background-color 200ms ease-in-out, border 200ms ease-in-out;
-            cursor: pointer;
-        }
-        [for="xc-rotation"]:hover {
-            background-color: #fff2;
-        }
-        #xc-rotation:checked ~ .settings2 [for="xc-rotation"] {border-color: #ffff;}
-        [for="xc-rotation"]::after {content: ': Off';}
-        #xc-rotation:checked ~ .settings2 [for="xc-rotation"]::after {content: ': On';}
-        #xc-rotation:checked ~ .settings2 .rotation-option {display: none;}
-    </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
@@ -571,7 +578,6 @@
 <main id="main">
     <input class="var-check" type="checkbox" name="option" id="twirl-option">
     <input class="var-check" type="checkbox" name="option" id="dotSphere-option" checked>
-    <input class="var-check" type="checkbox" name="xc-sphere" id="xc-rotation" checked>
     <div id="ShelfSphere" class="shelf">
         <div class="shelf-title">dots</div>
         <div id="xc" class="xc">
@@ -595,13 +601,6 @@
             <div class="xi-w270" data-id="270"></div>
             <div class="xi-w0-h90" data-id="90"></div>
             <div class="xi-w0-h270" data-id="270"></div>
-
-            <div id="xip-1" class="xi-n"></div>
-            <div id="xip-2" class="xi-n"></div>
-        </div>
-        <!-- #xc2.xc-2>#xip-3.xi-n -->
-        <div id="xc2" class="xc-2">
-            <div id="xip-3" class="xi-n"></div>
         </div>
         <div class="xc xc2 hidden">
             <div class="xi"></div>
@@ -646,29 +645,6 @@
             <div class="xi-n3"></div>
             <div class="xi-n4"></div>
             <div class="xi-n5"></div> -->
-        </div>
-    </div>
-    <div class="settings2">
-        <div class="option">
-            <label class="var-label for-check" for="xc-rotation">Rotation</label>
-        </div>
-        <div class="option">
-            <label class="var-label" for="xc-tilt-x">Sphere tilt:</label>
-            <input class="var-input" type="number" name="xc-sphere" id="xc-tilt-x" min="0" max="360" value="60" step="10">
-            <button class="var-btn data-add" data-by="10" data-var="xc-tilt-x" data-step="0"></button>
-            <button class="var-btn data-reduce" data-by="-10" data-var="xc-tilt-x" data-step="0"></button>
-        </div>
-        <div class="option rotation-option">
-            <label class="var-label" for="xc-rotate-z">Sphere rotation:</label>
-            <input class="var-input" type="number" name="xc-sphere" id="xc-rotate-z" min="0" max="360" value="90" step="1">
-            <button class="var-btn data-add" data-by="18" data-var="xc-rotate-z" data-step="0"></button>
-            <button class="var-btn data-reduce" data-by="-18" data-var="xc-rotate-z" data-step="0"></button>
-        </div>
-        <div class="option">
-            <label class="var-label" for="xi-size">Circle Size:</label>
-            <input class="var-input" type="number" name="xi-circle" id="xi-size" min="8" max="54" value="24" step="8">
-            <button class="var-btn data-add" data-by="8" data-var="xi-size" data-step="0"></button>
-            <button class="var-btn data-reduce" data-by="-8" data-var="xi-size" data-step="0"></button>
         </div>
     </div>
     <div class="settings hidden">
@@ -792,9 +768,6 @@
             "move-z": 100,
             "twirl-scale": 10,
             "twirl-start": 20,
-            "xc-tilt-x": 60,
-            "xi-size": 24,
-            "xc-rotate-z": 90,
             "z-end": 0
         };
         var settings = {
@@ -805,10 +778,6 @@
             // "twirl-option": 0,
             "twirl-scale": -2,
             "twirl-start": -10,
-
-            "xc-tilt-x": 60,
-            "xi-size": 24,
-            "xc-rotate-z": 90,
 
             "z-end": 0
         };
@@ -876,22 +845,17 @@
             updateBtns = document.querySelectorAll('.update-btn');
             updateBtns.forEach(btn => {btn.addEventListener('click', btn_UpdateBtns);})
 
-            // BuildDots();
-            BuildDots2(zyv, true);
-            BuildDots2(zyf, false);
+            BuildDots();
         });
 
         // `data-id="1"`;
         var xc = document.getElementById('xc');
-        // var zy = {
-        //     "0": [30, 60, 80, 100, 120, 140, 160],
-        //     "36": [20, 40, 60, 80, 100, 120, 150],
-        //     "18": [50, 70, 90, 110, 130],
-        //     "54": [50, 70, 90, 110, 130]
-        // }
-        // var zy = {"0": [38.855, 77.71, 116.565],"36": [63.435, 102.29, 141.145]}
-        // var zyv = {"0": [116.565],"36": [63.435]}
-        // var zyf = {"0": [38.855, 77.71],"36": [102.29, 141.145]}
+        var zy = {
+            "0": [30, 60, 80, 100, 120, 140, 160],
+            "36": [20, 40, 60, 80, 100, 120, 150],
+            "18": [50, 70, 90, 110, 130],
+            "54": [50, 70, 90, 110, 130]
+        }
         const zDegs = [0,72,144,216,288];
         /* 2x7 + 2x5 = 24 → 120 */
         var zydegs = [];
@@ -902,59 +866,19 @@
                 ys.forEach(ydeg => {
                     zDegs.forEach(z => {
                         let zdeg = z + deg;
-                        let zystyle = `--ydeg: ${ydeg}; --zdeg: ${zdeg};`;
-                        // if((ydeg == 60 && zdeg == 0) || (ydeg == 120 && zdeg == 36)) {
-                        //     let zystyle = `--ydeg: ${ydeg}; --zdeg: ${zdeg}; outline: 2px dashed #fff;`;
-                        // }
-                        // if((ydeg == 60 && zdeg == 0) || (ydeg == 120 && zdeg == 36)) zystyle = `--ydeg: ${ydeg}; --zdeg: ${zdeg}; outline: 2px dashed #fff;`;
-                        if((ydeg == 60 && deg == 0) || (ydeg == 120 && deg == 36)) zystyle = `--ydeg: ${ydeg}; --zdeg: ${zdeg}; outline: 2px dashed #fff; --hue: 315;`;
-                        
+                        let zystyle = `--ydeg: ${ydeg}; --zdeg: ${zdeg};`
                         let xi = document.createElement('div');
                         xi.classList.add('xi-n');
                         xi.style = zystyle;
-
-                        let zyid = zydegs.length;
+                        // let zyid = zydegs.len;
                         // console.log(`zyid: ${zyid}`);
-                        xi.dataset.id = zyid;
-                        zydegs.push(zystyle);
-
+                        // xi.dataset.id = zyid;
                         xc.appendChild(xi);
+                        zydegs.push(zystyle);
                     });
                 });
             });
-            // console.log(zydegs);
-        }
-
-        var zyv = {"0": [116.565],"36": [63.435]}
-        var zyf = {"0": [38.855, 77.71],"36": [102.29, 141.145]}
-        function BuildDots2(zy, vf){
-            Object.keys(zy).forEach(k=>{
-                let ys = zy[k];
-                let deg = parseInt(k);
-                ys.forEach(ydeg => {
-                    zDegs.forEach(z => {
-                        let zdeg = z + deg;
-                        let zystyle = `--ydeg: ${ydeg}; --zdeg: ${zdeg};`;
-                        // if((ydeg == 60 && zdeg == 0) || (ydeg == 120 && zdeg == 36)) {
-                        //     let zystyle = `--ydeg: ${ydeg}; --zdeg: ${zdeg}; outline: 2px dashed #fff;`;
-                        // }
-                        // if((ydeg == 60 && zdeg == 0) || (ydeg == 120 && zdeg == 36)) zystyle = `--ydeg: ${ydeg}; --zdeg: ${zdeg}; outline: 2px dashed #fff;`;
-                        if(vf) zystyle = `--ydeg: ${ydeg}; --zdeg: ${zdeg}; outline: 2px dashed #fff; --hue: 315;`;
-                        
-                        let xi = document.createElement('div');
-                        xi.classList.add('xi-n');
-                        xi.style = zystyle;
-
-                        let zyid = zydegs.length;
-                        // console.log(`zyid: ${zyid}`);
-                        xi.dataset.id = zyid;
-                        zydegs.push(zystyle);
-
-                        xc.appendChild(xi);
-                    });
-                });
-            });
-            // console.log(zydegs);
+            console.log(zydegs);
         }
     </script>
 </body>

@@ -335,7 +335,8 @@ base { counter-reset: listCounter; }
 
     --y-deg: calc(var(--i) * 18deg);
     transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,90deg) rotateY(var(--y-deg)) translateZ(calc(160px + var(--zin)));
-    animation: nyCard-21ab 5000ms ease-in-out infinite both;
+    /* animation: nyCard-21ab 5000ms ease-in-out infinite both; */
+    transform: translateX(-50%) translateY(-50%) translateZ(var(--zin));
 }
 .NyDeck-21 .NyCard {
     transform: translateX(-50%) translateY(-50%) rotate3d(1,0,0,0deg) rotate3d(0,1,0,0deg) translateZ(60px);
@@ -345,25 +346,48 @@ base { counter-reset: listCounter; }
     --y-deg: calc(var(--i) * 18deg);
     transform: translateX(-50%) translateY(-50%) rotateX(90deg) rotateY(var(--y-deg)) translateZ(60px);
 
-    animation: nyCard-y21 5000ms ease-in-out normal infinite both;
+    transform: translateX(-50%) translateY(-50%) rotateX(90deg) rotateY(var(--y-deg)) translateZ(60px) rotate3d(-1,1,0,90deg) rotateY(var(--y-deg)) translateZ(calc(160px + var(--zin)));
+    transform: translateX(-50%) translateY(-50%) rotateX(90deg) rotateY(var(--y-deg)) translateZ(60px) rotate3d(-1,1,0,90deg) rotateY(var(--y-deg)) translateZ(160px);
+
+    /* animation: nyCard-y21 5000ms ease-in-out normal infinite both; */
+    /* animation: nyCard-21abc 5000ms ease-in-out normal infinite both; */
+    /* animation: none; */
 }
 
 
 .shelf:hover .NyDeck-21 .NyCard {
-    animation: nyCard-y21 5000ms ease-in-out alternate infinite both;
-    animation: nyCard-y21 5000ms ease-in-out normal both;
+    /* animation: nyCard-y21 5000ms ease-in-out alternate infinite both; */
+    /* animation: nyCard-y21 5000ms ease-in-out normal both; */
+    animation: none;
+    animation: nyCard-y21abc 5000ms ease-in-out normal infinite both;
+    /* animation: nyCard-y21x 5000ms ease-in-out normal infinite both; */
 }
+
+@keyframes nyCard-y21x {
+    0%{transform: translateX(-50%) translateY(-50%) rotatex(0deg) rotateY(0deg) translateZ(0px) rotateX(0deg) rotateY(0deg) translateZ(-30px);}
+    20%{transform: translateX(-50%) translateY(-50%) rotatex(90deg) rotateY(0deg) translateZ(60px) rotateX(90deg) rotateY(0deg) translateZ(160px);}
+    80%{transform: translateX(-50%) translateY(-50%) rotatex(90deg) rotateY(360deg) translateZ(60px) rotateX(90deg) rotateY(360deg) translateZ(160px);}
+    100%{transform: translateX(-50%) translateY(-50%) rotatex(0deg) rotateY(360deg) translateZ(0px) rotateX(0deg) rotateY(360deg) translateZ(-30px);}
+}
+@keyframes nyCard-y21abc {
+    0%{transform: translateX(-50%) translateY(-50%) rotatex(0deg) rotateY(0deg) translateZ(0px) rotate3d(-1,1,0,0deg) rotateY(0deg) translateZ(-30px);}
+    20%{transform: translateX(-50%) translateY(-50%) rotatex(90deg) rotateY(0deg) translateZ(60px) rotate3d(-1,1,0,90deg) rotateY(0deg) translateZ(160px);}
+    80%{transform: translateX(-50%) translateY(-50%) rotatex(90deg) rotateY(360deg) translateZ(60px) rotate3d(-1,1,0,90deg) rotateY(360deg) translateZ(160px);}
+    100%{transform: translateX(-50%) translateY(-50%) rotatex(0deg) rotateY(360deg) translateZ(0px) rotate3d(-1,1,0,0deg) rotateY(360deg) translateZ(-30px);}
+}
+
+
+
 @keyframes nyCard-y21 {
     0%{transform: translateX(-50%) translateY(-50%) rotatex(0deg) rotateY(0deg) translateZ(0px);}
     20%{transform: translateX(-50%) translateY(-50%) rotatex(90deg) rotateY(0deg) translateZ(60px);}
     80%{transform: translateX(-50%) translateY(-50%) rotatex(90deg) rotateY(360deg) translateZ(60px);}
     100%{transform: translateX(-50%) translateY(-50%) rotatex(0deg) rotateY(360deg) translateZ(0px);}
 }
-
 .shelf:hover .NyDeck-21 .NyCard::after,
 .shelf:hover .NyDeck-21 .NyCard::before {
-    animation: nyCard-21ab 5000ms ease-in-out alternate infinite both;
-    animation: nyCard-21ab 5000ms ease-in-out both;
+    /* animation: nyCard-21ab 5000ms ease-in-out alternate infinite both; */
+    /* animation: nyCard-21ab 5000ms ease-in-out both; */
 }
 @keyframes nyCard-21ab {
     0%{transform: translateX(-50%) translateY(-50%) rotate3d(-1,1,0,0deg) rotateY(0deg) translateZ(calc(-30px + var(--zin)));}
