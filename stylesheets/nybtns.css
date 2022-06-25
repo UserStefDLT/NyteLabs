@@ -528,6 +528,107 @@
 }
 
 
+.nybtn--cloud-rainbow-2 {
+    text-shadow: 2px 2px 2px #111;
+    overflow: hidden;
+}
+.nybtn--cloud-rainbow-2::before {
+    /* height: 3rem; width: 8rem;
+    height: 5rem; width: 10rem; */
+    height: 15rem; width: 15rem;
+    transform: translateX(-70%) translateY(-70%) rotate(45deg);
+    transform: translateX(-19rem) translateY(-50%) rotate(90deg);
+    background-image: conic-gradient(from 30deg,
+        hsla(30, 100%, 60%, 1),
+        hsla(90, 100%, 60%, 1),
+        hsla(150, 100%, 60%, 1),
+        hsla(210, 100%, 60%, 1),
+        hsla(270, 100%, 60%, 1),
+        hsla(330, 100%, 60%, 1),
+        hsla(390, 100%, 60%, 1)
+    );
+    box-shadow: 
+    0 0 0 0 hsla(30, 100%, 60%, 1),
+    0 0 0 0 hsla(90, 100%, 60%, 1),
+    0 0 0 0 hsla(150, 100%, 60%, 1),
+    0 0 0 0 hsla(210, 100%, 60%, 1),
+    0 0 0 0 hsla(270, 100%, 60%, 1),
+    0 0 0 0 hsla(330, 100%, 60%, 1);
+    box-shadow: 
+    -3rem -9rem 0rem -6rem hsla(30, 100%, 60%, 1),
+    -2rem -10rem 0rem -6rem hsla(90, 100%, 60%, 1),
+    -1rem -12rem 0rem -6rem hsla(150, 100%, 60%, 1),
+    1rem -13rem 0rem -6rem hsla(210, 100%, 60%, 1),
+    2rem -15rem 0rem -6rem hsla(270, 100%, 60%, 1),
+    3rem -16rem 0rem -6rem hsla(330, 100%, 60%, 1);
+
+    filter: blur(5px) url(#cloud);
+    transition: transform 3s ease-in-out;
+    transition: box-shadow 3s ease-in-out;
+    transition: box-shadow 3s ease-in-out, transform 3s ease-in-out;
+}
+.nybtn--cloud-rainbow-2:hover::before {
+    /* height: 6rem; width: 15rem; */
+    /* transform: translateX(-20%) translateY(-20%) rotate(45deg); */
+    transform: translateX(-20rem) translateY(-50%) rotate(90deg);
+    box-shadow: 
+    -2rem -10rem 0.5rem -5.5rem hsla(30, 100%, 60%, 1),
+    -1rem -12rem 0.5rem -6.5rem hsla(90, 100%, 60%, 1),
+    1rem -12rem 0.5rem -6rem hsla(150, 100%, 60%, 1),
+    2rem -15rem 0.5rem -6.5rem hsla(210, 100%, 60%, 1),
+    3rem -16rem 0.5rem -5.5rem hsla(270, 100%, 60%, 1),
+    -1rem -15rem 0.5rem -6.5rem hsla(330, 100%, 60%, 1);
+}
+
+.nybtn--fireworks {
+    text-shadow: 2px 2px 2px #111;
+    overflow: hidden;
+}
+.nybtn--fireworks::before {
+    /* height: 3rem; width: 8rem;
+    height: 5rem; width: 10rem; */
+    height: 5rem; width: 5rem;
+    transform: translateX(-70%) translateY(-70%) rotate(45deg);
+    transform: translateX(-10rem) translateY(-50%) rotate(90deg);
+    box-shadow: 
+    -2rem -3rem 0rem -2rem hsla(30, 100%, 60%, 1),
+    -1.5rem -7rem 0rem -2rem hsla(90, 100%, 60%, 1),
+    -1rem -7.5rem 0rem -2rem hsla(150, 100%, 60%, 1),
+    0rem -7.5rem 0rem -2.4rem hsla(150, 100%, 100%, 1),
+    1rem -7.5rem 0rem -2rem hsla(210, 100%, 60%, 1),
+    1.5rem -8rem 0rem -2rem hsla(270, 100%, 60%, 1),
+    2rem -12rem 0rem -2rem hsla(330, 100%, 60%, 1);
+    box-shadow: 
+    0rem -7.5rem 0rem -2.4rem hsla(150, 100%, 100%, 1),
+    0rem -7.5rem 0rem -2.4rem hsla(150, 100%, 100%, 1),
+    0rem -7.5rem 0rem -2.4rem hsla(150, 100%, 100%, 1),
+    0rem -7.5rem 0rem -2.4rem hsla(150, 100%, 100%, 1),
+    0rem -7.5rem 0rem -2.4rem hsla(150, 100%, 100%, 1);
+    border-radius: 50%;
+
+    /* filter: blur(5px) url(#cloud); */
+    /* transition: box-shadow 3s ease-in-out, transform 3s ease-in-out; */
+    transition: box-shadow 3s ease-in-out;
+}
+.nybtn--fireworks:hover::before {
+    /* transform: translateX(-20rem) translateY(-50%) rotate(90deg); */
+    box-shadow: 
+    -2rem -10rem 0.5rem -2rem hsla(30, 100%, 60%, 1),
+    -1rem -12rem 0.5rem -2rem hsla(90, 100%, 60%, 1),
+    1rem -12rem 0.5rem -2rem hsla(150, 100%, 60%, 1),
+    0rem -7.5rem 0rem -2.25rem hsla(150, 100%, 100%, 1),
+    2rem -15rem 0.5rem -2rem hsla(210, 100%, 60%, 1),
+    3rem -16rem 0.5rem -2rem hsla(270, 100%, 60%, 1),
+    -1rem -15rem 0.5rem -2rem hsla(330, 100%, 60%, 1);
+    box-shadow: 
+    -2rem -9.5rem 0rem -2.4rem hsla(150, 100%, 100%, 1),
+    -2rem -5.5rem 0rem -2.4rem hsla(150, 100%, 100%, 1),
+    0rem -7.5rem 0rem -2.4rem hsla(150, 100%, 100%, 1),
+    2rem -9.5rem 0rem -2.4rem hsla(150, 100%, 100%, 1),
+    2rem -5.5rem 0rem -2.4rem hsla(150, 100%, 100%, 1);
+}
+
+
 .lablinks a:hover { text-decoration: none; }
 .nybtn--brush-rainbow-01 {
     color: transparent;

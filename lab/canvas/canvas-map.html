@@ -13,6 +13,11 @@
     <link rel="stylesheet" href="../../stylesheets/deck.css">
     <!-- <link rel="stylesheet" href="my-css.css"> -->
     <style>
+        body {
+            background-image: 
+                radial-gradient(farthest-corner at 100% 100%, #456, #7890),
+                radial-gradient(farthest-corner at 100% 100%, #123, #123);
+        }
         .welcome {
             font-size: 2rem;
             margin: 1rem;
@@ -35,15 +40,19 @@
     </header>
 
 <main>
-    <div class="shelf">
+    <!-- <div class="shelf">
+        <div class="shelf-title">Test</div>
+        <a href="#"><div class="nybtn--fireworks">Fireworks</div></a>
+    </div> -->
+    <div class="shelf hidden">
         <div class="shelf-title">Weaver: self-drawn texture</div>
-        <li><a href="../pattern-weaver/weaver-map.html"><div class="nybtn--labBtn">Most Recent Weaver</div></a></li>
+        <a href="../pattern-weaver/weaver-map.html"><div class="nybtn--labBtn">Most Recent Weaver</div></a>
     </div>
     <div class="shelf">
         <div class="shelf-title">Drawing canvas</div>
         <ul class="lablinks">
             <li><a href="cloud-brush-02/"><div class="nybtn--cloud-normal">Cloud Brush 02</div></a></li>
-            <li><a href="rainbow-cloud-brush/"><div class="nybtn--cloud-rainbow">Rainbow Clouds Brush</div></a></li>
+            <li><a href="rainbow-cloud-brush/"><div class="nybtn--cloud-rainbow-2">Rainbow Clouds Brush</div></a></li>
             <li><a href="cloud-brush/"><div class="nybtn--cloud-normal">Normal Clouds</div></a></li>
             <li><a href="brush/"><div class="nybtn--brush-rainbow">Brush</div></a></li>
             <li><a href="rainbow-brush"><div class="nybtn--brush-rainbow">Rainbow Brush</div></a></li>
@@ -53,6 +62,7 @@
         <!-- <div class="shelf-title">Day 02</div> -->
         <div class="shelf-title">Mouse move, click, and scroll effects.</div>
         <ul class="lablinks">
+            <li><a href="fireworks/"><div class="nybtn-labBtn">Fireworks</div></a></li>
             <li><a href="spell-effect/"><div class="nybtn-spell-02">Spell Effects</div></a></li>
             <li><a href="spell-effect-02/"><div class="nybtn-spell-02">Spell Effects 2</div></a></li>
         </ul>
@@ -77,6 +87,22 @@
     </div>
 </main>
 
+
+    <svg style="display: none;">
+        <defs>
+            <filter id="x_svgBlur" x="-5%" y="-5%" width="110%" height="110%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="5"/>
+            </filter>
+            <filter id="x_cloud" x="-25%" y="-25%" width="150%" height="150%" >
+                <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="5" />
+                <feDisplacementMap in="SourceGraphic" scale="100" />
+            </filter>
+            <filter id="cloud" x="-25%" y="-25%" width="150%" height="150%" >
+                <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="5" />
+                <feDisplacementMap in="SourceGraphic" scale="100" />
+            </filter>
+        </defs>
+    </svg>
 
     <footer>
         <div class="my-name">

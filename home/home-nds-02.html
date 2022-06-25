@@ -93,6 +93,12 @@
             max-width: 80%;
             margin: 1rem auto;
 
+            /* display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            flex-direction: row; */
+
             width: max-content;
             display: grid;
             place-items: center;
@@ -101,18 +107,26 @@
             gap: 1rem;
 
             transform-style: preserve-3d;
+            transform: rotate3d(0,0,0,30deg);
+            transform: perspective(var(--global-perspective)) rotate3d(0,0,1,45deg) rotate3d(1,-1,0,35.264deg);
+            /* transform: perspective(var(--global-perspective)) rotate3d(0,0,1,-45deg) rotate3d(1,1,0,35.264deg); */
             transform: perspective(var(--global-perspective)) rotate3d(0,0,1,30deg) rotate3d(1,-1,0,35.264deg) translateZ(30px);
+
             transition: transform 800ms ease-in-out;
         }
         .nauli {
             position: relative;
+            --sz: 120px;
             --sz: 180px;
             height: var(--sz); width: var(--sz);
             /* font-size: 1.5rem; */
 
+
             --clr: hsla(calc(var(--i) * 60),100%,60%,.5);
             box-shadow: 0 0 0 2px var(--clr);
-            /* box-shadow: 0 0 0 2px var(--clr), 0px 0px 0px 0px #0000; */
+            box-shadow: 
+            0 0 0 2px var(--clr),
+            0px 0px 0px 0px #0000;
             background-image: linear-gradient(135deg, #123, #789);
             --i2: var(--i);
 
@@ -125,19 +139,28 @@
             transform: translateZ(0px);
             cursor: pointer;
             transition: transform 500ms ease-in-out;
+
+            --move-z: 20px;
         }
         .nauli:hover {
             transform: translateZ(20px);
         }
         .nauli::after {
             content: '';
+            /* content: attr(class); */
             position: absolute;
             top: 50%; left: 50%;
             transform: translateX(-50%) translateY(-50%);
 
+            /* --sz: 20px; */
             height: var(--sz); width: var(--sz);
+            /* width: 60px; */
             transition: transform 300ms ease-in-out;
             transform-style: preserve-3d;
+            transform: translateX(-50%) translateY(-50%) perspective(var(--global-perspective)) rotate3d(0,0,1,-45deg) rotate3d(-1,1,0,35.264deg);
+            transform: translateX(-50%) translateY(-50%) rotate3d(0,0,1,-45deg) rotate3d(-1,1,0,35.264deg) translateZ(-50px);
+            transform: translateX(-50%) translateY(-50%) perspective(var(--global-perspective)) rotate3d(0,0,1,-45deg) rotate3d(1,0,0,-35.264deg) translateZ(50px);
+            transform: translateX(-50%) translateY(-50%) translateZ(0px);
             transform: translateX(-50%) translateY(-50%) translateZ(-1px) scale(.90);
 
             --clr: hsla(calc(var(--i2) * 60),100%,60%,.5);
