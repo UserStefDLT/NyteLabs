@@ -1,0 +1,191 @@
+:root {
+    --clr-grass-t: hsl(90, 100%, 60%); --grass: #99ff33;
+    --clr-grass-t: hsl(90, 100%, 50%); --grass: #80ff00;
+    --clr-grass-t: hsl(90, 100%, 40%); --grass: #66cc00;
+    --clr-grass-t: hsl(90, 100%, 30%); --grass: #4d9900;
+    --clr-grass-t: hsl(90, 100%, 20%); --grass: #336600;
+    --clr-grass-t: hsl(90, 100%, 10%); --grass: #1a3300;
+    --clr-grass-t: hsl(90, 100%, 5%); --grass: #0d1a00;
+
+    --grass: #9f3;
+    --grass: #6c0;
+    --grass: #360;
+    
+    --clr: #39f; --clr: hsl(210, 100%, 80%); 
+    --clr: #39f; --clr: hsl(210, 100%, 60%); 
+    --clr: #39f; --clr: hsl(210, 100%, 40%); 
+    --clr: #39f; --clr: hsl(210, 100%, 20%); 
+
+    --clr: hsl(210, 100%, 80%); --clr: #9cf;
+    --clr: hsl(210, 100%, 60%); --clr: #39f;
+    --clr: hsl(210, 100%, 40%); --clr: #06c;
+    --clr: hsl(210, 100%, 20%); --clr: #036;
+    
+    --clr: #012; --clr: hsl(210, 100%, 7%);
+    --clr: #123; --clr: hsl(210, 50%, 13%);
+    --clr: #234; --clr: hsl(210, 33%, 20%);
+    --clr: #345; --clr: hsl(210, 25%, 27%);
+
+    --clr: #012; --clr: hsl(210, 100%, 7%);
+    --clr: #024; --clr: hsl(210, 100%, 13%);
+    --clr: #036; --clr: hsl(210, 100%, 20%);
+    --clr: #048; --clr: hsl(210, 100%, 27%);
+    --clr: #05a; --clr: hsl(210, 100%, 33%);
+    --clr: #06c; --clr: hsl(210, 100%, 40%);
+    --clr: #07e; --clr: hsl(210, 100%, 47%);
+
+    --clr: #18f; --clr: hsl(210, 100%, 53%);
+    --clr: #28e; --clr: hsl(210, 86%, 53%);
+    --clr: #1180ee; --clr: hsl(210, 87%, 50%);
+
+
+    --path-1: #753; --path-1: hsl(30, 40%, 45%);
+    --path-2: #753; --path-2: hsl(30, 40%, 33%);
+    --path-3: #753; --path-3: hsl(30, 40%, 25%);
+
+    --path: hsl(30, 40%, 50%); --path: #b3804d;
+    --path: hsl(30, 40%, 45%); --path: #a17345;
+    --path: hsl(30, 40%, 40%); --path: #8f663d;
+    --path: hsl(30, 40%, 33%); --path: #765432;
+    --path: hsl(30, 40%, 30%); --path: #6b4d2e;
+    --path: hsl(30, 40%, 25%); --path: #594026;
+    --path: hsl(30, 40%, 20%); --path: #47331f;
+
+    --path: hsl(30, 100%, 50%);
+    --path: hsl(40, 100%, 50%);
+    --path: hsl(45, 100%, 50%);
+    --path: hsl(50, 100%, 50%);
+    --path: hsl(60, 100%, 50%);
+
+    --path-l: #c5b399; --path-l: hsl(35, 28%, 69%);
+    --path-n: #bba892; --path-n: hsl(32, 23%, 65%);
+    --path-o: #af9981; --path-o: hsl(31, 22%, 60%);
+    --path: hsl(30, 100%, 50%);
+    --path: hsl(35, 100%, 50%);
+    --path: hsl(40, 100%, 50%);
+
+    --path: hsl(30, 20%, 60%);
+    --path: hsl(35, 25%, 65%);
+    --path: hsl(40, 30%, 69%);
+
+    
+    --path: #753;
+    --path: #753;
+
+    --path: hsl(39, 46%, 89%);
+    --path: hsl(41, 61%, 76%);
+    --path: hsl(7, 42%, 71%);
+
+    --path: hsl(9, 33%, 58%);
+    --path: hsl(323, 35%, 31%);
+    --path: hsl(292, 51%, 21%);
+
+    --path: hsl(358, 30%, 65%);
+
+    --path-l: #c5b399; --path-l: hsl(35, 28%, 69%);
+    --path-n: #bba892; --path-n: hsl(32, 23%, 65%);
+    --path-o: #af9981; --path-o: hsl(31, 22%, 60%);
+
+    --path-s: #7e8087; --path-s: hsl(227, 4%, 51%);
+    --path-d: #78787a; --path-d: hsl(240, 1%, 47%);
+    --path-o: #70868b; --path-o: hsl(191, 11%, 49%);
+
+
+    --path-l: hsl(38, 18%, 58%);
+    --path-l: hsl(39, 14%, 51%);
+    --path-l: hsl(39, 13%, 44%);
+    
+    --path-d: hsl(38, 15%, 32%);
+    --path-d: hsl(33, 35%, 15%);
+    --path-d: hsl(38, 32%, 15%);
+
+
+    --path-l: hsl(40, 15%, 50%);
+    --path-d: hsl(40, 30%, 20%);
+
+    
+    --path-l: hsl(40, 15%, 60%); --path-l: #a89e8a;
+    --path-l: hsl(40, 15%, 50%); --path-l: #93866c;
+    --path-l: hsl(40, 15%, 40%); --path-l: #756b57;
+    --path-l: hsl(40, 20%, 60%); --path-l: #ada085;
+    --path-l: hsl(40, 20%, 50%); --path-l: #998866;
+    --path-l: hsl(40, 20%, 40%); --path-l: #7a6d52;
+    --path-d: hsl(40, 40%, 25%); --path-d: #594826;
+    --path-d: hsl(40, 40%, 20%); --path-d: #473a1f;
+    --path-d: hsl(40, 40%, 15%); --path-d: #362b17;
+    --path-d: hsl(40, 30%, 25%); --path-d: #53462d;
+    --path-d: hsl(40, 30%, 20%); --path-d: #423824;
+    --path-d: hsl(40, 30%, 15%); --path-d: #322a1b;
+    --path-d: hsl(40, 20%, 25%); --path-d: #4d4433;
+    --path-d: hsl(40, 20%, 20%); --path-d: #3d3629;
+    --path-d: hsl(40, 20%, 15%); --path-d: #2e291f;
+
+    --path-l: hsl(30, 15%, 60%); --path-l: #a8998a;
+    --path-l: hsl(30, 15%, 50%); --path-l: #93806c;
+    --path-l: hsl(30, 15%, 40%); --path-l: #756657;
+    --path-l: hsl(30, 20%, 60%); --path-l: #ad9985;
+    --path-l: hsl(30, 20%, 50%); --path-l: #998066;
+    --path-l: hsl(30, 20%, 40%); --path-l: #7a6652;
+    --path-d: hsl(30, 40%, 25%); --path-d: #594026;
+    --path-d: hsl(30, 40%, 20%); --path-d: #47331f;
+    --path-d: hsl(30, 40%, 15%); --path-d: #362617;
+    --path-d: hsl(30, 30%, 25%); --path-d: #53402d;
+    --path-d: hsl(30, 30%, 20%); --path-d: #423324;
+    --path-d: hsl(30, 30%, 15%); --path-d: #32261b;
+    --path-d: hsl(30, 20%, 25%); --path-d: #4d4033;
+    --path-d: hsl(30, 20%, 20%); --path-d: #3d3329;
+    --path-d: hsl(30, 20%, 15%); --path-d: #2e261f;
+
+
+
+    /* 
+    a8 → 99, aa, bb
+    parseInt(x, base)
+    parseInt(0xaa, 10)
+    9e
+    8a
+    */
+    --path-l: #a89e8a;
+    --path-l: #93866c;
+    --path-l: #756b57;
+    --path-l: #ada085;
+    --path-l: #998866;
+    --path-l: #7a6d52;
+    --path-d: #594826;
+    --path-d: #473a1f;
+    --path-d: #362b17;
+    --path-d: #53462d;
+    --path-d: #423824;
+    --path-d: #322a1b;
+    --path-d: #4d4433;
+    --path-d: #3d3629;
+    --path-d: #2e291f;
+    --path-l: #a8998a;
+    --path-l: #93806c;
+    --path-l: #756657;
+    --path-l: #ad9985;
+    --path-l: #998066;
+    --path-l: #7a6652;
+    --path-d: #594026;
+    --path-d: #47331f;
+    --path-d: #362617;
+    --path-d: #53402d;
+    --path-d: #423324;
+    --path-d: #32261b;
+    --path-d: #4d4033;
+    --path-d: #3d3329;
+    --path-d: #2e261f;
+
+
+    --path: #753;
+    
+    --path: #765;
+    --path: #543;
+    --path: #432;
+    --path: #321;
+
+    --path-l: #765;
+    --path-n: #543;
+    --path-s: #432;
+    --path-d: #321;
+}

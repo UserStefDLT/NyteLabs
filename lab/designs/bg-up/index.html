@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Background Patterns | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        :root {
+            --bwt: #0000;
+            --bwf: #fff;
+            --bw0: #000;
+        }
+        .list,
+        [class|="list"] {
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+            flex-direction: row; 
+            flex-wrap: wrap;
+        }
+    </style>
+    <style>
+        /* pattern: Heart Shape (♥) [simplified] */
+        .xi-s-heart {
+            --sz: 8rem;
+            height: var(--sz); width: var(--sz);
+            background-color: hsla(calc(var(--i) * 60), 60%, 40%, 1);
+            
+            --clr: #603;
+            background-image: 
+            linear-gradient(180deg, #0000 4rem, #fff0 4rem, #fff0 8rem, #0000 8rem),
+            conic-gradient(#0000 0deg 180deg, var(--clr) 180deg 270deg, #0000 270deg 360deg),
+            radial-gradient(circle at 25% 50%, var(--clr), var(--clr) 27.73%, #0000 27.73%),
+            radial-gradient(circle at 50% 75%, var(--clr), var(--clr) 27.73%, #0000 27.73%);
+            
+            --per-size: 5;
+            --bg-sz: calc(var(--sz) / var(--per-size));
+            --margin-percent: 12.5;
+            --margin-x: calc(var(--bg-sz) * var(--margin-percent) / 100);
+            --margin-y: calc(var(--bg-sz) * var(--margin-percent) / -100);
+            --sz-h: calc(var(--bg-sz) / 2);
+            background-position: 0rem 0rem;
+            background-position: var(--margin-x) var(--margin-y);
+            background-size: var(--bg-sz) var(--bg-sz);
+            background-blend-mode: luminosity;
+        }
+    </style>
+    <style>
+        /* pattern: Heart Shape (♥) */
+        .xi-heart {
+            --sz: 8rem;
+            height: var(--sz); width: var(--sz);
+            background-color: hsla(calc(var(--i) * 60), 60%, 70%, 1);
+            
+            --clr: #6037;
+            --clr: #603;
+            background-image: 
+            linear-gradient(180deg, #0000 4rem, #fff0 4rem, #fff0 8rem, #0000 8rem),
+            conic-gradient(#0000 0deg 180deg, var(--clr) 180deg 270deg, #0000 270deg 360deg),
+            radial-gradient(circle at 25% 50%, var(--clr), var(--clr) 27.73%, #0000 27.73%),
+            radial-gradient(circle at 50% 75%, var(--clr), var(--clr) 27.73%, #0000 27.73%);
+            
+            --per-size: 3;
+            --bg-sz: calc(var(--sz) / var(--per-size));
+            --margin-percent: 12.5;
+            --margin-x: calc(var(--bg-sz) * var(--margin-percent) / 100);
+            --margin-y: calc(var(--bg-sz) * var(--margin-percent) / -100);
+            --sz-h: calc(var(--bg-sz) / 2);
+            --sz-ov-x: var(--margin-x);
+            --sz-ov-y: var(--margin-y);
+            --sz-o: calc(var(--sz-h) - var(--margin));
+            --sz-v: calc(var(--sz-h) - var(--margin));
+            /*--sz-o: var(--bg-sz);
+            --sz-v: var(--bg-sz);*/
+            background-position: 0rem 0rem;
+            background-position: var(--sz-ov-x) var(--sz-ov-y);
+            background-size: var(--bg-sz) var(--bg-sz);
+            /*background-blend-mode: overlay;*/
+            
+            /*background-size: 100% 100%, var(--bg-sz) 4rem, var(--bg-sz) 8rem, var(--bg-sz) var(--bg-sz), var(--bg-sz) var(--bg-sz), var(--bg-sz) var(--bg-sz);*/
+            /*
+            --sz-o: calc(var(--bg-sz) / 2 - var(--margin));
+            --sz-v: calc(var(--bg-sz) / 2 - var(--margin));
+            */
+        }
+    </style>
+    <style>
+        /* pattern: base to make the heart. */
+        .xi-heart-base {
+            --sz: 8rem;
+            height: var(--sz); width: var(--sz);
+            background-color: hsla(calc(var(--i) * 60), 60%, 70%, 1);
+            --clr: #6037;
+            background-image: 
+            linear-gradient(180deg, #0000 4rem, #fff0 4rem, #fff0 8rem, #0000 8rem),
+            conic-gradient(#0000 0deg 180deg, var(--clr) 180deg 270deg, #0000 270deg 360deg),
+            radial-gradient(circle at 25% 50%, var(--clr), var(--clr) 27.73%, #0000 27.73%),
+            radial-gradient(circle at 50% 75%, var(--clr), var(--clr) 27.73%, #0000 27.73%);
+            
+            --per-size: 1;
+            --bg-sz: calc(var(--sz) / var(--per-size));
+            --margin-percent: 10%;
+            --margin: calc(var(--bg-sz) * var(--margin-percent));
+            --sz-h: calc(var(--bg-sz) / 2);
+            --sz-o: calc(var(--sz-h) - var(--margin));
+            --sz-v: calc(var(--sz-h) - var(--margin));
+            --sz-o: var(--bg-sz);
+            --sz-v: var(--bg-sz);
+            background-position: 0rem 0rem;
+            background-size: 100% 100%;
+            background-blend-mode: overlay;
+            
+            /* when opacity of color is ‘7’ or ‘~50%’ 
+            background-blend-mode: overlay, luminosity, multiply, soft-light, darken, hard-light;*/
+            /* when opacity of color is ‘f’ or ‘100%’ 
+            Background-blend-mode: hue, luminosity, soft-light; */
+            
+            /*background-size: 100% 100%, var(--bg-sz) 4rem, var(--bg-sz) 8rem, var(--bg-sz) var(--bg-sz), var(--bg-sz) var(--bg-sz), var(--bg-sz) var(--bg-sz);*/
+            /*
+            --sz-o: calc(var(--bg-sz) / 2 - var(--margin));
+            --sz-v: calc(var(--bg-sz) / 2 - var(--margin));
+            */
+        }
+    </style>
+    <style>
+        /* pattern: heart. (failed) */
+        .xi-heart-fail {
+            --sz: 16rem;
+            height: var(--sz); width: var(--sz);
+            border: 0px solid #0000;
+            color: #0000;
+            background-color: hsla(calc(var(--i) * 60), 60%, 70%, 1);
+            
+            
+            background-image: 
+            linear-gradient(180deg, #0000 4rem, #fff0 4rem, #fff0 8rem, #0000 8rem),
+            conic-gradient(#0000 0deg 135deg, #6030 135deg 225deg, #0000 225deg 360deg),
+            conic-gradient(#603 0deg 34deg, #0000 35deg 325deg, #603 326deg 360deg),
+            radial-gradient(closest-corner at 90% 90%, #603, #603 70%, #0000 70%),
+            radial-gradient(closest-corner at 10% 90%, #603, #603 70%, #0000 70%),
+            radial-gradient(circle at 50% 100%, #603, #603 8%, #0000 8%);
+            
+            --per-size: 1;
+            --bg-sz: calc(var(--sz) / var(--per-size));
+            --margin: calc(var(--bg-sz) / 1);
+            --sz-h: calc(var(--bg-sz) / 2);
+            --sz-o: calc(var(--bg-sz) / 2 - -.5rem);
+            --sz-v: calc(var(--bg-sz) / 2 - var(--margin));
+            background-position: 
+            0rem 0rem, 0rem 0rem, 0rem var(--sz-v), var(--sz-h) var(--sz-o), var(--sz-h) var(--sz-o), 0rem var(--sz-h);
+            
+            background-size: 100% 100%, var(--bg-sz) 4rem, var(--bg-sz) 8rem, var(--bg-sz) var(--bg-sz), var(--bg-sz) var(--bg-sz), var(--bg-sz) var(--bg-sz);
+
+            /*
+            --sz-o: calc(var(--bg-sz) / 2 - var(--margin));
+            --sz-v: calc(var(--bg-sz) / 2 - var(--margin));
+            */
+        }
+    </style>    
+    <style>
+        /* pattern: ice cream and background blocks */
+        .xi-ice-cream {
+            --sz: 32rem;
+            height: var(--sz); width: var(--sz);
+            border: 0px solid #0000;
+            color: #0000;
+            background-color: hsla(calc(var(--i) * 60), 60%, 70%, 1);
+            
+            background-image: 
+            conic-gradient(#753 0deg 26.565deg, #0000 26.565deg 333.435deg, #a86 333.435deg 360deg),
+            radial-gradient(circle at 50% 95%, #f9a, #fab 23.29%, #0000 23.29%),
+            conic-gradient(
+            hsl(30, 60%, 70%) 0deg 90deg, 
+            hsl(150, 60%, 70%) 90deg 180deg, 
+            hsl(210, 60%, 70%) 180deg 270deg,
+            hsl(330, 60%, 70%) 270deg 360deg
+            );
+            
+            --per-size: 5;
+            --bg-sz: calc(var(--sz) / var(--per-size));
+            --margin: calc(var(--bg-sz) / 10);
+            --sz-o: calc(var(--bg-sz) / 2 - var(--margin));
+            --sz-v: calc(var(--bg-sz) / 2 - var(--margin));
+            background-position: 
+            0rem var(--sz-v), 0rem var(--sz-o), 0rem 0rem;
+            background-size: var(--bg-sz) var(--bg-sz), var(--bg-sz) var(--bg-sz), 100% 100%;
+        }
+    </style>
+    <style>
+        /* adjustable ice-cream cone pattern */
+        /* .list-aic {--per-side: 4;} */
+        .xi-adjustable-ice-cream {
+            --sz: 12rem;
+            height: var(--sz); width: var(--sz);
+            border: 0px solid #0000;
+            color: #0000;
+            background-color: hsla(calc(var(--i) * 60), 60%, 70%, 1);
+            
+            background-image: 
+            conic-gradient(#753 0deg 26.565deg, #0000 26.565deg 333.435deg, #a86 333.435deg 360deg),
+            radial-gradient(circle at 50% 95%, #f9a, #fab 23.29%, #0000 23.29%);
+            /* --per-side: 4; */
+            /* --count: 4; */
+            --bg-sz: calc(var(--sz) / var(--count));
+            --margin: calc(var(--bg-sz) / 10);
+            --sz-o: calc(var(--bg-sz) / 2 - var(--margin));
+            --sz-v: calc(var(--bg-sz) / 2 - var(--margin));
+            background-position: 
+            0rem var(--sz-v), 0rem var(--sz-o);
+            background-size: var(--bg-sz) var(--bg-sz);
+        }
+    </style>
+    <style>
+        /* ice-cream cone pattern */
+        [class|="xi-ice-cream-p"] {
+            --sz: 8rem;
+            height: var(--sz); width: var(--sz);
+            border: 0px solid #0000;
+            color: #0000;
+            background-color: hsla(calc(var(--i) * 60), 60%, 70%, 1);
+        }
+        /* .xi-ice-cream-p-1,
+        .xi-ice-cream-p-2d,
+        .xi-ice-cream-p-2c,
+        .xi-ice-cream-p-2b,
+        .xi-ice-cream-p-2a {} */
+        .xi-ice-cream-p-1 {
+            background-image: 
+            repeating-linear-gradient(90deg, #0000 1px, #0000 16px, #ffff 16px, #0000 17px),
+            conic-gradient(green 0deg 26.565deg, #0000 26.565deg 333.435deg, magenta 333.435deg 360deg),
+            radial-gradient(circle at 100% 100%, #f9a, #fab 35.35%, #0000 35.35%),
+            radial-gradient(circle at 0% 100%, red, blue 35.35%, #0000 35.35%);
+            
+            background-image: 
+            repeating-linear-gradient(90deg, #0000 1px, #0000 16px, #fff0 16px, #0000 17px),
+            conic-gradient(#753 0deg 26.565deg, #0000 26.565deg 333.435deg, #a86 333.435deg 360deg),
+            radial-gradient(circle at 100% 100%, #f9a, #fab 17.68%, #0000 17.68%),
+            radial-gradient(circle at 0% 100%, #f9a, #fab 17.68%, #0000 17.68%);
+            
+            background-size: 100% 100%, 4rem 4rem, 4rem 4rem, 4rem 4rem;
+            background-position: 0rem 0rem, 0rem 1.5rem, -2rem 1.5rem, 2rem 1.5rem;
+        }
+        .xi-ice-cream-p-2d {
+            /* Option 2d - adjustable */
+            background-image: 
+            conic-gradient(#753 0deg 26.565deg, #0000 26.565deg 333.435deg, #a86 333.435deg 360deg),
+            radial-gradient(circle at 50% 95%, #f9a, #fab 23.29%, #0000 23.29%);
+            --per-size: 4;
+            --bg-sz: calc(var(--sz) / var(--per-size));
+            --margin: calc(var(--bg-sz) / 10);
+            --sz-o: calc(var(--bg-sz) / 2 - var(--margin));
+            --sz-v: calc(var(--bg-sz) / 2 - var(--margin));
+            background-position: 
+            0rem var(--sz-v), 0rem var(--sz-o);
+            background-size: var(--bg-sz) var(--bg-sz);
+        }
+        .xi-ice-cream-p-2c {
+            /* Option 2c - adjustable build up */
+            /*at 50% 95% the radius is 17.1767rem of an initial 16rem of side*/
+            background-image: 
+            conic-gradient(#753 0deg 26.565deg, #0000 26.565deg 333.435deg, #a86 333.435deg 360deg),
+            radial-gradient(circle at 50% 95%, #f9a, #fab 23.29%, #0000 23.29%);
+            --margin: calc(var(--sz) / 10);
+            --sz-o: calc(var(--sz) / 2 - var(--margin));
+            --sz-v: calc(var(--sz) / 2 - var(--margin));
+            background-position: 
+            0rem var(--sz-v), 0rem var(--sz-o);
+        }
+        .xi-ice-cream-p-2b {
+            /* Option 2b - minis */
+            background-image: 
+            conic-gradient(#753 0deg 26.565deg, #0000 26.565deg 333.435deg, #a86 333.435deg 360deg),
+            radial-gradient(circle at 50% 95%, #f9a, #fab 24%, #0000 24%);
+            background-size: 4rem 4rem, 4rem 4rem;
+            background-position: 
+            0rem 1.5rem, 0rem 1.5rem;
+        }
+        .xi-ice-cream-p-2a {
+            /* Option 2a - large */
+            background-image: 
+            conic-gradient(#753 0deg 26.565deg, #0000 26.565deg 333.435deg, #a86 333.435deg 360deg),
+            radial-gradient(circle at 50% 95%, #f9a, #fab 24%, #0000 24%);
+            background-position: 
+            0rem 4rem, 0rem -4rem;
+        }
+    </style>
+
+    <style>
+        :root {
+            --sky-01: #092E58;
+            --sky-02: #0A396D;
+            --sky-03: #145194;
+            --sky-04: #1A6BB9;
+            --sky-05: #45AEF9;
+            --bg-sky-1: 
+            linear-gradient(to bottom, 
+            var(--sky-01), var(--sky-02),
+            var(--sky-03), var(--sky-04), var(--sky-05));
+
+            --hue: 210;
+            --hue-step: 60;
+            --sat: 60%;
+            --lum: 40%;
+            --alp: 1;
+        }
+        /* [class|="xi"] {
+            --sz: 8rem;
+            height: var(--sz); width: var(--sz);
+            background-color: hsla(calc(var(--i) * 60), 60%, 40%, 1);
+            background-color: hsla(calc(var(--i) * var(--hue-step)), var(--sat), var(--lum), var(--alp));
+        } */
+        [class|="xi2"] {
+            --sz: 8rem;
+            height: var(--sz); width: var(--sz);
+            background-color: hsla(calc(var(--i) * 60), 60%, 40%, 1);
+            background-color: hsla(calc(var(--i) * var(--hue-step)), var(--sat), var(--lum), var(--alp));
+            --bg2-clr: hsla(calc(var(--i) * var(--hue-step)), var(--sat), var(--lum), var(--alp));
+        }
+        .xi2-adjust-2 {
+            --sz: 8rem;
+            height: var(--sz); width: var(--sz);
+            border: 0px solid #0000;
+            color: #0000;
+            background-color: hsla(calc(var(--i) * 60), 60%, 70%, 1);
+            
+            background-image: 
+            conic-gradient(#753 0deg 26.565deg, #0000 26.565deg 333.435deg, #a86 333.435deg 360deg),
+            radial-gradient(circle at 50% 95%, #f9a, #fab 23.29%, #0000 23.29%);
+            --per-size: 4;
+            --bg-sz: calc(var(--sz) / var(--per-size));
+            --margin: calc(var(--bg-sz) / 10);
+            --sz-o: calc(var(--bg-sz) / 2 - var(--margin));
+            --sz-v: calc(var(--bg-sz) / 2 - var(--margin));
+            background-position: 
+            0rem var(--sz-v), 0rem var(--sz-o);
+            background-size: var(--bg-sz) var(--bg-sz);
+        }
+        .xi2-mountains-1 {
+            --sz: 8rem; --hue-step: 60;
+            --sat: 60%; --lum: 40%;
+            
+            --bg2-clr: var(--bg-sky-1);
+            --clr-shape: #543;
+
+            background-image: 
+            linear-gradient(180deg, #0000 4rem, #fff0 4rem, #fff0 8rem, #0000 8rem),
+            conic-gradient(#0000 0deg 180deg, var(--clr) 180deg 270deg, #0000 270deg 360deg),
+            radial-gradient(circle at 25% 50%, var(--clr), var(--clr) 27.73%, #0000 27.73%),
+            radial-gradient(circle at 50% 75%, var(--clr), var(--clr) 27.73%, #0000 27.73%);
+
+            background: 
+            conic-gradient(from 0deg at 50% 70%, 
+            #0000 0deg 135deg, var(--clr-shape) 135deg 225deg, 
+            #0000 225deg 360deg);
+            background: 
+            conic-gradient(from 0deg at 50% 50%, 
+            #0000 0deg 135deg, var(--clr-shape) 135deg 225deg, 
+            #0000 225deg 360deg) left bottom / 50% 50% no-repeat local padding-box,
+            conic-gradient(from 0deg at 50% 70%, 
+            #0000 0deg 135deg, var(--clr-shape) 135deg 225deg, 
+            #0000 225deg 360deg) bottom / 50% 50% repeat-x local padding-box,
+            linear-gradient(to top, var(--clr-shape) 5px, #0000 5px),
+            var(--bg2-clr);
+
+            /* background-blend-mode: overlay; */
+            /* background-blend-mode: color-burn; */
+            /* background-blend-mode: hue; */
+
+            /* background: 
+            radial-gradient(circle at 50% 50%, #f39b 55.5%, #0000 55.5%),
+            radial-gradient(circle at 50% 50%, #ffff 35%, #0000 35%) 
+            center / 30% 30% repeat-x local padding-box, 
+            #7227; */
+            
+            /* --per-size: 5;
+            --bg-sz: calc(var(--sz) / var(--per-size));
+            --margin-percent: 12.5;
+            --margin-x: calc(var(--bg-sz) * var(--margin-percent) / 100);
+            --margin-y: calc(var(--bg-sz) * var(--margin-percent) / -100);
+            --sz-h: calc(var(--bg-sz) / 2);
+            background-position: 0rem 0rem;
+            background-position: var(--margin-x) var(--margin-y);
+            background-size: var(--bg-sz) var(--bg-sz);
+            background-blend-mode: luminosity; */
+        }
+        .xi2-mountains {
+            --sz: 8rem; --hue-step: 60;
+            --sat: 60%; --lum: 40%;
+            
+            --bg2-clr: var(--bg-sky-1);
+            --clr-shape-1: #543;
+            --clr-shape-2: hsl(30, 25%, 27%);
+            --clr-shape-2: hsl(30, 15%, 45%);
+            --clr-shape-2: #876;
+            --clr-shape-2: #765;
+            --clr-shape-2: #654;
+
+            background-image: 
+            linear-gradient(180deg, #0000 4rem, #fff0 4rem, #fff0 8rem, #0000 8rem),
+            conic-gradient(#0000 0deg 180deg, var(--clr) 180deg 270deg, #0000 270deg 360deg),
+            radial-gradient(circle at 25% 50%, var(--clr), var(--clr) 27.73%, #0000 27.73%),
+            radial-gradient(circle at 50% 75%, var(--clr), var(--clr) 27.73%, #0000 27.73%);
+
+            background: 
+            conic-gradient(from 0deg at 50% 70%, 
+            #0000 0deg 135deg, var(--clr-shape) 135deg 225deg, 
+            #0000 225deg 360deg);
+            --y-move: 50%;
+            background: 
+            conic-gradient(from 0deg at 50% 50%, 
+            #0000 0deg 135deg, var(--clr-shape-1) 135deg 225deg, 
+            #0000 225deg 360deg) left bottom / 50% 50% no-repeat local padding-box,
+            conic-gradient(from 0deg at 50% 70%, 
+            #0000 0deg 135deg, var(--clr-shape-2) 135deg 225deg, 
+            #0000 225deg 360deg) 50% bottom / 50% 50% repeat-x local padding-box,
+            linear-gradient(to top, var(--clr-shape-1) 5px, #0000 5px),
+            var(--bg2-clr);
+            background: 
+            conic-gradient(from 0deg at 50% 70%, 
+            #0000 0deg 135deg, var(--clr-shape-1) 135deg 225deg, 
+            #0000 225deg 360deg) 0rem 4rem / 50% 50% repeat-x local padding-box,
+            linear-gradient(to top, var(--clr-shape-1) 5px, #0000 5px),
+            conic-gradient(from 0deg at 50% 0%, 
+            #0000 0deg 135deg, var(--clr-shape-2) 135deg 225deg, 
+            #0000 225deg 360deg) 0rem 5rem / 8rem 3rem repeat-x local padding-box,
+            linear-gradient(to top, var(--clr-shape-2) 5px, #0000 5px),
+            var(--bg2-clr);
+            /* background-position: 0% bottom, 0% bottom, center center, center center;
+            background-position: 50% bottom, 50% bottom, center center, center center; */
+            /* animation: panimation 2000ms linear both infinite reverse; */
+            /* background-position: 150% 100%, 100% 100%, center center, center center;
+            background-position: 100% 100%, 50% 100%, center center, center center;
+            background-position: 50% 100%, 0% 100%, center center, center center; */
+            background-position: 0rem 4rem, center center, 0rem 5rem, center center, center center;
+            transition: background-position 200ms ease-in-out;
+            animation: panimation 24000ms linear both infinite;
+        }
+        @keyframes panimation {
+            0% {background-position: 0rem 4rem, center center, 0rem 5rem, center center, center center;}
+            50% {background-position: 8rem 4rem, center center, 4rem 5rem, center center, center center;}
+            100% {background-position: 16rem 4rem, center center, 8rem 5rem, center center, center center;}
+        }
+        @keyframes panimation-1 {
+            0% {background-position: calc(0% + 2rem) bottom, 0% bottom, center center, center center;}
+            100% {background-position: calc(100% + 2rem) bottom, 100% bottom, center center, center center;}
+        }
+        .xi2-shapes {
+            --sz: 8rem; --hue-step: 120;
+            --sat: 80%; --lum: 20%;
+            
+            /* --bg2-clr: var(--bg-sky-1); */
+            --clr-shape: #543;
+
+            background-image: 
+            linear-gradient(180deg, #0000 4rem, #fff0 4rem, #fff0 8rem, #0000 8rem),
+            conic-gradient(#0000 0deg 180deg, var(--clr) 180deg 270deg, #0000 270deg 360deg),
+            radial-gradient(circle at 25% 50%, var(--clr), var(--clr) 27.73%, #0000 27.73%),
+            radial-gradient(circle at 50% 75%, var(--clr), var(--clr) 27.73%, #0000 27.73%);
+
+            background: 
+            conic-gradient(#0cc 0deg 360deg) top / 4rem 4rem no-repeat, 
+
+            radial-gradient(3rem 3rem at 25% 25%, #0000 50%, #fff9, #0000 100%) center / 100% 100% no-repeat, 
+            radial-gradient(3rem 3rem at 75% 75%, #0000 50%, #fff9 50%, #fff9 100%, #0000 100%) center / 100% 100% no-repeat, 
+
+            conic-gradient(from 0deg at 50% 50%, 
+            #0000 0deg 135deg, var(--clr-shape) 135deg 225deg, 
+            #0000 225deg 360deg) left bottom / 50% 50% no-repeat local padding-box,
+            conic-gradient(from 0deg at 50% 70%, 
+            #0000 0deg 135deg, var(--clr-shape) 135deg 225deg, 
+            #0000 225deg 360deg) bottom / 50% 50% repeat-x local padding-box,
+            linear-gradient(to top, var(--clr-shape) 5px, #0000 5px),
+            var(--bg2-clr);
+
+            background-blend-mode: overlay;
+            /* background-blend-mode: color-burn; */
+            /* background-blend-mode: hue; */
+
+            /* background: 
+            radial-gradient(circle at 50% 50%, #f39b 55.5%, #0000 55.5%),
+            radial-gradient(circle at 50% 50%, #ffff 35%, #0000 35%) 
+            center / 30% 30% repeat-x local padding-box, 
+            #7227; */
+            
+            /* --per-size: 5;
+            --bg-sz: calc(var(--sz) / var(--per-size));
+            --margin-percent: 12.5;
+            --margin-x: calc(var(--bg-sz) * var(--margin-percent) / 100);
+            --margin-y: calc(var(--bg-sz) * var(--margin-percent) / -100);
+            --sz-h: calc(var(--bg-sz) / 2);
+            background-position: 0rem 0rem;
+            background-position: var(--margin-x) var(--margin-y);
+            background-size: var(--bg-sz) var(--bg-sz);
+            background-blend-mode: luminosity; */
+        }
+        .xi2-w-shapes {
+            --sz: 9rem; --hue-step: 120;
+            --sat: 0%; --lum: 100%;
+            
+            /* --bg2-clr: var(--bg-sky-1); */
+            --clr-shape: #543;
+
+            background-image: 
+            linear-gradient(180deg, #0000 4rem, #fff0 4rem, #fff0 8rem, #0000 8rem),
+            conic-gradient(#0000 0deg 180deg, var(--clr) 180deg 270deg, #0000 270deg 360deg),
+            radial-gradient(circle at 25% 50%, var(--clr), var(--clr) 27.73%, #0000 27.73%),
+            radial-gradient(circle at 50% 75%, var(--clr), var(--clr) 27.73%, #0000 27.73%);
+
+            --sat-i: 100%;
+            --lum-i: 60%;
+            --alp-i: 1;
+            --clr-1: hsla(0, 90%, 60%, .8);
+            --clr-2: hsla(60, 90%, 60%, .8);
+            --clr-3: hsla(120, 90%, 60%, .8);
+            --clr-4: hsla(180, 90%, 60%, .8);
+            --clr-5: hsla(210, 90%, 60%, .8);
+            --clr-6: hsla(270, 90%, 60%, .8);
+            --clr-7: hsla(330, 90%, 60%, .8);
+            --clr-1: hsla(0, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-2: hsla(60, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-3: hsla(120, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-4: hsla(180, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-5: hsla(210, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-6: hsla(270, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-7: hsla(330, var(--sat-i), var(--lum-i), var(--alp-i));
+
+            background: 
+            conic-gradient(var(--clr-4) 0deg 360deg) top / 30% 30% no-repeat,
+            radial-gradient(3rem 3rem at 00% 50%, red 0%, blue 100%) left bottom / 30% 30% no-repeat,
+            radial-gradient(3rem 3rem at 50% 50%, var(--clr-2) 70%, #0000 70%) left top / 30% 30% no-repeat,
+            radial-gradient(50% 50% at 50% 50%, var(--clr-1) 70%, #0000 70%) right bottom / 30% 30% no-repeat,
+            var(--bg2-clr);
+
+            /* --clr-1: #f53d3db3;
+            --clr-1: #f53d3d;
+            --clr-1: #900f; */
+
+            background: 
+            conic-gradient(
+                var(--clr-1) 0deg 30deg,
+                var(--clr-2) 60deg 60deg,
+                var(--clr-3) 90deg 120deg,
+                var(--clr-4) 170deg 190deg,
+                var(--clr-5) 210deg 240deg,
+                var(--clr-6) 260deg 280deg,
+                var(--clr-7) 330deg 330deg,
+                var(--clr-1) 345deg 360deg
+                ) left top / 50% 50% no-repeat, 
+            
+            linear-gradient(to bottom left, #ee0f, #880f) left bottom / 50% 50% no-repeat, 
+
+            radial-gradient(100% 100% at 50% 50%, var(--clr-1) 0%, #600f 70%) right top / 50% 50% no-repeat, 
+            radial-gradient(100% 100% at 0% 0%, #ee0f 0%, #880f 142%) right bottom / 50% 50% no-repeat,
+
+
+            /* radial-gradient(3rem 3rem at 50% 50%, var(--clr-2) 70%, #0000 70%) right top / 50% 50% no-repeat, 
+            radial-gradient(50% 50% at 50% 50%, var(--clr-1) 70%, #0000 70%) right bottom / 50% 50% no-repeat,  */
+
+            var(--bg2-clr);
+            
+            /* background-blend-mode: darken; */
+            /* background-blend-mode: hard-light; */
+            background-blend-mode: multiply;
+
+            /* background: 
+            radial-gradient(circle at 50% 50%, #f39b 55.5%, #0000 55.5%),
+            radial-gradient(circle at 50% 50%, #ffff 35%, #0000 35%) 
+            center / 30% 30% repeat-x local padding-box, 
+            #7227; */
+            
+            /* --per-size: 5;
+            --bg-sz: calc(var(--sz) / var(--per-size));
+            --margin-percent: 12.5;
+            --margin-x: calc(var(--bg-sz) * var(--margin-percent) / 100);
+            --margin-y: calc(var(--bg-sz) * var(--margin-percent) / -100);
+            --sz-h: calc(var(--bg-sz) / 2);
+            background-position: 0rem 0rem;
+            background-position: var(--margin-x) var(--margin-y);
+            background-size: var(--bg-sz) var(--bg-sz);
+            background-blend-mode: luminosity; */
+        }
+        .xi2-exp-01 {
+            --sz: 9rem; --hue-step: 120;
+            --sat: 0%; --lum: 100%;
+
+            --sat-i: 100%;
+            --lum-i: 60%;
+            --alp-i: 1;
+            --clr-1: hsla(0, 90%, 60%, .8);
+            --clr-2: hsla(60, 90%, 60%, .8);
+            --clr-3: hsla(120, 90%, 60%, .8);
+            --clr-4: hsla(180, 90%, 60%, .8);
+            --clr-5: hsla(210, 90%, 60%, .8);
+            --clr-6: hsla(270, 90%, 60%, .8);
+            --clr-7: hsla(330, 90%, 60%, .8);
+            --clr-1: hsla(0, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-2: hsla(60, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-3: hsla(120, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-4: hsla(180, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-5: hsla(210, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-6: hsla(270, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-7: hsla(330, var(--sat-i), var(--lum-i), var(--alp-i));
+
+            background: 
+            conic-gradient(
+                var(--clr-1) 0deg 30deg,
+                var(--clr-2) 60deg 60deg,
+                var(--clr-3) 90deg 120deg,
+                var(--clr-4) 170deg 190deg,
+                var(--clr-5) 210deg 240deg,
+                var(--clr-6) 260deg 280deg,
+                var(--clr-7) 330deg 330deg,
+                var(--clr-1) 345deg 360deg
+                ) left top / 50% 50% no-repeat, 
+
+            linear-gradient(to bottom left, #ee0f, #880f) left bottom / 50% 50% no-repeat, 
+
+            radial-gradient(100% 100% at 50% 50%, var(--clr-1) 0%, #600f 70%) right top / 50% 50% no-repeat, 
+            radial-gradient(100% 100% at 0% 0%, #ee0f 0%, #880f 142%) right bottom / 50% 50% no-repeat,
+
+            var(--bg2-clr);
+            
+            background-blend-mode: multiply;
+        }
+        .xi2-exp-02 {
+            --sz: 9rem; --hue-step: 120;
+            --sat: 0%; --lum: 100%;
+
+            --sat-i: 100%;
+            --lum-i: 60%;
+            --alp-i: 1;
+            --clr-1: hsla(0, 90%, 60%, .8);
+            --clr-2: hsla(60, 90%, 60%, .8);
+            --clr-3: hsla(120, 90%, 60%, .8);
+            --clr-4: hsla(180, 90%, 60%, .8);
+            --clr-5: hsla(210, 90%, 60%, .8);
+            --clr-6: hsla(270, 90%, 60%, .8);
+            --clr-7: hsla(330, 90%, 60%, .8);
+            --clr-1: hsla(0, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-2: hsla(60, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-3: hsla(120, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-4: hsla(180, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-5: hsla(210, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-6: hsla(270, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-7: hsla(330, var(--sat-i), var(--lum-i), var(--alp-i));
+            
+            /* --clr-1: hsla(0, 100%, 60%, 1);
+            --clr-1: #ff3333; */
+            
+            background: 
+            conic-gradient(
+                var(--clr-1) 0deg 30deg,
+                var(--clr-2) 60deg 60deg,
+                var(--clr-3) 90deg 120deg,
+                var(--clr-4) 170deg 190deg,
+                var(--clr-5) 210deg 240deg,
+                var(--clr-6) 260deg 280deg,
+                var(--clr-7) 330deg 330deg,
+                var(--clr-1) 345deg 360deg
+                ) left top / 100% 100% no-repeat, 
+
+            linear-gradient(to bottom left, #ee0f, #880f) left bottom / 50% 50% no-repeat, 
+
+            radial-gradient(100% 100% at 50% 50%, #f00f 0%, #600f 70%) right top / 50% 50% no-repeat, 
+            radial-gradient(100% 100% at 0% 0%, #ee0f 0%, #880f 142%) right bottom / 50% 50% no-repeat,
+
+            var(--bg2-clr);
+            background: 
+            linear-gradient(to bottom left, #ee0f, #880f) left bottom / 50% 50% no-repeat, 
+            radial-gradient(100% 100% at 50% 50%, #f00f 0%, #600f 70%) right top / 50% 50% no-repeat, 
+            radial-gradient(100% 100% at 0% 0%, #ee0f 0%, #880f 142%) right bottom / 50% 50% no-repeat,
+            conic-gradient(
+                var(--clr-1) 0deg 30deg,
+                var(--clr-2) 60deg 60deg,
+                var(--clr-3) 90deg 120deg,
+                var(--clr-4) 170deg 190deg,
+                var(--clr-5) 210deg 240deg,
+                var(--clr-6) 260deg 280deg,
+                var(--clr-7) 330deg 330deg,
+                var(--clr-1) 345deg 360deg
+                ) left top / 100% 100% no-repeat, 
+
+            var(--bg2-clr);
+            
+            /* background-blend-mode: difference; */
+            /* background-blend-mode: overlay; */
+        }
+        .xi2-star {
+            --sz: 9rem; --hue-step: 120;
+            --sat: 0%; --lum: 100%;
+
+            --sat-i: 100%;
+            --lum-i: 60%;
+            --alp-i: 1;
+            --clr-1: hsla(0, 90%, 60%, .8);
+            --clr-2: hsla(60, 90%, 60%, .8);
+            --clr-3: hsla(120, 90%, 60%, .8);
+            --clr-4: hsla(180, 90%, 60%, .8);
+            --clr-5: hsla(210, 90%, 60%, .8);
+            --clr-6: hsla(270, 90%, 60%, .8);
+            --clr-7: hsla(330, 90%, 60%, .8);
+            --clr-1: hsla(0, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-2: hsla(60, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-3: hsla(120, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-4: hsla(180, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-5: hsla(210, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-6: hsla(270, var(--sat-i), var(--lum-i), var(--alp-i));
+            --clr-7: hsla(330, var(--sat-i), var(--lum-i), var(--alp-i));
+
+            --sat-i: 100%;
+            --lum-i: 40%;
+            --alp-i: .7;
+
+            --clr-1: hsla(45, 100%, 40%, .7);
+            --clr-4: hsla(60, 100%, 60%, .7);
+            --clr-1: hsla(55, 100%, 50%, 1);
+            --clr-4: hsla(55, 100%, 50%, 1);
+
+            --bwt: #0000;
+            --bwf: #fff;
+            --bw0: #000;
+            background: 
+                conic-gradient(
+                    from 0deg at 50% 25%,
+                    var(--bwt) 0deg 160deg,
+                    var(--clr-1) 160deg 180deg,
+                    var(--clr-4) 180deg 200deg,
+                    var(--bwt) 200deg 360deg
+                    ) top / 50% 50% no-repeat, 
+                conic-gradient(
+                    from 144deg at 75% 75%,
+                    var(--bwt) 0deg 160deg,
+                    var(--clr-1) 160deg 180deg,
+                    var(--clr-4) 180deg 200deg,
+                    var(--bwt) 200deg 360deg
+                    ) 80% 120% / 50% 50% no-repeat, 
+                conic-gradient(
+                    from 216deg at 25% 75%,
+                    var(--bwt) 0deg 160deg,
+                    var(--clr-1) 160deg 180deg,
+                    var(--clr-4) 180deg 200deg,
+                    var(--bwt) 200deg 360deg
+                    ) 20% 120% / 50% 50% no-repeat, 
+                conic-gradient(
+                    from 72deg at 75% 50%,
+                    var(--bwt) 0deg 160deg,
+                    var(--clr-1) 160deg 180deg,
+                    var(--clr-4) 180deg 200deg,
+                    var(--bwt) 200deg 360deg
+                    ) right / 50% 50% no-repeat, 
+                conic-gradient(
+                    from 288deg at 25% 50%,
+                    var(--bwt) 0deg 160deg,
+                    var(--clr-1) 160deg 180deg,
+                    var(--clr-4) 180deg 200deg,
+                    var(--bwt) 200deg 360deg
+                    ) 0% 50% / 50% 50% no-repeat, 
+            var(--bwf);
+
+            background: 
+                conic-gradient(
+                    from 0deg at 50% 20%,
+                    var(--bwt) 0deg 160deg,
+                    var(--clr-1) 160deg 180deg,
+                    var(--clr-4) 180deg 200deg,
+                    var(--bwt) 200deg 360deg
+                    ) 50% 0% / 50% 50% no-repeat, 
+
+                conic-gradient(
+                    from 144deg at 75% 70%,
+                    var(--bwt) 0deg 160deg,
+                    var(--clr-1) 160deg 180deg,
+                    var(--clr-4) 180deg 200deg,
+                    var(--bwt) 200deg 360deg
+                    ) 80% 120% / 50% 50% no-repeat, 
+                conic-gradient(
+                    from 216deg at 25% 70%,
+                    var(--bwt) 0deg 160deg,
+                    var(--clr-1) 160deg 180deg,
+                    var(--clr-4) 180deg 200deg,
+                    var(--bwt) 200deg 360deg
+                    ) 20% 120% / 50% 50% no-repeat, 
+
+                conic-gradient(
+                    from 70deg at 85% 50%,
+                    var(--bwt) 0deg 160deg,
+                    var(--clr-1) 160deg 180deg,
+                    var(--clr-4) 180deg 200deg,
+                    var(--bwt) 200deg 360deg
+                    ) 100% 35% / 50% 50% no-repeat, 
+
+                conic-gradient(
+                    from 290deg at 15% 50%,
+                    var(--bwt) 0deg 160deg,
+                    var(--clr-1) 160deg 180deg,
+                    var(--clr-4) 180deg 200deg,
+                    var(--bwt) 200deg 360deg
+                    ) 0% 35% / 50% 50% no-repeat, 
+            var(--bwf);
+
+            --sdeg-0: 0deg;
+            --sdeg-2: 162deg;
+            --sdeg-3: 180deg;
+            --sdeg-4: 198deg;
+            --sdeg-6: 360deg;
+            --deg-ss-1: 0deg 162deg;
+            --deg-ss-2: 162deg 180deg;
+            --deg-ss-3: 180deg 198deg;
+            --deg-ss-4: 198deg 360deg;
+            background: 
+                conic-gradient(
+                    from 0deg at 50% 20%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) 50% 0% / 50% 50% no-repeat, 
+
+                conic-gradient(
+                    from 144deg at 75% 70%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) 80% 120% / 50% 50% no-repeat, 
+                conic-gradient(
+                    from 216deg at 25% 70%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) 20% 120% / 50% 50% no-repeat, 
+
+                conic-gradient(
+                    from 70deg at 85% 50%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) 100% 35% / 50% 50% no-repeat, 
+
+                conic-gradient(
+                    from 290deg at 15% 50%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) 0% 35% / 50% 50% no-repeat, 
+                url('https://upload.wikimedia.org/wikipedia/commons/2/2e/Stj%C3%A4rna.svg') 50% 50% / 100% 100% no-repeat local padding-box,
+            var(--bwf);
+
+            --sz-x: 50%;
+            --sz-y: 50%;
+            --sz-xy: var(--sz-x) var(--sz-y);
+            background: 
+                conic-gradient(
+                    from 0deg at 50% 20%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) 50% -10% / var(--sz-x) var(--sz-y) no-repeat, 
+
+                conic-gradient(
+                    from 144deg at 75% 70%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) 84% 120% / var(--sz-x) var(--sz-y) no-repeat, 
+                conic-gradient(
+                    from 216deg at 25% 70%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) 16% 120% / var(--sz-x) var(--sz-y) no-repeat, 
+
+                conic-gradient(
+                    from 72deg at 94% 47%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) 100% 32% / var(--sz-x) var(--sz-y) no-repeat, 
+                conic-gradient(
+                    from 288deg at 6% 47%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) 0% 32% / var(--sz-x) var(--sz-y) no-repeat, 
+            var(--bwf);
+            
+            background-blend-mode: normal;
+        }
+        .xi2-star-0 {
+            --sz: 9rem; 
+            --alp-i: .5;
+            --clr-1: hsla(55, 100%, 50%, var(--alp-i));
+            --clr-4: hsla(55, 100%, 50%, var(--alp-i));
+
+            background: 
+                conic-gradient(
+                    from 0deg at 50% 20%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) 50% -10% / 50% 50% no-repeat, 
+
+                conic-gradient(
+                    from 144deg at 75% 70%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) 84% 120% / 50% 50% no-repeat, 
+                conic-gradient(
+                    from 216deg at 25% 70%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) 16% 120% / 50% 50% no-repeat, 
+
+                conic-gradient(
+                    from 72deg at 94% 47%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) 100% 32% / 50% 50% no-repeat, 
+                conic-gradient(
+                    from 288deg at 6% 47%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) 0% 32% / 50% 50% no-repeat, 
+            var(--bwf);
+            /* url('https://upload.wikimedia.org/wikipedia/commons/2/2e/Stj%C3%A4rna.svg') 50% 50% / 100% 100% no-repeat local padding-box, */
+        }
+        .xi2-star-1 {
+            --sz: 16rem;
+            
+            --alp-i: .2;
+            --clr-1: hsla(55, 100%, 50%, var(--alp-i));
+            --clr-4: hsla(55, 100%, 50%, var(--alp-i));
+
+            --count: 1;
+            --bg-sz: calc(var(--sz) / var(--count));
+            /* 50% 20% */
+            --x1: calc(var(--bg-sz) * .5);
+            --y1: calc(var(--bg-sz) * .2);
+
+            --x2: calc(var(--bg-sz) * 1);
+            --y2: calc(var(--bg-sz) * .32);
+
+            --x3: calc(var(--bg-sz) * .84);
+            --y3: calc(var(--bg-sz) * 1.2);
+            
+            --x4: calc(var(--bg-sz) * .16);
+            --y4: calc(var(--bg-sz) * 1.2);
+
+            --x5: calc(var(--bg-sz) * 0);
+            --y5: calc(var(--bg-sz) * .32);
+
+            /* 
+            .00 .45
+            .48 .65
+            .45 .55
+            .55 .55
+            .52 .65
+            */
+
+            --short-1: var(--x1) var(--y1) / var(--bg-sz) var(--bg-sz) repeat;
+            --short-2: var(--x2) var(--y2) / var(--bg-sz) var(--bg-sz) repeat;
+            --short-3: var(--x3) var(--y3) / var(--bg-sz) var(--bg-sz) repeat;
+            --short-4: var(--x4) var(--y4) / var(--bg-sz) var(--bg-sz) repeat;
+            --short-5: var(--x5) var(--y5) / var(--bg-sz) var(--bg-sz) repeat;
+
+            background: 
+                conic-gradient(
+                    from 0deg at 50% 60%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) var(--x1) var(--y1) / var(--bg-sz) var(--bg-sz) repeat, 
+
+                conic-gradient(
+                    from 144deg at 37.5% 35%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) var(--x3) var(--y3) / var(--bg-sz) var(--bg-sz) repeat, 
+                conic-gradient(
+                    from 216deg at 62.5% 35%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) var(--x4) var(--y4) / var(--bg-sz) var(--bg-sz) repeat, 
+
+                conic-gradient(
+                    from 72deg at 47% 73.5%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) var(--x2) var(--y2) / var(--bg-sz) var(--bg-sz) repeat, 
+                conic-gradient(
+                    from 288deg at 53% 73.5%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) var(--short-5), 
+            var(--bwf);
+
+            background: 
+                conic-gradient(
+                    from 0deg at 50% 60%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) center / var(--bg-sz) var(--bg-sz), 
+
+                conic-gradient(
+                    from 144deg at 37.5% 35%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) center / var(--bg-sz) var(--bg-sz), 
+                conic-gradient(
+                    from 216deg at 62.5% 35%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) center / var(--bg-sz) var(--bg-sz), 
+
+                conic-gradient(
+                    from 72deg at 47% 73.5%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) center / var(--bg-sz) var(--bg-sz), 
+                conic-gradient(
+                    from 288deg at 53% 73.5%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) center / var(--bg-sz) var(--bg-sz), 
+            var(--bwf);
+            
+            background-blend-mode: normal;
+        }
+        .xi2-star-2 {
+            --sz: 16rem;
+            
+            /* --bg2: var(--bwf); */
+            --alp-i: 1;
+            --clr-1: hsla(55, 100%, 50%, var(--alp-i));
+            --clr-4: hsla(55, 100%, 50%, var(--alp-i));
+
+            /* --count: 4; */
+            --bg-sz: calc(var(--sz) / var(--count));
+            --margin-x: calc(var(--bg-sz) / 2);
+            --margin-y: calc(var(--bg-sz) / 2.75);
+
+            --x1: calc(var(--bg-sz) * .5 - var(--margin-x));
+            --y1: calc(var(--bg-sz) * -.2 - var(--margin-y));
+
+            --x2: calc(var(--bg-sz) * 0 - var(--margin-x));
+            --y2: calc(var(--bg-sz) * 0 - var(--margin-y));
+
+            --x3: calc(var(--bg-sz) * -.08 - var(--margin-x));
+            --y3: calc(var(--bg-sz) * -.06 - var(--margin-y));
+            
+            --x4: calc(var(--bg-sz) * .08 - var(--margin-x));
+            --y4: calc(var(--bg-sz) * -.06 - var(--margin-y));
+
+            --x5: calc(var(--bg-sz) * 0 - var(--margin-x));
+            --y5: calc(var(--bg-sz) * 0 - var(--margin-y));
+
+            --short-1: var(--x1) var(--y1) / var(--bg-sz) var(--bg-sz) repeat local padding-box;
+            --short-2: var(--x2) var(--y2) / var(--bg-sz) var(--bg-sz) repeat local padding-box;
+            --short-3: var(--x3) var(--y3) / var(--bg-sz) var(--bg-sz) repeat local padding-box;
+            --short-4: var(--x4) var(--y4) / var(--bg-sz) var(--bg-sz) repeat local padding-box;
+            --short-5: var(--x5) var(--y5) / var(--bg-sz) var(--bg-sz) repeat local padding-box;
+
+            background: 
+                conic-gradient(
+                    from 0deg at 50% 60%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) var(--short-1), 
+
+                conic-gradient(
+                    from 144deg at 37.5% 35%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) var(--short-3), 
+                conic-gradient(
+                    from 216deg at 62.5% 35%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) var(--short-4), 
+
+                conic-gradient(
+                    from 72deg at 47% 73.5%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) var(--short-2), 
+                conic-gradient(
+                    from 288deg at 53% 73.5%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) var(--short-5), 
+            var(--bwf);
+            
+            /* url('https://upload.wikimedia.org/wikipedia/commons/2/2e/Stj%C3%A4rna.svg') 50% 50% / 50% 50% repeat local padding-box, */
+            background-blend-mode: normal;
+            box-shadow: inset 0px 0px 0px 0px #1110;
+            transition: box-shadow 200ms ease-in-out;
+        }
+        .xi2-star-2:hover {
+            box-shadow: inset 0px 0px 4px 4px #0246;
+            transition: box-shadow 100ms ease-in-out;
+        }
+        .xi2-star-2b {
+            --sz: 16rem;
+            
+            --alp-i: 1;
+            --clr-1: hsla(55, 100%, 50%, var(--alp-i));
+            --clr-4: hsla(55, 100%, 50%, var(--alp-i));
+
+            --count: 4;
+            --bg-sz: calc(var(--sz) / var(--count));
+            --x1: calc(var(--bg-sz) * .5);
+            --y1: calc(var(--bg-sz) * -.2);
+
+            --x2: calc(var(--bg-sz) * 0);
+            --y2: calc(var(--bg-sz) * 0);
+
+            --x3: calc(var(--bg-sz) * -.08);
+            --y3: calc(var(--bg-sz) * -.06);
+            
+            --x4: calc(var(--bg-sz) * .08);
+            --y4: calc(var(--bg-sz) * -.06);
+
+            --x5: calc(var(--bg-sz) * 0);
+            --y5: calc(var(--bg-sz) * 0);
+
+            --short-1: var(--x1) var(--y1) / var(--bg-sz) var(--bg-sz) repeat;
+            --short-2: var(--x2) var(--y2) / var(--bg-sz) var(--bg-sz) repeat;
+            --short-3: var(--x3) var(--y3) / var(--bg-sz) var(--bg-sz) repeat;
+            --short-4: var(--x4) var(--y4) / var(--bg-sz) var(--bg-sz) repeat;
+            --short-5: var(--x5) var(--y5) / var(--bg-sz) var(--bg-sz) repeat;
+
+            background: 
+                conic-gradient(
+                    from 0deg at 50% 60%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) var(--x1) var(--y1) / var(--bg-sz) var(--bg-sz) repeat, 
+
+                conic-gradient(
+                    from 144deg at 37.5% 35%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) var(--x3) var(--y3) / var(--bg-sz) var(--bg-sz) repeat, 
+                conic-gradient(
+                    from 216deg at 62.5% 35%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) var(--x4) var(--y4) / var(--bg-sz) var(--bg-sz) repeat, 
+
+                conic-gradient(
+                    from 72deg at 47% 73.5%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) var(--x2) var(--y2) / var(--bg-sz) var(--bg-sz) repeat, 
+                conic-gradient(
+                    from 288deg at 53% 73.5%,
+                    var(--bwt) 0deg 162deg,
+                    var(--clr-1) 162deg 180deg,
+                    var(--clr-4) 180deg 198deg,
+                    var(--bwt) 198deg 360deg
+                    ) var(--short-5), 
+            var(--bwf);
+            
+            /* url('https://upload.wikimedia.org/wikipedia/commons/2/2e/Stj%C3%A4rna.svg') 50% 50% / 50% 50% repeat local padding-box, */
+            background-blend-mode: normal;
+            /* --x1: calc(var(--bg-sz) * .5);
+            --y1: calc(var(--bg-sz) * .2);
+
+            --x2: calc(var(--bg-sz) * 1);
+            --y2: calc(var(--bg-sz) * .32);
+
+            --x3: calc(var(--bg-sz) * .84);
+            --y3: calc(var(--bg-sz) * 1.2);
+            
+            --x4: calc(var(--bg-sz) * .16);
+            --y4: calc(var(--bg-sz) * 1.2);
+
+            --x5: calc(var(--bg-sz) * 0);
+            --y5: calc(var(--bg-sz) * .32); */
+        }
+
+        .xi2-mountains {
+            min-height: var(--sz); min-width: var(--sz);
+        }
+        .mountain-list {
+            overflow: hidden;
+            flex-wrap: nowrap;
+        }
+        [id|="adjustable_list"] {
+            --count: 4;
+        }
+        .shelf-title {position: relative;}
+        input[type="number"] {
+            position: absolute;
+            top: 50%;
+            left: calc(100% + .5rem);
+            transform: translateY(-50%);
+            background: #39f3;
+            font-size: 18px;
+            margin: 0 .5rem;
+            padding: 1px 2px;
+            text-align: center;
+            color: #fff;
+            border: 0;
+            text-shadow: 1px 1px 1px #000;
+            box-shadow: 0 0 0.25rem 0rem #39f;
+        }
+    </style>
+
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Background Patterns</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+
+    <!-- 
+        .xi-s-heart
+        .xi-heart
+        .xi-heart-base
+        .xi-heart-fail
+        .xi-ice-cream
+        .xi-adjustable-ice-cream
+
+        .xi-ice-cream-p-1
+        .xi-ice-cream-p-2d
+        .xi-ice-cream-p-2c
+        .xi-ice-cream-p-2b
+        .xi-ice-cream-p-2a
+     -->
+<main>
+    <div class="shelf hidden">
+        <div class="shelf-title">Pattern: Experiment.</div>
+        <div class="list">
+            <div class="xi2-exp-01"></div>
+            <div class="xi2-exp-02"></div>
+            <div class="xi2-star"></div>
+            <div class="xi2-star-0"></div>
+            <div class="xi2-star-1"></div>
+            <div class="xi2-star-2"></div>
+        </div>
+    </div>
+
+    <div class="shelf">
+        <div class="shelf-title">Pattern: Stars. (Adjustable) <input data-itype="adjustable_list-stars" type="number" name="starCount" id="star_count" min="1" max="12" value="4" step="1"></div>
+        <div id="adjustable_list-stars" class="list">
+            <div class="xi2-star-2"></div>
+            <div class="xi2-star-2"></div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Pattern: Ice cream (Adjustable). <input data-itype="adjustable_list-ice_cream" type="number" name="iceCount" id="ice_cream_count" min="1" max="12" value="4" step="1" data-itype="adjustable_list_ice_cream"></div>
+        <div id="adjustable_list-ice_cream" class="list-aic">
+            <div class="xi-adjustable-ice-cream"></div>
+            <div class="xi-adjustable-ice-cream"></div>
+            <div class="xi-adjustable-ice-cream"></div>
+        </div>
+        <!-- <input type="number" name="iceCount" id="ice_cream_count" min="1" max="12" value="4" step="1"> -->
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Pattern: Mountains.</div>
+        <div class="list mountain-list">
+            <div class="xi2-mountains"></div>
+            <div class="xi2-mountains"></div>
+            <div class="xi2-mountains"></div>
+            <div class="xi2-mountains"></div>
+            <div class="xi2-mountains"></div>
+            <div class="xi2-mountains"></div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Pattern: Ice cream.</div>
+        <div class="list">
+            <div class="xi-ice-cream"></div>
+            <!-- <div class="xi-ice-cream"></div> -->
+            <!-- <div class="xi-ice-cream"></div> -->
+        </div>
+    </div>
+
+    <div class="shelf">
+        <div class="shelf-title">Pattern: Heart (simplified).</div>
+        <div class="list">
+            <div class="xi-s-heart"></div>
+            <div class="xi-s-heart"></div>
+            <div class="xi-s-heart"></div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Pattern: Heart.</div>
+        <div class="list">
+            <div class="xi-heart"></div>
+            <div class="xi-heart"></div>
+            <div class="xi-heart"></div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Pattern: Heart (base).</div>
+        <div class="list">
+            <div class="xi-heart-base"></div>
+            <div class="xi-heart-base"></div>
+            <div class="xi-heart-base"></div>
+        </div>
+    </div>
+    <div class="shelf hidden">
+        <div class="shelf-title">Pattern: Heart (fail).</div>
+        <div class="list">
+            <div class="xi-heart-fail"></div>
+            <div class="xi-heart-fail"></div>
+            <div class="xi-heart-fail"></div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Pattern: Ice cream (first attempts).</div>
+        <div class="list">
+            <!-- .xi-ice-cream-p-1+.xi-ice-cream-p-2d+.xi-ice-cream-p-2c+.xi-ice-cream-p-2b+.xi-ice-cream-p-2a -->
+            <div class="xi-ice-cream-p-1"></div>
+            <div class="xi-ice-cream-p-2d"></div>
+            <div class="xi-ice-cream-p-2c"></div>
+            <div class="xi-ice-cream-p-2b"></div>
+            <div class="xi-ice-cream-p-2a"></div>
+        </div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        // var ice_cream_input = document.getElementById('ice_cream_count');
+        var count_inputs = document.querySelectorAll(`[data-itype]`);
+            count_inputs.forEach(el=>{
+                el.addEventListener("input", (ev) => {
+                let target_list_id = ev.target.dataset.itype;
+                let count = parseInt(ev.target.value);
+                console.log(target_list_id);
+                console.log(`count: ${count}`);
+                let target_list = document.getElementById(target_list_id);
+                target_list.style = `--count: ${ev.target.value};`;
+            });
+        });
+        // // var adjustable_ice_cream_list = document.getElementById('adjustable_ice_cream_list');
+        // ice_cream_input.addEventListener("input", (ev) => {
+        //     // console.log(ev.target);
+        //     // console.log(ev.target.value);
+        //     let count = parseInt(ev.target.value);
+        //     // count = parseInt(ev.target.value);
+        //     // console.log(count);
+        //     let adjustable_ice_cream_list = document.getElementById('adjustable_ice_cream_list');
+        //     adjustable_ice_cream_list.style = `--per-side: ${ev.target.value};`;
+        // });
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            // console.log(ice_cream_input.value);
+        });
+    </script>
+</body>
+</html>

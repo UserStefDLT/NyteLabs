@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>bgt-01 | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+    </style>
+    <style>
+        /* Practice and Experimentation of Background using the shorthand. */
+        :root {
+            /* Sky */
+            --sky-01: #092E58;
+            --sky-02: #0A396D;
+            --sky-03: #145194;
+            --sky-04: #1A6BB9;
+            --sky-05: #45AEF9;
+            
+            --sky-11: #0D3869;
+            --sky-12: #134A86;
+            --sky-13: #095396;
+            --sky-14: #1169B7;
+            --sky-15: #5CACF2;
+            
+            --bg-sky-1: 
+            linear-gradient(to bottom right, 
+            var(--sky-01), var(--sky-02),
+            var(--sky-03), var(--sky-04), var(--sky-05));
+            --bg-sky-2: 
+            linear-gradient(to bottom right,
+            var(--sky-11), var(--sky-12),
+            var(--sky-13), var(--sky-14), var(--sky-15));
+        }
+        .btn {background-color: hsla(calc(var(--i) * 60), 100%, 60%, 1);}
+        .list {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        [class|="xi"] {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 12rem; width: 8rem;
+            margin: 0rem .25rem .5rem;
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 1px 1px 1px #1119;
+            background-image: linear-gradient(#123, #789);
+        }
+        [class|="xi"] {
+            --sz: 12rem;
+            --sz: 24rem;
+            --sz: 6rem;
+            height: var(--sz); width: var(--sz);
+            margin: .25rem;
+            background-image: var(--bg-sky-1);
+        }
+
+        :root {
+            --bwt: #0000;
+            --bw0: #000;
+            --bwf: #fff;
+
+            --clr-grass: #9f3f;
+            --grass-1: #9f3;
+            --grass-2: #6c0;
+            --grass-3: #360;
+            --clr-path: #753f;
+
+            --bgi-g: var(--clr-grass);
+            --bgi-g2: conic-gradient(from 185deg at 50% 50%, 
+            var(--grass-2) 0deg 5deg, 
+            var(--grass-1) 10deg 15deg, 
+            var(--bwt) 15deg ) center / 1rem 1rem repeat local padding-box, var(--clr-grass);
+            --bgi-g3: conic-gradient(from 170deg at 50% 50%, 
+            var(--grass-3) 0deg 5deg, 
+            var(--grass-2) 5deg 15deg, 
+            var(--grass-1) 15deg 20deg, 
+            var(--bwt) 20deg ) center / 1rem 1rem repeat local padding-box, var(--clr-grass);
+
+            --bgi-g2: 
+            conic-gradient(from 185deg at 50% 50%, 
+            var(--grass-3) 0deg 5deg, 
+            var(--grass-2) 10deg 15deg, 
+            var(--bwt) 15deg ) center / 1rem 3rem repeat,
+            conic-gradient(from 160deg at 50% 20%, 
+            var(--grass-3) 0deg 5deg, 
+            var(--grass-2) 10deg 15deg, 
+            var(--bwt) 15deg ) center / 2rem 3rem repeat, var(--clr-grass);
+
+            /* w:3, h:7 */
+            --b2h: 7rem;
+            --b2w: 3rem;
+            --b2w2: 6rem;
+
+            --bsz1: 3rem 7rem;
+            --bsz2: 6rem 7rem;
+            --bsz1: 3rem 6rem;
+            --bsz2: 6rem 6rem;
+
+            --bsz1: 1rem 2rem;
+            --bsz2: 2rem 2rem;
+            --bgi-g2: 
+            conic-gradient(from 195deg at 50% 50%, 
+            var(--grass-3) 0deg 5deg, 
+            var(--grass-2) 10deg 15deg, 
+            var(--bwt) 15deg ) center / var(--bsz1) repeat,
+            conic-gradient(from 160deg at 50% 20%, 
+            var(--grass-3) 0deg 5deg, 
+            var(--grass-2) 10deg 15deg, 
+            var(--bwt) 15deg ) center / var(--bsz2) repeat, var(--clr-grass);
+
+            /* --bgi-58: var(--clr-path) 40% 0% / 20% 60% no-repeat local padding-box;
+            --bgi-56: var(--clr-path) 40% 40% / 60% 20% no-repeat local padding-box;
+            --bgi-54: var(--clr-path) 00% 40% / 60% 20% no-repeat local padding-box;
+            --bgi-52: var(--clr-path) 40% 40% / 20% 60% no-repeat local padding-box; */
+
+            --bgi-path: linear-gradient(0deg, var(--clr-path), var(--clr-path));
+            --bgi-58: var(--bgi-path) 50% 0% / 20% 60% no-repeat local padding-box;
+            --bgi-56: var(--bgi-path) 100% 50% / 60% 20% no-repeat local padding-box;
+            --bgi-54: var(--bgi-path) 0% 50% / 60% 20% no-repeat local padding-box;
+            --bgi-52: var(--bgi-path) 50% 100% / 20% 60% no-repeat local padding-box;
+
+            --bgi-58: var(--bgi-path) center top / 20% 60% no-repeat local padding-box;
+            --bgi-56: var(--bgi-path) right center / 60% 20% no-repeat local padding-box;
+            --bgi-54: var(--bgi-path) left center / 60% 20% no-repeat local padding-box;
+            --bgi-52: var(--bgi-path) center bottom / 20% 60% no-repeat local padding-box;
+        }
+        .xi-4 {background: var(--bgi-54), var(--bgi-g2);}
+        .xi-5 {background: var(--bgi-52), var(--bgi-g2);}
+        .xi-6 {background: var(--bgi-56), var(--bgi-g2);}
+
+        .xi-1 {
+            background-image: 
+            linear-gradient(to bottom right, 
+            var(--sky-01), var(--sky-02),
+            var(--sky-03), var(--sky-04), var(--sky-05));
+            
+            background: 
+            radial-gradient(circle at 50% 50%, #ffff 35%, #0000 35%) top / 30% 30% repeat-x local padding-box, 
+            
+            radial-gradient(3rem 3rem at 50% 50%, #0000 50%, #fff9, #0000 100%) center / 100% 100% repeat-x local padding-box, 
+            radial-gradient(3rem 3rem at 50% 50%, #0000 50%, #fff9 50%, #fff9 100%, #0000 100%) center / 100% 100% repeat-x local padding-box, 
+            
+            
+            radial-gradient(circle at 25% 100%, #f399 14.9%, #0000 14.9%) left 60% / 100% 100% repeat-x local padding-box, 
+            radial-gradient(circle at 0% 100%, #f939 27.7%, #0000 27.7%) left 60% / 100% 100% repeat-x local padding-box, 
+            radial-gradient(circle at 100% 100%, #3f99 27.7%, #0000 27.7%) left 60% / 100% 100% repeat-x local padding-box, 
+            
+            
+            linear-gradient(to bottom right,
+            var(--sky-01), var(--sky-02),
+            var(--sky-03), var(--sky-04), var(--sky-05));
+        
+        }
+        .xi-2 {
+            background-image: 
+            linear-gradient(to bottom right,
+            var(--sky-11), var(--sky-12),
+            var(--sky-13), var(--sky-14), var(--sky-15));
+            
+            background: radial-gradient(circle at 50% 50%, #ffff 35%, #0000 35%) top / 30% 30% repeat-x local padding-box, 
+            linear-gradient(to bottom right,
+            var(--sky-11), var(--sky-15));
+            
+            
+            background: 
+            conic-gradient(
+            #000 0deg 10deg, #fff 35deg 45deg, #0055 45deg 360deg) 
+            top / 4rem 4rem no-repeat local padding-box, 
+            
+            linear-gradient(90deg, 
+            #f93f, #f93f 50%, #0000 50%, #0000 66%, #3f9f 67%, #3f9f 100%) 
+            center / 100% 30% repeat-x local padding-box, 
+            
+            repeating-linear-gradient(90deg, #f390, #f390 35%, #0000 35%, #0000 40%, #3f90 40%, #3f90 50%) center / 100% 30% repeat-x local padding-box, 
+            
+            radial-gradient(circle at 50% 50%, #39f 35%, #0000 35%) bottom / 30% 30% repeat-x local padding-box,
+            
+            radial-gradient(circle at 50% 50%, #f39b 55.5%, #0000 55.5%) bottom / 30% 30% repeat-x local padding-box,
+            
+            radial-gradient(circle at 50% 50%, #ffff 70%, #0000 70%) bottom / 30% 30% repeat-x local padding-box,
+            
+            linear-gradient(to bottom right,
+            var(--sky-11), var(--sky-15));
+        
+        }
+        .xi-3 {
+            /*
+            background: linear-gradient(to bottom right, #123, #789);
+            
+            background-attachment: local;
+            background-clip: padding-box;
+            background-color: red;
+            background-image: linear-gradient(90deg, #fff, #0000);
+            background-image: radial-gradient(circle at 50% 50%, #ffff 35%, #0000 35%);
+            background-origin: padding-box;
+            background-position: top;
+            background-repeat: space;
+            background-size: 30% 30%;
+            */
+            
+            /*
+            background: <img> <pos> / <sz> <rep> <att> <box>
+            background: <img:radial-gradient(circle at 50% 50%, #ffff 35%, #0000 35%);> <pos:top> / <sz:30% 30%> <rep:space> <att:local> <box:padding-box>
+            */
+            background: 
+            radial-gradient(circle at 50% 50%, #ffff 35%, #0000 35%) top / 30% 30% space local padding-box, 
+            red;
+            
+            background: 
+            radial-gradient(circle at 50% 50%, #ffff 35%, #0000 35%) bottom / 30% 30% repeat-x local padding-box, 
+            #7227;
+            
+            background: 
+            radial-gradient(circle at 50% 50%, #f39b 55.5%, #0000 55.5%),
+            radial-gradient(circle at 50% 50%, #ffff 35%, #0000 35%) bottom / 30% 30% repeat-x local padding-box, 
+            #7227;
+        }
+        
+        .xi-n {
+            background-image: linear-gradient(to bottom right, #123, #789);
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">bgt-01</div>
+        <!-- <div class="subtitle">Background Experiment - 01</div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">Using background shorthand</div>
+        <div class="list">
+            <!-- <div class="xi-4">xi-4</div> -->
+            <div class="xi-5">xi-5</div>
+            <!-- <div class="xi-6">xi-6</div> -->
+            <!-- <div class="xi-1">xi-1</div>
+            <div class="xi-2">xi-2</div>
+            <div class="xi-3">xi-3</div> -->
+        </div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>
