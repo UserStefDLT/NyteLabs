@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Hex Color Symmetry | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+    </style>
+    <style>
+        :root {
+            --bg-1: #f93;
+            --bg-2: #9f3;
+            --bg-3: #3f9;
+            --bg-4: #39f;
+            --bg-5: #93f;
+            --bg-6: #f39;
+
+            --bgi-1: #0000;
+            --bgi-2: #0000;
+            --bgi-3: #0000;
+            --bgi-4: #0000;
+            --bgi-5: #0000;
+            --bgi-6: #0000;
+
+        }
+
+        .shelf-col {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        .shelf-row {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        input[type="checkbox"][name="hexset"] { display:none; }
+
+        /* #xi-0:checked {} */
+
+        .xc-flex {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-wrap: wrap;
+            width: fit-content;
+            gap: .5rem;
+
+            outline: 1px solid #fff;
+            outline-offset: .5rem;
+            margin: 1rem;
+        }
+
+        /* .xc-flex:not(:first), */
+        .xc-flex {
+            /* max-width: 152px;
+            max-height: 152px; */
+            width: 152px;
+            height: 152px;
+        }
+
+        .flex-rf { flex-direction: row; }
+        .flex-rr { flex-direction: row-reverse; }
+        .flex-cf { flex-direction: column; }
+        .flex-cr { flex-direction: column-reverse; }
+
+        .xc {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: .5rem;
+            /* align-items: center;
+            justify-content: center; */
+            width: fit-content;
+        }
+
+        .tableDim-4x4 { grid-template-columns: repeat(4, 1fr); }
+        .tableDim-6x3 { grid-template-columns: repeat(6, 1fr); }
+        .tableDim-3x6 { grid-template-columns: repeat(3, 1fr); }
+
+        /* .table-62-6x3 {}
+        .table-26-6x3 {} */
+
+
+
+        .xi,
+        [for|="xi"] {
+            position: relative;
+            width: 2rem; height: 2rem;
+            /* background-color: #135; */
+            background-color: #123;
+            background-image: linear-gradient(45deg, #12f, #789 50%, #7890 50%);
+            background-image: radial-gradient(circle at 50% 100%, #12f, #7890 50%, #7890 50%);
+            box-shadow: 0 0 0 .125rem #135;
+            box-shadow: 
+            0 0 .125rem 0 #fff8,
+            0 0 0 .125rem #135;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            /* width: fit-content; */
+            border-radius: .125rem;
+            transition: 
+            background-position 300ms ease-in-out,
+            box-shadow 100ms ease-in-out;
+            background-position: 100% 0%;
+            /* background-position: 50% 50%; */
+            background-size: 200% 200%;
+            background-repeat: no-repeat;
+        }
+        .xi:hover,
+        [for|="xi"]:hover {
+            background-image: linear-gradient(45deg, #12f, #789);
+            background-image: radial-gradient(circle at 0% 100%, #12f, #7890 50%, #7890 50%);
+            background-image: radial-gradient(circle at 25% 100%, #12f, #7890 50%, #7890 50%);
+            background-position: 0% 100%;
+            box-shadow: 
+            0 0 .125rem .125rem #39f,
+            0 0 0 .125rem #135;
+        }
+        /* [for|="xi"] */
+
+        /* #xi-0:checked {} */
+        #xi-0:checked ~ main [for="xi-0"],
+        #xi-1:checked ~ main [for="xi-1"],
+        #xi-2:checked ~ main [for="xi-2"],
+        #xi-3:checked ~ main [for="xi-3"],
+        #xi-4:checked ~ main [for="xi-4"],
+        #xi-5:checked ~ main [for="xi-5"],
+        #xi-6:checked ~ main [for="xi-6"],
+        #xi-7:checked ~ main [for="xi-7"],
+        #xi-8:checked ~ main [for="xi-8"],
+        #xi-9:checked ~ main [for="xi-9"],
+        #xi-a:checked ~ main [for="xi-a"],
+        #xi-b:checked ~ main [for="xi-b"],
+        #xi-c:checked ~ main [for="xi-c"],
+        #xi-d:checked ~ main [for="xi-d"],
+        #xi-e:checked ~ main [for="xi-e"],
+        #xi-f:checked ~ main [for="xi-f"] {
+            background-image: radial-gradient(circle at 25% 100%, #12f, #7890 50%, #7890 50%);
+            background-position: 0% 100%;
+            box-shadow: 
+            0 0 .125rem .125rem #39f,
+            0 0 0 .125rem #135;
+        }
+
+        [for|="xi"]::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            height: 100%; width: 100%;
+            mix-blend-mode: color;
+        }
+        /* [for="xi-1"]::after,
+        [for="xi-8"]::after,
+        [for="xi-f"]::after,
+        [data-select="18f"]::after {
+            background-color: #9f3;
+            background-color: #f93;
+            --bgi-1: #9f3;
+        }
+        [for="xi-3"]::after,
+        [for="xi-9"]::after,
+        [for="xi-f"]::after,
+        [data-select="39f"]::after {
+            background-color: #f39;
+            --bgi-3: #f39;
+        } */
+
+        :root {
+            --bgi-li-1: radial-gradient(circle at 75% 93.3%, var(--bgi-1), #0000 50%);
+            --bgi-li-2: radial-gradient(circle at 100% 50%, var(--bgi-2), #0000 50%);
+            --bgi-li-3: radial-gradient(circle at 75% 6.7%, var(--bgi-3), #0000 50%);
+            --bgi-li-4: radial-gradient(circle at 25% 93.3%, var(--bgi-4), #0000 50%);
+            --bgi-li-5: radial-gradient(circle at 0% 50%, var(--bgi-5), #0000 50%);
+            --bgi-li-6: radial-gradient(circle at 25% 6.7%, var(--bgi-6), #0000 50%);
+            --bgi-list: var(--bgi-1), var(--bgi-2), var(--bgi-3), var(--bgi-4), var(--bgi-5), var(--bgi-6);
+        }
+
+        /*  ───────────────  ───────────────  ───────────────  */
+
+        /*  ───────────────  ───────────────  ───────────────  */
+
+        .xc-flex::after {
+            content: attr(class);
+            position: absolute;
+            bottom: 100%; left: 0;
+            height: fit-content;
+            width: fit-content;
+            background: #111;
+            background: hsla(210, 0%, 5%, 100%);
+            color: #fff;
+            padding: .125rem .25rem;
+            transform: translateY(-.25rem);
+        }
+
+
+        .xc.tableDim-6x3 [for="xi-0"] {
+            grid-column: 3;
+        }
+
+        /* .tableDim-4x4 { grid-template-columns: repeat(4, 1fr); }
+        .tableDim-6x3 { grid-template-columns: repeat(6, 1fr); }
+        .tableDim-3x6 { grid-template-columns: repeat(3, 1fr); } */
+        .numbpad { grid-template-columns: repeat(3, 1fr); }
+        /* .numbpad [for="xi-0"] {
+            grid-column: 3;
+            grid-row: 6;
+        }
+        .numbpad :is([for="xi-0"],[for="xi-3"],[for="xi-6"],[for="xi-9"],[for="xi-c"],[for="xi-f"]),
+        .numbpad [for="xi-0"] { grid-column: 3; } */
+
+        .numbpad :is([for="xi-1"],[for="xi-4"],[for="xi-5"],[for="xi-a"],[for="xi-d"]) { grid-column: 1; }
+        .numbpad :is([for="xi-2"],[for="xi-5"],[for="xi-8"],[for="xi-b"],[for="xi-e"]) { grid-column: 2; }
+        .numbpad :is([for="xi-0"],[for="xi-3"],[for="xi-6"],[for="xi-9"],[for="xi-c"],[for="xi-f"]) { grid-column: 3; }
+
+        .numbpad :is([for="xi-d"],[for="xi-e"],[for="xi-f"]) { grid-row: 1; }
+        .numbpad :is([for="xi-a"],[for="xi-b"],[for="xi-c"]) { grid-row: 2; }
+        .numbpad :is([for="xi-7"],[for="xi-8"],[for="xi-9"]) { grid-row: 3; }
+        .numbpad :is([for="xi-4"],[for="xi-5"],[for="xi-6"]) { grid-row: 4; }
+        .numbpad :is([for="xi-1"],[for="xi-2"],[for="xi-3"]) { grid-row: 5; }
+        .numbpad :is([for="xi-0"]) { grid-row: 6; }
+
+        .numbrow { grid-template-columns: repeat(6, 1fr); }
+        .numbrow :is([for="xi-1"],[for="xi-4"],[for="xi-5"],[for="xi-a"],[for="xi-d"]) { grid-row: 1; }
+        .numbrow :is([for="xi-2"],[for="xi-5"],[for="xi-8"],[for="xi-b"],[for="xi-e"]) { grid-row: 2; }
+        .numbrow :is([for="xi-0"],[for="xi-3"],[for="xi-6"],[for="xi-9"],[for="xi-c"],[for="xi-f"]) { grid-row: 3; }
+
+        .numbrow :is([for="xi-d"],[for="xi-e"],[for="xi-f"]) { grid-column: 6; }
+        .numbrow :is([for="xi-a"],[for="xi-b"],[for="xi-c"]) { grid-column: 5; }
+        .numbrow :is([for="xi-7"],[for="xi-8"],[for="xi-9"]) { grid-column: 4; }
+        .numbrow :is([for="xi-4"],[for="xi-5"],[for="xi-6"]) { grid-column: 3; }
+        .numbrow :is([for="xi-1"],[for="xi-2"],[for="xi-3"]) { grid-column: 2; }
+        .numbrow :is([for="xi-0"]) { grid-column: 1; }
+
+
+        .z { display: none; }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <div class="title">Hex Color Symmetry</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+        <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div>
+    </header>
+
+    <input type="checkbox" name="hexset" id="xi-0">
+    <input type="checkbox" name="hexset" id="xi-1">
+    <input type="checkbox" name="hexset" id="xi-2">
+    <input type="checkbox" name="hexset" id="xi-3">
+    <input type="checkbox" name="hexset" id="xi-4">
+    <input type="checkbox" name="hexset" id="xi-5">
+    <input type="checkbox" name="hexset" id="xi-6">
+    <input type="checkbox" name="hexset" id="xi-7">
+    <input type="checkbox" name="hexset" id="xi-8">
+    <input type="checkbox" name="hexset" id="xi-9">
+    <input type="checkbox" name="hexset" id="xi-a">
+    <input type="checkbox" name="hexset" id="xi-b">
+    <input type="checkbox" name="hexset" id="xi-c">
+    <input type="checkbox" name="hexset" id="xi-d">
+    <input type="checkbox" name="hexset" id="xi-e">
+    <input type="checkbox" name="hexset" id="xi-f">
+
+<main>
+    <div class="shelf shelf-row">
+        <div class="shelf-title">Flex</div>
+        <div class="xc-flex">
+            <label for="xi-0">0</label>
+            <label for="xi-1">1</label>
+            <label for="xi-2">2</label>
+            <label for="xi-3">3</label>
+            <label for="xi-4">4</label>
+            <label for="xi-5">5</label>
+            <label for="xi-6">6</label>
+            <label for="xi-7">7</label>
+            <label for="xi-8">8</label>
+            <label for="xi-9">9</label>
+            <label for="xi-a">a</label>
+            <label for="xi-b">b</label>
+            <label for="xi-c">c</label>
+            <label for="xi-d">d</label>
+            <label for="xi-e">e</label>
+            <label for="xi-f">f</label>
+        </div>
+        <div class="xc-flex flex-rf">
+            <label for="xi-0">0</label><label for="xi-1">1</label><label for="xi-2">2</label><label for="xi-3">3</label>
+            <label for="xi-4">4</label><label for="xi-5">5</label><label for="xi-6">6</label><label for="xi-7">7</label>
+            <label for="xi-8">8</label><label for="xi-9">9</label><label for="xi-a">a</label><label for="xi-b">b</label>
+            <label for="xi-c">c</label><label for="xi-d">d</label><label for="xi-e">e</label><label for="xi-f">f</label>
+        </div>
+        <div class="xc-flex flex-rr">
+            <label for="xi-0">0</label><label for="xi-1">1</label><label for="xi-2">2</label><label for="xi-3">3</label>
+            <label for="xi-4">4</label><label for="xi-5">5</label><label for="xi-6">6</label><label for="xi-7">7</label>
+            <label for="xi-8">8</label><label for="xi-9">9</label><label for="xi-a">a</label><label for="xi-b">b</label>
+            <label for="xi-c">c</label><label for="xi-d">d</label><label for="xi-e">e</label><label for="xi-f">f</label>
+        </div>
+        <div class="xc-flex flex-cf">
+            <label for="xi-0">0</label><label for="xi-1">1</label><label for="xi-2">2</label><label for="xi-3">3</label>
+            <label for="xi-4">4</label><label for="xi-5">5</label><label for="xi-6">6</label><label for="xi-7">7</label>
+            <label for="xi-8">8</label><label for="xi-9">9</label><label for="xi-a">a</label><label for="xi-b">b</label>
+            <label for="xi-c">c</label><label for="xi-d">d</label><label for="xi-e">e</label><label for="xi-f">f</label>
+        </div>
+        <div class="xc-flex flex-cr">
+            <label for="xi-0">0</label><label for="xi-1">1</label><label for="xi-2">2</label><label for="xi-3">3</label>
+            <label for="xi-4">4</label><label for="xi-5">5</label><label for="xi-6">6</label><label for="xi-7">7</label>
+            <label for="xi-8">8</label><label for="xi-9">9</label><label for="xi-a">a</label><label for="xi-b">b</label>
+            <label for="xi-c">c</label><label for="xi-d">d</label><label for="xi-e">e</label><label for="xi-f">f</label>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Grid 4x4</div>
+        <div class="xc tableDim-4x4">
+            <label for="xi-0">0</label>
+            <label for="xi-1">1</label>
+            <label for="xi-2">2</label>
+            <label for="xi-3">3</label>
+            <label for="xi-4">4</label>
+            <label for="xi-5">5</label>
+            <label for="xi-6">6</label>
+            <label for="xi-7">7</label>
+            <label for="xi-8">8</label>
+            <label for="xi-9">9</label>
+            <label for="xi-a">a</label>
+            <label for="xi-b">b</label>
+            <label for="xi-c">c</label>
+            <label for="xi-d">d</label>
+            <label for="xi-e">e</label>
+            <label for="xi-f">f</label>
+        </div>
+        <div class="xc tableDim-4x4">
+            <label for="xi-0">0</label>
+            <label for="xi-1">1</label>
+            <label for="xi-2">2</label>
+            <label for="xi-3">3</label>
+            <label for="xi-4">4</label>
+            <label for="xi-5">5</label>
+            <label for="xi-6">6</label>
+            <label for="xi-7">7</label>
+            <label for="xi-8">8</label>
+            <label for="xi-9">9</label>
+            <label for="xi-a">a</label>
+            <label for="xi-b">b</label>
+            <label for="xi-c">c</label>
+            <label for="xi-d">d</label>
+            <label for="xi-e">e</label>
+            <label for="xi-f">f</label>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Other</div>
+        <div class="xc tableDim-6x3">
+            <label for="xi-0">0</label>
+            <label for="xi-1">1</label>
+            <label for="xi-2">2</label>
+            <label for="xi-3">3</label>
+            <label for="xi-4">4</label>
+            <label for="xi-5">5</label>
+            <label for="xi-6">6</label>
+            <label for="xi-7">7</label>
+            <label for="xi-8">8</label>
+            <label for="xi-9">9</label>
+            <label for="xi-a">a</label>
+            <label for="xi-b">b</label>
+            <label for="xi-c">c</label>
+            <label for="xi-d">d</label>
+            <label for="xi-e">e</label>
+            <label for="xi-f">f</label>
+        </div>
+        <div class="xc numbrow">
+            <label for="xi-0">0</label>
+            <label for="xi-1">1</label>
+            <label for="xi-2">2</label>
+            <label for="xi-3">3</label>
+            <label for="xi-4">4</label>
+            <label for="xi-5">5</label>
+            <label for="xi-6">6</label>
+            <label for="xi-7">7</label>
+            <label for="xi-8">8</label>
+            <label for="xi-9">9</label>
+            <label for="xi-a">a</label>
+            <label for="xi-b">b</label>
+            <label for="xi-c">c</label>
+            <label for="xi-d">d</label>
+            <label for="xi-e">e</label>
+            <label for="xi-f">f</label>
+        </div>
+        <div class="xc numbpad">
+            <label for="xi-0">0</label>
+            <label for="xi-1">1</label>
+            <label for="xi-2">2</label>
+            <label for="xi-3">3</label>
+            <label for="xi-4">4</label>
+            <label for="xi-5">5</label>
+            <label for="xi-6">6</label>
+            <label for="xi-7">7</label>
+            <label for="xi-8">8</label>
+            <label for="xi-9">9</label>
+            <label for="xi-a">a</label>
+            <label for="xi-b">b</label>
+            <label for="xi-c">c</label>
+            <label for="xi-d">d</label>
+            <label for="xi-e">e</label>
+            <label for="xi-f">f</label>
+        </div>
+        <div class="xc tableDim-3x6">
+            <label for="xi-0">0</label>
+            <label for="xi-1">1</label>
+            <label for="xi-2">2</label>
+            <label for="xi-3">3</label>
+            <label for="xi-4">4</label>
+            <label for="xi-5">5</label>
+            <label for="xi-6">6</label>
+            <label for="xi-7">7</label>
+            <label for="xi-8">8</label>
+            <label for="xi-9">9</label>
+            <label for="xi-a">a</label>
+            <label for="xi-b">b</label>
+            <label for="xi-c">c</label>
+            <label for="xi-d">d</label>
+            <label for="xi-e">e</label>
+            <label for="xi-f">f</label>
+        </div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>

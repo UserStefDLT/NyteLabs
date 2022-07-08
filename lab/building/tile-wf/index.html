@@ -100,7 +100,36 @@
             justify-content: flex-start;
             flex-direction: row;
             flex-wrap: wrap;
+
+            transform: rotate3d(0,0,-1,0deg) rotate3d(1,1,0,0deg);
+            transition: transform 200ms ease-in-out;
         }
+        
+        /* .list:hover {
+            transform: perspective(900px) rotate3d(0,0,-1,45deg) rotate3d(1,1,0,54deg);
+        } */
+        .list::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            height: 100%; width: 100%;
+            background: radial-gradient(circle at 50% 50%, #0000 40%, #000a);
+        }
+        /* .chess-3d {
+            min-height: 8rem; min-width: 8rem;
+            background:
+                radial-gradient(circle at 50% 50%, #0000 40%, #000d),
+                conic-gradient(#fff 0.25turn, #000 0.25turn 0.5turn, #fff 0.5turn 0.75turn, #000 0.75turn)
+                top left / 2rem 2rem repeat;
+            border: 1px solid;
+            transform: rotate3d(0,0,-1,0deg) rotate3d(1,1,0,0deg);
+            transition: transform 200ms ease-in-out;
+        }
+        .chess-3d:hover {
+            transform: rotate3d(0,0,-1,45deg) rotate3d(1,1,0,54deg);
+            transform: perspective(400px) rotate3d(0,0,-1,45deg) rotate3d(1,1,0,54deg);
+        } */
         [class|="tile"] {
             --sz: 6rem;
             --sz: var(--sz-tile);
@@ -121,7 +150,115 @@
         [data-tile="w2"] {background: var(--bgi-2);}
         [data-tile="w0"] {background: var(--bgi-g2);}
         [data-tile="wn"] {background: var(--bgi-g2);}
-        </style>
+    </style>
+    <style>
+        input[type="number"] {
+            position: absolute;
+            top: 50%;
+            left: calc(100% + .5rem);
+            transform: translateY(-50%);
+
+            background: #39f3;
+            font-size: 18px;
+            margin: 0 .5rem;
+            padding: 1px 2px;
+            text-align: center;
+            color: #fff;
+            border: 0;
+            text-shadow: 1px 1px 1px #000;
+            box-shadow: 0 0 0.25rem 0rem #39f;
+        }
+        .toggle-view {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+
+            position: absolute;
+            /* top: 50%; */
+            /* left: calc(100% + .5rem); */
+            /* transform: translateY(-50%); */
+            top: -2rem;
+            right: -.5rem;
+
+            font-size: 18px;
+            margin: 0 .5rem;
+            padding: 1px 2px;
+            padding: .25rem .5rem;
+            text-align: center;
+            color: #fff;
+            border: 0;
+            text-shadow: 1px 1px 1px #000;
+            box-shadow: 0 0 0.125rem 0rem #39f9;
+
+            transition: box-shadow 200ms ease-in-out;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* ──────────────────── */
+
+        
+        .labelToggle::after,
+        .labelToggle {
+            cursor: pointer;
+            user-select: none;
+            color: #fff9; 
+            transition: color 200ms ease-in-out, text-shadow 200ms ease-in-out;
+        }
+        .toggle-view:hover .labelToggle {color: #ffff;}
+        .labelToggle::after {content: ' off';}
+
+
+
+        #perspective-iso:checked ~ main .labelToggle::after {content: ' On';}
+        #perspective-iso:checked ~ main .labelToggle::after {
+            color: #ffff;
+            text-shadow: 0px 0px 0px #39f0;
+        }
+        #perspective-iso:checked ~ main .toggle-view:hover .labelToggle::after {
+            text-shadow: 0px 0px 2px #39f, 0px 0px 3px #39f, 0px 0px 4px #39f, 0px 0px 5px #39f;
+        }
+        
+        #perspective-iso:checked ~ main .list {
+            transform: perspective(900px) rotate3d(0,0,-1,45deg) rotate3d(1,1,0,54deg);
+        }
+
+        /* ──────────────────── */
+
+
+        input#Exp-03:checked ~ main #Shelf-03 .toggle-view,
+        input#Exp-02:checked ~ main #Shelf-02 .toggle-view,
+        input#Exp-01:checked ~ main #Shelf-01 .toggle-view {
+            box-shadow: 0 0 0.25rem .125rem #39f;
+        }
+
+        input#Exp-03:checked ~ main #Shelf-03 .labelToggle::after,
+        input#Exp-02:checked ~ main #Shelf-02 .labelToggle::after,
+        input#Exp-01:checked ~ main #Shelf-01 .labelToggle::after {
+            content: ' On';
+            color: #ffff;
+            text-shadow: 0px 0px 0px #39f0;
+        }
+        input#Exp-03:checked ~ main #Shelf-03 .toggle-view:hover .labelToggle::after,
+        input#Exp-02:checked ~ main #Shelf-02 .toggle-view:hover .labelToggle::after,
+        input#Exp-01:checked ~ main #Shelf-01 .toggle-view:hover .labelToggle::after {
+            text-shadow: 0px 0px 2px #39f, 0px 0px 3px #39f, 0px 0px 4px #39f, 0px 0px 5px #39f;
+        }
+
+        input#Exp-03:checked ~ main #Shelf-03 .list,
+        input#Exp-02:checked ~ main #Shelf-02 .list,
+        input#Exp-01:checked ~ main #Shelf-01 .list {
+            transform: perspective(900px) rotate3d(0,0,-1,45deg) rotate3d(1,1,0,54deg);
+        }
+
+
+        /* ──────────────────── */
+
+        input[class="input-toggle"][data-toggle-type="perspective-iso"] {display: none;}
+        input[type="checkbox"] {display: none;}
+
+    </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
@@ -129,11 +266,36 @@
         <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
         <div class="title">Tiles</div>
         <!-- <div class="subtitle">Tiles for Wave Function</div> -->
+        <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div>
     </header>
 
+    <input type="checkbox" name="perspective" id="Exp-03" class="input-toggle" data-toggle-type="perspective-iso">
+    <input type="checkbox" name="perspective" id="Exp-02" class="input-toggle" data-toggle-type="perspective-iso">
+    <input type="checkbox" name="perspective" id="Exp-01" class="input-toggle" data-toggle-type="perspective-iso">
+
 <main>
-    <div class="shelf">
+    <div id="Shelf-03" class="shelf hidden">
+        <div class="shelf-title">Experiment-03</div>
+        <div class="toggle-view">
+            <label class="labelToggle" for="Exp-03">Perspective:</label>
+        </div>
+        <div class="list">
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w8"></div>
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w4"></div>
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w6"></div>
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w2"></div>
+            <div class="tile" data-tile="w5"></div>
+        </div>
+    </div>
+    <div id="Shelf-02" class="shelf">
         <div class="shelf-title">Experiment-02</div>
+        <div class="toggle-view">
+            <label class="labelToggle" for="Exp-02">Perspective:</label>
+        </div>
         <div class="list">
             <div class="tile" data-tile="w5"></div>
             <div class="tile" data-tile="w2"></div>
@@ -146,8 +308,11 @@
             <div class="tile" data-tile="w5"></div>
         </div>
     </div>
-    <div class="shelf">
+    <div id="Shelf-01" class="shelf">
         <div class="shelf-title">Experiment-01</div>
+        <div class="toggle-view">
+            <label class="labelToggle" for="Exp-01">Perspective:</label>
+        </div>
         <div class="list">
             <div class="tile" data-tile="w0"></div>
             <div class="tile" data-tile="w8"></div>
