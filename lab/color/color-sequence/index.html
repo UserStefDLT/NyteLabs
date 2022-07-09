@@ -71,6 +71,139 @@
             box-shadow: inset 0 0 1rem 0 #2223;
         }
     </style>
+    <style>
+        .xc,
+        .xc-flex {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-wrap: wrap;
+            width: fit-content;
+            gap: .5rem;
+
+            outline: 1px solid #fff;
+            outline-offset: .5rem;
+            margin: 1rem;
+            margin: 1.5rem 1rem;
+        }
+
+        .xc {
+            position: relative;
+            /* display: grid;
+            grid-template-columns: repeat(4, 1fr); */
+            gap: .5rem;
+            /* align-items: center;
+            justify-content: center; */
+            /* width: fit-content; */
+
+            max-width: 100%;
+        }
+
+        .xi,
+        [for|="xi"] {
+            position: relative;
+            width: 2rem; height: 2rem;
+            /* background-color: #135; */
+            background-color: #123;
+            background-image: linear-gradient(45deg, #12f, #789 50%, #7890 50%);
+            background-image: radial-gradient(circle at 50% 100%, #12f, #7890 50%, #7890 50%);
+            box-shadow: 0 0 0 .125rem #135;
+            box-shadow: 
+            0 0 .125rem 0 #fff8,
+            0 0 0 .125rem #135;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            /* width: fit-content; */
+            border-radius: .125rem;
+            transition: 
+            background-position 300ms ease-in-out,
+            box-shadow 100ms ease-in-out;
+            background-position: 100% 0%;
+            /* background-position: 50% 50%; */
+            background-size: 200% 200%;
+            background-repeat: no-repeat;
+        }
+        .xi:hover,
+        [for|="xi"]:hover {
+            background-image: linear-gradient(45deg, #12f, #789);
+            background-image: radial-gradient(circle at 0% 100%, #12f, #7890 50%, #7890 50%);
+            background-image: radial-gradient(circle at 25% 100%, #12f, #7890 50%, #7890 50%);
+            background-position: 0% 100%;
+            box-shadow: 
+            0 0 .125rem .125rem #39f,
+            0 0 0 .125rem #135;
+        }
+
+        [data-check="true"],
+        #xi-f:checked ~ main [for="xi-f"] {
+            background-image: radial-gradient(circle at 25% 100%, #12f, #7890 50%, #7890 50%);
+            background-position: 0% 100%;
+            box-shadow: 
+            0 0 .125rem .125rem #39f,
+            0 0 0 .125rem #135;
+        }
+
+        [for|="xi"]::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            height: 100%; width: 100%;
+            mix-blend-mode: color;
+        }
+        
+        .xc-flex::after {
+            content: attr(class);
+            content: 'choose 3';
+            position: absolute;
+            bottom: 100%; left: 0;
+            height: fit-content;
+            width: fit-content;
+            background: #111;
+            background: hsla(210, 0%, 5%, 100%);
+            color: #fff;
+            padding: .125rem .25rem;
+            transform: translateY(-.25rem);
+        }
+
+        .option-btn {
+            padding: .5rem 1.5rem;
+            background-color: #17d;
+            background-color: #06c;
+            background-color: #369;
+            background-color: #1466b8;
+            background-color: #16b;
+            box-shadow: -3rem -3rem 0rem -3rem #fff;
+            box-shadow: 
+            inset 6rem 6rem 0rem -5.5rem #fff,
+            0rem 0rem .25rem .125rem #06c;
+            box-shadow: 
+            inset 0px 4px 4px -6px #fff9,
+            inset 0px -4px 4px -6px #0009,
+            0rem 0rem 0rem 0rem #06c;
+            font-size: 16px;
+            border-radius: 4rem;
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 1px 1px 1px #1116;
+            border: 0;
+            cursor: pointer;
+            transition: 
+            box-shadow 200ms ease-in-out,
+            background-color 200ms ease-in-out;
+        }
+        .option-btn:hover {
+            background-color: #39f;
+            box-shadow: 
+            inset 0px 6px 4px -4px #fff9,
+            inset 0px -6px 4px -4px #0009,
+            0rem 0rem .25rem .125rem #39f;
+        }
+    </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
@@ -83,6 +216,46 @@
     </header>
 
 <main>
+    <div class="shelf">
+        <div class="shelf-title">Controllers</div>
+        <div class="xc">
+            <!-- <label for="xi-0" data-hex="0" data-check="false">0</label>
+            <label for="xi-1" data-hex="1" data-check="false">1</label>
+            <label for="xi-2" data-hex="2" data-check="false">2</label>
+            <label for="xi-3" data-hex="3" data-check="true">3</label>
+            <label for="xi-4" data-hex="4" data-check="false">4</label>
+            <label for="xi-5" data-hex="5" data-check="false">5</label>
+            <label for="xi-6" data-hex="6" data-check="false">6</label>
+            <label for="xi-7" data-hex="7" data-check="false">7</label>
+            <label for="xi-8" data-hex="8" data-check="false">8</label>
+            <label for="xi-9" data-hex="9" data-check="true">9</label>
+            <label for="xi-a" data-hex="a" data-check="false">a</label>
+            <label for="xi-b" data-hex="b" data-check="false">b</label>
+            <label for="xi-c" data-hex="c" data-check="false">c</label>
+            <label for="xi-d" data-hex="d" data-check="false">d</label>
+            <label for="xi-e" data-hex="e" data-check="false">e</label>
+            <label for="xi-f" data-hex="f" data-check="true">f</label> -->
+            <!-- div.xi[data-hex="$@0"][data-check="false"]*16 -->
+            <!-- div.xi[data-hex="$@0"][data-check="false"]{$@0}*16 -->
+            <div class="xi" data-hex="0" data-check="false">0</div>
+            <div class="xi" data-hex="1" data-check="false">1</div>
+            <div class="xi" data-hex="2" data-check="false">2</div>
+            <div class="xi" data-hex="3" data-check="true">3</div>
+            <div class="xi" data-hex="4" data-check="false">4</div>
+            <div class="xi" data-hex="5" data-check="false">5</div>
+            <div class="xi" data-hex="6" data-check="false">6</div>
+            <div class="xi" data-hex="7" data-check="false">7</div>
+            <div class="xi" data-hex="8" data-check="false">8</div>
+            <div class="xi" data-hex="9" data-check="true">9</div>
+            <div class="xi" data-hex="a" data-check="false">a</div>
+            <div class="xi" data-hex="b" data-check="false">b</div>
+            <div class="xi" data-hex="c" data-check="false">c</div>
+            <div class="xi" data-hex="d" data-check="false">d</div>
+            <div class="xi" data-hex="e" data-check="false">e</div>
+            <div class="xi" data-hex="f" data-check="true">f</div>
+        </div>
+        <button id="ReSequence" class="option-btn">Sequence</button>
+    </div>
     <div class="shelf">
         <div class="shelf-title">Color List</div>
         <div id="display">
@@ -101,6 +274,7 @@
     <div class="name-end">by St&eacute;fano.</div>
     <!-- <script src="main.js"></script> -->
     <script>
+
 
         function helper_ListOut2(branches, levels, path = "x", separator = ''){
             let aBranch = [];
@@ -144,6 +318,9 @@
         // BuiltList2(["3","9","f"],3, '#','');
         // var List = BuiltList2(["3","9","f"],3, '#','');
 
+        // var variables_for_sequence = ["0","3","6","9","c","f"];
+        // var len_of_characters_for_sequence = 3 || 6;
+
         var variables_for_sequence = ["3","9","f"];
         var len_of_characters_for_sequence = 3;
         var initial_character = '#';
@@ -171,6 +348,7 @@
         }
         function buildColorList(list){
             let colorList = document.createElement('div');
+            colorList.id = "ColorList"
             colorList.classList.add('color-list');
             list.forEach(clr => {
                 colorList.appendChild(buildColorCard(clr));
@@ -178,6 +356,53 @@
             return colorList;
         }
 
+        
+        function VariableSequenceUpdate(ev){
+            // console.log('VariableSequenceUpdate()');
+            let xiBtn = ev.target;
+            let xiHex = xiBtn.dataset.hex;
+            console.log(`VariableSequenceUpdate(${xiHex})`);
+            console.log(xiHex);
+            // xiBtn.dataset.check == 'true' ? xiBtn.dataset.check = 'false' : xiBtn.dataset.check = 'true';
+
+            // let len = arr.filter((x) => x == n).length;
+            if(xiBtn.dataset.check == 'true') {
+                let k = variables_for_sequence.indexOf(xiHex);
+                variables_for_sequence.splice(k, 1);
+                xiBtn.dataset.check = 'false'
+            } else {
+                if(variables_for_sequence.length == 3) {
+                    let xi_shift_id = variables_for_sequence.shift();
+                    let xi_shift = document.querySelectorAll(`[data-hex|="${xi_shift_id}"]`)[0];
+                    xi_shift.dataset.check = 'false';
+                }
+                // if(variables_for_sequence.length > 4) {
+                //     let xi_shift_id = variables_for_sequence.shift();
+                //     let xi_shift = document.querySelectorAll(`[data-hex|="${xi_shift_id}"]`)[0];
+                //     xi_shift.dataset.check = 'false';
+                // }
+                variables_for_sequence.push(xiHex);
+                xiBtn.dataset.check = 'true'
+            }
+            console.log(variables_for_sequence);
+        }
+
+        function RedoSequence(){
+            console.log('RedoSequence()');
+            var display = document.getElementById('display');
+            var colorList = document.getElementById('ColorList');
+            
+            colorList.remove();
+            // // var variables_for_sequence = ["3","9","f"];
+            // // var len_of_characters_for_sequence = 3;
+            // // var initial_character = '#';
+            // // var separator = '';
+
+            if(variables_for_sequence.length > 0){
+                let SequenceList = BuiltList2(variables_for_sequence, len_of_characters_for_sequence, initial_character, separator);
+                display.appendChild(buildColorList(SequenceList));
+            }
+        }
 
         window.addEventListener('load', (ev) => { 
             console.log(`Welcome to my Lab!`); 
@@ -188,6 +413,11 @@
             // let nlist = revar2();
             // console.log(nlist);
             // display.innerHTML = printObj2(nlist);
+            let redoBtn = document.getElementById('ReSequence');
+            redoBtn.addEventListener('click', RedoSequence);
+            let xiBtns = document.querySelectorAll('[class|="xi"]');
+            console.log(xiBtns);
+            xiBtns.forEach(xie => {xie.addEventListener('click', VariableSequenceUpdate);});
         });
         // window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
     </script>

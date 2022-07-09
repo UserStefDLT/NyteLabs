@@ -95,6 +95,7 @@
             /* align-items: center;
             justify-content: center; */
             width: fit-content;
+            margin: 1rem;
         }
 
         .tableDim-4x4 { grid-template-columns: repeat(4, 1fr); }
@@ -260,15 +261,25 @@
     </style>
 
     <style>
-
-
-
+        @media (max-width: 540px){ 
+            .xc {margin: 1rem;}
+            .xc-flex {
+                width: 8rem;
+                height: 8rem;
+            }
+            .xi,
+            [for|="xi"] {
+                width: 2rem; height: 2rem;
+                width: 1.5rem; height: 1.5rem;
+            }
+        }
+    
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
     <header>
-        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
         <div class="title">Hex Color Symmetry</div>
         <!-- <div class="subtitle">subtitle</div> -->
         <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div>
@@ -292,7 +303,7 @@
     <input type="checkbox" name="hexset" id="xi-f">
 
 <main>
-    <div class="shelf">
+    <div class="shelf shelf-row">
         <div class="shelf-title">Flex</div>
         <div class="xc-flex">
             <label for="xi-0">0</label>

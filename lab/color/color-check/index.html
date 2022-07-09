@@ -37,22 +37,31 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
+            --clr: #0000;
+            border-radius: .25rem;
+            overflow: hidden;
+            outline: 1px dashed #fff9;
+            outline-offset: -2px;
         }
         .color-display {
             height: 6rem;
             width: 6rem;
             min-height: 4rem;
             min-width: 4rem;
+            background-color: var(--clr);
         }
         .color-description {
+            width: 100%;
+            min-height: 2rem;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            padding: .5rem;
+            /* padding: .5rem; */
             background-color: #eee;
             color: #222;
             box-shadow: inset 0 0 1rem 0 #2226;
+            box-shadow: inset 0 0 1rem 0 #2223;
         }
         /* [data-hue|=""] {} */
         [data-hsl] {
@@ -75,6 +84,25 @@
 
         .color-code {}
 
+        .input_text_update,
+        .clr-input {
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            border: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: #0000;
+            /* font-weight: bold; */
+            font-size: 16px;
+            font-family: 'Ubuntu', sans-serif;
+        }
+        .input_text_update::before {
+            content: '#';
+        }
+
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
@@ -89,7 +117,23 @@
 <main>
     <div class="shelf">
         <div class="shelf-title">Color</div>
-        .color-card
+        <!-- .color-card*4>.color-display+.color-description -->
+        <div class="color-card" style="--clr: #fff9">
+            <div class="color-display"></div>
+            <div class="color-description">color: #fff9</div>
+        </div>
+        <div class="color-card" style="--clr: #999f">
+            <div class="color-display"></div>
+            <div class="color-description">color: #999f</div>
+        </div>
+        <div class="color-card">
+            <div class="color-display"></div>
+            <div class="color-description"><input class="input_text_update" type="text" name="color" id="clr-9f" placeholder="#hex"></div>
+        </div>
+        <div class="color-card">
+            <div class="color-display"></div>
+            <div class="color-description"><input class="input_text_update" type="text" name="color" id="clr-f9" placeholder="#hex"></div>
+        </div>
     </div>
 </main>
 
@@ -103,7 +147,68 @@
     <div class="name-end">by St&eacute;fano.</div>
     <!-- <script src="main.js"></script> -->
     <script>
-        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+        // var count_inputs = document.querySelectorAll(`[data-itype]`);
+        // count_inputs.forEach(el=>{
+        //     el.addEventListener("input", (ev) => {
+        //         let target_list_id = ev.target.dataset.itype;
+        //         let count = parseInt(ev.target.value);
+        //         console.log(target_list_id);
+        //         console.log(`count: ${count}`);
+        //         let target_list = document.getElementById(target_list_id);
+        //         target_list.style = `--count: ${ev.target.value};`;
+        //     });
+        // });
+
+        // var hexClrChars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
+        function confirmColor(color){
+            let clr = color;
+            if(clr.at(0) == '#') clr = color.substr(1);
+
+            // hex colors can be: 3,4,6,8;
+            // if the length is not one of those, return -1;
+            if(![3,4,6,8].includes(clr.length)) return -1;
+
+            let clr_checked = [];
+            for (let i = 0; i < clr.length; i++) {
+                let c = clr.at(i);
+                if(!isNaN(parseInt(c, 16))){
+                    clr_checked.push(c);
+                }
+                if(isNaN(parseInt(c, 16))){
+                    console.log(`the code '${clr}' doesn't match to any color.`);
+                    console.log(`the character ${c} is not a valid character for a hex color.`);
+                }
+            }
+
+            if(![3,4,6,8].includes(clr_checked.length)) return -1;
+
+            let hexClr = clr_checked.join('');
+            let hex = `#${clr_checked.join('')}`;
+            console.log(hex);
+
+            return hex;
+        }
+
+        let inputText_list = document.querySelectorAll('.input_text_update');
+        inputText_list.forEach(inputT_update => {
+            inputT_update.addEventListener('input', (ev) => {
+                let el = ev.target;
+                let val = el.value;
+                let card = el.parentElement.parentElement;
+                console.log(el);
+                console.log(val);
+
+                let clr = confirmColor(val);
+                if(clr != -1){
+                    card.style = `--clr: ${clr}`;
+                    el.value = `${clr}`;
+                }
+            });
+        });
+
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+        });
     </script>
 </body>
 </html>

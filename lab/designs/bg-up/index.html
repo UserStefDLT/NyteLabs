@@ -1403,8 +1403,8 @@
     <script>
         // var ice_cream_input = document.getElementById('ice_cream_count');
         var count_inputs = document.querySelectorAll(`[data-itype]`);
-            count_inputs.forEach(el=>{
-                el.addEventListener("input", (ev) => {
+        count_inputs.forEach(el=>{
+            el.addEventListener("input", (ev) => {
                 let target_list_id = ev.target.dataset.itype;
                 let count = parseInt(ev.target.value);
                 console.log(target_list_id);

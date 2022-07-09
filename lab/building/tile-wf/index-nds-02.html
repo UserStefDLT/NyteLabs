@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Tiles | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+    </style>
+    <style>
+        /*const walled_side = 
+        {0:" ",2:"╩",4:"╠",5:"╬",6:"╣",8:"╦"};
+        */
+        :root {
+            --bwt: #0000;
+            --bw0: #000;
+            --bwf: #fff;
+            --grass-1: #9f3;
+            --grass-2: #6c0;
+            --grass-3: #360;
+            /* w:1/2, h:2 */
+            --bsz1: 1em 2em;
+            --bsz2: 2em 2em;
+            --bgi-g2: 
+            conic-gradient(from 195deg at 50% 50%, 
+            var(--grass-3) 0deg 5deg, 
+            var(--grass-2) 10deg 15deg, 
+            var(--bwt) 15deg ) center / var(--bsz1) repeat,
+            conic-gradient(from 160deg at 50% 20%, 
+            var(--grass-3) 0deg 5deg, 
+            var(--grass-2) 10deg 15deg, 
+            var(--bwt) 15deg ) center / var(--bsz2) repeat, var(--grass-1);
+
+            /* ─── */
+
+            --path-l: #765;
+            --path-d: #432;
+
+            --bgi-path-28l: linear-gradient(90deg, var(--bwt), var(--path-l) 40%, var(--path-l) 60%, var(--bwt));
+            --bgi-path-28d: linear-gradient(90deg, var(--path-d), var(--path-d));
+            --bgi-path-46l: linear-gradient(0deg, var(--bwt), var(--path-l) 40%, var(--path-l) 60%, var(--bwt));
+            --bgi-path-46d: linear-gradient(0deg, var(--path-d), var(--path-d));
+
+            --bgi-258-l: var(--bgi-path-28l) center top / 20% 20% repeat-y;
+            --bgi-258-d: var(--bgi-path-28d) center top / 20% 20% repeat-y;
+            --bgi-456-l: var(--bgi-path-46l) left center / 20% 20% repeat-x;
+            --bgi-456-d: var(--bgi-path-46d) left center / 20% 20% repeat-x;
+
+            /* --bgi-58-l: var(--bgi-path-28l) center top / 20% 60% no-repeat;
+            --bgi-58-d: var(--bgi-path-28d) center top / 20% 60% no-repeat;
+            --bgi-56-l: var(--bgi-path-46l) right center / 60% 20% no-repeat;
+            --bgi-56-d: var(--bgi-path-46d) right center / 60% 20% no-repeat;
+            --bgi-54-l: var(--bgi-path-46l) left center / 60% 20% no-repeat;
+            --bgi-54-d: var(--bgi-path-46d) left center / 60% 20% no-repeat;
+            --bgi-52-l: var(--bgi-path-28l) center bottom / 20% 60% no-repeat;
+            --bgi-52-d: var(--bgi-path-28d) center bottom / 20% 60% no-repeat; */
+
+            --bgi-58-l: var(--bgi-path-28l) center top / 20% 50% no-repeat;
+            --bgi-58-d: var(--bgi-path-28d) center top / 20% 50% no-repeat;
+            --bgi-56-l: var(--bgi-path-46l) right center / 50% 20% no-repeat;
+            --bgi-56-d: var(--bgi-path-46d) right center / 50% 20% no-repeat;
+            --bgi-54-l: var(--bgi-path-46l) left center / 50% 20% no-repeat;
+            --bgi-54-d: var(--bgi-path-46d) left center / 50% 20% no-repeat;
+            --bgi-52-l: var(--bgi-path-28l) center bottom / 20% 50% no-repeat;
+            --bgi-52-d: var(--bgi-path-28d) center bottom / 20% 50% no-repeat;
+
+            --bgi-0: var(--bgi-g2);
+            --bgi-2: var(--bgi-58-l), var(--bgi-456-l), var(--bgi-58-d), var(--bgi-456-d), var(--bgi-g2);
+            --bgi-4: var(--bgi-258-l), var(--bgi-56-l), var(--bgi-258-d), var(--bgi-56-d), var(--bgi-g2);
+            --bgi-5: var(--bgi-258-l), var(--bgi-456-l), var(--bgi-258-d), var(--bgi-456-d), var(--bgi-g2);
+            --bgi-6: var(--bgi-258-l), var(--bgi-54-l), var(--bgi-258-d), var(--bgi-54-d), var(--bgi-g2);
+            --bgi-8: var(--bgi-52-l), var(--bgi-456-l), var(--bgi-52-d), var(--bgi-456-d), var(--bgi-g2); 
+
+            --sz-tile: 6rem;
+            --tiles-per-grid: 6;
+            --tiles-per-grid: 3;
+            --sz-grid: calc(var(--sz-tile) * var(--tiles-per-grid));
+        }
+        .list {
+            /* --tiles-per-grid: 6; */
+            --sz-grid: calc(var(--sz-tile) * var(--tiles-per-grid));
+            width: max-content;
+            width: var(--sz-grid);
+            margin: 0 auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-direction: row;
+            flex-wrap: wrap;
+
+            transform: rotate3d(0,0,-1,0deg) rotate3d(1,1,0,0deg);
+            transition: transform 200ms ease-in-out;
+        }
+        
+        /* .list:hover {
+            transform: perspective(900px) rotate3d(0,0,-1,45deg) rotate3d(1,1,0,54deg);
+        } */
+        .list::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            height: 100%; width: 100%;
+            background: radial-gradient(circle at 50% 50%, #0000 40%, #000a);
+        }
+        /* .chess-3d {
+            min-height: 8rem; min-width: 8rem;
+            background:
+                radial-gradient(circle at 50% 50%, #0000 40%, #000d),
+                conic-gradient(#fff 0.25turn, #000 0.25turn 0.5turn, #fff 0.5turn 0.75turn, #000 0.75turn)
+                top left / 2rem 2rem repeat;
+            border: 1px solid;
+            transform: rotate3d(0,0,-1,0deg) rotate3d(1,1,0,0deg);
+            transition: transform 200ms ease-in-out;
+        }
+        .chess-3d:hover {
+            transform: rotate3d(0,0,-1,45deg) rotate3d(1,1,0,54deg);
+            transform: perspective(400px) rotate3d(0,0,-1,45deg) rotate3d(1,1,0,54deg);
+        } */
+        [class|="tile"] {
+            --sz: 6rem;
+            --sz: var(--sz-tile);
+            height: var(--sz); width: var(--sz);
+
+            background: var(--bgi-g2);
+            /* box-shadow: inset 0 0 2px 0px #0009; */
+            /* box-shadow: inset 0 0 1px 1px #0006; */
+            outline: 1px dashed #1119;
+            outline-offset: -2px;
+            font-size: 24px;
+        }
+        
+        [data-tile="w8"] {background: var(--bgi-8);}
+        [data-tile="w6"] {background: var(--bgi-6);}
+        [data-tile="w5"] {background: var(--bgi-5);}
+        [data-tile="w4"] {background: var(--bgi-4);}
+        [data-tile="w2"] {background: var(--bgi-2);}
+        [data-tile="w0"] {background: var(--bgi-g2);}
+        [data-tile="wn"] {background: var(--bgi-g2);}
+    </style>
+    <style>
+        input[type="number"] {
+            position: absolute;
+            top: 50%;
+            left: calc(100% + .5rem);
+            transform: translateY(-50%);
+
+            background: #39f3;
+            font-size: 18px;
+            margin: 0 .5rem;
+            padding: 1px 2px;
+            text-align: center;
+            color: #fff;
+            border: 0;
+            text-shadow: 1px 1px 1px #000;
+            box-shadow: 0 0 0.25rem 0rem #39f;
+        }
+        .toggle-view {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+
+            position: absolute;
+            /* top: 50%; */
+            /* left: calc(100% + .5rem); */
+            /* transform: translateY(-50%); */
+            top: -2rem;
+            right: -.5rem;
+
+            font-size: 18px;
+            margin: 0 .5rem;
+            padding: 1px 2px;
+            padding: .25rem .5rem;
+            text-align: center;
+            color: #fff;
+            border: 0;
+            text-shadow: 1px 1px 1px #000;
+            box-shadow: 0 0 0.125rem 0rem #39f9;
+
+            transition: box-shadow 200ms ease-in-out;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* ──────────────────── */
+
+        
+        .labelToggle::after,
+        .labelToggle {
+            cursor: pointer;
+            user-select: none;
+            color: #fff9; 
+            transition: color 200ms ease-in-out, text-shadow 200ms ease-in-out;
+        }
+        .toggle-view:hover .labelToggle {color: #ffff;}
+        .labelToggle::after {content: ' off';}
+
+
+
+        #perspective-iso:checked ~ main .labelToggle::after {content: ' On';}
+        #perspective-iso:checked ~ main .labelToggle::after {
+            color: #ffff;
+            text-shadow: 0px 0px 0px #39f0;
+        }
+        #perspective-iso:checked ~ main .toggle-view:hover .labelToggle::after {
+            text-shadow: 0px 0px 2px #39f, 0px 0px 3px #39f, 0px 0px 4px #39f, 0px 0px 5px #39f;
+        }
+        
+        #perspective-iso:checked ~ main .list {
+            transform: perspective(900px) rotate3d(0,0,-1,45deg) rotate3d(1,1,0,54deg);
+        }
+
+        /* ──────────────────── */
+
+
+        input#Exp-03:checked ~ main #Shelf-03 .toggle-view,
+        input#Exp-02:checked ~ main #Shelf-02 .toggle-view,
+        input#Exp-01:checked ~ main #Shelf-01 .toggle-view {
+            box-shadow: 0 0 0.25rem .125rem #39f;
+        }
+
+        input#Exp-03:checked ~ main #Shelf-03 .labelToggle::after,
+        input#Exp-02:checked ~ main #Shelf-02 .labelToggle::after,
+        input#Exp-01:checked ~ main #Shelf-01 .labelToggle::after {
+            content: ' On';
+            color: #ffff;
+            text-shadow: 0px 0px 0px #39f0;
+        }
+        input#Exp-03:checked ~ main #Shelf-03 .toggle-view:hover .labelToggle::after,
+        input#Exp-02:checked ~ main #Shelf-02 .toggle-view:hover .labelToggle::after,
+        input#Exp-01:checked ~ main #Shelf-01 .toggle-view:hover .labelToggle::after {
+            text-shadow: 0px 0px 2px #39f, 0px 0px 3px #39f, 0px 0px 4px #39f, 0px 0px 5px #39f;
+        }
+
+        input#Exp-03:checked ~ main #Shelf-03 .list,
+        input#Exp-02:checked ~ main #Shelf-02 .list,
+        input#Exp-01:checked ~ main #Shelf-01 .list {
+            transform: perspective(900px) rotate3d(0,0,-1,45deg) rotate3d(1,1,0,54deg);
+        }
+
+
+        /* ──────────────────── */
+
+        input[class="input-toggle"][data-toggle-type="perspective-iso"] {display: none;}
+        input[type="checkbox"] {display: none;}
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Tiles</div>
+        <!-- <div class="subtitle">Tiles for Wave Function</div> -->
+        <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div>
+    </header>
+
+    <input type="checkbox" name="perspective" id="Exp-03" class="input-toggle" data-toggle-type="perspective-iso">
+    <input type="checkbox" name="perspective" id="Exp-02" class="input-toggle" data-toggle-type="perspective-iso">
+    <input type="checkbox" name="perspective" id="Exp-01" class="input-toggle" data-toggle-type="perspective-iso">
+
+<main>
+    <div id="Shelf-03" class="shelf hidden">
+        <div class="shelf-title">Experiment-03</div>
+        <div class="toggle-view">
+            <label class="labelToggle" for="Exp-03">Perspective:</label>
+        </div>
+        <div class="list">
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w8"></div>
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w4"></div>
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w6"></div>
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w2"></div>
+            <div class="tile" data-tile="w5"></div>
+        </div>
+    </div>
+    <div id="Shelf-02" class="shelf">
+        <div class="shelf-title">Experiment-02</div>
+        <div class="toggle-view">
+            <label class="labelToggle" for="Exp-02">Perspective:</label>
+        </div>
+        <div class="list">
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w2"></div>
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w6"></div>
+            <div class="tile" data-tile="w0"></div>
+            <div class="tile" data-tile="w4"></div>
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w8"></div>
+            <div class="tile" data-tile="w5"></div>
+        </div>
+    </div>
+    <div id="Shelf-01" class="shelf">
+        <div class="shelf-title">Experiment-01</div>
+        <div class="toggle-view">
+            <label class="labelToggle" for="Exp-01">Perspective:</label>
+        </div>
+        <div class="list">
+            <div class="tile" data-tile="w0"></div>
+            <div class="tile" data-tile="w8"></div>
+            <div class="tile" data-tile="w0"></div>
+            <div class="tile" data-tile="w4"></div>
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w6"></div>
+            <div class="tile" data-tile="w0"></div>
+            <div class="tile" data-tile="w2"></div>
+            <div class="tile" data-tile="w0"></div>
+        </div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        var w = 4; /* x or width length */
+        var h = 4; /* y or height length */
+        var grid = [];
+        // function startGrid(hlen, wlen){
+
+        //     for(yi = 0; yi<hlen; yi++){
+        //         let row = [];
+        //         for(xi = 0; j<wlen; xi++){
+        //             row.push("");
+        //         }
+        //         grid.push(row);
+        //     }
+        //     for(yi = 0; yi<hlen; yi++){
+        //         for(xi = 0; j<wlen; xi++){
+        //             let el = document.getElementById(`yx-${yi}-${xi}`);
+        //             el.style = ``;
+        //         }
+        //     }
+        // }
+
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+        });
+    </script>
+</body>
+</html>

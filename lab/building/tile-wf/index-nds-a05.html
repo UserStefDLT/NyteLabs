@@ -42,10 +42,6 @@
             --grass-2: #6c0;
             --grass-3: #360;
 
-            --grass: #6c0;
-            --path: #432;
-            --ground: #765;
-
             /* w:1/2, h:2 */
             --bsz1: 1em 2em;
             --bsz2: 2em 2em;
@@ -92,9 +88,9 @@
 
 
             --sz-tile: 6rem;
-            /* --tiles-per-grid: 6;
+            --tiles-per-grid: 6;
             --tiles-per-grid: 3;
-            --sz-grid: calc(var(--sz-tile) * var(--tiles-per-grid)); */
+            --sz-grid: calc(var(--sz-tile) * var(--tiles-per-grid));
             
             /* --tiles-per-col: 4; --tiles-per-row: 6; */
             --tiles-per-col: var(--tiles-per-grid);
@@ -102,37 +98,31 @@
             --sz-h--grid: calc(var(--sz-tile) * var(--tiles-per-col));
             --sz-w--grid: calc(var(--sz-tile) * var(--tiles-per-row));
         }
-        /* :root {
-            --grass: #6c0;
-            --path: #432;
-            --ground: #765;
-            --bgi-g2: var(--grass);
+        .list {
+            /* --tiles-per-grid: 6; */
+            --sz-grid: calc(var(--sz-tile) * var(--tiles-per-grid));
+            width: max-content;
+            width: var(--sz-grid);
+            margin: 0 auto;
 
-            --bgi-path-28: linear-gradient(90deg, var(--path), var(--path));
-            --bgi-path-46: linear-gradient(0deg, var(--path), var(--path));
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-direction: row;
+            flex-wrap: wrap;
 
-            --bgi-258: var(--bgi-path-28) center top / 20% 20% repeat-y;
-            --bgi-456: var(--bgi-path-46) left center / 20% 20% repeat-x;
+            transform: rotate3d(0,0,-1,0deg) rotate3d(1,1,0,0deg);
+            transition: transform 200ms ease-in-out;
+        }
+        .list::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            height: 100%; width: 100%;
+            background: radial-gradient(circle at 50% 50%, #0000 40%, #000a);
+        }
 
-            --bgi-58: var(--bgi-path-28) center top / 20% 50% no-repeat;
-            --bgi-56: var(--bgi-path-46) right center / 50% 20% no-repeat;
-            --bgi-54: var(--bgi-path-46) left center / 50% 20% no-repeat;
-            --bgi-52: var(--bgi-path-28) center bottom / 20% 50% no-repeat;
-
-            --bgi-0: var(--bgi-g2);
-            --bgi-2: var(--bgi-58), var(--bgi-456), var(--bgi-g2);
-            --bgi-4: var(--bgi-258), var(--bgi-56), var(--bgi-g2);
-            --bgi-5: var(--bgi-258), var(--bgi-456), var(--bgi-g2);
-            --bgi-6: var(--bgi-258), var(--bgi-54), var(--bgi-g2);
-            --bgi-8: var(--bgi-52), var(--bgi-456), var(--bgi-g2); 
-
-
-            --sz-tile: 6rem;
-            --tiles-per-col: var(--tiles-per-grid);
-            --tiles-per-row: var(--tiles-per-grid);
-            --sz-h--grid: calc(var(--sz-tile) * var(--tiles-per-col));
-            --sz-w--grid: calc(var(--sz-tile) * var(--tiles-per-row));   
-        } */
         [class|="tile"] {
             --sz: 6rem;
             --sz: var(--sz-tile);
@@ -164,7 +154,7 @@
         [data-tile="w4"] {background: var(--bgi-4);}
         [data-tile="w2"] {background: var(--bgi-2);}
         [data-tile="w0"] {background: var(--bgi-g2);}
-        [data-tile="wn"] {background: var(--ground);}
+        [data-tile="wn"] {background: var(--bgi-g2);}
     </style>
     <style>
         :root {
@@ -192,11 +182,8 @@
             --tiles-per-row: var(--tiles-per-grid);
             --sz-h--grid: calc(var(--sz-tile) * var(--tiles-per-col));
             --sz-w--grid: calc(var(--sz-tile) * var(--tiles-per-row));
-            /* --sz-grid: calc(var(--sz-tile) * var(--tiles-per-grid));
-            width: var(--sz-grid); */
-            width: var(--sz-w--grid);
-            min-width: var(--sz-w--grid);
-            min-height: var(--sz-h--grid);
+            --sz-grid: calc(var(--sz-tile) * var(--tiles-per-grid));
+            width: var(--sz-grid);
             margin: 0 auto;
 
             display: flex;
@@ -213,6 +200,30 @@
             overflow: hidden;
         }
         .list--tile-grid::after {
+            content: '';
+            position: absolute;
+            top: 0%; left: 0%;
+            transform: translateX(-100%) translateY(-100%);
+            height: 100%; width: 100%;
+            --sz-h: var(--sz-h--grid);
+            --sz-w: var(--sz-w--grid);
+            --sz-h: var(--sz-grid);
+            --sz-w: var(--sz-grid);
+
+            --mv-8: var(--sz-w) 0rem;
+            --mv-6: calc(var(--sz-w) * 2) var(--sz-h);
+            --mv-4: 0rem var(--sz-h);
+            --mv-2: var(--sz-w) calc(var(--sz-h) * 2);
+
+            --blr-scl-shw: 2rem .5rem #000f;
+
+            box-shadow: 
+            var(--mv-8) var(--blr-scl-shw),
+            var(--mv-6) var(--blr-scl-shw),
+            var(--mv-4) var(--blr-scl-shw),
+            var(--mv-2) var(--blr-scl-shw);
+        }
+        .list--tile-grid.rsz::after {
             content: '';
             position: absolute;
             top: 0%; left: 0%;
@@ -289,99 +300,78 @@
         .input-toggle {display: none;}        
     </style>
     <style>
-        .tile {
-            display: grid;
-            grid-template-columns: repeat(3, 2rem);
-            grid-template-rows: repeat(3, 2rem);
-            grid-template-areas: 
-            "7 8 9"
-            "4 5 6"
-            "1 2 3";
-            grid-template-areas: 
-            "a7 a8 ax"
-            "a4 a5 a6"
-            "a0 a2 a3";
-        }
-
-        [data-tile-option-type="0"] {grid-area: a0;}
-        [data-tile-option-type="2"] {grid-area: a2;}
-        [data-tile-option-type="4"] {grid-area: a4;}
-        [data-tile-option-type="5"] {grid-area: a5;}
-        [data-tile-option-type="6"] {grid-area: a6;}
-        [data-tile-option-type="8"] {grid-area: a8;}
-
-        .tile_option {
-            height: 100%;
-            width: 100%;
-            height: 2rem;
-            width: 2rem;
-            min-height: 2rem;
-            min-width: 2rem;
-            background-color: #fffc;
-            background-color: #fff9;
-            color: var(--path);
-            transition: outline 100ms ease-in-out;
-            /* outline: 1px dashed #1110;
-            outline-offset: -2px; */
-            box-shadow: inset 0 0 1px 0px #1119;
-            cursor: pointer;
-            z-index: 1;
-        }
-        .tile_option:hover {
-            outline: 1px dashed #1119;
-            outline-offset: -4px;
-        }
-        .fade {
-            transition: opacity 300ms ease-in-out 50ms;
-            opacity: 0;
-        }
-
-        .tile {
-            position: relative;
-        }
-        .tile::before {
-            content: attr(data-yx);
+        .list--tile-grid---experimental-shadow::before {
+            content: '';
             position: absolute;
             top: 50%; left: 50%;
             transform: translateX(-50%) translateY(-50%);
-            font-size: 16px;
-            text-shadow: 1px 1px 1px #1119;
-        }
-    </style>
-    <style>
-        #display {justify-content: flex-start;}
-        .option-btn {
-            padding: .5rem 1.5rem;
-            background-color: #17d;
-            background-color: #06c;
-            background-color: #369;
-            background-color: #1466b8;
-            background-color: #16b;
-            box-shadow: -3rem -3rem 0rem -3rem #fff;
+            height: 100%; width: 100%;
+            /* background: radial-gradient(circle at 50% 50%, #0000 40%, #000a); */
+
+            top: 0%; left: 0%;
+            transform: translateX(-100%) translateY(-100%);
+            background-color: #39f9;
+            /* before box located at 7 */
+            --sz: var(--sz-grid);
+            --sz2: calc(var(--sz) * 2);
+
+            --mv-8: var(--sz) 0rem;
+            --mv-6: var(--sz2) var(--sz);
+            --mv-4: 0rem var(--sz);
+            --mv-2: var(--sz) var(--sz2);
+
+            --blr: 2rem;
+            --scl: .5rem;
+            --shw: #000f;
+            --blr-scl-shw: 2rem .5rem #000f;
+
             box-shadow: 
-            inset 6rem 6rem 0rem -5.5rem #fff,
-            0rem 0rem .25rem .125rem #06c;
+            var(--mv-8) var(--blr) var(--scl) var(--shw),
+            var(--mv-6) var(--blr) var(--scl) var(--shw),
+            var(--mv-4) var(--blr) var(--scl) var(--shw),
+            var(--mv-2) var(--blr) var(--scl) var(--shw);
+
             box-shadow: 
-            inset 0px 4px 4px -6px #fff9,
-            inset 0px -4px 4px -6px #0009,
-            0rem 0rem 0rem 0rem #06c;
-            font-size: 16px;
-            border-radius: 4rem;
-            color: #fff;
-            font-weight: bold;
-            text-shadow: 1px 1px 1px #1116;
-            border: 0;
-            cursor: pointer;
-            transition: 
-            box-shadow 200ms ease-in-out,
-            background-color 200ms ease-in-out;
-        }
-        .option-btn:hover {
-            background-color: #39f;
-            box-shadow: 
-            inset 0px 6px 4px -4px #fff9,
-            inset 0px -6px 4px -4px #0009,
-            0rem 0rem .25rem .125rem #39f;
+            var(--mv-8) var(--blr-scl-shw),
+            var(--mv-6) var(--blr-scl-shw),
+            var(--mv-4) var(--blr-scl-shw),
+            var(--mv-2) var(--blr-scl-shw);
+            /* --mv-t8: calc(var(--sz) * -1);
+            --mv-t6: calc(var(--sz) * 1);
+            --mv-t4: calc(var(--sz) * -1);
+            --mv-t2: calc(var(--sz) * 1);
+
+            --x-t6: calc(var(--sz) * 2);
+            --x-t28: calc(var(--sz) * 1);
+            --y-t2: calc(var(--sz) * 2);
+            --y-t46: calc(var(--sz) * 1); */
+
+            /* --mv-8: var(--sz) 0rem;
+            --mv-6: var(--sz2) var(--sz);
+            --mv-4: 0rem var(--sz);
+            --mv-2: var(--sz) var(--sz2);
+            
+            --mv-dn: var(--sz-grid);
+            --mv-rr: calc(var(--sz-grid) * 2);
+            --mv-up: calc(var(--sz-grid) * -1);
+            --blr: 2rem;
+            --scl: .5rem;
+            --shw: #000f; */
+            /* 2rem .5rem #000f */
+            /* var(--blr) var(--scl) var(--shw) */
+            /* box-shadow: 
+            var(--mv-dn) var(--mv-dn) var(--blr) var(--scl) var(--shw),
+            var(--mv-rr) 0rem var(--blr) var(--scl) var(--shw),
+            var(--mv-dn) var(--mv-up) var(--blr) var(--scl) var(--shw),
+            0rem 0rem var(--blr) var(--scl) var(--shw); */
+
+            /* box-shadow: 
+            var(--mv-dn) var(--mv-dn) 1rem 1rem #0006,
+            var(--mv-rr) 0rem 1rem 1rem #0006,
+            var(--mv-dn) var(--mv-up) 1rem 1rem #0006,
+            0rem 0rem 1rem 1rem #0006; */
+            /* box-shadow: 0rem 0rem 1rem 1rem #f399; */
+            /* box-shadow: 0rem 0rem 0rem 0rem #000a; */
         }
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
@@ -400,28 +390,13 @@
     .box-control--toggle-view
     .label--toggle-view
     .list--tile-grid -->
-    <div id="display" class="shelf">
-        <div class="shelf-title">Exp</div>
-        <input type="checkbox" name="perspective" id="Exp-08" class="input-check--toggle">
-        <div class="box-control--toggle-view">
-            <label class="label--toggle-view" for="Exp-08">Perspective:</label>
-        </div>
-        <!-- <div id="GridBuild" class="list--tile-grid" style="--tiles-per-col: 3; --tiles-per-row: 3;"></div> -->
-    </div>
     <div class="shelf">
-        <div class="shelf-title">Options:</div>
-        <div class="input-row"><label for="input-w">Width: </label><input type="number" name="grid-size" id="input-w" step="1" min="2" max="8"></div>
-        <div class="input-row"><label for="input-h">Height: </label><input type="number" name="grid-size" id="input-h" step="1" min="2" max="8"></div>
-        <div class="input-row"><button id="RedoBtn" class="option-btn" onclick="RedoGrid">Redo Grid</button></div>
-    </div>
-
-    <div class="shelf hidden">
-        <div class="shelf-title">Exp</div>
+        <div class="shelf-title">Exp 07</div>
         <input type="checkbox" name="perspective" id="Exp-07" class="input-check--toggle">
         <div class="box-control--toggle-view">
             <label class="label--toggle-view" for="Exp-07">Perspective:</label>
         </div>
-        <div class="list--tile-grid rsz" style="--tiles-per-col: 4; --tiles-per-row: 6;">
+        <div class="list--tile-grid rsz" style="--tiles-per-col: 4; --tiles-per-row: 6; --tiles-per-grid: 6;">
             <!-- <div class="tile" data-tile="w0"></div> -->
             <!-- .tile[data-tile="w0"]*24 -->
             <div class="tile" data-tile="w0"></div>
@@ -450,6 +425,120 @@
             <div class="tile" data-tile="w0"></div>
         </div>
     </div>
+    <div class="shelf">
+        <div class="shelf-title">Exp 06</div>
+        <input type="checkbox" name="perspective" id="Exp-06" class="input-check--toggle">
+        <div class="box-control--toggle-view">
+            <label class="label--toggle-view" for="Exp-06">Perspective:</label>
+        </div>
+        <div class="list--tile-grid">
+            <div class="tile" data-tile="w2"></div>
+            <div class="tile" data-tile="w2"></div>
+            <div class="tile" data-tile="w8"></div>
+
+            <div class="tile" data-tile="w8"></div>
+            <div class="tile" data-tile="w8"></div>
+            <div class="tile" data-tile="w6"></div>
+
+            <div class="tile" data-tile="w4"></div>
+            <div class="tile" data-tile="w6"></div>
+            <div class="tile" data-tile="w4"></div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Exp 05</div>
+        <input type="checkbox" name="perspective" id="Exp-05" class="input-check--toggle">
+        <div class="box-control--toggle-view">
+            <label class="label--toggle-view" for="Exp-05">Perspective:</label>
+        </div>
+        <div class="list--tile-grid">
+            <div class="tile" data-tile="w2"></div>
+            <div class="tile" data-tile="w2"></div>
+            <div class="tile" data-tile="w8"></div>
+
+            <div class="tile" data-tile="w8"></div>
+            <div class="tile" data-tile="w8"></div>
+            <div class="tile" data-tile="w2"></div>
+
+            <div class="tile" data-tile="w4"></div>
+            <div class="tile" data-tile="w6"></div>
+            <div class="tile" data-tile="w0"></div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Exp 04</div>
+        <input type="checkbox" name="perspective" id="Exp-04" class="input-check--toggle">
+        <div class="box-control--toggle-view">
+            <label class="label--toggle-view" for="Exp-04">Perspective:</label>
+        </div>
+        <div class="list--tile-grid">
+            <div class="tile" data-tile="w0"></div>
+            <div class="tile" data-tile="w4"></div>
+            <div class="tile" data-tile="w8"></div>
+
+            <div class="tile" data-tile="w8"></div>
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w2"></div>
+
+            <div class="tile" data-tile="w4"></div>
+            <div class="tile" data-tile="w6"></div>
+            <div class="tile" data-tile="w0"></div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Exp 03</div>
+        <input type="checkbox" name="perspective" id="Exp-03" class="input-check--toggle">
+        <div class="box-control--toggle-view">
+            <label class="label--toggle-view" for="Exp-03">Perspective:</label>
+        </div>
+        <div class="list--tile-grid">
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w8"></div>
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w4"></div>
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w6"></div>
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w2"></div>
+            <div class="tile" data-tile="w5"></div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Exp 02</div>
+        <input type="checkbox" name="perspective" id="Exp-02" class="input-check--toggle">
+        <div class="box-control--toggle-view">
+            <label class="label--toggle-view" for="Exp-02">Perspective:</label>
+        </div>
+        <div class="list--tile-grid">
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w2"></div>
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w6"></div>
+            <div class="tile" data-tile="w0"></div>
+            <div class="tile" data-tile="w4"></div>
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w8"></div>
+            <div class="tile" data-tile="w5"></div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Exp 01</div>
+        <input type="checkbox" name="perspective" id="Exp-01" class="input-check--toggle">
+        <div class="box-control--toggle-view">
+            <label class="label--toggle-view" for="Exp-01">Perspective:</label>
+        </div>
+        <div class="list--tile-grid">
+            <div class="tile" data-tile="w0"></div>
+            <div class="tile" data-tile="w8"></div>
+            <div class="tile" data-tile="w0"></div>
+            <div class="tile" data-tile="w4"></div>
+            <div class="tile" data-tile="w5"></div>
+            <div class="tile" data-tile="w6"></div>
+            <div class="tile" data-tile="w0"></div>
+            <div class="tile" data-tile="w2"></div>
+            <div class="tile" data-tile="w0"></div>
+        </div>
+    </div>
 </main>
 
 
@@ -462,150 +551,65 @@
     <div class="name-end">by St&eacute;fano.</div>
     <!-- <script src="main.js"></script> -->
     <script>
-        // var w = 4; /* x or width length */
-        // var h = 4; /* y or height length */
-        // var grid = [];
+        var w = 4; /* x or width length */
+        var h = 4; /* y or height length */
+        var grid = [];
+        // function startGrid(hlen, wlen){
+        //     for(yi = 0; yi<hlen; yi++){
+        //         let row = [];
+        //         for(xi = 0; j<wlen; xi++){
+        //             row.push("");
+        //         }
+        //         grid.push(row);
+        //     }
+        //     for(yi = 0; yi<hlen; yi++){
+        //         for(xi = 0; j<wlen; xi++){
+        //             let el = document.getElementById(`yx-${yi}-${xi}`);
+        //             el.style = ``;
+        //         }
+        //     }
+        // }
 
-        var grid_settings = {"w": 3, "h": 3}
-        // const walled_side = {0:" ",2:"╩",4:"╠",5:"╬",6:"╣",8:"╦"};
-        // var tile_types = {0:" ",2:"╩",4:"╠",5:"╬",6:"╣",8:"╦", "x":"x"};
-        var tile_types = {0:" ",2:"╩",4:"╠",5:"╬",6:"╣",8:"╦"};
-        var side_directions = {0:"○",2:"↓",4:"←",5:"•",6:"→",8:"↑"};
-        var tile_sides = [2,4,6,8];
-        var tileSides = {2:[1,0],4:[0,-1],6:[0,1],8:[-1,0]};
-        var tileOpposite = {2:8,4:6,6:4,8:2};
-        var tileSiding = {
-            0:{2:"grass", 4:"grass", 6:"grass", 8:"grass"},
-            2:{2:"grass", 4: "path", 6: "path", 8: "path"},
-            4:{2: "path", 4:"grass", 6: "path", 8: "path"},
-            5:{2: "path", 4: "path", 6: "path", 8: "path"},
-            6:{2: "path", 4: "path", 6:"grass", 8: "path"},
-            8:{2: "path", 4: "path", 6: "path", 8:"grass"},
-            "n":{2:"grass", 4:"grass", 6:"grass", 8:"grass"}
-        };
 
         function TileChoice(ev){
+            console.log('TileChoice()');
             let el = ev.target;
-            let tile_type = el.dataset.tileOptionType;
-            console.log(`TileChoice(${tile_type}) → ${tile_types[tile_type]}`);
+            let tile_data = el.dataset.tile;
+            // console.log(el);
+            // console.log(tile_data);
 
-            let tile = el.parentElement;
-            tile.dataset.tile = `w${tile_type}`;
-            tile.dataset.choice = "closed";
-            // tile.innerHTML = '';
-            
-            for (let i = tile.children.length; i > 0; i--) {
-                const element = tile.children[i-1];
-                if(element.dataset.tileOptionType != tile_type){
-                    element.remove();
-                }
-            }
-            el.classList.add('fade');
-            setTimeout(() => {
-                console.log(" → Choice made.");
-                el.remove();
-            }, "500");
         }
+        
+        let tiles = document.querySelectorAll('[data-tile]');
+        tiles.forEach(tile_element => {
+            tile_element.addEventListener('click', TileChoice);
+        });
+        // tiles.forEach(tile_element => {
+        //     tile_element.addEventListener('click', (ev) => {
+        //         let el = ev.target;
+        //         let tile_data = el.dataset.tile;
+        //         console.log(el);
+        //         console.log(tile_data);
+        //     });
+        // });
+        // tiles.forEach(inputT_update => {
+        //     inputT_update.addEventListener('input', (ev) => {
+        //         let el = ev.target;
+        //         let val = el.value;
+        //         let card = el.parentElement.parentElement;
+        //         console.log(el);
+        //         console.log(val);
 
-        function BuildGrid(w=3,h=3){
-            grid_settings["w"] = w;
-            grid_settings["h"] = h;
-            let grid = document.createElement('div');
-            grid.classList.add('list--tile-grid');
-            grid.id="GridBuild";
-            grid.style = `--tiles-per-col: ${h}; --tiles-per-row: ${w};`;
-            let displayElem = document.getElementById('display');
-
-            for (let y = 0; y < h; y++) {
-                for (let x = 0; x < w; x++) {
-                    let tile = document.createElement('div');
-                    tile.classList.add('tile');
-                    tile.dataset.yx = `${y}-${x}`;
-                    tile.dataset.tile = `wn`;
-                    tile.dataset.choice = 'closed';
-                    tile.addEventListener('click', OpenTileChoices);
-                    grid.appendChild(tile);
-                }
-            }
-            displayElem.appendChild(grid);
-        }
-        function OpenTileChoices(ev){
-            let tile = ev.target;
-            if(tile.dataset.choice == "closed") {
-                console.log(`OpenTileChoices(id:${tile.dataset.yx})`);
-                tile.dataset.choice = 'open';
-                let validSides = AskAround(tile.dataset.yx);
-                console.log(validSides);
-
-                Object.keys(validSides).forEach(k=>{
-                    if(validSides[k]){
-                        let tile_choice = document.createElement('div');
-                        tile_choice.classList.add('tile_option');
-                        tile_choice.dataset.tileOptionType = k;
-                        tile_choice.innerHTML = `${tile_types[k]}`;
-                        tile_choice.addEventListener('click', TileChoice);
-    
-                        tile.appendChild(tile_choice);
-                    }
-                });
-            }
-        }
-
-        function AskAround(id){
-            console.log(`AskAround(${id})`);
-            let tile = document.querySelectorAll(`[data-yx="${id}"]`)[0];
-            let tileType = tile.dataset.tile.at(1);
-
-            let validTiles = {0:true, 2:true, 4:true, 5:true, 6:true, 8:true};
-            
-            let yx = id.split('-');
-            Object.keys(tileSides).forEach(k => {
-                let side_yx = tileSides[k];
-                let side_y = parseInt(yx[0]) + parseInt(side_yx[0]);
-                let side_x = parseInt(yx[1]) + parseInt(side_yx[1]);
-
-                if(side_y < grid_settings["h"] && side_x < grid_settings["w"] && side_y > -1 && side_x > -1){
-                    let side_id = `${side_y}-${side_x}`;
-                    console.log(`--side [${k}:${side_directions[k]}] in map.`);
-                    console.log(`--side_id: ${side_id}`);
-                    let side = document.querySelectorAll(`[data-yx="${side_id}"]`)[0];
-                    let sideType = side.dataset.tile.at(1);
-                    if(sideType != 'n') {
-                        let k2 = tileOpposite[k];
-                        let face_between = tileSiding[sideType][k2];
-                        Object.keys(validTiles).forEach(type => {
-                            if(tileSiding[type][k] != face_between) {
-                                validTiles[type] = false;
-                            }
-                        });
-                    }
-                }
-            });
-            return validTiles;
-        }
-
-        function RedoGrid(ev){
-            let grid = document.getElementById('GridBuild');
-            grid.remove();
-            
-            let w = 3;
-            let h = 3;
-            let grid_w = parseInt(document.getElementById('input-w').value);
-            let grid_h = parseInt(document.getElementById('input-h').value);
-            if(typeof grid_w == "number" && typeof grid_h == "number") {
-                BuildGrid(grid_w,grid_h);
-            } else {
-                BuildGrid(w,h);
-            }
-        }
+        //         let clr = confirmColor(val);
+        //         if(clr != -1){
+        //             card.style = `--clr: ${clr}`;
+        //             el.value = `${clr}`;
+        //         }
+        //     });
+        // });
 
         window.addEventListener('load', (ev) => {
             console.log(`Welcome to my Lab!`);
-            
-            BuildGrid(3,3);
-            let redoBtn = document.getElementById('RedoBtn');
-            redoBtn.addEventListener('click', RedoGrid);
-
         });
     </script>
 </body>
