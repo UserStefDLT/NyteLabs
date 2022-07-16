@@ -149,13 +149,30 @@
     </style>
     <!-- <link rel="stylesheet" href="stylesheets/nybtns.css"> -->
     <link rel="stylesheet" href="stylesheets/stars2.css">
+    <style>
+        .unwelcome {
+            /* display: none; */
+            /* transition: display 2s linear 1s; */
+
+            transform: scale(0);
+            transition: transform 100ms linear 5s;
+        }
+        .subtitle:hover .unwelcome {
+            /* display: flex; */
+            /* transition: display 2s linear 1s; */
+            
+            transform: scale(1);
+            transition: transform 100ms linear 5s;
+        }
+    </style>
     <link rel="stylesheet" href="stylesheets/end.css">
 </head>
 <body>
     <header>
         <a href="#" class="backLink hidden"><div class="backBtn">No Back.</div></a>
         <div class="title">NyteLabs</div>
-        <div class="subtitle"><a class="unwelcome" href="index-02.html">un</a>Welcome</div>
+        <div class="subtitle"><a class="unwelcome" href="sitemap.html">un</a>Welcome</div>
+        <!-- <div class="subtitle"><a class="unwelcome" href="index-02.html">un</a>Welcome</div> -->
         <!-- <input type="radio" name="world-size" id="large-world" checked>
         <input type="radio" name="world-speed" id="slow-world" checked>
         <input type="radio" name="world-zoom" id="distant-world" checked>
@@ -204,7 +221,8 @@
                 <a href="lab/layout/web-layout/"><div class="nybtn--labBtn">Basic Website Layout</div></a>
                 <a href="lab/layout/glowing-chip/"><div class="nybtn--labBtn">Glowing Chip Selector</div></a>
                 <a href="lab/layout/bar-graphs/"><div class="nybtn--labBtn">Bar Graphs</div></a>
-                <a href="lab/layout/soft-layout/"><div class="nybtn--labBtn">Soft Layout Design</div></a>
+                <!-- <a href="lab/layout/soft-layout/"><div class="nybtn--labBtn">Neumorphic Design</div></a> -->
+                <a href="lab/layout/neumorphic-design/"><div class="nybtn--labBtn">Neumorphic Design</div></a>
                 <a href="lab/layout/layout-3d/"><div class="nybtn--labBtn">3D Layout</div></a>
             </div>
         </div>
@@ -233,8 +251,8 @@
             <div class="lablinks">
                 <a href="lab/designs/myst-box/"><div class="nybtn--labBtn">Cloud in a Box</div></a>
                 <a href="lab/svg/backgrounds/"><div class="nybtn--labBtn">Backgrounds</div></a>
-                <!-- <a href="lab/designs/underwater-smoke/"><div class="nybtn--underwatersmoke-animation">Underwater Smoke Animation</div></a> -->
-                <a href="lab/designs/underwater-smoke/"><div class="nybtn--underwatersmoke-animation">Turbulence Filter</div></a>
+                <!-- <a href="lab/designs/turbulence-filter/"><div class="nybtn--underwatersmoke-animation">Underwater Smoke Animation</div></a> -->
+                <a href="lab/designs/turbulence-filter/"><div class="nybtn--underwatersmoke-animation">Turbulence Filter</div></a>
                 <!-- <a href="lab/svg/cloud-experiments/"><div class="nybtn--cloud-normal">Cloud Experiments</div></a> -->
                 <a href="lab/svg/cloud-exp-02/"><div class="nybtn--cloud-hue">Cloud Animations</div></a>
                 <a href="lab/svg/cards/"><div class="labBtn">SVG Cards</div></a>
@@ -278,6 +296,7 @@
         <div class="shelf">
             <div id="All" class="shelf-title">All</div>
             <div class="lablinks">
+                <a href="lab/exp/flow-arrows/"><div class="nybtn--labBtn">Wind Simulation</div></a>
                 <a href="lab/color/color-sequence/"><div class="nybtn--labBtn">Color Sequence</div></a>
                 <a href="lab/color/color-symmetry/"><div class="nybtn--labBtn">Color Symmetry</div></a>
                 <a href="lab/building/tile-wf/"><div class="nybtn--labBtn">Tile Grid</div></a>
@@ -316,11 +335,12 @@
                 <a href="lab/building/brick-wall/bricks.html"><div class="nybtn--labBtn">Brick Pattern</div></a>
                 <a href="lab/recreate/kinetic-sculpture/kntk-short.html"><div class="nybtn--kntk">Kinetic Sculpture ++</div></a>
                 <!-- <a href="lab/svg/filter-effect/"><div class="nybtn--labBtn">SVG Erode Dilute</div></a> -->
-                <a href="lab/layout/soft-layout/"><div class="nybtn--labBtn">Soft Layout Design</div></a>
+                <!-- <a href="lab/layout/soft-layout/"><div class="nybtn--labBtn">Soft Layout Design</div></a> -->
+                <a href="lab/layout/neumorphic-design/"><div class="nybtn--labBtn">Neumorphic Design</div></a>
                 <a href="lab/stars/the-sun/"><div class="nybtn--labBtn">The Sun</div></a>
                 <a href="lab/stars/night--sky/"><div class="nybtn--labBtn">Night Stars</div></a>
                 <a href="lab/recreate/kinetic-sculpture/"><div class="nybtn--kntk">Kinetic Sculpture</div></a>
-                <a href="lab/designs/underwater-smoke/"><div class="nybtn--underwatersmoke-animation">Underwater Smoke Animation</div></a>
+                <a href="lab/designs/turbulence-filter/"><div class="nybtn--underwatersmoke-animation">Underwater Smoke Animation</div></a>
                 <a href="lab/svg/cloud-experiments/"><div class="nybtn--cloud-normal">Cloud Experiments</div></a>
                 <a href="lab/svg/cloud-exp-02/"><div class="nybtn--cloud-hue">Cloud Animations</div></a>
                 <a href="lab/cards/card-designs/"><div class="nybtn--card">Card Designs</div></a>

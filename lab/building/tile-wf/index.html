@@ -33,6 +33,8 @@
         {0:" ",2:"╩",4:"╠",5:"╬",6:"╣",8:"╦"};
         */
         :root {
+            --perspective: 900px;
+            --perspective: 1800px;
             --bwt: #0000;
             --bw0: #000;
             --bwf9: #fff9;
@@ -45,6 +47,21 @@
             --grass: #6c0;
             --path: #432;
             --ground: #765;
+            --water-l: #39c9;
+            --water: #069;
+            --pond: linear-gradient(45deg, var(--water), transparent);
+            --pond: linear-gradient(45deg, #069, transparent);
+            --waves: radial-gradient(6rem 6rem at left, #069, #39f, #069, #39f, #069, transparent);
+            --waves: radial-gradient(6rem 6rem at bottom, #069, #39f, #069, #39f, #069, transparent);
+            --waves: radial-gradient(6rem 6rem at left, #069, #39f, #069, #39f, #069, transparent), radial-gradient(6rem 6rem at bottom, #069, #39f, #069, #39f, #069, transparent);
+            --waves: 
+            radial-gradient(6rem 6rem at left, #0696, #39f9, #0696, #39f9, #0696, #39f9, #0696, transparent), 
+            radial-gradient(6rem 6rem at bottom, #0696, #39f9, #0696, #39f9, #0696, #39f9, #0696, transparent);
+            --waves: 
+            radial-gradient(6rem 6rem at left, #0696, #39f9, #0696, #39f9, #0696, transparent), 
+            radial-gradient(6rem 6rem at bottom, #0696, #39f9, #0696, #39f9, #0696, transparent), 
+            #0369;
+            /* background: linear-gradient(45deg, #069, transparent); */
 
             /* w:1/2, h:2 */
             --bsz1: 1em 2em;
@@ -58,9 +75,9 @@
                 var(--grass-3) 0deg 5deg, 
                 var(--grass-2) 10deg 15deg, 
                 var(--bwt) 15deg ) center / var(--bsz2) repeat, var(--grass-1);
+            --bgi-g2: var(--grass);
 
             /* ─── */
-
             --path-l: #765;
             --path-d: #432;
 
@@ -68,6 +85,9 @@
             --bgi-path-28d: linear-gradient(90deg, var(--path-d), var(--path-d));
             --bgi-path-46l: linear-gradient(0deg, var(--bwt), var(--path-l) 40%, var(--path-l) 60%, var(--bwt));
             --bgi-path-46d: linear-gradient(0deg, var(--path-d), var(--path-d));
+
+            --bgi-path-28l: linear-gradient(90deg, var(--bwt) -10%, var(--path-l) 15%, var(--path-l) 75%, var(--bwt));
+            --bgi-path-46l: linear-gradient(0deg, var(--bwt) -10%, var(--path-l) 15%, var(--path-l) 75%, var(--bwt));
 
             --bgi-258-l: var(--bgi-path-28l) center top / 20% 20% repeat-y;
             --bgi-258-d: var(--bgi-path-28d) center top / 20% 20% repeat-y;
@@ -151,13 +171,13 @@
 
             outline: 1px dashed #1110;
             outline-offset: 0px;
-            transition: outline 100ms ease-in-out, outline-offset 100ms ease-in-out;
+            /* transition: outline 100ms ease-in-out, outline-offset 100ms ease-in-out; */
         }
-        [class|="tile"]:hover {
+        /* [class|="tile"]:hover {
             transition: outline 100ms ease-in-out, outline-offset 100ms ease-in-out;
             outline: 1px dashed #1119;
             outline-offset: -4px;
-        }
+        } */
         [data-tile="w8"] {background: var(--bgi-8);}
         [data-tile="w6"] {background: var(--bgi-6);}
         [data-tile="w5"] {background: var(--bgi-5);}
@@ -165,6 +185,8 @@
         [data-tile="w2"] {background: var(--bgi-2);}
         [data-tile="w0"] {background: var(--bgi-g2);}
         [data-tile="wn"] {background: var(--ground);}
+        [data-tile="ww"] {background: var(--waves);}
+        [data-tile="w7"] {background: var(--waves);}
     </style>
     <style>
         :root {
@@ -178,7 +200,6 @@
             --glow-text--up: 0px 0px 2px #39f, 0px 0px 3px #39f, 0px 0px 4px #39f, 0px 0px 5px #39f;
             --glow--label--toggle-view: var(--glow-text--dn);
 
-            --perspective: 900px;
             --transform-perspective--none: perspective(var(--perspective)) rotate3d(0,0,0,0deg) rotate3d(0,0,0,0deg);
             --transform-perspective--iso: perspective(var(--perspective)) rotate3d(0,0,-1,45deg) rotate3d(1,1,0,54deg);
             --transform--grid: var(--transform-perspective--none);
@@ -209,10 +230,10 @@
             transform: var(--transform--grid);
             transition: transform 200ms ease-in-out;
         }
-        .list--tile-grid {
+        /* .list--tile-grid {
             overflow: hidden;
-        }
-        .list--tile-grid::after {
+        } */
+        /* .list--tile-grid::after {
             content: '';
             position: absolute;
             top: 0%; left: 0%;
@@ -233,7 +254,7 @@
             var(--mv-6) var(--blr-scl-shw),
             var(--mv-4) var(--blr-scl-shw),
             var(--mv-2) var(--blr-scl-shw);
-        }
+        } */
 
         .box-control--toggle-view {
             display: flex;
@@ -308,6 +329,7 @@
         [data-tile-option-type="4"] {grid-area: a4;}
         [data-tile-option-type="5"] {grid-area: a5;}
         [data-tile-option-type="6"] {grid-area: a6;}
+        [data-tile-option-type="7"] {grid-area: a7;}
         [data-tile-option-type="8"] {grid-area: a8;}
 
         .tile_option {
@@ -340,7 +362,7 @@
             position: relative;
         }
         .tile::before {
-            content: attr(data-yx);
+            /* content: attr(data-yx); */
             position: absolute;
             top: 50%; left: 50%;
             transform: translateX(-50%) translateY(-50%);
@@ -383,6 +405,375 @@
             inset 0px -6px 4px -4px #0009,
             0rem 0rem .25rem .125rem #39f;
         }
+    </style>
+    <style>
+        .list--tile-grid {
+            transform-style: preserve-3d;
+            /* overflow: hidden; */
+        }
+        .list--tile-grid::after,
+        .list--tile-grid::before {
+            content: '';
+            position: absolute;
+            top: 0%; left: 0%;
+            transform: translateX(-100%) translateY(-100%);
+            height: 100%; width: 100%;
+
+            background-color: var(--path);
+            z-index: -1;
+        }
+        .list--tile-grid::before {
+            width: 3rem;
+            transform-origin: right;
+            transform: translateX(-3rem) translateY(0%) rotateY(-90deg);
+            background-image: linear-gradient(to left, #432, #321);
+            /* background-image: linear-gradient(to right, #432, #321); */
+            background-image: linear-gradient(to left, #432, #210);
+        }
+        .list--tile-grid::after {
+            top: 100%;
+            height: 3rem;
+            transform-origin: top;
+            transform: translateX(0%) translateY(0%) rotateX(-90deg);
+            background-image: linear-gradient(to bottom, #432, #321);
+            background-image: linear-gradient(to top, #432, #321);
+            background-image: linear-gradient(to bottom, #543, #321);
+        }
+
+        .tile {transform-style: preserve-3d;}
+        .tile_option {
+            transform: translateZ(.125rem);
+            display: flex;
+            /* align-items: center; */
+            justify-content: center;
+            /* text-align: center; */
+            /* text-align: justify; */
+            /* text-align: start; */
+            /* text-align: "." center; */
+            overflow: hidden;
+
+            /* align-items: flex-end; */
+            /* line-height: 2.25rem; */
+
+            align-items: flex-start;
+            line-height: 1.75rem;
+            font-size: 2rem;
+
+
+            /* line-height: 1.5rem; */
+            /* font-size: 4rem; */
+
+            /* align-items: flex-start; */
+            /* line-height: 1rem; */
+            /* font-size: 8rem; */
+        }
+
+        .tile {
+            align-items: center;
+            justify-content: center;
+        }
+        .tile_option {
+            min-height: 1.75rem;
+            min-width: 1.75rem;
+            line-height: 1rem;
+            font-size: 8rem;
+            background-color: #fff9;
+            background-color: var(--grass);
+            color: #432c;
+            color: #432;
+            box-shadow: 
+            inset 0 0 4px 2px #000f,
+             0 0 0 .25rem #ffff;
+            box-shadow: inset 0 0 4px 2px #000f, 0 0 0.25rem 0.125rem #fff8;
+            box-shadow: inset 0 0 6px 1px #000f, 0 0 0.125rem 0.0625rem #fff8;
+            box-shadow: inset 0 0 6px 1px #020f, 0 0 0.125rem 0.0625rem #afa8;
+            box-shadow: inset 0 0 6px 1px #020f, 0 0 0.125rem 0.0625rem #8f89;
+            box-shadow: inset 0 0 6px 1px #020f, 0 0 0.125rem 0.0625rem #8f86;
+            /* box-shadow: inset 0 0 6px 1px #020f, inset 0 0 0.125rem 0.0625rem #8f86; */
+
+            transition: 
+            transform 100ms ease-in-out,
+            box-shadow 100ms ease-in-out,
+            outline 100ms ease-in-out;
+        }
+        .tile_option:hover {
+            /* transition: outline 100ms ease-in-out; */
+            /* outline: 1px dashed #1119; */
+            /* outline-offset: -4px; */
+            box-shadow: inset 0 0 6px 1px #020f, 0 0 0.125rem 0.0625rem #8f8c;
+            box-shadow: inset 0 0 6px 1px #020f, 0 0 0.125rem 0.0625rem #8f8f;
+            transform: translateZ(.25rem);
+        }
+
+        .tile:not([data-tile="wn"], [data-tile="w7"]) {
+            /* box-shadow: inset 0 0 6px 1px #020f, inset 0 0 0.125rem 0.0625rem #8f86; */
+            box-shadow: inset 0 0 2rem .125rem #020f, inset 0 0 1rem 0.125rem #9fc9;
+            /* box-shadow: inset 0 0 1rem 0.125rem #9fc9, inset 0 0 2rem .125rem #020f; */
+
+            box-shadow: inset 0 0 2rem .125rem #020f, inset 0 0 1rem 0.125rem #9fc9;
+            box-shadow: inset 0 0 2rem 0.125rem #020f, 
+            inset 1rem 1rem 1rem 0rem #0506, 
+            inset -1rem -1rem 1rem 0rem #9fc6;
+            box-shadow: inset 0 0 2rem 0.125rem #020f, 
+            inset 3rem 3rem 3rem -3rem #1536, 
+            inset -2rem -2rem 2rem -1rem #9fc6;
+            box-shadow: inset 0 0 2rem 0.125rem #020f, 
+            inset 3rem 3rem 3rem -3rem #1536, 
+            inset -2rem -2rem 3rem -2rem #9fc6;
+            box-shadow: inset 0 0 2rem 0.25rem #020f, 
+            inset 3rem 3rem 3rem -3rem #1533, 
+            inset -2rem -2rem 2rem -2rem #9fc3;
+            
+            /* box-shadow: inset 0 0 2rem -0.125rem #020f, 
+            inset 3rem 3rem 3rem -4rem #1536, 
+            inset -2rem -2rem 3rem -3rem #9fc6; */
+
+            /* box-shadow: inset 0 0 2rem -0.125rem #020f, 
+            inset 3rem 3rem 3rem -4rem #1536, 
+            inset -2rem -2rem 3rem -3rem #9fc6; */
+        }
+
+        [class|="tile"] {
+            transition: 
+            box-shadow 100ms ease-in-out, 
+            outline 100ms ease-in-out, 
+            outline-offset 100ms ease-in-out;
+        }
+        [class|="tile"]:not([data-tile="wn"], [data-tile="w7"]):hover {
+            box-shadow: inset 0 0 2rem -0.125rem #020f, 
+            inset 3rem 3rem 3rem -4rem #1536, 
+            inset -2rem -2rem 3rem -3rem #9fc6;
+
+            /* box-shadow: inset 0 0 2rem 0.125rem #020f, 
+            inset 3rem 3rem 3rem -3rem #1536, 
+            inset -2rem -2rem 3rem -2rem #9fc6; */
+        }
+        .tile[data-tile="wn"] {
+            outline: 1px dashed #1110;
+            outline-offset: 0px;
+            box-shadow: inset 0 0 2rem 0.125rem #321f, 
+            inset 3rem 3rem 3rem -3rem #5436, 
+            inset -2rem -2rem 3rem -2rem #a866;
+        }
+        .tile[data-tile="wn"]:hover {
+            outline: 1px dashed #1119;
+            outline-offset: -4px;
+            box-shadow: inset 0 0 2rem -0.125rem #321f, 
+            inset 3rem 3rem 3rem -4rem #5436, 
+            inset -2rem -2rem 3rem -3rem #a866;
+        }
+
+
+        .tile:not([data-tile="wx"])::after,
+        .tile:not([data-tile="wx"])::before {
+            content: '';
+            position: absolute;
+            top: 0%; left: 0%;
+            transform: translateX(-100%) translateY(-100%);
+            height: 100%; width: 100%;
+            /* background-color: var(--grass); */
+            z-index: -1;
+
+            transition: 
+            box-shadow 100ms ease-in-out, 
+            outline 100ms ease-in-out, 
+            outline-offset 100ms ease-in-out;
+
+            /* --grass-1: #9f3;
+            --grass-2: #6c0;
+            --grass-3: #360; */
+        }
+        .tile:not([data-tile="wx"])::before {
+            width: 1.5rem;
+            width: 3rem;
+            transform-origin: right;
+            transform: translateX(-100%) translateY(0%) rotateY(-90deg);
+            background-image: linear-gradient(to left, #432, #321);
+            /* background-image: linear-gradient(to right, #432, #321); */
+            background-image: linear-gradient(to left, #432, #210);
+            background-image: linear-gradient(to left, #360, #3600);
+            background-image: linear-gradient(to left, #360, #240, #2400);
+            background-image: linear-gradient(to left, #360, #240, #432, #210);
+            /* background-image: linear-gradient(to left, #432, #210); */
+        }
+        .tile:not([data-tile="wx"])::after {
+            top: 100%;
+            height: 1.5rem;
+            height: 3rem;
+            transform-origin: top;
+            transform: translateX(0%) translateY(0%) rotateX(-90deg);
+            background-image: linear-gradient(to bottom, #432, #321);
+            background-image: linear-gradient(to top, #432, #321);
+            background-image: linear-gradient(to bottom, #543, #321);
+            background-image: linear-gradient(to bottom, #693, #6c00);
+            /* background-image: linear-gradient(to bottom, #693, #6930); */
+            background-image: linear-gradient(to bottom, #582, #582, #5820);
+            background-image: linear-gradient(to bottom, #471, #360, #3600);
+            background-image: linear-gradient(to bottom, #471, #360, #543, #321);
+            /* background-image: linear-gradient(to bottom, #543, #321); */
+        }
+        /* .tile:not([data-tile="wn"])::before,
+        .tile:not([data-tile="wn"])::after {
+            
+        } */
+        .tile:not([data-tile="wn"])::before {
+            box-shadow:
+            inset -1rem 0rem 1rem -1rem #471, 
+            inset 1rem 0rem 1rem -1rem #321,
+            inset 0 0 2rem 0.125rem #000f,
+            inset 0 0 0rem 0rem #fff0;
+        }
+        .tile:not([data-tile="wn"])::after {
+            box-shadow:
+            inset 0rem 1rem 1rem -1rem #471, 
+            inset 0rem -1rem 1rem -1rem #321,
+            inset 0 0 2rem 0.125rem #000f,
+            inset 0 0 0rem 0rem #fff0;
+        }
+        .tile:not([data-tile="wn"]):hover::before {
+            box-shadow:
+            inset -1rem 0rem 1rem -1rem #471, 
+            inset 1rem 0rem 1rem -1rem #321,
+            inset 0 0 2rem -0.125rem #000f,
+            inset 0 0 2rem 0.25rem #fff1;
+        }
+        .tile:not([data-tile="wn"]):hover::after {
+            box-shadow:
+            inset 0rem 1rem 1rem -1rem #471, 
+            inset 0rem -1rem 1rem -1rem #321,
+            inset 0 0 2rem -0.125rem #000f,
+            inset 0 0 2rem 0.25rem #fff1;
+        }
+
+        .tile[data-tile="wn"]::before {
+            background-image: linear-gradient(to left, #069, #024, #135, #012f);
+            background-image: linear-gradient(to left, #432, #210);
+        }
+        .tile[data-tile="wn"]::after {
+            background-image: linear-gradient(to bottom, #06c, #069, #024, #135);
+            background-image: linear-gradient(to bottom, #543, #321);
+        }
+
+        /* [data-tile="w7"], [data-tile="ww"] {} */
+
+        [class|="tile"][data-tile="w7"],
+        [class|="tile"][data-tile="ww"],
+        .tile[data-tile="w7"] {
+            box-shadow: inset 0 0 2rem 0.25rem #012f, 
+            inset 3rem 3rem 3rem -3rem #0243, 
+            inset -2rem -2rem 2rem -2rem #0693;
+        }
+        [class|="tile"][data-tile="w7"]:hover,
+        [class|="tile"][data-tile="ww"]:hover,
+        .tile[data-tile="w7"]:hover {
+            box-shadow: inset 0 0 2rem -0.125rem #012f, 
+            inset 3rem 3rem 3rem -4rem #0246, 
+            inset -2rem -2rem 3rem -3rem #0696;
+        }
+        
+        /* .tile[data-tile="w7"]::before,
+        .tile[data-tile="ww"]::before {
+            background-image: linear-gradient(to left, #069, #024, #135, #012f);
+        }
+        .tile[data-tile="w7"]::after,
+        .tile[data-tile="ww"]::after {
+            background-image: linear-gradient(to bottom, #06c, #069, #024, #135);
+        } */
+        .tile[data-tile="w7"]::before { --gradient-direction: left; --glow-shw-dir-1: -1rem 0rem; --glow-shw-dir-2: 1rem 0rem;}
+        .tile[data-tile="w7"]::after { --gradient-direction: bottom; --glow-shw-dir-1: 0rem -1rem; --glow-shw-dir-2: 0rem 1rem;}
+        .tile[data-tile="w7"]::before,
+        .tile[data-tile="w7"]::after {
+            background-image: linear-gradient(to bottom, #06c, #069, #024, #135);
+            background-image: linear-gradient(to left, #069, #024, #135, #012f);
+            background-image: linear-gradient(to var(--gradient-direction), #069, #024, #135, #012f);
+            background-image: linear-gradient(to var(--gradient-direction), #0696, #0249, #135c, #012f);
+            
+        }
+        .tile[data-tile="w7"]::before,
+        .tile[data-tile="w7"]::after {
+            box-shadow:
+            inset -1rem 0rem 1rem -1rem #0699, 
+            inset 1rem 0rem 1rem -1rem #123,
+            inset 0 0 2rem 0.125rem #000a,
+            inset 0 0 0rem 0rem #fff0;
+            box-shadow:
+            inset var(--glow-shw-dir-1)1rem -1rem #0366, 
+            inset var(--glow-shw-dir-2) 1rem -1rem #123,
+            inset 0 0 2rem 0.125rem #000a,
+            inset 0 0 0rem 0rem #fff0;
+        }
+        .tile[data-tile="w7"]:hover::before,
+        .tile[data-tile="w7"]:hover::after {
+            box-shadow:
+            inset -1rem 0rem 1rem -1rem #0699, 
+            inset 1rem 0rem 1rem -1rem #123,
+            inset 0 0 2rem -0.125rem #000a,
+            inset 0 0 2rem 0.25rem #fff1;
+            box-shadow:
+            inset var(--glow-shw-dir-1) 1rem -1rem #0366, 
+            inset var(--glow-shw-dir-2) 1rem -1rem #123,
+            inset 0 0 2rem -0.125rem #000a,
+            inset 0 0 2rem 0.25rem #fff1;
+        }
+
+        /* [data-tile="w7"] {
+            --waves: 
+            radial-gradient(6rem 6rem at left, #0696, #39f9, #0696, #39f9, #0696, transparent), 
+            radial-gradient(6rem 6rem at bottom, #0696, #39f9, #0696, #39f9, #0696, transparent), 
+            #0369;
+            --waves: 
+            radial-gradient(6rem 6rem at left, #0693, #39f6, #0693, #39f6, #0693, transparent), 
+            radial-gradient(6rem 6rem at bottom, #0693, #39f6, #0693, #39f6, #0693, transparent), 
+            #0363;
+        } */
+        /* [data-tile="w7"] {background: var(--waves);} */
+
+        [data-tile="w7"] {
+            background: 
+            radial-gradient(6rem 6rem at left, #0693, #39f6, #0693, #39f6, #0693, transparent), 
+            radial-gradient(6rem 6rem at bottom, #0693, #39f6, #0693, #39f6, #0693, transparent), 
+            #0363;
+            background: 
+            radial-gradient(6rem 6rem at left, #0692, #39f4, #0692, #39f4, #0692, transparent), 
+            radial-gradient(6rem 6rem at bottom, #0692, #39f4, #0692, #39f4, #0692, transparent), 
+            #0362;
+            background: 
+            repeating-radial-gradient(6rem 6rem at left, #0692 1rem, #39f4 2rem, #0692 3rem, #39f4 4rem, #0692 5rem, transparent 5rem), 
+            repeating-radial-gradient(6rem 6rem at bottom, #0692 1rem, #39f4 2rem, #0692 3rem, #39f4 4rem, #0692 5rem, transparent 5rem), 
+            #0362;
+            background-size: 100% 100%, 100% 100%, 100% 100%;
+            background-position: center center, center center, center center;
+            background-size: 150% 150%, 150% 150%, 100% 100%;
+            background-size: 200% 200%, 200% 200%, 100% 100%;
+            background-size: 300% 300%, 200% 200%, 100% 100%;
+            background-position: center center, center center, center center;
+            background-position: -6rem -4rem, -4rem 0rem, center center;
+            /* animation: undulating 2000ms linear infinite alternate-reverse; */
+            /* animation: undulating 4000ms linear infinite; */
+            /* animation: undulating 6000ms linear infinite; */
+        }
+        /* @keyframes oscilating {} */
+        @keyframes undulating {
+            0% {
+                /* background-size: 150% 100%, 100% 100%, 100% 100%; */
+                background-position: -6rem -0rem, -4rem 0rem, center center;
+                background-position: -12rem -3rem, -2rem 0rem, center center;
+            }
+            50% {background-position: -9rem -3.5rem, -2.5rem -2rem, center center;}
+            100% {background-position: -6rem -4rem, -3rem -4rem, center center;}
+        }
+
+
+        .tile_option[data-tile-option-type="7"] {
+            background-color: var(--water);
+            color: var(--water-l);
+            box-shadow: inset 0 0 6px 1px #012f, 0 0 0.125rem 0.0625rem #48c6;
+        }
+        .tile_option[data-tile-option-type="7"]:hover {
+            box-shadow: inset 0 0 6px 1px #012f, 0 0 0.125rem 0.0625rem #48cf;
+        }
+
+        
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
@@ -467,9 +858,11 @@
         // var grid = [];
 
         var grid_settings = {"w": 3, "h": 3}
+        // var tile_types = {0:" ",2:"┴",4:"├",5:"┼",6:"┤", 7:"⦚, ⧚",8:"┬"};
         // const walled_side = {0:" ",2:"╩",4:"╠",5:"╬",6:"╣",8:"╦"};
         // var tile_types = {0:" ",2:"╩",4:"╠",5:"╬",6:"╣",8:"╦", "x":"x"};
-        var tile_types = {0:" ",2:"╩",4:"╠",5:"╬",6:"╣",8:"╦"};
+        // var tile_types = {0:" ",2:"╩",4:"╠",5:"╬",6:"╣",8:"╦"};
+        var tile_types = {0:" ",2:"┴",4:"├",5:"┼",6:"┤", 7:"⧚",8:"┬"};
         var side_directions = {0:"○",2:"↓",4:"←",5:"•",6:"→",8:"↑"};
         var tile_sides = [2,4,6,8];
         var tileSides = {2:[1,0],4:[0,-1],6:[0,1],8:[-1,0]};
@@ -480,6 +873,7 @@
             4:{2: "path", 4:"grass", 6: "path", 8: "path"},
             5:{2: "path", 4: "path", 6: "path", 8: "path"},
             6:{2: "path", 4: "path", 6:"grass", 8: "path"},
+            7:{2:"grass", 4:"grass", 6:"grass", 8:"grass"},
             8:{2: "path", 4: "path", 6: "path", 8:"grass"},
             "n":{2:"grass", 4:"grass", 6:"grass", 8:"grass"}
         };
@@ -537,17 +931,21 @@
                 let validSides = AskAround(tile.dataset.yx);
                 console.log(validSides);
 
-                Object.keys(validSides).forEach(k=>{
-                    if(validSides[k]){
-                        let tile_choice = document.createElement('div');
-                        tile_choice.classList.add('tile_option');
-                        tile_choice.dataset.tileOptionType = k;
-                        tile_choice.innerHTML = `${tile_types[k]}`;
-                        tile_choice.addEventListener('click', TileChoice);
-    
-                        tile.appendChild(tile_choice);
-                    }
-                });
+                if(Object.keys(validSides).length > 0){
+                    Object.keys(validSides).forEach(k=>{
+                        if(validSides[k]){
+                            let tile_choice = document.createElement('div');
+                            tile_choice.classList.add('tile_option');
+                            tile_choice.dataset.tileOptionType = k;
+                            tile_choice.innerHTML = `${tile_types[k]}`;
+                            tile_choice.addEventListener('click', TileChoice);
+        
+                            tile.appendChild(tile_choice);
+                        }
+                    });
+                } else {
+                    tile.dataset.choice = 'closed';
+                }
             }
         }
 
@@ -556,7 +954,7 @@
             let tile = document.querySelectorAll(`[data-yx="${id}"]`)[0];
             let tileType = tile.dataset.tile.at(1);
 
-            let validTiles = {0:true, 2:true, 4:true, 5:true, 6:true, 8:true};
+            let validTiles = {0:true, 2:true, 4:true, 5:true, 6:true, 7:true, 8:true};
             
             let yx = id.split('-');
             Object.keys(tileSides).forEach(k => {

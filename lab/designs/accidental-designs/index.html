@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Template | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        .list {
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+            justify-content: space-around;
+            transform-style: preserve-3d;
+            width: 80vw;
+            min-height: 50px;
+            outline: 1px dashed #fff9;
+        }
+    </style>
+    <style>
+        .metal {
+            --p: 300px;
+            --deg: 45deg;
+            --hue: calc(var(--i) * 60);
+            /* background-color: hsla(calc(var(--i) * 60), 100%, 60%, 1); */
+
+            background-image: linear-gradient(to bottom right,
+            hsla(var(--hue), 100%, 60%, 1),
+            hsla(var(--hue), 100%, 40%, 1),
+            hsla(calc(var(--i) * 60 - 20), 100%, 15%, 1));
+
+            /* background-image: linear-gradient(to bottom right,
+            hsla(calc(var(--i) * 60), 100%, 60%, 1),
+            hsla(calc(var(--i) * 60 - 20), 100%, 30%, 1),
+            hsla(calc(var(--i) * 60), 100%, 40%, 1)
+            ); */
+
+            border: 8px solid #fff0;
+            border: 0;
+            border-left: 8px solid #fff0;
+            border-right: 8px solid #fff0;
+            /*
+            border-bottom: 2px dashed #f00;
+            border-top: 4px ridge #f39;
+            */
+
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+
+            min-height: 2rem;
+            min-width: .125rem;
+
+            height: 5rem;
+            width: 2rem;
+            color: #000;
+        }
+        .metal-2 {
+            --hue: calc(var(--i) * 60);
+            /* --hue-2: calc(var(--i) * 60 - 20); */
+
+            background-image: linear-gradient(to bottom right,
+                hsla(var(--hue), 100%, 60%, 1),
+                hsla(calc(var(--hue) - 20), 100%, 30%, 1),
+                hsla(var(--hue), 100%, 40%, 1)
+            );
+
+            border: 0;
+            border-left: 8px solid #fff0;
+            border-right: 8px solid #fff0;
+
+            height: 5rem; width: 2rem;
+            color: #000;
+        }
+
+        .candle {
+            position: relative;
+            background-color: #fff;
+            height: 2rem; width: .5rem;
+            --clr: hsla(calc(var(--i) * 60), 100%, 40%, 1);
+            --clr: hsla(30, 100%, 60%, 1);
+        }
+        .candle::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%;
+            height: 0rem; width: 0rem;
+            transform: translateX(-50%) translateY(-100%);
+
+            --h2: .75rem; --w2: .25rem;
+            border: var(--w2) solid #fff0;
+            border-bottom: var(--h2) solid var(--clr);
+            border-top: 0;
+            border-radius: 50%;
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <div class="title">Accidental Designs</div>
+        <!-- <div class="subtitle">Not intentend, but it looks good enught to keep.</div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">Candle</div>
+        <div class="candle"></div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Metal Block</div>
+        <div class="metal"></div>
+        <div class="metal"></div>
+        <div class="metal"></div>
+        <div class="metal"></div>
+        <div class="metal"></div>
+        <div class="metal"></div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Metal Block 2</div>
+        <div class="metal-2"></div>
+        <div class="metal-2"></div>
+        <div class="metal-2"></div>
+        <div class="metal-2"></div>
+        <div class="metal-2"></div>
+        <div class="metal-2"></div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>
+

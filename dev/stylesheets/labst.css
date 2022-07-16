@@ -1,0 +1,131 @@
+:root {
+    --hue-1: 30;
+    --hue-2: 90;
+    --hue-3: 150;
+    --hue-4: 210;
+    --hue-5: 270;
+    --hue-6: 330;
+
+    --clr-1: #f93; --clr-1-mid: #963; --clr-1-dark: #630; --bgs-1: #9633;
+    --clr-2: #9f3; --clr-2-mid: #693; --clr-2-dark: #360; --bgs-2: #6933;
+    --clr-3: #3f9; --clr-3-mid: #396; --clr-3-dark: #063; --bgs-3: #3963;
+    --clr-4: #39f; --clr-4-mid: #369; --clr-4-dark: #036; --bgs-4: #3693;
+    --clr-5: #93f; --clr-5-mid: #639; --clr-5-dark: #306; --bgs-5: #6393;
+    --clr-6: #f39; --clr-6-mid: #936; --clr-6-dark: #603; --bgs-6: #9363;
+    --bgi-lg-1: linear-gradient(135deg, #f93, #630);
+    --bgi-lg-2: linear-gradient(135deg, #9f3, #360);
+    --bgi-lg-3: linear-gradient(135deg, #3f9, #063);
+    --bgi-lg-4: linear-gradient(135deg, #39f, #036);
+    --bgi-lg-5: linear-gradient(135deg, #93f, #306);
+    --bgi-lg-6: linear-gradient(135deg, #f39, #603);
+
+    --bgs-1-lowest: #9631;
+    --bgs-2-lowest: #6931;
+    --bgs-3-lowest: #3961;
+    --bgs-4-lowest: #3691;
+    --bgs-5-lowest: #6391;
+    --bgs-6-lowest: #9361;
+    
+    --clr-6-high: #f6c; --clr-6-high: hsl(320, 100%, 70%);
+    --clr-6: #f39;      --clr-6: hsl(330, 100%, 60%);
+    --clr-6-high: #c06; --clr-6-high: hsl(330, 100%, 40%);
+    --clr-6-mid: #936;  --clr-6-mid: hsl(330, 50%, 40%); 
+    --clr-6-dark: #603; --clr-6-dark: hsl(330, 100%, 20%);
+    --clr-6-dark: #513; --clr-6-dark: hsl(330, 67%, 20%);
+    --bgs-6-shw: #9363; --bgs-6-shw: hsla(330, 50%, 40%, 0.2);
+
+}
+
+header > .backLink ~ .title { padding-left: 0; }
+a.backLink {
+    margin-right: 0rem;
+    transition: 
+    margin 200ms ease-in-out,
+    color 200ms ease-in-out;
+}
+a.backLink:focus,
+a.backLink:hover { text-decoration: none; color: #fff; margin-right: .75rem; }
+.backBtn {
+    height: 3rem; width: 3rem;
+    /* background-color: #39f; */
+    position: relative;
+    top: 0; left: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    border-radius: .25rem;
+    font-size: 12px;
+
+    cursor: pointer;
+    color: #fff0;
+    box-shadow: 0rem 0rem 0rem 0rem #0000;
+    transition: 
+    padding 200ms ease-in-out,
+    color 200ms ease-in-out,
+    box-shadow 300ms ease-in-out,
+    transform 300ms ease-in-out;
+    z-index: 15;
+}
+a.backLink:focus .backBtn,
+.backBtn:hover {
+    color: #fff;
+    padding-right: .5rem;
+    box-shadow: 0rem 0rem .5rem .125rem #fff8;
+}
+.backBtn::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    height: 1rem; width: 1rem;
+    box-shadow: -.125rem -.125rem 0rem 0rem #fff8;
+    transform: translateX(0%) translateY(-50%) rotate(-45deg);
+    transition: 
+    box-shadow 300ms ease-in-out,
+    transform 300ms ease-in-out;
+}
+a.backLink:focus .backBtn::before,
+.backBtn:hover::before {
+    box-shadow: -.125rem -.125rem 0rem 0rem #ffff;
+    transform: translateX(-1.4rem) translateY(-50%) rotate(-45deg) scale(.6);
+}
+
+
+
+/* Keyboard Key Design */
+.kbd,
+kbd {
+    background: linear-gradient(180deg,#f4f4f4,#d5d5d5);
+    background: linear-gradient(180deg,#eee,#ddd);
+    background-color: #f4f4f4;
+    border: 1px solid #d5d5d5;
+    border: 0px solid #d5d5d5;
+    border-bottom: 2px solid #aaa;
+    border-radius: 6px;
+    border-radius: 4px;
+    /* box-shadow: 0 1px 2px 1px #d5d5d5; */
+    font-family: consolas,"Liberation Mono",courier,monospace;
+    font-size: .9rem;
+    font-weight: 700;
+    line-height: 1;
+    margin: 3px;
+    margin: .25rem;
+    /* margin: .375rem; */
+    padding: 4px 6px;
+    white-space: nowrap;
+    color: #111;
+    min-height: 1rem;
+    user-select: none;
+}
+.kbd-disable {
+    background: linear-gradient(180deg,#bbb,#999);
+    background: linear-gradient(180deg,#999,#777);
+    color: #444;
+    background: linear-gradient(180deg,#777,#555);
+    color: #333;
+    border: 1px solid transparent;
+    border: 0px solid transparent;
+    border-bottom: 2px solid transparent;
+    border-bottom: 2px solid #444;
+}

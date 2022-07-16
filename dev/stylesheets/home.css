@@ -1,0 +1,143 @@
+
+
+
+
+
+/* ────────── ────────── */
+
+header {backdrop-filter: contrast(1.7);}
+.bg-stars {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    height: 100vh; width: 100vw;
+    background-image: 
+        radial-gradient(farthest-corner at 100% 100%, #456, #7890),
+        radial-gradient(farthest-corner at 100% 100%, #123, #123);
+    z-index: -1;
+    background-attachment: fixed;
+    overflow: hidden;
+}
+
+.shelf {
+    flex-direction: column;
+    backdrop-filter: contrast(1.7);
+    background-color: #1234;
+    margin-top: 2.5rem;
+}
+
+.lablinks {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.labBtn,
+[class|="nybtn"] {
+    position: relative;
+    
+    font-size: 1.25rem;
+    min-height: 3rem; min-width: 8rem;
+
+    margin: 1rem; 
+    margin: .5rem;
+    padding: 1rem;
+    border-radius: .5rem;
+
+    box-shadow: inset 0 0 0 .125rem #fff;
+    text-shadow: 1px 1px 1px #1119;
+
+    /* outline: 1px dashed #8888;
+    outline-offset: 2px; */
+    outline: 2px ridge #fff0;
+    outline-offset: 2px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    cursor: pointer;
+    user-select: none;
+
+    transform-style: preserve-3d;
+    
+    transition:
+    transform 200ms ease-in-out,
+    opacity 200ms ease-in-out,
+    border-radius 200ms ease-in-out,
+    outline 200ms ease-in-out,
+    background-color 200ms ease-in-out;
+}
+
+.labBtn:hover,
+[class|="nybtn"]:hover {
+    background-color: #1239;
+    background-color: #1230;
+    /* outline: 0px dashed #8880;
+    outline-offset: 0px; */
+    /* outline: 2px dotted #ffff; */
+    outline: 2px ridge #ffff;
+    outline-offset: 2px;
+    border-radius: .25rem;
+    /* backdrop-filter: brightness(2) contrast(1.7);
+    backdrop-filter: brightness(2); */
+    backdrop-filter: brightness(3) contrast(4);
+}
+
+/* [class|="nybtn"]::before,
+[class|="nybtn"]::after {
+    position: absolute;
+    content: ''; top: 50%; left: 50%;
+    border-radius: .25rem;
+    transform-style: preserve-3d;
+    width: max-content;
+    transform: translateX(-50%) translateY(-50%);
+    transition:
+        transform 400ms ease-in-out,
+        opacity 400ms ease-in-out;
+    z-index: -1;
+} */
+
+/* .shelf:hover {
+    backdrop-filter: brightness(2) contrast(1.7);
+    backdrop-filter: contrast(1.7);
+} */
+
+.nybtn--dotsphere:hover {
+    outline-style: dotted;
+}
+
+
+/* ────────── ────────── */
+
+.unwelcome{
+    opacity: 0;
+    transition: opacity 500ms ease-in-out;
+}
+.unwelcome:hover{
+    opacity: .5;
+    transition: opacity 500ms ease-in-out 200ms;
+}
+
+/* ────────── ────────── */
+
+.ux-jumps {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    margin: 0.5rem auto 1rem;
+}
+.ux-jumps ul {
+    text-align: left;
+    margin: 0;
+}
+.ux-jumps ul li {
+    margin: .125rem 0;
+}
+.ux-jumps a:link, a:link.ux-jump {
+    text-decoration: underline;
+    font-weight: bold;
+    margin: .125rem;
+}

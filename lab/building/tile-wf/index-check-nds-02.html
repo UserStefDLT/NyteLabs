@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
     <title>Tiles | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
@@ -24,9 +24,6 @@
         {0:" ",2:"╩",4:"╠",5:"╬",6:"╣",8:"╦"};
         */
         :root {
-            --perspective: 900px;
-            --perspective: 1800px;
-
             --bwt: #0000;
             --bw0: #000;
             --bwf9: #fff9;
@@ -154,9 +151,9 @@
             transition: outline 100ms ease-in-out, outline-offset 100ms ease-in-out;
         }
         [class|="tile"]:hover {
-            /* transition: outline 100ms ease-in-out, outline-offset 100ms ease-in-out; */
-            /* outline: 1px dashed #1119; */
-            /* outline-offset: -4px; */
+            transition: outline 100ms ease-in-out, outline-offset 100ms ease-in-out;
+            outline: 1px dashed #1119;
+            outline-offset: -4px;
         }
         [data-tile="w8"] {background: var(--bgi-8);}
         [data-tile="w6"] {background: var(--bgi-6);}
@@ -178,6 +175,7 @@
             --glow-text--up: 0px 0px 2px #39f, 0px 0px 3px #39f, 0px 0px 4px #39f, 0px 0px 5px #39f;
             --glow--label--toggle-view: var(--glow-text--dn);
 
+            --perspective: 900px;
             --transform-perspective--none: perspective(var(--perspective)) rotate3d(0,0,0,0deg) rotate3d(0,0,0,0deg);
             --transform-perspective--iso: perspective(var(--perspective)) rotate3d(0,0,-1,45deg) rotate3d(1,1,0,54deg);
             --transform--grid: var(--transform-perspective--none);
@@ -208,7 +206,7 @@
             transform: var(--transform--grid);
             transition: transform 200ms ease-in-out;
         }
-        /* .list--tile-grid {
+        .list--tile-grid {
             overflow: hidden;
         }
         .list--tile-grid::after {
@@ -232,7 +230,7 @@
             var(--mv-6) var(--blr-scl-shw),
             var(--mv-4) var(--blr-scl-shw),
             var(--mv-2) var(--blr-scl-shw);
-        } */
+        }
 
         .box-control--toggle-view {
             display: flex;
@@ -389,250 +387,6 @@
             0rem 0rem .25rem .125rem #39f;
         }
     </style>
-
-    <style>
-        .list--tile-grid {
-            transform-style: preserve-3d;
-            /* overflow: hidden; */
-        }
-        .list--tile-grid::after,
-        .list--tile-grid::before {
-            content: '';
-            position: absolute;
-            top: 0%; left: 0%;
-            transform: translateX(-100%) translateY(-100%);
-            height: 100%; width: 100%;
-            /* width: 3rem;
-            transform-origin: right;
-            transform: translateX(-3rem) translateY(0%) rotateY(-90deg); */
-
-            background-color: var(--path);
-            z-index: -1;
-        }
-        .list--tile-grid::before {
-            width: 3rem;
-            transform-origin: right;
-            transform: translateX(-3rem) translateY(0%) rotateY(-90deg);
-            background-image: linear-gradient(to left, #432, #321);
-            /* background-image: linear-gradient(to right, #432, #321); */
-            background-image: linear-gradient(to left, #432, #210);
-        }
-        .list--tile-grid::after {
-            top: 100%;
-            height: 3rem;
-            transform-origin: top;
-            transform: translateX(0%) translateY(0%) rotateX(-90deg);
-            background-image: linear-gradient(to bottom, #432, #321);
-            background-image: linear-gradient(to top, #432, #321);
-            background-image: linear-gradient(to bottom, #543, #321);
-        }
-
-        .tile {transform-style: preserve-3d;}
-        .tile_option {
-            transform: translateZ(.125rem);
-            display: flex;
-            /* align-items: center; */
-            justify-content: center;
-            /* text-align: center; */
-            /* text-align: justify; */
-            /* text-align: start; */
-            /* text-align: "." center; */
-            overflow: hidden;
-
-            /* align-items: flex-end; */
-            /* line-height: 2.25rem; */
-
-            align-items: flex-start;
-            line-height: 1.75rem;
-            font-size: 2rem;
-
-
-            /* line-height: 1.5rem; */
-            /* font-size: 4rem; */
-
-            /* align-items: flex-start; */
-            /* line-height: 1rem; */
-            /* font-size: 8rem; */
-        }
-
-        .tile {
-            align-items: center;
-            justify-content: center;
-        }
-        .tile_option {
-            min-height: 1.75rem;
-            min-width: 1.75rem;
-            line-height: 1rem;
-            font-size: 8rem;
-            background-color: #fff9;
-            background-color: var(--grass);
-            color: #432c;
-            color: #432;
-            box-shadow: 
-            inset 0 0 4px 2px #000f,
-             0 0 0 .25rem #ffff;
-            box-shadow: inset 0 0 4px 2px #000f, 0 0 0.25rem 0.125rem #fff8;
-            box-shadow: inset 0 0 6px 1px #000f, 0 0 0.125rem 0.0625rem #fff8;
-            box-shadow: inset 0 0 6px 1px #020f, 0 0 0.125rem 0.0625rem #afa8;
-            box-shadow: inset 0 0 6px 1px #020f, 0 0 0.125rem 0.0625rem #8f89;
-            box-shadow: inset 0 0 6px 1px #020f, 0 0 0.125rem 0.0625rem #8f86;
-            /* box-shadow: inset 0 0 6px 1px #020f, inset 0 0 0.125rem 0.0625rem #8f86; */
-
-            transition: 
-            transform 100ms ease-in-out,
-            box-shadow 100ms ease-in-out,
-            outline 100ms ease-in-out;
-        }
-        .tile_option:hover {
-            /* transition: outline 100ms ease-in-out; */
-            /* outline: 1px dashed #1119; */
-            /* outline-offset: -4px; */
-            box-shadow: inset 0 0 6px 1px #020f, 0 0 0.125rem 0.0625rem #8f8c;
-            box-shadow: inset 0 0 6px 1px #020f, 0 0 0.125rem 0.0625rem #8f8f;
-            transform: translateZ(.25rem);
-        }
-
-        .tile:not([data-tile="wn"]) {
-            /* box-shadow: inset 0 0 6px 1px #020f, inset 0 0 0.125rem 0.0625rem #8f86; */
-            box-shadow: inset 0 0 2rem .125rem #020f, inset 0 0 1rem 0.125rem #9fc9;
-            /* box-shadow: inset 0 0 1rem 0.125rem #9fc9, inset 0 0 2rem .125rem #020f; */
-
-            box-shadow: inset 0 0 2rem .125rem #020f, inset 0 0 1rem 0.125rem #9fc9;
-            box-shadow: inset 0 0 2rem 0.125rem #020f, 
-            inset 1rem 1rem 1rem 0rem #0506, 
-            inset -1rem -1rem 1rem 0rem #9fc6;
-            box-shadow: inset 0 0 2rem 0.125rem #020f, 
-            inset 3rem 3rem 3rem -3rem #1536, 
-            inset -2rem -2rem 2rem -1rem #9fc6;
-            box-shadow: inset 0 0 2rem 0.125rem #020f, 
-            inset 3rem 3rem 3rem -3rem #1536, 
-            inset -2rem -2rem 3rem -2rem #9fc6;
-            box-shadow: inset 0 0 2rem 0.25rem #020f, 
-            inset 3rem 3rem 3rem -3rem #1533, 
-            inset -2rem -2rem 2rem -2rem #9fc3;
-            
-            /* box-shadow: inset 0 0 2rem -0.125rem #020f, 
-            inset 3rem 3rem 3rem -4rem #1536, 
-            inset -2rem -2rem 3rem -3rem #9fc6; */
-
-            /* box-shadow: inset 0 0 2rem -0.125rem #020f, 
-            inset 3rem 3rem 3rem -4rem #1536, 
-            inset -2rem -2rem 3rem -3rem #9fc6; */
-        }
-
-        [class|="tile"] {
-            transition: 
-            box-shadow 100ms ease-in-out, 
-            outline 100ms ease-in-out, 
-            outline-offset 100ms ease-in-out;
-        }
-        [class|="tile"]:not([data-tile="wn"]):hover {
-            box-shadow: inset 0 0 2rem -0.125rem #020f, 
-            inset 3rem 3rem 3rem -4rem #1536, 
-            inset -2rem -2rem 3rem -3rem #9fc6;
-
-            /* box-shadow: inset 0 0 2rem 0.125rem #020f, 
-            inset 3rem 3rem 3rem -3rem #1536, 
-            inset -2rem -2rem 3rem -2rem #9fc6; */
-        }
-        .tile[data-tile="wn"] {
-            outline: 1px dashed #1110;
-            outline-offset: 0px;
-            box-shadow: inset 0 0 2rem 0.125rem #321f, 
-            inset 3rem 3rem 3rem -3rem #5436, 
-            inset -2rem -2rem 3rem -2rem #a866;
-        }
-        .tile[data-tile="wn"]:hover {
-            outline: 1px dashed #1119;
-            outline-offset: -4px;
-            box-shadow: inset 0 0 2rem -0.125rem #321f, 
-            inset 3rem 3rem 3rem -4rem #5436, 
-            inset -2rem -2rem 3rem -3rem #a866;
-        }
-
-
-        .tile:not([data-tile="wn"])::after,
-        .tile:not([data-tile="wn"])::before {
-            content: '';
-            position: absolute;
-            top: 0%; left: 0%;
-            transform: translateX(-100%) translateY(-100%);
-            height: 100%; width: 100%;
-            /* background-color: var(--grass); */
-            z-index: -1;
-
-            transition: 
-            box-shadow 100ms ease-in-out, 
-            outline 100ms ease-in-out, 
-            outline-offset 100ms ease-in-out;
-
-            /* --grass-1: #9f3;
-            --grass-2: #6c0;
-            --grass-3: #360; */
-        }
-        .tile:not([data-tile="wn"])::before {
-            width: 1.5rem;
-            width: 3rem;
-            transform-origin: right;
-            transform: translateX(-100%) translateY(0%) rotateY(-90deg);
-            background-image: linear-gradient(to left, #432, #321);
-            /* background-image: linear-gradient(to right, #432, #321); */
-            background-image: linear-gradient(to left, #432, #210);
-            background-image: linear-gradient(to left, #360, #3600);
-            background-image: linear-gradient(to left, #360, #240, #2400);
-            background-image: linear-gradient(to left, #360, #240, #432, #210);
-            /* background-image: linear-gradient(to left, #432, #210); */
-        }
-        .tile:not([data-tile="wn"])::after {
-            top: 100%;
-            height: 1.5rem;
-            height: 3rem;
-            transform-origin: top;
-            transform: translateX(0%) translateY(0%) rotateX(-90deg);
-            background-image: linear-gradient(to bottom, #432, #321);
-            background-image: linear-gradient(to top, #432, #321);
-            background-image: linear-gradient(to bottom, #543, #321);
-            background-image: linear-gradient(to bottom, #693, #6c00);
-            /* background-image: linear-gradient(to bottom, #693, #6930); */
-            background-image: linear-gradient(to bottom, #582, #582, #5820);
-            background-image: linear-gradient(to bottom, #471, #360, #3600);
-            background-image: linear-gradient(to bottom, #471, #360, #543, #321);
-            /* background-image: linear-gradient(to bottom, #543, #321); */
-        }
-        /* .tile:not([data-tile="wn"])::before,
-        .tile:not([data-tile="wn"])::after {
-            
-        } */
-        .tile:not([data-tile="wn"])::before {
-            box-shadow:
-            inset -1rem 0rem 1rem -1rem #471, 
-            inset 1rem 0rem 1rem -1rem #321,
-            inset 0 0 2rem 0.125rem #000f,
-            inset 0 0 0rem 0rem #fff0;
-        }
-        .tile:not([data-tile="wn"])::after {
-            box-shadow:
-            inset 0rem 1rem 1rem -1rem #471, 
-            inset 0rem -1rem 1rem -1rem #321,
-            inset 0 0 2rem 0.125rem #000f,
-            inset 0 0 0rem 0rem #fff0;
-        }
-        .tile:not([data-tile="wn"]):hover::before {
-            box-shadow:
-            inset -1rem 0rem 1rem -1rem #471, 
-            inset 1rem 0rem 1rem -1rem #321,
-            inset 0 0 2rem -0.125rem #000f,
-            inset 0 0 2rem 0.25rem #fff1;
-        }
-        .tile:not([data-tile="wn"]):hover::after {
-            box-shadow:
-            inset 0rem 1rem 1rem -1rem #471, 
-            inset 0rem -1rem 1rem -1rem #321,
-            inset 0 0 2rem -0.125rem #000f,
-            inset 0 0 2rem 0.25rem #fff1;
-        }
-        
-    </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
@@ -716,9 +470,7 @@
         // var grid = [];
         // const walled_side = {0:" ",2:"╩",4:"╠",5:"╬",6:"╣",8:"╦"};
         // var tile_types = {0:" ",2:"╩",4:"╠",5:"╬",6:"╣",8:"╦", "x":"x"};
-        // var tile_types = {0:" ",2:"╩",4:"╠",5:"╬",6:"╣",8:"╦"};
-        // ─│├ ┤┬ ┴ ┼
-        var tile_types = {0:" ",2:"┴",4:"├",5:"┼",6:"┤",8:"┬"};
+        var tile_types = {0:" ",2:"╩",4:"╠",5:"╬",6:"╣",8:"╦"};
         var side_directions = {0:"○",2:"↓",4:"←",5:"•",6:"→",8:"↑"};
         var tile_sides = [2,4,6,8];
         var tileSides = {2:[1,0],4:[0,-1],6:[0,1],8:[-1,0]};
@@ -789,21 +541,16 @@
                 let validSides = AskAround(tile.dataset.yx);
                 console.log(validSides);
 
-                if(Object.keys(validSides).length > 0){
-                    Object.keys(validSides).forEach(k=>{
-                        if(validSides[k]){
-                            let tile_choice = document.createElement('div');
-                            tile_choice.classList.add('tile_option');
-                            tile_choice.dataset.tileOptionType = k;
-                            tile_choice.innerHTML = `${tile_types[k]}`;
-                            tile_choice.addEventListener('click', TileChoice);
-        
-                            tile.appendChild(tile_choice);
-                        }
-                    });
-                } else {
-                    tile.dataset.choice = 'closed';
-                }
+                Object.keys(validSides).forEach(k=>{
+                    if(validSides[k]){
+                        let tile_choice = document.createElement('div');
+                        tile_choice.classList.add('tile_option');
+                        tile_choice.dataset.tileOptionType = k;
+                        tile_choice.innerHTML = `${tile_types[k]}`;
+                        tile_choice.addEventListener('click', TileChoice);
+                        tile.appendChild(tile_choice);
+                    }
+                });
             }
         }
         function AskAround(id){

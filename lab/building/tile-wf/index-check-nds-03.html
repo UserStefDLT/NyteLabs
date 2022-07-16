@@ -623,6 +623,7 @@
             inset 1rem 0rem 1rem -1rem #321,
             inset 0 0 2rem -0.125rem #000f,
             inset 0 0 2rem 0.25rem #fff1;
+            
         }
         .tile:not([data-tile="wn"]):hover::after {
             box-shadow:
@@ -630,6 +631,7 @@
             inset 0rem -1rem 1rem -1rem #321,
             inset 0 0 2rem -0.125rem #000f,
             inset 0 0 2rem 0.25rem #fff1;
+            
         }
         
     </style>
@@ -789,21 +791,16 @@
                 let validSides = AskAround(tile.dataset.yx);
                 console.log(validSides);
 
-                if(Object.keys(validSides).length > 0){
-                    Object.keys(validSides).forEach(k=>{
-                        if(validSides[k]){
-                            let tile_choice = document.createElement('div');
-                            tile_choice.classList.add('tile_option');
-                            tile_choice.dataset.tileOptionType = k;
-                            tile_choice.innerHTML = `${tile_types[k]}`;
-                            tile_choice.addEventListener('click', TileChoice);
-        
-                            tile.appendChild(tile_choice);
-                        }
-                    });
-                } else {
-                    tile.dataset.choice = 'closed';
-                }
+                Object.keys(validSides).forEach(k=>{
+                    if(validSides[k]){
+                        let tile_choice = document.createElement('div');
+                        tile_choice.classList.add('tile_option');
+                        tile_choice.dataset.tileOptionType = k;
+                        tile_choice.innerHTML = `${tile_types[k]}`;
+                        tile_choice.addEventListener('click', TileChoice);
+                        tile.appendChild(tile_choice);
+                    }
+                });
             }
         }
         function AskAround(id){

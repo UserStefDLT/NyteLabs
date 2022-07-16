@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en" onmousemove>
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>NyteLabs</title>
+    <link rel="stylesheet" href="stylesheets/start.css">
+    <link rel="stylesheet" href="stylesheets/labst.css">
+    <link rel="stylesheet" href="stylesheets/i.css">
+    <link rel="stylesheet" href="stylesheets/home.css">
+    <!-- <link rel="stylesheet" href="stylesheets/nybtns.css"> -->
+    <!-- <link rel="stylesheet" href="stylesheets/stars.css"> -->
+    <!-- <link rel="stylesheet" href="stylesheets/nybtns.css"> -->
+    <!-- <link rel="stylesheet" href="stylesheets/stars2.css"> -->
+    <style>
+        *{transform-style: preserve-3d; position: relative; box-sizing: border-box;}
+        :root {
+            --perspective: 2000px;
+        }
+        body {
+            background-image: 
+            radial-gradient(farthest-corner at 100% 100%, #456, #7890),
+            radial-gradient(farthest-corner at 100% 100%, #123, #123);
+        }
+        main .shelf > h2,
+        main .shelf-title {
+            position: absolute;
+            top: -1.5em;
+            left: .5em;
+            border-bottom: 1px solid #789;
+            width: max-content;
+            margin: 0;
+        }
+        main .shelf > h2 {
+            font-size: 16px;
+        }
+
+        h3 {
+            /* position: absolute;
+            top: -1.5em;
+            left: .5em; */
+            /* border-bottom: 1px solid #789; */
+            width: max-content;
+            margin: .5rem;
+            font-size: 16px;
+        }
+
+    </style>
+    <style>
+        .phone--section-1,
+        .phone--pop-up,
+        .center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        [class|="check"] {
+            outline: 1px dashed #fff9;
+            outline-offset: 2px;
+            margin: .5rem;
+        }
+        .check {
+            height: 200px;
+            width: 200px;
+
+            background: radial-gradient(1rem 1rem at 60% 20%, #f93 90%, #f930),
+            conic-gradient(from -45deg at 0% 100%, #fff 0deg 90deg, #fff0 90deg),
+            conic-gradient(from -45deg at 50% 70%, #fff 0deg 90deg, #fff0 90deg),
+            conic-gradient(from -45deg at 100% 100%, #fff 0deg 90deg, #fff0 90deg),
+            linear-gradient(#93f, #f39);
+            background: radial-gradient(1rem 1rem at 60% 20%, #f93 90%, #f930),
+            conic-gradient(from 0deg at 0% 100%, #fff 0deg 25deg, #fff0 25deg),
+            conic-gradient(from -45deg at 50% 60%, #fff 0deg 90deg, #fff0 90deg),
+            conic-gradient(from -30deg at 100% 100%, #fff 0deg 45deg, #fff0 45deg),
+            linear-gradient(#93f, #f39);
+        }
+        .check-2 {
+            --real-h: 64;
+            --real-w: 94;
+            --ratio: 3px;
+            --m: 0rem;
+            --h: calc((var(--real-h) * var(--ratio)) + var(--m));
+            --w: calc((var(--real-w) * var(--ratio)) + var(--m));
+            height: var(--h);
+            width: var(--w);
+
+            padding: calc(var(--m) * .5);
+
+            /* height: 200px;
+            width: 200px; */
+
+            --clr-sky: #fee;
+
+            background: radial-gradient(1rem 1rem at 60% 20%, #f93 90%, #f930),
+            conic-gradient(from 0deg at 0% 100%, #fff 0deg 25deg, #fff0 25deg),
+            conic-gradient(from -45deg at 50% 60%, #fff 0deg 90deg, #fff0 90deg),
+            conic-gradient(from -30deg at 100% 100%, #fff 0deg 45deg, #fff0 45deg),
+            linear-gradient(#93f, #f39);
+
+            background: radial-gradient(1rem 1rem at 60% 20%, #f93 90%, #f930),
+            conic-gradient(from -45deg at 0% 100%, #fff 0deg 90deg, #fff0 90deg),
+            conic-gradient(from -45deg at 60% 85%, #fff 0deg 90deg, #fff0 90deg),
+            conic-gradient(from -45deg at 100% 100%, #fff 0deg 90deg, #fff0 90deg),
+            linear-gradient(#93f, #f39);
+
+            background: radial-gradient(1rem 1rem at 60% 25%, #fc3 90%, #fc30),
+            conic-gradient(from -45deg at 0% 100%, var(--clr-sky) 0deg 90deg, #fff0 90deg),
+            conic-gradient(from -45deg at 60% 85%, var(--clr-sky) 0deg 90deg, #fff0 90deg),
+            conic-gradient(from -45deg at 100% 100%, var(--clr-sky) 0deg 90deg, #fff0 90deg),
+            linear-gradient(#93f, #f39);
+        }
+        .bgi--img {
+            /* --real-h: 64;
+            --real-w: 94;
+            --ratio: 3px;
+            --m: 0rem;
+            --h: calc((var(--real-h) * var(--ratio)) + var(--m));
+            --w: calc((var(--real-w) * var(--ratio)) + var(--m));
+            height: var(--h);
+            width: var(--w);
+
+            padding: calc(var(--m) * .5); */
+
+            /* height: 200px;
+            width: 300px; */
+            height: 64%;
+            width: 100%;
+
+            --clr-sky: #fee;
+            background: radial-gradient(1rem 1rem at 60% 25%, #fc3 90%, #fc30),
+            conic-gradient(from -45deg at 0% 100%, var(--clr-sky) 0deg 90deg, #fff0 90deg),
+            conic-gradient(from -45deg at 60% 85%, var(--clr-sky) 0deg 90deg, #fff0 90deg),
+            conic-gradient(from -45deg at 100% 100%, var(--clr-sky) 0deg 90deg, #fff0 90deg),
+            linear-gradient(#93f, #f39);
+        }
+
+        .bgi-blue-ish {
+            background: 
+            radial-gradient(circle at 20% 70%, #93fc 50%, #93f0 90%),
+            radial-gradient(circle at 70% 30%, #06cc 40%, #06c0 80%),
+            #6cf;
+        }
+        .phone {
+            --real-h: 800;
+            --real-w: 375;
+            --ratio: .5px;
+            --m: 1.25rem;
+            --h: calc((var(--real-h) * var(--ratio)) + var(--m));
+            --w: calc((var(--real-w) * var(--ratio)) + var(--m));
+            height: 400px;
+            width: 150px;
+            height: var(--h);
+            width: var(--w);
+
+            padding: calc(var(--m) * .5);
+
+            /* background-image: linear-gradient(to bottom right, #123,#789); */
+
+            background-color: #96c;
+            border: 1px solid #000;
+            border-radius: 1.5rem;
+
+            box-shadow: 0 0 0 0 #000;
+            box-shadow: 1rem 1rem 0 0 #000;
+            box-shadow: 
+            1px 1px 0 0 #000,
+            2px 2px 0 0 #000,
+            4px 4px 0 0 #000,
+            8px 8px 0 0 #000,
+            12px 12px 0 0 #000,
+            16px 16px 0 -1px #000,
+            1rem 1rem 0 0 #0000;
+
+            box-shadow: 
+            2px 2px 0 .5px #000,
+                4px 4px 0 .5px #000,
+                    6px 6px 0 1px #000,
+                        7px 7px 0 1px #000,
+                        8px 8px 0 1px #000,
+                        9px 9px 0 1px #000,
+                    10px 10px 0 1px #000,
+                12px 12px 0 .5px #000,
+            14px 14px 0 .5px #000,
+            16px 16px 0 0px #000,
+            18px 18px 8px -2px #000;
+
+            box-shadow: 
+            2px 2px 0 0px #000,
+                4px 4px 0 .5px #000,
+                    6px 6px 0 1px #000,
+                        7px 7px 0 1px #000,
+                        8px 8px 0 1px #000,
+                        9px 9px 0 1px #000,
+                    10px 10px 0 1px #000,
+                12px 12px 0 .5px #000,
+            14px 14px 0 0px #000,
+            16px 16px 0 0px #0000,
+            16px 16px 8px -2px #000;
+
+            box-shadow: 
+            2px 2px 0 .5px #000, 
+            4px 4px 0 1px #000, 
+            6px 6px 0 1px #000, 
+            7px 7px 0 1px #000, 
+            8px 8px 0 1px #000, 
+            9px 9px 0 .5px #000, 
+            10px 10px 0 .5px #000, 
+            12px 12px 0 0px #000, 
+            14px 14px 0px -1px #000, 
+            16px 16px 2px -1px #0006, 
+            16px 16px 8px -2px #000;
+
+            /* box-shadow: 
+            1px 1px 0 0 #fff,
+            2px 2px 0 0.5px #000,
+                4px 4px 0 .5px #fff,
+                    6px 6px 0 1px #f0f,
+                        7px 7px 0 1px #f00,
+                        8px 8px 0 1px #ff0,
+                        9px 9px 0 1px #0f0,
+                    10px 10px 0 1px #0ff,
+                12px 12px 0 .5px #00f,
+            14px 14px 0 .5px #888,
+            16px 16px 0 0px #000,
+            16px 16px 4px -2px #0009; */
+
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-direction: column;
+        }
+        .phone .screen {
+            --ratio: .5px;
+            --h: calc(var(--real-h) * var(--ratio));
+            --w: calc(var(--real-w) * var(--ratio));
+            height: var(--h);
+            width: var(--w);
+            background-color: #000;
+            padding-top: 3rem;
+            border-radius: 1rem;
+        }
+        .phone .screen .top-bar {
+            position: absolute;
+            top: 0; left: 50%;
+            height: 1.25rem;
+            width: 100px;
+            background-color: #96c;
+            border-radius: 0 0 .5rem .5rem;
+            transform: translateX(-50%);
+        }
+        [class|="phone--section"]{
+            width: 150px;
+            margin: .25rem auto;
+            background-color: #96c;
+            border-radius: .5rem;
+            --clr-circle: #3cc;
+            --clr-bg: #96c;
+        }
+        .phone--section-1 {
+            height: 150px;
+        }
+        .phone--section-2 {
+            height: 60px;
+        }
+        .phone--section-3 {
+            height: 80px;
+        }
+        
+        .phone--pop-up {
+            position: absolute;
+            top: 0; left: 0;
+            height: 150px;
+            width: 150px;
+            margin: .5rem auto;
+            background-color: #96c;
+            border: 2px solid #fff;
+
+            --clr-circle: #fff;
+            --clr-bg: #fff2;
+            background-color: #fff2;
+            border-radius: .5rem;
+        }
+        .phone--pop-up {
+            --i-1: calc(var(--i) - 1);
+
+            --tz: calc(var(--i) * 40px);
+            --ty: calc(var(--i-1) * -80px);
+            --tx: calc(var(--i) * 0px);
+
+            /* --tz: calc(var(--i) * 20px);
+            --ty: calc(var(--i) * -30px);
+            --tx: calc(var(--i) * -30px); */
+            transform: translateZ(var(--tz)) translateY(var(--ty)) translateX(var(--tx));
+            opacity: calc(1 - (var(--i) * .2));
+            opacity: 0;
+        }
+
+        .phone--section-1 {
+            --clr-1: #3f9;
+            --clr-2: #3ff;
+        }
+        .phone--pop-up {
+            --clr-1: #fff;
+            --clr-2: #fff;
+        }
+
+        .chart--circle {
+            /* --h-circle: 50px;
+            --w-circle: 50px; */
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+
+            border: 8px solid #3f9;
+            /* box-shadow: 2px 0px 1px #0c6; */
+            transform: rotate(30deg);
+            border: 8px solid var(--clr-1);
+            box-sizing: content-box;
+        }
+        .chart--circle::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            height: 80%;
+            width: 80%;
+            height: 44px;
+            width: 44px;
+            --sz: 46px;
+            height: var(--sz);
+            width: var(--sz);
+            border-radius: 50%;
+            transform: translateX(-50%) translateY(-50%) translateZ(2px);
+
+            border: 12px solid #3ff;
+            /* box-shadow: 2px 2px 1px #06c0; */
+            
+            border: 12px solid var(--clr-2);
+            border-top: 12px solid #3ff0;
+            /* border-left: 16px solid #3ff0; */
+            box-sizing: content-box;
+        }
+
+
+        .xc--iso {transform: perspective(var(--perspective)) rotateX(54.736deg) rotateZ(45deg);}
+        .xc--iso-left {transform: perspective(var(--perspective)) rotateX(54.736deg) rotateZ(-45deg);}
+        .xc--iso-right {transform: perspective(var(--perspective)) rotateX(54.736deg) rotateZ(45deg);}
+
+    </style>
+    <style>
+        [class|="grid"] {display: grid;}
+        .grid--row-3 {
+            grid-template-columns: repeat(3, 1fr);
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            /* margin: 0 4rem 4rem; */
+        }
+        [class|="box"] {
+            --sz: 5rem;
+            font-size: 2rem;
+            --sz: 6em;
+            --sz: 30vmin;
+            --sz: 30vw;
+            --sz: min(30vmin, 240px);
+            height: var(--sz);
+            width: var(--sz);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+            outline: 1px dashed #fff9;
+            outline-offset: 2px;
+
+            transition: transform 200ms ease-in-out, box-shadow 200ms ease-in-out;
+            transform: translateZ(0px);
+            box-shadow: 0rem 0rem 0rem 0rem #1110;
+            cursor: pointer;
+        }
+        [class|="box"]:hover {
+            transform: translateZ(4px);
+            box-shadow: -.25rem .25rem .25rem -.125rem #1116;
+            box-shadow: -0.25rem 0.25rem 0.85rem -0.25rem #fff;
+            box-shadow: -0.25rem 0.25rem 1rem 0rem #fff;
+        }
+
+
+
+        [class|="card-bg"] {
+            --h: 300px;
+            --w: 200px;
+            height: 150px;
+            width: 80px;
+
+            --bwf: #ffff;
+            --bwt: #0000;
+            --line: #fff9;
+            --line: var(--bwf);
+            --space: var(--bwt);
+            --bg: 
+            repeating-linear-gradient(90deg,
+            var(--space) 0px, var(--space) 8px, 
+            var(--line) 8px, var(--line) 9px, 
+            var(--space) 9px
+            ),
+            repeating-linear-gradient(
+            var(--space) 0px, var(--space) 8px, 
+            var(--line) 8px, var(--line) 9px, 
+            var(--space) 9px
+            ),
+            linear-gradient(#06c, #123)
+            ;
+            background-blend-mode: soft-light;
+            background-blend-mode: overlay;
+            --box-sdw:
+            inset 0 0 0 2px var(--bwf),
+            0 0 0 4px var(--bwf);
+
+            --box-sdw-00:
+            inset 0 0 0 2px #da5,
+            0 0 0 4px #da5;
+
+            border-radius: .25rem;
+
+            transition: transform 200ms ease-in-out;
+            transform: translateZ(0px);
+        }
+        [class|="box"]:hover [class|="card-bg"] {
+            transform: translateZ(4px);
+        }
+        .card-bg-01 {
+            background-image: var(--bg);
+            border: 1px solid #123;
+
+            box-shadow: var(--box-sdw);
+        }
+    </style>
+
+    <link rel="stylesheet" href="stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="#" class="backLink hidden"><div class="backBtn">No Back.</div></a>
+        <div class="title">NyteLabs</div>
+        <div class="subtitle"><a class="unwelcome" href="index-02.html">un</a>Welcome</div>
+    </header>
+    <!-- 
+        Layout
+        SVG experiments
+        Canvas Experiments
+        Design Experiments
+
+        --Other--
+        All
+    -->
+
+    <main>
+        <div class="shelf">
+            <h2>dev version</h2>
+            <div class="xc--iso-left">
+                <div class="grid--row-3">
+                    <!-- .box-${$}*6 -->
+                    <div class="box-1">Resume</div>
+                    <div class="box-2">Web-Layout</div>
+                    <div class="box-3">Canvas</div>
+                    <div class="box-4">
+                        <div class="card-bg-01"></div>
+                        <h3>3D-Animations</h3>
+                    </div>
+                    <div class="box-5">SVG</div>
+                    <div class="box-6">Experiments</div>
+                </div>
+            </div>
+        </div>
+        <div class="shelf hidden">
+            <h2>dev version</h2>
+            <div class="xc--iso-left">
+                <div class="grid--row-3">
+                    <!-- .box-${$}*6 -->
+                    <div class="box-1"><h3>Resume</h3></div>
+                    <div class="box-2"><h3>Web-Layout</h3></div>
+                    <div class="box-3">
+                        <h3>Canvas</h3>
+                    </div>
+                    <div class="box-4">
+                        <div class="card-bg-01"></div>
+                        <h3>3D-Animations</h3>
+                    </div>
+                    <div class="box-5"><h3>SVG</h3></div>
+                    <div class="box-6"><h3>Experiments</h3></div>
+                </div>
+            </div>
+        </div>
+        <div class="shelf bgi-blue-ish">
+            <h2>dev version</h2>
+            <div class="xc--iso">
+                <div class="phone">
+                    <div class="screen">
+                        <div class="top-bar"></div>
+                        <div class="phone--section-1">
+                            <div class="bgi--img"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="shelf">
+            <h2>img default bg</h2>
+            <div class="check">
+
+            </div>
+            <div class="check-2">
+
+            </div>
+            <div class="bgi--img">
+
+            </div>
+        </div>
+        <div class="shelf bgi-blue-ish">
+            <h2>phone</h2>
+            <div class="xc--iso">
+                <div class="phone">
+                    <div class="screen">
+                        <div class="top-bar"></div>
+
+                        <div class="phone--section-1">
+                            <div class="phone--pop-up"><div class="chart--circle"></div></div>
+                            <div class="phone--pop-up"><div class="chart--circle"></div></div>
+                            <div class="phone--pop-up"><div class="chart--circle"></div></div>
+                            <div class="chart--circle"></div>
+                        </div>
+                        <div class="phone--section-2"></div>
+                        <div class="phone--section-3"></div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- .shelf>.shelf--heading -->
+    </main>
+
+
+    <!-- <main> -->
+    <div class="hidden">
+        <div class="shelf">
+            <div id="Welcome" class="shelf-title">Welcome to my lab</div>
+            <span>Here I work on different experiments and learn from them.</span>
+            <div class="ux-jumps">
+                <span>Sometimes I work on...</span>
+                <ul>
+                    <li>how a <a href="#Layout">Layout</a> would look like.</li>
+                    <li>replicating a <a href="#Design">Design</a> I think or see.</li>
+                    <li>learning how <a href="#SVG">SVG</a> or <a href="#Canvas">Canvas</a> work.</li>
+                    <li><a href="#Other">Other</a> experiments.</li>
+                </ul>
+            </div>
+            <span>*You can also see <a href="#All" class="ux-jump">All links together</a>.</span>
+        </div>
+        <div class="shelf">
+            <div id="Layout" class="shelf-title">Layout</div>
+            <div class="lablinks">
+                <a href="lab/layout/web-layout/"><div class="nybtn--labBtn">Basic Website Layout</div></a>
+                <a href="lab/layout/glowing-chip/"><div class="nybtn--labBtn">Glowing Chip Selector</div></a>
+                <a href="lab/layout/bar-graphs/"><div class="nybtn--labBtn">Bar Graphs</div></a>
+                <a href="lab/layout/soft-layout/"><div class="nybtn--labBtn hidden">Soft Layout Design</div></a>
+                <a href="lab/layout/soft-layout/"><div class="nybtn--labBtn">Neumorphic Layout Design</div></a>
+                <a href="lab/layout/layout-3d/"><div class="nybtn--labBtn">3D Layout</div></a>
+            </div>
+        </div>
+        <div class="shelf">
+            <div id="Design" class="shelf-title">Design Experiments</div>
+            <div class="lablinks">
+                <a href="lab/designs/bg-up/"><div class="nybtn--labBtn">Background Patterns</div></a>
+                <a href="lab/spheres/dotsphere/"><div class="nybtn--dotsphere">DotSphere</div></a>
+                <a href="lab/exp/dome-animation/"><div class="nybtn--labBtn">Dome Animation</div></a>
+                <a href="lab/cards/deck-sphere/"><div class="nybtn--card">NyDeck Animation</div></a>
+                <a href="lab/recreate/glowing-circles/"><div class="nybtn--labBtn">Glowing Circles</div></a>
+                <a href="lab/building/3d-rooms/"><div class="nybtn--labBtn">3d Rooms</div></a>
+                <a href="lab/building/brick-wall/bricks.html"><div class="nybtn--labBtn">Brick Pattern</div></a>
+                <a href="lab/cards/deck-a04/"><div class="nybtn--card">Deck of Cards</div></a>
+                <a href="lab/cards/card-designs/"><div class="nybtn--card">Card Designs</div></a>
+                <a href="lab/recreate/kinetic-sculpture/kntk-short.html"><div class="nybtn--kntk">Kinetic Sculpture ++</div></a>
+                <a href="lab/recreate/kinetic-sculpture/"><div class="nybtn--kntk">Kinetic Sculpture</div></a>
+                <a href="lab/stars/the-sun/"><div class="nybtn--labBtn">The Sun</div></a>
+                <a href="lab/stars/night--sky/"><div class="nybtn--labBtn">Night Stars</div></a>
+            </div>
+        </div>
+        <div class="shelf">
+            <div id="SVG" class="shelf-title">SVG experiments</div>
+            <div class="lablinks">
+                <a href="lab/designs/myst-box/"><div class="nybtn--labBtn">Cloud in a Box</div></a>
+                <a href="lab/svg/backgrounds/"><div class="nybtn--labBtn">Backgrounds</div></a>
+                <a href="lab/designs/underwater-smoke/"><div class="nybtn--underwatersmoke-animation">Turbulence Filter</div></a>
+                <a href="lab/svg/filter-effect/"><div class="nybtn--labBtn hidden">SVG Filters</div></a>
+                <a href="lab/svg/cloud-exp-02/"><div class="nybtn--cloud-hue">Cloud Animations</div></a>
+                <a href="lab/svg/cards/"><div class="labBtn">SVG Cards</div></a>
+                <a href="lab/svg/clouds/"><div class="labBtn">SVG Clouds</div></a>
+            </div>
+        </div>
+        <div class="shelf">
+            <div id="Canvas" class="shelf-title">Canvas Experiments</div>
+            <a href="lab/canvas/canvas-map.html"><div class="labBtn2">All Canvas Experiments</div></a>
+            <div class="lablinks">
+                <a href="lab/canvas/fireworks/"><div class="nybtn--labBtn">Fireworks</div></a>
+                <a href="lab/pattern-weaver/"><div class="nybtn--pattern-weaver">Pattern Weavers</div></a>
+                <a href="lab/canvas/rainbow-cloud-brush/"><div class="nybtn--cloud-rainbow">Rainbow Clouds Brush</div></a>
+                <a href="lab/canvas/cloud-brush/"><div class="nybtn--cloud-normal">Normal Clouds</div></a>
+                <a href="lab/canvas/rainbow-brush"><div class="nybtn--brush-rainbow">Rainbow Brush</div></a>
+                <a href="lab/canvas/spell-effect/"><div class="nybtn--spell-02">Spell Effects</div></a>
+                <a href="lab/canvas/spell-effect-02/"><div class="nybtn--spell-02">Spell Effects 2</div></a>
+                <a href="lab/canvas/spell-effect-03/"><div class="nybtn--spell-02">Spell Effects 3</div></a>
+            </div>
+        </div>
+        <div class="shelf">
+            <div id="Other" class="shelf-title">Other</div>
+            <div class="lablinks">
+                <a href="lab/color/color-sequence/"><div class="nybtn--labBtn">Color Sequence</div></a>
+                <a href="lab/color/color-symmetry/"><div class="nybtn--labBtn">Color Symmetry</div></a>
+
+                <a href="lab/building/tile-wf/"><div class="nybtn--labBtn">Tile Grid</div></a>
+                <a href="lab/eval/base-eval/"><div class="nybtn--labBtn">Coding Eval</div></a>
+
+                <a href="lab/waves/grid-waves-04/"><div class="nybtn--labBtn">Grid Fire</div></a>
+                <a href="lab/waves/grid-waves-03/"><div class="nybtn--labBtn">Grid Over</div></a>
+                <a href="lab/waves/grid-waves-02/"><div class="nybtn--labBtn">Grid Waves</div></a>
+
+                <a href="lab/waves/particles/"><div class="labBtn">Wave Dispersion</div></a>
+                <a href="lab/keyevents/keydown/"><div class="labBtn">Event: keydown</div></a>
+            </div>
+        </div>
+
+        <div class="shelf">
+            <div id="All" class="shelf-title">All</div>
+            <div class="lablinks">
+                <a href="lab/color/color-sequence/"><div class="nybtn--labBtn">Color Sequence</div></a>
+                <a href="lab/color/color-symmetry/"><div class="nybtn--labBtn">Color Symmetry</div></a>
+                <a href="lab/building/tile-wf/"><div class="nybtn--labBtn">Tile Grid</div></a>
+                <a href="lab/designs/bg-up/"><div class="nybtn--labBtn">Background Patterns</div></a>
+                <a href="lab/designs/myst-box/"><div class="nybtn--labBtn">Cloud in a Box</div></a>
+                <a href="lab/layout/web-layout/"><div class="nybtn--labBtn">Basic Website Layout</div></a>
+                <a href="lab/exp/randsphere/"><div class="nybtn--dotsphere">DotSphere Random</div></a>
+                <a href="lab/exp/dotsphere/presets/"><div class="nybtn--dotsphere">DotSphere Presets</div></a>
+                <a href="lab/exp/dotsphere/"><div class="nybtn--dotsphere">DotSphere Settings</div></a>
+                <a href="lab/layout/glowing-chip/"><div class="nybtn--labBtn">Glowing Chip</div></a>
+                <a href="lab/dice/d6/"><div class="nybtn--labBtn">Dice d6</div></a>
+                <a href="lab/dice/d4/"><div class="nybtn--labBtn">Dice d4</div></a>
+                <a href="lab/exp/grid-boxes/"><div class="nybtn--labBtn hidden">Tiles</div></a>
+                <a href="lab/exp/dome-animation/"><div class="nybtn--labBtn">Dome Animation</div></a>
+                <a href="lab/eval/base-eval/"><div class="nybtn--labBtn">Coding Eval</div></a>
+                <a href="lab/exp/creature-randomizer/"><div class="nybtn--labBtn">Creature Randomizer</div></a>
+                <a href="lab/exp/dotsphere/index-nds-01.html"><div class="nybtn--dotsphere hidden">DotSphere</div></a>
+                <a href="lab/canvas/spell-effect-03/"><div class="nybtn--spell-02">Spell Effects 3</div></a>
+                <a href="lab/btns/btn-types/"><div class="nybtn--labBtn">Button Types</div></a>
+                <a href="lab/recreate/keyboard/"><div class="nybtn--labBtn">Keyboard</div></a>
+                <a href="lab/cards/deck-sphere/"><div class="nybtn--card">NyDeck</div></a>
+                <a href="lab/holonomy/holonomy-key-controllers/"><div class="nybtn--labBtn">Holonomy Key Controllers</div></a>
+                <a href="lab/holonomy/rotation-rings/rings.html"><div class="nybtn--labBtn">Rotation Rings</div></a>
+                <a href="lab/recreate/glowing-circles/"><div class="nybtn--labBtn">Glowing Circles</div></a>
+                <a href="lab/svg/fe-water/"><div class="nybtn--labBtn">Filter Experiments</div></a>
+                <a href="lab/svg/backgrounds/"><div class="nybtn--labBtn">Backgrounds</div></a>
+                <a href="lab/canvas/re-experiment/re-exp-04b.html"><div class="nybtn--labBtn">Fireworks</div></a>
+                <a href="lab/waves/grid-waves-04/"><div class="nybtn--labBtn">Grid Fire</div></a>
+                <a href="lab/waves/grid-waves-03/"><div class="nybtn--labBtn">Grid Over</div></a>
+                <a href="lab/waves/grid-waves-02/"><div class="nybtn--labBtn">Grid Waves</div></a>
+                <a href="lab/layout/bar-graphs/"><div class="nybtn--labBtn">Bar Graphs</div></a>
+                <a href="lab/waves/curves/"><div class="nybtn--labBtn">Waves & Curves</div></a>
+                <a href="lab/pattern-weaver/"><div class="nybtn--pattern-weaver">Pattern Weavers</div></a>
+                <a href="lab/stars/canvas-stars/"><div class="nybtn--labBtn">Canvas Stars</div></a>
+                <a href="lab/building/3d-rooms/"><div class="nybtn--labBtn">3d Rooms</div></a>
+                <a href="lab/building/brick-wall/bricks.html"><div class="nybtn--labBtn">Brick Pattern</div></a>
+                <a href="lab/recreate/kinetic-sculpture/kntk-short.html"><div class="nybtn--kntk">Kinetic Sculpture ++</div></a>
+                <a href="lab/svg/filter-effect/"><div class="nybtn--labBtn hidden">SVG Filters</div></a>
+                <a href="lab/layout/soft-layout/"><div class="nybtn--labBtn">Soft Layout Design</div></a>
+                <a href="lab/stars/the-sun/"><div class="nybtn--labBtn">The Sun</div></a>
+                <a href="lab/stars/night--sky/"><div class="nybtn--labBtn">Night Stars</div></a>
+                <a href="lab/recreate/kinetic-sculpture/"><div class="nybtn--kntk">Kinetic Sculpture</div></a>
+                <a href="lab/designs/underwater-smoke/"><div class="nybtn--underwatersmoke-animation">Underwater Smoke Animation</div></a>
+                <a href="lab/svg/cloud-experiments/"><div class="nybtn--cloud-normal">Cloud Experiments</div></a>
+                <a href="lab/svg/cloud-exp-02/"><div class="nybtn--cloud-hue">Cloud Animations</div></a>
+                <a href="lab/cards/card-designs/"><div class="nybtn--card">Card Designs</div></a>
+                <a href="lab/canvas/rainbow-cloud-brush/"><div class="nybtn--cloud-rainbow">Rainbow Clouds Brush</div></a>
+                <a href="lab/canvas/cloud-brush/"><div class="nybtn--cloud-normal">Normal Clouds</div></a>
+                <a href="lab/canvas/cloud-brush/"><div class="nybtn--brush-cloud-normal" data-brush-name="Normal Clouds">Normal Clouds</div></a>
+                <a href="lab/canvas/brush/"><div class="nybtn--brush-rainbow">Brush</div></a>
+                <a href="lab/canvas/rainbow-brush"><div class="nybtn--brush-rainbow">Rainbow Brush</div></a>
+                <a href="lab/canvas/rainbow-brush/"><div class="nybtn--brush-rainbow-02" data-brush-name="Rainbow Brush-02">Rainbow Brush-02</div></a>
+                <a href="lab/cards/deck-a04/"><div class="nybtn--card">Deck 04</div></a>
+                <a href="lab/canvas/spell-effect-02/"><div class="nybtn--spell-02">Spell Effects 2</div></a>
+                <a href="lab/canvas/spell-effect/"><div class="nybtn--spell-02">Spell Effects</div></a>
+                <a href="lab/svg/cards/"><div class="labBtn">SVG Cards</div></a>
+                <a href="lab/svg/clouds/"><div class="labBtn">SVG Clouds</div></a>
+                <a href="lab/layout/layout-3d/"><div class="labBtn">3D Layout</div></a>
+                <a href="lab/keyevents/keydown/"><div class="labBtn">Event: keydown</div></a>
+                <a href="lab/canvas/canvas-map.html"><div class="labBtn">Canvas</div></a>
+            </div>
+        </div>
+    </div>
+    <!-- </main> -->
+
+
+    <!-- <svg style="display: none;">
+        <defs>
+            <filter id="x_svgBlur" x="-5%" y="-5%" width="110%" height="110%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="5"/>
+            </filter>
+            <filter id="x_cloud" x="-25%" y="-25%" width="150%" height="150%" >
+                <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="5" />
+                <feDisplacementMap in="SourceGraphic" scale="100" />
+            </filter>
+            <filter id="x_bg-flow" 
+                x="-25%" y="-25%" width="150%" height="150%">
+                <feTurbulence type="fractalNoise" id="fractalNoise"
+                    baseFrequency=".018" numOctaves="5" seed="5"
+                    result="fractalNoise">
+                    <animate id="noiseAnimate"
+                        attributeName="baseFrequency"
+                        values=".018;.012;.032;.018" from="0"
+                        to="100" dur="60s"
+                        repeatCount="indefinite" >
+                    </animate>
+                </feTurbulence>
+                <feTurbulence type="turbulence" id="turbulence"
+                    baseFrequency=".036" numOctaves="5" seed="5"
+                    result="turbulence">
+                    <animate id="noiseAnimate"
+                        attributeName="baseFrequency"
+                        values=".029;.036;.021;.029" from="0"
+                        to="100" dur="60s"
+                        repeatCount="indefinite" >
+                    </animate>
+                </feTurbulence>
+                <feDisplacementMap
+                    in="fractalNoise"
+                    in2="turbulence"
+                    scale="100"
+                    xChannelSelector="R"
+                    yChannelSelector="R"
+                    result="Displaced">
+                    <animate id="scaleAnimate"
+                        attributeName="scale"
+                        values="-40;80;-40" from="0"
+                        to="100" dur="60s"
+                        repeatCount="indefinite" >
+                    </animate>
+                </feDisplacementMap>
+                <feDisplacementMap
+                    in="SourceGraphic"
+                    in2="Displaced"
+                    scale="100"
+                    xChannelSelector="R"
+                    yChannelSelector="R"
+                    result="mixed">
+                    <animate id="scaleAnimate"
+                        attributeName="scale"
+                        values="80;20;80" from="0"
+                        to="100" dur="60s"
+                        repeatCount="indefinite" >
+                    </animate>
+                </feDisplacementMap>
+            </filter>
+            <filter id="x_btn-flow" 
+                x="-25%" y="-25%" width="150%" height="150%">
+                <feTurbulence type="fractalNoise" id="fractalNoise"
+                    baseFrequency=".018" numOctaves="5" seed="5"
+                    result="fractalNoise">
+                    <animate id="noiseAnimate"
+                        attributeName="baseFrequency"
+                        values=".018;.012;.032;.018" from="0"
+                        to="100" dur="12s"
+                        repeatCount="indefinite" >
+                    </animate>
+                </feTurbulence>
+                <feTurbulence type="turbulence" id="turbulence"
+                    baseFrequency=".036" numOctaves="5" seed="5"
+                    result="turbulence">
+                    <animate id="noiseAnimate"
+                        attributeName="baseFrequency"
+                        values=".029;.036;.021;.029" from="0"
+                        to="100" dur="12s"
+                        repeatCount="indefinite" >
+                    </animate>
+                </feTurbulence>
+                <feDisplacementMap
+                    in="fractalNoise"
+                    in2="turbulence"
+                    scale="100"
+                    xChannelSelector="R"
+                    yChannelSelector="R"
+                    result="Displaced">
+                    <animate id="scaleAnimate"
+                        attributeName="scale"
+                        values="-40;80;-40" from="0"
+                        to="100" dur="12s"
+                        repeatCount="indefinite" >
+                    </animate>
+                </feDisplacementMap>
+                <feDisplacementMap
+                    in="SourceGraphic"
+                    in2="Displaced"
+                    scale="100"
+                    xChannelSelector="R"
+                    yChannelSelector="R"
+                    result="mixed">
+                    <animate id="scaleAnimate"
+                        attributeName="scale"
+                        values="80;20;80" from="0"
+                        to="100" dur="12s"
+                        repeatCount="indefinite" >
+                    </animate>
+                </feDisplacementMap>
+            </filter>
+        </defs>
+    </svg> -->
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end-2">by St&eacute;fano.</div>
+    <!-- <script src="scripts/stars.js"></script> -->
+    <!-- <script src="scripts/stars-02.js"></script> -->
+    <script>
+        // window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+:root {
+    
+    --clr-: hsla(210, 90%, 50%, 1); /* vibrant */ 
+    --clr-: hsla(060, 90%, 50%, 1); /* contrast: hue */ 
+    --clr-: hsla(330, 90%, 50%, 1); /* contrast: hue */ 
+    --clr-: hsla(210, 40%, 20%, 1); /* contrast: sat */ 
+    --clr-: hsla(330, 90%, 20%, 1); /* contrast: hue + lum */ 
+    --clr-: hsla(210, 10%, 20%, 1); /* contrast: sat */ 
+    --clr-: hsla(210, 90%, 80%, 1); /* contrast: lum */ 
+    
+
+}
