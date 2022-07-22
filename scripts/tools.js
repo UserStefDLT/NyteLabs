@@ -153,6 +153,57 @@ function AngleToXY(angle){
     return xy;
 }
 
+function a2xy(a){
+    let r = a * Math.PI / 180;
+    // let x = Math.cos(a * Math.PI / 180);
+    // let y = Math.sin(a * Math.PI / 180);
+    let x = Math.cos(r);
+    let y = Math.sin(r);
+    return [x,y];
+}
+function AngleToXY2(angle){
+    let rad = angle * Math.PI / 180;
+    let xy = {"x":"0","y":"0"};
+    angle %= 360;
+
+    if(angle == 0 || angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+    if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+    
+    // switch(angle){
+    //     case 0:
+    //         xy.x = 1; xy.y = 0;
+    //         break;
+    //     case 90:
+    //         xy.x = 0; xy.y = 1;
+    //         break;
+    //     case 180:
+    //         xy.x = -1; xy.y = 0;
+    //         break;
+    //     case 270:
+    //         xy.x = 0; xy.y = -1;
+    //         break;
+    //     default:
+    //         xy.x = Math.cos(rad);
+    //         xy.y = Math.sin(rad);
+    // }
+    return xy;
+}
+function AngleToXY2(angle){
+    let rad = angle * Math.PI / 180;
+    let xy = {"x":0,"y":0};
+    angle %= 360;
+    if(angle == 0 || angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+    if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+    return xy;
+}
+function AngleToXY2s(angle){
+    let xy = {"x":"0","y":"0"};
+    angle %= 360;
+    if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(angle * Math.PI / 180);}
+    if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(angle * Math.PI / 180);}
+    return xy;
+}
+
 
 /*
 Triangle(3,4,5)
@@ -413,6 +464,70 @@ function YXtoAngle(y,x){
     if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
     return angle;
 }
+
+
+
+
+// Angle of 0deg means {x:1, y:0}
+// Angle of 90deg means {x:0, y:1}
+// if up or down, then flip on x axis.
+// if right or left, then flip on y axis.
+function reflectAngle(angle, axis) {
+    let new_angle = 0;
+    // if(axis == 'x') {new_angle = 180 + (180 - angle);}
+    // if(axis == 'y') {new_angle = 270 + (270 - angle);}
+    if(axis == 'x') {new_angle = 360 - angle;}
+    if(axis == 'y' && angle < 180) {new_angle = 180 - angle;}
+    if(axis == 'y' && angle > 180) {new_angle = 270 + (270 - angle);}
+    return new_angle;
+}
+
+function reflectAngle(angle, axis) {
+    let new_angle = 0;
+    if(axis == 'x') {new_angle = 360 - angle;}
+    if(axis == 'y' && angle < 180) {new_angle = 180 - angle;}
+    if(axis == 'y' && angle > 180) {new_angle = 270 + (270 - angle);}
+    return new_angle;
+}
+reflectAngle(a,'x');
+reflectAngle(a,'y');
+
+function reflectX(angle) {
+    return 180 + (180 - angle);
+}
+
+// angles 0 - 45 hit the right side.
+// angles 45 - 135 hit the bottom side.
+// angles 135 - 225 hit the left side.
+// angles 225 - 315 hit the top side.
+// angles 315 - 360 hit the right side.
+
+// let t0 = [0, 30, 45, 60, 90];
+for (let i = 0; i < 24; i++) {
+    t0.push(i*15);
+}
+let tx = [45, 60, 75, 90, 105, 120, 135, 225, 240, 255, 270, 285, 300, 315];
+let ty = [0, 15, 30, 45, 135, 150, 165, 180, 195, 210, 225, 315, 330, 345];
+
+for (let i = 0; i < tx.length; i++) {
+    let a1 = tx[i];
+    let a2 = 180 + (180 - a1);
+    console.log(`${a1} → ${a2}`);
+}
+for (let i = 0; i < ty.length; i++) {
+    let a1 = ty[i];
+    let a2 = 270 + (270 - a1);
+    console.log(`${a1} → ${a2}`);
+}
+
+let t0 = [0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345];
+
+let t0 = [
+    0, 15, 30, 45, 
+    45, 60, 75, 90, 105, 120, 135, 
+    135, 150, 165, 180, 195, 210, 225, 
+    225, 240, 255, 270, 285, 300, 315, 
+    315, 330, 345, 360];
 
 
 /* ─────────────── */

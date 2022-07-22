@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Canvas Exp | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <!-- <link rel="stylesheet" href="../../../stylesheets/radio-nav.css"> -->
+    <!-- <link rel="stylesheet" href="../../../stylesheets/deck.css"> -->
+    <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
+    <style>
+        header {
+            position: fixed;
+            top: 0;
+            z-index: 9;
+            justify-content: end;
+            box-shadow: 0 0 0 transparent;
+        }
+        header .title {padding-right: 12px;}
+        main, .shelf {position: static;}
+        [id*="canvas"] {
+            position: absolute;
+            inset: 0;
+            background-color: #000;
+            /* height: 100vh; width: 100vw; */
+            height: 100%; width: 100%;
+            /* height: 695px; width: 960px; */
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Canvas Exp</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <!-- <div class="shelf-title">title</div> -->
+        <canvas id="canvas"></canvas>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // window.addEventListener('resize', () =>{
+        //     // canvas.width = window.innerWidth;
+        //     // canvas.height = window.innerHeight;
+        // });
+        // // → https://www.youtube.com/watch?v=Yvz_axxWG4Y
+        // // → 11:00
+
+
+        const particles = [];
+        const s = {
+            x: 0,
+            y: 0,
+
+            r: 3,
+            c: 0,
+            hue: 0,
+            hue_steps: 6,
+            hue_step: 360/6,
+            lum_step: 20,
+            z: 30
+        }
+
+        window.addEventListener('mousemove', (ev) =>{
+            // let chance = Math.floor(Math.random()*100) + 1;
+            s.x = ev.clientX;
+            s.y = ev.clientY;
+            // hueHelix();
+        });
+
+        function zoom(event) {
+            event.preventDefault();
+            scale += event.deltaY * -0.01;
+            scale = Math.min(Math.max(.125, scale), 4);
+            s.z = (scale * 10)+20;
+        }
+        
+        let scale = 1;
+        const el = document.querySelector('#canvas');
+        el.onwheel = zoom;
+
+
+        const s2 = {
+            x: 0,
+            y: 0,
+            
+            r: 3,
+            c: 0,
+            hue: 0,
+            hue_steps: 6,
+            hue_step: 360/6,
+            lum_step: 20,
+            z: 30
+        }
+        function hueHelix(){
+            let chance = Math.floor(Math.random()*100) + 1;
+            // let hue_add = Math.floor(Math.random()*2) + 1;
+            let hue_add = 1;
+            s.hue = s.hue + hue_add;
+            if(chance > 0){
+                for (let index = 0; index < s.hue_steps; index++) {
+                    let hue = s.hue + (index * s.hue_step);
+                    let dotOff = (Math.floor(Math.random()*s.z) + 20);
+                    let radius = Math.floor(Math.random()*s.r) + 1;
+                    let lum = dotOff - 10;
+
+                    let cirX = Math.cos(Math.PI*(hue/180)) * dotOff;
+                    let cirY = Math.sin(Math.PI*(hue/180)) * dotOff;
+                    let x = cirX + s.x;
+                    let y = cirY + s.y;
+            
+                    ctx.fillStyle = `hsl(${hue}, 100%, ${lum}%)`;
+                    ctx.beginPath();
+                    ctx.arc(x, y, radius, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+
+        class Particle {
+            constructor(id){
+                this.id = id;
+                // this.x = s.x;
+                // this.y = s.y;
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                // this.speed = Math.random() * 3 - 1.5;
+                this.speed = 3;
+                this.direction = Math.random() * 360;
+                console.log(`id:${this.id} → ${this.direction}deg.`);
+                // console.log(this.direction);
+
+                // this.hueStart = Math.random() * 360;
+                // this.hue = this.hueStart;
+                // this.hue = this.direction - 90;
+                this.hue = 210;
+                // this.hueSp = Math.random() * 3;
+                this.sat = 100;
+                this.lum = 40;
+                this.alp = 1;
+
+                // this.size = Math.random() * 5 + 1;
+                // this.size = Math.random() * 5 + 5;
+                // this.size = Math.random() * 2 + 1;
+                this.size = 5;
+                // this.size = 2;
+                // this.spX = Math.random() * 3 - 1.5;
+                // this.spY = Math.random() * 3 - 1.5;
+                this.rad = 0;
+                this.dx = 0;
+                this.dy = 0;
+                this.directionUpdate();
+            }
+            directionUpdate(){
+                this.direction = (this.direction+360)%360;
+                this.rad = this.direction * Math.PI / 180;
+                if(this.direction == 180) {this.dy = 0;} else {this.dy = Math.sin(this.rad);}
+                if(this.direction == 90 || this.direction == 270) {this.dx = 0;} else {this.dx = Math.cos(this.rad);}
+
+                // this.hue = this.direction - 90;
+                // this.hue = this.hueStart + (this.direction%90) - 45;
+            }
+            update(){
+                // let rad = this.direction * Math.PI / 180;
+                // let dx = 0;
+                // let dy = 0;
+                // if(this.direction == 180) {this.dy = 0;} else {this.dy = Math.sin(rad);}
+                // if(this.direction == 90 || this.direction == 270) {this.dx = 0;} else {this.dx = Math.cos(rad);}
+                
+                this.x += this.speed * this.dx;
+                this.y += this.speed * this.dy;
+                
+                if(this.x > canvas.width || this.x < 0){
+                    if(this.direction < 180) {
+                        this.direction = 180 - this.direction;
+                    } else {
+                        this.direction = 270 + (270 - this.direction);
+                    }
+                    this.directionUpdate();
+                }
+                if(this.y > canvas.height || this.y < 0){
+                    this.direction = 360 - this.direction;
+                    this.directionUpdate();
+                }
+
+                // let xy = this.x + this.y;
+                // this.step = 200;
+                // let xi = this.x % this.step;
+                // let yi = this.y % this.step;
+                // let x_val = Math.cos(xi/this.step);
+                // let y_val = Math.sin(yi/this.step);
+                // let lum_var = Math.floor(((x_val + y_val) % 200) / 5) - 20;
+                // this.lum = 40 + lum_var;
+
+                                
+                // let x_arc = Math.cos((this.x%300)/100 - 1.5) * 30;
+
+
+                // this.step = 360;
+                // let xi = this.x % this.step;
+                // let yi = this.y % this.step;
+                // let x_val = Math.cos(xi * Math.PI / 180);
+                // let y_val = Math.sin(yi * Math.PI / 180);
+                // let lum_var = Math.floor(((x_val + y_val) % 200) / 5) - 20;
+                // this.lum = 40 + lum_var;
+                
+
+                this.step = 314;
+                let xi = this.x % this.step;
+                let yi = this.y % this.step;
+
+                let xc = Math.cos(xi / 50);
+                let yc = Math.sin(yi / 50);
+                let xyc = xc + yc; /* -2 to 2 */
+
+                let lum_var = Math.floor(xyc * 10);
+                this.lum = 40 + lum_var;
+
+
+                // this.x += this.spX;
+                // this.y += this.spY;
+                // if(this.y > canvas.height || this.x > canvas.width || this.y < 0 || this.x < 0){
+                //     this.x = Math.random() * (canvas.width/2) + (canvas.width/4);
+                //     this.y = Math.random() * (canvas.height/2) + (canvas.height/4);
+                // }
+                // this.size += Math.random() * 2 - 1;
+                // if(this.size < 2) this.size += 1;
+                // if(this.size > 5) this.size -= 1;
+                // this.hue += this.hueSp;
+                // if(this.hue > 360) this.hue -= 360;
+            }
+            draw(){
+                // ctx.fillStyle = '#f398';
+                // ctx.fillStyle = `hsl(${this.hue}, 100%, 40%)`;
+                // ctx.fillStyle = `hsl(60, 100%, 40%)`;
+                // ctx.fillStyle = `hsla(${this.direction}, 100%, 40%, 1)`;
+                // ctx.fillStyle = `hsla(${this.hue}, ${this.sat}, ${this.lum}, ${this.alp})`;
+                ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function start(){
+            // for (let index = 0; index < 10; index++) {
+            //     particles.push(new Particle(index));
+            // }
+            for (let index = 0; index < 5; index++) {
+                particles.push(new Particle(index));
+            }
+        }
+        start();
+        function handleParticles(){
+            for (let index = 0; index < particles.length; index++) {
+                const element = particles[index];
+                element.update();
+                element.draw();
+            }
+        }
+        function animate (){
+            // ctx.clearRect(0,0,canvas.width, canvas.height);
+            // ctx.fillStyle = '#0002';
+            // ctx.fillStyle = '#00000008';
+            // ctx.fillStyle = '#00000000';
+            // ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // hueHelix();
+            handleParticles();
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            // start();
+            // animate();
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Collision Simulation | Canvas Exp | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <!-- <link rel="stylesheet" href="../../../stylesheets/radio-nav.css"> -->
+    <!-- <link rel="stylesheet" href="../../../stylesheets/deck.css"> -->
+    <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
+    <style>
+        header {
+            position: fixed;
+            top: 0;
+            z-index: 9;
+            justify-content: end;
+            box-shadow: 0 0 0 transparent;
+        }
+        header .title {padding-right: 12px;}
+        main, .shelf {position: static;}
+        [id*="canvas"] {
+            position: absolute;
+            inset: 0;
+            background-color: #000;
+            /* height: 100vh; width: 100vw; */
+            height: 100%; width: 100%;
+            /* height: 695px; width: 960px; */
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Collision Simulation</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <!-- <div class="shelf-title">title</div> -->
+        <canvas id="canvas"></canvas>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // window.addEventListener('resize', () =>{
+        //     // canvas.width = window.innerWidth;
+        //     // canvas.height = window.innerHeight;
+        // });
+        // // → https://www.youtube.com/watch?v=Yvz_axxWG4Y
+        // // → 11:00
+
+
+        const particles = [];
+        const s = {
+            x: 0,
+            y: 0,
+
+            r: 3,
+            c: 0,
+            hue: 0,
+            hue_steps: 6,
+            hue_step: 360/6,
+            lum_step: 20,
+
+            pause: false,
+            z: 30
+        }
+
+
+        // const s2 = {
+        //     x: 0,
+        //     y: 0,
+        //     r: 3,
+        //     c: 0,
+        //     hue: 0,
+        //     hue_steps: 6,
+        //     hue_step: 360/6,
+        //     lum_step: 20,
+        //     z: 30
+        // }
+        function hueHelix(){
+            let chance = Math.floor(Math.random()*100) + 1;
+            // let hue_add = Math.floor(Math.random()*2) + 1;
+            let hue_add = 1;
+            s.hue = s.hue + hue_add;
+            if(chance > 0){
+                for (let index = 0; index < s.hue_steps; index++) {
+                    let hue = s.hue + (index * s.hue_step);
+                    let dotOff = (Math.floor(Math.random()*s.z) + 20);
+                    let radius = Math.floor(Math.random()*s.r) + 1;
+                    let lum = dotOff - 10;
+
+                    let cirX = Math.cos(Math.PI*(hue/180)) * dotOff;
+                    let cirY = Math.sin(Math.PI*(hue/180)) * dotOff;
+                    let x = cirX + s.x;
+                    let y = cirY + s.y;
+            
+                    ctx.fillStyle = `hsl(${hue}, 100%, ${lum}%)`;
+                    ctx.beginPath();
+                    ctx.arc(x, y, radius, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+
+        class Particle1 {
+            constructor(id, list){
+                this.id = id;
+                this.list = list;
+                // this.x = s.x;
+                // this.y = s.y;
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                // this.speed = Math.random() * 3 - 1.5;
+                this.speed = 3;
+                this.direction = Math.random() * 360;
+                // this.direction = (Math.random() * 90);
+                console.log(`id:${this.id} → ${this.direction}deg.`);
+                // console.log(this.direction);
+
+                // this.hueStart = Math.random() * 360;
+                // this.hue = this.hueStart;
+                this.hue = this.direction - 90;
+                // this.hue = 210;
+                // this.hueSp = Math.random() * 3;
+                this.sat = 100;
+                this.lum = 40;
+                this.alp = .4;
+
+                // this.size = Math.random() * 2 + 1;
+                this.size = 20;
+                // this.size = 2;
+                this.rad = 0;
+                this.dx = 0;
+                this.dy = 0;
+                this.directionUpdate();
+            }
+            collisonCheck(){
+                this.list.forEach(p=>{
+                    if(p.id != this.id){
+                        // let xtx = p.x - this.x;
+                        // let yty = p.y - this.y;
+                        let xtx = this.x - p.x;
+                        let yty = this.y - p.y;
+                        let h = Math.sqrt(xtx**2 + yty**2);
+                        if(h < this.size*2){
+
+                            ctx.beginPath();
+                            ctx.strokeStyle = '#fff';
+                            ctx.moveTo(this.x, this.y);
+                            ctx.lineTo(p.x, p.y);
+                            ctx.stroke();
+
+                            let angle = 0;
+                            if(yty == 0){
+                                if(xtx > 0) {angle = 90;}
+                                if(xtx < 0) {angle = 270;}
+                            } else if(yty > 0) {
+                                angle += 180;
+                            } else if(xtx != 0) {
+                                angle += Math.atan(xtx/yty) * 180 / Math.PI;
+                            }
+                            let d1 = (this.direction + angle)/2;
+                            let d2 = (Math.min(this.direction,angle) + Math.max(this.direction,angle) - 360) / 2;
+                            this.direction = Math.min(d1,d2);
+                            // this.direction = (this.direction + angle)/2;
+                            
+                            this.lum = 10;
+                            this.directionUpdate();
+                            this.move();
+                        }
+                    }
+                });
+            }
+            directionUpdate(){
+                this.direction = (this.direction+360)%360;
+                this.rad = this.direction * Math.PI / 180;
+                if(this.direction == 180) {this.dy = 0;} else {this.dy = Math.sin(this.rad);}
+                if(this.direction == 90 || this.direction == 270) {this.dx = 0;} else {this.dx = Math.cos(this.rad);}
+
+                // this.hue = this.direction - 90;
+                // this.hue = this.hueStart + (this.direction%90) - 45;
+                // this.size -= this.size/8;
+                // if(this.size < 3) this.size = 3;
+
+                // this.collisonCheck();
+            }
+            move(){
+                this.x += this.speed * this.dx;
+                this.y += this.speed * this.dy;
+                
+                if(this.x > canvas.width || this.x < 0){
+                    if(this.direction < 180) {
+                        this.direction = 180 - this.direction;
+                    } else {
+                        this.direction = 270 + (270 - this.direction);
+                    }
+                    this.directionUpdate();
+                }
+                if(this.y > canvas.height || this.y < 0){
+                    this.direction = 360 - this.direction;
+                    this.directionUpdate();
+                }
+            }
+            update(){
+                this.move();
+                // this.x += this.speed * this.dx;
+                // this.y += this.speed * this.dy;
+                
+                // if(this.x > canvas.width || this.x < 0){
+                //     if(this.direction < 180) {
+                //         this.direction = 180 - this.direction;
+                //     } else {
+                //         this.direction = 270 + (270 - this.direction);
+                //     }
+                //     this.directionUpdate();
+                // }
+                // if(this.y > canvas.height || this.y < 0){
+                //     this.direction = 360 - this.direction;
+                //     this.directionUpdate();
+                // }
+
+                this.step = 314;
+                let xi = this.x % this.step;
+                let yi = this.y % this.step;
+
+                let xc = Math.cos(xi / 50);
+                let yc = Math.sin(yi / 50);
+                let xyc = xc + yc; /* -2 to 2 */
+
+                let lum_var = Math.floor(xyc * 10);
+                this.lum = 40 + lum_var;
+
+                this.collisonCheck();
+
+                // this.x += this.spX;
+                // this.y += this.spY;
+                // if(this.y > canvas.height || this.x > canvas.width || this.y < 0 || this.x < 0){
+                //     this.x = Math.random() * (canvas.width/2) + (canvas.width/4);
+                //     this.y = Math.random() * (canvas.height/2) + (canvas.height/4);
+                // }
+                // this.size += Math.random() * 2 - 1;
+                // if(this.size < 2) this.size += 1;
+                // if(this.size > 5) this.size -= 1;
+                // this.hue += this.hueSp;
+                // if(this.hue > 360) this.hue -= 360;
+            }
+            draw(){
+                // ctx.fillStyle = '#f398';
+                // ctx.fillStyle = `hsl(${this.hue}, 100%, 40%)`;
+                // ctx.fillStyle = `hsl(60, 100%, 40%)`;
+                // ctx.fillStyle = `hsla(${this.direction}, 100%, 40%, 1)`;
+                // ctx.fillStyle = `hsla(${this.hue}, ${this.sat}, ${this.lum}, ${this.alp})`;
+                ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+
+        class Particle {
+            constructor(id, speed, xyd = []){
+                this.id = id;
+                // this.list = list;
+
+                if(xyd.length > 0) {
+                    this.x = xyd[0];
+                    this.y = xyd[1];
+                    this.d = xyd[2];
+                } else {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.d = Math.floor(Math.random() * 360);
+                }
+                this.path = [[this.x,this.y,this.d]];
+                this.speed = speed;
+                console.log(`id:${this.id} → ${this.d}deg.`);
+
+                this.hue = this.id * 60;
+                this.sat = 100;
+                this.lum = 60;
+                // this.alp = .4;
+                this.alp = 1;
+                this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+
+                this.size = 10;
+                this.rad = 0;
+                this.dx = 0;
+                this.dy = 0;
+                this.directionUpdate();
+                // console.log(this);
+
+                this.forceQueue = [];
+
+                // this.identify();
+            }
+            identify(){
+                // console.log(`id:${this.id} → ${this.d}deg.`);
+                console.log(`─────────────────────────────`);
+                console.log(`id:${this.id} \n\t→ a: ${this.d}deg. \n\t→ sp: ${this.speed}. \n\t→ x: ${this.x}, y: ${this.y}`);
+                // console.log(`\t→ x: ${this.x}, y: ${this.y}`);
+                if(this.forceQueue.length > 0){
+                    console.log(`\t→ forceQueue: ${this.forceQueue.length}`);
+                }
+                console.log(`─────────────────────────────`);
+            }
+            identify2(){
+                console.log(`id:${this.id} \n\t→ forceQueue: ${this.forceQueue.length}`);
+                console.log(this.forceQueue);
+            }
+            identifyXY(){
+                console.log(`\tid:${this.id} move → (x:${this.x}, y:${this.y})`);
+            }
+            identifyForces(i){
+                if(i==2) {console.log(`─────`);}
+                if(i==1) {console.log(`───── identifyForces(↓) ─────`);}
+                console.log(`id:${this.id} \n\t→ angle: ${this.d}deg. \n\t→ speed: ${this.speed}. \n\t→ x: ${this.x}, y: ${this.y}`);
+                if(this.forceQueue.length > 0){
+                    console.log(`\t→ forceQueue: ${this.forceQueue.length}`);
+                    this.forceQueue.forEach(force => {
+                        console.log(`\tforce → speed: ${force.speed}, direction: ${force.d}`);
+                    });
+                }
+                if(i==2) {console.log(`───── identifyForces(↑) ─────`);}
+            }
+            addForces(){
+                // this.identifyForces(1);
+                let this_x_force = this.speed * this.dx;
+                let this_y_force = this.speed * this.dy;
+
+                let adding_x_force = this_x_force;
+                let adding_y_force = this_y_force;
+
+                this.forceQueue.forEach(force => {
+                    // console.log(`force.speed: ${force.speed}, force.d: ${force.d}`);
+                    let xy = this.AngleToXY(force.d);
+                    // console.log(`xy: ${xy.x}, ${xy.y}`);
+                    let new_x_force = force.speed * xy.x;
+                    let new_y_force = force.speed * xy.y;
+                    // console.log(`new_x_force: ${new_x_force}, new_y_force:${new_y_force}`);
+                    
+                    adding_x_force += new_x_force;
+                    adding_y_force += new_y_force;
+                    // console.log(`adding_x_force: ${adding_x_force}, adding_y_force:${adding_y_force}`);
+                });
+                // let new_angle = this.XYtoAngle(adding_x_force,adding_y_force);
+                // console.log(`new_angle: ${new_angle}`);
+                this.d = this.XYtoAngle(adding_x_force,adding_y_force);
+                // let speed_check = Math.sqrt(adding_x_force**2 + adding_y_force**2);
+                // console.log(`speed_check: ${speed_check}`);
+                this.speed = Math.sqrt(adding_x_force**2 + adding_y_force**2);
+                // if(this.speed > 5) {this.speed = 5;}
+                if(this.speed > 15) {this.speed = 15;}
+                
+                this.forceQueue = [];
+                this.directionUpdate();
+                this.move();
+                // this.identifyForces(2);
+            }
+            AngleToXY(angle){
+                angle = angle%360;
+                let rad = angle * Math.PI / 180;
+                let xy = {"x":0,"y":0};
+                if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+                if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+                return xy;
+            }
+            XYtoAngle(x,y){
+                // let x = Math.floor(x);
+                // let y = Math.floor(y);
+                x = Math.floor(x*1000);
+                y = Math.floor(y*1000);
+                let angle = 0;
+                if(x == 0) {
+                    if(y > 0) {return 90;}
+                    if(y < 0) {return 270;}
+                }
+                if(x < 0) { angle += 180; }
+                if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
+                return angle;
+            }
+            updatePath(){
+                this.path.push([this.x,this.y,this.d]);
+                if(this.path.length > 4) {
+                    this.path.shift();
+                }
+                // console.log(this.path);
+            }
+            directionUpdate(){
+                // this.d = (this.d+360)%360;
+                this.rad = this.d * Math.PI / 180;
+                if(this.d == 180) {this.dy = 0;} else {this.dy = Math.sin(this.rad);}
+                if(this.d == 90 || this.d == 270) {this.dx = 0;} else {this.dx = Math.cos(this.rad);}
+
+                this.updatePath();
+
+                // this.hue = this.direction - 90;
+                // this.hue = this.hueStart + (this.direction%90) - 45;
+                // this.size -= this.size/8;
+                // if(this.size < 3) this.size = 3;
+
+                // this.collisionCheck();
+            }
+            wallBounce(wall_angle){
+                // console.log(`wallBounce(${wall_angle})`);
+                // console.log(`this.d = ${this.d}`);
+                let aper1 = (wall_angle + 90) % 360;
+                let aper2 = (wall_angle + 270) % 360;
+                let new_angle = 0;
+                let dif = Math.abs(wall_angle - this.d)%180;
+                if(dif != 0) {
+                    let a1 = Math.max(aper1,aper2);
+                    let a2 = Math.min(aper1,aper2);
+                    new_angle = a1 + (a2 - this.d);
+                }
+                // return new_angle;
+                // this.d = new_angle;
+                this.d = (new_angle + 360) % 360;
+                // console.log(`new_angle = ${new_angle}`);
+                // console.log(`this.d = ${this.d}`);
+            }
+            move(){
+                this.x += this.speed * this.dx;
+                this.y += this.speed * this.dy;
+                
+                // this.identifyXY();
+                // if(this.x > canvas.width || this.x < 0){
+                //     if(this.d < 180) {
+                //         this.d = 180 - this.d;
+                //     } else {
+                //         this.d = 270 + (270 - this.d);
+                //     }
+                //     this.directionUpdate();
+                // }
+                // if(this.y > canvas.height || this.y < 0){
+                //     this.d = 360 - this.d;
+                //     this.directionUpdate();
+                // }
+
+                if(this.x > canvas.width-1 || this.x < 1){
+                    this.wallBounce(90);
+                    this.directionUpdate();
+                }
+                if(this.y > canvas.height-1 || this.y < 1){
+                    this.wallBounce(0);
+                    this.directionUpdate();
+                }
+            }
+            update(){
+                // this.identify3();
+                if(this.forceQueue.length > 0){
+                    // console.log(`─────`);
+                    // this.identify2();
+                    // addForce(this.forceQueue.speed, this.forceQueue.d);
+                    this.addForces();
+                    // console.log(`─────`);
+                }
+
+                this.move();
+
+                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                // this.step = 314;
+                // let xi = this.x % this.step;
+                // let yi = this.y % this.step;
+
+                // let xc = Math.cos(xi / 50);
+                // let yc = Math.sin(yi / 50);
+                // let xyc = xc + yc; /* -2 to 2 */
+
+                // let lum_var = Math.floor(xyc * 10);
+                // this.lum = 40 + lum_var;
+
+
+                // this.collisionCheck();
+                // console.log(`update of id:${this.id} done.`);
+                // console.log(`─────`);
+            }
+            draw(){
+                this.drawPath();
+                // ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                ctx.fillStyle = this.clr;
+                
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            drawPath(){
+                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                // let alp2 = 1;
+                if(this.path.length > 1){
+                    ctx.beginPath();
+                    // ctx.strokeStyle = this.clr;
+                    // ctx.moveTo(this.x, this.y);
+                    let ox = this.x;
+                    let oy =  this.y;
+                    for (let i = this.path.length - 1; i > 0; i--) {
+                        let nx = this.path[i][0];
+                        let ny = this.path[i][1];
+                        
+                        // ctx.beginPath();
+                        // ctx.lineWidth = (i * 2) + 1;
+                        ctx.lineWidth = i + 2;
+                        // let alp2 = (i / this.path.length);
+                        let alp2 = (i / this.path.length * .7) + .2;
+                        ctx.strokeStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
+                        ctx.moveTo(ox, oy);
+                        ctx.lineTo(nx, ny);
+                        ctx.stroke();
+                        ox = nx;
+                        oy = ny;
+                    }
+                }
+            }
+        }
+
+        class Particle2 {
+            constructor(id = -1, speed = 1, xyd = []){
+                this.id = id;
+
+                this.mass = 1;
+                this.vel = 1;
+                this.ke = this.mass * this.vel;
+
+                /* location = ('x', 'y'), and direction = ('d') */
+                if(xyd.length > 0) {
+                    this.x = xyd[0];
+                    this.y = xyd[1];
+                    this.d = xyd[2];
+                } else {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.d = Math.floor(Math.random() * 360);
+                }
+
+                this.path = [[this.x,this.y,this.d]];
+                this.speed = speed;
+                console.log(`particle id:${this.id} at (${this.x.toFixed(2)},${this.y.toFixed(2)})`);
+
+                this.hue = this.id * 60;
+                this.sat = 100;
+                this.lum = 60;
+                this.alp = 1;
+                this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+
+                this.size = 10;
+                this.rad = 0;
+                this.dx = 0;
+                this.dy = 0;
+                this.directionUpdate();
+
+                this.forceQueue = [];
+
+                this.sid = '';
+                this.stepCount = 0;
+                this.sectorCheck();
+            }
+            sectorCheck(){
+                // console.log(`id(${this.id}) → sectorCheck() → this.sid: (${this.sid})`);
+                // this.identifyXY();
+                // console.log(`  └─> id:${this.id} move → (x:${this.x.toFixed(2)}, y:${this.y.toFixed(2)})`);
+
+                /* change it so it takes more than 100, about 20 more on each side. */
+                /* also, so it doesn't delete it unless it is outside of this extra area. */
+                let xid = Math.floor(this.x/100);
+                let yid = Math.floor(this.y/100);
+                // let sid = `yx${yid}.${xid}`;
+                // let sid = `xy${xid}.${yid}`;
+                let sid = `x${xid}y${yid}`;
+                // console.log(sid);
+                if(sid != this.sid){
+                    console.log(`id(${this.id}) → sectorCheck() → this.sid: (${this.sid})`);
+                    console.log(`  └─> id:${this.id} move → (x:${this.x.toFixed(2)}, y:${this.y.toFixed(2)})`);
+                    console.log(`  └─> new sid: (${sid})`);
+                    if(this.sid != ''){
+                        delete sector[this.sid][this.id];
+                    }
+                    if(!Object.keys(sector).includes(sid)) {
+                        sector[sid] = {}
+                    }
+                    // sector[sid][this.id] = true;
+                    sector[sid][this.id] = this;
+                    this.sid = sid;
+
+                    // if(Object.keys(sector).length > 0) {
+                    //     console.log(`sector keys: [${Object.keys(sector)}]`);
+                    //     console.log(sector);
+                    // }
+                    console.log(`─────────────────────────────`);
+                }
+                //  else {
+                //     console.log(`  └─X new sid: (${sid}) = old sid: (${this.sid})`);
+                // }
+                // console.log(`─────────────────────────────`);
+            }
+            sectorUpdate(){
+                if(this.sid != ''){
+                    delete sector[this.sid][this.id];
+                }
+                let xid = Math.floor(this.x/100);
+                let yid = Math.floor(this.y/100);
+                let sid = `${yid},${xid}`;
+                console.log(sid);
+                if(!Object.keys(sector).includes(sid)) {
+                    sector[sid] = {}
+                }
+                sector[sid][this.id] = true;
+                this.sid = sid;
+            }
+            identify(){
+                // console.log(`id:${this.id} → ${this.d}deg.`);
+                console.log(`─────────────────────────────`);
+                console.log(`id:${this.id} \n\t→ a: ${this.d}deg. \n\t→ sp: ${this.speed}. \n\t→ x: ${this.x}, y: ${this.y}`);
+                // console.log(`\t→ x: ${this.x}, y: ${this.y}`);
+                if(this.forceQueue.length > 0){
+                    console.log(`\t→ forceQueue: ${this.forceQueue.length}`);
+                }
+                console.log(`─────────────────────────────`);
+            }
+            identifyXY(){
+                console.log(`\tid:${this.id} move → (x:${this.x}, y:${this.y})`);
+            }
+            identifyForces(i){
+                if(i==2) {console.log(`─────`);}
+                if(i==1) {console.log(`───── identifyForces(↓) ─────`);}
+                console.log(`id:${this.id} \n\t→ angle: ${this.d}deg. \n\t→ speed: ${this.speed}. \n\t→ x: ${this.x}, y: ${this.y}`);
+                if(this.forceQueue.length > 0){
+                    console.log(`\t→ forceQueue: ${this.forceQueue.length}`);
+                    this.forceQueue.forEach(force => {
+                        console.log(`\tforce → speed: ${force.speed}, direction: ${force.d}`);
+                    });
+                }
+                if(i==2) {console.log(`───── identifyForces(↑) ─────`);}
+            }
+            addForces(){
+                // this.identifyForces(1);
+                let this_x_force = this.speed * this.dx;
+                let this_y_force = this.speed * this.dy;
+
+                let adding_x_force = this_x_force;
+                let adding_y_force = this_y_force;
+
+                this.forceQueue.forEach(force => {
+                    // console.log(`force.speed: ${force.speed}, force.d: ${force.d}`);
+                    let xy = this.AngleToXY(force.d);
+                    // console.log(`xy: ${xy.x}, ${xy.y}`);
+                    let new_x_force = force.speed * xy.x;
+                    let new_y_force = force.speed * xy.y;
+                    // console.log(`new_x_force: ${new_x_force}, new_y_force:${new_y_force}`);
+                    
+                    adding_x_force += new_x_force;
+                    adding_y_force += new_y_force;
+                    // console.log(`adding_x_force: ${adding_x_force}, adding_y_force:${adding_y_force}`);
+                });
+                // let new_angle = this.XYtoAngle(adding_x_force,adding_y_force);
+                // console.log(`new_angle: ${new_angle}`);
+                this.d = this.XYtoAngle(adding_x_force,adding_y_force);
+                // let speed_check = Math.sqrt(adding_x_force**2 + adding_y_force**2);
+                // console.log(`speed_check: ${speed_check}`);
+                this.speed = Math.sqrt(adding_x_force**2 + adding_y_force**2);
+                // if(this.speed > 5) {this.speed = 5;}
+                if(this.speed > 15) {this.speed = 15;}
+                
+                this.forceQueue = [];
+                this.directionUpdate();
+                this.move();
+                // this.identifyForces(2);
+            }
+            AngleToXY(angle){
+                angle = angle%360;
+                let rad = angle * Math.PI / 180;
+                let xy = {"x":0,"y":0};
+                if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+                if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+                return xy;
+            }
+            XYtoAngle(x,y){
+                // let x = Math.floor(x);
+                // let y = Math.floor(y);
+                x = Math.floor(x*1000);
+                y = Math.floor(y*1000);
+                let angle = 0;
+                if(x == 0) {
+                    if(y > 0) {return 90;}
+                    if(y < 0) {return 270;}
+                }
+                if(x < 0) { angle += 180; }
+                if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
+                return angle;
+            }
+            updatePath(){
+                this.path.push([this.x,this.y,this.d]);
+                if(this.path.length > 4) {
+                    this.path.shift();
+                }
+                // console.log(this.path);
+            }
+            directionUpdate(){
+                // this.d = (this.d+360)%360;
+                this.rad = this.d * Math.PI / 180;
+                if(this.d == 180) {this.dy = 0;} else {this.dy = Math.sin(this.rad);}
+                if(this.d == 90 || this.d == 270) {this.dx = 0;} else {this.dx = Math.cos(this.rad);}
+
+                this.updatePath();
+
+                // this.hue = this.direction - 90;
+                // this.hue = this.hueStart + (this.direction%90) - 45;
+                // this.size -= this.size/8;
+                // if(this.size < 3) this.size = 3;
+
+                // this.collisionCheck();
+            }
+            wallBounce(wall_angle){
+                // console.log(`wallBounce(${wall_angle})`);
+                // console.log(`this.d = ${this.d}`);
+                let aper1 = (wall_angle + 90) % 360;
+                let aper2 = (wall_angle + 270) % 360;
+                let new_angle = 0;
+                let dif = Math.abs(wall_angle - this.d)%180;
+                if(dif != 0) {
+                    let a1 = Math.max(aper1,aper2);
+                    let a2 = Math.min(aper1,aper2);
+                    new_angle = a1 + (a2 - this.d);
+                }
+                // return new_angle;
+                // this.d = new_angle;
+                this.d = (new_angle + 360) % 360;
+                // console.log(`new_angle = ${new_angle}`);
+                // console.log(`this.d = ${this.d}`);
+            }
+            move(){
+                this.x += this.speed * this.dx;
+                this.y += this.speed * this.dy;
+                // this.identifyXY();
+
+                if(this.x > canvas.width-1 || this.x < 1){
+                    this.wallBounce(90);
+                    this.directionUpdate();
+                }
+                if(this.y > canvas.height-1 || this.y < 1){
+                    this.wallBounce(0);
+                    this.directionUpdate();
+                }
+
+                this.stepCount += 1;
+                if(this.stepCount > 10){
+                    this.sectorCheck();
+                    this.stepCount = 0;
+                }
+            }
+            update(){
+                // this.identify3();
+                if(this.forceQueue.length > 0){
+                    // console.log(`─────`);
+                    // this.identify2();
+                    // addForce(this.forceQueue.speed, this.forceQueue.d);
+                    this.addForces();
+                    // console.log(`─────`);
+                }
+
+                this.move();
+
+                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                // this.step = 314;
+                // let xi = this.x % this.step;
+                // let yi = this.y % this.step;
+
+                // let xc = Math.cos(xi / 50);
+                // let yc = Math.sin(yi / 50);
+                // let xyc = xc + yc; /* -2 to 2 */
+
+                // let lum_var = Math.floor(xyc * 10);
+                // this.lum = 40 + lum_var;
+
+
+                // this.collisionCheck();
+                // console.log(`update of id:${this.id} done.`);
+                // console.log(`─────`);
+            }
+            draw(){
+                this.drawPath();
+                // ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                ctx.fillStyle = this.clr;
+                
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            drawPath(){
+                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                // let alp2 = 1;
+                if(this.path.length > 1){
+                    ctx.beginPath();
+                    // ctx.strokeStyle = this.clr;
+                    // ctx.moveTo(this.x, this.y);
+                    let ox = this.x;
+                    let oy =  this.y;
+                    for (let i = this.path.length - 1; i > 0; i--) {
+                        let nx = this.path[i][0];
+                        let ny = this.path[i][1];
+                        
+                        // ctx.beginPath();
+                        // ctx.lineWidth = (i * 2) + 1;
+                        ctx.lineWidth = i + 2;
+                        // let alp2 = (i / this.path.length);
+                        let alp2 = (i / this.path.length * .7) + .2;
+                        ctx.strokeStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
+                        ctx.moveTo(ox, oy);
+                        ctx.lineTo(nx, ny);
+                        ctx.stroke();
+                        ox = nx;
+                        oy = ny;
+                    }
+                }
+            }
+        }
+
+        // class Particle2 {
+        //     constructor(id = -1, speed = 1, xyd = []){
+        //         this.id = id;
+
+        //         this.mass = 1;
+        //         this.vel = 1;
+        //         this.ke = this.mass * this.vel;
+
+        //         /* location = ('x', 'y'), and direction = ('d') */
+        //         if(xyd.length > 0) {
+        //             this.x = xyd[0];
+        //             this.y = xyd[1];
+        //             this.d = xyd[2];
+        //         } else {
+        //             this.x = Math.random() * canvas.width;
+        //             this.y = Math.random() * canvas.height;
+        //             this.d = Math.floor(Math.random() * 360);
+        //         }
+
+        //         this.path = [[this.x,this.y,this.d]];
+        //         this.speed = speed;
+        //         console.log(`particle id:${this.id} at (${this.x},${this.y})`);
+
+        //         this.hue = this.id * 60;
+        //         this.sat = 100;
+        //         this.lum = 60;
+        //         this.alp = 1;
+        //         this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+
+        //         this.size = 10;
+        //         this.rad = 0;
+        //         this.dx = 0;
+        //         this.dy = 0;
+        //         this.directionUpdate();
+
+        //         this.sid = '';
+        //     }
+        //     sectorUpdate(){
+        //         if(this.sid != ''){
+        //             delete sector[this.sid][this.id];
+        //         }
+        //         let xid = Math.floor(this.x/100);
+        //         let yid = Math.floor(this.y/100);
+        //         let sid = `${yid},${xid}`;
+        //         console.log(sid);
+        //         if(!Object.keys(sector).includes(sid)) {
+        //             sector[sid] = {}
+        //         }
+        //         sector[sid][this.id] = true;
+        //         this.sid = sid;
+        //     }
+
+        // }
+
+        /*
+        sectorUpdate(){
+            delete sector[this.sid][this.id];
+            let xid = Math.floor(this.x/100);
+            let yid = Math.floor(this.y/100);
+            let sid = `${yid},${xid}`;
+            if(!Object.keys(sector).includes(sid)) {
+                sector[sid] = {}
+            }
+            sector[sid][this.id] = true;
+            this.sid = sid;
+        }
+        */
+
+        function AngleToXY(angle){
+                let rad = angle * Math.PI / 180;
+                let xy = {"x":0,"y":0};
+                if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+                if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+                return xy;
+        }
+        function XYtoAngle(x,y){
+            x = Math.floor(x*1000);
+            y = Math.floor(y*1000);
+            let angle = 0;
+            if(x == 0) {
+                if(y > 0) {return 90;}
+                if(y < 0) {return 270;}
+            }
+            if(x < 0) { angle += 180; }
+            if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
+            return angle;
+        }
+        function collisionUpdate(a,b){
+            // console.log(`...collisionUpdate(${a.id},${b.id});`);
+            // a.identify();
+
+            // item 'a' will be the collider into item 'b'.
+            if(a.speed > 0){
+                // console.log(`...collisionUpdate(${a.id},${b.id});`);
+                // a.identify();
+                let x2 = b.x - a.x;
+                let y2 = b.y - a.y;
+                // console.log(`x2: ${x2}, y2: ${y2}`);
+
+                let collision_angle = XYtoAngle(x2,y2);
+                // console.log(`collision_angle: ${collision_angle}`);
+
+                let apperture = Math.abs(collision_angle - a.d);
+                // console.log(`apperture: ${apperture}`);
+
+                if(apperture > 180) {apperture = 360 - apperture;}
+
+                if(apperture < 90) {
+                    let force_ratio_x = Math.cos(apperture * Math.PI / 180);
+                    //let force_ratio_y = Math.sin(apperture * Math.PI / 180);
+                    //let force_ratio = force_ratio_x + force_ratio_y;
+                    
+                    //let force_to_send = (force_ratio_x/force_ratio) * a.speed;
+                    // let force_to_keep = a.speed - force_to_send;
+
+                    let force_to_send = (force_ratio_x) * a.speed;
+                    //let force_to_send = a.speed;
+
+                    let collision_update = (collision_angle + 180)%360;
+                    // let collision_update = (collision_angle + 180);
+                    // a.forceQueue.push({'speed':force_to_send, 'd':collision_update});
+
+                    // a.forceQueue.push({'speed':force_to_keep, 'd':collision_update});
+                    // a.forceQueue.push({'speed':a.speed, 'd':collision_update});
+                    a.forceQueue.push({'speed':force_to_send, 'd':collision_update});
+                    b.forceQueue.push({'speed':force_to_send, 'd':collision_angle});
+                    // a.identify2();
+                    // b.identify2();
+                }
+
+                speedCount();
+                // console.log(`...end of collisionUpdate(${a.id},${b.id})`);
+            }
+            // console.log(`...end of collisionUpdate(${a.id},${b.id})`);
+        }
+        function collisionCheck(a,b){
+            // console.log(`..collisionCheck(${a.id},${b.id});`);
+            // let x2 = a.x - b.x;
+            // let y2 = a.y - b.y;
+            let x2 = b.x - a.x;
+            let y2 = b.y - a.y;
+            let h = x2**2 + y2**2;
+            let dist2 = (a.size+b.size)**2;
+            if(h < dist2){
+                collisionUpdate(a,b);
+                collisionUpdate(b,a);
+            }
+            // console.log(`..end of collisionCheck(${a.id},${b.id})`);
+        }
+        function pairing(arr){
+            // console.log(`.pairing(${arr.length})`);
+            for(let i = 0; i < arr.length - 1; i++){
+                let e1 = arr[i];
+                for(let j = i+1; j < arr.length; j++){
+                    let e2 = arr[j];
+                    collisionCheck(e1,e2);
+                }
+            }
+            // console.log(`.end of pairing(${arr.length})`);
+        }
+        const sector = {};
+        const ss = {
+            "sector": {"size": 100, "pps": 10}
+        };
+        function sectorPairing(sectList){
+            // console.log(`.sectorPairing(${Object.keys(sectList).length})`);
+            for(let i = 0; i < Object.keys(sectList).length - 1; i++){
+                // let id = Object.keys(sectList)[i];
+                // let e1 = sectList[id];
+                let e1 = sectList[Object.keys(sectList)[i]];
+                for(let j = i+1; j < Object.keys(sectList).length; j++){
+                    // let e2 = arr[j];
+                    // let e2 = sectList[id];
+                    let e2 = sectList[Object.keys(sectList)[j]];
+                    collisionCheck(e1,e2);
+                }
+            }
+            // console.log(`.end of sectorPairing(${Object.keys(sectList).length})`);
+        }
+        function sectorCheck(){
+            let sectorList = Object.keys(sector);
+            // console.log(`sectorList: [${sectorList}] | length: (${sectorList.length})`);
+            for(let i = 0; i < sectorList.length; i++){
+                // let sectorId = sectorList[i];
+                // console.log(`sectorId: ${sectorId}`);
+                // let keys = Object.keys(sector[sectorId]);
+                // let keys = Object.keys(sector[sectorList[i]]);
+                // let keys = Object.keys(sector[Object.keys(sector)[i]]);
+                let keys = Object.keys(sector[sectorList[i]]);
+                // console.log(` └─> keys: [${keys}] | length: (${keys.length})`);
+                // console.log(` sector → keys: [${keys}] | length: (${keys.length})`);
+                
+                if(keys.length > 1){
+                    console.log(` sector → keys: [${keys}] | length: (${keys.length})`);
+                    // console.log(sector[sectorList[i]]);
+                    // console.log(sector);
+                    sectorPairing(sector[sectorList[i]]);
+                }
+                
+            }
+
+        }
+
+        function speedCount(){
+            let total_speed = 0;
+            particles.forEach(p => {
+                total_speed += p.speed;
+            });
+            console.log(` \n total_speed: ${total_speed} \n\t\t\t\t\t⏱`);
+
+            // console.log(sector);
+        }
+
+        function start(){
+            for (let index = 0; index < 6; index++) {
+                // particles.push(new Particle(id = index, speed = 1));
+                // particles.push(new Particle(id = index, speed = 3));
+                particles.push(new Particle(id = index, speed = index));
+                // particles.push(new Particle(id = index, speed = 10));
+            }
+            // particles.push(new Particle2(id = 0, speed = 1));
+            // particles.push(new Particle2(id = 1, speed = 1));
+
+            // particles.push(new Particle2(id = 0, speed = 1, xyd = [120,100,45]));
+            // particles.push(new Particle2(id = 1, speed = 0, xyd = [250,250,0]));
+            speedCount();
+        }
+        start();
+        function handleParticles(){
+            pairing(particles);
+            // sectorCheck();
+            for (let index = 0; index < particles.length; index++) {
+                const element = particles[index];
+                element.update();
+                element.draw();
+            }
+            // if(!s.pause){
+            //     pairing(particles);
+            // // }
+            // // if(!s.pause){
+            //     for (let index = 0; index < particles.length; index++) {
+            //         const element = particles[index];
+            //         element.update();
+            //         element.draw();
+            //     }
+            // }
+            // for (let index = 0; index < particles.length; index++) {
+            //     const element = particles[index];
+            //     if(!s.pause){
+            //         element.update();
+            //     }
+            //     element.draw();
+            // }
+        }
+        function animate (){
+            // ctx.clearRect(0,0,canvas.width, canvas.height);
+            // ctx.fillStyle = '#0002';
+            // ctx.fillStyle = '#00000008';
+            // ctx.fillStyle = '#00000004';
+            // ctx.fillStyle = '#000000ff';
+            // ctx.fillStyle = '#00000022';
+            // ctx.fillRect(0, 0, canvas.width, canvas.height);
+            if(!s.pause){
+                ctx.fillStyle = '#00000022';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                handleParticles();
+            }
+            // hueHelix();
+            // handleParticles();
+            requestAnimationFrame(animate);
+        }
+        // animate();
+
+
+        window.addEventListener("keydown", function (event) {
+            // console.log(`key: '${event.key}', keyCode: '${event.keyCode}'.`);
+            if(event.key == ' ') {
+                s.pause ? s.pause = false : s.pause = true;
+                console.log(`pause = ${s.pause}.`);
+            }
+        });
+    
+
+        
+        // window.addEventListener('mousemove', (ev) =>{
+        //     // let chance = Math.floor(Math.random()*100) + 1;
+        //     s.x = ev.clientX;
+        //     s.y = ev.clientY;
+        //     // hueHelix();
+        // });
+        // function zoom(event) {
+        //     event.preventDefault();
+        //     scale += event.deltaY * -0.01;
+        //     scale = Math.min(Math.max(.125, scale), 4);
+        //     s.z = (scale * 10)+20;
+        // }
+        // let scale = 1;
+        // const el = document.querySelector('#canvas');
+        // el.onwheel = zoom;
+
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            // start();
+            animate();
+        });
+
+    </script>
+</body>
+</html>

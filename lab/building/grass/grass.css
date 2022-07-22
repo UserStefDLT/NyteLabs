@@ -1,0 +1,145 @@
+
+
+
+
+
+
+[class|="grass-leaf"]::before {--clr: #9f39; --ro: -1;}
+[class|="grass-leaf"]::after {--clr: #3f99; --ro: 1;}
+
+.grass-leaf {
+    /* --h: 2rem; --w: .5rem;
+    --h: 8rem;  */
+    --w: 2rem;
+    --h: calc(var(--w) * 4); 
+    --side: calc(var(--w) * .5);
+    position: relative;
+    /* position: absolute; */
+    /* top: 50%; left: 50%; */
+    
+    height: 0rem; width: 0rem;
+    border: .25rem solid #fff0;
+    border-bottom: 2rem solid #fff6;
+
+    border: var(--side) solid #fff0;
+    border-bottom: var(--h) solid #fff6;
+    border-top: 0;
+}
+.grass-leaf::before, .grass-leaf::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    /* transform: translateX(-50%) translateY(0%) rotateZ(calc(60deg * var(--ro))); */
+    transform-origin: calc(var(--side) + (var(--side) * .5 * var(--ro))) 100%;
+
+    transform: translateX(-50%) translateY(0%) 
+    rotate3d(0,1,0,calc(60deg * var(--ro))) rotate3d(1,0,0,6deg) rotate3d(0,0,1,calc(3deg * var(--ro)));
+    
+    height: 0rem; width: 0rem;
+    border: .25rem solid #fff0;
+    border-bottom: 2rem solid var(--clr);
+
+    border: var(--side) solid #fff0;
+    border-bottom: var(--h) solid var(--clr);
+    border-top: 0;
+}
+.grass-leaf::before {
+    transform-origin: 0rem 100%;
+    transform: translateX(-50%) translateY(0%) 
+    rotate3d(0,1,0,-60deg) rotate3d(1,0,0,6deg) rotate3d(0,0,1,-3deg);
+}
+.grass-leaf::after {
+    transform-origin: var(--w) 100%;
+    transform: translateX(-50%) translateY(0%) 
+    rotate3d(0,1,0,60deg) rotate3d(1,0,0,6deg) rotate3d(0,0,1,3deg);
+}
+
+
+.grass-leaf-3 {
+    --w: 2rem;
+    --h: calc(var(--w) * 4); 
+    --side: calc(var(--w) * .5);
+    position: relative;
+    height: 0rem; width: 0rem;
+    border: var(--side) solid #fff0;
+    border-bottom: var(--h) solid #fff6;
+    border-top: 0;
+}
+.grass-leaf-3::before, .grass-leaf-3::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    height: 0rem; width: 0rem;
+    border: var(--side) solid #fff0;
+    border-bottom: var(--h) solid var(--clr);
+    border-top: 0;
+}
+.grass-leaf-3::before {
+    transform-origin: 0rem 100%;
+    transform: translateX(-50%) translateY(0%) 
+    rotate3d(0,1,0,-60deg) rotate3d(1,0,0,6deg) rotate3d(0,0,1,-3deg);
+}
+.grass-leaf-3::after {
+    transform-origin: var(--w) 100%;
+    transform: translateX(-50%) translateY(0%) 
+    rotate3d(0,1,0,60deg) rotate3d(1,0,0,6deg) rotate3d(0,0,1,3deg);
+}
+
+
+.grass-leaf-2 {
+    --h: 8rem; --w: 2rem;
+    --side: calc(var(--w) * .5);
+    position: relative;            
+    height: 0rem; width: 0rem;
+    border: var(--side) solid #fff0;
+    border-bottom: var(--h) solid #fff6;
+    border-top: 0;
+}
+.grass-leaf-2::before, .grass-leaf-2::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(0%) rotateZ(calc(60deg * var(--ro)));
+    transform-origin: 50% 100%;
+    
+    /* transform: translateX(-50%) translateY(0%) rotateY(calc(60deg * var(--ro))); */
+    transform: translateX(-50%) translateY(0%) rotate3d(0,1,0,calc(60deg * var(--ro)));
+    transform-origin: 50% 50%;
+    transform-origin: calc(var(--side) * .5 * var(--ro)) 50%;
+    transform-origin: calc(var(--side) * .5 * var(--ro)) 100%;
+    transform-origin: calc(var(--side) + (var(--side) * .5 * var(--ro))) 100%;
+    /* transform-origin: 0rem 100%; */
+    /* transform-origin: 2rem 100%; */
+    
+    border: var(--side) solid #fff0;
+    border-bottom: var(--h) solid var(--clr);
+    border-top: 0;
+}
+/* .grass-leaf::before {--clr: #9f39; --ro: -1; transform-origin: 0rem 100%;} */
+/* .grass-leaf::after {--clr: #3f99; --ro: 1; transform-origin: 2rem 100%;} */
+
+
+.grass-leaf-1 {
+    --h: 8rem; --w: 2rem;
+    --side: calc(var(--w) * .5);
+    position: relative;
+    height: 0rem; width: 0rem;
+
+    border: var(--side) solid #fff0;
+    border-bottom: var(--h) solid #fff6;
+    border-top: 0;
+}
+.grass-leaf-1::before {--clr: #9f39; --ro: -1;}
+.grass-leaf-1::after {--clr: #3f99; --ro: 1;}
+.grass-leaf-1::before, .grass-leaf-1::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(0%) rotateZ(calc(60deg * var(--ro)));
+    transform-origin: 50% 100%;
+    height: 0rem; width: 0rem;
+    border: var(--side) solid #fff0;
+    border-bottom: var(--h) solid var(--clr);
+    border-top: 0;
+}

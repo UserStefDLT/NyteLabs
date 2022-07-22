@@ -20,7 +20,7 @@
         } */
         :root {
             --p: 300px;
-            /* --p: 1200px; */
+            --p: 1200px;
 
             --x: 0;
             --y: 0;
@@ -326,14 +326,69 @@
             grid-template-columns: repeat(2, 1fr);
         }
     </style>
+
+    <style>
+        /* .xio::before {--clr: #9f3; --ro: 1;}
+        .xio::after {--clr: #3f9; --ro: 1;}
+        .xio::before, .xio::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+
+
+            position: relative;
+            height: 2rem; width: .5rem;
+            background: #fff;
+            
+            height: 0rem; width: 0rem;
+            border: .25rem solid #fff0;
+            border-bottom: 2rem solid var(--clr);
+            border-top: 0;
+        } */
+
+        /* [class|="grass-leaf"]::before {--grass: #9f39; --ro: -1;}
+        [class|="grass-leaf"]::after {--grass: #3f99; --ro: 1;} */
+        .grass-leaf {
+            --w: 2rem;
+            --h: calc(var(--w) * 4); 
+            --side: calc(var(--w) * .5);
+            position: relative;
+            height: 0rem; width: 0rem;
+            border: var(--side) solid #fff0;
+            border-bottom: var(--h) solid #fff6;
+            border-top: 0;
+        }
+        .grass-leaf::before, .grass-leaf::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            height: 0rem; width: 0rem;
+            border: var(--side) solid #fff0;
+            border-bottom: var(--h) solid var(--grass);
+            border-top: 0;
+        }
+        .grass-leaf::before {
+            transform-origin: 50% 0%;
+            transform: translateX(-50%) translateY(0%) 
+            rotate3d(0,1,0,-60deg) rotate3d(1,0,0,6deg) rotate3d(0,0,1,-3deg);
+        }
+        .grass-leaf::after {
+            transform-origin: 50% 0%;
+            transform: translateX(-50%) translateY(0%) 
+            rotate3d(0,1,0,60deg) rotate3d(1,0,0,6deg) rotate3d(0,0,1,3deg);
+        }
+        .grass-leaf::before {--grass: #9f39; --ro: -1;}
+        .grass-leaf::after {--grass: #3f99; --ro: 1;}
+
+    </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
     <header>
-        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
         <div class="title">Flow</div>
         <!-- <div class="subtitle">subtitle</div> -->
-        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div>
         <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
     </header>
 
@@ -363,7 +418,7 @@
     </div>
 
     <div class="shelf">
-        <div class="shelf-title">flow check</div>
+        <div class="shelf-title">Hover over the tiles.</div>
         <div id="grid-display"></div>
     </div>
     <div class="shelf hidden">
@@ -576,6 +631,7 @@
 
                     let arrow = document.createElement('div');
                     arrow.classList.add('xio');
+                    arrow.classList.add('grass-leaf');
                     arrow.dataset.yx = `${y}-${x}`;
 
                     // tile.dataset.tile = `wn`;

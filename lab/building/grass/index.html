@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Grass | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        :root {
+            --p: 300px;
+            --p: 1200px;
+            --grid-perspective: 1200px;
+            --x: 0;
+            --y: 0;
+            --z: 0;
+        }
+        input[type="checkbox"] {display: none;}
+        /* #input--rotation-active:not(:checked) ~ main #rotation-controllers {display: none;} */
+        label {
+            /* outline: 1px dashed #fff9;  */
+            padding: .25rem .5rem; 
+            margin: .5rem;
+            
+            background-color: #39f0;
+            box-shadow: 0rem 0rem 0rem 0rem #39f0;
+            border: 1px dashed #39f9;
+            border: 1px dashed #fff9;
+
+            transition: 
+            background-color 100ms ease-in-out,
+            box-shadow 100ms ease-in-out,
+            border 100ms ease-in-out;
+        }
+        #input--grid-iso:checked ~ main [for="input--grid-iso"],
+        #input--grid-iso-rotation:checked ~ main [for="input--grid-iso-rotation"],
+        #input--center-base:checked ~ main [for="input--center-base"],
+        #input--rotation-active:checked ~ main [for="input--rotation-active"] {
+            background-color: #39f3;
+            box-shadow: 0rem 0rem 0.25rem .125rem #39f;
+            border: 1px ridge #39f;
+        }
+    </style>
+    <style>
+        .xc-grid,
+        .xrow,
+        .xci-tile,
+        .xio, main * {
+            transform-style: preserve-3d;
+            transition: transform 200ms ease-in-out;
+        }
+        .xc-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            /* background: linear-gradient(to bottom right, #eee, #ccc); */
+            /* background: linear-gradient(to bottom right, #333, #000); */
+
+            /* grid-template-columns: repeat(5, 1fr); */
+            z-index: 1;
+        }
+        .xc-grid {
+            position: relative;
+            box-sizing: border-box;
+            outline: 1px dashed #fff6;
+            transform-style: preserve-3d;
+            transition: transform 500ms ease-in-out;
+            
+            --grid-perspective: 1200px;
+            --display-x-deg: 54.736deg;
+            --display-y-deg: 0deg;
+            
+            transform: perspective(var(--grid-perspective)) rotateX(0deg) rotateZ(0deg);
+
+            /* transform: perspective(var(--grid-perspective)) rotateX(54.736deg) rotateZ(-45deg); */
+            /* animation: display-ny 5000ms linear infinite both; */
+        }
+        @keyframes display-ny {
+            0% {transform: perspective(var(--grid-perspective)) rotate3d(1,0,0, var(--display-x-deg)) rotate3d(0,1,0,var(--display-y-deg)) rotate3d(0,0,1,0deg);}
+            50% {transform: perspective(var(--grid-perspective))  rotate3d(1,0,0, var(--display-x-deg)) rotate3d(0,1,0,var(--display-y-deg)) rotate3d(0,0,1,180deg);}
+            100% {transform: perspective(var(--grid-perspective))  rotate3d(1,0,0, var(--display-x-deg)) rotate3d(0,1,0,var(--display-y-deg)) rotate3d(0,0,1,360deg);}
+        }
+        #input--grid-iso:checked ~ main .xc-grid {transform: perspective(var(--grid-perspective)) rotateX(54.736deg) rotateZ(-45deg);}
+        #input--grid-iso-rotation:checked ~ main .xc-grid {animation: display-ny 5000ms linear infinite both;}
+
+        .xci-tile {
+            position: relative;
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+
+            --sz: 5rem;
+            height: var(--sz);
+            width: var(--sz);
+
+            border-radius: 50%;
+            background: #0000;
+            outline: 1px dashed #fff2;
+            outline-offset: -2px;
+        }
+        .xio {
+            position: relative;
+            height: 2rem; width: .5rem;
+            /* background: #fff; */
+            position: absolute;
+            top: 50%; left: 50%;
+            
+            height: 0rem; width: 0rem;
+            border: .25rem solid #fff0;
+            border-bottom: 2rem solid #fff;
+            border-top: 0;
+        }
+
+        .xio::before {--clr: #9f3; --ro: 1;}
+        .xio::after {--clr: #3f9; --ro: 1;}
+        .xio::before, .xio::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+
+
+            position: relative;
+            height: 2rem; width: .5rem;
+            /* background: #fff; */
+            
+            height: 0rem; width: 0rem;
+            border: .25rem solid #fff0;
+            border-bottom: 2rem solid var(--clr);
+            border-top: 0;
+        }
+
+    </style>
+    <style>
+        /* .xci-tile {transform: perspective(var(--grid-perspective)) rotateX(54.736deg) rotateZ(-45deg);} */
+        [class|="grass-leaf"]::before {--clr: #9f39; --ro: -1;}
+        [class|="grass-leaf"]::after {--clr: #3f99; --ro: 1;}
+
+        .grass-leaf {
+            --w: 8rem;
+            --h: calc(var(--w) * 4); 
+            --side: calc(var(--w) * .5);
+            position: relative;
+            height: 0rem; width: 0rem;
+            border: var(--side) solid #fff0;
+            border-bottom: var(--h) solid #fff6;
+            border-bottom: var(--h) solid #3f36;
+            border-top: 0;
+        }
+        .grass-leaf::before, .grass-leaf::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            height: 0rem; width: 0rem;
+            border: var(--side) solid #fff0;
+            border-bottom: var(--h) solid var(--clr);
+            border-top: 0;
+        }
+        .grass-leaf::before {
+            transform-origin: 50% 0%;
+            transform: translateX(-50%) translateY(0%) 
+            rotate3d(0,1,0,-60deg) rotate3d(1,0,0,6deg) rotate3d(0,0,1,-3deg);
+        }
+        .grass-leaf::after {
+            transform-origin: 50% 0%;
+            transform: translateX(-50%) translateY(0%) 
+            rotate3d(0,1,0,60deg) rotate3d(1,0,0,6deg) rotate3d(0,0,1,3deg);
+        }
+
+
+        .grass-leaf-3 {
+            --w: 2rem;
+            --h: calc(var(--w) * 4); 
+            --side: calc(var(--w) * .5);
+            position: relative;
+            height: 0rem; width: 0rem;
+            border: var(--side) solid #fff0;
+            border-bottom: var(--h) solid #fff6;
+            border-top: 0;
+        }
+        .grass-leaf-3::before, .grass-leaf-3::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            height: 0rem; width: 0rem;
+            border: var(--side) solid #fff0;
+            border-bottom: var(--h) solid var(--clr);
+            border-top: 0;
+        }
+        .grass-leaf-3::before {
+            transform-origin: 0rem 100%;
+            transform: translateX(-50%) translateY(0%) 
+            rotate3d(0,1,0,-60deg) rotate3d(1,0,0,6deg) rotate3d(0,0,1,-3deg);
+        }
+        .grass-leaf-3::after {
+            transform-origin: var(--w) 100%;
+            transform: translateX(-50%) translateY(0%) 
+            rotate3d(0,1,0,60deg) rotate3d(1,0,0,6deg) rotate3d(0,0,1,3deg);
+        }
+        
+
+        .grass-leaf-2 {
+            --h: 8rem; --w: 2rem;
+            --side: calc(var(--w) * .5);
+            position: relative;            
+            height: 0rem; width: 0rem;
+            border: var(--side) solid #fff0;
+            border-bottom: var(--h) solid #fff6;
+            border-top: 0;
+        }
+        .grass-leaf-2::before, .grass-leaf-2::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(0%) rotateZ(calc(60deg * var(--ro)));
+            transform-origin: 50% 100%;
+            
+            /* transform: translateX(-50%) translateY(0%) rotateY(calc(60deg * var(--ro))); */
+            transform: translateX(-50%) translateY(0%) rotate3d(0,1,0,calc(60deg * var(--ro)));
+            transform-origin: 50% 50%;
+            transform-origin: calc(var(--side) * .5 * var(--ro)) 50%;
+            transform-origin: calc(var(--side) * .5 * var(--ro)) 100%;
+            transform-origin: calc(var(--side) + (var(--side) * .5 * var(--ro))) 100%;
+            /* transform-origin: 0rem 100%; */
+            /* transform-origin: 2rem 100%; */
+            
+            border: var(--side) solid #fff0;
+            border-bottom: var(--h) solid var(--clr);
+            border-top: 0;
+        }
+        /* .grass-leaf::before {--clr: #9f39; --ro: -1; transform-origin: 0rem 100%;} */
+        /* .grass-leaf::after {--clr: #3f99; --ro: 1; transform-origin: 2rem 100%;} */
+
+
+        .grass-leaf-1 {
+            --h: 8rem; --w: 2rem;
+            --side: calc(var(--w) * .5);
+            position: relative;
+            height: 0rem; width: 0rem;
+
+            border: var(--side) solid #fff0;
+            border-bottom: var(--h) solid #fff6;
+            border-top: 0;
+        }
+        .grass-leaf-1::before {--clr: #9f39; --ro: -1;}
+        .grass-leaf-1::after {--clr: #3f99; --ro: 1;}
+        .grass-leaf-1::before, .grass-leaf-1::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(0%) rotateZ(calc(60deg * var(--ro)));
+            transform-origin: 50% 100%;
+            height: 0rem; width: 0rem;
+            border: var(--side) solid #fff0;
+            border-bottom: var(--h) solid var(--clr);
+            border-top: 0;
+        }
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <div class="title">Grass</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+    <input type="checkbox" name="input-control" id="input--grid-iso">
+    <input type="checkbox" name="input-control" id="input--grid-iso-rotation">
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">Settings:</div>
+        <div class="shelf-row">
+            <label for="input--grid-iso">Perspective Isometric</label>
+            <label for="input--grid-iso-rotation">Rotation Display</label>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">Attempt 04</div>
+        <div class="xc-grid">
+            <div class="xci-tile">
+                <div class="grass-leaf"></div>
+            </div>
+        </div>
+    </div>
+    <div class="shelf hidden">
+        <div class="shelf-title">Attempt 03</div>
+        <div class="xc-grid">
+            <div class="xci-tile">
+                <div class="grass-leaf-3"></div>
+            </div>
+        </div>
+    </div>
+    <div class="shelf hidden">
+        <div class="shelf-title">Attempt 02</div>
+        <div class="xci-tile">
+            <div class="grass-leaf-2"></div>
+        </div>
+    </div>
+    <div class="shelf hidden">
+        <div class="shelf-title">Attempt 01</div>
+        <div class="grass-leaf-1"></div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>
