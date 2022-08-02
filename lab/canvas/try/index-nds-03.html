@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Canvas Try | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <!-- <link rel="stylesheet" href="../../../stylesheets/radio-nav.css"> -->
+    <!-- <link rel="stylesheet" href="../../../stylesheets/deck.css"> -->
+    <link rel="stylesheet" href="../../../stylesheets/canvas.css">
+    <style>
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Canvas</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <!-- <div class="shelf-title">title</div> -->
+        <canvas id="canvas"></canvas>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <!-- <script src="canvas-01.js"></script> -->
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () =>{
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        const s = {
+            'vh': window.innerHeight,
+            'vw': window.innerWidth,
+        }
+        const o = {'x': s.vw/2, 'y': s.vh/2}
+        const clr = {
+            'i': 0,
+            'hueStep': 15,
+            'hue': 210,
+            'sat': 100,
+            'lum': 60,
+            'alp': 1,
+            'z': 0
+        }
+
+        function DrawGrid(space = 100){
+            // let rowCount = s.vh / space;
+            // let colCount = s.vw / space;
+            let rowCount = o.y / space;
+            let colCount = o.x / space;
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#222';
+            ctx.beginPath();
+            for (let y = 1; y < rowCount; y++) {
+                let ys = y*space;
+                let oysup = o.y - ys;
+                let oysdn = o.y + ys;
+                ctx.moveTo(0, oysup);
+                ctx.lineTo(s.vw, oysup);
+                ctx.moveTo(0, oysdn);
+                ctx.lineTo(s.vw, oysdn);
+            }
+            for (let x = 1; x < rowCount; x++) {
+                let xs = x*space;
+                let oxs_l = o.x - xs;
+                let oxs_r = o.x + xs;
+                ctx.moveTo(oxs_l, 0);
+                ctx.lineTo(oxs_l, s.vh);
+                ctx.moveTo(oxs_r, 0);
+                ctx.lineTo(oxs_r, s.vh);
+            }
+            ctx.stroke();
+
+            // ctx.strokeStyle = '#555';
+            ctx.strokeStyle = '#999';
+            ctx.beginPath();
+            ctx.moveTo(o.x, 0);
+            ctx.lineTo(o.x, s.vh);
+            ctx.moveTo(0, o.y);
+            ctx.lineTo(s.vw, o.y);
+            ctx.stroke();
+        }
+
+        function AngleToXY(angle){
+            angle = angle%360;
+            let rad = angle * Math.PI / 180;
+            let xy = {"x":0,"y":0};
+            if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+            if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+            return xy;
+        }
+        function XYtoAngle(x,y){
+            x = Math.round(x*1000);
+            y = Math.round(y*1000);
+            let angle = 0;
+            if(x == 0) {
+                if(y > 0) {return 90;}
+                if(y < 0) {return 270;}
+            }
+            if(x < 0) { angle += 180; }
+            if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
+            return angle;
+        }
+
+        
+        function DrawLineA(angle = 0, distance = 200, color = '', size = 1){
+            let xy = AngleToXY(angle);
+            let dx = xy.x;
+            let dy = xy.y;
+
+            let dxv = dx * distance;
+            let dyv = dy * distance;
+
+            let x = dxv + o.x;
+            let y = dyv + o.y;
+
+            // ctx.strokeStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            let colorStyle = '#0000';
+            if(color == ''){
+                let hue = clr.i * clr.hueStep;
+                colorStyle = `hsla(${hue}, ${clr.sat}%, ${clr.lum}%, ${clr.alp})`;
+                clr.i += 1;
+            } else if(color == 0 || color == false){
+                colorStyle = '#fff';
+            } else {
+                colorStyle = color;
+            }
+
+            let sz = size;
+            let sz_line = sz;
+            let sz_point = sz * 2;
+
+            ctx.beginPath();
+            ctx.lineWidth = sz_line;
+
+            ctx.strokeStyle = colorStyle;
+            ctx.moveTo(o.x, o.y);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+
+
+            ctx.fillStyle = colorStyle;
+            ctx.beginPath();
+            ctx.arc(x, y, sz_point, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
+        function DrawLineA2(angle = 0, distance = 200, hsla = {}, size = 1, color = ''){
+            let xy = AngleToXY(angle);
+            let dx = xy.x;
+            let dy = xy.y;
+
+            let dxv = dx * distance;
+            let dyv = dy * distance;
+
+            let x = dxv + o.x;
+            let y = dyv + o.y;
+
+            let colorStyle = '#0000';
+            let colorStyle_stroke = '#0000';
+            let colorStyle_fill = '#0000';
+
+            if(Object.keys(hsla).length > 0){
+                colorStyle = `hsla(${hsla.h}, ${hsla.s}%, ${hsla.l}%, ${hsla.a})`;
+                // colorStyle_stroke = `hsla(${hsla.h}, ${hsla.s}%, ${hsla.l}%, ${hsla.a})`;
+                colorStyle_fill = `hsla(${hsla.h}, ${hsla.s}%, ${hsla.l}%, 1)`;
+            } else {
+                let hue = clr.i * clr.hueStep;
+                colorStyle = `hsla(${hue}, ${clr.sat}%, ${clr.lum}%, ${clr.alp})`;
+                // colorStyle_stroke = `hsla(${hue}, ${clr.sat}%, ${clr.lum}%, ${clr.alp})`;
+                colorStyle_fill = `hsla(${hue}, ${clr.sat}%, ${clr.lum}%, 1)`;
+                clr.i += 1;
+            }
+            if(color != '') {
+                colorStyle = color;
+                colorStyle_fill = color;
+            }
+
+            let sz = size;
+            let sz_line = sz;
+            let sz_point = sz * 2;
+
+            ctx.beginPath();
+            ctx.lineWidth = sz_line;
+
+            ctx.strokeStyle = colorStyle;
+            ctx.moveTo(o.x, o.y);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+
+            ctx.fillStyle = colorStyle_fill;
+            ctx.beginPath();
+            ctx.arc(x, y, sz_point, 0, Math.PI * 2);
+            ctx.fill();
+
+
+            // ctx.fillStyle = 'white';
+            // ctx.fillRect(10, 10, 100, 100);
+
+
+            let xt = x.toFixed(0);
+            let yt = y.toFixed(0);
+            let xyText = `(${xt}, ${yt})`;
+            console.log(`xyText: ${xyText}`);
+
+            // let fontSize = 16;
+            // ctx.font = `${fontSize}px serif`;
+            // let txth = fontSize / 2;
+            // console.log(`txth: ${txth}`);
+
+            // let text_width = ctx.measureText(xyText);
+            // let txtw = text_width.width / 2;
+            // console.log(`text.width: ${text_width.width}`);
+            // console.log(`txtw/2: ${txtw}`);
+
+            // let x2 = (dx * (distance + txtw));
+            // let y2 = (dy * (distance + fontSize));
+            // console.log(`x2: ${x2}, y2: ${y2}`);
+
+            // // let hh = hsla.h;
+            // DrawText(xyText, {'x': x2, 'y': y2}, color = colorStyle_fill, fontSize);
+
+            DrawTextA(xyText, angle, distance, hsla, fontSize = 16, color = '');
+            // DrawTextA(xyText, angle, distance, hsla, fontSize = 16, color = '', size = 1, fill = false);
+            console.log(` ─────────────── `);
+            // if(clr.i > 0){clr.i = 0;}
+        }
+
+        function DrawRect(left, top, width, height, color = ''){
+            // ctx.fillStyle = colorStyle_fill;
+            // ctx.fillRect(label_x1, label_y1, txtw_s*2, txth_s*2);
+            let colorStyle = color;
+
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+
+            ctx.strokeStyle = colorStyle;
+            ctx.moveTo(left, top);
+            ctx.lineTo(left + width, top);
+            ctx.lineTo(left + width, top + height);
+            ctx.lineTo(left, top + height);
+            ctx.lineTo(left, top);
+            ctx.stroke();
+        }
+
+        function DrawText1(text, xy = {'x': 50, 'y': 50}, color = '', fill = true){
+
+            ctx.font = '48px serif';
+            ctx.textAlign = "center";
+
+            // const text = ctx.measureText('foo');
+            // text.width;
+
+            let colorStyle = '#0000';
+            if(color == ''){
+                let hue = clr.i * clr.hueStep;
+                colorStyle = `hsla(${hue}, ${clr.sat}%, ${clr.lum}%, ${clr.alp})`;
+                clr.i += 1;
+            } else {
+                colorStyle = color;
+            }
+
+            if(fill){
+                ctx.fillStyle = colorStyle;
+                ctx.fillText(text, xy.x, xy.y);
+            } else {
+                ctx.strokeStyle = colorStyle;
+                ctx.strokeText(text, xy.x, xy.y);
+            }
+
+            if(color == ''){clr.i = 0;}
+        }
+        function DrawText(text, xy = {'x': 50, 'y': 50}, color = '', fontSize = 16, fill = true){
+
+            // ctx.font = '48px serif';
+            // ctx.font = '16px serif';
+            ctx.font = `${fontSize}px serif`;
+            ctx.textBaseline = "middle";
+            ctx.textAlign = "center";
+
+            let x = o.x + xy.x;
+            let y = o.y + xy.y;
+
+            let colorStyle = '#0000';
+            if(color == ''){
+                let hue = clr.i * clr.hueStep;
+                colorStyle = `hsla(${hue}, ${clr.sat}%, ${clr.lum}%, ${clr.alp})`;
+                clr.i += 1;
+            } else {
+                colorStyle = color;
+            }
+            
+            // ctx.fillStyle = 'white';
+            // ctx.fillRect(10, 10, 100, 100);
+
+            if(fill){
+                ctx.fillStyle = colorStyle;
+                ctx.fillText(text, x, y);
+            } else {
+                ctx.strokeStyle = colorStyle;
+                ctx.strokeText(text, x, y);
+            }
+
+            if(color == ''){clr.i = 0;}
+        }
+        function DrawTextA(text, angle = 0, distance = 200, hsla = {}, fontSize = 16, color = '', size = 1, fill = true){
+            let xy = AngleToXY(angle);
+            let dx = xy.x;
+            let dy = xy.y;
+
+            let colorStyle = '#0000';
+            let colorStyle_stroke = '#ffff';
+            let colorStyle_fill = '#fff3';
+
+            if(Object.keys(hsla).length > 0){
+                colorStyle = `hsla(${hsla.h}, ${hsla.s}%, ${hsla.l}%, ${hsla.a})`;
+                colorStyle_stroke = `hsla(${hsla.h}, ${hsla.s}%, ${hsla.l}%, 1)`;
+                // colorStyle_fill = `hsla(${hsla.h}, ${hsla.s}%, ${hsla.l}%, .2)`;
+                // colorStyle_fill = `hsla(${hsla.h}, ${hsla.s}%, ${hsla.l-40}%, 1)`;
+                // colorStyle_fill = `hsla(${hsla.h}, ${hsla.s}%, ${hsla.l-40}%, .2)`;
+                // colorStyle_fill = `hsla(${hsla.h}, ${hsla.s}%, ${hsla.l-40}%, 1)`;
+                colorStyle_fill = `hsla(${hsla.h}, ${hsla.s}%, 10%, 1)`;
+            } else {
+                let hue = clr.i * clr.hueStep;
+                colorStyle = `hsla(${hue}, ${clr.sat}%, ${clr.lum}%, ${clr.alp})`;
+                colorStyle_stroke = `hsla(${hue}, ${clr.sat}%, ${clr.lum}%, 1)`;
+                // colorStyle_fill = `hsla(${hue}, ${clr.sat}%, ${clr.lum}%, .2)`;
+                // colorStyle_fill = `hsla(${hue}, ${clr.sat}%, ${clr.lum-40}%, 1)`;
+                // colorStyle_fill = `hsla(${hue}, ${clr.sat}%, ${clr.lum-40}%, .2)`;
+                colorStyle_fill = `hsla(${hue}, ${clr.sat}%, ${clr.lum-40}%, .4)`;
+                clr.i += 1;
+            }
+            if(color != '') {
+                colorStyle = color;
+                colorStyle_stroke = color;
+                colorStyle_fill = color;
+            }
+
+            // let sz = size;
+            // let sz_line = sz;
+            // // let sz_point = sz * 2;
+
+            // ctx.lineWidth = sz_line;
+            
+            
+            ctx.font = `${fontSize}px serif`;
+            ctx.textBaseline = "middle";
+            ctx.textAlign = "center";
+
+            let txth = fontSize;
+            let text_width = ctx.measureText(text);
+            let txtw = text_width.width / 2;
+            
+            let x = o.x + (dx * (distance + txtw));
+            let y = o.y + (dy * (distance + txth));
+            // let y = o.y + (dy * (distance + fontSize));
+
+            let border = 1;
+            let padding = 2;
+            let txtw_m = (txtw + padding + border);
+            let txth_m = (txth/2 + padding + border);
+            let txtw_s = (txtw + padding);
+            let txth_s = (txth/2 + padding);
+            
+            let label_x1_m = x - txtw_m;
+            let label_y1_m = y - txth_m;
+            // ctx.fillStyle = '#fff9';
+            // ctx.fillStyle = colorStyle_stroke;
+            // ctx.fillRect(label_x1_m, label_y1_m, txtw_m*2, txth_m*2);
+
+            // DrawRect(label_x1_m, label_y1_m, txtw_m*2, txth_m*2, colorStyle_stroke);
+
+            let label_x1 = x - txtw_s;
+            let label_y1 = y - txth_s;
+            // ctx.fillStyle = '#000f';
+            // ctx.fillRect(label_x1, label_y1, txtw_s*2, txth_s*2);
+            ctx.fillStyle = colorStyle_fill;
+            ctx.fillRect(label_x1, label_y1, txtw_s*2, txth_s*2);
+
+
+            DrawRect(label_x1_m, label_y1_m, txtw_m*2, txth_m*2, colorStyle_stroke);
+
+            if(fill){
+                ctx.fillStyle = colorStyle_stroke;
+                ctx.fillText(text, x, y);
+            } else {
+                ctx.strokeStyle = colorStyle_stroke;
+                ctx.strokeText(text, x, y);
+            }
+
+            // console.log(` ─────────────── `);
+        }
+
+
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            DrawGrid();
+            // DrawLineA(315, distance = 200, color = 0);
+            // DrawLineA(270);
+            // for (let i = 0; i < 24; i++) {
+            //     let angle = i * 15;
+            //     DrawLineA(angle);
+            // }
+            // for (let i = 0; i < 24; i++) {
+            //     let angle = i * 15;
+            //     let color = `hsla(${angle}, 100%, 60%, .2)`;
+            //     DrawLineA(angle, 200, color);
+            // }
+
+
+            for (let i = 0; i < 24; i++) {
+                let angle = i * 15;
+                let hsla = { 'h': angle, 's': 100, 'l': 60, 'a': .2 };
+                DrawLineA2(angle, 200, hsla);
+            }
+
+            // DrawText('(200,0)', {'x': 200, 'y': 0}, color = `hsla(0, 100%, 60%, .75)`);
+            // DrawText('(0,-200)', {'x': 0, 'y': -200}, color = `hsla(270, 100%, 60%, .75)`);
+
+            // for (let i = 0; i < 12; i++) {
+            //     let angle = i * 30;
+            //     DrawLineA(angle);
+            // }
+
+            for (let i = 0; i < 8; i++) {
+                let angle = i * 45;
+                let color = `hsla(${angle}, 100%, 60%, .75)`;
+                DrawLineA(angle, 150, color, 5);
+            }
+        });
+
+        function DrawLine(from = {'x': 0, 'y': 0}, to = {'x': 100, 'y': 100}, width = 1, color = '#fff'){
+            ctx.beginPath();
+            ctx.lineWidth = width;
+            ctx.strokeStyle = color;
+            ctx.moveTo(from.x, from.y);
+            ctx.lineTo(to.x, to.y);
+            ctx.stroke();
+
+            /* Sample: */
+            // // let from_to_base = {'x': 0, 'y': 0};
+            // let line_from = {'x': 100, 'y': 50};
+            // let line_to = {'x': 200, 'y': 150};
+            // DrawLine(line_from, line_to);
+            // DrawLine({'x': 100, 'y': 50}, {'x': 200, 'y': 150});
+        }
+
+    </script>
+</body>
+</html>

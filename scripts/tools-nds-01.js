@@ -1,67 +1,3 @@
-'use strict'
-/*
-    • [tools.js]
-    └─> functions I might use in different projects.
-    └─> code that I still need to remember.
-
-    types of functions.
-    - calculating formulas.
-    - building layout.
-
-*/
-
-/* ─── */
-/* ─────────────── */
-
-/**
- * Documentation
- * @param {number} h height of the grid, aligned with the 'y' axis.
- * @param {number} w width of the grid, aligned with the 'x' axis.
- * @returns a two dimensional array filled with the number 0.
- */
-function MakeGridZero(h,w){
-    let grid = [];
-    for(let y = 0; y < h; y++) {
-        grid.push([]);
-        for(let x = 0; x < w; x++) {
-            grid[y].push([]);
-            grid[y][x] = 0;
-        }
-    }
-    return grid;
-}
-
-/**
- * Documentation
- * @param {number} h height of the grid, aligned with the 'y' axis.
- * @param {number} w width of the grid, aligned with the 'x' axis.
- * @param {*} val what ever value is wanted on each cell of the grid.
- * @returns a two dimensional array filled with the value provided.
- */
-function MakeGridOf(h,w,val = 0){
-    let grid = [];
-    for(let y = 0; y < h; y++) {
-        grid.push([]);
-        for(let x = 0; x < w; x++) {
-            grid[y].push([]);
-            grid[y][x] = val;
-        }
-    }
-    return grid;
-}
-
-/**
- * Documentation
- * @param {number} sideA adjecent side of the triangle.
- * @param {number} sideB opposite side of the triangle.
- * @returns the hypotenuse of the triangle.
- */
-function getH(sideA, sideB){
-    return Math.sqrt(sideA**2 + sideB**2);
-}
-
-/* ─────────────── */
-/* ─── */
 
 /*
 Useful characters:
@@ -71,6 +7,10 @@ Useful characters:
 └ ┘
 ├ ┤
 ┬ ┴ ┼
+
+⋮, ⋯, ⋰, ⋱, 
+⩗, ⩘
+⊾, ⦜, ⦝, 
 
 ⋮, ⋯, ⋰, ⋱, 
 ⩗, ⩘
@@ -602,81 +542,6 @@ function calcHex(w,h,deg) {
 }
 
 calcHex(2,1,15)
-
-
-
-
-
-/* ─────────────── */
-
-
-function BuildGrid(w=3,h=3){
-    // grid_settings = {"w": w, "h": h};
-    grid_settings["w"] = w;
-    grid_settings["h"] = h;
-
-    // let container = document.createElement('div');
-    // container.classList.add('grid-container');
-
-    let grid = document.createElement('div');
-    grid.classList.add('grid');
-    grid.id="GridMap";
-    grid.style = `--tiles-per-col: ${h}; --tiles-per-row: ${w};`;
-
-    for (let y = 0; y < h; y++) {
-        for (let x = 0; x < w; x++) {
-            let tile = document.createElement('div');
-            tile.classList.add('tile');
-            tile.dataset.yx = `${y}-${x}`;
-            tile.dataset.y = `${y}`;
-            tile.dataset.x = `${x}`;
-            tile.dataset.tile = `wn`;
-
-            // tile.addEventListener('click', OpenTileChoices);
-            grid.appendChild(tile);
-        }
-    }
-
-    let displayElem = document.getElementById('display');
-    displayElem.appendChild(grid);
-}
-
-
-function BuildGrid(w=3,h=3){
-
-    // let container = document.createElement('div');
-    // container.classList.add('grid-container');
-
-    let grid = document.createElement('div');
-    grid.classList.add('grid');
-    grid.id="GridMap";
-    grid.style = `--tiles-per-col: ${h}; --tiles-per-row: ${w};`;
-
-    for (let y = 0; y < h; y++) {
-        let row = document.createElement('div');
-        row.classList.add('grid-row');
-        for (let x = 0; x < w; x++) {
-            let tile = document.createElement('div');
-            tile.classList.add('tile');
-            tile.id = `y${y},x${x}`;
-            tile.dataset.yx = `${y},${x}`;
-            // tile.dataset.yx = `${y}-${x}`;
-
-            tile.dataset.y = `${y}`;
-            tile.dataset.x = `${x}`;
-            tile.dataset.tile = `empty`;
-
-            // tile.addEventListener('click', ClickFunction);
-            row.appendChild(tile);
-        }
-        grid.appendChild(row);
-    }
-
-    let displayElem = document.getElementById('display');
-    displayElem.appendChild(grid);
-}
-
-
 
 
 

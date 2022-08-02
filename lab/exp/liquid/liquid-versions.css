@@ -1,0 +1,604 @@
+
+
+
+/* [liquid v.0.1] */
+.quid-01 {
+    min-height: 1rem;
+    min-width: 1rem;
+    background-color: hsla(calc(var(--i) * 60), 100%, 60%, 1);
+    
+    border-radius: 0;
+    margin: .5rem .5rem;
+    transform: scale(-1, -1);
+    transform: scale(1, 1);
+    /* transform: translateY(0px); */
+    transition: transform 300ms ease-in-out;
+    animation: wave-01 1200ms ease-in-out infinite;
+    animation-delay: calc(var(--i) * 120ms);
+}
+.quid-01:hover {
+    transform: scale(3, 1);
+    /* transform: translateY(-20px); */
+}
+
+@keyframes wave-01 {
+      0% {transform: scale(1, 1);}
+      50% {transform: scale(3, 1);}
+      100% {transform: scale(1, 1);}
+}
+
+
+/* [liquid v.0.2] */
+/* I finally did the wave I once wanted, but I didn’t know enough */
+.droplet-02 {display: flex; flex-direction: row;}
+.quid-02 {
+    min-height: 1rem;
+    min-width: 1rem;
+    min-height: 1.5rem;
+    min-width: 1.5rem;
+    background-color: hsla(calc(var(--i) * 60), 100%, 60%, 1);
+
+    border-radius: 0;
+    margin: 2rem .5rem 1rem;
+    transform: scale(-1, -1);
+    transform: scale(1, 1);
+    /* transform: translateY(0px); */
+    transform-origin: 50% 100%;
+    transition: transform 300ms ease-in-out;
+    animation: wave-02 1200ms ease-in-out infinite;
+    animation-delay: calc(var(--i) * 120ms);
+}
+.quid-02:hover {
+    transform: scale(3, 1);
+    /* transform: translateY(-20px); */
+}
+@keyframes wave-02 {
+    0% {transform: scale(1, 1);}
+    50% {transform: scale(1, 2);}
+    100% {transform: scale(1, 1);}
+}
+
+
+/* [liquid v.0.3] */
+.droplet-03 {display: flex; flex-direction: row;}
+.quid-03 {
+    min-height: 1rem;
+    min-width: 1rem;
+    min-height: 2rem;
+    min-width: 2rem;
+    background-color: hsla(calc(var(--i) * 60), 100%, 60%, .5);
+    --hue: calc(var(--i) * 60);
+    --clr: hsla(var(--hue), 100%, 60%, .5);
+
+    --hue-2: calc(var(--i) * 60 + 60);
+
+    --clr-a: hsla(calc(var(--hue) - 30), 100%, 60%, 0);
+    --clr-b: hsla(calc(var(--hue) + 30), 100%, 60%, 0);
+
+    --clr-1: hsla(calc(var(--hue) - 30), 100%, 60%, 1);
+    --clr-2: hsla(calc(var(--hue) + 0), 100%, 60%, 1);
+    --clr-3: hsla(calc(var(--hue) + 30), 100%, 60%, 1);
+
+    background-image: linear-gradient(to right, var(--clr-a), var(--clr-1), var(--clr-2),  var(--clr-3), var(--clr-b));
+
+    background-image: linear-gradient(to right, var(--clr-1), var(--clr-2),  var(--clr-3));
+
+    border: 0;
+    border-radius: 0;
+    margin: 2rem 0rem 1rem;
+    mix-blend-mode: normal;
+    transform: scale(-1, -1);
+    transform: scale(1, 1);
+    /* transform: translateY(0px); */
+    transform-origin: 50% 100%;
+    transition: transform 300ms ease-in-out;
+    animation: wave-03 1200ms ease-in-out infinite;
+    animation-delay: calc(var(--i) * 120ms);
+}
+.quid-03:hover {
+    transform: scale(3, 1);
+    /* transform: translateY(-20px); */
+}
+@keyframes wave-03 {
+    0% {transform: scale(1, 1);}
+    50% {transform: scale(1, 2);}
+    100% {transform: scale(1, 1);}
+}
+
+/* [liquid v.0.4] */
+/* I made the wave look like a droplet of liquid or more like a slime */
+.droplet-04 {
+    display: flex; flex-direction: row;
+    filter: url(#feCM-04);
+}
+.quid-04 {
+    min-height: 1rem;
+    min-width: 1rem;
+    min-height: 3rem;
+    min-width: 3rem;
+    background-color: hsla(calc(var(--i) * 60), 100%, 60%, .5);
+    --hue: calc(var(--i) * 60);
+    --clr: hsla(var(--hue), 100%, 60%, .5);
+
+    --hue-2: calc(var(--i) * 60 + 60);
+
+    --clr-a: hsla(calc(var(--hue) - 30), 100%, 60%, 0);
+    --clr-b: hsla(calc(var(--hue) + 30), 100%, 60%, 0);
+
+    --clr-1: hsla(calc(var(--hue) - 30), 100%, 60%, 1);
+    --clr-2: hsla(calc(var(--hue) + 0), 100%, 60%, 1);
+    --clr-3: hsla(calc(var(--hue) + 30), 100%, 60%, 1);
+
+    background-image: linear-gradient(to right, var(--clr-a), var(--clr-1), var(--clr-2),  var(--clr-3), var(--clr-b));
+
+    background-image: linear-gradient(to right, var(--clr-1), var(--clr-2),  var(--clr-3));
+
+    --clr-a1: hsla(calc(var(--hue)), 100%, 60%, 1);
+    --clr-a2: hsla(calc(var(--hue) + 60), 100%, 60%, 1);
+    background-image: linear-gradient(to right, var(--clr-a1), var(--clr-a2));
+
+    filter: blur(16px);
+    /* filter: blur(8px) url(#feCM-04); */
+    border: 0;
+    border-radius: 0;
+    margin: 4rem -.5rem 1rem;
+    mix-blend-mode: normal;
+    transform: scale(-1, -1);
+    transform: scale(1, 1);
+    /* transform: translateY(0px); */
+    transform-origin: 50% 100%;
+    transition: transform 300ms ease-in-out;
+    animation: wave-04 1200ms ease-in-out infinite;
+    animation-delay: calc(var(--i) * 120ms);
+}
+.quid-04:hover {
+    transform: scale(3, 1);
+    /* transform: translateY(-20px); */
+}
+@keyframes wave-04 {
+    0% {transform: scale(1, 1);}
+    50% {transform: scale(1, 2);}
+    100% {transform: scale(1, 1);}
+}
+
+/* </style>
+<div class="list">
+<div class="btn"></div>
+<div class="btn"></div>
+<div class="btn"></div>
+<div class="btn"></div>
+<div class="btn"></div>
+<div class="btn"></div>
+</div>
+
+<svg><defs>
+<filter id="feCM" x="-25%" y="-25%" width="150%" height="150%">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 20 -10"></feColorMatrix>
+        </filter>
+</defs></svg> */
+
+
+
+/* [liquid v.0.5] */
+
+/* progress for the liquid in the bottle. */
+.bottle-05 {
+    border: 1px dashed #fff9;
+    border-radius: 1rem;
+    padding: 0 .5rem;
+}
+.droplet-05 {
+    display: flex; flex-direction: row;
+    filter: url(#feCM-05);
+}
+.quid-05 {
+    min-height: 5rem;
+    min-width: 2rem;
+    min-width: 3rem;
+    background-color: hsla(calc(var(--i) * 60), 100%, 60%, .5);
+    --hue: calc(var(--i) * 60);
+    --clr: hsla(var(--hue), 100%, 60%, .5);
+
+    --hue-2: calc(var(--i) * 60 + 60);
+
+    --clr-a: hsla(calc(var(--hue) - 30), 100%, 60%, 0);
+    --clr-b: hsla(calc(var(--hue) + 30), 100%, 60%, 0);
+
+    --clr-1: hsla(calc(var(--hue) - 30), 100%, 60%, 1);
+    --clr-2: hsla(calc(var(--hue) + 0), 100%, 60%, 1);
+    --clr-3: hsla(calc(var(--hue) + 30), 100%, 60%, 1);
+
+    background-image: linear-gradient(to right, var(--clr-a), var(--clr-1), var(--clr-2),  var(--clr-3), var(--clr-b));
+
+    background-image: linear-gradient(to right, var(--clr-1), var(--clr-2),  var(--clr-3));
+
+    --clr-a1: hsla(calc(var(--hue)), 100%, 60%, 1);
+    --clr-a2: hsla(calc(var(--hue) + 60), 100%, 60%, 1);
+    background-image: linear-gradient(to right, var(--clr-a1), var(--clr-a2));
+    background-image: linear-gradient(to right, #39f, #39f);
+
+
+    filter: blur(16px);
+    /* filter: blur(8px) url(#feCM-05); */
+    border: 0;
+    border-radius: 0;
+    margin: 8rem -.75rem 1rem;
+    mix-blend-mode: normal;
+    transform: scale(-1, -1);
+    transform: scale(1, 1);
+    /* transform: translateY(0px); */
+    transform-origin: 50% 100%;
+    transition: transform 300ms ease-in-out;
+    animation: wave-05 1200ms ease-in-out infinite;
+    animation-delay: calc(var(--i) * 120ms);
+}
+.quid-05:hover {
+    transform: scale(3, 1);
+    /* transform: translateY(-20px); */
+}
+@keyframes wave-05 {
+    0% {transform: scale(1, 1);}
+    50% {transform: scale(1, 1.5);}
+    100% {transform: scale(1, 1);}
+}
+
+/* </style>
+<div class="bottle">
+<div class="list">
+<div class="btn"></div>
+<div class="btn"></div>
+<div class="btn"></div>
+<div class="btn"></div>
+<div class="btn"></div>
+<div class="btn"></div>
+</div>
+</div>
+
+<svg style="display: none;"><defs>
+<filter id="feCM" x="-25%" y="-25%" width="150%" height="150%">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 50 -30"></feColorMatrix>
+        </filter>
+</defs></svg> */
+
+
+/* [liquid v.0.6] */
+/* container is there, needs more styling. */
+.bottle-06 {
+    position: relative;
+    border: 1px dashed #fff9;
+    border-radius: 1rem;
+    padding: 0 .5rem;
+    height: 13rem;
+}
+.bottle-06::before{
+    content: '';
+    position: absolute;
+    top: 2rem; left: 50%;
+    transform: translate(-50%, 0%);
+    height: 12rem; width: 12.5rem;
+    height: 12rem; width: 12rem;
+    /*outline: 8px dashed #f39;*/
+    border-radius: 2rem;
+
+    top: 1.25rem;
+    top: 0rem;
+    border: 8px outset #fff;
+    /* border-top: 8px solid #f390; */
+    border-radius: 2.5rem;
+    z-index: 2;
+}
+.bottle-06::after {
+    content: '';
+    position: absolute;
+    top: 2.5rem; left: 20%;
+    transform: translate(-50%, 0%);
+    /*transform: translate(-50%, 0%) skewY(-15deg);*/
+    height: 6rem; width: 4rem;
+    background-color: #fff0;
+    background-image: linear-gradient(to bottom, #fff6, #fff0);
+    outline: 8px dashed #3f30;
+    border-radius: 2rem;
+    border-radius: 150% 70% 90% 50%;
+    border-radius: 120% 90% 50% 20%;
+    /*filter: blur(4px);*/
+
+    /*
+    top: 1.25rem;
+    border: 8px dashed #f39;
+    border-top: 8px solid #f390;
+    border-radius: 2.5rem;*/
+    z-index: 3;
+}
+.droplet-06 {
+    display: flex; flex-direction: row;
+    filter: url(#feCM-06);
+}
+.quid-06 {
+    min-height: 5rem;
+    min-width: 2rem;
+    min-width: 3rem;
+    background-color: hsla(calc(var(--i) * 60), 100%, 60%, .5);
+    --hue: calc(var(--i) * 60);
+    --clr: hsla(var(--hue), 100%, 60%, .5);
+
+    --hue-2: calc(var(--i) * 60 + 60);
+
+    --clr-a: hsla(calc(var(--hue) - 30), 100%, 60%, 0);
+    --clr-b: hsla(calc(var(--hue) + 30), 100%, 60%, 0);
+
+    --clr-1: hsla(calc(var(--hue) - 30), 100%, 60%, 1);
+    --clr-2: hsla(calc(var(--hue) + 0), 100%, 60%, 1);
+    --clr-3: hsla(calc(var(--hue) + 30), 100%, 60%, 1);
+
+    background-image: linear-gradient(to right, var(--clr-a), var(--clr-1), var(--clr-2),  var(--clr-3), var(--clr-b));
+
+    background-image: linear-gradient(to right, var(--clr-1), var(--clr-2),  var(--clr-3));
+
+    --clr-a1: hsla(calc(var(--hue)), 100%, 60%, 1);
+    --clr-a2: hsla(calc(var(--hue) + 60), 100%, 60%, 1);
+    background-image: linear-gradient(to right, var(--clr-a1), var(--clr-a2));
+    /* background-image: linear-gradient(to right, #39f, #39f); */
+
+
+    filter: blur(16px);
+    /* filter: blur(8px) url(#feCM-06); */
+    border: 0;
+    border-radius: 0;
+    margin: 8rem -.75rem 1rem;
+    margin: 8rem -.5rem 1rem;
+    mix-blend-mode: normal;
+    transform: scale(-1, -1);
+    transform: scale(1, 1);
+    /* transform: translateY(0px); */
+    transform-origin: 50% 100%;
+    transition: transform 300ms ease-in-out;
+    animation: wave-06 1200ms ease-in-out infinite;
+    animation-delay: calc(var(--i) * 120ms);
+}
+.quid-06:hover {
+    transform: scale(3, 1);
+    /* transform: translateY(-20px); */
+}
+@keyframes wave-06 {
+    0% {transform: scale(1, 1);}
+    50% {transform: scale(1, 1.5);}
+    100% {transform: scale(1, 1);}
+}
+
+/* </style>
+<div class="bottle">
+<div class="list">
+<div class="btn"></div>
+<div class="btn"></div>
+<div class="btn"></div>
+<div class="btn"></div>
+<div class="btn"></div>
+<div class="btn"></div>
+</div>
+</div>
+
+<svg style="display: none;"><defs>
+<filter id="feCM" x="-25%" y="-25%" width="150%" height="150%">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 50 -30"></feColorMatrix>
+        </filter>
+</defs></svg> */
+
+
+/* [liquid v.0.7] */
+
+.bottle-07 {
+    position: relative;
+    border: 1px dashed #fff9;
+    border-radius: 1rem;
+    padding: 0 .5rem;
+    height: 13rem;
+}
+.bottle-07::before{
+    content: '';
+    position: absolute;
+    top: 2rem; left: 50%;
+    transform: translate(-50%, 0%);
+    height: 12rem; width: 12rem;
+    /*outline: 8px dashed #f39;*/
+    border-radius: 2rem;
+
+    top: 0rem;
+    border: 8px outset #fff;
+    /* border-top: 8px solid #f390; */
+    border-radius: 2.5rem;
+    z-index: 2;
+}
+.bottle-07::after {
+    content: '';
+    position: absolute;
+    top: 2.5rem; left: 20%;
+    transform: translate(-50%, 0%);
+    /*transform: translate(-50%, 0%) skewY(-15deg);*/
+    height: 6rem; width: 4rem;
+    background-color: #fff0;
+    background-image: linear-gradient(to bottom, #fff6, #fff0);
+    outline: 8px dashed #3f30;
+    border-radius: 2rem;
+    border-radius: 150% 70% 90% 50%;
+    border-radius: 120% 90% 50% 20%;
+    /*filter: blur(4px);*/
+
+    /*
+    top: 1.25rem;
+    border: 8px dashed #f39;
+    border-top: 8px solid #f390;
+    border-radius: 2.5rem;*/
+    z-index: 3;
+}
+.droplet-07 {
+    display: flex; flex-direction: row;
+    filter: url(#feCM-07);
+}
+.quid-07 {
+    min-height: 5rem;
+    min-width: 3rem;
+    background-color: hsla(calc(var(--i) * 60), 100%, 60%, .5);
+    --hue: calc(var(--i) * 60);
+    --clr: hsla(var(--hue), 100%, 60%, .5);
+
+    --hue-2: calc(var(--i) * 60 + 60);
+
+    --clr-a: hsla(calc(var(--hue) - 30), 100%, 60%, 0);
+    --clr-b: hsla(calc(var(--hue) + 30), 100%, 60%, 0);
+
+    --clr-1: hsla(calc(var(--hue) - 30), 100%, 60%, 1);
+    --clr-2: hsla(calc(var(--hue) + 0), 100%, 60%, 1);
+    --clr-3: hsla(calc(var(--hue) + 30), 100%, 60%, 1);
+
+    background-image: linear-gradient(to right, var(--clr-a), var(--clr-1), var(--clr-2),  var(--clr-3), var(--clr-b));
+
+    background-image: linear-gradient(to right, var(--clr-1), var(--clr-2),  var(--clr-3));
+
+    --clr-a1: hsla(calc(var(--hue) - 90), 100%, 60%, 1);
+    --clr-a2: hsla(calc(var(--hue) + 90), 100%, 60%, 1);
+    background-image: linear-gradient(to right, var(--clr-a1), var(--clr-a2));
+    /* background-image: linear-gradient(to right, #39f, #39f); */
+
+    --clr-1: hsla(calc(var(--hue) - 30), 100%, 60%, .3);
+    --clr-2: hsla(calc(var(--hue) + 0), 100%, 60%, .3);
+    --clr-3: hsla(calc(var(--hue) + 30), 100%, 60%, .3);
+    background-image: 
+    linear-gradient(to top, var(--clr-a1) 30%, #0000, var(--clr-a2) 70%), 
+    linear-gradient(to right, var(--clr-1), var(--clr-2),  var(--clr-3));
+
+
+    filter: blur(16px);
+    /* filter: blur(8px) url(#feCM-07); */
+    border: 0;
+    border-radius: 0;
+    margin: 8rem -.75rem 1rem;
+    margin: 8rem -.5rem 1rem;
+    mix-blend-mode: normal;
+    transform: scale(-1, -1);
+    transform: scale(1, 1);
+    /* transform: translateY(0px); */
+    transform-origin: 50% 100%;
+    transition: transform 300ms ease-in-out;
+    animation: wave-07 1200ms ease-in-out infinite;
+    animation-delay: calc(var(--i) * 120ms);
+}
+.quid-07:hover {
+    transform: scale(3, 1);
+    /* transform: translateY(-20px); */
+}
+@keyframes wave-07 {
+    0% {transform: scale(1, 1);}
+    50% {transform: scale(1, 1.5);}
+    100% {transform: scale(1, 1);}
+}
+
+
+/* [liquid v.0.8] */
+.bottle-08 {
+    position: relative;
+    border: 1px dashed #fff9;
+    border-radius: 1rem;
+    padding: 0 .5rem;
+    height: 13rem;
+}
+.bottle-08::before{
+    content: '';
+    position: absolute;
+    top: 2rem; left: 50%;
+    transform: translate(-50%, 0%);
+    height: 12rem; width: 12rem;
+    /*outline: 8px dashed #f39;*/
+    border-radius: 2rem;
+
+    top: 0rem;
+    border: 8px outset #fff;
+    /* border-top: 8px solid #f390; */
+    border-radius: 2.5rem;
+    z-index: 2;
+}
+.bottle-08::after {
+    content: '';
+    position: absolute;
+    top: 2.5rem; left: 20%;
+    transform: translate(-50%, 0%);
+    height: 6rem; width: 4rem;
+    background-color: #fff0;
+    background-image: linear-gradient(to bottom, #fff6, #fff0);
+    outline: 8px dashed #3f30;
+    border-radius: 2rem;
+    border-radius: 150% 70% 90% 50%;
+    border-radius: 120% 90% 50% 20%;
+
+    z-index: 3;
+}
+.droplet-08 {
+    display: flex; flex-direction: row;
+    filter: url(#feCM-07);
+}
+.quid-08 {
+    min-height: 5rem;
+    min-width: 3rem;
+    background-color: hsla(calc(var(--i) * 60), 100%, 60%, .5);
+    --hue: calc(var(--i) * 60);
+    --clr: hsla(var(--hue), 100%, 60%, .5);
+
+
+    --clr-a1: hsla(calc(var(--hue) - 90), 100%, 60%, 1);
+    --clr-a2: hsla(calc(var(--hue) + 90), 100%, 60%, 1);
+
+    --clr-1: hsla(calc(var(--hue) - 30), 100%, 60%, 1);
+    --clr-2: hsla(calc(var(--hue) + 0), 100%, 60%, 1);
+    --clr-3: hsla(calc(var(--hue) + 30), 100%, 60%, 1);
+    background-image: 
+    linear-gradient(to top, var(--clr-a1) 30%, #0000 35%, #0000 65%, var(--clr-a2) 70%), 
+    linear-gradient(to right, var(--clr-1), var(--clr-2),  var(--clr-3));
+
+    --clr-step-1: 150;
+    --clr-step-3: 90;
+    --clr-1: hsla(calc(var(--hue) - var(--clr-step-1)), 100%, 60%, 1);
+    --clr-2: hsla(calc(var(--hue) + 0), 100%, 60%, 1);
+    --clr-3: hsla(calc(var(--hue) + var(--clr-step-3)), 100%, 60%, 1);
+    --shw-blur: 1rem;
+    --shw-scl: -.5rem;
+    box-shadow:
+    -2rem -4rem var(--shw-blur) var(--shw-scl) var(--clr-1),
+    0rem -3rem var(--shw-blur) var(--shw-scl) var(--clr-2),
+    2rem -2rem var(--shw-blur) var(--shw-scl) var(--clr-3),
+    0rem 0rem 0rem 0rem #0000;
+    box-shadow:
+    1rem -10rem var(--shw-blur) var(--shw-scl) var(--clr-1),
+    0rem -8rem var(--shw-blur) var(--shw-scl) var(--clr-2),
+    -1rem -6rem var(--shw-blur) var(--shw-scl) var(--clr-3),
+    0rem 0rem 0rem 0rem #0000;
+
+
+    /* filter: blur(16px); */
+    /* filter: blur(8px) url(#feCM-07); */
+    border: 0;
+    border-radius: 0;
+    margin: 8rem -.75rem 1rem;
+    margin: 8rem 0rem 1rem;
+    mix-blend-mode: normal;
+    transform: scale(-1, -1);
+    transform: scale(1, 1);
+    /* transform: translateY(0px); */
+    transform-origin: 50% 100%;
+    transition: transform 300ms ease-in-out;
+
+    /* animation: wave-08 1200ms ease-in-out infinite; */
+    /* animation-delay: calc(var(--i) * 120ms); */
+}
+@keyframes wave-08 {
+    0% {transform: scale(1, 1);}
+    50% {transform: scale(1, 1.5);}
+    100% {transform: scale(1, 1);}
+}
