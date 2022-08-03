@@ -1053,10 +1053,10 @@
                 let sid = `${xid},${yid}`;
                 // console.log(sid);
                 if(sid != this.sid){
-                    // // console.log(`id(${this.id}) → sectorCheck() → this.sid: (${this.sid})`);
-                    // // console.log(`  └─> id:${this.id} move → (x:${this.x.toFixed(2)}, y:${this.y.toFixed(2)})`);
-                    // // console.log(`  └─> new sid: (${sid})`);
-                    // console.log(`Particle (#${this.id}) → new sid: (${sid})`);
+                    // console.log(`id(${this.id}) → sectorCheck() → this.sid: (${this.sid})`);
+                    // console.log(`  └─> id:${this.id} move → (x:${this.x.toFixed(2)}, y:${this.y.toFixed(2)})`);
+                    // console.log(`  └─> new sid: (${sid})`);
+                    console.log(`Particle (#${this.id}) → new sid: (${sid})`);
                     if(this.sid != ''){
                         delete sector[this.sid][this.id];
                         if(Object.keys(sector[this.sid]).length == 0) {
@@ -1088,7 +1088,7 @@
                 let xid = Math.floor(this.x/100);
                 let yid = Math.floor(this.y/100);
                 let sid = `${yid},${xid}`;
-                // console.log(sid);
+                console.log(sid);
                 if(!Object.keys(sector).includes(sid)) {
                     sector[sid] = {}
                 }
@@ -1170,7 +1170,7 @@
                 // console.log(`speed_check: ${speed_check}`);
                 this.speed = Math.sqrt(adding_x_force**2 + adding_y_force**2);
                 // if(this.speed > 5) {this.speed = 5;}
-                if(this.speed > 10) {this.speed = 10;}
+                if(this.speed > 15) {this.speed = 15;}
                 
                 this.forceQueue = [];
                 this.directionUpdate();
@@ -1382,11 +1382,10 @@
             /* 'a' is colliding into 'b' which can be at rest. */
             // console.log(`...collisionUpdate(${a.id},${b.id});`);
             // a.identify();
-
-            // // let xyStyle = 'color: #00AAAA; font-weight: bold; padding: .25rem .5rem;';
-            // let txtStyle = 'color: #AAAAAA; font-weight: bold;';
-            // let xyStyle = 'color: #00AAAA; font-weight: bold;';
-            // console.log(`%ca:%c(${a.x.toFixed(2)},${a.y.toFixed(2)})%c; b:%c(${b.x.toFixed(2)},${b.y.toFixed(2)})`, txtStyle, xyStyle, txtStyle, xyStyle);
+            // let xyStyle = 'color: #00AAAA; font-weight: bold; padding: .25rem .5rem;';
+            let txtStyle = 'color: #AAAAAA; font-weight: bold;';
+            let xyStyle = 'color: #00AAAA; font-weight: bold;';
+            console.log(`%ca:%c(${a.x.toFixed(2)},${a.y.toFixed(2)})%c; b:%c(${b.x.toFixed(2)},${b.y.toFixed(2)})`, txtStyle, xyStyle, txtStyle, xyStyle);
 
             // item 'a' will be the collider into item 'b'.
             if(a.speed > 0){
@@ -1397,7 +1396,7 @@
                 // console.log(`x2: ${x2}, y2: ${y2}`);
 
                 let collision_angle = XYtoAngle(x2,y2);
-                // console.log(`collision_angle: ${collision_angle}`);
+                console.log(`collision_angle: ${collision_angle}`);
 
                 let apperture = Math.abs(collision_angle - a.d);
                 // console.log(`apperture: ${apperture}`);
@@ -1412,33 +1411,33 @@
                 // // /* ♦ Change from angle and speed for dx and dy. ♦ */
                 // // // let dxc = a.dx - b.dx;
 
-                // let xc = b.x - a.x;
-                // let yc = b.y - a.y;
-                // let x_force = 0;
-                // let y_force = 0;
-                // // console.log(`a.vx: ${a.vx}, xc: ${xc}, a.vx/xc: ${a.vx/xc}`);
-                // // console.log(`a.vy: ${a.vy}, yc: ${yc}, a.yx/yc: ${a.vy/yc}`);
-                // // console.log(`Math.cos(apperture * Math.PI / 180): ${Math.cos(apperture * Math.PI / 180)}`);
-                // if(a.vx == 0 || a.vx/xc > 0){
-                //     // let x_force = (a.vx - b.vx) * (1-Math.cos(apperture * Math.PI / 180));
-                //     // console.log(`a.vx: ${a.vx}, b.vx: ${b.vx}`);
-                //     // x_force = (a.vx - b.vx) * (Math.cos(apperture * Math.PI / 180));
-                //     x_force = (a.vx - b.vx) * (1-Math.sin(apperture * Math.PI / 180));
-                // }
-                // if(a.vy == 0 || a.vy/yc > 0){
-                //     // let y_force = (a.vy - b.vy) * (1-Math.sin(apperture * Math.PI / 180));
-                //     // console.log(`a.vy: ${a.vy}, b.vy: ${b.vy}`);
-                //     // y_force = (a.vy - b.vy) * (Math.sin(apperture * Math.PI / 180));
-                //     y_force = (a.vy - b.vy) * (1-Math.cos(apperture * Math.PI / 180));
-                // }
-                // console.log(`a → dxq: ${x_force*-1}, dyq: ${y_force*-1}`);
-                // console.log(`b → dxq: ${x_force}, dyq: ${y_force}`);
-                // a.momentumQueue.push({'dxq':x_force*-1, 'dyq':y_force*-1});
-                // b.momentumQueue.push({'dxq':x_force, 'dyq':y_force});
+                let xc = b.x - a.x;
+                let yc = b.y - a.y;
+                let x_force = 0;
+                let y_force = 0;
+                // console.log(`a.vx: ${a.vx}, xc: ${xc}, a.vx/xc: ${a.vx/xc}`);
+                // console.log(`a.vy: ${a.vy}, yc: ${yc}, a.yx/yc: ${a.vy/yc}`);
+                // console.log(`Math.cos(apperture * Math.PI / 180): ${Math.cos(apperture * Math.PI / 180)}`);
+                if(a.vx == 0 || a.vx/xc > 0){
+                    // let x_force = (a.vx - b.vx) * (1-Math.cos(apperture * Math.PI / 180));
+                    // console.log(`a.vx: ${a.vx}, b.vx: ${b.vx}`);
+                    // x_force = (a.vx - b.vx) * (Math.cos(apperture * Math.PI / 180));
+                    x_force = (a.vx - b.vx) * (1-Math.sin(apperture * Math.PI / 180));
+                }
+                if(a.vy == 0 || a.vy/yc > 0){
+                    // let y_force = (a.vy - b.vy) * (1-Math.sin(apperture * Math.PI / 180));
+                    // console.log(`a.vy: ${a.vy}, b.vy: ${b.vy}`);
+                    // y_force = (a.vy - b.vy) * (Math.sin(apperture * Math.PI / 180));
+                    y_force = (a.vy - b.vy) * (1-Math.cos(apperture * Math.PI / 180));
+                }
+                console.log(`a → dxq: ${x_force*-1}, dyq: ${y_force*-1}`);
+                console.log(`b → dxq: ${x_force}, dyq: ${y_force}`);
+                a.momentumQueue.push({'dxq':x_force*-1, 'dyq':y_force*-1});
+                b.momentumQueue.push({'dxq':x_force, 'dyq':y_force});
 
 
                 if(apperture < 90) {
-                    // console.log(`apperture: ${apperture}`);
+                    console.log(`apperture: ${apperture}`);
                     let force_ratio_x = Math.cos(apperture * Math.PI / 180);
                     let force_to_send = (force_ratio_x) * a.speed;
                     let collision_update = (collision_angle + 180)%360;
@@ -1521,51 +1520,51 @@
 
         }
 
-        // function ContinualCollisionUpdate3(a,b,h,ca){
-        //     // attempt to determine the moment of collision to 
-        //     // then calculate the collision, 
-        //     // and then move the rest of momentum with the new directions.
-        //     if(a.speed > 0){
-        //         let x2 = b.x - a.x;
-        //         let y2 = b.y - a.y;
-        //         // console.log(`x2: ${x2}, y2: ${y2}`);
-        //         let absize = a.size + b.size;
-        //         console.log(`absize: %c${absize}`, "color: #06f",);
+        function ContinualCollisionUpdate3(a,b,h,ca){
+            // attempt to determine the moment of collision to 
+            // then calculate the collision, 
+            // and then move the rest of momentum with the new directions.
+            if(a.speed > 0){
+                let x2 = b.x - a.x;
+                let y2 = b.y - a.y;
+                // console.log(`x2: ${x2}, y2: ${y2}`);
+                let absize = a.size + b.size;
+                console.log(`absize: %c${absize}`, "color: #06f",);
 
-        //         console.log(`collision_angle: %c${ca.toFixed(4)}deg`, "color: #06f",);
-        //         let apperture = Math.abs(ca - a.d);
-        //         if(apperture > 180) {apperture = 360 - apperture;}
-        //         console.log(`apperture: %c${apperture.toFixed(4)}deg`, "color: #06f",);
+                console.log(`collision_angle: %c${ca.toFixed(4)}deg`, "color: #06f",);
+                let apperture = Math.abs(ca - a.d);
+                if(apperture > 180) {apperture = 360 - apperture;}
+                console.log(`apperture: %c${apperture.toFixed(4)}deg`, "color: #06f",);
                 
-        //         console.log(`let xh = h*cos(ca);`);
-        //         let xh = h*Math.cos(ca);
-        //         let yh = h*Math.sin(ca);
-        //         console.log(`%cxh: %c${xh.toFixed(4)}%c, yh: %c${yh.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
+                console.log(`let xh = h*cos(ca);`);
+                let xh = h*Math.cos(ca);
+                let yh = h*Math.sin(ca);
+                console.log(`%cxh: %c${xh.toFixed(4)}%c, yh: %c${yh.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
                 
-        //         let xd = absize * Math.cos(ca);
-        //         let yd = absize * Math.sin(ca);
-        //         console.log(`%cxd: %c${xd.toFixed(4)}%c, yd: %c${yd.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
+                let xd = absize * Math.cos(ca);
+                let yd = absize * Math.sin(ca);
+                console.log(`%cxd: %c${xd.toFixed(4)}%c, yd: %c${yd.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
 
-        //         let xdh = xd - xh;
-        //         let ydh = yd - yh;
-        //         console.log(`%cxdh: %c${xdh.toFixed(4)}%c, ydh: %c${ydh.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
+                let xdh = xd - xh;
+                let ydh = yd - yh;
+                console.log(`%cxdh: %c${xdh.toFixed(4)}%c, ydh: %c${ydh.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
 
-        //         console.log(`%ca.dx: %c${a.dx.toFixed(4)}%c, a.dy: %c${a.dy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-        //         console.log(`%cb.dx: %c${b.dx.toFixed(4)}%c, b.dy: %c${b.dy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
+                console.log(`%ca.dx: %c${a.dx.toFixed(4)}%c, a.dy: %c${a.dy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
+                console.log(`%cb.dx: %c${b.dx.toFixed(4)}%c, b.dy: %c${b.dy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
 
-        //         console.log(`%ca.vx: %c${a.vx.toFixed(4)}%c, a.vy: %c${a.vy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-        //         console.log(`%cb.vx: %c${b.vx.toFixed(4)}%c, b.vy: %c${b.vy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
+                console.log(`%ca.vx: %c${a.vx.toFixed(4)}%c, a.vy: %c${a.vy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
+                console.log(`%cb.vx: %c${b.vx.toFixed(4)}%c, b.vy: %c${b.vy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
 
-        //         let tcx = (xd - xh) / a.vx;
-        //         let tcy = (yd - yh) / a.vy;
-        //         console.log(`%ctcx: %c${tcx.toFixed(4)}%c, tcy: %c${tcy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-        //         let tcx_1 = 1-tcx;
-        //         let tcy_1 = 1-tcy;
-        //         console.log(`%ctcx_1: %c${tcx_1.toFixed(4)}%c, tcy_1: %c${tcy_1.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
+                let tcx = (xd - xh) / a.vx;
+                let tcy = (yd - yh) / a.vy;
+                console.log(`%ctcx: %c${tcx.toFixed(4)}%c, tcy: %c${tcy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
+                let tcx_1 = 1-tcx;
+                let tcy_1 = 1-tcy;
+                console.log(`%ctcx_1: %c${tcx_1.toFixed(4)}%c, tcy_1: %c${tcy_1.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
 
-        //         pause();
-        //     }
-        // }
+                pause();
+            }
+        }
         function CollisionLog(){
             // if(this.tpsp != CheckSpeed()){
             if(initialSpeed.toFixed(4) != CheckSpeed().toFixed(4)){
@@ -1616,18 +1615,17 @@
             // if(h < dist2){
             if(h-dist2 < 1){
                 if(t != ''){console.log(`${t} → CollisionCheck(${a.id},${b.id});`);console.log(` ───────────────────────────── `);}
-                // console.log(`a.x = ${a.x} | b.x = ${b.x} | a.y = ${a.y} | b.y = ${b.y} | \nh: ${h} | dist: ${dist2}`);
-                // let collision_angle = XYtoAngle(x2,y2);
-                // ContinualCollisionUpdate3(a,b,h,collision_angle);
+                console.log(`a.x = ${a.x} | b.x = ${b.x} | a.y = ${a.y} | b.y = ${b.y} | \nh: ${h} | dist: ${dist2}`);
+                let collision_angle = XYtoAngle(x2,y2);
+                ContinualCollisionUpdate3(a,b,h,collision_angle);
 
-                collisionUpdate(a,b);
-                collisionUpdate(b,a);
+                // collisionUpdate(a,b);
+                // collisionUpdate(b,a);
                 // // speedCount();
                 // // CollisionLog();
                 // setTimeout(() => {
                 //     CollisionLog();
                 // }, "500");
-                speedCount();
             }
         }
         const adjecentSectors3 = [[0,1],[1,-1],[1,0],[1,1]];
@@ -1868,17 +1866,14 @@
         }
         
         function start(){
-            for (let index = 0; index < 6; index++) {
-                // particles.push(new Particle(id = index, speed = 1));
-                // particles.push(new Particle(id = index, speed = 3));
-                // particles.push(new Particle(id = index, speed = index));
-                // particles.push(new Particle(id = index, speed = 10));
-                // let sp = index/6;
-                // let sp = (index+1)/6;
-                let sp = index/2;
-                // let sp = ((index+1)%5)/2;
-                particles.push(new Particle3(id = index, speed = sp));
-            }
+            // for (let index = 0; index < 6; index++) {
+            //     // particles.push(new Particle(id = index, speed = 1));
+            //     // particles.push(new Particle(id = index, speed = 3));
+            //     // particles.push(new Particle(id = index, speed = index));
+            //     // particles.push(new Particle(id = index, speed = 10));
+            //     let sp = index/6;
+            //     particles.push(new Particle3(id = index, speed = sp));
+            // }
 
 
             // /* particle moving horizontally */
@@ -1913,9 +1908,9 @@
             // particles.push(new Particle3(id = 0, speed = 1, xyd = [150,250,0]));
             // particles.push(new Particle3(id = 1, speed = .25, xyd = [250,250,180]));
 
-            // /* particle moving diagonally, to a 0deg collision angle. */
-            // particles.push(new Particle3(id = 0, speed = .5, xyd = [230,260,315]));
-            // particles.push(new Particle3(id = 1, speed = .5, xyd = [270,240,135]));
+            /* particle moving diagonally, to a 0deg collision angle. */
+            particles.push(new Particle3(id = 0, speed = .5, xyd = [230,260,315]));
+            particles.push(new Particle3(id = 1, speed = .5, xyd = [270,240,135]));
             
             // a.x:230, a.y:260
             // b.x:270, b.y:240
