@@ -10,13 +10,13 @@
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <!-- <link rel="stylesheet" href="../../../stylesheets/radio-nav.css"> -->
     <!-- <link rel="stylesheet" href="../../../stylesheets/deck.css"> -->
-    <link rel="stylesheet" href="../../../stylesheets/canvas.css">
+    <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
     <style>
         header {
             position: fixed;
             top: 0;
             z-index: 9;
-            /* justify-content: end; */
+            justify-content: end;
             box-shadow: 0 0 0 transparent;
         }
         header .title {padding-right: 12px;}
@@ -31,9 +31,9 @@
         }
 
         /* #canvas_bg {opacity: .6;} */
-        /* #canvas_bg {opacity: 0;} */
+        #canvas_bg {opacity: 0;}
         #canvas_gf {opacity: 0;}
-        /* #canvas_trace {opacity: 0;} */
+        #canvas_trace {opacity: 0;}
         /* #canvas_bg,
         #canvas,
         #canvas_hover {
@@ -803,7 +803,7 @@
                     sector[sid][this.id] = this;
 
                     sectorGf[sid] = Object.keys(sector[sid]).length;
-                    // DrawGf();
+                    DrawGf();
 
                     this.sid = sid;
                 }
@@ -1259,24 +1259,6 @@
                 // }, "1000")
             }
         }
-        function GfCheck(a,b){
-            /* 'x' = 'x' of emiting particle - 'x' of receiving particle. */
-            let x = a.x - b.x;
-            let y = a.y - b.y;
-            // /* 'h2' = distance between particles squared. (plus a constant) */
-            // // let h2 = x**2 + y**2 + s.gfr + 1;
-            /* 'h2' = distance between particles squared. */
-            let h2 = x**2 + y**2;
-            /* 'ga' = gravity angle. */
-            let ga = XYtoAngle(x,y);
-            // /* 'f2' = force to. the mass of the particle divided by a value. */
-            // let f2 = a.mass/s.gf_reduction;
-            /* 'f2' = force to. the mass of the particle divided by the distance. */
-            let f2 = a.mass/h2;
-            // safeLog([`f2: %c${f2}`, a.pstyle]);
-            safeLog([`%c${a.id}%c to %c${b.id}%c f2: %c${f2}`, a.idStyle, "color: #999", b.idStyle, "color: #999", a.pstyle]);
-            p.forceQueue.push({'speed':f2, 'd':ga});
-        }
         function CollisionCheck3(a,b,t=''){
             let x2 = b.x - a.x;
             let y2 = b.y - a.y;
@@ -1308,8 +1290,6 @@
                 // }, "500");
                 speedCount();
             }
-            // GfCheck(a,b);
-            // GfCheck(b,a);
         }
         const adjecentSectors3 = [[0,1],[1,-1],[1,0],[1,1]];
         function SectorCheck3(){
@@ -1326,7 +1306,7 @@
                         // filteredSectors.push(sector[sectorList[i]]);
                         filteredSectors.push(sectorList[i]);
                         SectorCheck3_EachSector(sector[sectorList[i]]);
-                        // SectorGfCheck(sectorList[i]);
+                        SectorGfCheck(sectorList[i]);
                     }
                 }
             }
@@ -1452,8 +1432,12 @@
         }
         function SectorGfCheck(sectorid){
             // console.log(`─────────────────────────────`);
-            // let logStyle = "background-color: #ccc; color: #000; padding: .125rem .25rem; border-radius: .25rem;";
+            // let logStyle = "background-color: #06f; color: #035; padding: .125rem .25rem; border-radius: .25rem;";
+            let logStyle = "background-color: #ccc; color: #000; padding: .125rem .25rem; border-radius: .25rem;";
             // console.log(`SectorGfCheck(%c${sectorid}%c)`, logStyle, "color: white");
+
+            // let x = parseInt(sectorid.split(',')[0])*100 + 50;
+            // let y = parseInt(sectorid.split(',')[1])*100 + 50;
 
             // get the center of the sector.
             // get all the particles in the sector and adjecent sectors.
@@ -1499,6 +1483,12 @@
                     // safeLog([`amp: %c${amp}`, "color: #ccc"]);
                     safeLog([`f2: %c${f2}`, p.pstyle]);
                 }
+                // if(h2 < 100){
+                //     safeLog([`h2: %c${h2}`, "color: #06f"]);
+                //     safeLog([`s.gfr: %c${s.gfr}`, "color: #ccc"]);
+                //     safeLog([`amp: %c${amp}`, "color: #ccc"]);
+                //     safeLog([`f2: %c${f2}`, p.pstyle]);
+                // }
                 
                 p.forceQueue.push({'speed':f2, 'd':ga});
                 // console.log(` ───────── `);
@@ -1526,101 +1516,6 @@
             // p.forceQueue.push({'speed':f2, 'd':ga});
             // console.log(` ───────── `);
         }
-        
-        function ParticleGfCheck(sectorid){
-            // console.log(`─────────────────────────────`);
-            // let logStyle = "background-color: #ccc; color: #000; padding: .125rem .25rem; border-radius: .25rem;";
-            // console.log(`SectorGfCheck(%c${sectorid}%c)`, logStyle, "color: white");
-
-            /*
-                Particle Gravity Force Check
-                For Each sector.
-
-                For Each particle.
-            */
-
-            // get the center of the sector.
-            // get all the particles in the sector and adjecent sectors.
-            // get the distance and direction of each particle to the center of the sector.
-            // give a force in direction to the center of the sector based on the sectorGf count.
-
-            /* easier version that is more expensive. */
-            // get the center of the sector.
-            let gx = parseInt(sectorid.split(',')[0])*100 + 50;
-            let gy = parseInt(sectorid.split(',')[1])*100 + 50;
-            // console.log(`%cgx: %c${gx}%c, gy: %c${gy}`, "color: white", logStyle, "color: white", logStyle);
-
-            let gf = sectorGf[sectorid];
-            // console.log(`gf: %c${gf}`, "color: #06f");
-
-            // get the distance and direction of each particle to the center of the sector.
-            particles.forEach(p => {
-                // let pstyle = `background-color: ${p.clr}; color: hsl(${p.hue}, 100%, 5%);  padding: .125rem .25rem; border-radius: .25rem;`;
-                // console.log(`p.id: %c${p.id}`, pstyle);
-                let x = gx - p.x;
-                let y = gy - p.y;
-                // console.log(`%cx: %c${x}%c, y: %c${y}`, "color: white", pstyle, "color: white", pstyle);
-
-                let ga = XYtoAngle(x,y);
-                // console.log(`ga: %c${ga}`, "color: #06f");
-                
-                // give a force in direction to the center of the sector based on the sectorGf count.
-                // let h2 = x**2 + y**2 + s.gf_reduction + 1;
-                let h2 = x**2 + y**2 + s.gfr + 1;
-                // // console.log(`h2: %c${h2}`, "color: #06f");
-                let amp = s.gfiamp;
-                if(h2 > 100){
-                    amp = s.gfamp;
-                }
-                // let f2 = gf/h2 * amp;
-                // let f2 = gf/500;
-                let f2 = gf/s.gf_reduction;
-                // console.log(`f2: %c${f2}`, pstyle);
-
-                if(f2 > .5){
-                    // safeLog([`h2: %c${h2}`, "color: #06f"]);
-                    // safeLog([`s.gfr: %c${s.gfr}`, "color: #ccc"]);
-                    // safeLog([`amp: %c${amp}`, "color: #ccc"]);
-                    safeLog([`f2: %c${f2}`, p.pstyle]);
-                }
-                
-
-                // let gx = parseInt(sectorid.split(',')[0])*100 + 50;
-                // let gy = parseInt(sectorid.split(',')[1])*100 + 50;
-                // let gf = sectorGf[sectorid];
-                // let x = gx - p.x;
-                // let y = gy - p.y;
-                // let ga = XYtoAngle(x,y);
-                // let f2 = gf/s.gf_reduction;
-                p.forceQueue.push({'speed':f2, 'd':ga});
-                // console.log(` ───────── `);
-            });
-
-            // let p = particles[0];
-
-            // let pstyle = `background-color: ${p.clr}; color: hsl(${p.hue}, 100%, 5%);  padding: .125rem .25rem; border-radius: .25rem;`;
-            // // console.log(`p.id: %c${p.id}`, pstyle);
-            // let x = gx - p.x;
-            // let y = gy - p.y;
-            // // console.log(`%cx: %c${x}%c, y: %c${y}`, "color: white", pstyle, "color: white", pstyle);
-
-            // let ga = XYtoAngle(x,y);
-            // // console.log(`ga: %c${ga}`, "color: #06f");
-            
-            // // give a force in direction to the center of the sector based on the sectorGf count.
-            // let h2 = x**2 + y**2;
-            // // console.log(`h2: %c${h2}`, "color: #06f");
-            // let f2 = gf/h2;
-            // // console.log(`f2: %c${f2}`, pstyle);
-            
-            // console.log(`SectorGfCheck(%c${sectorid}%c) → f2: %c${f2.toFixed(8)}`, logStyle, "color: white", pstyle);
-
-            // p.forceQueue.push({'speed':f2, 'd':ga});
-            // console.log(` ───────── `);
-        }
-
-
-        
         function DrawGf2(ctxid = 'canvas_gf', space = 100){
             ctx[ctxid].clearRect(0,0,canvas[ctxid].width, canvas[ctxid].height);
             let targets = Object.keys(sectorGf);

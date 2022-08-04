@@ -5,13 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Orbit | Canvas Exp | NyteLabs</title>
+    <title>Orbit Set | Canvas Exp | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <!-- <link rel="stylesheet" href="../../../stylesheets/radio-nav.css"> -->
     <!-- <link rel="stylesheet" href="../../../stylesheets/deck.css"> -->
-    <link rel="stylesheet" href="../../../stylesheets/canvas.css">
+    <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
     <style>
+        html {height: 100%; width: 100%;}
+        body {
+            height: 100%; width: 100%;
+            position: absolute;
+            top: 0; left: 0;
+        }
         header {
             position: fixed;
             top: 0;
@@ -23,17 +29,18 @@
         main, .shelf {position: static;}
         [id*="canvas"] {
             position: absolute;
-            inset: 0;
+            /* inset: 0; */
+            top: 0; left: 0;
             background-color: #000;
             /* height: 100vh; width: 100vw; */
             height: 100%; width: 100%;
             /* height: 695px; width: 960px; */
         }
 
-        /* #canvas_bg {opacity: .6;} */
-        /* #canvas_bg {opacity: 0;} */
+        #canvas_bg {opacity: .6;}
+        #canvas_bg {opacity: 0;}
         #canvas_gf {opacity: 0;}
-        /* #canvas_trace {opacity: 0;} */
+        #canvas_trace {opacity: 0;}
         /* #canvas_bg,
         #canvas,
         #canvas_hover {
@@ -45,14 +52,112 @@
     </style>
     <style>
         .settings {
+            /* display: none; */
             position: absolute;
+            position: fixed;
             min-height: 50vh;
-            min-width: 10vw;
-            top: 0; left: 0;
-            background: #39f6;
+            min-width: 120px;
+            width: 30vw;
+            max-width: 180px;
+            top: 48px; left: 0;
+            top: 25%;
+            background: #39f3;
+            background: #fff3;
+            background: #fff1;
             border-radius: .25rem;
-            border: 1px solid #fff9;
+            border: 1px outset #fff6;
+            backdrop-filter: blur(2px);
+
+            display: flex;
+            flex-direction: column;
+            /* transition: 
+            transform 200ms ease-in-out,
+            box-shadow 200ms ease-in-out,
+            background-color 200ms ease-in-out; */
+            transition: transform 200ms ease-in-out;
         }
+        #settings[data-open="true"] {
+            transform: translateX(0%);
+        }
+        #settings[data-open="false"] {
+            transform: translateX(-100%);
+        }
+        .stab {
+            --rotz-stab: 0deg;
+            position: absolute;
+            top: .25rem; left: 100%;
+            height: 2rem; width: 1rem;
+            left: calc(100% + 1px);
+            /* top: 50%;
+            transform: translateY(-50%); */
+
+            background-color: #fff3;
+            background-color: #0003;
+            border: 1px outset #fff6;
+            border-left: 1px outset #fff0;
+            border-radius: 0 .25rem .25rem 0;
+            /* backdrop-filter: blur(2px); */
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+            user-select: none;
+            transition: transform 300ms ease-in-out 200ms;
+        }
+        .stab::after{
+            font-size: 8px;
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform-origin: 50% .5em;
+            transform: translateX(-50%) translateY(-50%) rotate(var(--rotz-stab));
+            height: 0em;
+            width: 0em;
+            border: .5em solid #0000;
+            border-top: 0em solid #0000;
+            border-bottom: .866em solid #fff;
+            transition: transform 300ms ease-in-out 200ms;
+        }
+        #settings[data-open="true"] .stab {--rotz-stab: -90deg;}
+        #settings[data-open="false"] .stab {--rotz-stab: 90deg;}
+
+        .row {
+            width: 100%;
+            margin-bottom: .25rem;
+        }
+        .sbtn {
+            --shw-clr: #fff9;
+            color: #fff;
+            background: #0369;
+            background-color: #0009;
+            border-radius: .25rem;
+            text-align: center;
+            padding: .125rem .25rem;
+            /* padding: .25rem .5rem; */
+            margin: 0 auto;
+            box-shadow: 0 0 0px 0px #fff0;
+            cursor: pointer;
+            user-select: none;
+
+            transition: box-shadow 200ms ease-in-out, background-color 200ms ease-in-out;
+        }
+        .sbtn:hover {
+            box-shadow: 0 0 6px 2px #fff9;
+            box-shadow: 0 0 6px 2px var(--shw-clr);
+        }
+
+        /* #pause {--shw-clr: #39f9;} */
+        /* [data-pause="off"] {} */
+        #pause[data-switch="on"] {--shw-clr: #39f9; background-color: #39f9;}
+        #tags[data-switch="on"] {--shw-clr: #f939; background-color: #f939;}
+        
+        
+        .sbtn::after {content: attr(data-switch)}
+
+        /* [data-switch="off"]::after {content: attr(data-switch)}
+        [data-switch="on"]::after {} */
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
@@ -71,7 +176,14 @@
     <canvas id="canvas_bg"></canvas>
     <canvas id="canvas_orbit"></canvas>
     <canvas id="canvas_over"></canvas>
-    <!-- <div id="settings" class="settings"></div> -->
+    <div id="settings" class="settings" data-open="false">
+        <!-- <div class="stab" onclick="openS()">◂</div> -->
+        <div class="stab" onclick="openS()"></div>
+        <h3>Settings</h3>
+        <div class="row"><button id="pause" onclick="pause()" class="sbtn" data-switch="off">pause:</button></div>
+        <div class="row"><button id="tags" onclick="switchTags()" class="sbtn" data-switch="off">tags:</button></div>
+
+    </div>
 </main>
     <footer>
         <div class="my-name">
@@ -136,7 +248,8 @@
 
             tags: false,
             log: false,
-            pause: false,
+            pause: true,
+            s: false,
             q: false,
             z: 30
         }
@@ -355,17 +468,6 @@
             getTime(){
                 return Date.now() - this.time.getTime();
             }
-            // startStep(){
-            //     this.intervalID = setInterval(this.setStep(), 1000);
-            // }
-            // setStep(){
-            //     if(!s.q && !s.pause){
-            //         this.updateTrace();
-            //     }
-            // }
-            // endStep(){
-            //     clearInterval(this.intervalID);
-            // }
             sectorCheck(){
                 /* change it so it takes more than 100, about 20 more on each side. */
                 /* also, so it doesn't delete it unless it is outside of this extra area. */
@@ -803,7 +905,7 @@
                     sector[sid][this.id] = this;
 
                     sectorGf[sid] = Object.keys(sector[sid]).length;
-                    // DrawGf();
+                    DrawGf();
 
                     this.sid = sid;
                 }
@@ -1259,24 +1361,6 @@
                 // }, "1000")
             }
         }
-        function GfCheck(a,b){
-            /* 'x' = 'x' of emiting particle - 'x' of receiving particle. */
-            let x = a.x - b.x;
-            let y = a.y - b.y;
-            // /* 'h2' = distance between particles squared. (plus a constant) */
-            // // let h2 = x**2 + y**2 + s.gfr + 1;
-            /* 'h2' = distance between particles squared. */
-            let h2 = x**2 + y**2;
-            /* 'ga' = gravity angle. */
-            let ga = XYtoAngle(x,y);
-            // /* 'f2' = force to. the mass of the particle divided by a value. */
-            // let f2 = a.mass/s.gf_reduction;
-            /* 'f2' = force to. the mass of the particle divided by the distance. */
-            let f2 = a.mass/h2;
-            // safeLog([`f2: %c${f2}`, a.pstyle]);
-            safeLog([`%c${a.id}%c to %c${b.id}%c f2: %c${f2}`, a.idStyle, "color: #999", b.idStyle, "color: #999", a.pstyle]);
-            p.forceQueue.push({'speed':f2, 'd':ga});
-        }
         function CollisionCheck3(a,b,t=''){
             let x2 = b.x - a.x;
             let y2 = b.y - a.y;
@@ -1308,8 +1392,6 @@
                 // }, "500");
                 speedCount();
             }
-            // GfCheck(a,b);
-            // GfCheck(b,a);
         }
         const adjecentSectors3 = [[0,1],[1,-1],[1,0],[1,1]];
         function SectorCheck3(){
@@ -1326,7 +1408,7 @@
                         // filteredSectors.push(sector[sectorList[i]]);
                         filteredSectors.push(sectorList[i]);
                         SectorCheck3_EachSector(sector[sectorList[i]]);
-                        // SectorGfCheck(sectorList[i]);
+                        SectorGfCheck(sectorList[i]);
                     }
                 }
             }
@@ -1452,8 +1534,12 @@
         }
         function SectorGfCheck(sectorid){
             // console.log(`─────────────────────────────`);
-            // let logStyle = "background-color: #ccc; color: #000; padding: .125rem .25rem; border-radius: .25rem;";
+            // let logStyle = "background-color: #06f; color: #035; padding: .125rem .25rem; border-radius: .25rem;";
+            let logStyle = "background-color: #ccc; color: #000; padding: .125rem .25rem; border-radius: .25rem;";
             // console.log(`SectorGfCheck(%c${sectorid}%c)`, logStyle, "color: white");
+
+            // let x = parseInt(sectorid.split(',')[0])*100 + 50;
+            // let y = parseInt(sectorid.split(',')[1])*100 + 50;
 
             // get the center of the sector.
             // get all the particles in the sector and adjecent sectors.
@@ -1499,99 +1585,6 @@
                     // safeLog([`amp: %c${amp}`, "color: #ccc"]);
                     safeLog([`f2: %c${f2}`, p.pstyle]);
                 }
-                
-                p.forceQueue.push({'speed':f2, 'd':ga});
-                // console.log(` ───────── `);
-            });
-
-            // let p = particles[0];
-
-            // let pstyle = `background-color: ${p.clr}; color: hsl(${p.hue}, 100%, 5%);  padding: .125rem .25rem; border-radius: .25rem;`;
-            // // console.log(`p.id: %c${p.id}`, pstyle);
-            // let x = gx - p.x;
-            // let y = gy - p.y;
-            // // console.log(`%cx: %c${x}%c, y: %c${y}`, "color: white", pstyle, "color: white", pstyle);
-
-            // let ga = XYtoAngle(x,y);
-            // // console.log(`ga: %c${ga}`, "color: #06f");
-            
-            // // give a force in direction to the center of the sector based on the sectorGf count.
-            // let h2 = x**2 + y**2;
-            // // console.log(`h2: %c${h2}`, "color: #06f");
-            // let f2 = gf/h2;
-            // // console.log(`f2: %c${f2}`, pstyle);
-            
-            // console.log(`SectorGfCheck(%c${sectorid}%c) → f2: %c${f2.toFixed(8)}`, logStyle, "color: white", pstyle);
-
-            // p.forceQueue.push({'speed':f2, 'd':ga});
-            // console.log(` ───────── `);
-        }
-        
-        function ParticleGfCheck(sectorid){
-            // console.log(`─────────────────────────────`);
-            // let logStyle = "background-color: #ccc; color: #000; padding: .125rem .25rem; border-radius: .25rem;";
-            // console.log(`SectorGfCheck(%c${sectorid}%c)`, logStyle, "color: white");
-
-            /*
-                Particle Gravity Force Check
-                For Each sector.
-
-                For Each particle.
-            */
-
-            // get the center of the sector.
-            // get all the particles in the sector and adjecent sectors.
-            // get the distance and direction of each particle to the center of the sector.
-            // give a force in direction to the center of the sector based on the sectorGf count.
-
-            /* easier version that is more expensive. */
-            // get the center of the sector.
-            let gx = parseInt(sectorid.split(',')[0])*100 + 50;
-            let gy = parseInt(sectorid.split(',')[1])*100 + 50;
-            // console.log(`%cgx: %c${gx}%c, gy: %c${gy}`, "color: white", logStyle, "color: white", logStyle);
-
-            let gf = sectorGf[sectorid];
-            // console.log(`gf: %c${gf}`, "color: #06f");
-
-            // get the distance and direction of each particle to the center of the sector.
-            particles.forEach(p => {
-                // let pstyle = `background-color: ${p.clr}; color: hsl(${p.hue}, 100%, 5%);  padding: .125rem .25rem; border-radius: .25rem;`;
-                // console.log(`p.id: %c${p.id}`, pstyle);
-                let x = gx - p.x;
-                let y = gy - p.y;
-                // console.log(`%cx: %c${x}%c, y: %c${y}`, "color: white", pstyle, "color: white", pstyle);
-
-                let ga = XYtoAngle(x,y);
-                // console.log(`ga: %c${ga}`, "color: #06f");
-                
-                // give a force in direction to the center of the sector based on the sectorGf count.
-                // let h2 = x**2 + y**2 + s.gf_reduction + 1;
-                let h2 = x**2 + y**2 + s.gfr + 1;
-                // // console.log(`h2: %c${h2}`, "color: #06f");
-                let amp = s.gfiamp;
-                if(h2 > 100){
-                    amp = s.gfamp;
-                }
-                // let f2 = gf/h2 * amp;
-                // let f2 = gf/500;
-                let f2 = gf/s.gf_reduction;
-                // console.log(`f2: %c${f2}`, pstyle);
-
-                if(f2 > .5){
-                    // safeLog([`h2: %c${h2}`, "color: #06f"]);
-                    // safeLog([`s.gfr: %c${s.gfr}`, "color: #ccc"]);
-                    // safeLog([`amp: %c${amp}`, "color: #ccc"]);
-                    safeLog([`f2: %c${f2}`, p.pstyle]);
-                }
-                
-
-                // let gx = parseInt(sectorid.split(',')[0])*100 + 50;
-                // let gy = parseInt(sectorid.split(',')[1])*100 + 50;
-                // let gf = sectorGf[sectorid];
-                // let x = gx - p.x;
-                // let y = gy - p.y;
-                // let ga = XYtoAngle(x,y);
-                // let f2 = gf/s.gf_reduction;
                 p.forceQueue.push({'speed':f2, 'd':ga});
                 // console.log(` ───────── `);
             });
@@ -1619,33 +1612,7 @@
             // console.log(` ───────── `);
         }
 
-
-        
-        function DrawGf2(ctxid = 'canvas_gf', space = 100){
-            ctx[ctxid].clearRect(0,0,canvas[ctxid].width, canvas[ctxid].height);
-            let targets = Object.keys(sectorGf);
-            let this_ctx = ctx[ctxid];
-
-            targets.forEach(sid => {
-                let x = parseInt(sid.split(',')[0])*100 + space/2;
-                let y = parseInt(sid.split(',')[1])*100 + space/2;
-
-                let val = sectorGf[sid];
-                if(val > 10) {val = 10;}
-                let hue = 210 - (val * 30);
-                let sat = 100;
-                let lum = 20;
-                // let alp = ((val%5)/10 + .25).toFixed(2);
-                let alp = ((val)/20 + .25).toFixed(2);
-                let clr = `hsla(${hue}, ${sat}%, ${lum}%, ${alp})`;
-                this_ctx.beginPath();
-                this_ctx.fillStyle = clr;
-                this_ctx.arc(x, y, space/2, 0, Math.PI * 2);
-                this_ctx.fill();
-            });
-        }
-
-        function start(){
+        function startExp(){
             // particles.push(new MouseParticle('canvas_orbit'));
             // StartLayers();
             let count = 6;
@@ -1705,6 +1672,24 @@
             // a.x:230, a.y:260
             // b.x:270, b.y:240
 
+            speedCount();
+        }
+        function start(){
+            // particles.push(new MouseParticle('canvas_orbit'));
+            // StartLayers();
+            let count = 6;
+            for (let index = 0; index < count; index++) {
+                let sp = .5;
+                // let sp = .1;
+                // let sp = 0;
+                // let sp = index;
+                // let sp = index/6;
+                // let sp = (index+1)/6;
+                // let sp = index/2;
+                // let sp = ((index)%6)/2;
+                // particles.push(new Particle3(ctx['canvas_orbit'], id = index, speed = sp));
+                particles.push(new Particle3('canvas_orbit', id = index, speed = sp));
+            }
             speedCount();
         }
         // start();
@@ -1783,9 +1768,27 @@
         //     s.log ? s.log = false : s.log = true;
         //     console.log(`s.log = ${s.log}.`);
         // }
+        function openS(){
+            s.s ? s.s = false : s.s = true;
+            settingsLog([`%cs%c.s:%c${s.s}`, sStyle.s, sStyle.n, sStyle.bool]);
+            let settingsBtn = document.getElementById('settings');
+            // if(s.q){
+            //     settingsBtn.dataset.open = s.q;
+            // } else {
+            //     settingsBtn.dataset.open = s.q;
+            // }
+            settingsBtn.dataset.open = s.s;
+        }
         function q(){
             s.q ? s.q = false : s.q = true;
-            console.log(`q = ${s.q}.`);
+            settingsLog([`%cs%c.q:%c${s.q}`, sStyle.s, sStyle.n, sStyle.bool]);
+            // let settingsBtn = document.getElementById('settings');
+            // if(s.q){
+            //     settingsBtn.dataset.open = s.q;
+            // } else {
+            //     settingsBtn.dataset.open = s.q;
+            // }
+            // settingsBtn.dataset.open = s.q;
         }
         function pause(){
             // s.pause ? s.pause = false : s.pause = true;
@@ -1794,13 +1797,29 @@
                 s.pause ? s.pause = false : s.pause = true;
                 // console.log(`s.pause = ${s.pause}.`);
                 settingsLog([`%cs%c.pause:%c${s.pause}`, sStyle.s, sStyle.n, sStyle.bool]);
-                // if(s.pause){
-                //     DrawTags();
-                // } else {
-                //     ctx['canvas_over'].clearRect(0,0,canvas['canvas_over'].width, canvas['canvas_over'].height);
-                // }
+                let pauseBtn = document.getElementById('pause');
+                if(s.pause){
+                    pauseBtn.dataset.switch = 'on';
+                } else {
+                    pauseBtn.dataset.switch = 'off';
+                }
             }
         }
+        function switchTags(){
+            if(!s.q){
+                s.tags ? s.tags = false : s.tags = true;
+                settingsLog([`%cs%c.tags:%c${s.tags}`, sStyle.s, sStyle.n, sStyle.bool]);
+                let tagsBtn = document.getElementById('tags');
+                if(s.tags){
+                    DrawTags();
+                    tagsBtn.dataset.switch = 'on';
+                } else {
+                    ctx['canvas_over'].clearRect(0,0,canvas['canvas_over'].width, canvas['canvas_over'].height);
+                    tagsBtn.dataset.switch = 'off';
+                }
+            }
+        }
+
         var sStyle = {
             's': `background-color: #fff; color: #000; padding: .0625rem .125rem; border-radius: .25rem; font-weight: bold;`,
             'n': `color: #ccc;`,
@@ -1815,11 +1834,16 @@
                 pause();
             }
             if(event.key == 'Escape' || event.key == 'q' || event.key == 'Q') {
-                // q();
-                s.q ? s.q = false : s.q = true;
-                s.pause = true;
-                // console.log(`q = ${s.q}.`);
-                settingsLog([`%cs%c.q:%c${s.q}`, sStyle.s, sStyle.n, sStyle.bool]);
+                q();
+                // s.q ? s.q = false : s.q = true;
+                // s.pause = s.q;
+                // // console.log(`q = ${s.q}.`);
+                // settingsLog([`%cs%c.q:%c${s.q}`, sStyle.s, sStyle.n, sStyle.bool]);
+            }
+            if(event.key == 'Tab') {
+                // s.pause ? s.pause = false : s.pause = true;
+                // console.log(`pause = ${s.pause}.`);
+                pause();
             }
             if(event.key == '`' || event.key == 'l' || event.key == 'L') {
                 // toggleLog();
@@ -1829,18 +1853,19 @@
             }
             if(event.key == '.' || event.key == 't' || event.key == 'T') {
                 // toggleLog();
-                s.tags ? s.tags = false : s.tags = true;
-                settingsLog([`%cs%c.tags:%c${s.tags}`, sStyle.s, sStyle.n, sStyle.bool]);
-                if(s.tags){
-                    DrawTags();
-                } else {
-                    ctx['canvas_over'].clearRect(0,0,canvas['canvas_over'].width, canvas['canvas_over'].height);
-                }
+                // s.tags ? s.tags = false : s.tags = true;
+                // settingsLog([`%cs%c.tags:%c${s.tags}`, sStyle.s, sStyle.n, sStyle.bool]);
+                // if(s.tags){
+                //     DrawTags();
+                // } else {
+                //     ctx['canvas_over'].clearRect(0,0,canvas['canvas_over'].width, canvas['canvas_over'].height);
+                // }
                 // ctx['canvas_over'].clearRect(0,0,canvas['canvas_over'].width, canvas['canvas_over'].height);
+
+                switchTags();
             }
         });
     
-
         
         window.addEventListener('mousemove', (ev) =>{
             // let chance = Math.floor(Math.random()*100) + 1;
@@ -1848,21 +1873,21 @@
             s.y = ev.clientY;
             // hueHelix();
         });
-        function zoom(event) {
-            event.preventDefault();
-            scale += event.deltaY * -0.01;
-            scale = Math.min(Math.max(.125, scale), 10);
-            // console.log(scale);
-            // 0.125-4
-            // 21-60
-            // s.z = (scale * 30)+30;
-            // console.log(s.z);
-            s.gf_reduction = (scale * 30)+50;
-            safeLog([`s.gf_reduction: %c${s.gf_reduction}`, 'background-color: #39f3; color: #39f; border-radius: .25rem; padding: .125rem .25rem;']);
-        }
-        let scale = 1;
-        const el = document.querySelector('#canvas_over');
-        el.onwheel = zoom;
+        // function zoom(event) {
+        //     event.preventDefault();
+        //     scale += event.deltaY * -0.01;
+        //     scale = Math.min(Math.max(.125, scale), 10);
+        //     // console.log(scale);
+        //     // 0.125-4
+        //     // 21-60
+        //     // s.z = (scale * 30)+30;
+        //     // console.log(s.z);
+        //     s.gf_reduction = (scale * 30)+50;
+        //     safeLog([`s.gf_reduction: %c${s.gf_reduction}`, 'background-color: #39f3; color: #39f; border-radius: .25rem; padding: .125rem .25rem;']);
+        // }
+        // let scale = 1;
+        // const el = document.querySelector('#canvas_over');
+        // el.onwheel = zoom;
 
         // var memoryStates = {};
         // var memKeys = ['id','x','y','sid','speed','dx','dy','d','path','forceQueue'];
@@ -1894,8 +1919,8 @@
             console.log(`Welcome to my Lab!`);
             /* 🌌🌀🌠🌈🌟💫 */
             StartLayers();
-
             DrawGrid(ctx['canvas_bg']);
+            updateSwitches();
             
             start();
             initialSpeed = CheckSpeed();
@@ -1908,6 +1933,19 @@
             animate();
             // console.log(`After animate.`);
         });
+
+        function updateSwitches(){
+            let switches = document.querySelectorAll('[data-switch]');
+            switches.forEach(sw => {
+                let sid = sw.id;
+                if(s[sid]){
+                    sw.dataset.switch = 'on';
+                } else {
+                    sw.dataset.switch = 'off';
+                }
+                // sw.dataset.switch = s[sid];
+            });
+        }
 
         function PrintPath3(ob, sp = ' '){
             let path = '';

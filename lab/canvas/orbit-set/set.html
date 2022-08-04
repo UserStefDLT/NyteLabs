@@ -5,13 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Orbit | Canvas Exp | NyteLabs</title>
+    <title>Orbit Set | Canvas Exp | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <!-- <link rel="stylesheet" href="../../../stylesheets/radio-nav.css"> -->
     <!-- <link rel="stylesheet" href="../../../stylesheets/deck.css"> -->
-    <link rel="stylesheet" href="../../../stylesheets/canvas.css">
+    <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
     <style>
+        :root {
+            --header-h: 48px;
+            --footer-h: 36px;
+            --main-h: calc(100vh - var(--header-h) - var(--footer-h));
+        }
+        html {height: 100%; width: 100%;}
+        body {
+            height: 100%; width: 100%;
+            position: absolute;
+            top: 0; left: 0;
+        }
         header {
             position: fixed;
             top: 0;
@@ -23,18 +34,19 @@
         main, .shelf {position: static;}
         [id*="canvas"] {
             position: absolute;
-            inset: 0;
+            /* inset: 0; */
+            top: 0; left: 0;
             background-color: #000;
             /* height: 100vh; width: 100vw; */
             height: 100%; width: 100%;
             /* height: 695px; width: 960px; */
         }
 
-        /* #canvas_bg {opacity: .6;} */
-        /* #canvas_bg {opacity: 0;} */
+        #canvas_grid {opacity: .6;}
+        #canvas_grid {opacity: 0;}
         #canvas_gf {opacity: 0;}
-        /* #canvas_trace {opacity: 0;} */
-        /* #canvas_bg,
+        #canvas_trace {opacity: 0;}
+        /* #canvas_grid,
         #canvas,
         #canvas_hover {
             background-color: #0000;
@@ -44,14 +56,296 @@
         }
     </style>
     <style>
-        .settings {
+        .out-container-left {
             position: absolute;
+            height: 100vh;
+            width: 100px;
+            top: 0px; 
+            left: -100px;
+        }
+        .settings {
+            /* display: none; */
+            position: absolute;
+            position: fixed;
             min-height: 50vh;
-            min-width: 10vw;
-            top: 0; left: 0;
-            background: #39f6;
+            /* max-height: 50vh; */
+
+            min-width: 120px;
+            width: 30vw;
+            max-width: 180px;
+
+            top: 48px; left: 0;
+            top: 25%;
+
+            /* --h: 50;
+            --top: calc((100 - var(--h)) / 2);
+            height: 50%;
+            top: calc(var(--top) * 1vh); */
+
+            background: #39f3;
+            background: #fff3;
+            background: #fff1;
             border-radius: .25rem;
-            border: 1px solid #fff9;
+            border: 1px outset #fff6;
+            backdrop-filter: blur(2px);
+
+            display: flex;
+            flex-direction: column;
+            /* transition: 
+            transform 200ms ease-in-out,
+            box-shadow 200ms ease-in-out,
+            background-color 200ms ease-in-out; */
+            transition: transform 200ms ease-in-out;
+        }
+        #settings[data-display="true"] {
+            transform: translateX(0%);
+        }
+        #settings[data-display="false"] {
+            transform: translateX(-100%);
+        }
+        .stab {
+            --rotz-stab: 0deg;
+            position: absolute;
+            top: .25rem; left: 100%;
+            height: 2rem; width: 1rem;
+            left: calc(100% + 1px);
+            /* top: 50%;
+            transform: translateY(-50%); */
+
+            background-color: #fff3;
+            background-color: #0003;
+            border: 1px outset #fff6;
+            border-left: 1px outset #fff0;
+            border-radius: 0 .25rem .25rem 0;
+            /* backdrop-filter: blur(2px); */
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+            user-select: none;
+            transition: transform 300ms ease-in-out 200ms;
+        }
+        .stab::after{
+            font-size: 8px;
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform-origin: 50% .5em;
+            transform: translateX(-50%) translateY(-50%) rotate(var(--rotz-stab));
+            height: 0em;
+            width: 0em;
+            border: .5em solid #0000;
+            border-top: 0em solid #0000;
+            border-bottom: .866em solid #fff;
+            transition: transform 300ms ease-in-out 200ms;
+        }
+        #settings[data-display="true"] .stab {--rotz-stab: -90deg;}
+        #settings[data-display="false"] .stab {--rotz-stab: 90deg;}
+
+        .row {
+            width: 100%;
+            margin-bottom: .25rem;
+        }
+        .sbtn {
+            --shw-clr: #fff9;
+            color: #fff;
+            background: #0369;
+            background-color: #0009;
+            border-radius: .25rem;
+            text-align: center;
+            padding: .125rem .25rem;
+            /* padding: .25rem .5rem; */
+            margin: 0 auto;
+            box-shadow: 0 0 0px 0px #fff0;
+            cursor: pointer;
+            user-select: none;
+
+            transition: box-shadow 200ms ease-in-out, background-color 200ms ease-in-out;
+        }
+        .sbtn:hover {
+            box-shadow: 0 0 6px 2px #fff9;
+            box-shadow: 0 0 6px 2px var(--shw-clr);
+        }
+
+        /* #pause {--shw-clr: #39f9;} */
+        /* [data-pause="off"] {} */
+        #pause[data-switch="on"] {--shw-clr: #39f9; background-color: #39f9;}
+        #tags[data-switch="on"] {--shw-clr: #f939; background-color: #f939;}
+
+        #grid[data-toggle-layer="true"] {--shw-clr: #9999; background-color: #9999;}
+        #trace[data-toggle-layer="true"] {--shw-clr: #3f99; background-color: #3f99;}
+        
+        #toggle_canvas[data-canvas_trace="false"] ~ main #canvas_trace {opacity: 0;}
+        #toggle_canvas[data-canvas_trace="true"] ~ main #canvas_trace {opacity: 1;}
+
+        #toggle_canvas[data-canvas_grid="false"] ~ main #canvas_grid {opacity: 0;}
+        #toggle_canvas[data-canvas_grid="true"] ~ main #canvas_grid {opacity: .6;}
+
+        #toggle_canvas[data-canvas_gf="false"] ~ main #canvas_gf {opacity: 0;}
+        #toggle_canvas[data-canvas_gf="true"] ~ main #canvas_gf {opacity: 1;}
+
+        /* #canvas_grid {opacity: .6;}
+        #canvas_grid {opacity: 0;}
+        #canvas_gf {opacity: 0;}
+        #canvas_trace {opacity: 0;} */
+        
+        .sbtn[data-switch]::after {content: ': ' attr(data-switch);}
+        .sbtn[data-toggle-layer="false"]::after {content: ': off';}
+        .sbtn[data-toggle-layer="true"]::after {content: ': on';}
+
+        /* [data-switch="off"]::after {content: attr(data-switch)}
+        [data-switch="on"]::after {} */
+    </style>
+    <style>
+        .info {
+            position: absolute;
+            box-sizing: border-box;
+
+            /* top: var(--header-h);
+            left: 0;
+            height: var(--main-h);
+            width: 100vw; */
+
+            --margin: 1rem;
+            top: calc(var(--header-h) + var(--margin));
+            left: var(--margin);
+            height: calc(var(--main-h) - (var(--margin) * 2));
+            width: calc(100vw - (var(--margin) * 2));
+
+            /* background-color: #fff2;
+            backdrop-filter: blur(2px); */
+            border-radius: .25rem;
+            padding: .25rem;
+            background-color: #1113;
+            backdrop-filter: blur(16px);
+            border: 1px outset #fff9;
+
+            backface-visibility: hidden;
+
+            /* transform-origin: 50% 50% 300px;
+            transform: perspective(5000px) rotate3d(-1,1,0,0deg); */
+            transform-origin: 50% 50% 54vh;
+            transform: perspective(12000px) rotate3d(1,0,0,0deg);
+            transition: transform 600ms ease-in-out;
+        }
+        .info[data-display="false"] {
+            /* transform: perspective(5000px) rotate3d(-1,1,0,90deg); */
+            transform: perspective(12000px) rotate3d(1,0,0,-90deg);
+        }
+        .xClose {
+            position: absolute;
+            box-sizing: border-box;
+            /* top: -1rem; right: -1rem; */
+            top: .25rem; right: .25rem;
+            height: 2rem; width: 2rem;
+            background-color: #0009;
+            /* border: 1px outset #fff9; */
+            border: 1px inset #fff9;
+            border-radius: .125rem;
+            cursor: pointer;
+            user-select: none;
+        }
+        .xClose:hover {
+            outline: 1px solid #fff9;
+            outline-offset: 2px;
+        }
+        .xClose::before,
+        .xClose::after {
+            --z-rot: 0deg;
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%) rotate(var(--z-rot));
+            height: 1.5rem; width: .5rem;
+            background-color: #eee;
+            /* box-shadow: 0 0 2px 2px #000; */
+            transition: transform 200ms ease-in-out;
+            box-shadow: 0 0 0px 0px #0000;
+            transition: 
+            box-shadow 200ms ease-in-out,
+            transform 200ms ease-in-out;
+
+            /* box-shadow: 0 0 2px 2px #0009; */
+            /* animation: x-walk 500ms linear 0ms infinite; */
+            /* animation-play-state: paused; */
+        }
+
+        .xClose::before {--z-rot: -45deg; --zi: -1; }
+        .xClose::after {--z-rot: 45deg; --zi: 1; }
+
+        .xClose:hover::before {--z-rot: 45deg;}
+        .xClose:hover::after {--z-rot: -45deg;}
+
+        .xClose:hover::before,
+        .xClose:hover::after {
+            /* box-shadow: 0 0 2px 2px #0009; */
+            /* animation-name: x-walk; */
+            /* animation: x-walk 500ms linear 0ms infinite alternate slidein; */
+            /* animation: x-walk 500ms linear 0ms 5 both; */
+            /* animation: x-walk 500ms linear 0ms infinite both; */
+            /* animation: x-walk 500ms ease-in-out 0ms infinite both; */
+            /* animation: x-walk 500ms cubic-bezier(0.36,-0.29, 0.64, 1.29) 0ms infinite both; */
+            animation: x-walk 500ms cubic-bezier(0.36,-0.29, 0.64, 1.29) 0ms 6 both;
+            animation: x-walk 500ms cubic-bezier(0.36,-0.29, 0.64, 1.29) 0ms 3 backwards;
+
+            /* animation: .5s linear 1s infinite alternate slidein; */
+            /* animation-play-state: paused;
+            animation-play-state: running; */
+            /* animation-play-state: running; */
+        }
+
+        @keyframes x-walk {
+            0% {transform: translateX(-50%) translateY(-50%) rotate(calc(45deg * var(--zi))); box-shadow: 0 0 2px 2px #0009;}
+            50% {transform: translateX(-50%) translateY(-50%) rotate(calc(-45deg * var(--zi))); box-shadow: 0 0 2px 2px #0009;}
+            100% {transform: translateX(-50%) translateY(-50%) rotate(calc(45deg * var(--zi))); box-shadow: 0 0 2px 2px #0009;}
+        }
+        @keyframes x-walk-03 {
+            0% {transform: translateX(-50%) translateY(-50%) rotate(calc(60deg * var(--zi)));}
+            50% {transform: translateX(-50%) translateY(-50%) rotate(calc(-60deg * var(--zi)));}
+            100% {transform: translateX(-50%) translateY(-50%) rotate(calc(60deg * var(--zi)));}
+        }
+        @keyframes x-walk-02 {
+            0% {transform: translateX(-50%) translateY(-50%) rotate(calc(45deg * var(--zi)));}
+            50% {transform: translateX(-50%) translateY(-50%) rotate(calc(-45deg * var(--zi)));}
+            100% {transform: translateX(-50%) translateY(-50%) rotate(calc(45deg * var(--zi)));}
+        }
+        @keyframes x-walk-01 {
+            0% {--z-rot: calc(45deg * var(--zi)); transform: translateX(-50%) translateY(-50%) rotate(var(--z-rot));}
+            50% {--z-rot: calc(-45deg * var(--zi)); transform: translateX(-50%) translateY(-50%) rotate(var(--z-rot));}
+            100% {--z-rot: calc(45deg * var(--zi)); transform: translateX(-50%) translateY(-50%) rotate(var(--z-rot));}
+        }
+
+
+
+        #info .row {
+            margin: .75rem auto;
+        }
+        #info .initial-description {
+            margin-bottom: 3rem;
+        }
+        #info p {
+            line-height: 1.5rem;
+        }
+        kbd {
+            background: linear-gradient(180deg,#eee,#ddd);
+            background-color: #f4f4f4;
+            border: 1px solid #d5d5d5;
+            border: 0px solid #d5d5d5;
+            border-bottom: 2px solid #aaa;
+            border-radius: 4px;
+            font-family: consolas,"Liberation Mono",courier,monospace;
+            font-size: .9rem;
+            font-weight: 700;
+            line-height: 1;
+            margin: .25rem;
+            padding: 4px 6px;
+            white-space: nowrap;
+            color: #111;
+            min-height: 1rem;
+            user-select: none;
+            /* cursor: pointer; */
         }
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
@@ -59,19 +353,47 @@
 <body>
     <header>
         <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
-        <div class="title">Orbit</div>
+        <div class="title">Orbit Set</div>
         <!-- <div class="subtitle">subtitle</div> -->
     </header>
+    <div id="toggle_canvas" data-canvas_trace="false" data-canvas_grid="false" data-canvas_gf="false"></div>
 <main>
     <!-- <div class="shelf">
         <div class="shelf-title">title</div>
     </div> -->
-    <canvas id="canvas_trace"></canvas>
-    <canvas id="canvas_gf"></canvas>
-    <canvas id="canvas_bg"></canvas>
-    <canvas id="canvas_orbit"></canvas>
-    <canvas id="canvas_over"></canvas>
-    <!-- <div id="settings" class="settings"></div> -->
+    <canvas id="canvas_trace" data-display-layer="false"></canvas>
+    <canvas id="canvas_gf" data-display-layer="false"></canvas>
+    <canvas id="canvas_grid" data-display-layer="false"></canvas>
+    <canvas id="canvas_orbit" data-display-layer="true"></canvas>
+    <canvas id="canvas_over" data-display-layer="true"></canvas>
+    <div id="settings" class="settings" data-display="false" data-keybind='s'>
+        <!-- <div class="stab" onclick="openS()">◂</div> -->
+        <div class="stab" onclick="openS()"></div>
+        <h3>Settings</h3>
+        <div class="row"><button id="pause" onclick="pause()" class="sbtn" data-switch="off">pause</button></div>
+        <div class="row"><button id="tags" onclick="switchTags()" class="sbtn" data-switch="off">id tags</button></div>
+        
+        <div class="row"><button id="grid" onclick="toggleCanvas('canvas_grid')" class="sbtn" data-toggle-layer="false" data-canvas="canvas_grid">grid</button></div>
+        <div class="row"><button id="trace" onclick="toggleCanvas('canvas_trace')" class="sbtn" data-toggle-layer="false" data-canvas="canvas_trace">trace</button></div>
+
+        <!-- <div class="row"><button id="gf" onclick="toggleCanvas('canvas_gf')" class="sbtn" data-switch="off" data-canvas="gf">ponds</button></div> -->
+
+    </div>
+    <div id="info" class="info" data-display="false" data-keybind='q'>
+        <div class="xClose" onclick="q()"></div>
+        <h2>Info</h2>
+        <div class="row initial-description">
+            <p>You pressed <kbd>Esc</kbd>(Escape), everything is paused and key bindings are locked. Press <kbd>Esc</kbd> or close this view to return.</p>
+        </div>
+        <div class="row"><kbd>Esc</kbd> <span>toggles this view.</span></div>
+        <div class="row"><kbd>CapsLock</kbd> <span>toggles the settings.</span></div>
+        
+        <div class="row"><kbd>G</kbd> <span>toggles the grid.</span></div>
+        <div class="row"><kbd>T</kbd> <span>toggles the tracing path behind particles.</span></div>
+        <div class="row"><kbd>I</kbd> <span>toggles the id tags on top of the particles.</span></div>
+        
+        <!-- <div class="row"><kbd>L</kbd> <span>toggles the console logs.</span></div> -->
+    </div>
 </main>
     <footer>
         <div class="my-name">
@@ -84,9 +406,16 @@
     <script>
         const canvas = {}
         const ctx = {}
-        var layers = ['canvas_gf', 'canvas_bg','canvas_trace','canvas_orbit','canvas_over'];
+        var layers = ['canvas_gf', 'canvas_grid','canvas_trace','canvas_orbit','canvas_over'];
         // var layers_clear = ['0','0','.1','1','1'];
         var layers_clear = [0,0,-1,1,1];
+        const toggle_layers = {
+            'canvas_trace': false,
+            'canvas_gf': false,
+            'canvas_grid': false,
+            'canvas_orbit': true,
+            'canvas_over': true
+        };
 
         function StartLayers(){
             layers.forEach(layer=>{
@@ -106,8 +435,8 @@
             o.x = s.vw/2;
             o.y = s.vh/2;
 
-            ctx['canvas_bg'].clearRect(0,0,canvas['canvas_bg'].width, canvas['canvas_bg'].height);
-            DrawGrid(ctx['canvas_bg']);
+            ctx['canvas_grid'].clearRect(0,0,canvas['canvas_grid'].width, canvas['canvas_grid'].height);
+            DrawGrid(ctx['canvas_grid']);
         });
 
         /* gf_reduction: 30-300, */
@@ -134,9 +463,13 @@
             gf_reduction: 100,
             gf_amplification: 10,
 
+            grid: false,
+
+            trace: false,
             tags: false,
             log: false,
-            pause: false,
+            pause: true,
+            s: false,
             q: false,
             z: 30
         }
@@ -286,443 +619,6 @@
             }
         }
 
-        class MouseParticle {
-            constructor(ctxid, id = 89){
-                this.ctx = ctx[ctxid];
-                this.canvas = canvas[ctxid];
-                this.id = id;
-                /* location = ('x', 'y'), and direction = ('d') */
-
-                this.size = 10;
-                this.x = s.vw/2;
-                this.y = s.vh/2;
-                // this.x = s.x;
-                // this.y = s.y;
-                this.d = 0;
-                this.speed = 0;
-                
-                // if(xyd.length > 0) {
-                //     this.x = xyd[0];
-                //     this.y = xyd[1];
-                //     this.d = xyd[2];
-                // } else {
-                //     this.x = Math.random() * (this.canvas.width - this.size*2) + this.size;
-                //     this.y = Math.random() * (this.canvas.height - this.size*2) + this.size;
-                //     this.d = Math.floor(Math.random() * 360);
-                // }
-
-
-                // this.hue = this.id * 60;
-                this.hue = 210 - (this.speed * 30);
-                this.sat = 100;
-                this.lum = 60;
-                this.alp = 1;
-                this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
-
-                this.path = [[this.x,this.y,this.hue]];
-
-                // this.size = 10;
-                this.rad = 0;
-                this.dx = 0;
-                this.dy = 0;
-                this.vx = 0;
-                this.vy = 0;
-                this.directionUpdate();
-
-                this.forceQueue = [];
-                this.momentumQueue = [];
-
-                this.sid = '';
-                this.stepCount = 0;
-                this.sectorCheck();
-
-                this.mass = 1;
-                this.vel = 1;
-                this.ke = this.mass * this.vel;
-
-                this.tpsp = 0;
-
-                this.trace = [];
-
-                this.idStyle = `background-color: hsla(${this.hue}, 100%, 50%, .2); color: ${this.clr}; padding: .125rem .25rem; border-radius: .25rem;`;
-                this.pstyle = `background-color: ${this.clr}; color: hsl(${this.hue}, 100%, 5%); padding: .125rem .25rem; border-radius: .25rem;`;
-                safeLog([`🌌%cid:${this.id}%c💫 at (%c${this.x.toFixed(1)}%c,%c${this.y.toFixed(1)}%c)`, this.idStyle, 'color: #999;', this.pstyle, 'color: #999;', this.pstyle, 'color: #999;']);
-
-                this.initialTime = new Date();
-                this.time = new Date();
-                this.intervalID = 0;
-            }
-            getTime(){
-                return Date.now() - this.time.getTime();
-            }
-            // startStep(){
-            //     this.intervalID = setInterval(this.setStep(), 1000);
-            // }
-            // setStep(){
-            //     if(!s.q && !s.pause){
-            //         this.updateTrace();
-            //     }
-            // }
-            // endStep(){
-            //     clearInterval(this.intervalID);
-            // }
-            sectorCheck(){
-                /* change it so it takes more than 100, about 20 more on each side. */
-                /* also, so it doesn't delete it unless it is outside of this extra area. */
-                let xid = Math.floor(this.x/100);
-                let yid = Math.floor(this.y/100);
-                let sid = `${xid},${yid}`;
-                // console.log(sid);
-                if(sid != this.sid){
-                    // console.log(`Particle (#${this.id}) → new sid: (${sid})`);
-                    if(this.sid != ''){
-                        delete sector[this.sid][this.id];
-                        sectorGf[this.sid] = Object.keys(sector[this.sid]).length;
-                        if(Object.keys(sector[this.sid]).length == 0) {
-                            delete sector[this.sid];
-                            delete sectorGf[this.sid];
-                        }
-                    }
-                    if(!Object.keys(sector).includes(sid)) {
-                        sector[sid] = {}
-                    }
-                    sector[sid][this.id] = this;
-
-                    sectorGf[sid] = Object.keys(sector[sid]).length;
-                    DrawGf();
-
-                    this.sid = sid;
-                }
-                // console.log(`─────────────────────────────`);
-            }
-            identify(){
-                // console.log(`id:${this.id} → ${this.d}deg.`);
-                console.log(`─────────────────────────────`);
-                console.log(`id:${this.id} \n\t→ a: ${this.d}deg. \n\t→ sp: ${this.speed}. \n\t→ x: ${this.x}, y: ${this.y}`);
-                // console.log(`\t→ x: ${this.x}, y: ${this.y}`);
-                // if(this.forceQueue.length > 0){
-                //     console.log(`\t→ forceQueue: ${this.forceQueue.length}`);
-                // }
-                console.log(`─────────────────────────────`);
-            }
-            identifyXY(){
-                console.log(`\tid:${this.id} move → (x:${this.x}, y:${this.y})`);
-            }
-            addMomentum(){
-                PrintObj(this.momentumQueue, `momentumQueue:${this.id}`);
-                // let this_x_force = this.speed * this.dx;
-                // let this_y_force = this.speed * this.dy;
-
-                // this.vx = this.speed * this.dx;
-                // this.vy = this.speed * this.dy;
-
-                let adding_x_force = this.vx;
-                let adding_y_force = this.vy;
-
-                this.momentumQueue.forEach(dm => {
-                    adding_x_force += dm.dxq;
-                    adding_y_force += dm.dyq;
-                });
-                this.d = this.XYtoAngle(adding_x_force,adding_y_force);
-                this.speed = Math.sqrt(adding_x_force**2 + adding_y_force**2);
-                if(this.speed > 15) {this.speed = 15;}
-
-                this.momentumQueue = [];
-                this.directionUpdate();
-                this.move();
-            }
-            updateColors(){
-                this.hue = 210 - (this.speed%10 * 30);
-                // safeLog([`this.hue: %c${this.hue.toFixed(1)}`, `background-color: hsla(210, 100%, 100%, .2); color: #fff; padding: .125rem .25rem; border-radius: .25rem;`]);
-                this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
-                this.pstyle = `background-color: ${this.clr}; color: hsl(${this.hue}, 100%, 5%); padding: .125rem .25rem; border-radius: .25rem;`;
-                this.idStyle = `background-color: hsla(${this.hue}, 100%, 50%, .2); color: ${this.clr}; padding: .125rem .25rem; border-radius: .25rem;`;
-            }
-            addForces(){
-                let this_x_force = this.speed * this.dx;
-                let this_y_force = this.speed * this.dy;
-
-                let adding_x_force = this_x_force;
-                let adding_y_force = this_y_force;
-
-                this.forceQueue.forEach(force => {
-                    // console.log(`%cforce.speed: %c${force.speed.toFixed(8)}%c, force.d: %c${force.d.toFixed(1)}°`, "color: white", this.pstyle, "color: white", this.pstyle);
-                    let xy = this.AngleToXY(force.d);
-                    // console.log(`%cxy.x: %c${xy.x}%c, xy.y: %c${xy.y}`, "color: white", this.pstyle, "color: white", this.pstyle);
-                    let fsp = parseFloat(force.speed);
-                    // console.log(`fsp: %c${fsp}`, this.pstyle);
-                    let new_x_force = fsp * xy.x;
-                    let new_y_force = fsp * xy.y;
-                    // console.log(`%cnew_x_force: %c${new_x_force}%c, new_y_force: %c${new_y_force}`, "color: white", this.pstyle, "color: white", this.pstyle);
-
-                    adding_x_force += new_x_force;
-                    adding_y_force += new_y_force;
-                    // console.log(`%cadding_x_force: %c${adding_x_force}%c, adding_y_force: %c${adding_y_force}`, "color: white", this.pstyle, "color: white", this.pstyle);
-                });
-                this.d = this.XYtoAngle(adding_x_force,adding_y_force);
-                this.speed = Math.sqrt(adding_x_force**2 + adding_y_force**2);
-
-                // let nd = this.XYtoAngle(adding_x_force,adding_y_force);
-                // console.log(`📐 nd: %c${nd.toFixed(1)}°`, this.pstyle);
-                // this.d = nd;
-                // let nsp = Math.sqrt(adding_x_force**2 + adding_y_force**2);
-                // console.log(`⏱ nsp: %c${nsp.toFixed(8)}`, this.pstyle);
-                // this.speed = nsp;
-
-                // safeLog([`%c${this.id}%c 📐 this.d: %c${this.d.toFixed(1)}°%c, ⏱ this.speed: %c${this.speed.toFixed(4)}`, `background-color: white; color: black; padding: .125rem .25rem; border-radius: .25rem;`, "color: white", this.pstyle, "color: white", this.pstyle]);
-                // safeLog([`%cid:${this.id}%c 📐 this.d: %c${this.d.toFixed(1)}°%c, ⏱ this.speed: %c${this.speed.toFixed(4)}`, `background-color: hsla(${this.hue}, 100%, 50%, .2); color: ${this.clr}; padding: .125rem .25rem; border-radius: .25rem;`, "color: white", this.pstyle, "color: white", this.pstyle]);
-                // safeLog([`%cid:${this.id}%c 📐 this.d: %c${this.d.toFixed(1)}°%c, ⏱ this.speed: %c${this.speed.toFixed(4)}`, this.idStyle, "color: white", this.pstyle, "color: white", this.pstyle]);
-
-                // if(this.speed > 5) {this.speed = 5;}
-                if(this.speed > 10) {this.speed = 10;}
-                
-                this.updateColors();
-
-                this.forceQueue = [];
-                this.directionUpdate();
-                this.move();
-            }
-            AngleToXY(angle){
-                angle = angle%360;
-                let rad = angle * Math.PI / 180;
-                let xy = {"x":0,"y":0};
-                if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
-                if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
-                return xy;
-            }
-            XYtoAngle(x,y){
-                x = Math.round(x*1000);
-                y = Math.round(y*1000);
-                let angle = 0;
-                if(x == 0) {
-                    if(y > 0) {return 90;}
-                    if(y < 0) {return 270;}
-                }
-                if(x < 0) { angle += 180; }
-                if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
-                return angle;
-            }
-            updateTrace(){
-                this.trace.push([this.x,this.y,this.hue,this.getTime()]);
-                if(this.trace.length > 6) {
-                    this.trace.shift();
-                }
-            }
-            updatePath(){
-                this.path.push([this.x,this.y,this.hue]);
-                if(this.path.length > 3) {
-                    this.path.shift();
-                }
-                // ctx['canvas_trace'].fillStyle = '#00000022';
-                // ctx['canvas_trace'].fillRect(0, 0, canvas['canvas_trace'].width, canvas['canvas_trace'].height);
-            }
-            directionUpdate(){
-                // this.d = (this.d+360)%360;
-                this.rad = this.d * Math.PI / 180;
-                if(this.d == 180) {this.dy = 0;} else {this.dy = Math.sin(this.rad);}
-                if(this.d == 90 || this.d == 270) {this.dx = 0;} else {this.dx = Math.cos(this.rad);}
-
-                this.vx = this.speed * this.dx;
-                this.vy = this.speed * this.dy;
-                this.updatePath();
-
-                // this.hue = this.direction - 90;
-                // this.hue = this.hueStart + (this.direction%90) - 45;
-                // this.size -= this.size/8;
-                // if(this.size < 3) this.size = 3;
-
-                // this.collisionCheck();
-            }
-            wallBounce(wall_angle){
-                let aper1 = (wall_angle + 90) % 360;
-                let aper2 = (wall_angle + 270) % 360;
-                let new_angle = 0;
-                let dif = Math.abs(wall_angle - this.d)%180;
-                if(dif != 0) {
-                    let a1 = Math.max(aper1,aper2);
-                    let a2 = Math.min(aper1,aper2);
-                    new_angle = a1 + (a2 - this.d);
-                }
-                this.d = (new_angle + 360) % 360;
-            }
-            calcSpeed(){
-                let total_distance = 0;
-                let total_time = 0;
-                let total_speed = 0;
-                if(this.trace.length > 1){
-
-                    // this.trace.forEach(point => {
-                    //     total_distance += Math.sqrt(this.x**2 + this.y**2);
-                    // });
-
-                    let ox = this.trace[0][0];
-                    let oy = this.trace[0][1];
-                    let ohue = this.trace[0][2];
-                    let otime = this.trace[0][3];
-                    for (let i = 1; i < this.trace.length; i++) {
-                        let nx = ox - this.trace[i][0];
-                        let ny = oy - this.trace[i][1];
-                        // let nhue = this.trace[i][2];
-                        // let ntime = this.trace[i][3];
-
-                        total_distance += Math.sqrt(nx**2 + ny**2);
-                        
-                        ox = this.trace[i][0];
-                        oy = this.trace[i][1];
-
-                        // ox = nx;
-                        // oy = ny;
-                        // ohue = nhue;
-                        // otime = ntime;
-                    }
-                    total_time = this.trace[this.trace.length-1][3] - this.trace[0][3];
-                    // safeLog([`total_distance: %c${total_distance}`, this.idStyle]);
-                    // safeLog([`total_time: %c${total_time}`, this.idStyle]);
-    
-                    total_speed = total_distance/total_time*10;
-                    // safeLog([`total_speed: %c${total_speed}`, this.pstyle]);
-                    // safeLog([`total_speed: %c${total_speed}`, `background-color: hsla(210, 100%, 100%, .2); color: #fff; padding: .125rem .25rem; border-radius: .25rem;`]);
-                }
-                // console.log(`gf: %c${gf}`, "color: #06f");
-                this.speed = total_speed;
-                this.updateColors();
-            }
-            move(){
-                // if(s.x != this.x){
-                //     this.x = s.x;
-                // }
-                // if(s.y != this.y){
-                //     this.y = s.y;
-                // }
-                if(s.x != this.x || s.y != this.y){
-                    this.x = s.x;
-                    this.y = s.y;
-                    // this.updateTrace();
-                    // this.sectorCheck();
-                }
-
-
-                // this.x += this.speed * this.dx;
-                // this.y += this.speed * this.dy;
-
-                // if(this.x > this.canvas.width-this.size || this.x < this.size){
-                //     this.wallBounce(90);
-                //     this.directionUpdate();
-                // }
-                // if(this.y > this.canvas.height-this.size || this.y < this.size){
-                //     this.wallBounce(0);
-                //     this.directionUpdate();
-                // }
-
-                this.stepCount += 1;
-                if(this.stepCount > this.size){
-                    this.updateTrace();
-                    this.sectorCheck();
-                    this.stepCount = 0;
-                }
-
-                // if(this.stepCount > this.size){
-                //     this.updateTrace();
-                // }
-                // this.updateTrace();
-            }
-            update(){
-                if(this.forceQueue.length > 0){
-                    // console.log(`─────`);
-                    this.addForces();
-                    // console.log(`─────`);
-                }
-                if(this.momentumQueue.length > 0){this.addMomentum();}
-
-                this.move();
-                this.calcSpeed();
-            }
-            draw(){
-                // this.hue = 210 - (this.speed * 36);
-                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
-                // this.drawPath();
-                this.drawTrace();
-
-                // this.ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
-                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
-                this.ctx.fillStyle = this.clr;
-                
-                this.ctx.beginPath();
-                this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                this.ctx.fill();
-            }
-            drawPath(){
-                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
-                // let alp2 = 1;
-                if(this.path.length > 1){
-                    this.ctx.beginPath();
-                    let ox = this.x;
-                    let oy =  this.y;
-                    for (let i = this.path.length - 1; i > 0; i--) {
-                        let nx = this.path[i][0];
-                        let ny = this.path[i][1];
-                        this.ctx.lineWidth = i + 2;
-                        let alp2 = (i / this.path.length * .7) + .2;
-                        this.ctx.strokeStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
-                        this.ctx.moveTo(ox, oy);
-                        this.ctx.lineTo(nx, ny);
-                        this.ctx.stroke();
-                        ox = nx;
-                        oy = ny;
-                    }
-                }
-            }
-            drawTrace(){
-
-                // this.ctx.fillStyle = this.clr;
-                // this.ctx.beginPath();
-                // this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                // this.ctx.fill();
-
-                // this.hue = 210 - (this.speed * 36);
-                // let hue = 210 - (this.trace[i][2] * 30);
-
-                if(this.trace.length > 1){
-                    let ctx_trace = ctx['canvas_trace'];
-                    // ctx_trace.beginPath();
-                    let ox = this.x;
-                    let oy = this.y;
-                    for (let i = this.trace.length - 1; i > -1; i--) {
-                        let nx = this.trace[i][0];
-                        let ny = this.trace[i][1];
-
-                        let sz = (i / this.trace.length * 4) + 2;
-                        // let sz = i+1;
-                        // let hue = 210 - (this.trace[i][2] * 30);
-                        let hue = this.trace[i][2];
-                        // let alp2 = (i / this.trace.length * .7) + .2;
-                        let alp2 = (i / this.trace.length * .75) + .05;
-                        // let alp2 = 1;
-                        // let clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
-                        let clr = `hsla(${hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
-
-                        ctx_trace.beginPath();
-                        ctx_trace.lineWidth = 1;
-                        // ctx_trace.lineWidth = sz*.5;
-                        ctx_trace.strokeStyle = clr;
-                        ctx_trace.moveTo(ox, oy);
-                        ctx_trace.lineTo(nx, ny);
-                        ctx_trace.stroke();
-
-                        ctx_trace.beginPath();
-                        ctx_trace.fillStyle = clr;
-                        // let sz = i%2+1;
-                        // let sz = (i / this.trace.length * 3) + 2;
-                        ctx_trace.arc(nx, ny, sz, 0, Math.PI * 2);
-                        ctx_trace.fill();
-
-                        ox = nx;
-                        oy = ny;
-                    }
-                }
-            }
-        }
-
         class Particle3 {
             constructor(ctxid, id = -1, speed = 1, xyd = []){
                 this.ctx = ctx[ctxid];
@@ -803,7 +699,7 @@
                     sector[sid][this.id] = this;
 
                     sectorGf[sid] = Object.keys(sector[sid]).length;
-                    // DrawGf();
+                    DrawGf();
 
                     this.sid = sid;
                 }
@@ -994,7 +890,9 @@
                 // this.hue = 210 - (this.speed * 36);
                 // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
                 // this.drawPath();
-                this.drawTrace();
+                if(s.trace){
+                    this.drawTrace();
+                }
 
                 // this.ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
                 // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
@@ -1175,51 +1073,6 @@
             // console.log(`...end of collisionUpdate(${a.id},${b.id})`);
         }
         
-        // function ContinualCollisionUpdate3(a,b,h,ca){
-        //     // attempt to determine the moment of collision to 
-        //     // then calculate the collision, 
-        //     // and then move the rest of momentum with the new directions.
-        //     if(a.speed > 0){
-        //         let x2 = b.x - a.x;
-        //         let y2 = b.y - a.y;
-        //         // console.log(`x2: ${x2}, y2: ${y2}`);
-        //         let absize = a.size + b.size;
-        //         console.log(`absize: %c${absize}`, "color: #06f",);
-
-        //         console.log(`collision_angle: %c${ca.toFixed(4)}deg`, "color: #06f",);
-        //         let apperture = Math.abs(ca - a.d);
-        //         if(apperture > 180) {apperture = 360 - apperture;}
-        //         console.log(`apperture: %c${apperture.toFixed(4)}deg`, "color: #06f",);
-                
-        //         console.log(`let xh = h*cos(ca);`);
-        //         let xh = h*Math.cos(ca);
-        //         let yh = h*Math.sin(ca);
-        //         console.log(`%cxh: %c${xh.toFixed(4)}%c, yh: %c${yh.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-                
-        //         let xd = absize * Math.cos(ca);
-        //         let yd = absize * Math.sin(ca);
-        //         console.log(`%cxd: %c${xd.toFixed(4)}%c, yd: %c${yd.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-
-        //         let xdh = xd - xh;
-        //         let ydh = yd - yh;
-        //         console.log(`%cxdh: %c${xdh.toFixed(4)}%c, ydh: %c${ydh.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-
-        //         console.log(`%ca.dx: %c${a.dx.toFixed(4)}%c, a.dy: %c${a.dy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-        //         console.log(`%cb.dx: %c${b.dx.toFixed(4)}%c, b.dy: %c${b.dy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-
-        //         console.log(`%ca.vx: %c${a.vx.toFixed(4)}%c, a.vy: %c${a.vy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-        //         console.log(`%cb.vx: %c${b.vx.toFixed(4)}%c, b.vy: %c${b.vy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-
-        //         let tcx = (xd - xh) / a.vx;
-        //         let tcy = (yd - yh) / a.vy;
-        //         console.log(`%ctcx: %c${tcx.toFixed(4)}%c, tcy: %c${tcy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-        //         let tcx_1 = 1-tcx;
-        //         let tcy_1 = 1-tcy;
-        //         console.log(`%ctcx_1: %c${tcx_1.toFixed(4)}%c, tcy_1: %c${tcy_1.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-
-        //         pause();
-        //     }
-        // }
         function CollisionLog(){
             // if(this.tpsp != CheckSpeed()){
             if(initialSpeed.toFixed(4) != CheckSpeed().toFixed(4)){
@@ -1259,24 +1112,6 @@
                 // }, "1000")
             }
         }
-        function GfCheck(a,b){
-            /* 'x' = 'x' of emiting particle - 'x' of receiving particle. */
-            let x = a.x - b.x;
-            let y = a.y - b.y;
-            // /* 'h2' = distance between particles squared. (plus a constant) */
-            // // let h2 = x**2 + y**2 + s.gfr + 1;
-            /* 'h2' = distance between particles squared. */
-            let h2 = x**2 + y**2;
-            /* 'ga' = gravity angle. */
-            let ga = XYtoAngle(x,y);
-            // /* 'f2' = force to. the mass of the particle divided by a value. */
-            // let f2 = a.mass/s.gf_reduction;
-            /* 'f2' = force to. the mass of the particle divided by the distance. */
-            let f2 = a.mass/h2;
-            // safeLog([`f2: %c${f2}`, a.pstyle]);
-            safeLog([`%c${a.id}%c to %c${b.id}%c f2: %c${f2}`, a.idStyle, "color: #999", b.idStyle, "color: #999", a.pstyle]);
-            p.forceQueue.push({'speed':f2, 'd':ga});
-        }
         function CollisionCheck3(a,b,t=''){
             let x2 = b.x - a.x;
             let y2 = b.y - a.y;
@@ -1308,8 +1143,6 @@
                 // }, "500");
                 speedCount();
             }
-            // GfCheck(a,b);
-            // GfCheck(b,a);
         }
         const adjecentSectors3 = [[0,1],[1,-1],[1,0],[1,1]];
         function SectorCheck3(){
@@ -1326,7 +1159,7 @@
                         // filteredSectors.push(sector[sectorList[i]]);
                         filteredSectors.push(sectorList[i]);
                         SectorCheck3_EachSector(sector[sectorList[i]]);
-                        // SectorGfCheck(sectorList[i]);
+                        SectorGfCheck(sectorList[i]);
                     }
                 }
             }
@@ -1452,8 +1285,12 @@
         }
         function SectorGfCheck(sectorid){
             // console.log(`─────────────────────────────`);
-            // let logStyle = "background-color: #ccc; color: #000; padding: .125rem .25rem; border-radius: .25rem;";
+            // let logStyle = "background-color: #06f; color: #035; padding: .125rem .25rem; border-radius: .25rem;";
+            let logStyle = "background-color: #ccc; color: #000; padding: .125rem .25rem; border-radius: .25rem;";
             // console.log(`SectorGfCheck(%c${sectorid}%c)`, logStyle, "color: white");
+
+            // let x = parseInt(sectorid.split(',')[0])*100 + 50;
+            // let y = parseInt(sectorid.split(',')[1])*100 + 50;
 
             // get the center of the sector.
             // get all the particles in the sector and adjecent sectors.
@@ -1499,99 +1336,6 @@
                     // safeLog([`amp: %c${amp}`, "color: #ccc"]);
                     safeLog([`f2: %c${f2}`, p.pstyle]);
                 }
-                
-                p.forceQueue.push({'speed':f2, 'd':ga});
-                // console.log(` ───────── `);
-            });
-
-            // let p = particles[0];
-
-            // let pstyle = `background-color: ${p.clr}; color: hsl(${p.hue}, 100%, 5%);  padding: .125rem .25rem; border-radius: .25rem;`;
-            // // console.log(`p.id: %c${p.id}`, pstyle);
-            // let x = gx - p.x;
-            // let y = gy - p.y;
-            // // console.log(`%cx: %c${x}%c, y: %c${y}`, "color: white", pstyle, "color: white", pstyle);
-
-            // let ga = XYtoAngle(x,y);
-            // // console.log(`ga: %c${ga}`, "color: #06f");
-            
-            // // give a force in direction to the center of the sector based on the sectorGf count.
-            // let h2 = x**2 + y**2;
-            // // console.log(`h2: %c${h2}`, "color: #06f");
-            // let f2 = gf/h2;
-            // // console.log(`f2: %c${f2}`, pstyle);
-            
-            // console.log(`SectorGfCheck(%c${sectorid}%c) → f2: %c${f2.toFixed(8)}`, logStyle, "color: white", pstyle);
-
-            // p.forceQueue.push({'speed':f2, 'd':ga});
-            // console.log(` ───────── `);
-        }
-        
-        function ParticleGfCheck(sectorid){
-            // console.log(`─────────────────────────────`);
-            // let logStyle = "background-color: #ccc; color: #000; padding: .125rem .25rem; border-radius: .25rem;";
-            // console.log(`SectorGfCheck(%c${sectorid}%c)`, logStyle, "color: white");
-
-            /*
-                Particle Gravity Force Check
-                For Each sector.
-
-                For Each particle.
-            */
-
-            // get the center of the sector.
-            // get all the particles in the sector and adjecent sectors.
-            // get the distance and direction of each particle to the center of the sector.
-            // give a force in direction to the center of the sector based on the sectorGf count.
-
-            /* easier version that is more expensive. */
-            // get the center of the sector.
-            let gx = parseInt(sectorid.split(',')[0])*100 + 50;
-            let gy = parseInt(sectorid.split(',')[1])*100 + 50;
-            // console.log(`%cgx: %c${gx}%c, gy: %c${gy}`, "color: white", logStyle, "color: white", logStyle);
-
-            let gf = sectorGf[sectorid];
-            // console.log(`gf: %c${gf}`, "color: #06f");
-
-            // get the distance and direction of each particle to the center of the sector.
-            particles.forEach(p => {
-                // let pstyle = `background-color: ${p.clr}; color: hsl(${p.hue}, 100%, 5%);  padding: .125rem .25rem; border-radius: .25rem;`;
-                // console.log(`p.id: %c${p.id}`, pstyle);
-                let x = gx - p.x;
-                let y = gy - p.y;
-                // console.log(`%cx: %c${x}%c, y: %c${y}`, "color: white", pstyle, "color: white", pstyle);
-
-                let ga = XYtoAngle(x,y);
-                // console.log(`ga: %c${ga}`, "color: #06f");
-                
-                // give a force in direction to the center of the sector based on the sectorGf count.
-                // let h2 = x**2 + y**2 + s.gf_reduction + 1;
-                let h2 = x**2 + y**2 + s.gfr + 1;
-                // // console.log(`h2: %c${h2}`, "color: #06f");
-                let amp = s.gfiamp;
-                if(h2 > 100){
-                    amp = s.gfamp;
-                }
-                // let f2 = gf/h2 * amp;
-                // let f2 = gf/500;
-                let f2 = gf/s.gf_reduction;
-                // console.log(`f2: %c${f2}`, pstyle);
-
-                if(f2 > .5){
-                    // safeLog([`h2: %c${h2}`, "color: #06f"]);
-                    // safeLog([`s.gfr: %c${s.gfr}`, "color: #ccc"]);
-                    // safeLog([`amp: %c${amp}`, "color: #ccc"]);
-                    safeLog([`f2: %c${f2}`, p.pstyle]);
-                }
-                
-
-                // let gx = parseInt(sectorid.split(',')[0])*100 + 50;
-                // let gy = parseInt(sectorid.split(',')[1])*100 + 50;
-                // let gf = sectorGf[sectorid];
-                // let x = gx - p.x;
-                // let y = gy - p.y;
-                // let ga = XYtoAngle(x,y);
-                // let f2 = gf/s.gf_reduction;
                 p.forceQueue.push({'speed':f2, 'd':ga});
                 // console.log(` ───────── `);
             });
@@ -1619,41 +1363,10 @@
             // console.log(` ───────── `);
         }
 
-
         
-        function DrawGf2(ctxid = 'canvas_gf', space = 100){
-            ctx[ctxid].clearRect(0,0,canvas[ctxid].width, canvas[ctxid].height);
-            let targets = Object.keys(sectorGf);
-            let this_ctx = ctx[ctxid];
-
-            targets.forEach(sid => {
-                let x = parseInt(sid.split(',')[0])*100 + space/2;
-                let y = parseInt(sid.split(',')[1])*100 + space/2;
-
-                let val = sectorGf[sid];
-                if(val > 10) {val = 10;}
-                let hue = 210 - (val * 30);
-                let sat = 100;
-                let lum = 20;
-                // let alp = ((val%5)/10 + .25).toFixed(2);
-                let alp = ((val)/20 + .25).toFixed(2);
-                let clr = `hsla(${hue}, ${sat}%, ${lum}%, ${alp})`;
-                this_ctx.beginPath();
-                this_ctx.fillStyle = clr;
-                this_ctx.arc(x, y, space/2, 0, Math.PI * 2);
-                this_ctx.fill();
-            });
-        }
-
         function start(){
-            // particles.push(new MouseParticle('canvas_orbit'));
-            // StartLayers();
             let count = 6;
             for (let index = 0; index < count; index++) {
-                // particles.push(new Particle(id = index, speed = 1));
-                // particles.push(new Particle(id = index, speed = 3));
-                // particles.push(new Particle(id = index, speed = index));
-                // particles.push(new Particle(id = index, speed = 10));
                 let sp = .5;
                 // let sp = .1;
                 // let sp = 0;
@@ -1665,76 +1378,22 @@
                 // particles.push(new Particle3(ctx['canvas_orbit'], id = index, speed = sp));
                 particles.push(new Particle3('canvas_orbit', id = index, speed = sp));
             }
-
-            // /* particle moving horizontally */
-            // particles.push(new Particle3(id = 0, speed = 1, xyd = [150,250,0]));
-            // particles.push(new Particle3(id = 1, speed = 0, xyd = [250,250,0]));
-
-            // /* particle moving horizontally, to a 45 collision angle. */
-            // particles.push(new Particle3(id = 0, speed = 1, xyd = [380,264.142,0]));
-            // particles.push(new Particle3(id = 1, speed = 0, xyd = [450,250,0]));
-            
-            // /* particle moving horizontally, slightly off */
-            // particles.push(new Particle3(id = 0, speed = 1, xyd = [150,260,0]));
-            // particles.push(new Particle3(id = 1, speed = 0, xyd = [250,250,0]));
-
-            // /* particle moving horizontally, barely touching */
-            // particles.push(new Particle3(id = 0, speed = 1, xyd = [150,269,0]));
-            // particles.push(new Particle3(id = 1, speed = 0, xyd = [250,250,0]));
-
-            // /* particle moving horizontally, slightly off center */
-            // particles.push(new Particle3(id = 0, speed = 1, xyd = [150,245,0]));
-            // particles.push(new Particle3(id = 1, speed = 0, xyd = [250,250,0]));
-
-            // // /* particle moving horizontally, pushing one another */
-            // particles.push(new Particle3(id = 0, speed = 1, xyd = [150,245,0]));
-            // particles.push(new Particle3(id = 1, speed = .25, xyd = [250,250,0]));
-
-            // // /* particle moving horizontally, in direction to eachother */
-            // particles.push(new Particle3(id = 0, speed = 1, xyd = [150,245,0]));
-            // particles.push(new Particle3(id = 1, speed = .25, xyd = [250,250,180]));
-
-            // // /* particle moving horizontally, directly to eachother */
-            // particles.push(new Particle3(id = 0, speed = 1, xyd = [150,250,0]));
-            // particles.push(new Particle3(id = 1, speed = .25, xyd = [250,250,180]));
-
-            // /* particle moving diagonally, to a 0deg collision angle. */
-            // particles.push(new Particle3(id = 0, speed = .5, xyd = [230,260,315]));
-            // particles.push(new Particle3(id = 1, speed = .5, xyd = [270,240,135]));
-            
-            // a.x:230, a.y:260
-            // b.x:270, b.y:240
-
             speedCount();
-        }
-        // start();
-
-        function handleParticles(){
-            // pairing(particles);
-            // sectorCheck();
             SectorCheck3();
             for (let index = 0; index < particles.length; index++) {
                 const element = particles[index];
                 element.update();
                 element.draw();
             }
-            // if(!s.pause){
-            //     pairing(particles);
-            // // }
-            // // if(!s.pause){
-            //     for (let index = 0; index < particles.length; index++) {
-            //         const element = particles[index];
-            //         element.update();
-            //         element.draw();
-            //     }
-            // }
-            // for (let index = 0; index < particles.length; index++) {
-            //     const element = particles[index];
-            //     if(!s.pause){
-            //         element.update();
-            //     }
-            //     element.draw();
-            // }
+        }
+
+        function handleParticles(){
+            SectorCheck3();
+            for (let index = 0; index < particles.length; index++) {
+                const element = particles[index];
+                element.update();
+                element.draw();
+            }
             if(s.tags){
                 DrawTags();
             }
@@ -1761,10 +1420,12 @@
                 //     }
                 // }
 
-                // ctx['canvas_trace'].fillStyle = '#00000005';
-                ctx['canvas_trace'].fillStyle = '#00000022';
-                ctx['canvas_trace'].fillRect(0, 0, canvas['canvas_trace'].width, canvas['canvas_trace'].height);
-                // ctx['canvas_trace'].clearRect(0,0,canvas['canvas_trace'].width, canvas['canvas_trace'].height);
+                if(s.trace){
+                    // ctx['canvas_trace'].fillStyle = '#00000005';
+                    ctx['canvas_trace'].fillStyle = '#00000022';
+                    ctx['canvas_trace'].fillRect(0, 0, canvas['canvas_trace'].width, canvas['canvas_trace'].height);
+                    // ctx['canvas_trace'].clearRect(0,0,canvas['canvas_trace'].width, canvas['canvas_trace'].height);
+                }
 
                 ctx['canvas_orbit'].clearRect(0,0,canvas['canvas_orbit'].width, canvas['canvas_orbit'].height);
 
@@ -1777,30 +1438,106 @@
             // handleParticles();
             requestAnimationFrame(animate);
         }
-        // animate();
 
-        // function toggleLog(){
-        //     s.log ? s.log = false : s.log = true;
-        //     console.log(`s.log = ${s.log}.`);
-        // }
+
+        function updateLayout(){
+            let switches = document.querySelectorAll('[data-switch]');
+            switches.forEach(sw => {
+                let sid = sw.id;
+                if(s[sid]){
+                    sw.dataset.switch = 'on';
+                } else {
+                    sw.dataset.switch = 'off';
+                }
+            });
+            let displays = document.querySelectorAll('[data-display]');
+            displays.forEach(displayElem => {
+                let skey= displayElem.dataset.keybind;
+                displayElem.dataset.display = s[skey];
+            });
+            let layerBtns = document.querySelectorAll('[data-layer]');
+            layerBtns.forEach(layerBtn => {
+                let layerKey= layerBtn.dataset.canvas;
+                layerBtn.dataset.toggleLayer = toggle_layers[layerKey];
+            });
+        }
+        /* only for 'canvas_trace' and 'canvas_grid' so far. */
+        function toggleCanvas(canvas_id = ''){
+            if(!s.q){
+                if(layers.includes(canvas_id)) {
+                    toggle_layers[canvas_id] ? toggle_layers[canvas_id] = false : toggle_layers[canvas_id] = true;
+                    
+                    // let canvasElement = document.getElementById(canvas_id);
+                    // canvasElement.dataset.display = toggle_layers[canvas_id];
+
+                    let toggle_canvas = document.getElementById('toggle_canvas');
+                    toggle_canvas.dataset[canvas_id] = toggle_layers[canvas_id];
+                    
+
+                    let toggleBtn = document.querySelector(`[data-canvas="${canvas_id}"]`);
+                    if(toggle_layers[canvas_id]){
+                        toggleBtn.dataset.toggleLayer = toggle_layers[canvas_id];
+                    } else {
+                        toggleBtn.dataset.toggleLayer = toggle_layers[canvas_id];
+                    }
+
+
+                    if(canvas_id == 'canvas_trace'){
+                        s.trace = toggle_layers[canvas_id];
+                    }
+                }
+            }
+        }
         function q(){
             s.q ? s.q = false : s.q = true;
-            console.log(`q = ${s.q}.`);
+            settingsLog([`%cs%c.q:%c${s.q}`, sStyle.s, sStyle.n, sStyle.bool]);
+            let infoModal = document.getElementById('info');
+            infoModal.dataset.display = s.q;
+        }
+        function openS(){
+            if(!s.q){
+                s.s ? s.s = false : s.s = true;
+                settingsLog([`%cs%c.s:%c${s.s}`, sStyle.s, sStyle.n, sStyle.bool]);
+                let settingsBtn = document.getElementById('settings');
+                settingsBtn.dataset.display = s.s;
+            }
         }
         function pause(){
-            // s.pause ? s.pause = false : s.pause = true;
-            // console.log(`pause = ${s.pause}.`);
             if(!s.q){
                 s.pause ? s.pause = false : s.pause = true;
                 // console.log(`s.pause = ${s.pause}.`);
                 settingsLog([`%cs%c.pause:%c${s.pause}`, sStyle.s, sStyle.n, sStyle.bool]);
-                // if(s.pause){
-                //     DrawTags();
-                // } else {
-                //     ctx['canvas_over'].clearRect(0,0,canvas['canvas_over'].width, canvas['canvas_over'].height);
-                // }
+                let pauseBtn = document.getElementById('pause');
+                if(s.pause){
+                    pauseBtn.dataset.switch = 'on';
+                } else {
+                    pauseBtn.dataset.switch = 'off';
+                }
             }
         }
+        function switchTags(){
+            if(!s.q){
+                s.tags ? s.tags = false : s.tags = true;
+                settingsLog([`%cs%c.tags:%c${s.tags}`, sStyle.s, sStyle.n, sStyle.bool]);
+                let tagsBtn = document.getElementById('tags');
+                if(s.tags){
+                    DrawTags();
+                    tagsBtn.dataset.switch = 'on';
+                } else {
+                    ctx['canvas_over'].clearRect(0,0,canvas['canvas_over'].width, canvas['canvas_over'].height);
+                    tagsBtn.dataset.switch = 'off';
+                }
+            }
+        }
+        function toggleLog(){
+            if(!s.q){
+                s.log ? s.log = false : s.log = true;
+                settingsLog([`%cs%c.log:%c${s.log}`, sStyle.s, sStyle.n, sStyle.bool]);
+            }
+        }
+        
+        
+
         var sStyle = {
             's': `background-color: #fff; color: #000; padding: .0625rem .125rem; border-radius: .25rem; font-weight: bold;`,
             'n': `color: #ccc;`,
@@ -1809,78 +1546,59 @@
         };
         window.addEventListener("keydown", function (event) {
             // console.log(`key: '${event.key}', keyCode: '${event.keyCode}'.`);
-            if(event.key == ' ' || event.key == 'Enter') {
-                // s.pause ? s.pause = false : s.pause = true;
-                // console.log(`pause = ${s.pause}.`);
-                pause();
+            if(event.key == 'Escape') {
+                q();
             }
-            if(event.key == 'Escape' || event.key == 'q' || event.key == 'Q') {
-                // q();
-                s.q ? s.q = false : s.q = true;
-                s.pause = true;
-                // console.log(`q = ${s.q}.`);
-                settingsLog([`%cs%c.q:%c${s.q}`, sStyle.s, sStyle.n, sStyle.bool]);
+            if(s.q){
+                console.log(`key: '${event.key}', keyCode: '${event.keyCode}'.`);
+                // if(event.key == 'Escape' || event.key == 'q' || event.key == 'Q') {q();}
             }
-            if(event.key == '`' || event.key == 'l' || event.key == 'L') {
-                // toggleLog();
-                s.log ? s.log = false : s.log = true;
-                // console.log(`s.log = ${s.log}.`);
-                settingsLog([`%cs%c.log:%c${s.log}`, sStyle.s, sStyle.n, sStyle.bool]);
-            }
-            if(event.key == '.' || event.key == 't' || event.key == 'T') {
-                // toggleLog();
-                s.tags ? s.tags = false : s.tags = true;
-                settingsLog([`%cs%c.tags:%c${s.tags}`, sStyle.s, sStyle.n, sStyle.bool]);
-                if(s.tags){
-                    DrawTags();
-                } else {
-                    ctx['canvas_over'].clearRect(0,0,canvas['canvas_over'].width, canvas['canvas_over'].height);
+            if(!s.q){
+                if(event.key == ' ' || event.key == 'Enter') {
+                    pause();
                 }
-                // ctx['canvas_over'].clearRect(0,0,canvas['canvas_over'].width, canvas['canvas_over'].height);
+                if(event.key == 'CapsLock' || event.key == '`') {
+                    openS();
+                }
+                if(event.key == 'l' || event.key == 'L') {
+                    toggleLog();
+                }
+                if(event.key == '.' || event.key == 'i' || event.key == 'I') {
+                    switchTags();
+                }
+                if(event.key == 't' || event.key == 'T') {
+                    // s.trace ? s.trace = false : s.trace = true;
+                    toggleCanvas('canvas_trace');
+                }
+                if(event.key == 'g' || event.key == 'G') {
+                    toggleCanvas('canvas_grid');
+                }
+            }
+
+            // if(event.key == 'Tab' || event.key == '`') {openS();}
+        });
+
+        window.addEventListener('mousemove', (ev) =>{
+            if(!s.q && !s.pause){
+                s.x = ev.clientX;
+                s.y = ev.clientY;
             }
         });
-    
-
-        
-        window.addEventListener('mousemove', (ev) =>{
-            // let chance = Math.floor(Math.random()*100) + 1;
-            s.x = ev.clientX;
-            s.y = ev.clientY;
-            // hueHelix();
-        });
-        function zoom(event) {
-            event.preventDefault();
-            scale += event.deltaY * -0.01;
-            scale = Math.min(Math.max(.125, scale), 10);
-            // console.log(scale);
-            // 0.125-4
-            // 21-60
-            // s.z = (scale * 30)+30;
-            // console.log(s.z);
-            s.gf_reduction = (scale * 30)+50;
-            safeLog([`s.gf_reduction: %c${s.gf_reduction}`, 'background-color: #39f3; color: #39f; border-radius: .25rem; padding: .125rem .25rem;']);
-        }
-        let scale = 1;
-        const el = document.querySelector('#canvas_over');
-        el.onwheel = zoom;
-
-        // var memoryStates = {};
-        // var memKeys = ['id','x','y','sid','speed','dx','dy','d','path','forceQueue'];
-        // function MemoryUpdate(){
-        //     particles.forEach(p => {
-        //         let pid = `p${p.id}`;
-        //         if(!Object.keys(p).includes(pid)){
-        //             memoryStates[pid] = {};
-        //         }
-        //         memKeys.forEach(k => {
-        //             if(typeof p[k] == 'object'){
-        //                 memoryStates[pid][k] = p[k].flat().join();
-        //             } else {
-        //                 memoryStates[pid][k] = p[k];
-        //             }
-        //         });
-        //     });
+        // function zoom(event) {
+        //     event.preventDefault();
+        //     scale += event.deltaY * -0.01;
+        //     scale = Math.min(Math.max(.125, scale), 10);
+        //     // console.log(scale);
+        //     // 0.125-4
+        //     // 21-60
+        //     // s.z = (scale * 30)+30;
+        //     // console.log(s.z);
+        //     s.gf_reduction = (scale * 30)+50;
+        //     safeLog([`s.gf_reduction: %c${s.gf_reduction}`, 'background-color: #39f3; color: #39f; border-radius: .25rem; padding: .125rem .25rem;']);
         // }
+        // let scale = 1;
+        // const el = document.querySelector('#canvas_over');
+        // el.onwheel = zoom;
 
         function CheckSpeed(){
             let sum = 0;
@@ -1894,8 +1612,8 @@
             console.log(`Welcome to my Lab!`);
             /* 🌌🌀🌠🌈🌟💫 */
             StartLayers();
-
-            DrawGrid(ctx['canvas_bg']);
+            DrawGrid(ctx['canvas_grid']);
+            updateLayout();
             
             start();
             initialSpeed = CheckSpeed();
@@ -1903,10 +1621,8 @@
                 p.tpsp = initialSpeed;
             });
             console.log(`Initial Total Speed: ${initialSpeed}.`);
-            // MemoryUpdate();
 
-            animate();
-            // console.log(`After animate.`);
+            // animate();
         });
 
         function PrintPath3(ob, sp = ' '){

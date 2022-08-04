@@ -25,6 +25,11 @@
         --main-clr: hsla(0, 0%, 89%, 100%);
     }
 } */
+/* :root {
+    --header-h: 48px;
+    --footer-h: 36px;
+    --main-h: calc(100vh - var(--header-h) - var(--footer-h));
+} */
 
 /* 
  start
