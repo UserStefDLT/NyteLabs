@@ -994,16 +994,21 @@
         }
         
         class Particle3 {
-            constructor(id = -1, speed = 1, xyd = []){
+            constructor(id = -1, speed = 1, count, xyd = []){
                 this.id = id;
                 /* location = ('x', 'y'), and direction = ('d') */
+
+                this.size = 10;
+                
                 if(xyd.length > 0) {
                     this.x = xyd[0];
                     this.y = xyd[1];
                     this.d = xyd[2];
                 } else {
-                    this.x = Math.random() * canvas.width;
-                    this.y = Math.random() * canvas.height;
+                    // this.x = Math.random() * canvas.width;
+                    // this.y = Math.random() * canvas.height;
+                    this.x = Math.random() * (canvas.width - this.size*2) + this.size;
+                    this.y = Math.random() * (canvas.height - this.size*2) + this.size;
                     this.d = Math.floor(Math.random() * 360);
                 }
                 this.speed = speed;
@@ -1011,13 +1016,14 @@
                 this.path = [[this.x,this.y,this.d]];
                 console.log(`particle id:${this.id} at (${this.x.toFixed(2)},${this.y.toFixed(2)})`);
 
-                this.hue = this.id * 60;
+                // this.hue = this.id * 60;
+                this.hue = this.id * (360/count);
                 this.sat = 100;
                 this.lum = 60;
                 this.alp = 1;
                 this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
 
-                this.size = 10;
+                // this.size = 10;
                 this.rad = 0;
                 this.dx = 0;
                 this.dy = 0;
@@ -1790,22 +1796,37 @@
             // console.log(`⏱ total_speed: %c${total_speed.toFixed(4)}`, style);
             console.log(`⏱ total_speed: %c${total_speed.toFixed(4)}`, timeStyle);
 
+            if(total_speed > 200) {
+                console.warn('💢Too Fast❗');
+                console.log(' └─> Slowing down.');
+                slowDown();
+                speedCount();
+            }
             // console.log(sector);
         }
 
         function printSpeeds(){
             // let ps = {};
             let tStyle = 'background-color: #12b5cb; color: black; font-size: 1em; border-radius: .25rem; font-weight: bold; padding: .125rem .25rem;';
+            let highest_speeds = 0;
+            let speeds = [];
             particles.forEach(p => {
                 // total_speed += p.speed ** 2;
                 // console.log(`${p.id}⏱→ p.speed: ${p.speed.toFixed(4)}`);
                 let psp = p.speed * 10;
-                let pspt = Math.round(psp);
+                if(psp > highest_speeds) {highest_speeds = psp;}
+                // let pspt = Math.round(psp);
                 // console.log(`${p.id}⏱→ p.speed: ${psp.toFixed(2)} ${'.'.repeat(pspt)}`);
+
+                speeds.push([p.id, psp]);
                 
-                console.log(`${p.id}⏱→ p.speed: %c${psp.toFixed(2)}${' .'.repeat(pspt)}`, tStyle);
+                // console.log(`${p.id}⏱→ p.speed: %c${psp.toFixed(2)}${' .'.repeat(pspt)}`, tStyle);
                 // ps.push([p.speed]);
                 // ps[p.id] = p.speed.toFixed(4);
+            });
+            speeds.forEach(sp => {
+                let pspt = Math.round(sp[1]/highest_speeds * 10);
+                console.log(`${sp[0]}⏱→ p.speed: %c${sp[1].toFixed(2)}${' .'.repeat(pspt)}`, tStyle);
             });
             // console.log(ps);
             // console.table(ps);
@@ -1868,16 +1889,17 @@
         }
         
         function start(){
-            for (let index = 0; index < 6; index++) {
+            let count = 12;
+            for (let index = 0; index < count; index++) {
                 // particles.push(new Particle(id = index, speed = 1));
                 // particles.push(new Particle(id = index, speed = 3));
                 // particles.push(new Particle(id = index, speed = index));
                 // particles.push(new Particle(id = index, speed = 10));
                 // let sp = index/6;
                 // let sp = (index+1)/6;
-                let sp = index/2;
-                // let sp = ((index+1)%5)/2;
-                particles.push(new Particle3(id = index, speed = sp));
+                // let sp = index/2;
+                let sp = ((index)%6)/2;
+                particles.push(new Particle3(id = index, speed = sp, count = count));
             }
 
 
@@ -2166,6 +2188,13 @@
                 }
             }
             console.groupEnd(path);
+        }
+    
+        function slowDown(){
+            particles.forEach(p => {
+                // p.speed = 1;
+                p.speed /= 10;
+            });
         }
     </script>
 </body>

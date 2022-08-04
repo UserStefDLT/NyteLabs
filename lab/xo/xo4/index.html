@@ -316,6 +316,15 @@
             :root {
                 font-size: 12px;
             }
+            .tile:hover {
+                outline: 0px dashed #0000;
+                outline-offset: 0px;
+            }
+            .xoBtn:hover {
+                box-shadow: 0 0 0rem 0rem transparent;
+            }
+            main[data-turn='0'] .tile:not([data-tile='o'],[data-tile='x']):hover::before {display: none;}
+            main[data-turn='1'] .tile:not([data-tile='o'],[data-tile='x']):hover::before {display: none;}
         }
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">

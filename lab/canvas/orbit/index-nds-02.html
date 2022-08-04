@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Orbit | Canvas Exp | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <!-- <link rel="stylesheet" href="../../../stylesheets/radio-nav.css"> -->
+    <!-- <link rel="stylesheet" href="../../../stylesheets/deck.css"> -->
+    <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
+    <style>
+        header {
+            position: fixed;
+            top: 0;
+            z-index: 9;
+            justify-content: end;
+            box-shadow: 0 0 0 transparent;
+        }
+        header .title {padding-right: 12px;}
+        main, .shelf {position: static;}
+        [id*="canvas"] {
+            position: absolute;
+            inset: 0;
+            background-color: #000;
+            /* height: 100vh; width: 100vw; */
+            height: 100%; width: 100%;
+            /* height: 695px; width: 960px; */
+        }
+
+        /* #canvas_bg {opacity: .6;} */
+        #canvas_bg {opacity: 0;}
+        #canvas_gf {opacity: 0;}
+        #canvas_trace {opacity: 0;}
+        /* #canvas_bg,
+        #canvas,
+        #canvas_hover {
+            background-color: #0000;
+        } */
+        [id*='canvas']{
+            background-color: #0000;
+        }
+        .f {
+            font-family: monospace;
+            font-weight: bold;
+            font-weight: bolder;
+            --clr: #ff9;
+            --clr: #fd8;
+            --clr: #ee8;
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Orbit</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+<main>
+    <!-- <div class="shelf">
+        <div class="shelf-title">title</div>
+    </div> -->
+    <canvas id="canvas_trace"></canvas>
+    <canvas id="canvas_gf"></canvas>
+    <canvas id="canvas_bg"></canvas>
+    <canvas id="canvas_orbit"></canvas>
+    <canvas id="canvas_over"></canvas>
+</main>
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        const canvas = {}
+        const ctx = {}
+        var layers = ['canvas_gf', 'canvas_bg','canvas_trace','canvas_orbit','canvas_over'];
+        // var layers_clear = ['0','0','.1','1','1'];
+        var layers_clear = [0,0,-1,1,1];
+
+        function StartLayers(){
+            layers.forEach(layer=>{
+                canvas[layer] = document.getElementById(layer);
+                ctx[layer] = canvas[layer].getContext('2d');
+                canvas[layer].width = window.innerWidth;
+                canvas[layer].height = window.innerHeight;
+            })
+        }
+        window.addEventListener('resize', () =>{
+            layers.forEach(layer=>{
+                canvas[layer].width = window.innerWidth;
+                canvas[layer].height = window.innerHeight;
+            })
+            s.vh = window.innerHeight;
+            s.vw = window.innerWidth;
+            o.x = s.vw/2;
+            o.y = s.vh/2;
+
+            ctx['canvas_bg'].clearRect(0,0,canvas['canvas_bg'].width, canvas['canvas_bg'].height);
+            DrawGrid(ctx['canvas_bg']);
+        });
+
+        /* gf_reduction: 30-300, */
+
+        const particles = [];
+        const s = {
+            x: 0,
+            y: 0,
+
+            r: 3,
+            c: 0,
+            hue: 0,
+            hue_steps: 6,
+            hue_step: 360/6,
+            lum_step: 20,
+
+            'vh': window.innerHeight,
+            'vw': window.innerWidth,
+
+            gf: {'x':0,'y':0},
+            gfr: 10,
+            gfiamp: 5,
+            gfamp: 10,
+            gf_reduction: 100,
+            gf_amplification: 10,
+
+            tags: false,
+            log: false,
+            pause: false,
+            q: false,
+            z: 30
+        }
+        const o = {'x': s.vw/2, 'y': s.vh/2};
+        function DrawGrid(ctx, space = 100){
+            let rowCount = s.vh / space;
+            let colCount = s.vw / space;
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#222';
+            ctx.beginPath();
+            for (let y = 0; y < rowCount; y++) {
+                let ys = y*space;
+
+                ctx.moveTo(0, ys);
+                ctx.lineTo(s.vw, ys);
+            }
+            for (let x = 0; x < colCount; x++) {
+                let xs = x*space;
+
+                ctx.moveTo(xs, 0);
+                ctx.lineTo(xs, s.vh);
+            }
+            ctx.stroke();
+
+            for (let y = 0; y < rowCount; y++) {
+                for (let x = 0; x < colCount; x++) {
+                    let ys = (y*space)+50;
+                    let xs = (x*space)+50;
+                    let text = `(${x},${y})`;
+                    DrawTileText(ctx, text, {'x':xs,'y':ys}, hsla = {}, fontSize = 16, color = '#fff9', size = 1, fill = true)
+                }
+            }
+        }
+        function DrawTileText(ctx, text, yx = {'x':0,'y':0}, hsla = {}, fontSize = 16, color = '', size = 1, fill = true){
+            let colorStyle = '#0000';
+            let colorStyle_stroke = '#ffff';
+            let colorStyle_fill = '#fff3';
+
+            if(Object.keys(hsla).length > 0){
+                colorStyle = `hsla(${hsla.h}, ${hsla.s}%, ${hsla.l}%, ${hsla.a})`;
+                colorStyle_stroke = `hsla(${hsla.h}, ${hsla.s}%, ${hsla.l}%, 1)`;
+                colorStyle_fill = `hsla(${hsla.h}, ${hsla.s}%, 10%, 1)`;
+            }
+            if(color != '') {
+                colorStyle = color;
+                colorStyle_stroke = color;
+                colorStyle_fill = color;
+            }
+            
+            ctx.font = `${fontSize}px serif`;
+            ctx.textBaseline = "middle";
+            ctx.textAlign = "center";
+
+            let padding = 2;
+            let x = yx.x + padding;
+            let y = yx.y + padding;
+
+            if(fill){
+                ctx.fillStyle = colorStyle_stroke;
+                ctx.fillText(text, x, y);
+            } else {
+                ctx.strokeStyle = colorStyle_stroke;
+                ctx.strokeText(text, x, y);
+            }
+            // console.log(` ─────────────── `);
+        }
+        function DrawTags(ctxid = 'canvas_over'){
+            ctx[ctxid].clearRect(0,0,canvas[ctxid].width, canvas[ctxid].height);
+            let this_ctx = ctx[ctxid];
+
+            particles.forEach(p => {
+
+                // let padding = 2;
+                // let x = p.x + padding;
+                // let y = p.y + padding;
+
+                this_ctx.font = `${fontSize}px serif`;
+                this_ctx.textBaseline = "middle";
+                this_ctx.textAlign = "center";
+
+                this_ctx.fillStyle = p.clr;
+                this_ctx.fillStyle = `hsla(${p.hue}, ${p.sat}%, 10%, ${p.alp})`;
+                // this_ctx.fillText(p.id, x, y);
+                this_ctx.fillText(p.id, p.x, p.y);
+
+
+                // let val = sectorGf[sid];
+                // if(val > 10) {val = 10;}
+                // let hue = 210 - (val * 30);
+                // let sat = 100;
+                // let lum = 20;
+                // // let alp = ((val%5)/10 + .25).toFixed(2);
+                // let alp = ((val)/20 + .25).toFixed(2);
+                // let clr = `hsla(${hue}, ${sat}%, ${lum}%, ${alp})`;
+                // this_ctx.beginPath();
+                // this_ctx.fillStyle = clr;
+                // this_ctx.arc(x, y, space/2, 0, Math.PI * 2);
+                // this_ctx.fill();
+            });
+            // s.tags = true;
+        }
+
+        function DrawGf(ctxid = 'canvas_gf', space = 100){
+            ctx[ctxid].clearRect(0,0,canvas[ctxid].width, canvas[ctxid].height);
+            let targets = Object.keys(sectorGf);
+            let this_ctx = ctx[ctxid];
+
+            targets.forEach(sid => {
+                let x = parseInt(sid.split(',')[0])*100 + space/2;
+                let y = parseInt(sid.split(',')[1])*100 + space/2;
+
+                let val = sectorGf[sid];
+                if(val > 10) {val = 10;}
+                let hue = 210 - (val * 30);
+                let sat = 100;
+                let lum = 20;
+                // let alp = ((val%5)/10 + .25).toFixed(2);
+                let alp = ((val)/20 + .25).toFixed(2);
+                let clr = `hsla(${hue}, ${sat}%, ${lum}%, ${alp})`;
+                this_ctx.beginPath();
+                this_ctx.fillStyle = clr;
+                this_ctx.arc(x, y, space/2, 0, Math.PI * 2);
+                this_ctx.fill();
+            });
+        }
+        
+        function settingsLog(s_log = ['']){
+            if(!s.q){
+                if(Array.isArray(s_log)){
+                    console.log(...s_log);
+                }
+                if(typeof s_log == 'string'){
+                    console.log(s_log);
+                }
+            }
+        }
+        function safeLog(arr = [''], bypass = false){
+            if(!s.q){
+                if(s.log || bypass){
+                    if(Array.isArray(arr)){
+                        console.log(...arr);
+                    }
+                    if(typeof arr == 'string'){
+                        console.log(arr);
+                    }
+                }
+            }
+        }
+
+        class MouseParticle {
+            constructor(ctxid, id = 89){
+                this.ctx = ctx[ctxid];
+                this.canvas = canvas[ctxid];
+                this.id = id;
+                /* location = ('x', 'y'), and direction = ('d') */
+
+                this.size = 10;
+                this.x = s.vw/2;
+                this.y = s.vh/2;
+                // this.x = s.x;
+                // this.y = s.y;
+                this.d = 0;
+                this.speed = 0;
+                
+                // if(xyd.length > 0) {
+                //     this.x = xyd[0];
+                //     this.y = xyd[1];
+                //     this.d = xyd[2];
+                // } else {
+                //     this.x = Math.random() * (this.canvas.width - this.size*2) + this.size;
+                //     this.y = Math.random() * (this.canvas.height - this.size*2) + this.size;
+                //     this.d = Math.floor(Math.random() * 360);
+                // }
+
+
+                // this.hue = this.id * 60;
+                this.hue = 210 - (this.speed * 30);
+                this.sat = 100;
+                this.lum = 60;
+                this.alp = 1;
+                this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+
+                this.path = [[this.x,this.y,this.hue]];
+
+                // this.size = 10;
+                this.rad = 0;
+                this.dx = 0;
+                this.dy = 0;
+                this.vx = 0;
+                this.vy = 0;
+                this.directionUpdate();
+
+                this.forceQueue = [];
+                this.momentumQueue = [];
+
+                this.sid = '';
+                this.stepCount = 0;
+                this.sectorCheck();
+
+                this.mass = 1;
+                this.vel = 1;
+                this.ke = this.mass * this.vel;
+
+                this.tpsp = 0;
+
+                this.trace = [];
+
+                this.idStyle = `background-color: hsla(${this.hue}, 100%, 50%, .2); color: ${this.clr}; padding: .125rem .25rem; border-radius: .25rem;`;
+                this.pstyle = `background-color: ${this.clr}; color: hsl(${this.hue}, 100%, 5%); padding: .125rem .25rem; border-radius: .25rem;`;
+                safeLog([`🌌%cid:${this.id}%c💫 at (%c${this.x.toFixed(1)}%c,%c${this.y.toFixed(1)}%c)`, this.idStyle, 'color: #999;', this.pstyle, 'color: #999;', this.pstyle, 'color: #999;']);
+
+                this.initialTime = new Date();
+                this.time = new Date();
+                this.intervalID = 0;
+            }
+            getTime(){
+                return Date.now() - this.time.getTime();
+            }
+            // startStep(){
+            //     this.intervalID = setInterval(this.setStep(), 1000);
+            // }
+            // setStep(){
+            //     if(!s.q && !s.pause){
+            //         this.updateTrace();
+            //     }
+            // }
+            // endStep(){
+            //     clearInterval(this.intervalID);
+            // }
+            sectorCheck(){
+                /* change it so it takes more than 100, about 20 more on each side. */
+                /* also, so it doesn't delete it unless it is outside of this extra area. */
+                let xid = Math.floor(this.x/100);
+                let yid = Math.floor(this.y/100);
+                let sid = `${xid},${yid}`;
+                // console.log(sid);
+                if(sid != this.sid){
+                    // console.log(`Particle (#${this.id}) → new sid: (${sid})`);
+                    if(this.sid != ''){
+                        delete sector[this.sid][this.id];
+                        sectorGf[this.sid] = Object.keys(sector[this.sid]).length;
+                        if(Object.keys(sector[this.sid]).length == 0) {
+                            delete sector[this.sid];
+                            delete sectorGf[this.sid];
+                        }
+                    }
+                    if(!Object.keys(sector).includes(sid)) {
+                        sector[sid] = {}
+                    }
+                    sector[sid][this.id] = this;
+
+                    sectorGf[sid] = Object.keys(sector[sid]).length;
+                    DrawGf();
+
+                    this.sid = sid;
+                }
+                // console.log(`─────────────────────────────`);
+            }
+            identify(){
+                // console.log(`id:${this.id} → ${this.d}deg.`);
+                console.log(`─────────────────────────────`);
+                console.log(`id:${this.id} \n\t→ a: ${this.d}deg. \n\t→ sp: ${this.speed}. \n\t→ x: ${this.x}, y: ${this.y}`);
+                // console.log(`\t→ x: ${this.x}, y: ${this.y}`);
+                // if(this.forceQueue.length > 0){
+                //     console.log(`\t→ forceQueue: ${this.forceQueue.length}`);
+                // }
+                console.log(`─────────────────────────────`);
+            }
+            identifyXY(){
+                console.log(`\tid:${this.id} move → (x:${this.x}, y:${this.y})`);
+            }
+            addMomentum(){
+                PrintObj(this.momentumQueue, `momentumQueue:${this.id}`);
+                // let this_x_force = this.speed * this.dx;
+                // let this_y_force = this.speed * this.dy;
+
+                // this.vx = this.speed * this.dx;
+                // this.vy = this.speed * this.dy;
+
+                let adding_x_force = this.vx;
+                let adding_y_force = this.vy;
+
+                this.momentumQueue.forEach(dm => {
+                    adding_x_force += dm.dxq;
+                    adding_y_force += dm.dyq;
+                });
+                this.d = this.XYtoAngle(adding_x_force,adding_y_force);
+                this.speed = Math.sqrt(adding_x_force**2 + adding_y_force**2);
+                if(this.speed > 15) {this.speed = 15;}
+
+                this.momentumQueue = [];
+                this.directionUpdate();
+                this.move();
+            }
+            updateColors(){
+                this.hue = 210 - (this.speed%10 * 30);
+                // safeLog([`this.hue: %c${this.hue.toFixed(1)}`, `background-color: hsla(210, 100%, 100%, .2); color: #fff; padding: .125rem .25rem; border-radius: .25rem;`]);
+                this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                this.pstyle = `background-color: ${this.clr}; color: hsl(${this.hue}, 100%, 5%); padding: .125rem .25rem; border-radius: .25rem;`;
+                this.idStyle = `background-color: hsla(${this.hue}, 100%, 50%, .2); color: ${this.clr}; padding: .125rem .25rem; border-radius: .25rem;`;
+            }
+            addForces(){
+                let this_x_force = this.speed * this.dx;
+                let this_y_force = this.speed * this.dy;
+
+                let adding_x_force = this_x_force;
+                let adding_y_force = this_y_force;
+
+                this.forceQueue.forEach(force => {
+                    // console.log(`%cforce.speed: %c${force.speed.toFixed(8)}%c, force.d: %c${force.d.toFixed(1)}°`, "color: white", this.pstyle, "color: white", this.pstyle);
+                    let xy = this.AngleToXY(force.d);
+                    // console.log(`%cxy.x: %c${xy.x}%c, xy.y: %c${xy.y}`, "color: white", this.pstyle, "color: white", this.pstyle);
+                    let fsp = parseFloat(force.speed);
+                    // console.log(`fsp: %c${fsp}`, this.pstyle);
+                    let new_x_force = fsp * xy.x;
+                    let new_y_force = fsp * xy.y;
+                    // console.log(`%cnew_x_force: %c${new_x_force}%c, new_y_force: %c${new_y_force}`, "color: white", this.pstyle, "color: white", this.pstyle);
+
+                    adding_x_force += new_x_force;
+                    adding_y_force += new_y_force;
+                    // console.log(`%cadding_x_force: %c${adding_x_force}%c, adding_y_force: %c${adding_y_force}`, "color: white", this.pstyle, "color: white", this.pstyle);
+                });
+                this.d = this.XYtoAngle(adding_x_force,adding_y_force);
+                this.speed = Math.sqrt(adding_x_force**2 + adding_y_force**2);
+
+                // let nd = this.XYtoAngle(adding_x_force,adding_y_force);
+                // console.log(`📐 nd: %c${nd.toFixed(1)}°`, this.pstyle);
+                // this.d = nd;
+                // let nsp = Math.sqrt(adding_x_force**2 + adding_y_force**2);
+                // console.log(`⏱ nsp: %c${nsp.toFixed(8)}`, this.pstyle);
+                // this.speed = nsp;
+
+                // safeLog([`%c${this.id}%c 📐 this.d: %c${this.d.toFixed(1)}°%c, ⏱ this.speed: %c${this.speed.toFixed(4)}`, `background-color: white; color: black; padding: .125rem .25rem; border-radius: .25rem;`, "color: white", this.pstyle, "color: white", this.pstyle]);
+                // safeLog([`%cid:${this.id}%c 📐 this.d: %c${this.d.toFixed(1)}°%c, ⏱ this.speed: %c${this.speed.toFixed(4)}`, `background-color: hsla(${this.hue}, 100%, 50%, .2); color: ${this.clr}; padding: .125rem .25rem; border-radius: .25rem;`, "color: white", this.pstyle, "color: white", this.pstyle]);
+                // safeLog([`%cid:${this.id}%c 📐 this.d: %c${this.d.toFixed(1)}°%c, ⏱ this.speed: %c${this.speed.toFixed(4)}`, this.idStyle, "color: white", this.pstyle, "color: white", this.pstyle]);
+
+                // if(this.speed > 5) {this.speed = 5;}
+                if(this.speed > 10) {this.speed = 10;}
+                
+                this.updateColors();
+
+                this.forceQueue = [];
+                this.directionUpdate();
+                this.move();
+            }
+            AngleToXY(angle){
+                angle = angle%360;
+                let rad = angle * Math.PI / 180;
+                let xy = {"x":0,"y":0};
+                if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+                if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+                return xy;
+            }
+            XYtoAngle(x,y){
+                x = Math.round(x*1000);
+                y = Math.round(y*1000);
+                let angle = 0;
+                if(x == 0) {
+                    if(y > 0) {return 90;}
+                    if(y < 0) {return 270;}
+                }
+                if(x < 0) { angle += 180; }
+                if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
+                return angle;
+            }
+            updateTrace(){
+                this.trace.push([this.x,this.y,this.hue,this.getTime()]);
+                if(this.trace.length > 6) {
+                    this.trace.shift();
+                }
+            }
+            updatePath(){
+                this.path.push([this.x,this.y,this.hue]);
+                if(this.path.length > 3) {
+                    this.path.shift();
+                }
+                // ctx['canvas_trace'].fillStyle = '#00000022';
+                // ctx['canvas_trace'].fillRect(0, 0, canvas['canvas_trace'].width, canvas['canvas_trace'].height);
+            }
+            directionUpdate(){
+                // this.d = (this.d+360)%360;
+                this.rad = this.d * Math.PI / 180;
+                if(this.d == 180) {this.dy = 0;} else {this.dy = Math.sin(this.rad);}
+                if(this.d == 90 || this.d == 270) {this.dx = 0;} else {this.dx = Math.cos(this.rad);}
+
+                this.vx = this.speed * this.dx;
+                this.vy = this.speed * this.dy;
+                this.updatePath();
+
+                // this.hue = this.direction - 90;
+                // this.hue = this.hueStart + (this.direction%90) - 45;
+                // this.size -= this.size/8;
+                // if(this.size < 3) this.size = 3;
+
+                // this.collisionCheck();
+            }
+            wallBounce(wall_angle){
+                let aper1 = (wall_angle + 90) % 360;
+                let aper2 = (wall_angle + 270) % 360;
+                let new_angle = 0;
+                let dif = Math.abs(wall_angle - this.d)%180;
+                if(dif != 0) {
+                    let a1 = Math.max(aper1,aper2);
+                    let a2 = Math.min(aper1,aper2);
+                    new_angle = a1 + (a2 - this.d);
+                }
+                this.d = (new_angle + 360) % 360;
+            }
+            calcSpeed(){
+                let total_distance = 0;
+                let total_time = 0;
+                let total_speed = 0;
+                if(this.trace.length > 1){
+
+                    // this.trace.forEach(point => {
+                    //     total_distance += Math.sqrt(this.x**2 + this.y**2);
+                    // });
+
+                    let ox = this.trace[0][0];
+                    let oy = this.trace[0][1];
+                    let ohue = this.trace[0][2];
+                    let otime = this.trace[0][3];
+                    for (let i = 1; i < this.trace.length; i++) {
+                        let nx = ox - this.trace[i][0];
+                        let ny = oy - this.trace[i][1];
+                        // let nhue = this.trace[i][2];
+                        // let ntime = this.trace[i][3];
+
+                        total_distance += Math.sqrt(nx**2 + ny**2);
+                        
+                        ox = this.trace[i][0];
+                        oy = this.trace[i][1];
+
+                        // ox = nx;
+                        // oy = ny;
+                        // ohue = nhue;
+                        // otime = ntime;
+                    }
+                    total_time = this.trace[this.trace.length-1][3] - this.trace[0][3];
+                    // safeLog([`total_distance: %c${total_distance}`, this.idStyle]);
+                    // safeLog([`total_time: %c${total_time}`, this.idStyle]);
+    
+                    total_speed = total_distance/total_time*10;
+                    // safeLog([`total_speed: %c${total_speed}`, this.pstyle]);
+                    // safeLog([`total_speed: %c${total_speed}`, `background-color: hsla(210, 100%, 100%, .2); color: #fff; padding: .125rem .25rem; border-radius: .25rem;`]);
+                }
+                // console.log(`gf: %c${gf}`, "color: #06f");
+                this.speed = total_speed;
+                this.updateColors();
+            }
+            move(){
+                // if(s.x != this.x){
+                //     this.x = s.x;
+                // }
+                // if(s.y != this.y){
+                //     this.y = s.y;
+                // }
+                if(s.x != this.x || s.y != this.y){
+                    this.x = s.x;
+                    this.y = s.y;
+                    // this.updateTrace();
+                    // this.sectorCheck();
+                }
+
+
+                // this.x += this.speed * this.dx;
+                // this.y += this.speed * this.dy;
+
+                // if(this.x > this.canvas.width-this.size || this.x < this.size){
+                //     this.wallBounce(90);
+                //     this.directionUpdate();
+                // }
+                // if(this.y > this.canvas.height-this.size || this.y < this.size){
+                //     this.wallBounce(0);
+                //     this.directionUpdate();
+                // }
+
+                this.stepCount += 1;
+                if(this.stepCount > this.size){
+                    this.updateTrace();
+                    this.sectorCheck();
+                    this.stepCount = 0;
+                }
+
+                // if(this.stepCount > this.size){
+                //     this.updateTrace();
+                // }
+                // this.updateTrace();
+            }
+            update(){
+                if(this.forceQueue.length > 0){
+                    // console.log(`─────`);
+                    this.addForces();
+                    // console.log(`─────`);
+                }
+                if(this.momentumQueue.length > 0){this.addMomentum();}
+
+                this.move();
+                this.calcSpeed();
+            }
+            draw(){
+                // this.hue = 210 - (this.speed * 36);
+                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                // this.drawPath();
+                this.drawTrace();
+
+                // this.ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                this.ctx.fillStyle = this.clr;
+                
+                this.ctx.beginPath();
+                this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                this.ctx.fill();
+            }
+            drawPath(){
+                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                // let alp2 = 1;
+                if(this.path.length > 1){
+                    this.ctx.beginPath();
+                    let ox = this.x;
+                    let oy =  this.y;
+                    for (let i = this.path.length - 1; i > 0; i--) {
+                        let nx = this.path[i][0];
+                        let ny = this.path[i][1];
+                        this.ctx.lineWidth = i + 2;
+                        let alp2 = (i / this.path.length * .7) + .2;
+                        this.ctx.strokeStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
+                        this.ctx.moveTo(ox, oy);
+                        this.ctx.lineTo(nx, ny);
+                        this.ctx.stroke();
+                        ox = nx;
+                        oy = ny;
+                    }
+                }
+            }
+            drawTrace(){
+
+                // this.ctx.fillStyle = this.clr;
+                // this.ctx.beginPath();
+                // this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                // this.ctx.fill();
+
+                // this.hue = 210 - (this.speed * 36);
+                // let hue = 210 - (this.trace[i][2] * 30);
+
+                if(this.trace.length > 1){
+                    let ctx_trace = ctx['canvas_trace'];
+                    // ctx_trace.beginPath();
+                    let ox = this.x;
+                    let oy = this.y;
+                    for (let i = this.trace.length - 1; i > -1; i--) {
+                        let nx = this.trace[i][0];
+                        let ny = this.trace[i][1];
+
+                        let sz = (i / this.trace.length * 4) + 2;
+                        // let sz = i+1;
+                        // let hue = 210 - (this.trace[i][2] * 30);
+                        let hue = this.trace[i][2];
+                        // let alp2 = (i / this.trace.length * .7) + .2;
+                        let alp2 = (i / this.trace.length * .75) + .05;
+                        // let alp2 = 1;
+                        // let clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
+                        let clr = `hsla(${hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
+
+                        ctx_trace.beginPath();
+                        ctx_trace.lineWidth = 1;
+                        // ctx_trace.lineWidth = sz*.5;
+                        ctx_trace.strokeStyle = clr;
+                        ctx_trace.moveTo(ox, oy);
+                        ctx_trace.lineTo(nx, ny);
+                        ctx_trace.stroke();
+
+                        ctx_trace.beginPath();
+                        ctx_trace.fillStyle = clr;
+                        // let sz = i%2+1;
+                        // let sz = (i / this.trace.length * 3) + 2;
+                        ctx_trace.arc(nx, ny, sz, 0, Math.PI * 2);
+                        ctx_trace.fill();
+
+                        ox = nx;
+                        oy = ny;
+                    }
+                }
+            }
+        }
+
+        class Particle3 {
+            constructor(ctxid, id = -1, speed = 1, xyd = []){
+                this.ctx = ctx[ctxid];
+                this.canvas = canvas[ctxid];
+                this.id = id;
+                /* location = ('x', 'y'), and direction = ('d') */
+
+                this.size = 10;
+                
+                if(xyd.length > 0) {
+                    this.x = xyd[0];
+                    this.y = xyd[1];
+                    this.d = xyd[2];
+                } else {
+                    this.x = Math.random() * (this.canvas.width - this.size*2) + this.size;
+                    this.y = Math.random() * (this.canvas.height - this.size*2) + this.size;
+                    this.d = Math.floor(Math.random() * 360);
+                }
+                this.speed = speed;
+
+                this.path = [[this.x,this.y,this.d]];
+                // console.log(`particle id:${this.id} at (${this.x.toFixed(2)},${this.y.toFixed(2)})`);
+
+                // this.hue = this.id * 60;
+                this.hue = 210 - (this.speed * 30);
+                this.sat = 100;
+                this.lum = 60;
+                this.alp = 1;
+                this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+
+                // this.size = 10;
+                this.rad = 0;
+                this.dx = 0;
+                this.dy = 0;
+                this.vx = 0;
+                this.vy = 0;
+                this.directionUpdate();
+
+                this.forceQueue = [];
+                this.momentumQueue = [];
+
+                this.sid = '';
+                this.stepCount = 0;
+                this.sectorCheck();
+
+                this.mass = 1;
+                this.vel = 1;
+                this.ke = this.mass * this.vel;
+
+                this.tpsp = 0;
+
+                this.trace = [];
+
+                this.idStyle = `background-color: hsla(${this.hue}, 100%, 50%, .2); color: ${this.clr}; padding: .125rem .25rem; border-radius: .25rem;`;
+                this.pstyle = `background-color: ${this.clr}; color: hsl(${this.hue}, 100%, 5%); padding: .125rem .25rem; border-radius: .25rem;`;
+                safeLog([`🌌%cid:${this.id}%c💫 at (%c${this.x.toFixed(1)}%c,%c${this.y.toFixed(1)}%c)`, this.idStyle, 'color: #999;', this.pstyle, 'color: #999;', this.pstyle, 'color: #999;']);
+            }
+            sectorCheck(){
+                /* change it so it takes more than 100, about 20 more on each side. */
+                /* also, so it doesn't delete it unless it is outside of this extra area. */
+                let xid = Math.floor(this.x/100);
+                let yid = Math.floor(this.y/100);
+                let sid = `${xid},${yid}`;
+                // console.log(sid);
+                if(sid != this.sid){
+                    // console.log(`Particle (#${this.id}) → new sid: (${sid})`);
+                    if(this.sid != ''){
+                        delete sector[this.sid][this.id];
+                        sectorGf[this.sid] = Object.keys(sector[this.sid]).length;
+                        if(Object.keys(sector[this.sid]).length == 0) {
+                            delete sector[this.sid];
+                            delete sectorGf[this.sid];
+                        }
+                    }
+                    if(!Object.keys(sector).includes(sid)) {
+                        sector[sid] = {}
+                    }
+                    sector[sid][this.id] = this;
+
+                    sectorGf[sid] = Object.keys(sector[sid]).length;
+                    DrawGf();
+
+                    this.sid = sid;
+                }
+                // console.log(`─────────────────────────────`);
+            }
+            identify(){
+                // console.log(`id:${this.id} → ${this.d}deg.`);
+                console.log(`─────────────────────────────`);
+                console.log(`id:${this.id} \n\t→ a: ${this.d}deg. \n\t→ sp: ${this.speed}. \n\t→ x: ${this.x}, y: ${this.y}`);
+                // console.log(`\t→ x: ${this.x}, y: ${this.y}`);
+                // if(this.forceQueue.length > 0){
+                //     console.log(`\t→ forceQueue: ${this.forceQueue.length}`);
+                // }
+                console.log(`─────────────────────────────`);
+            }
+            identifyXY(){
+                console.log(`\tid:${this.id} move → (x:${this.x}, y:${this.y})`);
+            }
+            addMomentum(){
+                PrintObj(this.momentumQueue, `momentumQueue:${this.id}`);
+                // let this_x_force = this.speed * this.dx;
+                // let this_y_force = this.speed * this.dy;
+
+                // this.vx = this.speed * this.dx;
+                // this.vy = this.speed * this.dy;
+
+                let adding_x_force = this.vx;
+                let adding_y_force = this.vy;
+
+                this.momentumQueue.forEach(dm => {
+                    adding_x_force += dm.dxq;
+                    adding_y_force += dm.dyq;
+                });
+                this.d = this.XYtoAngle(adding_x_force,adding_y_force);
+                this.speed = Math.sqrt(adding_x_force**2 + adding_y_force**2);
+                if(this.speed > 15) {this.speed = 15;}
+
+                this.momentumQueue = [];
+                this.directionUpdate();
+                this.move();
+            }
+            addForces(){
+                let this_x_force = this.speed * this.dx;
+                let this_y_force = this.speed * this.dy;
+
+                let adding_x_force = this_x_force;
+                let adding_y_force = this_y_force;
+
+                this.forceQueue.forEach(force => {
+                    // console.log(`%cforce.speed: %c${force.speed.toFixed(8)}%c, force.d: %c${force.d.toFixed(1)}°`, "color: white", this.pstyle, "color: white", this.pstyle);
+                    let xy = this.AngleToXY(force.d);
+                    // console.log(`%cxy.x: %c${xy.x}%c, xy.y: %c${xy.y}`, "color: white", this.pstyle, "color: white", this.pstyle);
+                    let fsp = parseFloat(force.speed);
+                    // console.log(`fsp: %c${fsp}`, this.pstyle);
+                    let new_x_force = fsp * xy.x;
+                    let new_y_force = fsp * xy.y;
+                    // console.log(`%cnew_x_force: %c${new_x_force}%c, new_y_force: %c${new_y_force}`, "color: white", this.pstyle, "color: white", this.pstyle);
+
+                    adding_x_force += new_x_force;
+                    adding_y_force += new_y_force;
+                    // console.log(`%cadding_x_force: %c${adding_x_force}%c, adding_y_force: %c${adding_y_force}`, "color: white", this.pstyle, "color: white", this.pstyle);
+                });
+                this.d = this.XYtoAngle(adding_x_force,adding_y_force);
+                this.speed = Math.sqrt(adding_x_force**2 + adding_y_force**2);
+
+                // let nd = this.XYtoAngle(adding_x_force,adding_y_force);
+                // console.log(`📐 nd: %c${nd.toFixed(1)}°`, this.pstyle);
+                // this.d = nd;
+                // let nsp = Math.sqrt(adding_x_force**2 + adding_y_force**2);
+                // console.log(`⏱ nsp: %c${nsp.toFixed(8)}`, this.pstyle);
+                // this.speed = nsp;
+
+                // safeLog([`%c${this.id}%c 📐 this.d: %c${this.d.toFixed(1)}°%c, ⏱ this.speed: %c${this.speed.toFixed(4)}`, `background-color: white; color: black; padding: .125rem .25rem; border-radius: .25rem;`, "color: white", this.pstyle, "color: white", this.pstyle]);
+                // safeLog([`%cid:${this.id}%c 📐 this.d: %c${this.d.toFixed(1)}°%c, ⏱ this.speed: %c${this.speed.toFixed(4)}`, `background-color: hsla(${this.hue}, 100%, 50%, .2); color: ${this.clr}; padding: .125rem .25rem; border-radius: .25rem;`, "color: white", this.pstyle, "color: white", this.pstyle]);
+                // safeLog([`%cid:${this.id}%c 📐 this.d: %c${this.d.toFixed(1)}°%c, ⏱ this.speed: %c${this.speed.toFixed(4)}`, this.idStyle, "color: white", this.pstyle, "color: white", this.pstyle]);
+
+                // if(this.speed > 5) {this.speed = 5;}
+                if(this.speed > 10) {this.speed = 10;}
+                
+                this.hue = 210 - (this.speed * 30);
+                this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                this.pstyle = `background-color: ${this.clr}; color: hsl(${this.hue}, 100%, 5%); padding: .125rem .25rem; border-radius: .25rem;`;
+                this.idStyle = `background-color: hsla(${this.hue}, 100%, 50%, .2); color: ${this.clr}; padding: .125rem .25rem; border-radius: .25rem;`;
+
+                this.forceQueue = [];
+                this.directionUpdate();
+                this.move();
+            }
+            AngleToXY(angle){
+                angle = angle%360;
+                let rad = angle * Math.PI / 180;
+                let xy = {"x":0,"y":0};
+                if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+                if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+                return xy;
+            }
+            XYtoAngle(x,y){
+                x = Math.round(x*1000);
+                y = Math.round(y*1000);
+                let angle = 0;
+                if(x == 0) {
+                    if(y > 0) {return 90;}
+                    if(y < 0) {return 270;}
+                }
+                if(x < 0) { angle += 180; }
+                if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
+                return angle;
+            }
+            updateTrace(){
+                this.trace.push([this.x,this.y,this.hue]);
+                if(this.trace.length > 6) {
+                    this.trace.shift();
+                }
+            }
+            updatePath(){
+                this.path.push([this.x,this.y,this.d]);
+                if(this.path.length > 3) {
+                    this.path.shift();
+                }
+                // ctx['canvas_trace'].fillStyle = '#00000022';
+                // ctx['canvas_trace'].fillRect(0, 0, canvas['canvas_trace'].width, canvas['canvas_trace'].height);
+            }
+            directionUpdate(){
+                // this.d = (this.d+360)%360;
+                this.rad = this.d * Math.PI / 180;
+                if(this.d == 180) {this.dy = 0;} else {this.dy = Math.sin(this.rad);}
+                if(this.d == 90 || this.d == 270) {this.dx = 0;} else {this.dx = Math.cos(this.rad);}
+
+                this.vx = this.speed * this.dx;
+                this.vy = this.speed * this.dy;
+                this.updatePath();
+
+                // this.hue = this.direction - 90;
+                // this.hue = this.hueStart + (this.direction%90) - 45;
+                // this.size -= this.size/8;
+                // if(this.size < 3) this.size = 3;
+
+                // this.collisionCheck();
+            }
+            wallBounce(wall_angle){
+                let aper1 = (wall_angle + 90) % 360;
+                let aper2 = (wall_angle + 270) % 360;
+                let new_angle = 0;
+                let dif = Math.abs(wall_angle - this.d)%180;
+                if(dif != 0) {
+                    let a1 = Math.max(aper1,aper2);
+                    let a2 = Math.min(aper1,aper2);
+                    new_angle = a1 + (a2 - this.d);
+                }
+                this.d = (new_angle + 360) % 360;
+            }
+            move(){
+                this.x += this.speed * this.dx;
+                this.y += this.speed * this.dy;
+
+                if(this.x > this.canvas.width-this.size || this.x < this.size){
+                    this.wallBounce(90);
+                    this.directionUpdate();
+                }
+                if(this.y > this.canvas.height-this.size || this.y < this.size){
+                    this.wallBounce(0);
+                    this.directionUpdate();
+                }
+
+                this.stepCount += 1;
+                if(this.stepCount > this.size){
+                    this.updateTrace();
+                    this.sectorCheck();
+                    this.stepCount = 0;
+                }
+
+                // if(this.stepCount > this.size){
+                //     this.updateTrace();
+                // }
+                // this.updateTrace();
+            }
+            update(){
+                if(this.forceQueue.length > 0){
+                    // console.log(`─────`);
+                    this.addForces();
+                    // console.log(`─────`);
+                }
+                if(this.momentumQueue.length > 0){this.addMomentum();}
+
+                this.move();
+            }
+            draw(){
+                // this.hue = 210 - (this.speed * 36);
+                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                // this.drawPath();
+                this.drawTrace();
+
+                // this.ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                this.ctx.fillStyle = this.clr;
+                
+                this.ctx.beginPath();
+                this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                this.ctx.fill();
+            }
+            drawPath(){
+                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                // let alp2 = 1;
+                if(this.path.length > 1){
+                    this.ctx.beginPath();
+                    let ox = this.x;
+                    let oy =  this.y;
+                    for (let i = this.path.length - 1; i > 0; i--) {
+                        let nx = this.path[i][0];
+                        let ny = this.path[i][1];
+                        this.ctx.lineWidth = i + 2;
+                        let alp2 = (i / this.path.length * .7) + .2;
+                        this.ctx.strokeStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
+                        this.ctx.moveTo(ox, oy);
+                        this.ctx.lineTo(nx, ny);
+                        this.ctx.stroke();
+                        ox = nx;
+                        oy = ny;
+                    }
+                }
+            }
+            drawTrace(){
+
+                // this.ctx.fillStyle = this.clr;
+                // this.ctx.beginPath();
+                // this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                // this.ctx.fill();
+
+                // this.hue = 210 - (this.speed * 36);
+                // let hue = 210 - (this.trace[i][2] * 30);
+
+                if(this.trace.length > 1){
+                    let ctx_trace = ctx['canvas_trace'];
+                    // ctx_trace.beginPath();
+                    let ox = this.x;
+                    let oy =  this.y;
+                    for (let i = this.trace.length - 1; i > -1; i--) {
+                        let nx = this.trace[i][0];
+                        let ny = this.trace[i][1];
+
+                        let sz = (i / this.trace.length * 4) + 2;
+                        // let sz = i+1;
+                        // let hue = 210 - (this.trace[i][2] * 30);
+                        let hue = this.trace[i][2];
+                        // let alp2 = (i / this.trace.length * .7) + .2;
+                        let alp2 = (i / this.trace.length * .75) + .05;
+                        // let alp2 = 1;
+                        // let clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
+                        let clr = `hsla(${hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
+
+                        ctx_trace.beginPath();
+                        ctx_trace.lineWidth = 1;
+                        // ctx_trace.lineWidth = sz*.5;
+                        ctx_trace.strokeStyle = clr;
+                        ctx_trace.moveTo(ox, oy);
+                        ctx_trace.lineTo(nx, ny);
+                        ctx_trace.stroke();
+
+                        ctx_trace.beginPath();
+                        ctx_trace.fillStyle = clr;
+                        // let sz = i%2+1;
+                        // let sz = (i / this.trace.length * 3) + 2;
+                        ctx_trace.arc(nx, ny, sz, 0, Math.PI * 2);
+                        ctx_trace.fill();
+
+                        ox = nx;
+                        oy = ny;
+                    }
+                }
+            }
+        }
+
+        const sectorGf = {}
+        const sector = {};
+        const ss = {
+            "sector": {"size": 100, "pps": 10}
+        };
+        function AngleToXY(angle){
+                let rad = angle * Math.PI / 180;
+                let xy = {"x":0,"y":0};
+                if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+                if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+                return xy;
+        }
+        function XYtoAngle(x,y){
+            x = Math.round(x*1000);
+            y = Math.round(y*1000);
+            let angle = 0;
+            if(x == 0) {
+                if(y > 0) {return 90;}
+                if(y < 0) {return 270;}
+            }
+            if(x < 0) { angle += 180; }
+            if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
+            return angle;
+        }
+        function collisionUpdate(a,b){
+            /* 'a' is colliding into 'b' which can be at rest. */
+            // console.log(`...collisionUpdate(${a.id},${b.id});`);
+            // a.identify();
+
+            // // let xyStyle = 'color: #00AAAA; font-weight: bold; padding: .25rem .5rem;';
+            // let txtStyle = 'color: #AAAAAA; font-weight: bold;';
+            // let xyStyle = 'color: #00AAAA; font-weight: bold;';
+            // console.log(`%ca:%c(${a.x.toFixed(2)},${a.y.toFixed(2)})%c; b:%c(${b.x.toFixed(2)},${b.y.toFixed(2)})`, txtStyle, xyStyle, txtStyle, xyStyle);
+
+            // item 'a' will be the collider into item 'b'.
+            if(a.speed > 0){
+                // console.log(`...collisionUpdate(${a.id},${b.id});`);
+                // a.identify();
+                let x2 = b.x - a.x;
+                let y2 = b.y - a.y;
+                // console.log(`x2: ${x2}, y2: ${y2}`);
+
+                let collision_angle = XYtoAngle(x2,y2);
+                // console.log(`collision_angle: ${collision_angle}`);
+
+                let apperture = Math.abs(collision_angle - a.d);
+                // console.log(`apperture: ${apperture}`);
+
+                //let force_ratio_y = Math.sin(apperture * Math.PI / 180);
+                //let force_ratio = force_ratio_x + force_ratio_y;
+                //let force_to_send = (force_ratio_x/force_ratio) * a.speed;
+                // let force_to_keep = a.speed - force_to_send;
+
+                if(apperture > 180) {apperture = 360 - apperture;}
+
+                // // /* ♦ Change from angle and speed for dx and dy. ♦ */
+                // // // let dxc = a.dx - b.dx;
+
+                // let xc = b.x - a.x;
+                // let yc = b.y - a.y;
+                // let x_force = 0;
+                // let y_force = 0;
+                // // console.log(`a.vx: ${a.vx}, xc: ${xc}, a.vx/xc: ${a.vx/xc}`);
+                // // console.log(`a.vy: ${a.vy}, yc: ${yc}, a.yx/yc: ${a.vy/yc}`);
+                // // console.log(`Math.cos(apperture * Math.PI / 180): ${Math.cos(apperture * Math.PI / 180)}`);
+                // if(a.vx == 0 || a.vx/xc > 0){
+                //     // let x_force = (a.vx - b.vx) * (1-Math.cos(apperture * Math.PI / 180));
+                //     // console.log(`a.vx: ${a.vx}, b.vx: ${b.vx}`);
+                //     // x_force = (a.vx - b.vx) * (Math.cos(apperture * Math.PI / 180));
+                //     x_force = (a.vx - b.vx) * (1-Math.sin(apperture * Math.PI / 180));
+                // }
+                // if(a.vy == 0 || a.vy/yc > 0){
+                //     // let y_force = (a.vy - b.vy) * (1-Math.sin(apperture * Math.PI / 180));
+                //     // console.log(`a.vy: ${a.vy}, b.vy: ${b.vy}`);
+                //     // y_force = (a.vy - b.vy) * (Math.sin(apperture * Math.PI / 180));
+                //     y_force = (a.vy - b.vy) * (1-Math.cos(apperture * Math.PI / 180));
+                // }
+                // console.log(`a → dxq: ${x_force*-1}, dyq: ${y_force*-1}`);
+                // console.log(`b → dxq: ${x_force}, dyq: ${y_force}`);
+                // a.momentumQueue.push({'dxq':x_force*-1, 'dyq':y_force*-1});
+                // b.momentumQueue.push({'dxq':x_force, 'dyq':y_force});
+
+
+                if(apperture < 90) {
+                    // console.log(`apperture: ${apperture}`);
+                    let force_ratio_x = Math.cos(apperture * Math.PI / 180);
+                    let force_to_send = (force_ratio_x) * a.speed;
+                    let collision_update = (collision_angle + 180)%360;
+                    a.forceQueue.push({'speed':force_to_send, 'd':collision_update});
+                    b.forceQueue.push({'speed':force_to_send, 'd':collision_angle});
+                }
+
+
+                // speedCount();
+                // console.log(`...end of collisionUpdate(${a.id},${b.id})`);
+            }
+            // console.log(`...end of collisionUpdate(${a.id},${b.id})`);
+        }
+        
+        // function ContinualCollisionUpdate3(a,b,h,ca){
+        //     // attempt to determine the moment of collision to 
+        //     // then calculate the collision, 
+        //     // and then move the rest of momentum with the new directions.
+        //     if(a.speed > 0){
+        //         let x2 = b.x - a.x;
+        //         let y2 = b.y - a.y;
+        //         // console.log(`x2: ${x2}, y2: ${y2}`);
+        //         let absize = a.size + b.size;
+        //         console.log(`absize: %c${absize}`, "color: #06f",);
+
+        //         console.log(`collision_angle: %c${ca.toFixed(4)}deg`, "color: #06f",);
+        //         let apperture = Math.abs(ca - a.d);
+        //         if(apperture > 180) {apperture = 360 - apperture;}
+        //         console.log(`apperture: %c${apperture.toFixed(4)}deg`, "color: #06f",);
+                
+        //         console.log(`let xh = h*cos(ca);`);
+        //         let xh = h*Math.cos(ca);
+        //         let yh = h*Math.sin(ca);
+        //         console.log(`%cxh: %c${xh.toFixed(4)}%c, yh: %c${yh.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
+                
+        //         let xd = absize * Math.cos(ca);
+        //         let yd = absize * Math.sin(ca);
+        //         console.log(`%cxd: %c${xd.toFixed(4)}%c, yd: %c${yd.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
+
+        //         let xdh = xd - xh;
+        //         let ydh = yd - yh;
+        //         console.log(`%cxdh: %c${xdh.toFixed(4)}%c, ydh: %c${ydh.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
+
+        //         console.log(`%ca.dx: %c${a.dx.toFixed(4)}%c, a.dy: %c${a.dy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
+        //         console.log(`%cb.dx: %c${b.dx.toFixed(4)}%c, b.dy: %c${b.dy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
+
+        //         console.log(`%ca.vx: %c${a.vx.toFixed(4)}%c, a.vy: %c${a.vy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
+        //         console.log(`%cb.vx: %c${b.vx.toFixed(4)}%c, b.vy: %c${b.vy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
+
+        //         let tcx = (xd - xh) / a.vx;
+        //         let tcy = (yd - yh) / a.vy;
+        //         console.log(`%ctcx: %c${tcx.toFixed(4)}%c, tcy: %c${tcy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
+        //         let tcx_1 = 1-tcx;
+        //         let tcy_1 = 1-tcy;
+        //         console.log(`%ctcx_1: %c${tcx_1.toFixed(4)}%c, tcy_1: %c${tcy_1.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
+
+        //         pause();
+        //     }
+        // }
+        function CollisionLog(){
+            // if(this.tpsp != CheckSpeed()){
+            if(initialSpeed.toFixed(4) != CheckSpeed().toFixed(4)){
+                console.warn('💢Collision Error❗');
+                speedCount();
+
+                particles.forEach(p=>{
+                    let pid = `p${p.id}`;
+                    PrintObj(memoryStates[pid], pid);
+                });
+                // console.log(`initialSpeed != CheckSpeed(): ${initialSpeed != CheckSpeed()}`);
+                // console.log(`initialSpeed: ${initialSpeed}`);
+                // console.log(`CheckSpeed(): ${CheckSpeed()}`);
+
+                // console.error('💥Catastrophic Collision Error❗');
+                // console.warn('💥Catastrophic Collision Error❗');
+                // console.log(`id: ${this.id}`);
+                // console.log(memoryStates[`p${this.id}`]);
+                // PrintObj(memoryStates[`p${this.id}`]);
+                // PrintObj(memoryStates[pid], pid);
+                // speedCount();
+                s.pause = true;
+                // if(!s.q){
+                //     pause();
+                // }
+            } else {
+                MemoryUpdate();
+                // console.log('%cMemoryUpdate()', 'color: #AA00AA;');
+                console.log('\x1B[35mMemoryUpdate()\x1B[m');
+                // console.log(`id: ${this.id}`);
+                // console.log(memoryStates[`p${this.id}`]);
+                // PrintObj(memoryStates[pid], pid);
+                speedCount();
+                // setTimeout(() => {
+                //     // console.log("Delayed for 1 second.");
+                //     speedCount();
+                // }, "1000")
+            }
+        }
+        function CollisionCheck3(a,b,t=''){
+            let x2 = b.x - a.x;
+            let y2 = b.y - a.y;
+            // let h = x2**2 + y2**2;
+            // let dist2 = (a.size+b.size)**2;
+            let h = Math.sqrt(x2**2 + y2**2);
+            let dist2 = (a.size+b.size);
+            // console.log(`a.x = ${a.x} | b.x = ${b.x} | h: ${h} | dist: ${dist2}`);
+            // if(h < dist2){
+            if(h-dist2 < 1){
+                if(t != ''){
+                    // console.log(`${t} → CollisionCheck(${a.id},${b.id});`);
+                    // console.log(` ───────────────────────────── `);
+                    safeLog([`%c${t}%c → %cCollisionCheck%c(%c${a.id}%c,%c${b.id}%c);`, `color: #fff;`,`color: #555;`,`color: #ee8;`,`color: #888;`,a.idStyle,`color: #888;`,b.idStyle,`color: #888;`], true);
+                    // safeLog([`%c${t}%c → %cCollisionCheck%c(%cid:${a.id}%c,%cid:${b.id}%c);`, `color: #fff;`,`color: #555;`,`color: #ee8;`,`color: #888;`,a.idStyle,`color: #888;`,b.idStyle,`color: #888;`], true);
+                    // safeLog([`%c ───────────────────────────── `, `color: #888;`], true);
+                    safeLog([`%c ───────────────────────────── `, `color: #555;`], true);
+                }
+                // console.log(`a.x = ${a.x} | b.x = ${b.x} | a.y = ${a.y} | b.y = ${b.y} | \nh: ${h} | dist: ${dist2}`);
+                // let collision_angle = XYtoAngle(x2,y2);
+                // ContinualCollisionUpdate3(a,b,h,collision_angle);
+
+                collisionUpdate(a,b);
+                collisionUpdate(b,a);
+                // // speedCount();
+                // // CollisionLog();
+                // setTimeout(() => {
+                //     CollisionLog();
+                // }, "500");
+                speedCount();
+            }
+        }
+        const adjecentSectors3 = [[0,1],[1,-1],[1,0],[1,1]];
+        function SectorCheck3(){
+            // safeLog(`─────────────────────────────`);
+            // safeLog([`%c ───────────────────────────── `, `color: #555;`]);
+            // console.log(`SectorCheck3()`);
+            let sectorList = Object.keys(sector);
+            let filteredSectors = [];
+            if(sectorList.length > 0) {
+                for(let i = 0; i < sectorList.length; i++){
+                    let keys = Object.keys(sector[sectorList[i]]);
+                    // sectorGf[sectorList[i]] = keys.length;
+                    if(keys.length > 0){
+                        // filteredSectors.push(sector[sectorList[i]]);
+                        filteredSectors.push(sectorList[i]);
+                        SectorCheck3_EachSector(sector[sectorList[i]]);
+                        SectorGfCheck(sectorList[i]);
+                    }
+                }
+            }
+            // console.log(filteredSectors);
+            // // console.log(`filteredSectors.length: ${filteredSectors.length}`);
+            // // SectorCheck3_EachSector(filteredSectors);
+            SectorCheck3_Adjacent(filteredSectors);
+            // console.log(` ───────────────────────────── `);
+        }
+        function SectorCheck3_EachSector(sectorList){
+            // console.log(`SectorCheck3_EachSector()`);
+            for(let i = 0; i < Object.keys(sectorList).length - 1; i++){
+                let e1 = sectorList[Object.keys(sectorList)[i]];
+                for(let j = i+1; j < Object.keys(sectorList).length; j++){
+                    let e2 = sectorList[Object.keys(sectorList)[j]];
+                    // collisionCheck(e1,e2);
+                    CollisionCheck3(e1,e2,'EachSector');
+                    // CollisionCheck3(e1,e2);
+                }
+            }
+        }
+        function SectorCheck3_Adjacent(filteredSectors){
+            // console.log(`SectorCheck3_Adjacent()`);
+            // console.log(`filteredSectors.length: ${filteredSectors.length}`);
+
+            let sectorParings = [];
+            if(filteredSectors.length > 1){
+                filteredSectors.forEach(sectorKey => {
+                    let y = parseInt(sectorKey.split(',')[1]);
+                    let x = parseInt(sectorKey.split(',')[0]);
+                    // -- Make a list of sectors in the adjacent positions: [[0,1],[1,-1],[1,0],[1,1]]
+                    adjecentSectors3.forEach(adj => {
+                        let adj_y = y + adj[0];
+                        let adj_x = x + adj[1];
+                        let adj_k = `${adj_x},${adj_y}`;
+                        // -- Check if the adjacent sectors are in our list of filteredSectors.
+                        if(filteredSectors.includes(adj_k)){
+                            // -- If they are, we found a sector paring for comparison. We add them (the current sector, and the adjacent sector that is in the filteredSectors list) to a list of `sectorParings`
+                            sectorParings.push([sectorKey, adj_k]);
+                        }
+                    });
+                });
+            }
+            // We iterate the list of sectorPairings
+            // -- (We check each pairing on sectorPairings for the particle parings.)
+            if(sectorParings.length > 0){
+                sectorParings.forEach(pair => {
+                    let s1 = sector[pair[0]];
+                    let s2 = sector[pair[1]];
+                    // -- Each particle on a sector is compared to the particles on the other sector. Calling the `CompareParticles(a,b)`.
+                    Object.keys(s1).forEach(k1 =>{
+                        Object.keys(s2).forEach(k2 =>{
+                            // console.log(`Adjecent → collisionCheck(${k1},${k2});`)
+                            // collisionCheck(s1[k1],s2[k2]);
+                            CollisionCheck3(s1[k1],s2[k2],'Adjacent');
+                        });
+                    });
+                });
+            }
+            // console.log(` ───────────────────────────── `);
+        }
+
+        function speedCount(){
+            let timeStyle = 'background-color: #00AAAA; color: white; border: 1px solid #fff; font-size: 1em; border-radius: .25rem; font-weight: bold; padding: .25rem .5rem;';
+            printSpeeds();
+            let total_speed = 0;
+            particles.forEach(p => {
+                total_speed += p.speed ** 2;
+            });
+            // console.log(`⏱ total_speed: %c${total_speed.toFixed(4)}`, timeStyle);
+            safeLog([`%c⏱ total_speed: ${total_speed.toFixed(4)}`, timeStyle]);
+            // console.log(`%c⏱ total_speed: %c2.1253`, 'background-color: #00AAAA; color: #222; border: 1px solid #fff; border-right: 0px; font-size: 1em; border-radius: .25rem 0 0 .25rem; font-weight: bold; padding: .25rem .125rem .25rem .5rem;', 'background-color: #00AAAA; color: white; border: 1px solid #fff; border-left: 0px; font-size: 1em; border-radius: 0 .25rem .25rem 0; font-weight: bold; padding: .25rem .5rem .25rem .125rem;')
+
+
+            if(total_speed > 200) {
+                console.warn('💢Too Fast❗');
+                // console.log(' └─> Slowing down.');
+                safeLog([' \x1B[33m└─>\x1B[m Slowing down.']);
+                slowDown();
+                speedCount();
+            }
+            // console.log(sector);
+        }
+        function printSpeeds(){
+            // let ps = {};
+            // let tStyle = 'background-color: #12b5cb; color: black; font-size: 1em; border-radius: .25rem; font-weight: bold; padding: .125rem .25rem;';
+            let highest_speeds = 0;
+            let speeds = [];
+            particles.forEach(p => {
+                // total_speed += p.speed ** 2;
+                // console.log(`${p.id}⏱→ p.speed: ${p.speed.toFixed(4)}`);
+                let psp = p.speed * 10;
+                if(psp > highest_speeds) {highest_speeds = psp;}
+                // let pspt = Math.round(psp);
+                // console.log(`${p.id}⏱→ p.speed: ${psp.toFixed(2)} ${'.'.repeat(pspt)}`);
+
+                speeds.push([p.id, psp, p.idStyle, p.pstyle]);
+                
+                // console.log(`${p.id}⏱→ p.speed: %c${psp.toFixed(2)}${' .'.repeat(pspt)}`, tStyle);
+                // ps.push([p.speed]);
+                // ps[p.id] = p.speed.toFixed(4);
+            });
+            speeds.forEach(sp => {
+                let pspt = Math.round(sp[1]/highest_speeds * 10);
+                // console.log(`${sp[0]}⏱→ p.speed: %c${sp[1].toFixed(2)}${' .'.repeat(pspt)}`, tStyle);
+                safeLog([`%cid:${sp[0]}%c⏱→ p.speed: %c${sp[1].toFixed(2)}${' .'.repeat(pspt)}`, sp[2], 'color: #ccc;', sp[3]]);
+            });
+            // console.log(ps);
+            // console.table(ps);
+        }
+
+        const adjecentSectors19 = [[0,1],[1,-1],[1,0],[1,1]];
+        var directions = {
+            '1': {'x':-1, 'y':1},
+            '2': {'x':0, 'y':1},
+            '3': {'x':1, 'y':1},
+            '4': {'x':-1, 'y':0},
+            '5': {'x':0, 'y':0},
+            '6': {'x':1, 'y':0},
+            '7': {'x':-1, 'y':-1},
+            '8': {'x':0, 'y':-1},
+            '9': {'x':1, 'y':-1}
+        }
+        function SectorGfCheck(sectorid){
+            // console.log(`─────────────────────────────`);
+            // let logStyle = "background-color: #06f; color: #035; padding: .125rem .25rem; border-radius: .25rem;";
+            let logStyle = "background-color: #ccc; color: #000; padding: .125rem .25rem; border-radius: .25rem;";
+            // console.log(`SectorGfCheck(%c${sectorid}%c)`, logStyle, "color: white");
+
+            // let x = parseInt(sectorid.split(',')[0])*100 + 50;
+            // let y = parseInt(sectorid.split(',')[1])*100 + 50;
+
+            // get the center of the sector.
+            // get all the particles in the sector and adjecent sectors.
+            // get the distance and direction of each particle to the center of the sector.
+            // give a force in direction to the center of the sector based on the sectorGf count.
+
+            /* easier version that is more expensive. */
+            // get the center of the sector.
+            let gx = parseInt(sectorid.split(',')[0])*100 + 50;
+            let gy = parseInt(sectorid.split(',')[1])*100 + 50;
+            // console.log(`%cgx: %c${gx}%c, gy: %c${gy}`, "color: white", logStyle, "color: white", logStyle);
+
+            let gf = sectorGf[sectorid];
+            // console.log(`gf: %c${gf}`, "color: #06f");
+
+            // get the distance and direction of each particle to the center of the sector.
+            particles.forEach(p => {
+                // let pstyle = `background-color: ${p.clr}; color: hsl(${p.hue}, 100%, 5%);  padding: .125rem .25rem; border-radius: .25rem;`;
+                // console.log(`p.id: %c${p.id}`, pstyle);
+                let x = gx - p.x;
+                let y = gy - p.y;
+                // console.log(`%cx: %c${x}%c, y: %c${y}`, "color: white", pstyle, "color: white", pstyle);
+
+                let ga = XYtoAngle(x,y);
+                // console.log(`ga: %c${ga}`, "color: #06f");
+                
+                // give a force in direction to the center of the sector based on the sectorGf count.
+                // let h2 = x**2 + y**2 + s.gf_reduction + 1;
+                // let h2 = x**2 + y**2 + s.gfr + 1;
+                // // console.log(`h2: %c${h2}`, "color: #06f");
+                // let amp = s.gfiamp;
+                // if(h2 > 100){
+                //     amp = s.gfamp;
+                // }
+                // let f2 = gf/h2 * amp;
+                // let f2 = gf/500;
+                let f2 = gf/s.gf_reduction;
+                // console.log(`f2: %c${f2}`, pstyle);
+
+                if(f2 > .5){
+                    // safeLog([`h2: %c${h2}`, "color: #06f"]);
+                    // safeLog([`s.gfr: %c${s.gfr}`, "color: #ccc"]);
+                    // safeLog([`amp: %c${amp}`, "color: #ccc"]);
+                    safeLog([`f2: %c${f2}`, p.pstyle]);
+                }
+                // if(h2 < 100){
+                //     safeLog([`h2: %c${h2}`, "color: #06f"]);
+                //     safeLog([`s.gfr: %c${s.gfr}`, "color: #ccc"]);
+                //     safeLog([`amp: %c${amp}`, "color: #ccc"]);
+                //     safeLog([`f2: %c${f2}`, p.pstyle]);
+                // }
+                
+                p.forceQueue.push({'speed':f2, 'd':ga});
+                // console.log(` ───────── `);
+            });
+
+            // let p = particles[0];
+
+            // let pstyle = `background-color: ${p.clr}; color: hsl(${p.hue}, 100%, 5%);  padding: .125rem .25rem; border-radius: .25rem;`;
+            // // console.log(`p.id: %c${p.id}`, pstyle);
+            // let x = gx - p.x;
+            // let y = gy - p.y;
+            // // console.log(`%cx: %c${x}%c, y: %c${y}`, "color: white", pstyle, "color: white", pstyle);
+
+            // let ga = XYtoAngle(x,y);
+            // // console.log(`ga: %c${ga}`, "color: #06f");
+            
+            // // give a force in direction to the center of the sector based on the sectorGf count.
+            // let h2 = x**2 + y**2;
+            // // console.log(`h2: %c${h2}`, "color: #06f");
+            // let f2 = gf/h2;
+            // // console.log(`f2: %c${f2}`, pstyle);
+            
+            // console.log(`SectorGfCheck(%c${sectorid}%c) → f2: %c${f2.toFixed(8)}`, logStyle, "color: white", pstyle);
+
+            // p.forceQueue.push({'speed':f2, 'd':ga});
+            // console.log(` ───────── `);
+        }
+        function DrawGf2(ctxid = 'canvas_gf', space = 100){
+            ctx[ctxid].clearRect(0,0,canvas[ctxid].width, canvas[ctxid].height);
+            let targets = Object.keys(sectorGf);
+            let this_ctx = ctx[ctxid];
+
+            targets.forEach(sid => {
+                let x = parseInt(sid.split(',')[0])*100 + space/2;
+                let y = parseInt(sid.split(',')[1])*100 + space/2;
+
+                let val = sectorGf[sid];
+                if(val > 10) {val = 10;}
+                let hue = 210 - (val * 30);
+                let sat = 100;
+                let lum = 20;
+                // let alp = ((val%5)/10 + .25).toFixed(2);
+                let alp = ((val)/20 + .25).toFixed(2);
+                let clr = `hsla(${hue}, ${sat}%, ${lum}%, ${alp})`;
+                this_ctx.beginPath();
+                this_ctx.fillStyle = clr;
+                this_ctx.arc(x, y, space/2, 0, Math.PI * 2);
+                this_ctx.fill();
+            });
+        }
+
+        function start(){
+            // particles.push(new MouseParticle('canvas_orbit'));
+            // StartLayers();
+            let count = 6;
+            for (let index = 0; index < count; index++) {
+                // particles.push(new Particle(id = index, speed = 1));
+                // particles.push(new Particle(id = index, speed = 3));
+                // particles.push(new Particle(id = index, speed = index));
+                // particles.push(new Particle(id = index, speed = 10));
+                // let sp = .1;
+                let sp = 0;
+                // let sp = index;
+                // let sp = index/6;
+                // let sp = (index+1)/6;
+                // let sp = index/2;
+                // let sp = ((index)%6)/2;
+                // particles.push(new Particle3(ctx['canvas_orbit'], id = index, speed = sp));
+                particles.push(new Particle3('canvas_orbit', id = index, speed = sp));
+            }
+
+            // /* particle moving horizontally */
+            // particles.push(new Particle3(id = 0, speed = 1, xyd = [150,250,0]));
+            // particles.push(new Particle3(id = 1, speed = 0, xyd = [250,250,0]));
+
+            // /* particle moving horizontally, to a 45 collision angle. */
+            // particles.push(new Particle3(id = 0, speed = 1, xyd = [380,264.142,0]));
+            // particles.push(new Particle3(id = 1, speed = 0, xyd = [450,250,0]));
+            
+            // /* particle moving horizontally, slightly off */
+            // particles.push(new Particle3(id = 0, speed = 1, xyd = [150,260,0]));
+            // particles.push(new Particle3(id = 1, speed = 0, xyd = [250,250,0]));
+
+            // /* particle moving horizontally, barely touching */
+            // particles.push(new Particle3(id = 0, speed = 1, xyd = [150,269,0]));
+            // particles.push(new Particle3(id = 1, speed = 0, xyd = [250,250,0]));
+
+            // /* particle moving horizontally, slightly off center */
+            // particles.push(new Particle3(id = 0, speed = 1, xyd = [150,245,0]));
+            // particles.push(new Particle3(id = 1, speed = 0, xyd = [250,250,0]));
+
+            // // /* particle moving horizontally, pushing one another */
+            // particles.push(new Particle3(id = 0, speed = 1, xyd = [150,245,0]));
+            // particles.push(new Particle3(id = 1, speed = .25, xyd = [250,250,0]));
+
+            // // /* particle moving horizontally, in direction to eachother */
+            // particles.push(new Particle3(id = 0, speed = 1, xyd = [150,245,0]));
+            // particles.push(new Particle3(id = 1, speed = .25, xyd = [250,250,180]));
+
+            // // /* particle moving horizontally, directly to eachother */
+            // particles.push(new Particle3(id = 0, speed = 1, xyd = [150,250,0]));
+            // particles.push(new Particle3(id = 1, speed = .25, xyd = [250,250,180]));
+
+            // /* particle moving diagonally, to a 0deg collision angle. */
+            // particles.push(new Particle3(id = 0, speed = .5, xyd = [230,260,315]));
+            // particles.push(new Particle3(id = 1, speed = .5, xyd = [270,240,135]));
+            
+            // a.x:230, a.y:260
+            // b.x:270, b.y:240
+
+            speedCount();
+        }
+        // start();
+
+        function handleParticles(){
+            // pairing(particles);
+            // sectorCheck();
+            SectorCheck3();
+            for (let index = 0; index < particles.length; index++) {
+                const element = particles[index];
+                element.update();
+                element.draw();
+            }
+            // if(!s.pause){
+            //     pairing(particles);
+            // // }
+            // // if(!s.pause){
+            //     for (let index = 0; index < particles.length; index++) {
+            //         const element = particles[index];
+            //         element.update();
+            //         element.draw();
+            //     }
+            // }
+            // for (let index = 0; index < particles.length; index++) {
+            //     const element = particles[index];
+            //     if(!s.pause){
+            //         element.update();
+            //     }
+            //     element.draw();
+            // }
+            if(s.tags){
+                DrawTags();
+            }
+        }
+        function animate (){
+            // ctx.clearRect(0,0,canvas.width, canvas.height);
+            // ctx.fillStyle = '#0002';
+            // ctx.fillStyle = '#00000008';
+            // ctx.fillStyle = '#00000004';
+            // ctx.fillStyle = '#000000ff';
+            // ctx.fillStyle = '#00000022';
+            // ctx.fillRect(0, 0, canvas.width, canvas.height);
+            if(!s.pause){
+                // // ctx.fillStyle = '#00000022';
+                // // ctx.fillRect(0, 0, canvas.width, canvas.height);
+                // for (let i = 0; i < layers.length; i++) {
+                //     const lid = layers[i];
+                //     if(layers_clear[i] == -1) {
+                //         ctx[lid].fillStyle = '#00000022';
+                //         ctx[lid].fillRect(0, 0, canvas[lid].width, canvas[lid].height);
+                //     }
+                //     if(layers_clear[i] == 1) {
+                //         ctx[lid].clearRect(0, 0, canvas[lid].width, canvas[lid].height);
+                //     }
+                // }
+
+                // ctx['canvas_trace'].fillStyle = '#00000005';
+                ctx['canvas_trace'].fillStyle = '#00000022';
+                ctx['canvas_trace'].fillRect(0, 0, canvas['canvas_trace'].width, canvas['canvas_trace'].height);
+                // ctx['canvas_trace'].clearRect(0,0,canvas['canvas_trace'].width, canvas['canvas_trace'].height);
+
+                ctx['canvas_orbit'].clearRect(0,0,canvas['canvas_orbit'].width, canvas['canvas_orbit'].height);
+
+                if(s.tags){
+                    ctx['canvas_over'].clearRect(0,0,canvas['canvas_over'].width, canvas['canvas_over'].height);
+                }
+
+                handleParticles();
+            }
+            // handleParticles();
+            requestAnimationFrame(animate);
+        }
+        // animate();
+
+        // function toggleLog(){
+        //     s.log ? s.log = false : s.log = true;
+        //     console.log(`s.log = ${s.log}.`);
+        // }
+        function q(){
+            s.q ? s.q = false : s.q = true;
+            console.log(`q = ${s.q}.`);
+        }
+        function pause(){
+            // s.pause ? s.pause = false : s.pause = true;
+            // console.log(`pause = ${s.pause}.`);
+            if(!s.q){
+                s.pause ? s.pause = false : s.pause = true;
+                // console.log(`s.pause = ${s.pause}.`);
+                settingsLog([`%cs%c.pause:%c${s.pause}`, sStyle.s, sStyle.n, sStyle.bool]);
+                // if(s.pause){
+                //     DrawTags();
+                // } else {
+                //     ctx['canvas_over'].clearRect(0,0,canvas['canvas_over'].width, canvas['canvas_over'].height);
+                // }
+            }
+        }
+        var sStyle = {
+            's': `background-color: #fff; color: #000; padding: .0625rem .125rem; border-radius: .25rem; font-weight: bold;`,
+            'n': `color: #ccc;`,
+            'setting': `color: #fff;`,
+            'bool': `background-color: #39f2; color: #39f; padding: .0625rem .25rem; border-radius: .25rem;`,
+        };
+        window.addEventListener("keydown", function (event) {
+            // console.log(`key: '${event.key}', keyCode: '${event.keyCode}'.`);
+            if(event.key == ' ' || event.key == 'Enter') {
+                // s.pause ? s.pause = false : s.pause = true;
+                // console.log(`pause = ${s.pause}.`);
+                pause();
+            }
+            if(event.key == 'Escape' || event.key == 'q' || event.key == 'Q') {
+                // q();
+                s.q ? s.q = false : s.q = true;
+                s.pause = true;
+                // console.log(`q = ${s.q}.`);
+                settingsLog([`%cs%c.q:%c${s.q}`, sStyle.s, sStyle.n, sStyle.bool]);
+            }
+            if(event.key == '`' || event.key == 'l' || event.key == 'L') {
+                // toggleLog();
+                s.log ? s.log = false : s.log = true;
+                // console.log(`s.log = ${s.log}.`);
+                settingsLog([`%cs%c.log:%c${s.log}`, sStyle.s, sStyle.n, sStyle.bool]);
+            }
+            if(event.key == '.' || event.key == 't' || event.key == 'T') {
+                // toggleLog();
+                s.tags ? s.tags = false : s.tags = true;
+                settingsLog([`%cs%c.tags:%c${s.tags}`, sStyle.s, sStyle.n, sStyle.bool]);
+                if(s.tags){
+                    DrawTags();
+                } else {
+                    ctx['canvas_over'].clearRect(0,0,canvas['canvas_over'].width, canvas['canvas_over'].height);
+                }
+                // ctx['canvas_over'].clearRect(0,0,canvas['canvas_over'].width, canvas['canvas_over'].height);
+            }
+        });
+    
+
+        
+        window.addEventListener('mousemove', (ev) =>{
+            // let chance = Math.floor(Math.random()*100) + 1;
+            s.x = ev.clientX;
+            s.y = ev.clientY;
+            // hueHelix();
+        });
+        function zoom(event) {
+            event.preventDefault();
+            scale += event.deltaY * -0.01;
+            scale = Math.min(Math.max(.125, scale), 10);
+            // console.log(scale);
+            // 0.125-4
+            // 21-60
+            // s.z = (scale * 30)+30;
+            // console.log(s.z);
+            s.gf_reduction = (scale * 30)+50;
+            safeLog([`s.gf_reduction: %c${s.gf_reduction}`, 'background-color: #39f3; color: #39f; border-radius: .25rem; padding: .125rem .25rem;']);
+        }
+        let scale = 1;
+        const el = document.querySelector('#canvas_over');
+        el.onwheel = zoom;
+
+        // var memoryStates = {};
+        // var memKeys = ['id','x','y','sid','speed','dx','dy','d','path','forceQueue'];
+        // function MemoryUpdate(){
+        //     particles.forEach(p => {
+        //         let pid = `p${p.id}`;
+        //         if(!Object.keys(p).includes(pid)){
+        //             memoryStates[pid] = {};
+        //         }
+        //         memKeys.forEach(k => {
+        //             if(typeof p[k] == 'object'){
+        //                 memoryStates[pid][k] = p[k].flat().join();
+        //             } else {
+        //                 memoryStates[pid][k] = p[k];
+        //             }
+        //         });
+        //     });
+        // }
+
+        function CheckSpeed(){
+            let sum = 0;
+            particles.forEach(p => {
+                sum += p.speed ** 2;
+            });
+            return sum;
+        }
+        var initialSpeed = 0;
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            /* 🌌🌀🌠🌈🌟💫 */
+            StartLayers();
+
+            DrawGrid(ctx['canvas_bg']);
+            
+            start();
+            initialSpeed = CheckSpeed();
+            particles.forEach(p => {
+                p.tpsp = initialSpeed;
+            });
+            console.log(`Initial Total Speed: ${initialSpeed}.`);
+            // MemoryUpdate();
+
+            animate();
+            // console.log(`After animate.`);
+        });
+
+        function PrintPath3(ob, sp = ' '){
+            let path = '';
+            let space = `${sp} ├`;
+            let space2 = `${sp} │`;
+            let keys = Object.keys(ob);
+            for (let i = 0; i < keys.length; i++) {
+                const k = keys[i];
+                if(i == keys.length-1) {space = `${sp} └`; space2 = `${sp}  `;}
+                if(typeof ob[k] == 'object'){
+                    path += `${space}─${k}:\n`;
+                    path += PrintPath3(ob[k], space2);
+                } else {path += `${space}─${k}: ${ob[k]}\n`;}
+            }
+            return path;
+        }
+        function PrintObj3(ob, name = 'ob'){
+            let path = `•[${name}]\n`;
+            let space = '├';
+            let space2 = '│';
+            let keys = Object.keys(ob);
+            for (let i = 0; i < keys.length; i++) {
+                const k = keys[i];
+                if(i == keys.length-1) {space = '└'; space2 = ' ';}
+                if(typeof ob[k] == 'object'){
+                    path += `${space}─${k}:\n`;
+                    path += PrintPath3(ob[k], space2);
+                } else {path += `${space}─${k}: ${ob[k]}\n`;}
+            }
+            console.log(path);
+        }
+
+        function PrintPath(ob){
+            let rootStyle = 'background-color: #d2c057; color: #000000; border-radius: .25rem; padding: .125rem .25rem;';
+            let pipeStyle = 'color: #d2c057;';
+            let leafStyle = 'background-color: #55FF55; color: #000000; border-radius: .25rem; padding: .125rem .25rem;';
+            let space = `├`;
+            let keys = Object.keys(ob);
+            for (let i = 0; i < keys.length; i++) {
+                const k = keys[i];
+                if(i == keys.length-1) {space = `└`;}
+                if(typeof ob[k] == 'object'){
+                    // let gp = `%c${space}─${k}:`;
+                    // console.group(gp, pipeStyle);
+                    let gp = `%c${space}─%c${k}:`;
+                    console.group(gp, pipeStyle, rootStyle);
+                    PrintPath(ob[k]);
+                    console.groupEnd(gp);
+                } else {console.info(`%c${space}─%c${k}: ${ob[k]}`, pipeStyle, leafStyle);}
+            }
+        }
+        function PrintObj(ob, name = 'ob'){
+            let rootStyle = 'background-color: #d2c057; color: #000000; border-radius: .25rem; font-weight: bold; padding: .125rem .25rem;';
+            let pipeStyle = 'color: #d2c057;';
+            let leafStyle = 'background-color: #55FF55; color: #000000; border-radius: .25rem; padding: .125rem .25rem;';
+            let path = `%c•[${name}]`;
+            console.group(path, rootStyle);
+            let space = '├';
+            let keys = Object.keys(ob);
+            for (let i = 0; i < keys.length; i++) {
+                const k = keys[i];
+                if(i == keys.length-1) {space = '└';}
+                if(typeof ob[k] == 'object'){
+                    let gp = `%c${space}─%c${k}:`;
+                    console.group(gp, pipeStyle, rootStyle);
+                    PrintPath(ob[k]);
+                    console.groupEnd(gp);
+                } else {
+                    console.info(`%c${space}─%c${k}: ${ob[k]}`, pipeStyle, leafStyle);
+                }
+            }
+            console.groupEnd(path);
+        }
+    
+        function slowDown(){
+            particles.forEach(p => {
+                // p.speed = 1;
+                p.speed /= 10;
+            });
+        }
+    </script>
+</body>
+</html>
