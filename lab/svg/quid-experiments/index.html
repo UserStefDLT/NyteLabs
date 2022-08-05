@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Quid | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <!-- <link rel="stylesheet" href="../../../stylesheets/radio-nav.css"> -->
+    <!-- <link rel="stylesheet" href="../../../stylesheets/deck.css"> -->
+    <!-- <link rel="stylesheet" href="liquid-versions.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        /* [class|="list"] {
+            display: flex; flex-direction: row;
+            height: 12rem; width: 12rem;
+            outline: 1px dashed #fff9;
+        } */
+        [class|="btn"] {
+            padding: 8px 12px;
+            font-size: 16px;
+        }
+    </style>
+    <style>
+        main.grid {
+            display: grid;
+            display: flex;
+            align-items: center;
+            align-items: flex-start;
+            justify-content: center;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        main.grid .shelf {
+            min-width: 12rem;
+            min-height: max-content;
+            
+            min-width: 16rem;
+            min-height: 16rem;
+
+            width: max-content;
+            height: max-content;
+            padding: 1rem;
+            margin: 1rem;
+        }
+    </style>
+    <style>
+        .drop {
+            min-height: 1rem; min-width: 1rem;
+            height: 1rem; width: 1rem;
+
+            --hue: calc(var(--i) * 60);
+            --clr-1: hsla(calc(var(--hue) - 45), 100%, 60%, .7);
+            --clr-2: hsla(calc(var(--hue) + 0), 100%, 60%, .7);
+            --clr-3: hsla(calc(var(--hue) + 90), 100%, 60%, .7);
+
+            background: linear-gradient(to right, #0000, #0000), #0000;
+
+            border: 0;
+            border-radius: 0;
+
+            mix-blend-mode: hard-light;
+            mix-blend-mode: luminosity;
+
+            filter: blur(8px) url(#quid-u50_n10);
+
+            animation: osci-01 1200ms ease-in-out infinite both;
+            animation-play-state: paused;
+        }
+        [class|="list"]:hover .drop,
+        .drop:hover {animation-play-state: running;}
+        
+        @keyframes osci-01 {
+            0% {
+                box-shadow: 
+                    1rem 3rem 1rem 0rem var(--clr-1),
+                    1.6rem 4.4rem 1rem 0rem var(--clr-2),
+                    4rem 5rem 1rem 0rem var(--clr-3);
+            }
+            50% {
+                box-shadow: 
+                    5rem 3rem 1rem 0rem var(--clr-1),
+                    5rem 1rem 1rem 0rem var(--clr-2),
+                    4rem 1rem 1rem 0rem var(--clr-3);
+            }
+            100% {
+                box-shadow: 
+                    1rem 3rem 1rem 0rem var(--clr-1),
+                    1.6rem 4.4rem 1rem 0rem var(--clr-2),
+                    4rem 5rem 1rem 0rem var(--clr-3);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Quid</div>
+        <!-- <div class="subtitle">Initial Attemp</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <div class="subtitle"> 🚧 Under Construction 🚧 </div>
+    </header>
+
+<main class="grid">
+    <div class="shelf hidden">
+        <div class="shelf-title">[quid v.0.8]</div>
+        <div class="bottle-08">
+            <div class="droplet-08">
+                <div class="quid-08"></div>
+                <div class="quid-08"></div>
+                <div class="quid-08"></div>
+                <div class="quid-08"></div>
+                <div class="quid-08"></div>
+                <div class="quid-08"></div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+
+<svg style='display: none;'>
+    <defs>
+        <filter id="quid" x="-25%" y="-25%" width="150%" height="150%">
+            <feColorMatrix in="SourceGraphic" type="matrix" 
+            values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 20 -10"></feColorMatrix>
+        </filter>
+        <filter id="quid-u10_n5" x="-25%" y="-25%" width="150%" height="150%">
+            <feColorMatrix in="SourceGraphic" type="matrix" 
+            values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 10 -5"></feColorMatrix>
+        </filter>
+        <filter id="quid-u20_n10" x="-25%" y="-25%" width="150%" height="150%">
+            <feColorMatrix in="SourceGraphic" type="matrix" 
+            values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 20 -10"></feColorMatrix>
+        </filter>
+        <filter id="quid-u50_n30" x="-25%" y="-25%" width="150%" height="150%">
+            <feColorMatrix in="SourceGraphic" type="matrix" 
+            values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 50 -30"></feColorMatrix>
+        </filter>
+        <filter id="quid-u50_n10" x="-25%" y="-25%" width="150%" height="150%">
+            <feColorMatrix in="SourceGraphic" type="matrix" 
+            values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 50 -10"></feColorMatrix>
+        </filter>
+    </defs>
+</svg>
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>

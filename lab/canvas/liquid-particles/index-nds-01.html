@@ -5,13 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Orbit | Canvas Exp | NyteLabs</title>
+    <title>Liquid Particles | Canvas Exp | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <!-- <link rel="stylesheet" href="../../../stylesheets/radio-nav.css"> -->
     <!-- <link rel="stylesheet" href="../../../stylesheets/deck.css"> -->
-    <link rel="stylesheet" href="../../../stylesheets/canvas.css">
+    <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
     <style>
+        :root {
+            --header-h: 48px;
+            --footer-h: 36px;
+            --main-h: calc(100vh - var(--header-h) - var(--footer-h));
+        }
+        html {height: 100%; width: 100%;}
+        body {
+            height: 100%; width: 100%;
+            position: absolute;
+            top: 0; left: 0;
+        }
         header {
             position: fixed;
             top: 0;
@@ -23,18 +34,19 @@
         main, .shelf {position: static;}
         [id*="canvas"] {
             position: absolute;
-            inset: 0;
+            /* inset: 0; */
+            top: 0; left: 0;
             background-color: #000;
             /* height: 100vh; width: 100vw; */
             height: 100%; width: 100%;
             /* height: 695px; width: 960px; */
         }
 
-        /* #canvas_bg {opacity: .6;} */
-        #canvas_bg {opacity: 0;}
+        #canvas_grid {opacity: .6;}
+        #canvas_grid {opacity: 0;}
         #canvas_gf {opacity: 0;}
-        /* #canvas_trace {opacity: 0;} */
-        /* #canvas_bg,
+        #canvas_trace {opacity: 0;}
+        /* #canvas_grid,
         #canvas,
         #canvas_hover {
             background-color: #0000;
@@ -44,38 +56,397 @@
         }
     </style>
     <style>
-        .settings {
+        .out-container-left {
             position: absolute;
-            min-height: 50vh;
-            min-width: 10vw;
-            top: 0; left: 0;
-            background: #39f6;
-            border-radius: .25rem;
-            border: 1px solid #fff9;
+            height: 100vh;
+            width: 100px;
+            top: 0px; 
+            left: -100px;
         }
+        .settings {
+            /* display: none; */
+            position: absolute;
+            position: fixed;
+            /* min-height: 50vh; */
+            max-height: 50vh;
+
+            min-width: 120px;
+            width: 30vw;
+            max-width: 180px;
+
+            top: 48px; left: 0;
+            top: 25%;
+            top: 15%;
+
+            /* padding: 1rem 0; */
+            padding-bottom: 1rem;
+
+            /* --h: 50;
+            --top: calc((100 - var(--h)) / 2);
+            height: 50%;
+            top: calc(var(--top) * 1vh); */
+
+            background: #39f3;
+            background: #fff3;
+            background: #fff1;
+            border-radius: .25rem;
+            border: 1px outset #fff6;
+            backdrop-filter: blur(2px);
+
+            display: flex;
+            flex-direction: column;
+            /* transition: 
+            transform 200ms ease-in-out,
+            box-shadow 200ms ease-in-out,
+            background-color 200ms ease-in-out; */
+            transition: transform 200ms ease-in-out;
+        }
+        #settings[data-display="true"] {
+            transform: translateX(0%);
+        }
+        #settings[data-display="false"] {
+            transform: translateX(-100%);
+        }
+        .stab {
+            --rotz-stab: 0deg;
+            position: absolute;
+            top: .25rem; left: 100%;
+            height: 2rem; width: 1rem;
+            left: calc(100% + 1px);
+            /* top: 50%;
+            transform: translateY(-50%); */
+
+            background-color: #fff3;
+            background-color: #0003;
+            border: 1px outset #fff6;
+            border-left: 1px outset #fff0;
+            border-radius: 0 .25rem .25rem 0;
+            /* backdrop-filter: blur(2px); */
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+            user-select: none;
+            transition: transform 300ms ease-in-out 200ms;
+        }
+        .stab::after{
+            font-size: 8px;
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform-origin: 50% .5em;
+            transform: translateX(-50%) translateY(-50%) rotate(var(--rotz-stab));
+            height: 0em;
+            width: 0em;
+            border: .5em solid #0000;
+            border-top: 0em solid #0000;
+            border-bottom: .866em solid #fff;
+            transition: transform 300ms ease-in-out 200ms;
+        }
+        #settings[data-display="true"] .stab {--rotz-stab: -90deg;}
+        #settings[data-display="false"] .stab {--rotz-stab: 90deg;}
+
+        .row {
+            width: 100%;
+            /* margin-bottom: .25rem; */
+            margin: .5rem auto;
+        }
+        .sbtn {
+            font-size: 16px;
+            --shw-clr: #fff9;
+            color: #fff;
+            background: #0369;
+            background-color: #0009;
+            border-radius: .25rem;
+            border: 0;
+            text-align: center;
+            padding: .125rem .25rem;
+            padding: .25rem .5rem;
+            margin: 0 auto;
+            box-shadow: 0 0 0px 0px #fff0;
+            cursor: pointer;
+            user-select: none;
+
+            transition: box-shadow 200ms ease-in-out, background-color 200ms ease-in-out;
+        }
+        .sbtn:hover {
+            box-shadow: 0 0 6px 2px #fff9;
+            box-shadow: 0 0 6px 2px var(--shw-clr);
+        }
+
+        /* #pause {--shw-clr: #39f9;} */
+        /* [data-pause="off"] {} */
+        #pause[data-switch="on"] {--shw-clr: #39f9; background-color: #39f9;}
+        #tags[data-switch="on"] {--shw-clr: #f939; background-color: #f939;}
+        #gf_active[data-switch="on"] {--shw-clr: #93f9; background-color: #93f9;}
+        #speedsize[data-switch="on"] {--shw-clr: #f339; background-color: #f339;}
+        /* #quid[data-switch="on"] {--shw-clr: #3ff9; background-color: #3ff9;} */
+        /* #grid[data-switch="on"] {--shw-clr: #9999; background-color: #9999;}
+        #trace[data-switch="on"] {--shw-clr: #3f99; background-color: #3f99;} */
+        /* .sbtn::after {content: ': ' attr(data-switch)} */
+        
+        #grid[data-toggle-layer="true"] {--shw-clr: #9999; background-color: #9999;}
+        #trace[data-toggle-layer="true"] {--shw-clr: #3f99; background-color: #3f99;}
+        
+        #toggle_canvas[data-canvas_trace="false"] ~ main #canvas_trace {opacity: 0;}
+        #toggle_canvas[data-canvas_trace="true"] ~ main #canvas_trace {opacity: 1;}
+
+        #toggle_canvas[data-canvas_grid="false"] ~ main #canvas_grid {opacity: 0;}
+        #toggle_canvas[data-canvas_grid="true"] ~ main #canvas_grid {opacity: .6;}
+
+        #toggle_canvas[data-canvas_gf="false"] ~ main #canvas_gf {opacity: 0;}
+        #toggle_canvas[data-canvas_gf="true"] ~ main #canvas_gf {opacity: 1;}
+        
+        .sbtn[data-switch]::after {content: ': ' attr(data-switch);}
+        .sbtn[data-toggle-layer="false"]::after {content: ': off';}
+        .sbtn[data-toggle-layer="true"]::after {content: ': on';}
+        
+        /* [data-switch="off"]::after {content: attr(data-switch)}
+        [data-switch="on"]::after {} */
+    </style>
+    <style>
+        .info {
+            position: fixed;
+            box-sizing: border-box;
+
+            /* top: var(--header-h);
+            left: 0;
+            height: var(--main-h);
+            width: 100vw; */
+
+            --margin: 1rem;
+            top: calc(var(--header-h) + var(--margin));
+            left: var(--margin);
+            height: calc(var(--main-h) - (var(--margin) * 2));
+            width: calc(100vw - (var(--margin) * 2));
+
+            border-radius: .25rem;
+            padding: .25rem;
+            background-color: #1113;
+            backdrop-filter: blur(16px);
+            border: 1px outset #fff9;
+
+            backface-visibility: hidden;
+            overflow: scroll;
+            padding: .5rem 1rem;
+
+            /* transform-origin: 50% 50% 300px;
+            transform: perspective(5000px) rotate3d(-1,1,0,0deg); */
+            /* transform-origin: 50% 50% 54vh;
+            transform: perspective(12000px) rotate3d(1,0,0,0deg); */
+            transform: translateY(0%);
+            transition: transform 600ms ease-in-out;
+        }
+        .info[data-display="false"] {
+            /* transform: perspective(5000px) rotate3d(-1,1,0,90deg); */
+            transform: perspective(12000px) rotate3d(1,0,0,-90deg);
+            transform: translateY(120%);
+        }
+        .xClose {
+            position: absolute;
+            box-sizing: border-box;
+            /* top: -1rem; right: -1rem; */
+            top: .25rem; right: .25rem;
+            height: 2rem; width: 2rem;
+            background-color: #0009;
+            /* border: 1px outset #fff9; */
+            border: 1px inset #fff9;
+            border-radius: .125rem;
+            cursor: pointer;
+            user-select: none;
+        }
+        .xClose:hover {
+            outline: 1px solid #fff9;
+            outline-offset: 2px;
+        }
+        .xClose::before,
+        .xClose::after {
+            --z-rot: 0deg;
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%) rotate(var(--z-rot));
+            height: 1.5rem; width: .5rem;
+            background-color: #eee;
+            /* box-shadow: 0 0 2px 2px #000; */
+            transition: transform 200ms ease-in-out;
+            box-shadow: 0 0 0px 0px #0000;
+            transition: 
+            box-shadow 200ms ease-in-out,
+            transform 200ms ease-in-out;
+        }
+        .xClose::before {--z-rot: -45deg; --zi: -1; }
+        .xClose::after {--z-rot: 45deg; --zi: 1; }
+        .xClose:hover::before {--z-rot: 45deg;}
+        .xClose:hover::after {--z-rot: -45deg;}
+        .xClose:hover::before,
+        .xClose:hover::after {
+            /* box-shadow: 0 0 2px 2px #0009; */
+            /* animation: x-walk 500ms cubic-bezier(0.36,-0.29, 0.64, 1.29) 0ms 6 both; */
+            animation: x-walk 500ms cubic-bezier(0.36,-0.29, 0.64, 1.29) 0ms 3 backwards;
+        }
+        @keyframes x-walk {
+            0% {transform: translateX(-50%) translateY(-50%) rotate(calc(45deg * var(--zi))); box-shadow: 0 0 2px 2px #0009;}
+            50% {transform: translateX(-50%) translateY(-50%) rotate(calc(-45deg * var(--zi))); box-shadow: 0 0 2px 2px #0009;}
+            100% {transform: translateX(-50%) translateY(-50%) rotate(calc(45deg * var(--zi))); box-shadow: 0 0 2px 2px #0009;}
+        }
+
+        .xInfo {
+            font-size: 16px;
+            position: absolute;
+            box-sizing: border-box;
+            /* top: -1rem; right: -1rem; */
+            top: .25rem; right: .25rem;
+            height: 2rem; width: 2rem;
+            background-color: #0009;
+            /* border: 1px outset #fff9; */
+            border: 1px inset #fff9;
+            border-radius: .125rem;
+            cursor: pointer;
+            user-select: none;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: monospace;
+        }
+        .xInfo:hover {
+            outline: 1px solid #fff9;
+            outline-offset: 2px;
+        }
+
+
+        #info .row {
+            margin: .75rem auto;
+        }
+        #info .initial-description {
+            margin-bottom: 3rem;
+        }
+        #info p {
+            line-height: 1.5rem;
+        }
+        kbd {
+            background: linear-gradient(180deg,#eee,#ddd);
+            background-color: #f4f4f4;
+            border: 1px solid #d5d5d5;
+            border: 0px solid #d5d5d5;
+            border-bottom: 2px solid #aaa;
+            border-radius: 4px;
+            font-family: consolas,"Liberation Mono",courier,monospace;
+            font-size: .9rem;
+            font-weight: 700;
+            line-height: 1;
+            margin: .25rem;
+            padding: 4px 6px;
+            white-space: nowrap;
+            color: #111;
+            min-height: 1rem;
+            user-select: none;
+            /* cursor: pointer; */
+        }
+    </style>
+    <style>
+        /* #canvas_orbit[data-quid='true'] {filter: url(#quid);} */
+        #canvas_orbit {filter: url(#quid);}
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
     <header>
         <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
-        <div class="title">Orbit</div>
-        <!-- <div class="subtitle">subtitle</div> -->
+        <div class="title">Liquid Particles</div>
+        <!-- <div class="subtitle">Attempt to make liquid looking like particles</div> -->
+        <!-- <div class="xInfo" onclick="q()">info</div> -->
+        <div class="xInfo" onclick="q()">i</div>
     </header>
+
+    <div id="toggle_canvas" data-canvas_trace="false" data-canvas_grid="false" data-canvas_gf="false"></div>
 <main>
     <!-- <div class="shelf">
         <div class="shelf-title">title</div>
     </div> -->
     <canvas id="canvas_trace"></canvas>
     <canvas id="canvas_gf"></canvas>
-    <canvas id="canvas_bg"></canvas>
+    <canvas id="canvas_grid"></canvas>
     <canvas id="canvas_orbit"></canvas>
     <canvas id="canvas_over"></canvas>
     <!-- <div id="settings" class="settings"></div> -->
+    <div id="settings" class="settings" data-display="false" data-keybind='s'>
+        <!-- <div class="stab" onclick="openS()">◂</div> -->
+        <div class="stab" onclick="openS()"></div>
+        <h3>Settings</h3>
+        <div class="row"><button id="pause" onclick="pause()" class="sbtn" data-switch="off">pause</button></div>
+        <div class="row"><button id="tags" onclick="switchTags()" class="sbtn" data-switch="off">id tags</button></div>
+        <div class="row"><button id="gf_active" onclick="toggleGravity()" class="sbtn" data-switch="off">gravity</button></div>
+        <div class="row"><button id="speedsize" onclick="speedSize()" class="sbtn" data-switch="off">speed size</button></div>
+        <!-- <div class="row"><button id="quid" onclick="liQuid()" class="sbtn" data-switch="off">liquid</button></div> -->
+
+        <div class="row"><button id="grid" onclick="toggleCanvas('canvas_grid')" class="sbtn" data-toggle-layer="false" data-canvas="canvas_grid">grid</button></div>
+        <div class="row"><button id="trace" onclick="toggleCanvas('canvas_trace')" class="sbtn" data-toggle-layer="false" data-canvas="canvas_trace">trace</button></div>
+        
+        <!-- <div class="row"><button id="grid" onclick="toggleCanvas('canvas_grid')" class="sbtn" data-switch="off" data-canvas="canvas_grid">grid</button></div>
+        <div class="row"><button id="trace" onclick="toggleCanvas('canvas_trace')" class="sbtn" data-switch="off" data-canvas="canvas_trace">trace</button></div> -->
+        
+        <!-- <div class="row"><button id="trace" onclick="toggleCanvas('canvas_trace')" class="sbtn" data-switch="off" data-canvas="canvas_trace">trace</button></div> -->
+
+    </div>
+    <div id="info" class="info" data-display="false" data-keybind='q'>
+        <div class="xClose" onclick="q()"></div>
+        <h2>Info</h2>
+        <div class="row initial-description">
+            <!-- <p>You pressed <kbd>Esc</kbd>(Escape) or [i](Info), everything is paused and key bindings are locked.</p> -->
+            <p>Press <kbd>Esc</kbd> or close this view to return.</p>
+        </div>
+        <div class="row"><kbd>Esc</kbd> <span>toggles this view.</span></div>
+        <div class="row"><kbd>CapsLock</kbd> <span>toggles the settings.</span></div>
+        
+        <div class="row"><kbd>G</kbd> <span>toggles the grid.</span></div>
+        <div class="row"><kbd>T</kbd> <span>toggles the tracing path behind particles.</span></div>
+        <div class="row"><kbd>I</kbd> <span>toggles the id tags on top of the particles.</span></div>
+        <div class="row"><kbd>F</kbd> <span>toggles the gravity.</span></div>
+        <div class="row"><kbd>O</kbd> <span>toggles size lock, allowing size to be dependent on speed.</span></div>
+        <!-- <div class="row"><kbd>Q</kbd> <span>toggles the liquid effect.</span></div> -->
+        <!-- <div class="row"><kbd>&nbsp;</kbd> <span>pauses the particles.</span></div> -->
+        <div class="row"><kbd>Space</kbd> <span>pauses the particles.</span></div>
+        
+        <!-- <div class="row"><kbd>L</kbd> <span>toggles the console logs.</span></div> -->
+    </div>
 </main>
+
+<svg style='display: none;'>
+    <defs>
+        <filter id="quid" x="-25%" y="-25%" width="150%" height="150%">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 50 -20"></feColorMatrix>
+        </filter>
+        <filter id="quid-10_5" x="-25%" y="-25%" width="150%" height="150%">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 10 -5"></feColorMatrix>
+        </filter>
+        <filter id="quid-20_10" x="-25%" y="-25%" width="150%" height="150%">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 20 -10"></feColorMatrix>
+        </filter>
+        <filter id="quid-50_30" x="-25%" y="-25%" width="150%" height="150%">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 50 -30"></feColorMatrix>
+        </filter>
+    </defs>
+</svg>
+
     <footer>
         <div class="my-name">
-            <a href="#">Back To Top</a>
+            <!-- <a href="#">Back To Top</a> -->
             &copy; 2022 | by Stéfano De La Torre 
         </div>
     </footer>
@@ -84,33 +455,16 @@
     <script>
         const canvas = {}
         const ctx = {}
-        var layers = ['canvas_gf', 'canvas_bg','canvas_trace','canvas_orbit','canvas_over'];
+        var layers = ['canvas_gf', 'canvas_grid','canvas_trace','canvas_orbit','canvas_over'];
         // var layers_clear = ['0','0','.1','1','1'];
         var layers_clear = [0,0,-1,1,1];
-
-        function StartLayers(){
-            layers.forEach(layer=>{
-                canvas[layer] = document.getElementById(layer);
-                ctx[layer] = canvas[layer].getContext('2d');
-                canvas[layer].width = window.innerWidth;
-                canvas[layer].height = window.innerHeight;
-            })
-        }
-        window.addEventListener('resize', () =>{
-            layers.forEach(layer=>{
-                canvas[layer].width = window.innerWidth;
-                canvas[layer].height = window.innerHeight;
-            })
-            s.vh = window.innerHeight;
-            s.vw = window.innerWidth;
-            o.x = s.vw/2;
-            o.y = s.vh/2;
-
-            ctx['canvas_bg'].clearRect(0,0,canvas['canvas_bg'].width, canvas['canvas_bg'].height);
-            DrawGrid(ctx['canvas_bg']);
-        });
-
-        /* gf_reduction: 30-300, */
+        const toggle_layers = {
+            'canvas_trace': false,
+            'canvas_gf': false,
+            'canvas_grid': false,
+            'canvas_orbit': true,
+            'canvas_over': true
+        };
 
         const particles = [];
         const s = {
@@ -130,17 +484,75 @@
             gf: {'x':0,'y':0},
             gfr: 100,
             gfiamp: 1,
-            gfamp: 5,
+            gfamp: 10,
             gf_reduction: 100,
             gf_amplification: 10,
 
+            gf_active: false,
+
+            quid: false,
+            speedsize: false,
+            trace: false,
             tags: false,
             log: false,
             pause: false,
+            s: false,
             q: false,
             z: 30
         }
         const o = {'x': s.vw/2, 'y': s.vh/2};
+
+        const sectorGf = {}
+        const sector = {};
+        const ss = {
+            "sector": {"size": 100, "pps": 10}
+        };
+
+        const adjecentSectors3 = [[0,1],[1,-1],[1,0],[1,1]];
+        // const adjecentSectors19 = [[0,1],[1,-1],[1,0],[1,1]];
+        // var directions = {
+        //     '1': {'x':-1, 'y':1},
+        //     '2': {'x':0, 'y':1},
+        //     '3': {'x':1, 'y':1},
+        //     '4': {'x':-1, 'y':0},
+        //     '5': {'x':0, 'y':0},
+        //     '6': {'x':1, 'y':0},
+        //     '7': {'x':-1, 'y':-1},
+        //     '8': {'x':0, 'y':-1},
+        //     '9': {'x':1, 'y':-1}
+        // }
+
+        var initialSpeed = 0;
+
+        var sStyle = {
+            's': `background-color: #fff; color: #000; padding: .0625rem .125rem; border-radius: .25rem; font-weight: bold;`,
+            'n': `color: #ccc;`,
+            'setting': `color: #fff;`,
+            'bool': `background-color: #39f2; color: #39f; padding: .0625rem .25rem; border-radius: .25rem;`,
+        };
+
+        function StartLayers(){
+            layers.forEach(layer=>{
+                canvas[layer] = document.getElementById(layer);
+                ctx[layer] = canvas[layer].getContext('2d');
+                canvas[layer].width = window.innerWidth;
+                canvas[layer].height = window.innerHeight;
+            })
+        }
+        window.addEventListener('resize', () =>{
+            layers.forEach(layer=>{
+                canvas[layer].width = window.innerWidth;
+                canvas[layer].height = window.innerHeight;
+            })
+            s.vh = window.innerHeight;
+            s.vw = window.innerWidth;
+            o.x = s.vw/2;
+            o.y = s.vh/2;
+
+            ctx['canvas_grid'].clearRect(0,0,canvas['canvas_grid'].width, canvas['canvas_grid'].height);
+            DrawGrid(ctx['canvas_grid']);
+        });
+
         function DrawGrid(ctx, space = 100){
             let rowCount = s.vh / space;
             let colCount = s.vw / space;
@@ -212,6 +624,7 @@
                 // let padding = 2;
                 // let x = p.x + padding;
                 // let y = p.y + padding;
+                let fontSize = 6+p.size;
 
                 this_ctx.font = `${fontSize}px serif`;
                 this_ctx.textBaseline = "middle";
@@ -731,6 +1144,13 @@
                 /* location = ('x', 'y'), and direction = ('d') */
 
                 this.size = 10;
+                // this.defaultSize = 10;
+                // this.quidBaseSize = 10;
+                // this.minSize = 5;
+
+                this.speed = speed;
+                // /* ♦ Size Change. ♦ */
+                // this.size = 5 + (this.speed);
                 
                 if(xyd.length > 0) {
                     this.x = xyd[0];
@@ -741,7 +1161,7 @@
                     this.y = Math.random() * (this.canvas.height - this.size*2) + this.size;
                     this.d = Math.floor(Math.random() * 360);
                 }
-                this.speed = speed;
+                // this.speed = speed;
 
                 this.path = [[this.x,this.y,this.d]];
                 // console.log(`particle id:${this.id} at (${this.x.toFixed(2)},${this.y.toFixed(2)})`);
@@ -751,6 +1171,7 @@
                 this.sat = 100;
                 this.lum = 60;
                 this.alp = 1;
+                this.alp = .75;
                 this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
 
                 // this.size = 10;
@@ -845,6 +1266,12 @@
                 this.directionUpdate();
                 this.move();
             }
+            updateColors(){
+                this.hue = 210 - (this.speed%10 * 30);
+                this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                this.pstyle = `background-color: ${this.clr}; color: hsl(${this.hue}, 100%, 5%); padding: .125rem .25rem; border-radius: .25rem;`;
+                this.idStyle = `background-color: hsla(${this.hue}, 100%, 50%, .2); color: ${this.clr}; padding: .125rem .25rem; border-radius: .25rem;`;
+            }
             addForces(){
                 let this_x_force = this.speed * this.dx;
                 let this_y_force = this.speed * this.dy;
@@ -883,10 +1310,19 @@
                 // if(this.speed > 5) {this.speed = 5;}
                 if(this.speed > 10) {this.speed = 10;}
                 
-                this.hue = 210 - (this.speed * 30);
-                this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
-                this.pstyle = `background-color: ${this.clr}; color: hsl(${this.hue}, 100%, 5%); padding: .125rem .25rem; border-radius: .25rem;`;
-                this.idStyle = `background-color: hsla(${this.hue}, 100%, 50%, .2); color: ${this.clr}; padding: .125rem .25rem; border-radius: .25rem;`;
+                // /* ♦ Size Change. ♦ */
+                // this.size = 5 + (this.speed);
+                // if(this.size != (5 + this.speed)){
+                //     this.size += (5 + this.speed - this.size)/10;
+                // }
+
+
+                // this.hue = 210 - (this.speed * 30);
+                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                // this.pstyle = `background-color: ${this.clr}; color: hsl(${this.hue}, 100%, 5%); padding: .125rem .25rem; border-radius: .25rem;`;
+                // this.idStyle = `background-color: hsla(${this.hue}, 100%, 50%, .2); color: ${this.clr}; padding: .125rem .25rem; border-radius: .25rem;`;
+
+                this.updateColors();
 
                 this.forceQueue = [];
                 this.directionUpdate();
@@ -980,28 +1416,105 @@
                 // }
                 // this.updateTrace();
             }
+            reSize(){
+                // if(s.quid){
+                //     this.minSize = this.quidBaseSize;
+                // } else {
+                //     this.minSize = 5;
+                // }
+
+                if(s.speedsize){
+                    /* ♦ Size Change. ♦ */
+                    if(this.size != (5 + this.speed)){
+                        this.size += (5 + this.speed - this.size)/10;
+                    }
+                } else {
+                    if(this.size != 10){
+                        let sizeDif = 10 - this.size;
+                        if(sizeDif > .1){
+                            this.size += (10 - this.size)/10;
+                        } else {
+                            this.size = 10;
+                        }
+                    }
+                }
+
+                let xDif = 0;
+                if(this.x > this.canvas.width-this.size){
+                    xDif = this.canvas.width-this.size - this.x;
+                }
+                if(this.x < this.size){
+                    xDif = this.size - this.x;
+                }
+                this.x += xDif;
+
+                let yDif = 0;
+                if(this.y > this.canvas.height-this.size){
+                    yDif = this.canvas.height-this.size - this.y;
+                }
+                if(this.y < this.size){
+                    yDif = this.size - this.y;
+                }
+                this.y += yDif;
+            }
             update(){
                 if(this.forceQueue.length > 0){
                     // console.log(`─────`);
                     this.addForces();
                     // console.log(`─────`);
                 }
-                if(this.momentumQueue.length > 0){this.addMomentum();}
-
+                // if(this.momentumQueue.length > 0){this.addMomentum();}
+                
+                this.reSize();
                 this.move();
             }
             draw(){
                 // this.hue = 210 - (this.speed * 36);
                 // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
                 // this.drawPath();
-                this.drawTrace();
+                // this.drawTrace();
+                if(s.trace){
+                    this.drawTrace();
+                }
 
                 // this.ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
                 // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
-                this.ctx.fillStyle = this.clr;
+                // this.ctx.fillStyle = this.clr;
                 
+                // this.ctx.beginPath();
+                // this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                // this.ctx.fill();
+
                 this.ctx.beginPath();
-                this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+
+                // this.alp = .75;
+                // this.alp = .3;
+                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                this.ctx.fillStyle = this.clr;
+                // if(s.quid){
+                //     // this.ctx.filter = `blur(6px) url(#quid)`;
+                //     // this.ctx.filter = `drop-shadow(0px 0px 8px ${this.clr}) blur(6px) url(#quid)`;
+                //     // this.ctx.filter = `drop-shadow(0px 0px 8px #39f) blur(4px) url(#quid)`;
+                //     this.ctx.filter = `drop-shadow(0px 0px 5px #f39) blur(6px) url(#quid)`;
+                // } else {
+                //     // this.ctx.filter = `blur(6px)`;
+                //     // this.ctx.filter = `drop-shadow(0px 0px 8px ${this.clr}) blur(6px)`;
+                //     // this.ctx.filter = `drop-shadow(0px 0px 8px #39f) blur(4px)`;
+                //     this.ctx.filter = `drop-shadow(0px 0px 5px #f39) blur(6px)`;
+                // }
+
+                // if(s.quid){
+                //     this.ctx.filter = `blur(6px)`;
+                //     this.ctx.arc(this.x, this.y, this.size*2, 0, Math.PI * 2);
+                // } else {
+                //     this.ctx.filter = `blur(0px)`;
+                //     this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                // }
+
+                this.ctx.filter = `blur(6px)`;
+                // this.ctx.filter = `blur(12px)`;
+
+                this.ctx.arc(this.x, this.y, this.size*2, 0, Math.PI * 2);
                 this.ctx.fill();
             }
             drawPath(){
@@ -1076,11 +1589,6 @@
             }
         }
 
-        const sectorGf = {}
-        const sector = {};
-        const ss = {
-            "sector": {"size": 100, "pps": 10}
-        };
         function AngleToXY(angle){
                 let rad = angle * Math.PI / 180;
                 let xy = {"x":0,"y":0};
@@ -1174,54 +1682,51 @@
             }
             // console.log(`...end of collisionUpdate(${a.id},${b.id})`);
         }
+        function CollisionUpdate3(a,b){
+            /* 'a' is colliding into 'b' which can be at rest. */
+            // console.log(`...collisionUpdate(${a.id},${b.id});`);
+
+            // item 'a' will be the collider into item 'b'.
+            if(a.speed > 0){
+                let x2 = b.x - a.x;
+                let y2 = b.y - a.y;
+                // console.log(`x2: ${x2}, y2: ${y2}`);
+
+                let collision_angle = XYtoAngle(x2,y2);
+                // console.log(`collision_angle: ${collision_angle}`);
+
+                let apperture = Math.abs(collision_angle - a.d);
+                if(apperture > 180) {apperture = 360 - apperture;}
+                if(apperture < 90) {
+                    // console.log(`apperture: ${apperture}`);
+                    // let force_ratio_x = Math.cos(apperture * Math.PI / 180);
+                    // let force_to_send = (force_ratio_x) * a.speed;
+                    // let collision_update = (collision_angle + 180)%360;
+                    // a.forceQueue.push({'speed':force_to_send, 'd':collision_update});
+                    // b.forceQueue.push({'speed':force_to_send, 'd':collision_angle});
+                    
+
+                    let force_ratio_x = Math.cos(apperture * Math.PI / 180);
+                    let force_to = (force_ratio_x) * a.speed;
+
+                    let force_lost = force_to * .2;
+
+                    let force_forward = force_to - force_lost;
+                    let force_back = force_to + force_lost;
+
+                    let collision_update = (collision_angle + 180)%360;
+                    a.forceQueue.push({'speed':force_back, 'd':collision_update});
+                    b.forceQueue.push({'speed':force_forward, 'd':collision_angle});
+                }
+
+
+                // speedCount();
+                // console.log(`...end of collisionUpdate(${a.id},${b.id})`);
+            }
+            // console.log(`...end of collisionUpdate(${a.id},${b.id})`);
+        }
         
-        // function ContinualCollisionUpdate3(a,b,h,ca){
-        //     // attempt to determine the moment of collision to 
-        //     // then calculate the collision, 
-        //     // and then move the rest of momentum with the new directions.
-        //     if(a.speed > 0){
-        //         let x2 = b.x - a.x;
-        //         let y2 = b.y - a.y;
-        //         // console.log(`x2: ${x2}, y2: ${y2}`);
-        //         let absize = a.size + b.size;
-        //         console.log(`absize: %c${absize}`, "color: #06f",);
-
-        //         console.log(`collision_angle: %c${ca.toFixed(4)}deg`, "color: #06f",);
-        //         let apperture = Math.abs(ca - a.d);
-        //         if(apperture > 180) {apperture = 360 - apperture;}
-        //         console.log(`apperture: %c${apperture.toFixed(4)}deg`, "color: #06f",);
-                
-        //         console.log(`let xh = h*cos(ca);`);
-        //         let xh = h*Math.cos(ca);
-        //         let yh = h*Math.sin(ca);
-        //         console.log(`%cxh: %c${xh.toFixed(4)}%c, yh: %c${yh.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-                
-        //         let xd = absize * Math.cos(ca);
-        //         let yd = absize * Math.sin(ca);
-        //         console.log(`%cxd: %c${xd.toFixed(4)}%c, yd: %c${yd.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-
-        //         let xdh = xd - xh;
-        //         let ydh = yd - yh;
-        //         console.log(`%cxdh: %c${xdh.toFixed(4)}%c, ydh: %c${ydh.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-
-        //         console.log(`%ca.dx: %c${a.dx.toFixed(4)}%c, a.dy: %c${a.dy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-        //         console.log(`%cb.dx: %c${b.dx.toFixed(4)}%c, b.dy: %c${b.dy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-
-        //         console.log(`%ca.vx: %c${a.vx.toFixed(4)}%c, a.vy: %c${a.vy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-        //         console.log(`%cb.vx: %c${b.vx.toFixed(4)}%c, b.vy: %c${b.vy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-
-        //         let tcx = (xd - xh) / a.vx;
-        //         let tcy = (yd - yh) / a.vy;
-        //         console.log(`%ctcx: %c${tcx.toFixed(4)}%c, tcy: %c${tcy.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-        //         let tcx_1 = 1-tcx;
-        //         let tcy_1 = 1-tcy;
-        //         console.log(`%ctcx_1: %c${tcx_1.toFixed(4)}%c, tcy_1: %c${tcy_1.toFixed(4)}`, "color: white", "color: #06f", "color: white", "color: #06f");
-
-        //         pause();
-        //     }
-        // }
         function CollisionLog(){
-            // if(this.tpsp != CheckSpeed()){
             if(initialSpeed.toFixed(4) != CheckSpeed().toFixed(4)){
                 console.warn('💢Collision Error❗');
                 speedCount();
@@ -1230,52 +1735,9 @@
                     let pid = `p${p.id}`;
                     PrintObj(memoryStates[pid], pid);
                 });
-                // console.log(`initialSpeed != CheckSpeed(): ${initialSpeed != CheckSpeed()}`);
-                // console.log(`initialSpeed: ${initialSpeed}`);
-                // console.log(`CheckSpeed(): ${CheckSpeed()}`);
-
-                // console.error('💥Catastrophic Collision Error❗');
-                // console.warn('💥Catastrophic Collision Error❗');
-                // console.log(`id: ${this.id}`);
-                // console.log(memoryStates[`p${this.id}`]);
-                // PrintObj(memoryStates[`p${this.id}`]);
-                // PrintObj(memoryStates[pid], pid);
-                // speedCount();
-                s.pause = true;
-                // if(!s.q){
-                //     pause();
-                // }
             } else {
-                MemoryUpdate();
-                // console.log('%cMemoryUpdate()', 'color: #AA00AA;');
-                console.log('\x1B[35mMemoryUpdate()\x1B[m');
-                // console.log(`id: ${this.id}`);
-                // console.log(memoryStates[`p${this.id}`]);
-                // PrintObj(memoryStates[pid], pid);
                 speedCount();
-                // setTimeout(() => {
-                //     // console.log("Delayed for 1 second.");
-                //     speedCount();
-                // }, "1000")
             }
-        }
-        function GfCheck(a,b){
-            /* 'x' = 'x' of emiting particle - 'x' of receiving particle. */
-            let x = a.x - b.x;
-            let y = a.y - b.y;
-            // /* 'h2' = distance between particles squared. (plus a constant) */
-            // // let h2 = x**2 + y**2 + s.gfr + 1;
-            /* 'h2' = distance between particles squared. */
-            let h2 = x**2 + y**2;
-            /* 'ga' = gravity angle. */
-            let ga = XYtoAngle(x,y);
-            // /* 'f2' = force to. the mass of the particle divided by a value. */
-            // let f2 = a.mass/s.gf_reduction;
-            /* 'f2' = force to. the mass of the particle divided by the distance. */
-            let f2 = a.mass/h2;
-            // safeLog([`f2: %c${f2}`, a.pstyle]);
-            safeLog([`%c${a.id}%c to %c${b.id}%c f2: %c${f2}`, a.idStyle, "color: #999", b.idStyle, "color: #999", a.pstyle]);
-            p.forceQueue.push({'speed':f2, 'd':ga});
         }
         function CollisionCheck3(a,b,t=''){
             let x2 = b.x - a.x;
@@ -1287,20 +1749,24 @@
             // console.log(`a.x = ${a.x} | b.x = ${b.x} | h: ${h} | dist: ${dist2}`);
             // if(h < dist2){
             if(h-dist2 < 1){
-                if(t != ''){
-                    // console.log(`${t} → CollisionCheck(${a.id},${b.id});`);
-                    // console.log(` ───────────────────────────── `);
-                    safeLog([`%c${t}%c → %cCollisionCheck%c(%c${a.id}%c,%c${b.id}%c);`, `color: #fff;`,`color: #555;`,`color: #ee8;`,`color: #888;`,a.idStyle,`color: #888;`,b.idStyle,`color: #888;`], true);
-                    // safeLog([`%c${t}%c → %cCollisionCheck%c(%cid:${a.id}%c,%cid:${b.id}%c);`, `color: #fff;`,`color: #555;`,`color: #ee8;`,`color: #888;`,a.idStyle,`color: #888;`,b.idStyle,`color: #888;`], true);
-                    // safeLog([`%c ───────────────────────────── `, `color: #888;`], true);
-                    safeLog([`%c ───────────────────────────── `, `color: #555;`], true);
-                }
+                // if(t != ''){
+                //     // console.log(`${t} → CollisionCheck(${a.id},${b.id});`);
+                //     // console.log(` ───────────────────────────── `);
+                //     safeLog([`%c${t}%c → %cCollisionCheck%c(%c${a.id}%c,%c${b.id}%c);`, `color: #fff;`,`color: #555;`,`color: #ee8;`,`color: #888;`,a.idStyle,`color: #888;`,b.idStyle,`color: #888;`], true);
+                //     // safeLog([`%c${t}%c → %cCollisionCheck%c(%cid:${a.id}%c,%cid:${b.id}%c);`, `color: #fff;`,`color: #555;`,`color: #ee8;`,`color: #888;`,a.idStyle,`color: #888;`,b.idStyle,`color: #888;`], true);
+                //     // safeLog([`%c ───────────────────────────── `, `color: #888;`], true);
+                //     safeLog([`%c ───────────────────────────── `, `color: #555;`], true);
+                // }
                 // console.log(`a.x = ${a.x} | b.x = ${b.x} | a.y = ${a.y} | b.y = ${b.y} | \nh: ${h} | dist: ${dist2}`);
                 // let collision_angle = XYtoAngle(x2,y2);
                 // ContinualCollisionUpdate3(a,b,h,collision_angle);
 
-                collisionUpdate(a,b);
-                collisionUpdate(b,a);
+                // collisionUpdate(a,b);
+                // collisionUpdate(b,a);
+
+                CollisionUpdate3(a,b);
+                CollisionUpdate3(b,a);
+
                 // // speedCount();
                 // // CollisionLog();
                 // setTimeout(() => {
@@ -1308,10 +1774,12 @@
                 // }, "500");
                 speedCount();
             }
-            // GfCheck(a,b);
-            // GfCheck(b,a);
+            // if(s.gf_active) {
+            //     GfCheck(a,b);
+            //     GfCheck(b,a);
+            // }
         }
-        const adjecentSectors3 = [[0,1],[1,-1],[1,0],[1,1]];
+        // const adjecentSectors3 = [[0,1],[1,-1],[1,0],[1,1]];
         function SectorCheck3(){
             // safeLog(`─────────────────────────────`);
             // safeLog([`%c ───────────────────────────── `, `color: #555;`]);
@@ -1326,7 +1794,7 @@
                         // filteredSectors.push(sector[sectorList[i]]);
                         filteredSectors.push(sectorList[i]);
                         SectorCheck3_EachSector(sector[sectorList[i]]);
-                        SectorGfCheck(sectorList[i]);
+                        // SectorGfCheck(sectorList[i]);
                     }
                 }
             }
@@ -1391,16 +1859,17 @@
 
         function speedCount(){
             let timeStyle = 'background-color: #00AAAA; color: white; border: 1px solid #fff; font-size: 1em; border-radius: .25rem; font-weight: bold; padding: .25rem .5rem;';
-            printSpeeds();
+            // printSpeeds();
             let total_speed = 0;
             particles.forEach(p => {
                 total_speed += p.speed ** 2;
             });
-            // console.log(`⏱ total_speed: %c${total_speed.toFixed(4)}`, timeStyle);
-            safeLog([`%c⏱ total_speed: ${total_speed.toFixed(4)}`, timeStyle]);
-            // console.log(`%c⏱ total_speed: %c2.1253`, 'background-color: #00AAAA; color: #222; border: 1px solid #fff; border-right: 0px; font-size: 1em; border-radius: .25rem 0 0 .25rem; font-weight: bold; padding: .25rem .125rem .25rem .5rem;', 'background-color: #00AAAA; color: white; border: 1px solid #fff; border-left: 0px; font-size: 1em; border-radius: 0 .25rem .25rem 0; font-weight: bold; padding: .25rem .5rem .25rem .125rem;')
-
-
+            // // console.log(`⏱ total_speed: %c${total_speed.toFixed(4)}`, timeStyle);
+            // // safeLog([`%c⏱ total_speed: ${total_speed.toFixed(4)}`, timeStyle]);
+            // // console.log(`%c⏱ total_speed: %c2.1253`, 'background-color: #00AAAA; color: #222; border: 1px solid #fff; border-right: 0px; font-size: 1em; border-radius: .25rem 0 0 .25rem; font-weight: bold; padding: .25rem .125rem .25rem .5rem;', 'background-color: #00AAAA; color: white; border: 1px solid #fff; border-left: 0px; font-size: 1em; border-radius: 0 .25rem .25rem 0; font-weight: bold; padding: .25rem .5rem .25rem .125rem;')
+            
+            // safeLog([`%c⏱ total_speed: ${total_speed.toFixed(4)}`, timeStyle]);
+            
             if(total_speed > 200) {
                 console.warn('💢Too Fast❗');
                 // console.log(' └─> Slowing down.');
@@ -1438,18 +1907,6 @@
             // console.table(ps);
         }
 
-        const adjecentSectors19 = [[0,1],[1,-1],[1,0],[1,1]];
-        var directions = {
-            '1': {'x':-1, 'y':1},
-            '2': {'x':0, 'y':1},
-            '3': {'x':1, 'y':1},
-            '4': {'x':-1, 'y':0},
-            '5': {'x':0, 'y':0},
-            '6': {'x':1, 'y':0},
-            '7': {'x':-1, 'y':-1},
-            '8': {'x':0, 'y':-1},
-            '9': {'x':1, 'y':-1}
-        }
         function SectorGfCheck(sectorid){
             // console.log(`─────────────────────────────`);
             // let logStyle = "background-color: #ccc; color: #000; padding: .125rem .25rem; border-radius: .25rem;";
@@ -1480,15 +1937,14 @@
                 let ga = XYtoAngle(x,y);
                 // console.log(`ga: %c${ga}`, "color: #06f");
                 
-                // let h1 = (Math.abs(x) + Math.abs(y));
-                // // give a force in direction to the center of the sector based on the sectorGf count.
-                // // let h2 = x**2 + y**2 + s.gf_reduction + 1;
-                // let h2 = x**2 + y**2 + s.gfr + 1;
-                // // // console.log(`h2: %c${h2}`, "color: #06f");
-                // let amp = s.gfiamp;
-                // if(h2 > 100){
-                //     amp = s.gfamp;
-                // }
+                // give a force in direction to the center of the sector based on the sectorGf count.
+                // let h2 = x**2 + y**2 + s.gf_reduction + 1;
+                let h2 = x**2 + y**2 + s.gfr + 1;
+                // // console.log(`h2: %c${h2}`, "color: #06f");
+                let amp = s.gfiamp;
+                if(h2 > 100){
+                    amp = s.gfamp;
+                }
                 // let f2 = gf/h2 * amp;
                 // let f2 = gf/500;
                 let f2 = gf/s.gf_reduction;
@@ -1526,36 +1982,66 @@
 
             // p.forceQueue.push({'speed':f2, 'd':ga});
             // console.log(` ───────── `);
-        }
+        }   
         
-        function DrawGf2(ctxid = 'canvas_gf', space = 100){
-            ctx[ctxid].clearRect(0,0,canvas[ctxid].width, canvas[ctxid].height);
-            let targets = Object.keys(sectorGf);
-            let this_ctx = ctx[ctxid];
+        function GfCheck(a,b){
+            /* 'x' = 'x' of emiting particle - 'x' of receiving particle. */
+            let x = a.x - b.x;
+            let y = a.y - b.y;
+            // /* 'h2' = distance between particles squared. (plus a constant) */
+            // // let h2 = x**2 + y**2 + s.gfr + 1;
+            /* 'h2' = distance between particles squared. */
+            // let h1 = x + y * 10;
+            // let h1 = (Math.abs(x) + Math.abs(y)) * 10;
+            let h1 = (Math.abs(x) + Math.abs(y));
+            // let h2 = x**2 + y**2;
+            /* 'ga' = gravity angle. */
+            let ga = XYtoAngle(x,y);
+            // /* 'f2' = force to. the mass of the particle divided by a value. */
+            // let f2 = a.mass/s.gf_reduction;
+            
+            // /* 'f2' = force to. the mass of the particle divided by the distance. */
+            // let f2 = a.mass/h2 * s.gfamp;
+            // // let f2 = a.mass/h2 * (s.gfamp%50);
 
-            targets.forEach(sid => {
-                let x = parseInt(sid.split(',')[0])*100 + space/2;
-                let y = parseInt(sid.split(',')[1])*100 + space/2;
+            /* 'f2' = force to. the mass of the particle divided by the distance. */
+            // let f2 = a.mass/h1;
+            let f2 = a.speed/h1;
+            // safeLog([`f2: %c${f2}`, a.pstyle]);
 
-                let val = sectorGf[sid];
-                if(val > 10) {val = 10;}
-                let hue = 210 - (val * 30);
-                let sat = 100;
-                let lum = 20;
-                // let alp = ((val%5)/10 + .25).toFixed(2);
-                let alp = ((val)/20 + .25).toFixed(2);
-                let clr = `hsla(${hue}, ${sat}%, ${lum}%, ${alp})`;
-                this_ctx.beginPath();
-                this_ctx.fillStyle = clr;
-                this_ctx.arc(x, y, space/2, 0, Math.PI * 2);
-                this_ctx.fill();
-            });
+            /* it should only get to '0.005' */
+            // console.log(`${a.id},${b.id} → f2: ${f2}`);
+            // safeLog(`${a.id},${b.id} → f2: ${f2}`);
+            if(f2 > 0.05){
+                safeLog([`%c${a.id}%c to %c${b.id}%c f2: %c${f2}`, a.idStyle, "color: #999", b.idStyle, "color: #999", a.pstyle]);
+            }
+            b.forceQueue.push({'speed':f2, 'd':ga});
         }
+        function ParticleGfCheck(){
+            if(s.gf_active) {
+                // particles.forEach(a => {
+                //     particles.forEach(b => {
+                //         GfCheck(a,b);
+                //     });
+                // });
 
+                for(let i = 0; i < particles.length - 1; i++){
+                    let e1 = particles[i];
+                    for(let j = i+1; j < particles.length; j++){
+                        let e2 = particles[j];
+                        GfCheck(e1,e2);
+                        GfCheck(e2,e1);
+                    }
+                }
+
+                // GfCheck(particles[0],particles[1]);
+                // GfCheck(particles[1],particles[0]);
+            }
+        }
 
         function start(){
             // particles.push(new MouseParticle('canvas_orbit'));
-            // StartLayers();
+
             let count = 6;
             for (let index = 0; index < count; index++) {
                 // particles.push(new Particle(id = index, speed = 1));
@@ -1575,8 +2061,8 @@
             }
 
             // /* particle moving horizontally */
-            // particles.push(new Particle3(id = 0, speed = 1, xyd = [150,250,0]));
-            // particles.push(new Particle3(id = 1, speed = 0, xyd = [250,250,0]));
+            // particles.push(new Particle3('canvas_orbit', id = 0, speed = 1, xyd = [150,250,0]));
+            // particles.push(new Particle3('canvas_orbit', id = 1, speed = 0, xyd = [250,250,0]));
 
             // /* particle moving horizontally, to a 45 collision angle. */
             // particles.push(new Particle3(id = 0, speed = 1, xyd = [380,264.142,0]));
@@ -1618,8 +2104,10 @@
         // start();
 
         function handleParticles(){
+            safeLog(`───`, 'color: #555;');
             // pairing(particles);
             // sectorCheck();
+            // ParticleGfCheck();
             SectorCheck3();
             for (let index = 0; index < particles.length; index++) {
                 const element = particles[index];
@@ -1646,6 +2134,7 @@
             if(s.tags){
                 DrawTags();
             }
+            ParticleGfCheck();
         }
         function animate (){
             // ctx.clearRect(0,0,canvas.width, canvas.height);
@@ -1655,7 +2144,7 @@
             // ctx.fillStyle = '#000000ff';
             // ctx.fillStyle = '#00000022';
             // ctx.fillRect(0, 0, canvas.width, canvas.height);
-            if(!s.pause){
+            if(!s.q && !s.pause){
                 // // ctx.fillStyle = '#00000022';
                 // // ctx.fillRect(0, 0, canvas.width, canvas.height);
                 // for (let i = 0; i < layers.length; i++) {
@@ -1669,10 +2158,12 @@
                 //     }
                 // }
 
-                // ctx['canvas_trace'].fillStyle = '#00000005';
-                ctx['canvas_trace'].fillStyle = '#00000022';
-                ctx['canvas_trace'].fillRect(0, 0, canvas['canvas_trace'].width, canvas['canvas_trace'].height);
-                // ctx['canvas_trace'].clearRect(0,0,canvas['canvas_trace'].width, canvas['canvas_trace'].height);
+                if(s.trace){
+                    // ctx['canvas_trace'].fillStyle = '#00000005';
+                    ctx['canvas_trace'].fillStyle = '#00000022';
+                    ctx['canvas_trace'].fillRect(0, 0, canvas['canvas_trace'].width, canvas['canvas_trace'].height);
+                    // ctx['canvas_trace'].clearRect(0,0,canvas['canvas_trace'].width, canvas['canvas_trace'].height);
+                }
 
                 ctx['canvas_orbit'].clearRect(0,0,canvas['canvas_orbit'].width, canvas['canvas_orbit'].height);
 
@@ -1687,108 +2178,197 @@
         }
         // animate();
 
-        // function toggleLog(){
-        //     s.log ? s.log = false : s.log = true;
-        //     console.log(`s.log = ${s.log}.`);
-        // }
+        function updateFilters(){
+            let canvas_orbit_element = document.getElementById('canvas_orbit');
+            canvas_orbit_element.dataset.quid = s.quid;
+        }
+        function updateLayout(){
+            let switches = document.querySelectorAll('[data-switch]');
+            switches.forEach(sw => {
+                let sid = sw.id;
+                if(s[sid]){
+                    sw.dataset.switch = 'on';
+                } else {
+                    sw.dataset.switch = 'off';
+                }
+            });
+            let displays = document.querySelectorAll('[data-display]');
+            displays.forEach(displayElem => {
+                let skey= displayElem.dataset.keybind;
+                displayElem.dataset.display = s[skey];
+            });
+            let layerBtns = document.querySelectorAll('[data-layer]');
+            layerBtns.forEach(layerBtn => {
+                let layerKey= layerBtn.dataset.canvas;
+                layerBtn.dataset.toggleLayer = toggle_layers[layerKey];
+            });
+        }
+        /* only for 'canvas_trace' and 'canvas_grid' so far. */
+        function toggleCanvas(canvas_id = ''){
+            if(!s.q){
+                if(layers.includes(canvas_id)) {
+                    toggle_layers[canvas_id] ? toggle_layers[canvas_id] = false : toggle_layers[canvas_id] = true;
+                    
+                    // let canvasElement = document.getElementById(canvas_id);
+                    // canvasElement.dataset.display = toggle_layers[canvas_id];
+
+                    let toggle_canvas = document.getElementById('toggle_canvas');
+                    toggle_canvas.dataset[canvas_id] = toggle_layers[canvas_id];
+                    
+
+                    let toggleBtn = document.querySelector(`[data-canvas="${canvas_id}"]`);
+                    if(toggle_layers[canvas_id]){
+                        toggleBtn.dataset.toggleLayer = toggle_layers[canvas_id];
+                    } else {
+                        toggleBtn.dataset.toggleLayer = toggle_layers[canvas_id];
+                    }
+
+
+                    if(canvas_id == 'canvas_trace'){
+                        s.trace = toggle_layers[canvas_id];
+                    }
+                }
+            }
+        }
         function q(){
             s.q ? s.q = false : s.q = true;
-            console.log(`q = ${s.q}.`);
+            settingsLog([`%cs%c.q:%c${s.q}`, sStyle.s, sStyle.n, sStyle.bool]);
+            let infoModal = document.getElementById('info');
+            infoModal.dataset.display = s.q;
+        }
+        function openS(){
+            if(!s.q){
+                s.s ? s.s = false : s.s = true;
+                settingsLog([`%cs%c.s:%c${s.s}`, sStyle.s, sStyle.n, sStyle.bool]);
+                let settingsBtn = document.getElementById('settings');
+                settingsBtn.dataset.display = s.s;
+            }
         }
         function pause(){
-            // s.pause ? s.pause = false : s.pause = true;
-            // console.log(`pause = ${s.pause}.`);
             if(!s.q){
                 s.pause ? s.pause = false : s.pause = true;
                 // console.log(`s.pause = ${s.pause}.`);
                 settingsLog([`%cs%c.pause:%c${s.pause}`, sStyle.s, sStyle.n, sStyle.bool]);
-                // if(s.pause){
-                //     DrawTags();
-                // } else {
-                //     ctx['canvas_over'].clearRect(0,0,canvas['canvas_over'].width, canvas['canvas_over'].height);
-                // }
+                let pauseBtn = document.getElementById('pause');
+                if(s.pause){
+                    pauseBtn.dataset.switch = 'on';
+                } else {
+                    pauseBtn.dataset.switch = 'off';
+                }
             }
         }
-        var sStyle = {
-            's': `background-color: #fff; color: #000; padding: .0625rem .125rem; border-radius: .25rem; font-weight: bold;`,
-            'n': `color: #ccc;`,
-            'setting': `color: #fff;`,
-            'bool': `background-color: #39f2; color: #39f; padding: .0625rem .25rem; border-radius: .25rem;`,
-        };
-        window.addEventListener("keydown", function (event) {
-            // console.log(`key: '${event.key}', keyCode: '${event.keyCode}'.`);
-            if(event.key == ' ' || event.key == 'Enter') {
-                // s.pause ? s.pause = false : s.pause = true;
-                // console.log(`pause = ${s.pause}.`);
-                pause();
-            }
-            if(event.key == 'Escape' || event.key == 'q' || event.key == 'Q') {
-                // q();
-                s.q ? s.q = false : s.q = true;
-                s.pause = true;
-                // console.log(`q = ${s.q}.`);
-                settingsLog([`%cs%c.q:%c${s.q}`, sStyle.s, sStyle.n, sStyle.bool]);
-            }
-            if(event.key == '`' || event.key == 'l' || event.key == 'L') {
-                // toggleLog();
-                s.log ? s.log = false : s.log = true;
-                // console.log(`s.log = ${s.log}.`);
-                settingsLog([`%cs%c.log:%c${s.log}`, sStyle.s, sStyle.n, sStyle.bool]);
-            }
-            if(event.key == '.' || event.key == 't' || event.key == 'T') {
-                // toggleLog();
+        function switchTags(){
+            if(!s.q){
                 s.tags ? s.tags = false : s.tags = true;
                 settingsLog([`%cs%c.tags:%c${s.tags}`, sStyle.s, sStyle.n, sStyle.bool]);
+                let tagsBtn = document.getElementById('tags');
                 if(s.tags){
                     DrawTags();
+                    tagsBtn.dataset.switch = 'on';
                 } else {
                     ctx['canvas_over'].clearRect(0,0,canvas['canvas_over'].width, canvas['canvas_over'].height);
+                    tagsBtn.dataset.switch = 'off';
                 }
-                // ctx['canvas_over'].clearRect(0,0,canvas['canvas_over'].width, canvas['canvas_over'].height);
+            }
+        }
+        function toggleGravity(){
+            if(!s.q){
+                s.gf_active ? s.gf_active = false : s.gf_active = true;
+                settingsLog([`%cs%c.gf_active:%c${s.gf_active}`, sStyle.s, sStyle.n, sStyle.bool]);
+                let gfBtn = document.getElementById('gf_active');
+                if(s.gf_active){
+                    // DrawTags();
+                    gfBtn.dataset.switch = 'on';
+                } else {
+                    // ctx['canvas_over'].clearRect(0,0,canvas['canvas_over'].width, canvas['canvas_over'].height);
+                    gfBtn.dataset.switch = 'off';
+                }
+            }
+        }
+        function speedSize(){
+            if(!s.q){
+                s.speedsize ? s.speedsize = false : s.speedsize = true;
+                settingsLog([`%cs%c.speedsize:%c${s.speedsize}`, sStyle.s, sStyle.n, sStyle.bool]);
+                let spszBtn = document.getElementById('speedsize');
+                if(s.speedsize){
+                    spszBtn.dataset.switch = 'on';
+                } else {
+                    spszBtn.dataset.switch = 'off';
+                }
+            }
+        }
+        // function liQuid(){
+        //     if(!s.q){
+        //         s.quid ? s.quid = false : s.quid = true;
+        //         settingsLog([`%cs%c.quid:%c${s.quid}`, sStyle.s, sStyle.n, sStyle.bool]);
+        //         // let canvas_orbit_element = document.getElementById('canvas_orbit');
+        //         // canvas_orbit_element.dataset.quid = s.quid;
+        //         let quidBtn = document.getElementById('quid');
+        //         if(s.quid){
+        //             quidBtn.dataset.switch = 'on';
+        //         } else {
+        //             quidBtn.dataset.switch = 'off';
+        //         }
+        //     }
+        // }        
+        function toggleLog(){
+            if(!s.q){
+                s.log ? s.log = false : s.log = true;
+                settingsLog([`%cs%c.log:%c${s.log}`, sStyle.s, sStyle.n, sStyle.bool]);
+            }
+        }
+        
+        window.addEventListener("keydown", function (event) {
+            // console.log(`key: '${event.key}', keyCode: '${event.keyCode}'.`);
+            if(event.key == 'Escape') {
+                q();
+            }
+            if(s.q){
+                console.log(`key: '${event.key}', keyCode: '${event.keyCode}'.`);
+                // if(event.key == 'Escape' || event.key == 'q' || event.key == 'Q') {q();}
+                // if(event.key == '.' || event.key == 'CapsLock' || event.key == '`') {}
+            }
+            if(!s.q){
+                if(event.key == ' ' || event.key == 'Enter') {
+                    pause();
+                }
+                if(event.key == 's' || event.key == 'S') {
+                    openS();
+                }
+                if(event.key == 'l' || event.key == 'L') {
+                    toggleLog();
+                }
+                if(event.key == 'i' || event.key == 'I') {
+                    switchTags();
+                }
+                if(event.key == 'o' || event.key == 'O') {
+                    speedSize();
+                }
+                if(event.key == 't' || event.key == 'T') {
+                    toggleCanvas('canvas_trace');
+                }
+                if(event.key == 'g' || event.key == 'G') {
+                    toggleCanvas('canvas_grid');
+                }
+                if(event.key == 'f' || event.key == 'F') {
+                    // s.gf_active ? s.gf_active = false : s.gf_active = true;
+                    toggleGravity();
+                }
+                if(event.key == 'q' || event.key == 'Q') {
+                    s.quid ? s.quid = false : s.quid = true;
+                    // liQuid();
+                }
+            }
+
+            // if(event.key == 'Tab' || event.key == '`') {openS();}
+        });
+
+        window.addEventListener('mousemove', (ev) =>{
+            if(!s.q && !s.pause){
+                s.x = ev.clientX;
+                s.y = ev.clientY;
             }
         });
-    
-
-        
-        window.addEventListener('mousemove', (ev) =>{
-            // let chance = Math.floor(Math.random()*100) + 1;
-            s.x = ev.clientX;
-            s.y = ev.clientY;
-            // hueHelix();
-        });
-        function zoom(event) {
-            event.preventDefault();
-            scale += event.deltaY * -0.01;
-            scale = Math.min(Math.max(.125, scale), 10);
-            // console.log(scale);
-            // 0.125-4
-            // 21-60
-            // s.z = (scale * 30)+30;
-            // console.log(s.z);
-            s.gf_reduction = (scale * 30)+50;
-            safeLog([`s.gf_reduction: %c${s.gf_reduction}`, 'background-color: #39f3; color: #39f; border-radius: .25rem; padding: .125rem .25rem;']);
-        }
-        let scale = 1;
-        const el = document.querySelector('#canvas_over');
-        el.onwheel = zoom;
-
-        // var memoryStates = {};
-        // var memKeys = ['id','x','y','sid','speed','dx','dy','d','path','forceQueue'];
-        // function MemoryUpdate(){
-        //     particles.forEach(p => {
-        //         let pid = `p${p.id}`;
-        //         if(!Object.keys(p).includes(pid)){
-        //             memoryStates[pid] = {};
-        //         }
-        //         memKeys.forEach(k => {
-        //             if(typeof p[k] == 'object'){
-        //                 memoryStates[pid][k] = p[k].flat().join();
-        //             } else {
-        //                 memoryStates[pid][k] = p[k];
-        //             }
-        //         });
-        //     });
-        // }
 
         function CheckSpeed(){
             let sum = 0;
@@ -1797,13 +2377,13 @@
             });
             return sum;
         }
-        var initialSpeed = 0;
         window.addEventListener('load', (ev) => {
             console.log(`Welcome to my Lab!`);
             /* 🌌🌀🌠🌈🌟💫 */
             StartLayers();
-
-            DrawGrid(ctx['canvas_bg']);
+            DrawGrid(ctx['canvas_grid']);
+            updateLayout();
+            // updateFilters();
             
             start();
             initialSpeed = CheckSpeed();
@@ -1811,42 +2391,9 @@
                 p.tpsp = initialSpeed;
             });
             console.log(`Initial Total Speed: ${initialSpeed}.`);
-            // MemoryUpdate();
 
             animate();
-            // console.log(`After animate.`);
         });
-
-        function PrintPath3(ob, sp = ' '){
-            let path = '';
-            let space = `${sp} ├`;
-            let space2 = `${sp} │`;
-            let keys = Object.keys(ob);
-            for (let i = 0; i < keys.length; i++) {
-                const k = keys[i];
-                if(i == keys.length-1) {space = `${sp} └`; space2 = `${sp}  `;}
-                if(typeof ob[k] == 'object'){
-                    path += `${space}─${k}:\n`;
-                    path += PrintPath3(ob[k], space2);
-                } else {path += `${space}─${k}: ${ob[k]}\n`;}
-            }
-            return path;
-        }
-        function PrintObj3(ob, name = 'ob'){
-            let path = `•[${name}]\n`;
-            let space = '├';
-            let space2 = '│';
-            let keys = Object.keys(ob);
-            for (let i = 0; i < keys.length; i++) {
-                const k = keys[i];
-                if(i == keys.length-1) {space = '└'; space2 = ' ';}
-                if(typeof ob[k] == 'object'){
-                    path += `${space}─${k}:\n`;
-                    path += PrintPath3(ob[k], space2);
-                } else {path += `${space}─${k}: ${ob[k]}\n`;}
-            }
-            console.log(path);
-        }
 
         function PrintPath(ob){
             let rootStyle = 'background-color: #d2c057; color: #000000; border-radius: .25rem; padding: .125rem .25rem;';
@@ -1896,6 +2443,14 @@
                 p.speed /= 10;
             });
         }
+        function locateAll(){
+            particles.forEach(p => {
+                let x = p.x;
+                let y = p.y;
+                safeLog([`🌌%cid:${p.id}%c💫 at (%c${p.x.toFixed(1)}%c,%c${p.y.toFixed(1)}%c)`, p.idStyle, 'color: #999;', p.pstyle, 'color: #999;', p.pstyle, 'color: #999;']);
+            });
+        }
+        
     </script>
 </body>
 </html>

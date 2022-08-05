@@ -5,20 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Collision Simulation | Canvas Exp | NyteLabs</title>
+    <title>Elastic Collision | Canvas Exp | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <!-- <link rel="stylesheet" href="../../../stylesheets/radio-nav.css"> -->
     <!-- <link rel="stylesheet" href="../../../stylesheets/deck.css"> -->
-    <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
+    <link rel="stylesheet" href="../../../stylesheets/canvas.css">
     <style>
-        body {min-height: 100vh; min-width: 100vw;}
         header {
             position: fixed;
             top: 0;
             z-index: 9;
-            justify-content: end;
+            /* justify-content: end; */
             box-shadow: 0 0 0 transparent;
+            backdrop-filter: blur(4px) brightness(0.5);
         }
         header .title {padding-right: 12px;}
         main, .shelf {position: static;}
@@ -36,7 +36,7 @@
 <body>
     <header>
         <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
-        <div class="title">Collision Simulation</div>
+        <div class="title">Elastic Collision</div>
         <!-- <div class="subtitle">subtitle</div> -->
     </header>
 
@@ -1203,7 +1203,7 @@
         function slowDown(){
             particles.forEach(p => {
                 // p.speed = 1;
-                p.speed = 1;
+                p.speed /= 4;
             });
         }
     </script>

@@ -1,0 +1,30 @@
+html {height: 100%; width: 100%;}
+body {min-height: 100vh; min-width: 100vw;}
+header {
+    position: fixed;
+    top: 0;
+    z-index: 8;
+    /* justify-content: end; */
+    box-shadow: 0 0 0 transparent;
+}
+header .title {padding-right: 12px; user-select: none;}
+.backLink {user-select: none;}
+main, .shelf {position: static; margin: 0;}
+[id*="canvas"] {
+    position: absolute;
+    inset: 0;
+    top: 0; left: 0;
+    background-color: #000;
+    height: 100vh; width: 100vw;
+    height: 100%; width: 100%;
+}
+.fixed-controllers {
+    position: fixed;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: fit-content;
+    display: flex;
+    padding: .5rem;
+    border-radius: .5rem .5rem 0 0;
+    background: #0008;
+}

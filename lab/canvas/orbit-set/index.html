@@ -181,6 +181,7 @@
         #pause[data-switch="on"] {--shw-clr: #39f9; background-color: #39f9;}
         #tags[data-switch="on"] {--shw-clr: #f939; background-color: #f939;}
         #gf_active[data-switch="on"] {--shw-clr: #93f9; background-color: #93f9;}
+        #speedsize[data-switch="on"] {--shw-clr: #f339; background-color: #f339;}
         /* #grid[data-switch="on"] {--shw-clr: #9999; background-color: #9999;}
         #trace[data-switch="on"] {--shw-clr: #3f99; background-color: #3f99;} */
         /* .sbtn::after {content: ': ' attr(data-switch)} */
@@ -206,7 +207,7 @@
     </style>
     <style>
         .info {
-            position: absolute;
+            position: fixed;
             box-sizing: border-box;
 
             /* top: var(--header-h);
@@ -227,16 +228,20 @@
             border: 1px outset #fff9;
 
             backface-visibility: hidden;
+            overflow: scroll;
+            padding: .5rem 1rem;
 
             /* transform-origin: 50% 50% 300px;
             transform: perspective(5000px) rotate3d(-1,1,0,0deg); */
-            transform-origin: 50% 50% 54vh;
-            transform: perspective(12000px) rotate3d(1,0,0,0deg);
+            /* transform-origin: 50% 50% 54vh;
+            transform: perspective(12000px) rotate3d(1,0,0,0deg); */
+            transform: translateY(0%);
             transition: transform 600ms ease-in-out;
         }
         .info[data-display="false"] {
             /* transform: perspective(5000px) rotate3d(-1,1,0,90deg); */
             transform: perspective(12000px) rotate3d(1,0,0,-90deg);
+            transform: translateY(120%);
         }
         .xClose {
             position: absolute;
@@ -370,6 +375,7 @@
         <div class="row"><button id="pause" onclick="pause()" class="sbtn" data-switch="off">pause</button></div>
         <div class="row"><button id="tags" onclick="switchTags()" class="sbtn" data-switch="off">id tags</button></div>
         <div class="row"><button id="gf_active" onclick="toggleGravity()" class="sbtn" data-switch="off">gravity</button></div>
+        <div class="row"><button id="speedsize" onclick="speedSize()" class="sbtn" data-switch="off">speed size</button></div>
 
         <div class="row"><button id="grid" onclick="toggleCanvas('canvas_grid')" class="sbtn" data-toggle-layer="false" data-canvas="canvas_grid">grid</button></div>
         <div class="row"><button id="trace" onclick="toggleCanvas('canvas_trace')" class="sbtn" data-toggle-layer="false" data-canvas="canvas_trace">trace</button></div>
@@ -394,6 +400,7 @@
         <div class="row"><kbd>T</kbd> <span>toggles the tracing path behind particles.</span></div>
         <div class="row"><kbd>I</kbd> <span>toggles the id tags on top of the particles.</span></div>
         <div class="row"><kbd>F</kbd> <span>toggles the gravity.</span></div>
+        <div class="row"><kbd>O</kbd> <span>toggles size lock, allowing size to be dependent on speed.</span></div>
         <!-- <div class="row"><kbd>&nbsp;</kbd> <span>pauses the particles.</span></div> -->
         <div class="row"><kbd>Space</kbd> <span>pauses the particles.</span></div>
         
@@ -470,6 +477,7 @@
 
             gf_active: true,
 
+            speedsize: true,
             trace: false,
             tags: false,
             log: true,
@@ -1069,6 +1077,9 @@
                 /* location = ('x', 'y'), and direction = ('d') */
 
                 this.size = 10;
+                this.speed = speed;
+                // /* ♦ Size Change. ♦ */
+                // this.size = 5 + (this.speed);
                 
                 if(xyd.length > 0) {
                     this.x = xyd[0];
@@ -1079,7 +1090,7 @@
                     this.y = Math.random() * (this.canvas.height - this.size*2) + this.size;
                     this.d = Math.floor(Math.random() * 360);
                 }
-                this.speed = speed;
+                // this.speed = speed;
 
                 this.path = [[this.x,this.y,this.d]];
                 // console.log(`particle id:${this.id} at (${this.x.toFixed(2)},${this.y.toFixed(2)})`);
@@ -1227,6 +1238,13 @@
                 // if(this.speed > 5) {this.speed = 5;}
                 if(this.speed > 10) {this.speed = 10;}
                 
+                // /* ♦ Size Change. ♦ */
+                // this.size = 5 + (this.speed);
+                // if(this.size != (5 + this.speed)){
+                //     this.size += (5 + this.speed - this.size)/10;
+                // }
+
+
                 // this.hue = 210 - (this.speed * 30);
                 // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
                 // this.pstyle = `background-color: ${this.clr}; color: hsl(${this.hue}, 100%, 5%); padding: .125rem .25rem; border-radius: .25rem;`;
@@ -1326,14 +1344,50 @@
                 // }
                 // this.updateTrace();
             }
+            reSize(){
+                if(s.speedsize){
+                    /* ♦ Size Change. ♦ */
+                    if(this.size != (5 + this.speed)){
+                        this.size += (5 + this.speed - this.size)/10;
+                    }
+                } else {
+                    if(this.size != 10){
+                        let sizeDif = 10 - this.size;
+                        if(sizeDif > .1){
+                            this.size += (10 - this.size)/10;
+                        } else {
+                            this.size = 10;
+                        }
+                    }
+                }
+
+                let xDif = 0;
+                if(this.x > this.canvas.width-this.size){
+                    xDif = this.canvas.width-this.size - this.x;
+                }
+                if(this.x < this.size){
+                    xDif = this.size - this.x;
+                }
+                this.x += xDif;
+
+                let yDif = 0;
+                if(this.y > this.canvas.height-this.size){
+                    yDif = this.canvas.height-this.size - this.y;
+                }
+                if(this.y < this.size){
+                    yDif = this.size - this.y;
+                }
+                this.y += yDif;
+            }
             update(){
                 if(this.forceQueue.length > 0){
                     // console.log(`─────`);
                     this.addForces();
                     // console.log(`─────`);
                 }
-                if(this.momentumQueue.length > 0){this.addMomentum();}
-
+                // if(this.momentumQueue.length > 0){this.addMomentum();}
+                
+                this.reSize();
                 this.move();
             }
             draw(){
@@ -1882,7 +1936,8 @@
             // // let f2 = a.mass/h2 * (s.gfamp%50);
 
             /* 'f2' = force to. the mass of the particle divided by the distance. */
-            let f2 = a.mass/h1;
+            // let f2 = a.mass/h1;
+            let f2 = a.speed/h1;
             // safeLog([`f2: %c${f2}`, a.pstyle]);
 
             /* it should only get to '0.005' */
@@ -2171,6 +2226,18 @@
                 }
             }
         }
+        function speedSize(){
+            if(!s.q){
+                s.speedsize ? s.speedsize = false : s.speedsize = true;
+                settingsLog([`%cs%c.speedsize:%c${s.speedsize}`, sStyle.s, sStyle.n, sStyle.bool]);
+                let spszBtn = document.getElementById('speedsize');
+                if(s.speedsize){
+                    spszBtn.dataset.switch = 'on';
+                } else {
+                    spszBtn.dataset.switch = 'off';
+                }
+            }
+        }
         function toggleLog(){
             if(!s.q){
                 s.log ? s.log = false : s.log = true;
@@ -2223,6 +2290,9 @@
                 }
                 if(event.key == 'i' || event.key == 'I') {
                     switchTags();
+                }
+                if(event.key == 'o' || event.key == 'O') {
+                    speedSize();
                 }
                 if(event.key == 't' || event.key == 'T') {
                     toggleCanvas('canvas_trace');
@@ -2366,6 +2436,14 @@
                 p.speed /= 10;
             });
         }
+        function locateAll(){
+            particles.forEach(p => {
+                let x = p.x;
+                let y = p.y;
+                safeLog([`🌌%cid:${p.id}%c💫 at (%c${p.x.toFixed(1)}%c,%c${p.y.toFixed(1)}%c)`, p.idStyle, 'color: #999;', p.pstyle, 'color: #999;', p.pstyle, 'color: #999;']);
+            });
+        }
+        
     </script>
 </body>
 </html>

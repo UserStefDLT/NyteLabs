@@ -1,0 +1,366 @@
+
+:root {
+
+    --hue-1: 30;
+    --hue-2: 90;
+    --hue-3: 150;
+    --hue-4: 210;
+    --hue-5: 270;
+    --hue-6: 330;
+
+    /* --hue: var(--hue-1);
+    --hue: var(--hue-2);
+    --hue: var(--hue-3);
+    --hue: var(--hue-4);
+    --hue: var(--hue-5);
+    --hue: var(--hue-6); */
+
+}
+
+[class|="navbtn"]:nth-of-type(6n+1) { --hue: var(--hue-1); }
+[class|="navbtn"]:nth-of-type(6n+2) { --hue: var(--hue-2); }
+[class|="navbtn"]:nth-of-type(6n+3) { --hue: var(--hue-3); }
+[class|="navbtn"]:nth-of-type(6n+4) { --hue: var(--hue-4); }
+[class|="navbtn"]:nth-of-type(6n+5) { --hue: var(--hue-5); }
+[class|="navbtn"]:nth-of-type(6n+6) { --hue: var(--hue-6); }
+
+/* .navbtn:nth-of-type(6n+1) { --hue: 30; }
+.navbtn:nth-of-type(6n+2) { --hue: 90; }
+.navbtn:nth-of-type(6n+3) { --hue: 150; }
+.navbtn:nth-of-type(6n+4) { --hue: 210; }
+.navbtn:nth-of-type(6n+5) { --hue: 270; }
+.navbtn:nth-of-type(6n+6) { --hue: 330; } */
+
+input[type="radio"]:nth-of-type(6n+1) { --hue: var(--hue-1); }
+input[type="radio"]:nth-of-type(6n+2) { --hue: var(--hue-2); }
+input[type="radio"]:nth-of-type(6n+3) { --hue: var(--hue-3); }
+input[type="radio"]:nth-of-type(6n+4) { --hue: var(--hue-4); }
+input[type="radio"]:nth-of-type(6n+5) { --hue: var(--hue-5); }
+input[type="radio"]:nth-of-type(6n+6) { --hue: var(--hue-6); }
+
+input[type="radio"]:nth-of-type(6n+1):checked ~ :is(.my-radio-nav, .sections) { --hue: var(--hue-1); }
+input[type="radio"]:nth-of-type(6n+2):checked ~ :is(.my-radio-nav, .sections) { --hue: var(--hue-2); }
+input[type="radio"]:nth-of-type(6n+3):checked ~ :is(.my-radio-nav, .sections) { --hue: var(--hue-3); }
+input[type="radio"]:nth-of-type(6n+4):checked ~ :is(.my-radio-nav, .sections) { --hue: var(--hue-4); }
+input[type="radio"]:nth-of-type(6n+5):checked ~ :is(.my-radio-nav, .sections) { --hue: var(--hue-5); }
+input[type="radio"]:nth-of-type(6n+6):checked ~ :is(.my-radio-nav, .sections) { --hue: var(--hue-6); }
+input[type="radio"]:checked ~ .my-radio-nav,
+input[type="radio"]:checked ~ .sections {
+    --input-hue: var(--hue);
+}
+
+section:nth-of-type(6n+1) { --hue: var(--hue-1); }
+section:nth-of-type(6n+2) { --hue: var(--hue-2); }
+section:nth-of-type(6n+3) { --hue: var(--hue-3); }
+section:nth-of-type(6n+4) { --hue: var(--hue-4); }
+section:nth-of-type(6n+5) { --hue: var(--hue-5); }
+section:nth-of-type(6n+6) { --hue: var(--hue-6); }
+section {
+    --clr1: hsl(var(--hue), 100%, 60%);
+    --clr2: hsl(var(--hue), 100%, 20%);
+    --bg01: hsla(var(--hue), 100%, 60%, 20%);
+    --bg02: hsla(var(--hue), 100%, 20%, 20%);
+    --shw1: hsla(var(--hue), 100%, 60%, 40%);
+    --shw2: hsla(var(--hue), 100%, 20%, 40%);
+}
+
+
+.my-radio-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    max-width: 100vw;
+    gap: .25rem;
+}
+
+.nav-input { display: none; }
+.navbtn {
+    --clr1: hsl(var(--hue), 100%, 60%);
+    --clr2: hsl(var(--hue), 50%, 20%);
+    --clr3: hsl(var(--hue), 50%, 35%);
+    --shw1: hsla(var(--hue), 100%, 60%, 40%);
+    --shw2: hsla(var(--hue), 50%, 20%, 40%);
+    --glw2: hsla(var(--hue), 50%, 55%, 80%);
+
+    position: relative;
+    width: 8rem;
+    margin: .25rem 0;
+    padding: .25rem;
+    color: #eee;
+    background-color: #ccc;
+    border-radius: .25rem;
+    background-image: linear-gradient(180deg, hsl(var(--hue), 100%, 20%), #222); 
+    user-select: none;
+    cursor: pointer;
+
+
+    box-shadow:
+    0rem 0rem 0rem #2229,
+    0rem 0rem 0rem var(--clr2),
+    inset 0rem .5rem .5rem -.25rem var(--shw1),
+    inset 0rem 0rem 0rem #2220;
+    transition: 
+    border-radius 200ms ease-in-out,
+    box-shadow 200ms ease-in-out;
+}
+.navbtn:hover {
+    box-shadow:
+    0rem 0rem 0rem #2229,
+    0rem 0rem 0rem var(--clr2),
+    inset 0rem .75rem .5rem -.25rem var(--glw2),
+    inset 0rem -.125rem .25rem var(--clr2);
+    transition: 
+    box-shadow 100ms ease-in-out;
+}
+
+
+/* Radio Nav Bar */
+input[type="radio"]:nth-of-type(1):checked ~ .my-radio-nav > .navbtn:nth-of-type(1),
+input[type="radio"]:nth-of-type(2):checked ~ .my-radio-nav > .navbtn:nth-of-type(2),
+input[type="radio"]:nth-of-type(3):checked ~ .my-radio-nav > .navbtn:nth-of-type(3),
+input[type="radio"]:nth-of-type(4):checked ~ .my-radio-nav > .navbtn:nth-of-type(4),
+input[type="radio"]:nth-of-type(5):checked ~ .my-radio-nav > .navbtn:nth-of-type(5),
+input[type="radio"]:nth-of-type(6):checked ~ .my-radio-nav > .navbtn:nth-of-type(6),
+#nav-to-Z:checked ~ .my-radio-nav [for="nav-to-Z"] {
+    border-radius: .25rem .25rem 0 0;
+    box-shadow:
+    0rem .125rem .125rem var(--clr2),
+    0rem .25rem 0rem var(--clr3),
+    inset 0rem .5rem .5rem -.25rem var(--clr1),
+    inset 0rem -.5rem .5rem -.25rem var(--clr2);
+}
+.my-radio-nav {
+    --clr3: hsla(var(--input-hue), 50%, 35%, 100%);
+    padding: .25rem;
+    box-shadow:
+    inset 0rem 0rem 0rem 0rem var(--clr3);
+    transition: box-shadow 200ms ease-in-out;
+}
+input[type="radio"]:checked ~ .my-radio-nav {
+    box-shadow:
+    inset 0rem -.25rem 0rem 0rem var(--clr3);
+}
+
+
+/* Sections */
+input[type="radio"].nav-input:nth-of-type(1):not(:checked) ~ .sections section:nth-of-type(1),
+input[type="radio"].nav-input:nth-of-type(2):not(:checked) ~ .sections section:nth-of-type(2),
+input[type="radio"].nav-input:nth-of-type(3):not(:checked) ~ .sections section:nth-of-type(3),
+input[type="radio"].nav-input:nth-of-type(4):not(:checked) ~ .sections section:nth-of-type(4),
+input[type="radio"].nav-input:nth-of-type(5):not(:checked) ~ .sections section:nth-of-type(5),
+input[type="radio"].nav-input:nth-of-type(6):not(:checked) ~ .sections section:nth-of-type(6),
+input[type="radio"].nav-input:nth-of-type(7):not(:checked) ~ .sections section:nth-of-type(7) { display: none; }
+
+section {
+    --section-hue: var(--hue);
+    display: block;
+    min-height: 8rem;
+    min-width: 8rem;
+    padding: 1rem;
+    background-color: var(--shw2);
+    background-color: var(--bg02);
+}
+h2 {
+    margin: 0 auto .5rem auto;
+    color: hsl(var(--section-hue), 100%, 20%);
+    box-shadow: 0 .25rem 0 -0.125rem hsl(var(--section-hue), 100%, 60%);
+    color: var(--clr1);
+    text-shadow: .0625em .125em .0625em var(--clr2);
+}
+
+/* Nav - Icons 2 */
+:root { --icon: '🚧'; }
+
+/* :root { --icon: '_'; }
+[class|="navbtn"]:nth-child(1) { --icon: '🏠'; }
+[class|="navbtn"]:nth-child(2) { --icon: '🎂'; }
+[class|="navbtn"]:nth-child(3) { --icon: '🍰'; }
+[class|="navbtn"]:nth-child(4) { --icon: '👥'; }
+[class|="navbtn"]:nth-child(5) { --icon: '🔧'; } */
+
+@media (max-width: 540px){ 
+    .navbtn {
+        height: 4rem; width: 4rem;
+        font-size: .75rem;
+        color: transparent;
+    }
+    .navbtn:hover {
+        box-shadow:
+        0em 0em 0em #2229,
+        0em 0em 0em var(--clr2),
+        inset 0em .5em .5em 0em var(--glw2),
+        inset 0em -.125em .25em var(--clr2);
+        box-shadow:
+        0em 0em 0em #2229,
+        0em 0em 0em var(--clr2),
+        inset 0em 1em .5em -.25em var(--glw2),
+        inset -.75em 0em .5em -.25em var(--glw2),
+        inset .75em 0em .5em -.25em var(--glw2),
+        inset 0em -.125em .25em var(--clr2);
+    }
+    .navbtn::after {
+        content: var(--icon);
+        position: absolute;
+        height: 0; width: 0;
+        height: 100%; width: 100%;
+        top: 0; left: 0; right: 0; bottom: 0;
+        font-size: 2rem;
+        color: #eee;
+        text-shadow: 1px 1px 1px #2229;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* down to 260px; */
+@media (max-width: 350px){
+    .my-radio-nav { gap: 1vw; padding: 1vw; }
+    .navbtn {
+        color: transparent;
+        height: 12vw; width: 18vw;
+        padding: 1vw 0;
+        --after-sz: 6vmin;
+    }
+    input[type="radio"]:nth-of-type(1):checked ~ .my-radio-nav > .navbtn:nth-of-type(1),
+    input[type="radio"]:nth-of-type(2):checked ~ .my-radio-nav > .navbtn:nth-of-type(2),
+    input[type="radio"]:nth-of-type(3):checked ~ .my-radio-nav > .navbtn:nth-of-type(3),
+    input[type="radio"]:nth-of-type(4):checked ~ .my-radio-nav > .navbtn:nth-of-type(4),
+    input[type="radio"]:nth-of-type(5):checked ~ .my-radio-nav > .navbtn:nth-of-type(5),
+    input[type="radio"]:nth-of-type(6):checked ~ .my-radio-nav > .navbtn:nth-of-type(6) {
+        width: 24vw;
+        --after-sz: 9vmin;
+    }
+    .navbtn::after {
+        font-size: var(--after-sz);
+    }
+}
+
+
+
+
+
+
+
+/* Nav - Icons */
+
+.my-radio-nav-2 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    max-width: 100vw;
+    gap: .25rem;
+
+    padding: .25rem;
+    box-shadow:
+    inset 0em 0em 0em 0em #2229;
+    transition: box-shadow 200ms ease-in-out;
+}
+input[type="radio"]:checked ~ .my-radio-nav-2 {
+    box-shadow:
+    inset 0em -.25em 0em 0em #222;
+}
+
+input[type="radio"]:nth-of-type(1):checked ~ .my-radio-nav-2 > .navbtn-icon:nth-of-type(1),
+input[type="radio"]:nth-of-type(2):checked ~ .my-radio-nav-2 > .navbtn-icon:nth-of-type(2),
+input[type="radio"]:nth-of-type(3):checked ~ .my-radio-nav-2 > .navbtn-icon:nth-of-type(3),
+input[type="radio"]:nth-of-type(4):checked ~ .my-radio-nav-2 > .navbtn-icon:nth-of-type(4),
+input[type="radio"]:nth-of-type(5):checked ~ .my-radio-nav-2 > .navbtn-icon:nth-of-type(5) {
+    border-radius: .25rem .25rem 0 0;
+    box-shadow:
+    0em .25em 0em #222,
+    0em .25em 0em #222,
+    inset 0em .5em .5em -.25em var(--clr1),
+    inset 0em -.125em .25em #222;
+}
+
+
+.navbtn-icon {
+    --clr1: hsl(var(--hue), 100%, 60%);
+    --shw1: hsla(var(--hue), 100%, 60%, 40%);
+    --glw2: hsla(var(--hue), 50%, 55%, 80%);
+
+    height: 4rem;
+    width: 4rem;
+
+    position: relative;
+    margin: .25rem 0;
+    padding: .25rem;
+
+    font-size: .75rem;
+    color: #eee;
+    background-color: #ccc;
+    background-image: linear-gradient(180deg, hsl(var(--hue), 100%, 20%), #222); 
+    border-radius: .25rem;
+
+    user-select: none;
+    cursor: pointer;
+
+    box-shadow:
+    0rem 0rem 0rem #222,
+    0rem 0rem 0rem #222,
+    inset 0rem .5rem .5em -.25rem var(--shw1),
+    inset 0rem -.125rem .25rem #2229;
+
+    transition: 
+    border-radius 200ms ease-in-out,
+    box-shadow 200ms ease-in-out;    
+}
+.navbtn-icon:hover {
+    box-shadow:
+    0em 0em 0em #2229,
+    0em 0em 0em var(--clr2),
+    inset 0em .5em .5em 0em var(--glw2),
+    inset 0em -.125em .25em var(--clr2);
+    transition: 
+    box-shadow 100ms ease-in-out;
+}
+
+/* :root { --icon: '_'; } */
+:root { --icon: '🚧'; }
+/* .navbtn-icon:nth-child(1) { --icon: '🚧'; }
+.navbtn-icon:nth-child(2) { --icon: '🚧'; }
+.navbtn-icon:nth-child(3) { --icon: '🚧'; }
+.navbtn-icon:nth-child(4) { --icon: '🚧'; }
+.navbtn-icon:nth-child(5) { --icon: '🚧'; } */
+.navbtn-icon::after {
+    content: var(--icon);
+    position: absolute;
+    height: 0; width: 0;
+    height: 100%; width: 100%;
+    top: 0; left: 0; right: 0; bottom: 0;
+    font-size: 2rem;
+    color: #eee;
+    text-shadow: 1px 1px 1px #2229;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+/*
+.icon-TBD { --icon: '🚧'; }
+.icon-bake { --icon: '🏠🎂🍰👥🔧'; }
+.icon-agenda { --icon: '📇'; }
+.icon-x { --icon: '🍰🎂👩‍🍳'; }
+.icon-x { --icon: '📔⚙'; }
+.icon-x { --icon: '📌📍📅📆💾'; } */
+
+/*<p style="font-size:100px">&#129409;</p>
+<p>I will display &#129409;</p>
+<p>I will display &#x1F981;</p>
+*/
+
+/* Bake Your Story - Icons */
+/*
+.navbtn-icon:nth-child(1) { --icon: '🏠'; }
+.navbtn-icon:nth-child(2) { --icon: '🎂'; }
+.navbtn-icon:nth-child(3) { --icon: '🍰'; }
+.navbtn-icon:nth-child(4) { --icon: '👥'; }
+.navbtn-icon:nth-child(5) { --icon: '🔧'; } */

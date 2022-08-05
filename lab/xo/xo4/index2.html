@@ -303,6 +303,32 @@
         .tile[data-tile='o'],
         .tile[data-tile='o']::after {--clr: var(--clr-1);}
     </style>
+    <style>
+        @media (max-width: 540px){
+            .tile {
+                width: 1.5rem;
+                height: 1.5rem;
+            }
+        }
+        @media (max-width: 420px){
+            :root {
+                font-size: 12px;
+            }
+            .tile:hover {
+                outline: 0px dashed #0000;
+                outline-offset: 0px;
+            }
+            .xoBtn:hover {
+                box-shadow: 0 0 0rem 0rem transparent;
+            }
+            .tile[data-tile='x']:hover::after,
+            .tile[data-tile='o']:hover::after {
+                text-shadow: 1px 1px 1px #1113, 0px 0px 0px var(--clr);
+            }
+            main[data-turn='0'] .tile:not([data-tile='o'],[data-tile='x']):hover::before {display: none;}
+            main[data-turn='1'] .tile:not([data-tile='o'],[data-tile='x']):hover::before {display: none;}
+        }
+    </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>

@@ -323,6 +323,10 @@
             .xoBtn:hover {
                 box-shadow: 0 0 0rem 0rem transparent;
             }
+            .tile[data-tile='x']:hover::after,
+            .tile[data-tile='o']:hover::after {
+                text-shadow: 1px 1px 1px #1113, 0px 0px 0px var(--clr);
+            }
             main[data-turn='0'] .tile:not([data-tile='o'],[data-tile='x']):hover::before {display: none;}
             main[data-turn='1'] .tile:not([data-tile='o'],[data-tile='x']):hover::before {display: none;}
         }

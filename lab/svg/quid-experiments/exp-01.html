@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Quid | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <!-- <link rel="stylesheet" href="../../../stylesheets/radio-nav.css"> -->
+    <!-- <link rel="stylesheet" href="../../../stylesheets/deck.css"> -->
+    <!-- <link rel="stylesheet" href="liquid-versions.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        [class|="btn"] {
+            padding: 8px 12px;
+            font-size: 16px;
+        }
+    </style>
+    <style>
+        main.grid {
+            display: grid;
+            display: flex;
+            align-items: center;
+            align-items: flex-start;
+            justify-content: center;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        main.grid .shelf {
+            min-width: 12rem;
+            min-height: max-content;
+            
+            min-width: 16rem;
+            min-height: 16rem;
+
+            width: max-content;
+            height: max-content;
+            padding: 1rem;
+            margin: 1rem;
+        }
+    </style>
+    <style>
+        /* Fixing animation on liquid experiment. */
+        .list-04 {
+            display: flex; flex-direction: row;
+            /*
+            filter: url(#feCM);
+            filter: blur(16px) url(#quid);*/
+        }
+        .btn-04 {
+            min-height: 1rem;
+            min-width: 1rem;
+            background-color: hsla(calc(var(--i) * 60), 100%, 60%, .5);
+            --hue: calc(var(--i) * 60);
+            --clr: hsla(var(--hue), 100%, 60%, .5);
+            --hue-2: calc(var(--i) * 60 + 60);
+            
+            --clr-a: hsla(calc(var(--hue) - 30), 100%, 60%, 0);
+            --clr-b: hsla(calc(var(--hue) + 30), 100%, 60%, 0);
+            
+            --clr-1: hsla(calc(var(--hue) - 30), 100%, 60%, 1);
+            --clr-2: hsla(calc(var(--hue) + 0), 100%, 60%, 1);
+            --clr-3: hsla(calc(var(--hue) + 30), 100%, 60%, 1);
+            
+            background-image: linear-gradient(to right, var(--clr-1), var(--clr-2),  var(--clr-3));
+            
+            --clr-a1: hsla(calc(var(--hue)), 100%, 60%, 1);
+            --clr-a2: hsla(calc(var(--hue) + 60), 100%, 60%, 1);
+            background-image: linear-gradient(to right, var(--clr-a1), var(--clr-a2));
+            
+            --clr-1: hsla(calc(var(--hue) - 45), 100%, 60%, .7);
+            --clr-2: hsla(calc(var(--hue) + 0), 100%, 60%, .7);
+            --clr-3: hsla(calc(var(--hue) + 90), 100%, 60%, .7);
+            
+            
+            /*
+            filter: blur(16px);*/
+            /* filter: blur(8px) url(#feCM); */
+            filter: blur(8px) url(#quid);
+            
+            border: 0;
+            border-radius: 0;
+            margin: 4rem .5rem 1rem;
+            mix-blend-mode: hard-light;
+            
+            box-shadow: 
+            -1rem 1.5rem 1rem 0rem #39f,
+            1rem 2.5rem 1rem 0rem #f93;
+            
+            transition: box-shadow 300ms ease-in-out;
+            
+            /*
+            animation: wave 1200ms ease-in-out infinite;
+            animation-delay: calc(var(--i) * 120ms); */
+            
+            animation: wave2-04 1200ms ease-in-out infinite both;
+            animation-play-state: paused;
+        }
+        .btn-04:hover {
+            /* transform: scale(3, 1);
+            transform: scale(3, 1) translateY(-20px);*/
+            box-shadow: 
+            -1rem 2rem 1rem 0rem #39f,
+            1rem 2rem 1rem 0rem #f93;
+            animation-play-state: running;
+        }
+        @keyframes wave2-04 {
+            0% {
+                box-shadow: 
+                1rem 3rem 1rem 0rem var(--clr-1),
+                1.6rem 4.4rem 1rem 0rem var(--clr-2),
+                4rem 5rem 1rem 0rem var(--clr-3);
+            }
+            50% {
+                box-shadow: 
+                5rem 3rem 1rem 0rem var(--clr-1),
+                5rem 1rem 1rem 0rem var(--clr-2),
+                4rem 1rem 1rem 0rem var(--clr-3);
+            }
+            100% {
+                box-shadow: 
+                1rem 3rem 1rem 0rem var(--clr-1),
+                1.6rem 4.4rem 1rem 0rem var(--clr-2),
+                4rem 5rem 1rem 0rem var(--clr-3);
+            }
+        }
+        
+    </style>
+    <style>
+        /* Fixing animation on liquid experiment. */
+        .list-03 {
+            display: flex; flex-direction: row;
+            /*
+            filter: url(#feCM);
+            filter: blur(16px) url(#quid);*/
+        }
+        .btn-03 {
+            min-height: 1rem;
+            min-width: 1rem;
+            background-color: hsla(calc(var(--i) * 60), 100%, 60%, .5);
+            --hue: calc(var(--i) * 60);
+            --clr: hsla(var(--hue), 100%, 60%, .5);
+            --hue-2: calc(var(--i) * 60 + 60);
+            
+            --clr-a: hsla(calc(var(--hue) - 30), 100%, 60%, 0);
+            --clr-b: hsla(calc(var(--hue) + 30), 100%, 60%, 0);
+            
+            --clr-1: hsla(calc(var(--hue) - 30), 100%, 60%, 1);
+            --clr-2: hsla(calc(var(--hue) + 0), 100%, 60%, 1);
+            --clr-3: hsla(calc(var(--hue) + 30), 100%, 60%, 1);
+            
+            background-image: linear-gradient(to right, var(--clr-1), var(--clr-2),  var(--clr-3));
+            
+            --clr-a1: hsla(calc(var(--hue)), 100%, 60%, 1);
+            --clr-a2: hsla(calc(var(--hue) + 60), 100%, 60%, 1);
+            background-image: linear-gradient(to right, var(--clr-a1), var(--clr-a2));
+            
+            /*
+            filter: blur(16px);*/
+            /* filter: blur(8px) url(#feCM); */
+            filter: blur(8px) url(#quid);
+            
+            border: 0;
+            border-radius: 0;
+            margin: 4rem .5rem 1rem;
+            mix-blend-mode: hard-light;
+            
+            box-shadow: 
+            -1rem 1.5rem 1rem 0rem #39f,
+            1rem 2.5rem 1rem 0rem #f93;
+            
+            transition: box-shadow 300ms ease-in-out;
+            
+            /*
+            animation: wave 1200ms ease-in-out infinite;
+            animation-delay: calc(var(--i) * 120ms); */
+            
+            animation: wave2-03 1200ms ease-in-out infinite both;
+            animation-play-state: paused;
+        }
+        .btn-03:hover {
+            /* transform: scale(3, 1);
+            transform: scale(3, 1) translateY(-20px);*/
+            box-shadow: 
+            -1rem 2rem 1rem 0rem #39f,
+            1rem 2rem 1rem 0rem #f93;
+            animation-play-state: running;
+        }
+        @keyframes wave2-03 {
+            0% {
+                box-shadow: 
+                -2rem 1rem 1rem 0rem #39f9,
+                1rem 2rem 1rem 0rem #f939;
+            }
+            50% {
+                box-shadow: 
+                2rem 1rem 1rem 0rem #39f,
+                1rem -2rem 1rem 0rem #f93;
+            }
+            100% {
+                box-shadow: 
+                -2rem 1rem 1rem 0rem #39f9,
+                1rem 2rem 1rem 0rem #f939;
+            }
+        }
+    </style>
+    <style>
+        /* checking for liquid */
+        .list-02 {
+            display: flex;
+            flex-direction: row;
+            filter: url(#quid-02);
+        }
+        .btn-02 {
+            --clr: hsla(calc(var(--i) * 60), 100%, 60%, 1);
+            
+            --clr-1: hsla(calc(var(--i) * 60), 100%, 60%, .7);
+            --clr-2: hsla(calc(var(--i) * 60 + 15), 100%, 60%, .7);
+            height: 3rem;
+            width: 5rem;
+            background-color: var(--clr);
+            margin: 0rem .25rem 4.5rem;
+            box-shadow: 0px 0px 16px 8px var(--clr);
+            /*
+            filter: url(#quid);*/
+            
+            --x1: -16px; --x2: 16px;
+            --y1: 60px; --y2: 80px;
+            --shw-blur: 4px;
+            --shw-scl: -8px;
+        }
+        .btn-02:nth-of-type(1) {
+            --shw-blur: 4px;
+            box-shadow: 
+            var(--x1) var(--y1) var(--shw-blur) var(--shw-scl) var(--clr-1),
+            var(--x2) var(--y2) var(--shw-blur) var(--shw-scl) var(--clr-2);
+        }
+        .btn-02:nth-of-type(2) {
+            --shw-blur: 8px;
+            box-shadow: 
+            var(--x1) var(--y1) var(--shw-blur) var(--shw-scl) var(--clr-1),
+            var(--x2) var(--y2) var(--shw-blur) var(--shw-scl) var(--clr-2);
+        }
+        .btn-02:nth-of-type(3) {
+            --shw-blur: 16px;
+            box-shadow: 
+            var(--x1) var(--y1) var(--shw-blur) var(--shw-scl) var(--clr-1),
+            var(--x2) var(--y2) var(--shw-blur) var(--shw-scl) var(--clr-2);
+        }
+    </style>
+    <style>
+        /* checking for liquid */
+        .btn-01 {
+            --clr: hsla(calc(var(--i) * 60), 100%, 60%, 1);
+            
+            --clr-1: hsla(calc(var(--i) * 60), 100%, 60%, .7);
+            --clr-2: hsla(calc(var(--i) * 60 + 15), 100%, 60%, .7);
+            height: 4rem;
+            width: 5rem;
+            background-color: var(--clr);
+            margin: 0rem .25rem 4.5rem;
+            box-shadow: 0px 0px 16px 8px var(--clr);
+            
+            filter: url(#quid-02);
+        }
+        .btn-01:nth-of-type(1) {
+            box-shadow: 
+            -16px 60px 4px -16px var(--clr-1),
+            16px 80px 4px -16px var(--clr-2);
+        }
+        .btn-01:nth-of-type(2) {
+            box-shadow: 
+            -16px 60px 8px -16px var(--clr-1),
+            16px 80px 8px -16px var(--clr-2);
+        }
+        .btn-01:nth-of-type(3) {
+            box-shadow: 
+            -16px 60px 16px -16px var(--clr-1),
+            16px 80px 16px -16px var(--clr-2);
+        }
+    </style>
+            
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Quid</div>
+        <!-- <div class="subtitle">Another Attempt (220805)</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <div class="subtitle"> 🚧 Under Construction 🚧 </div>
+    </header>
+
+<main class="grid">
+    <div class="shelf">
+        <div class="shelf-title">quid exp 04</div>
+        <div class="list-04">
+            <div class="btn-04"></div>
+        </div>
+    </div>
+
+    <div class="shelf">
+        <div class="shelf-title">quid exp 03</div>
+        <div class="list-03">
+            <div class="btn-03"></div>
+        </div>
+    </div>
+
+    <div class="shelf">
+        <div class="shelf-title">quid exp 02</div>
+        <div class="list-02">
+            <button class="btn-02">Sample 4px</button>
+            <button class="btn-02">Sample 8px</button>
+            <button class="btn-02">Sample 16px</button>
+            <!-- <div class="btn-02">Sample 4px</div>
+            <div class="btn-02">Sample 8px</div>
+            <div class="btn-02">Sample 16px</div> -->
+        </div>
+    </div>
+
+    <div class="shelf">
+        <div class="shelf-title">quid exp 01</div>
+        <button class="btn-01">Sample 4px</button>
+        <button class="btn-01">Sample 8px</button>
+        <button class="btn-01">Sample 16px</button>
+        <!-- <div class="btn-01">Sample 4px</div>
+        <div class="btn-01">Sample 8px</div>
+        <div class="btn-01">Sample 16px</div> -->
+    </div>
+</main>
+
+
+<svg style='display: none;'>
+    <defs>
+        <filter id="quid" x="-25%" y="-25%" width="150%" height="150%">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 50 -10"></feColorMatrix>
+        </filter>
+        <filter id="quid-02" x="-25%" y="-25%" width="150%" height="150%">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 50 -20"></feColorMatrix>
+        </filter>
+    </defs>
+</svg>
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>

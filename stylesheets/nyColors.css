@@ -1,0 +1,157 @@
+/* Color Stock: */
+:root {
+    /* [bw] Black and White */
+
+    /* --bwt: transparent; */
+    --bwt: #0000;
+    --bw0: #000;
+    --bwf: #fff;
+
+    /* --bw0: #000;
+    --bw3: #333;
+    --bw6: #666;
+    --bw9: #999;
+    --bwc: #ccc;
+    --bwf: #fff; */
+
+    --bw0: #000;
+    --bw1: #111;
+    --bw2: #222;
+    --bw3: #333;
+    --bw4: #444;
+    --bw5: #555;
+    --bw6: #666;
+    --bw7: #777;
+    --bw8: #888;
+    --bw9: #999;
+    --bwa: #aaa;
+    --bwb: #bbb;
+    --bwc: #ccc;
+    --bwd: #ddd;
+    --bwe: #eee;
+    --bwf: #fff;
+    
+    
+    --bwf9: #fff9;
+    --bw9: #999;
+    --clr-t: transparent;
+
+
+    /* Color Scheme: */
+    /* [_] Monocromatic (1) */
+    --bs4-4: #39f4; --bs4-4: hsla(210, 100%, 60%, 0.267); 
+    --bs4-4-mid: #3694; --bs4-4-mid: hsla(210, 50%, 40%, 0.267); 
+    --bs4-4-mid: #06c4; --bs4-4-mid: #0066cc44; 
+    --bs4-4-dark: #0364; --bs4-4-dark: hsla(210, 100%, 20%, 0.267);
+
+    /* [_] Tetradic (4) */
+    --h-225: hsla(225deg, 100%, 60%, 1);
+    --h-315: hsla(315deg, 100%, 60%, 1);
+    --h-045: hsla(45deg, 100%, 60%, 1);
+    --h-135: hsla(135deg, 100%, 60%, 1);
+
+    --h2-225: hsla(225deg, 100%, 60%, .5);
+    --h2-315: hsla(315deg, 100%, 60%, .5);
+    --h2-045: hsla(45deg, 100%, 60%, .5);
+    --h2-135: hsla(135deg, 100%, 60%, .5);
+
+    --hue-card-1: 225deg;
+    --hue-card-2: 315deg;
+    --hue-card-3: 045deg;
+    --hue-card-4: 135deg;
+
+    --h225: 225deg;
+    --h315: 315deg;
+    --h045: 045deg;
+    --h135: 135deg;
+
+    --h-045: hsla(045deg, 100%, 60%, 1);
+    --h-135: hsla(135deg, 100%, 60%, 1);
+    --h-225: hsla(225deg, 100%, 60%, 1);
+    --h-315: hsla(315deg, 100%, 60%, 1);
+
+
+    
+    /* [h] Hexadic (6) */
+    --hue-1: 30;
+    --hue-2: 90;
+    --hue-3: 150;
+    --hue-4: 210;
+    --hue-5: 270;
+    --hue-6: 330;
+
+    --clr-1: #f93; --clr-1-mid: #963; --clr-1-dark: #630; --bgs-1: #9633;
+    --clr-2: #9f3; --clr-2-mid: #693; --clr-2-dark: #360; --bgs-2: #6933;
+    --clr-3: #3f9; --clr-3-mid: #396; --clr-3-dark: #063; --bgs-3: #3963;
+    --clr-4: #39f; --clr-4-mid: #369; --clr-4-dark: #036; --bgs-4: #3693;
+    --clr-5: #93f; --clr-5-mid: #639; --clr-5-dark: #306; --bgs-5: #6393;
+    --clr-6: #f39; --clr-6-mid: #936; --clr-6-dark: #603; --bgs-6: #9363;
+
+    --bs4-1: #f934; --bs4-1-mid: #9634; --bs4-1-dark: #6304;
+    --bs4-2: #9f34; --bs4-2-mid: #6934; --bs4-2-dark: #3604;
+    --bs4-3: #3f94; --bs4-3-mid: #3964; --bs4-3-dark: #0634;
+    --bs4-4: #39f4; --bs4-4-mid: #3694; --bs4-4-dark: #0364;
+    --bs4-5: #93f4; --bs4-5-mid: #6394; --bs4-5-dark: #3064;
+    --bs4-6: #f394; --bs4-6-mid: #9364; --bs4-6-dark: #6034;
+
+
+    /* NyCard */
+    --NyCard-back:
+        linear-gradient(045deg, hsla(045deg, 100%, 60%, .5) 10px, var(--bwt) 10px),
+        linear-gradient(135deg, hsla(135deg, 100%, 60%, .5) 10px, var(--bwt) 10px),
+        linear-gradient(225deg, hsla(225deg, 100%, 60%, .5) 10px, var(--bwt) 10px),
+        linear-gradient(315deg, hsla(315deg, 100%, 60%, .5) 10px, var(--bwt) 10px),
+
+        linear-gradient(045deg, var(--bwf) 12px, var(--bwt) 12px),
+        linear-gradient(135deg, var(--bwf) 12px, var(--bwt) 12px),
+        linear-gradient(225deg, var(--bwf) 12px, var(--bwt) 12px),
+        linear-gradient(315deg, var(--bwf) 12px, var(--bwt) 12px),
+
+        linear-gradient(045deg, hsla(045deg, 100%, 60%, 1) 14px, var(--bwt) 14px),
+        linear-gradient(135deg, hsla(135deg, 100%, 60%, 1) 14px, var(--bwt) 14px),
+        linear-gradient(225deg, hsla(225deg, 100%, 60%, 1) 14px, var(--bwt) 14px),
+        linear-gradient(315deg, hsla(315deg, 100%, 60%, 1) 14px, var(--bwt) 14px),
+
+        repeating-conic-gradient(
+        hsla(225deg, 100%, 60%, .2) 0deg 90deg, 
+        hsla(315deg, 100%, 60%, .2) 90deg 180deg, 
+        hsla(045deg, 100%, 60%, .2) 180deg 270deg, 
+        hsla(135deg, 100%, 60%, .2) 270deg 360deg),
+
+        linear-gradient(45deg, var(--bwf) 20px, var(--bwt) 20px),
+        linear-gradient(135deg, var(--bwf) 20px, var(--bwt) 20px),
+        linear-gradient(225deg, var(--bwf) 20px, var(--bwt) 20px),
+        linear-gradient(315deg, var(--bwf) 20px, var(--bwt) 20px),
+
+        linear-gradient(045deg, var(--bw0) 21px, var(--bwt) 21px),
+        linear-gradient(135deg, var(--bw0) 21px, var(--bwt) 21px),
+        linear-gradient(225deg, var(--bw0) 21px, var(--bwt) 21px),
+        linear-gradient(315deg, var(--bw0) 21px, var(--bwt) 21px),
+
+        linear-gradient(045deg, hsla(045deg, 100%, 80%, .4) 20px, hsla(045deg, 100%, 80%, 1) 22px, var(--bwt) 24px),
+        linear-gradient(135deg, hsla(135deg, 100%, 20%, .4) 20px, hsla(135deg, 100%, 20%, 1) 22px, var(--bwt) 24px),
+        linear-gradient(315deg, hsla(315deg, 100%, 80%, .4) 20px, hsla(315deg, 100%, 80%, 1) 22px, var(--bwt) 24px),
+        linear-gradient(225deg, hsla(225deg, 100%, 20%, .4) 20px, hsla(225deg, 100%, 20%, 1) 22px, var(--bwt) 24px),
+
+        linear-gradient(045deg, hsla(045deg, 100%, 20%, 1) 24px, hsla(045deg, 100%, 20%, .4) 27px, var(--bwt) 29px),
+        linear-gradient(135deg, hsla(135deg, 100%, 80%, 1) 24px, hsla(135deg, 100%, 80%, .4) 27px, var(--bwt) 29px),
+        linear-gradient(315deg, hsla(315deg, 100%, 20%, 1) 24px, hsla(315deg, 100%, 20%, .4) 27px, var(--bwt) 29px),
+        linear-gradient(225deg, hsla(225deg, 100%, 80%, 1) 24px, hsla(225deg, 100%, 80%, .4) 27px, var(--bwt) 29px),
+
+        repeating-conic-gradient(
+        hsla(225deg, 100%, 60%, 1) 0deg 90deg, 
+        hsla(315deg, 100%, 60%, 1) 90deg 180deg, 
+        hsla(45deg, 100%, 60%, 1) 180deg 270deg, 
+        hsla(135deg, 100%, 60%, 1) 270deg 360deg),
+        linear-gradient(315deg, var(--bwf) , var(--bwt));
+
+    
+
+    /* Other things */
+    --i: 0;    
+    --hue: 0;
+    --cardCount: 12;
+    --hue-step: 360 / var(--cardCount);
+    --mt: 10000ms;
+    --perspective: 5000px;
+}

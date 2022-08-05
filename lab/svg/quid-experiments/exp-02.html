@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Quid | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <link rel="stylesheet" href="../../../stylesheets/nyColors.css">
+    
+    <!-- <link rel="stylesheet" href="../../../stylesheets/radio-nav.css"> -->
+    <!-- <link rel="stylesheet" href="../../../stylesheets/deck.css"> -->
+    <!-- <link rel="stylesheet" href="liquid-versions.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        [class|="list"] {
+            /* height: 12rem; width: 12rem; */
+            outline: 1px dashed #fff9;
+        }
+        [class|="btn"] {
+            padding: 8px 12px;
+            font-size: 16px;
+            /* min-height: 1rem; min-width: 1rem; */
+        }
+    </style>
+    <style>
+        :root {
+            --min-w: 16rem;
+            --min-h: 16rem;
+        }
+        main.grid {
+            display: grid;
+            display: flex;
+            align-items: center;
+            align-items: flex-start;
+            justify-content: center;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        main.grid .shelf {
+            min-width: 12rem;
+            min-height: max-content;
+            
+            min-width: 16rem;
+            min-height: 16rem;
+
+            width: max-content;
+            height: max-content;
+            padding: 1rem;
+            margin: 1rem;
+        }
+    </style>
+    <style>
+
+        /* list with bg: #fff6; + mbm: hard-light; */
+        /* list with bg: #fff; + mbm: multiply; */
+
+        /* list with background-image: linear-gradient(to top left, #06c, #def);
+            mix-blend-mode: luminosity;
+            mix-blend-mode: overlay;
+            mix-blend-mode: difference;
+
+            mix-blend-mode: hue;
+            mix-blend-mode: lighten;
+            mix-blend-mode: color-burn;
+            mix-blend-mode: screen;
+            mix-blend-mode: hard-light;
+            mix-blend-mode: soft-light;
+            mix-blend-mode: multiply;
+            mix-blend-mode: exclusion;
+            mix-blend-mode: darken;
+         
+         */
+        /* .list-08a {background-color: #fff6;}
+        .list-08b {background-color: #fff;}
+        .list-08c {background-image: linear-gradient(to top left, #06c, #def);}
+        .list-08d {background-image: linear-gradient(to top left, #06c, #def);}
+        .btn-08a {mix-blend-mode: hard-light;}
+        .btn-08b {mix-blend-mode: multiply;}
+        .btn-08c {mix-blend-mode: luminosity;}
+        .btn-08d {mix-blend-mode: overlay;} */
+
+        .list-08 {
+            display: flex; flex-direction: row;
+            /*filter: blur(16px) url(#quid);*/
+            height: 12rem; width: 12rem;
+            /* background-color: #fff; */
+            /* background-color: #fff6; */
+            /* background-image: linear-gradient(to top left, #123, #789); */
+            /* background-image: linear-gradient(to top left, #123, #def); */
+            /* background-image: linear-gradient(to top left, #06c, #def); */
+            /* background-image: linear-gradient(to top left, #06c 40%, #def 60%); */
+            /* background-image: linear-gradient(to top left, #123 40%, #def 60%); */
+            /* background-image: linear-gradient(to top left, #000 40%, #fff 60%); */
+            /* background-image: linear-gradient(to top left, #000 10%, #fff 90%); */
+
+            /* background-color: #0000; */
+        }
+        .btn-08 {
+            height: 1rem; width: 1rem;
+
+            --clr-1: hsla(210, 100%, 60%, .7);
+            --clr-2: hsla(330, 100%, 60%, .7);
+            --clr-3: hsla(150, 100%, 60%, .7);
+            --clr-4: hsla(30, 100%, 60%, .7);
+
+            /* --alp: .7;
+            --c4-1: hsla(30, 100%, 60%, var(--alp));
+            --c4-2: hsla(150, 100%, 60%, var(--alp));
+            --c4-3: hsla(210, 100%, 60%, var(--alp));
+            --c4-4: hsla(330, 100%, 60%, var(--alp)); */
+
+            background: linear-gradient(to right, var(--bwt), var(--bwt)), var(--bwt);
+
+            border-radius: 0;
+
+            /* mix-blend-mode: normal; */
+            /* mix-blend-mode: multiply; */
+            /* mix-blend-mode: screen; */
+            /* mix-blend-mode: overlay; */
+            /* mix-blend-mode: darken; */
+            /* mix-blend-mode: lighten; */
+            /* mix-blend-mode: color-dodge; */
+            /* mix-blend-mode: color-burn; */
+            /* mix-blend-mode: hard-light; */
+            /* mix-blend-mode: soft-light; */
+            /* mix-blend-mode: difference; */
+            /* mix-blend-mode: exclusion; */
+            /* mix-blend-mode: hue; */
+            /* mix-blend-mode: saturation; */
+            /* mix-blend-mode: color; */
+            /* mix-blend-mode: luminosity; */
+            /* mix-blend-mode: normal; */
+
+            filter: blur(16px) url(#quid-u50_n10);
+            /* filter: blur(8px) url(#quid-u50_n10); */
+            /* filter: url(#quid-u50_n10); */
+
+            /* animation: osci-07 1200ms ease-in-out 0ms infinite alternate both; */
+            /* animation: osci-08 2400ms ease-in-out 0ms infinite normal both; */
+            animation: osci-08 2400ms linear 0ms infinite normal both;
+            animation-play-state: paused;
+        }
+        [class|="list"]:hover .btn-08,
+        .btn-08:hover {animation-play-state: running;}
+        .btn-08 {
+            --ox: 5rem;
+            --oy: 5rem;
+
+            --o45deg: .7071;
+            --or: 3rem;
+            --or2: calc(var(--or) / 2);
+            --or45: calc(var(--or) * var(--o45deg));
+            
+            --o2: var(--ox) calc(var(--oy) + var(--or));
+            --o8: var(--ox) calc(var(--oy) - var(--or));
+
+            --o4: calc(var(--ox) - var(--or)) var(--oy);
+            --o6: calc(var(--ox) + var(--or)) var(--oy);
+            
+            --o1: calc(var(--ox) - var(--or45)) calc(var(--oy) + var(--or45));
+            --o9: calc(var(--ox) + var(--or45)) calc(var(--oy) - var(--or45));
+
+            --o3: calc(var(--ox) + var(--or45)) calc(var(--oy) + var(--or45));
+            --o7: calc(var(--ox) - var(--or45)) calc(var(--oy) - var(--or45));
+
+            --o5: var(--ox) var(--oy);
+
+            /* 19,28,37,46 */
+            --shwBlur: 2rem;
+        }
+        @keyframes osci-08 {
+            0% {
+                box-shadow: 
+                    var(--o1) var(--shwBlur) 0rem var(--clr-1),
+                    var(--o5) var(--shwBlur) 0rem var(--clr-2),
+                    var(--o3) var(--shwBlur) 0rem var(--clr-3),
+                    var(--o5) var(--shwBlur) 0rem var(--clr-4);
+            }
+            25% {
+                box-shadow: 
+                    var(--o5) var(--shwBlur) 0rem var(--clr-1),
+                    var(--o2) var(--shwBlur) 0rem var(--clr-2),
+                    var(--o5) var(--shwBlur) 0rem var(--clr-3),
+                    var(--o4) var(--shwBlur) 0rem var(--clr-4);
+            }
+            50% {
+                box-shadow: 
+                    var(--o9) var(--shwBlur) 0rem var(--clr-1),
+                    var(--o5) var(--shwBlur) 0rem var(--clr-2),
+                    var(--o7) var(--shwBlur) 0rem var(--clr-3),
+                    var(--o5) var(--shwBlur) 0rem var(--clr-4);
+            }
+            75% {
+                box-shadow: 
+                    var(--o5) var(--shwBlur) 0rem var(--clr-1),
+                    var(--o8) var(--shwBlur) 0rem var(--clr-2),
+                    var(--o5) var(--shwBlur) 0rem var(--clr-3),
+                    var(--o6) var(--shwBlur) 0rem var(--clr-4);
+            }
+            100% {
+                box-shadow: 
+                    var(--o1) var(--shwBlur) 0rem var(--clr-1),
+                    var(--o5) var(--shwBlur) 0rem var(--clr-2),
+                    var(--o3) var(--shwBlur) 0rem var(--clr-3),
+                    var(--o5) var(--shwBlur) 0rem var(--clr-4);
+            }
+        }
+        .list-08.styleA {background-color: #fff6;}
+        .list-08.styleB {background-color: #fff;}
+        .list-08.styleC {background-image: linear-gradient(to top left, #06c, #def);}
+        .list-08.styleD {background-image: linear-gradient(to top left, #06c, #def);}
+        .btn-08.styleA {mix-blend-mode: hard-light;}
+        .btn-08.styleB {mix-blend-mode: multiply;}
+        .btn-08.styleC {mix-blend-mode: luminosity;}
+        .btn-08.styleD {mix-blend-mode: overlay;}
+
+        .list-07 {
+            display: flex; flex-direction: row;
+            /*filter: blur(16px) url(#quid);*/
+            height: 12rem; width: 12rem;
+        }
+        .btn-07 {
+            height: 1rem; width: 1rem;
+
+            --clr-1: hsla(210, 100%, 60%, .7);
+            --clr-2: hsla(330, 100%, 60%, .7);
+            --clr-3: hsla(150, 100%, 60%, .7);
+            --clr-4: hsla(30, 100%, 60%, .7);
+
+            /* --alp: .7;
+            --c4-1: hsla(30, 100%, 60%, var(--alp));
+            --c4-2: hsla(150, 100%, 60%, var(--alp));
+            --c4-3: hsla(210, 100%, 60%, var(--alp));
+            --c4-4: hsla(330, 100%, 60%, var(--alp)); */
+
+            background: linear-gradient(to right, var(--bwt), var(--bwt)), var(--bwt);
+
+            border-radius: 0;
+
+            /* mix-blend-mode: luminosity; */
+            /* mix-blend-mode: hard-light; */
+            /* mix-blend-mode: color; */
+            /* mix-blend-mode: overlay; */
+            /* mix-blend-mode: soft-light; */
+
+            /* filter: blur(16px) url(#quid-u50_n10); */
+            /* filter: blur(8px) url(#quid-u50_n10); */
+            filter: url(#quid-u50_n10);
+
+            /* animation: osci-07 1200ms ease-in-out 0ms infinite alternate both; */
+            animation: osci-07 2400ms ease-in-out 0ms infinite alternate both;
+            /* animation: osci-07 2400ms ease-in-out 0ms infinite normal both; */
+            animation-play-state: paused;
+        }
+        [class|="list"]:hover .btn-07,
+        .btn-07:hover {animation-play-state: running;}
+        
+        .btn-07 {
+            --ox: 5rem;
+            --oy: 5rem;
+
+            --o45deg: .7071;
+            --or: 4rem;
+            --or: 3rem;
+            --or2: calc(var(--or) / 2);
+            --or45: calc(var(--or) * var(--o45deg));
+            
+            --o2: var(--ox) calc(var(--oy) + var(--or));
+            --o8: var(--ox) calc(var(--oy) - var(--or));
+
+            --o4: calc(var(--ox) - var(--or)) var(--oy);
+            --o6: calc(var(--ox) + var(--or)) var(--oy);
+            
+            --o1: calc(var(--ox) - var(--or45)) calc(var(--oy) + var(--or45));
+            --o9: calc(var(--ox) + var(--or45)) calc(var(--oy) - var(--or45));
+
+            --o3: calc(var(--ox) + var(--or45)) calc(var(--oy) + var(--or45));
+            --o7: calc(var(--ox) - var(--or45)) calc(var(--oy) - var(--or45));
+
+            --o5: var(--ox) var(--oy);
+
+            /* 19,28,37,46 */
+            --shwBlur: 2rem;
+        }
+        @keyframes osci-07 {
+            0% {
+                box-shadow: 
+                    var(--o1) var(--shwBlur) 0rem var(--clr-1),
+                    var(--o5) var(--shwBlur) 0rem var(--clr-2),
+                    var(--o3) var(--shwBlur) 0rem var(--clr-3),
+                    var(--o5) var(--shwBlur) 0rem var(--clr-4);
+            }
+            25% {
+                box-shadow: 
+                    var(--o5) var(--shwBlur) 0rem var(--clr-1),
+                    var(--o2) var(--shwBlur) 0rem var(--clr-2),
+                    var(--o5) var(--shwBlur) 0rem var(--clr-3),
+                    var(--o4) var(--shwBlur) 0rem var(--clr-4);
+            }
+            50% {
+                box-shadow: 
+                    var(--o9) var(--shwBlur) 0rem var(--clr-1),
+                    var(--o5) var(--shwBlur) 0rem var(--clr-2),
+                    var(--o7) var(--shwBlur) 0rem var(--clr-3),
+                    var(--o5) var(--shwBlur) 0rem var(--clr-4);
+            }
+            75% {
+                box-shadow: 
+                    var(--o5) var(--shwBlur) 0rem var(--clr-1),
+                    var(--o8) var(--shwBlur) 0rem var(--clr-2),
+                    var(--o5) var(--shwBlur) 0rem var(--clr-3),
+                    var(--o6) var(--shwBlur) 0rem var(--clr-4);
+            }
+            100% {
+                box-shadow: 
+                    var(--o1) var(--shwBlur) 0rem var(--clr-1),
+                    var(--o5) var(--shwBlur) 0rem var(--clr-2),
+                    var(--o3) var(--shwBlur) 0rem var(--clr-3),
+                    var(--o5) var(--shwBlur) 0rem var(--clr-4);
+            }
+        }
+    </style>
+    <style>
+        .list-06 {
+            display: flex; flex-direction: row;
+            /*filter: blur(16px) url(#quid);*/
+            height: 12rem; width: 12rem;
+        }
+        .btn-06 {
+            height: 1rem; width: 1rem;
+
+            --clr-1: hsla(210, 100%, 60%, .7);
+            --clr-2: hsla(330, 100%, 60%, .7);
+            --clr-3: hsla(150, 100%, 60%, .7);
+            --clr-4: hsla(30, 100%, 60%, .7);
+
+            /* --alp: .7;
+            --c4-1: hsla(30, 100%, 60%, var(--alp));
+            --c4-2: hsla(150, 100%, 60%, var(--alp));
+            --c4-3: hsla(210, 100%, 60%, var(--alp));
+            --c4-4: hsla(330, 100%, 60%, var(--alp)); */
+
+            background: linear-gradient(to right, var(--bwt), var(--bwt)), var(--bwt);
+
+            border-radius: 0;
+
+            /* mix-blend-mode: hard-light; */
+            /* mix-blend-mode: luminosity; */
+
+            /* filter: blur(8px) url(#quid-u50_n10); */
+            filter: url(#quid-u50_n10);
+
+            animation: osci-06 1200ms ease-in-out 0ms alternate infinite both;
+            animation-play-state: paused;
+        }
+        [class|="list"]:hover .btn-06,
+        .btn-06:hover {animation-play-state: running;}
+        
+        .btn-06 {
+            --ox: 5rem;
+            --oy: 5rem;
+
+            --o45deg: .7071;
+            --or: 4rem;
+            --or45: calc(var(--or) * var(--o45deg));
+            
+            --o2: var(--ox) calc(var(--oy) + var(--or));
+            --o8: var(--ox) calc(var(--oy) - var(--or));
+
+            --o4: calc(var(--ox) - var(--or)) var(--oy);
+            --o6: calc(var(--ox) + var(--or)) var(--oy);
+            
+            --o1: calc(var(--ox) - var(--or45)) calc(var(--oy) + var(--or45));
+            --o9: calc(var(--ox) + var(--or45)) calc(var(--oy) - var(--or45));
+
+            --o3: calc(var(--ox) + var(--or45)) calc(var(--oy) + var(--or45));
+            --o7: calc(var(--ox) - var(--or45)) calc(var(--oy) - var(--or45));
+
+            /* 19,28,37,46 */
+            --shwBlur: 2rem;
+        }
+        @keyframes osci-06 {
+            0% {
+                box-shadow: 
+                    var(--o1) var(--shwBlur) 0rem var(--clr-1),
+                    var(--o2) var(--shwBlur) 0rem var(--clr-2),
+                    var(--o3) var(--shwBlur) 0rem var(--clr-3),
+                    var(--o4) var(--shwBlur) 0rem var(--clr-4);
+            }
+            100% {
+                box-shadow: 
+                    var(--o9) var(--shwBlur) 0rem var(--clr-1),
+                    var(--o8) var(--shwBlur) 0rem var(--clr-2),
+                    var(--o7) var(--shwBlur) 0rem var(--clr-3),
+                    var(--o6) var(--shwBlur) 0rem var(--clr-4);
+            }
+        }
+
+        @keyframes wave0 {
+            0% {
+                box-shadow: 
+                    1rem 3rem 1rem 0rem var(--clr-1),
+                    1.6rem 4.4rem 1rem 0rem var(--clr-2),
+                    4rem 5rem 1rem 0rem var(--clr-3);
+            }
+            50% {
+                box-shadow: 
+                    5rem 3rem 1rem 0rem var(--clr-1),
+                    5rem 1rem 1rem 0rem var(--clr-2),
+                    4rem 1rem 1rem 0rem var(--clr-3);
+            }
+            100% {
+                box-shadow: 
+                    1rem 3rem 1rem 0rem var(--clr-1),
+                    1.6rem 4.4rem 1rem 0rem var(--clr-2),
+                    4rem 5rem 1rem 0rem var(--clr-3);
+            }
+        }
+    </style>
+    <style>
+        /* [attempt 5] Fixing animation on liquid experiment. */
+        .list-05 {
+            display: flex; flex-direction: row;
+            /*filter: blur(16px) url(#quid);*/
+            height: 100%; width: 100%;
+            height: 12rem; width: 12rem;
+        }
+        .btn-05 {
+            min-height: 1rem; min-width: 1rem;
+            height: 1rem; width: 1rem;
+
+            --hue: calc(var(--i) * 60);
+            --clr-1: hsla(calc(var(--hue) - 45), 100%, 60%, .7);
+            --clr-2: hsla(calc(var(--hue) + 0), 100%, 60%, .7);
+            --clr-3: hsla(calc(var(--hue) + 90), 100%, 60%, .7);
+
+            background: linear-gradient(to right, #0000, #0000), #0000;
+
+            border: 0;
+            border-radius: 0;
+
+            mix-blend-mode: hard-light;
+            mix-blend-mode: luminosity;
+
+            filter: blur(8px) url(#quid-u50_n10);
+
+            animation: wave2-05 1200ms ease-in-out infinite both;
+            animation-play-state: paused;
+        }
+        .list-05:hover .btn-05,
+        .btn-05:hover {animation-play-state: running;}
+        
+        @keyframes wave2-05 {
+            0% {
+                box-shadow: 
+                    1rem 3rem 1rem 0rem var(--clr-1),
+                    1.6rem 4.4rem 1rem 0rem var(--clr-2),
+                    4rem 5rem 1rem 0rem var(--clr-3);
+            }
+            50% {
+                box-shadow: 
+                    5rem 3rem 1rem 0rem var(--clr-1),
+                    5rem 1rem 1rem 0rem var(--clr-2),
+                    4rem 1rem 1rem 0rem var(--clr-3);
+            }
+            100% {
+                box-shadow: 
+                    1rem 3rem 1rem 0rem var(--clr-1),
+                    1.6rem 4.4rem 1rem 0rem var(--clr-2),
+                    4rem 5rem 1rem 0rem var(--clr-3);
+            }
+        }
+    </style>
+    <style>
+        /* Fixing animation on liquid experiment. */
+        .list-04 {
+            display: flex; flex-direction: row;
+            /* filter: blur(16px) url(#quid); */
+            height: 8rem; width: 8rem;
+        }
+        .btn-04 {
+            min-height: 1rem; min-width: 1rem;
+            height: 1rem; width: 1rem;
+            background-color: hsla(calc(var(--i) * 60), 100%, 60%, .5);
+            --hue: calc(var(--i) * 60);
+            /* --clr: hsla(var(--hue), 100%, 60%, .5);
+            --hue-2: calc(var(--i) * 60 + 60);
+            
+            --clr-a: hsla(calc(var(--hue) - 30), 100%, 60%, 0);
+            --clr-b: hsla(calc(var(--hue) + 30), 100%, 60%, 0);
+            
+            --clr-1: hsla(calc(var(--hue) - 30), 100%, 60%, 1);
+            --clr-2: hsla(calc(var(--hue) + 0), 100%, 60%, 1);
+            --clr-3: hsla(calc(var(--hue) + 30), 100%, 60%, 1);
+            
+            background-image: linear-gradient(to right, var(--clr-1), var(--clr-2),  var(--clr-3)); */
+            
+            --clr-a1: hsla(calc(var(--hue)), 100%, 60%, 1);
+            --clr-a2: hsla(calc(var(--hue) + 60), 100%, 60%, 1);
+            background-image: linear-gradient(to right, var(--clr-a1), var(--clr-a2));
+            
+            --clr-1: hsla(calc(var(--hue) - 45), 100%, 60%, .7);
+            --clr-2: hsla(calc(var(--hue) + 0), 100%, 60%, .7);
+            --clr-3: hsla(calc(var(--hue) + 90), 100%, 60%, .7);
+            
+            /*filter: blur(16px);*/
+            filter: blur(8px) url(#quid);
+            
+            border: 0;
+            border-radius: 0;
+            mix-blend-mode: hard-light;
+            
+            /* box-shadow: 
+                -1rem 1.5rem 1rem 0rem #39f,
+                1rem 2.5rem 1rem 0rem #f93; */
+            
+            /* transition: box-shadow 300ms ease-in-out; */
+            animation: wave2-04 1200ms ease-in-out infinite both;
+            animation-play-state: paused;
+        }
+        .list-04:hover .btn-04,
+        .btn-04:hover {
+            /* box-shadow: 
+                -1rem 2rem 1rem 0rem #39f,
+                1rem 2rem 1rem 0rem #f93; */
+            animation-play-state: running;
+        }
+        @keyframes wave2-04 {
+            0% {
+                box-shadow: 
+                1rem 3rem 1rem 0rem var(--clr-1),
+                1.6rem 4.4rem 1rem 0rem var(--clr-2),
+                4rem 5rem 1rem 0rem var(--clr-3);
+            }
+            50% {
+                box-shadow: 
+                5rem 3rem 1rem 0rem var(--clr-1),
+                5rem 1rem 1rem 0rem var(--clr-2),
+                4rem 1rem 1rem 0rem var(--clr-3);
+            }
+            100% {
+                box-shadow: 
+                1rem 3rem 1rem 0rem var(--clr-1),
+                1.6rem 4.4rem 1rem 0rem var(--clr-2),
+                4rem 5rem 1rem 0rem var(--clr-3);
+            }
+        }
+        
+    </style>
+    <style>
+        /* Fixing animation on liquid experiment. */
+        .list-03 {
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            /*filter: blur(16px) url(#quid);*/
+            height: 8rem; width: 8rem;
+        }
+        .btn-03 {
+            min-height: 1rem; min-width: 1rem;
+            height: 1rem; width: 1rem;
+
+            background-color: hsla(calc(var(--i) * 60), 100%, 60%, .5);
+            
+            --hue: calc(var(--i) * 60);
+            --clr-a1: hsla(calc(var(--hue)), 100%, 60%, 1);
+            --clr-a2: hsla(calc(var(--hue) + 60), 100%, 60%, 1);
+            background-image: linear-gradient(to right, var(--clr-a1), var(--clr-a2));
+            
+            /*filter: blur(16px);*/
+            /*filter: blur(8px) url(#feCM);*/
+            filter: blur(8px) url(#quid);
+            
+            border: 0;
+            border-radius: 0;
+
+            mix-blend-mode: hard-light;
+            
+            /* box-shadow: 
+            -1rem 1.5rem 1rem 0rem #39f,
+            1rem 2.5rem 1rem 0rem #f93; */
+            
+            /* transition: box-shadow 300ms ease-in-out; */
+            
+            /*
+            animation: wave 1200ms ease-in-out infinite;
+            animation-delay: calc(var(--i) * 120ms); */
+            
+            animation: wave2-03 1200ms ease-in-out infinite both;
+            animation-play-state: paused;
+        }
+        .list-03:hover .btn-03,
+        .btn-03:hover {
+            animation-play-state: running;
+        }
+        @keyframes wave2-03 {
+            0% {
+                box-shadow: 
+                -2rem 1rem 1rem 0rem #39f9,
+                1rem 2rem 1rem 0rem #f939;
+            }
+            50% {
+                box-shadow: 
+                2rem 1rem 1rem 0rem #39f,
+                1rem -2rem 1rem 0rem #f93;
+            }
+            100% {
+                box-shadow: 
+                -2rem 1rem 1rem 0rem #39f9,
+                1rem 2rem 1rem 0rem #f939;
+            }
+        }
+    </style>
+    <style>
+        /* checking for liquid */
+        .list-02 {
+            display: flex;
+            flex-direction: row;
+            filter: url(#quid-02);
+        }
+        .btn-02 {
+            --clr: hsla(calc(var(--i) * 60), 100%, 60%, 1);
+            
+            --clr-1: hsla(calc(var(--i) * 60), 100%, 60%, .7);
+            --clr-2: hsla(calc(var(--i) * 60 + 15), 100%, 60%, .7);
+            height: 3rem;
+            width: 5rem;
+            background-color: var(--clr);
+            margin: 0rem .25rem 4.5rem;
+            box-shadow: 0px 0px 16px 8px var(--clr);
+            /*
+            filter: url(#quid);*/
+            
+            --x1: -16px; --x2: 16px;
+            --y1: 60px; --y2: 80px;
+            --shw-blur: 4px;
+            --shw-scl: -8px;
+        }
+        .btn-02:nth-of-type(1) {
+            --shw-blur: 4px;
+            box-shadow: 
+            var(--x1) var(--y1) var(--shw-blur) var(--shw-scl) var(--clr-1),
+            var(--x2) var(--y2) var(--shw-blur) var(--shw-scl) var(--clr-2);
+        }
+        .btn-02:nth-of-type(2) {
+            --shw-blur: 8px;
+            box-shadow: 
+            var(--x1) var(--y1) var(--shw-blur) var(--shw-scl) var(--clr-1),
+            var(--x2) var(--y2) var(--shw-blur) var(--shw-scl) var(--clr-2);
+        }
+        .btn-02:nth-of-type(3) {
+            --shw-blur: 16px;
+            box-shadow: 
+            var(--x1) var(--y1) var(--shw-blur) var(--shw-scl) var(--clr-1),
+            var(--x2) var(--y2) var(--shw-blur) var(--shw-scl) var(--clr-2);
+        }
+    </style>
+    <style>
+        /* checking for liquid */
+        .btn-01 {
+            --clr: hsla(calc(var(--i) * 60), 100%, 60%, 1);
+            
+            --clr-1: hsla(calc(var(--i) * 60), 100%, 60%, .7);
+            --clr-2: hsla(calc(var(--i) * 60 + 15), 100%, 60%, .7);
+            height: 4rem;
+            width: 5rem;
+            background-color: var(--clr);
+            margin: 0rem .25rem 4.5rem;
+            box-shadow: 0px 0px 16px 8px var(--clr);
+            
+            filter: url(#quid-02);
+        }
+        .btn-01:nth-of-type(1) {
+            box-shadow: 
+            -16px 60px 4px -16px var(--clr-1),
+            16px 80px 4px -16px var(--clr-2);
+        }
+        .btn-01:nth-of-type(2) {
+            box-shadow: 
+            -16px 60px 8px -16px var(--clr-1),
+            16px 80px 8px -16px var(--clr-2);
+        }
+        .btn-01:nth-of-type(3) {
+            box-shadow: 
+            -16px 60px 16px -16px var(--clr-1),
+            16px 80px 16px -16px var(--clr-2);
+        }
+    </style>
+            
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Quid</div>
+        <!-- <div class="subtitle">Another Attempt (220805)</div> -->
+        <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div>
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+
+<main class="grid">
+    <!-- <div class="shelf hidden">
+        <div class="shelf-title">quid exp 08(a-d)</div>
+        <div class="list-08 styleD">
+            <div class="btn-08 styleD"></div>
+        </div>
+        <div class="list-08 styleC">
+            <div class="btn-08 styleC"></div>
+        </div>
+        <div class="list-08 styleB">
+            <div class="btn-08 styleB"></div>
+        </div>
+        <div class="list-08 styleA">
+            <div class="btn-08 styleA"></div>
+        </div>
+    </div> -->
+    <div class="shelf">
+        <div class="shelf-title">quid exp 08d</div>
+        <div class="list-08 styleD">
+            <div class="btn-08 styleD"></div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">quid exp 08c</div>
+        <div class="list-08 styleC">
+            <div class="btn-08 styleC"></div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">quid exp 08b</div>
+        <div class="list-08 styleB">
+            <div class="btn-08 styleB"></div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">quid exp 08a</div>
+        <div class="list-08 styleA">
+            <div class="btn-08 styleA"></div>
+        </div>
+    </div>
+
+    <div class="shelf">
+        <div class="shelf-title">quid exp 08</div>
+        <div class="list-08">
+            <div class="btn-08"></div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">quid exp 07</div>
+        <div class="list-07">
+            <div class="btn-07"></div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">quid exp 06</div>
+        <div class="list-06">
+            <div class="btn-06"></div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">quid exp 05</div>
+        <div class="list-05">
+            <div class="btn-05"></div>
+        </div>
+    </div>
+
+    <div class="shelf">
+        <div class="shelf-title">quid exp 04</div>
+        <div class="list-04">
+            <div class="btn-04"></div>
+        </div>
+    </div>
+
+    <div class="shelf">
+        <div class="shelf-title">quid exp 03</div>
+        <div class="list-03">
+            <div class="btn-03"></div>
+        </div>
+    </div>
+
+    <div class="shelf">
+        <div class="shelf-title">quid exp 02</div>
+        <div class="list-02">
+            <button class="btn-02">Sample 4px</button>
+            <button class="btn-02">Sample 8px</button>
+            <button class="btn-02">Sample 16px</button>
+            <!-- <div class="btn-02">Sample 4px</div>
+            <div class="btn-02">Sample 8px</div>
+            <div class="btn-02">Sample 16px</div> -->
+        </div>
+    </div>
+
+    <div class="shelf">
+        <div class="shelf-title">quid exp 01</div>
+        <button class="btn-01">Sample 4px</button>
+        <button class="btn-01">Sample 8px</button>
+        <button class="btn-01">Sample 16px</button>
+        <!-- <div class="btn-01">Sample 4px</div>
+        <div class="btn-01">Sample 8px</div>
+        <div class="btn-01">Sample 16px</div> -->
+    </div>
+</main>
+
+
+<svg style='display: none;'>
+    <defs>
+        <filter id="quid" x="-25%" y="-25%" width="150%" height="150%">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 50 -10"></feColorMatrix>
+        </filter>
+        <filter id="quid-02" x="-25%" y="-25%" width="150%" height="150%">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 50 -20"></feColorMatrix>
+        </filter>
+        <filter id="quid-u50_n10" x="-25%" y="-25%" width="150%" height="150%">
+            <feColorMatrix in="SourceGraphic" type="matrix" 
+            values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 50 -10"></feColorMatrix>
+        </filter>
+    </defs>
+</svg>
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
+    </script>
+</body>
+</html>
