@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Quid Dropplets | Canvas Exp | NyteLabs</title>
+    <title>Particles | Canvas Exp | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <!-- <link rel="stylesheet" href="../../../stylesheets/radio-nav.css"> -->
@@ -68,7 +68,7 @@
             position: absolute;
             position: fixed;
             /* min-height: 50vh; */
-            max-height: 50vh;
+            max-height: 70vh;
 
             min-width: 120px;
             width: 30vw;
@@ -185,6 +185,7 @@
         #speedsize[data-switch="on"] {--shw-clr: #f339; background-color: #f339;}
         #quid[data-switch="on"] {--shw-clr: #3ff9; background-color: #3ff9;}
         #huesp[data-switch="on"] {--shw-clr: #fff9; background-color: #fff9; background-image: linear-gradient(to bottom right,#39f9, #f399, #3f99, #f939);}
+        #arrow[data-switch="on"] {--shw-clr: #9f39; background-color: #9f39;}
         /* #grid[data-switch="on"] {--shw-clr: #9999; background-color: #9999;}
         #trace[data-switch="on"] {--shw-clr: #3f99; background-color: #3f99;} */
         /* .sbtn::after {content: ': ' attr(data-switch)} */
@@ -207,6 +208,134 @@
         
         /* [data-switch="off"]::after {content: attr(data-switch)}
         [data-switch="on"]::after {} */
+    </style>
+    <style>
+        .myconsole {
+            /* display: none; */
+            position: absolute;
+            position: fixed;
+            max-height: 50vh;
+
+            min-width: 120px;
+            width: 30vw;
+            max-width: 180px;
+
+            top: 0%; left: 50%;
+
+            padding-bottom: 1rem;
+
+            /* --h: 50;
+            --top: calc((100 - var(--h)) / 2);
+            height: 50%;
+            top: calc(var(--top) * 1vh); */
+
+            background: #39f3;
+            background: #fff3;
+            background: #fff1;
+            border-radius: .25rem;
+            border: 1px outset #fff6;
+            backdrop-filter: blur(2px) brightness(.5);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            /* transition: 
+            transform 200ms ease-in-out,
+            box-shadow 200ms ease-in-out,
+            background-color 200ms ease-in-out; */
+            transition: transform 200ms ease-in-out;
+        }
+        #myconsole[data-display="true"] {
+            transform: translateY(0%);
+        }
+        #myconsole[data-display="false"] {
+            transform: translateY(-100%);
+        }
+        #myconsole .ctab {
+            --rotz-stab: 0deg;
+            position: absolute;
+            top: .25rem; left: .25rem;
+            height: 1rem; width: 2rem;
+            top: calc(100% + 1px);
+
+            background-color: #fff3;
+            background-color: #0003;
+            border: 1px outset #fff6;
+            border-top: 1px outset #fff0;
+            border-radius: 0 0 .25rem .25rem;
+            /* backdrop-filter: blur(2px); */
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+            user-select: none;
+            transition: transform 300ms ease-in-out 200ms;
+        }
+        #myconsole .ctab::after{
+            font-size: 8px;
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform-origin: 50% .5em;
+            transform: translateX(-50%) translateY(-50%) rotate(var(--rotz-stab));
+            height: 0em;
+            width: 0em;
+            border: .5em solid #0000;
+            border-top: 0em solid #0000;
+            border-bottom: .866em solid #fff;
+            transition: transform 300ms ease-in-out 200ms;
+        }
+        #myconsole[data-display="true"] .ctab {--rotz-stab: 0deg;}
+        #myconsole[data-display="false"] .ctab {--rotz-stab: 180deg;}
+
+        #myconsole .row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            width: 100%;
+            margin: .125rem auto;
+        }
+        .status-grid {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: .25rem;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+
+            width: 100%;
+            margin: .125rem;
+        }
+
+        #myconsole h3 {margin: 0.5rem auto;}
+        [for="s.x"],[id="s.x"] {--hue: 210;}
+        [for="s.y"],[id="s.y"] {--hue: 0;}
+        [for="s.d"],[id="s.d"] {--hue: 150;}
+        [for="s.h"],[id="s.h"] {--hue: 60;}
+        [for="s.f"],[id="s.f"] {--hue: 270;}
+        .report-output {
+            --clr: hsla(var(--hue), 50%, 60%, 1);
+            --border-clr: hsla(var(--hue), 40%, 60%, 1);
+            --shw-clr: hsla(var(--hue), 20%, 50%, .2);
+            padding: .25rem .5rem;
+            padding: .125rem .25rem;
+            background-color: var(--shw-clr);
+            color: #fff;
+            color: var(--clr);
+            /* border: 1px inset var(--clr); */
+            border: 1px inset var(--border-clr);
+            transition: color 200ms ease-in-out;
+        }
+        .report-output:hover {
+            --clr: hsla(var(--hue), 90%, 60%, 1);
+        }
+        label {
+            color: hsla(var(--hue), 50%, 60%, 1);
+        }
     </style>
     <style>
         .info {
@@ -359,9 +488,25 @@
 <body>
     <header>
         <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
-        <div class="title">Quid Dropplets</div>
-        <!-- <div class="subtitle">Attempt to make liquid looking like particles</div> -->
+        <div class="title">Particles</div>
+        <!-- <div class="subtitle">Base</div> -->
         <!-- <div class="xInfo" onclick="q()">info</div> -->
+        <div id="myconsole" class="myconsole" data-display="false" data-keybind='w'>
+            <div class="ctab" onclick="openW()"></div>
+            <h3>Status</h3>
+            <div class="status-grid">
+                <label for="s.x">x:</label><div id="s.x" class='report-output'></div>
+                <label for="s.y">y:</label><div id="s.y" class='report-output'></div>
+                <label for="s.d">d:</label><div id="s.d" class='report-output'></div>
+                <label for="s.h">h:</label><div id="s.h" class='report-output'></div>
+                <label for="s.f">f:</label><div id="s.f" class='report-output'></div>
+            </div>
+            <!-- <div class="row"><label for="s.x">x:</label><div id="s.x" class='report-output'></div></div>
+            <div class="row"><label for="s.y">y:</label><div id="s.y" class='report-output'></div></div>
+            <div class="row"><label for="s.d">d:</label><div id="s.d" class='report-output'></div></div>
+            <div class="row"><label for="s.h">h:</label><div id="s.h" class='report-output'></div></div>
+            <div class="row"><label for="s.f">f:</label><div id="s.f" class='report-output'></div></div> -->
+        </div>
         <div class="xInfo" onclick="q()">i</div>
     </header>
 
@@ -370,11 +515,12 @@
     <!-- <div class="shelf">
         <div class="shelf-title">title</div>
     </div> -->
-    <canvas id="canvas_trace"></canvas>
+    <!-- <canvas id="canvas_trace"></canvas> -->
     <canvas id="canvas_gf"></canvas>
     <canvas id="canvas_grid"></canvas>
     <canvas id="canvas_orbit"></canvas>
     <canvas id="canvas_over"></canvas>
+    <canvas id="canvas_trace"></canvas>
     <!-- <div id="settings" class="settings"></div> -->
     <div id="settings" class="settings" data-display="false" data-keybind='s'>
         <!-- <div class="stab" onclick="openS()">◂</div> -->
@@ -383,14 +529,25 @@
         <div class="row"><button id="pause" onclick="pause()" class="sbtn" data-switch="off">pause</button></div>
         <div class="row"><button id="tags" onclick="switchTags()" class="sbtn" data-switch="off">id tags</button></div>
         <div class="row"><button id="gf_active" onclick="toggleGravity()" class="sbtn" data-switch="off">gravity</button></div>
-        <div class="row"><button id="speedsize" onclick="speedSize()" class="sbtn" data-switch="off">speed size</button></div>
-        <div class="row"><button id="quid" onclick="liQuid()" class="sbtn" data-switch="off">liquid</button></div>
+        <!-- <div class="row"><button id="speedsize" onclick="speedSize()" class="sbtn" data-switch="off">speed size</button></div> -->
+        <!-- <div class="row"><button id="quid" onclick="liQuid()" class="sbtn" data-switch="off">liquid</button></div> -->
         <div class="row"><button id="huesp" onclick="hueSp()" class="sbtn" data-switch="off">hue</button></div>
+        <div class="row"><button id="arrow" onclick="arrowForward()" class="sbtn" data-switch="off">arrow</button></div>
 
         <div class="row"><button id="grid" onclick="toggleCanvas('canvas_grid')" class="sbtn" data-toggle-layer="false" data-canvas="canvas_grid">grid</button></div>
-        <!-- <div class="row"><button id="trace" onclick="toggleCanvas('canvas_trace')" class="sbtn" data-toggle-layer="false" data-canvas="canvas_trace">trace</button></div> -->
+        <div class="row"><button id="trace" onclick="toggleCanvas('canvas_trace')" class="sbtn" data-toggle-layer="false" data-canvas="canvas_trace">trace</button></div>
         
     </div>
+    <!-- <div id="myconsole" class="myconsole" data-display="false" data-keybind='w'>
+        <div class="ctab" onclick="openS2()"></div>
+        <h3>Status</h3>
+        <div class="row"><label for="s.x">x:</label><div id="s.x"></div></div>
+        <div class="row"><label for="s.y">y:</label><div id="s.y"></div></div>
+        <div class="row"><label for="s.d">d:</label><div id="s.d"></div></div>
+        <div class="row"><label for="s.h">h:</label><div id="s.h"></div></div>
+        <div class="row"><label for="s.f">f:</label><div id="s.f"></div></div>
+    </div> -->
+
     <div id="info" class="info" data-display="false" data-keybind='q'>
         <div class="xClose" onclick="q()"></div>
         <h2>Info</h2>
@@ -405,8 +562,8 @@
         <!-- <div class="row"><kbd>T</kbd> <span>toggles the tracing path behind particles.</span></div> -->
         <div class="row"><kbd>I</kbd> <span>toggles the id tags on top of the particles.</span></div>
         <div class="row"><kbd>F</kbd> <span>toggles the gravity.</span></div>
-        <div class="row"><kbd>O</kbd> <span>toggles size lock, allowing size to be dependent on speed.</span></div>
-        <div class="row"><kbd>Q</kbd> <span>toggles the liquid effect.</span></div>
+        <!-- <div class="row"><kbd>O</kbd> <span>toggles size lock, allowing size to be dependent on speed.</span></div> -->
+        <!-- <div class="row"><kbd>Q</kbd> <span>toggles the liquid effect.</span></div> -->
         <div class="row"><kbd>H</kbd> <span>toggles hue of the particles.</span></div>
         <!-- <div class="row"><kbd>&nbsp;</kbd> <span>pauses the particles.</span></div> -->
         <div class="row"><kbd>Space</kbd> <span>pauses the particles.</span></div>
@@ -422,24 +579,6 @@
                     0 1 0 0 0
                     0 0 1 0 0
                     0 0 0 50 -20"></feColorMatrix>
-        </filter>
-        <filter id="quid-10_5" x="-25%" y="-25%" width="150%" height="150%">
-            <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
-                    0 1 0 0 0
-                    0 0 1 0 0
-                    0 0 0 10 -5"></feColorMatrix>
-        </filter>
-        <filter id="quid-20_10" x="-25%" y="-25%" width="150%" height="150%">
-            <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
-                    0 1 0 0 0
-                    0 0 1 0 0
-                    0 0 0 20 -10"></feColorMatrix>
-        </filter>
-        <filter id="quid-50_30" x="-25%" y="-25%" width="150%" height="150%">
-            <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
-                    0 1 0 0 0
-                    0 0 1 0 0
-                    0 0 0 50 -30"></feColorMatrix>
         </filter>
     </defs>
 </svg>
@@ -460,16 +599,16 @@
         var layers_clear = [0,0,-1,1,1];
         const toggle_layers = {
             'canvas_trace': false,
-            'canvas_gf': false,
-            'canvas_grid': false,
+            'canvas_gf': true,
+            'canvas_grid': true,
             'canvas_orbit': true,
             'canvas_over': true
         };
 
         const particles = [];
         const s = {
-            x: 0,
-            y: 0,
+            x: window.innerWidth/2,
+            y: window.innerHeight/2,
 
             r: 3,
             c: 0,
@@ -480,6 +619,7 @@
 
             'vh': window.innerHeight,
             'vw': window.innerWidth,
+            'hh': Math.sqrt(window.innerWidth**2 + window.innerHeight**2),
 
             gf: {'x':0,'y':0},
             gfr: 100,
@@ -489,16 +629,18 @@
             gf_amplification: 10,
             fLost: .1,
 
-            gf_active: true,
+            gf_active: false,
 
+            arrow: true,
             huesp: true,
-            quid: true,
+            quid: false,
             speedsize: false,
             trace: false,
             tags: false,
-            log: false,
+            log: true,
             pause: false,
             s: false,
+            w: false,
             q: false,
             z: 30
         }
@@ -511,7 +653,6 @@
         };
 
         const adjecentSectors3 = [[0,1],[1,-1],[1,0],[1,1]];
-        // const adjecentSectors19 = [[0,1],[1,-1],[1,0],[1,1]];
         // var directions = {
         //     '1': {'x':-1, 'y':1},
         //     '2': {'x':0, 'y':1},
@@ -547,6 +688,7 @@
             })
             s.vh = window.innerHeight;
             s.vw = window.innerWidth;
+            s.hh = Math.sqrt(window.innerWidth**2 + window.innerHeight**2)
             o.x = s.vw/2;
             o.y = s.vh/2;
 
@@ -617,7 +759,7 @@
             // console.log(` ─────────────── `);
         }
         function DrawTags(ctxid = 'canvas_over'){
-            ctx[ctxid].clearRect(0,0,canvas[ctxid].width, canvas[ctxid].height);
+            // ctx[ctxid].clearRect(0,0,canvas[ctxid].width, canvas[ctxid].height);
             let this_ctx = ctx[ctxid];
 
             particles.forEach(p => {
@@ -700,6 +842,477 @@
             }
         }
 
+
+        // class point {
+        //     constructor(x,y){
+        //         this.x = x;
+        //         this.y = y;
+        //     }
+        // }
+
+        class MouseParticle2 {
+            constructor(ctxid, id = 29, speed = 0, xyzd = []){
+                this.ctx = ctx[ctxid];
+                this.canvas = canvas[ctxid];
+                this.depth = (this.canvas.height + this.canvas.width)/2;
+                this.id = id;
+                /* location = ('x', 'y'), and direction = ('d') */
+
+                this.size = 10;
+
+                // this.x = s.vw/2;
+                // this.y = s.vh/2;
+                // this.d = Math.floor(Math.random() * 360);
+                this.speed = speed;
+                
+                if(xyd.length > 0) {
+                    this.x = xyd[0];
+                    this.y = xyd[1];
+                    this.z = xyd[2];
+                    this.d = xyd[3];
+                } else {
+                    this.x = Math.random() * (this.canvas.width - this.size*2) + this.size;
+                    this.y = Math.random() * (this.canvas.height - this.size*2) + this.size;
+                    this.z = Math.random() * (this.depth - this.size*2) + this.size;
+                    this.d = Math.floor(Math.random() * 360);
+                }
+                
+                this.size = 5 + (this.z/this.depth * 10);
+
+
+                // this.hue = this.id * 60;
+                this.huesp = 210 - (this.speed * 30);
+                this.huei = Math.floor(Math.random() * 360);
+                this.hue = 210;
+                this.sat = 100;
+                this.lum = 60;
+                this.lum = 20 + (this.z/this.depth * 40);
+                this.alp = 1;
+                this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+
+                this.path = [[this.x,this.y,this.hue]];
+
+                // this.size = 10;
+                this.rad = 0;
+                this.dx = 0;
+                this.dy = 0;
+                this.vx = 0;
+                this.vy = 0;
+                this.directionUpdate();
+
+                this.forceQueue = [];
+                this.momentumQueue = [];
+
+                this.sid = '';
+                this.stepCount = 0;
+                this.sectorCheck();
+
+                this.mass = 1;
+                this.vel = 1;
+                this.ke = this.mass * this.vel;
+
+                this.tpsp = 0;
+
+                this.trace = [];
+
+                this.idStyle = `background-color: hsla(${this.hue}, 100%, 50%, .2); color: ${this.clr}; padding: .125rem .25rem; border-radius: .25rem;`;
+                this.pstyle = `background-color: ${this.clr}; color: hsl(${this.hue}, 100%, 5%); padding: .125rem .25rem; border-radius: .25rem;`;
+                safeLog([`🌌%cid:${this.id}%c💫 at (%c${this.x.toFixed(1)}%c,%c${this.y.toFixed(1)}%c)`, this.idStyle, 'color: #999;', this.pstyle, 'color: #999;', this.pstyle, 'color: #999;']);
+
+                this.initialTime = new Date();
+                this.time = new Date();
+                this.intervalID = 0;
+            }
+            getTime(){
+                return Date.now() - this.time.getTime();
+                // startStep(){
+                //     this.intervalID = setInterval(this.setStep(), 1000);
+                // }
+                // setStep(){
+                //     if(!s.q && !s.pause){
+                //         this.updateTrace();
+                //     }
+                // }
+                // endStep(){
+                //     clearInterval(this.intervalID);
+                // }
+            }
+            sectorCheck(){
+                /* change it so it takes more than 100, about 20 more on each side. */
+                /* also, so it doesn't delete it unless it is outside of this extra area. */
+                let xid = Math.floor(this.x/100);
+                let yid = Math.floor(this.y/100);
+                let sid = `${xid},${yid}`;
+                // console.log(sid);
+                if(sid != this.sid){
+                    // console.log(`Particle (#${this.id}) → new sid: (${sid})`);
+                    if(this.sid != ''){
+                        delete sector[this.sid][this.id];
+                        sectorGf[this.sid] = Object.keys(sector[this.sid]).length;
+                        if(Object.keys(sector[this.sid]).length == 0) {
+                            delete sector[this.sid];
+                            delete sectorGf[this.sid];
+                        }
+                    }
+                    if(!Object.keys(sector).includes(sid)) {
+                        sector[sid] = {}
+                    }
+                    sector[sid][this.id] = this;
+
+                    sectorGf[sid] = Object.keys(sector[sid]).length;
+                    DrawGf();
+
+                    this.sid = sid;
+                }
+                // console.log(`─────────────────────────────`);
+            }
+            identify(){
+                // console.log(`id:${this.id} → ${this.d}deg.`);
+                console.log(`─────────────────────────────`);
+                console.log(`id:${this.id} \n\t→ a: ${this.d}deg. \n\t→ sp: ${this.speed}. \n\t→ x: ${this.x}, y: ${this.y}`);
+                // console.log(`\t→ x: ${this.x}, y: ${this.y}`);
+                // if(this.forceQueue.length > 0){
+                //     console.log(`\t→ forceQueue: ${this.forceQueue.length}`);
+                // }
+                console.log(`─────────────────────────────`);
+            }
+            identifyXY(){
+                console.log(`\tid:${this.id} move → (x:${this.x}, y:${this.y})`);
+            }
+            updateColors(){
+                // this.hue = 210 - (this.speed%10 * 30);
+                if(!s.huesp){
+                    this.huesp = 210 - (this.speed%10 * 30);
+                    this.hue = this.huesp;
+                } else {
+                    // this.huei += parseFloat((Math.random() * 3 - 1.5).toFixed(2));
+                    this.huei += parseFloat((Math.random() * 3 - 1.5).toFixed(2));
+                    this.hue = this.huei%360;
+
+                    let sat = parseFloat((Math.random() * 2 - 1).toFixed(2));
+                    this.sat += sat;
+                    if(this.sat > 100 || this.sat < 50) { this.sat -= sat*2; }
+                    
+                    // let lum = parseFloat((Math.random() * 2 - 1).toFixed(2));
+                    // this.lum += lum;
+                    // if(this.lum > 70 || this.lum < 20) { this.lum -= lum*2; }
+                    
+                    this.lum = 20 + (this.z/this.depth * 40);
+                }
+                // safeLog([`this.hue: %c${this.hue.toFixed(1)}`, `background-color: hsla(210, 100%, 100%, .2); color: #fff; padding: .125rem .25rem; border-radius: .25rem;`]);
+                this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                this.pstyle = `background-color: ${this.clr}; color: hsl(${this.hue}, 100%, 5%); padding: .125rem .25rem; border-radius: .25rem;`;
+                this.idStyle = `background-color: hsla(${this.hue}, 100%, 50%, .2); color: ${this.clr}; padding: .125rem .25rem; border-radius: .25rem;`;
+            }
+            addForces(){
+                let this_x_force = this.speed * this.dx;
+                let this_y_force = this.speed * this.dy;
+
+                let adding_x_force = this_x_force;
+                let adding_y_force = this_y_force;
+
+                this.forceQueue.forEach(force => {
+                    // console.log(`%cforce.speed: %c${force.speed.toFixed(8)}%c, force.d: %c${force.d.toFixed(1)}°`, "color: white", this.pstyle, "color: white", this.pstyle);
+                    let xy = this.AngleToXY(force.d);
+                    // console.log(`%cxy.x: %c${xy.x}%c, xy.y: %c${xy.y}`, "color: white", this.pstyle, "color: white", this.pstyle);
+                    let fsp = parseFloat(force.speed);
+                    // console.log(`fsp: %c${fsp}`, this.pstyle);
+                    let new_x_force = fsp * xy.x;
+                    let new_y_force = fsp * xy.y;
+                    // console.log(`%cnew_x_force: %c${new_x_force}%c, new_y_force: %c${new_y_force}`, "color: white", this.pstyle, "color: white", this.pstyle);
+
+                    adding_x_force += new_x_force;
+                    adding_y_force += new_y_force;
+                    // console.log(`%cadding_x_force: %c${adding_x_force}%c, adding_y_force: %c${adding_y_force}`, "color: white", this.pstyle, "color: white", this.pstyle);
+                });
+                this.d = this.XYtoAngle(adding_x_force,adding_y_force);
+                this.speed = Math.sqrt(adding_x_force**2 + adding_y_force**2);
+
+                // let nd = this.XYtoAngle(adding_x_force,adding_y_force);
+                // console.log(`📐 nd: %c${nd.toFixed(1)}°`, this.pstyle);
+                // this.d = nd;
+                // let nsp = Math.sqrt(adding_x_force**2 + adding_y_force**2);
+                // console.log(`⏱ nsp: %c${nsp.toFixed(8)}`, this.pstyle);
+                // this.speed = nsp;
+
+                // safeLog([`%c${this.id}%c 📐 this.d: %c${this.d.toFixed(1)}°%c, ⏱ this.speed: %c${this.speed.toFixed(4)}`, `background-color: white; color: black; padding: .125rem .25rem; border-radius: .25rem;`, "color: white", this.pstyle, "color: white", this.pstyle]);
+                // safeLog([`%cid:${this.id}%c 📐 this.d: %c${this.d.toFixed(1)}°%c, ⏱ this.speed: %c${this.speed.toFixed(4)}`, `background-color: hsla(${this.hue}, 100%, 50%, .2); color: ${this.clr}; padding: .125rem .25rem; border-radius: .25rem;`, "color: white", this.pstyle, "color: white", this.pstyle]);
+                // safeLog([`%cid:${this.id}%c 📐 this.d: %c${this.d.toFixed(1)}°%c, ⏱ this.speed: %c${this.speed.toFixed(4)}`, this.idStyle, "color: white", this.pstyle, "color: white", this.pstyle]);
+
+                // if(this.speed > 5) {this.speed = 5;}
+                if(this.speed > 10) {this.speed = 10;}
+                
+                this.forceQueue = [];
+                this.updateColors();
+                this.directionUpdate();
+                this.move();
+            }
+            AngleToXY(angle){
+                angle = angle%360;
+                let rad = angle * Math.PI / 180;
+                let xy = {"x":0,"y":0};
+                if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+                if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+                return xy;
+            }
+            XYtoAngle(x,y){
+                x = Math.round(x*1000);
+                y = Math.round(y*1000);
+                let angle = 0;
+                if(x == 0) {
+                    if(y > 0) {return 90;}
+                    if(y < 0) {return 270;}
+                }
+                if(x < 0) { angle += 180; }
+                if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
+                return angle;
+            }
+            updateTrace(){
+                this.trace.push([this.x,this.y,this.hue,this.getTime()]);
+                if(this.trace.length > 6) {
+                    this.trace.shift();
+                }
+            }
+            updatePath(){
+                this.path.push([this.x,this.y,this.hue]);
+                if(this.path.length > 3) {
+                    this.path.shift();
+                }
+                // ctx['canvas_trace'].fillStyle = '#00000022';
+                // ctx['canvas_trace'].fillRect(0, 0, canvas['canvas_trace'].width, canvas['canvas_trace'].height);
+            }
+            directionUpdate(){
+                // this.d = (this.d+360)%360;
+                this.rad = this.d * Math.PI / 180;
+                if(this.d == 180) {this.dy = 0;} else {this.dy = Math.sin(this.rad);}
+                if(this.d == 90 || this.d == 270) {this.dx = 0;} else {this.dx = Math.cos(this.rad);}
+
+                // this.size = 5 + (this.z/this.depth * 10);
+                // this.vx = this.speed * this.dx;
+                // this.vy = this.speed * this.dy;
+                this.updatePath();
+
+                // this.hue = this.direction - 90;
+                // this.hue = this.hueStart + (this.direction%90) - 45;
+                // this.size -= this.size/8;
+                // if(this.size < 3) this.size = 3;
+
+                // this.collisionCheck();
+            }
+            wallBounce(wall_angle){
+                let aper1 = (wall_angle + 90) % 360;
+                let aper2 = (wall_angle + 270) % 360;
+                let new_angle = 0;
+                let dif = Math.abs(wall_angle - this.d)%180;
+                if(dif != 0) {
+                    let a1 = Math.max(aper1,aper2);
+                    let a2 = Math.min(aper1,aper2);
+                    new_angle = a1 + (a2 - this.d);
+                }
+                this.d = (new_angle + 360) % 360;
+            }
+            followCursor(){
+                let xAway = s.x - this.x;
+                let yAway = s.y - this.y;
+                let dAway = XYtoAngle(xAway,yAway);
+
+                let h2 = Math.sqrt(xAway**2 + yAway**2) - 20;
+                let hd = h2/s.hh;
+
+                // let f0 = hd * 5 + 1;
+                // if(hd > 0.5){
+                //     this.d = dAway;
+                //     this.speed = hd * 5 + 1;
+                //     this.updateColors();
+                //     this.directionUpdate();
+                // } else {
+                //     f0 = hd * 1 - 0.1;
+                //     this.forceQueue.push({'speed':f0, 'd':dAway});
+                // }
+
+                let f0 = hd * .5;
+                // let f0 = hd * 1 + s.fLost;
+                this.forceQueue.push({'speed':f0, 'd':dAway});
+
+                statusReport({'x':xAway,'y':yAway,'d':dAway,'h':h2,'f':this.speed});
+            }
+            mousePull(){
+                let xAway = s.x - this.x;
+                let yAway = s.y - this.y;
+                // let xAway = this.x - s.x;
+                // let yAway = s.x - this.x;
+                // safeLog([`%cxAway: %c${xAway}%c | yAway: %c${yAway}`, 'color: #ccc;', this.pstyle, 'color: #ccc;', this.pstyle]);
+                // let hAway = Math.sqrt(xAway**2 + yAway**2);
+                let h1 = Math.abs(xAway) + Math.abs(yAway);
+                // safeLog([`distance: %c${h1}`, this.pstyle]);
+                let f1 = 0;
+                let dAway = 0;
+                if(h1 > this.size){
+                    f1 = 1 / (h1 + 10);
+                    // safeLog([`force: %c${f1}`, this.pstyle]);
+                    dAway = XYtoAngle(xAway,yAway);
+                    // safeLog([`mouse direction: %c${dAway}`, this.pstyle]);
+
+                    this.forceQueue.push({'speed':f1, 'd':dAway});
+                }
+                // let xyAway = AngleToXY(dAway);
+                // this.x += this.speed * this.xyAway.x;
+                // this.y += this.speed * this.xyAway.y;
+                statusReport({'x':xAway,'y':yAway,'d':dAway,'h':h1,'f':f1});
+            }
+            move(){
+                this.x += this.speed * this.dx;
+                this.y += this.speed * this.dy;
+
+                if(this.x > this.canvas.width-this.size || this.x < this.size){
+                    this.wallBounce(90);
+                    this.directionUpdate();
+                }
+                if(this.y > this.canvas.height-this.size || this.y < this.size){
+                    this.wallBounce(0);
+                    this.directionUpdate();
+                }
+
+                this.stepCount += 1;
+                if(this.stepCount > this.size){
+                    this.updateTrace();
+                    this.sectorCheck();
+                    this.stepCount = 0;
+                }
+
+                // if(this.stepCount > this.size){
+                //     this.updateTrace();
+                // }
+                // this.updateTrace();
+            }
+            update(){
+                if(this.forceQueue.length > 0){
+                    // console.log(`─────`);
+                    this.addForces();
+                    // console.log(`─────`);
+                }
+                if(this.momentumQueue.length > 0){this.addMomentum();}
+
+                this.move();
+                // this.calcSpeed();
+                // this.mousePull();
+                this.followCursor();
+            }
+            drawArrow(){
+                let arrow_len = 10;
+                let arrow_thickness = 10;
+                let nx = this.x + (this.dx * (this.speed + 1) * arrow_len);
+                let ny = this.y + (this.dy * (this.speed + 1) * arrow_len);
+                let nx2 = nx + (this.dx * arrow_thickness);
+                let ny2 = ny + (this.dy * arrow_thickness);
+                let nd = this.rad + (.8 * Math.PI);
+                let nd2 = this.rad - (.8 * Math.PI);
+
+                let ctx_over = ctx['canvas_over'];
+
+                ctx_over.beginPath();
+                ctx_over.lineWidth = arrow_thickness*.5;
+                // // ctx_trace.lineWidth = sz*.5;
+                ctx_over.strokeStyle = '#fffc';
+                ctx_over.moveTo(this.x, this.y);
+                ctx_over.lineTo(nx, ny);
+                ctx_over.stroke();
+
+                ctx_over.beginPath();
+                ctx_over.fillStyle = '#fffc';
+                // ctx_over.arc(nx, ny, 2, nd, Math.PI * .5);
+                // ctx_over.arc(nx, ny, arrow_thickness*2, nd, nd2);
+                ctx_over.arc(nx2, ny2, arrow_thickness, nd, nd2);
+                ctx_over.lineTo(nx2, ny2);
+                ctx_over.fill();
+            }
+            draw(){
+                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                // this.ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                // this.drawPath();
+                if(s.trace){this.drawTrace();}
+
+                this.ctx.beginPath();
+                this.ctx.fillStyle = this.clr;
+                this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                this.ctx.fill();
+
+                // this.drawArrow();
+                if(s.arrow){this.drawArrow();}
+            }
+            drawPath(){
+                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                // let alp2 = 1;
+                if(this.path.length > 1){
+                    this.ctx.beginPath();
+                    let ox = this.x;
+                    let oy =  this.y;
+                    for (let i = this.path.length - 1; i > 0; i--) {
+                        let nx = this.path[i][0];
+                        let ny = this.path[i][1];
+                        this.ctx.lineWidth = i + 2;
+                        let alp2 = (i / this.path.length * .7) + .2;
+                        this.ctx.strokeStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
+                        this.ctx.moveTo(ox, oy);
+                        this.ctx.lineTo(nx, ny);
+                        this.ctx.stroke();
+                        ox = nx;
+                        oy = ny;
+                    }
+                }
+            }
+            drawTrace(){
+
+                // this.ctx.fillStyle = this.clr;
+                // this.ctx.beginPath();
+                // this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                // this.ctx.fill();
+
+                // this.hue = 210 - (this.speed * 36);
+                // let hue = 210 - (this.trace[i][2] * 30);
+
+                if(this.trace.length > 1){
+                    let ctx_trace = ctx['canvas_trace'];
+                    // ctx_trace.beginPath();
+                    let ox = this.x;
+                    let oy = this.y;
+                    for (let i = this.trace.length - 1; i > -1; i--) {
+                        let nx = this.trace[i][0];
+                        let ny = this.trace[i][1];
+
+                        let sz = (i / this.trace.length * 4) + 2;
+                        // let sz = i+1;
+                        // let hue = 210 - (this.trace[i][2] * 30);
+                        // let hue = this.trace[i][2];
+                        // let alp2 = (i / this.trace.length * .7) + .2;
+                        // let alp2 = (i / this.trace.length * .75) + .05;
+                        // let alp2 = 1;
+                        // let clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
+                        // let clr = `hsla(${hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
+
+                        // ctx_trace.beginPath();
+                        // ctx_trace.lineWidth = 1;
+                        // // ctx_trace.lineWidth = sz*.5;
+                        // ctx_trace.strokeStyle = clr;
+                        // ctx_trace.moveTo(ox, oy);
+                        // ctx_trace.lineTo(nx, ny);
+                        // ctx_trace.stroke();
+
+                        ctx_trace.beginPath();
+                        // ctx_trace.fillStyle = clr;
+                        ctx_trace.fillStyle = this.clr;
+                        // let sz = i%2+1;
+                        // let sz = (i / this.trace.length * 3) + 2;
+                        ctx_trace.arc(nx, ny, sz, 0, Math.PI * 2);
+                        ctx_trace.fill();
+
+                        ox = nx;
+                        oy = ny;
+                    }
+                }
+            }
+        }
+
         class MouseParticle {
             constructor(ctxid, id = 89){
                 this.ctx = ctx[ctxid];
@@ -708,11 +1321,14 @@
                 /* location = ('x', 'y'), and direction = ('d') */
 
                 this.size = 10;
+
+
                 this.x = s.vw/2;
                 this.y = s.vh/2;
                 // this.x = s.x;
                 // this.y = s.y;
-                this.d = 0;
+                // this.d = 0;
+                this.d = Math.floor(Math.random() * 360);
                 this.speed = 0;
                 
                 // if(xyd.length > 0) {
@@ -727,7 +1343,9 @@
 
 
                 // this.hue = this.id * 60;
-                this.hue = 210 - (this.speed * 30);
+                this.huesp = 210 - (this.speed * 30);
+                this.huei = Math.floor(Math.random() * 360);
+                this.hue = 210;
                 this.sat = 100;
                 this.lum = 60;
                 this.alp = 1;
@@ -822,31 +1440,15 @@
             identifyXY(){
                 console.log(`\tid:${this.id} move → (x:${this.x}, y:${this.y})`);
             }
-            addMomentum(){
-                PrintObj(this.momentumQueue, `momentumQueue:${this.id}`);
-                // let this_x_force = this.speed * this.dx;
-                // let this_y_force = this.speed * this.dy;
-
-                // this.vx = this.speed * this.dx;
-                // this.vy = this.speed * this.dy;
-
-                let adding_x_force = this.vx;
-                let adding_y_force = this.vy;
-
-                this.momentumQueue.forEach(dm => {
-                    adding_x_force += dm.dxq;
-                    adding_y_force += dm.dyq;
-                });
-                this.d = this.XYtoAngle(adding_x_force,adding_y_force);
-                this.speed = Math.sqrt(adding_x_force**2 + adding_y_force**2);
-                if(this.speed > 15) {this.speed = 15;}
-
-                this.momentumQueue = [];
-                this.directionUpdate();
-                this.move();
-            }
             updateColors(){
-                this.hue = 210 - (this.speed%10 * 30);
+                // this.hue = 210 - (this.speed%10 * 30);
+                if(!s.huesp){
+                    this.huesp = 210 - (this.speed%10 * 30);
+                    this.hue = this.huesp;
+                } else {
+                    this.huei += parseFloat((Math.random() * 3 - 1.5).toFixed(2));
+                    this.hue = this.huei;
+                }
                 // safeLog([`this.hue: %c${this.hue.toFixed(1)}`, `background-color: hsla(210, 100%, 100%, .2); color: #fff; padding: .125rem .25rem; border-radius: .25rem;`]);
                 this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
                 this.pstyle = `background-color: ${this.clr}; color: hsl(${this.hue}, 100%, 5%); padding: .125rem .25rem; border-radius: .25rem;`;
@@ -891,7 +1493,6 @@
                 if(this.speed > 10) {this.speed = 10;}
                 
                 this.updateColors();
-
                 this.forceQueue = [];
                 this.directionUpdate();
                 this.move();
@@ -936,8 +1537,8 @@
                 if(this.d == 180) {this.dy = 0;} else {this.dy = Math.sin(this.rad);}
                 if(this.d == 90 || this.d == 270) {this.dx = 0;} else {this.dx = Math.cos(this.rad);}
 
-                this.vx = this.speed * this.dx;
-                this.vy = this.speed * this.dy;
+                // this.vx = this.speed * this.dx;
+                // this.vy = this.speed * this.dy;
                 this.updatePath();
 
                 // this.hue = this.direction - 90;
@@ -960,73 +1561,83 @@
                 this.d = (new_angle + 360) % 360;
             }
             calcSpeed(){
-                let total_distance = 0;
-                let total_time = 0;
-                let total_speed = 0;
-                if(this.trace.length > 1){
+                // let total_distance = 0;
+                // let total_time = 0;
+                // let total_speed = 0;
+                // if(this.trace.length > 1){
 
-                    // this.trace.forEach(point => {
-                    //     total_distance += Math.sqrt(this.x**2 + this.y**2);
-                    // });
+                //     // this.trace.forEach(point => {
+                //     //     total_distance += Math.sqrt(this.x**2 + this.y**2);
+                //     // });
 
-                    let ox = this.trace[0][0];
-                    let oy = this.trace[0][1];
-                    let ohue = this.trace[0][2];
-                    let otime = this.trace[0][3];
-                    for (let i = 1; i < this.trace.length; i++) {
-                        let nx = ox - this.trace[i][0];
-                        let ny = oy - this.trace[i][1];
-                        // let nhue = this.trace[i][2];
-                        // let ntime = this.trace[i][3];
+                //     let ox = this.trace[0][0];
+                //     let oy = this.trace[0][1];
+                //     let ohue = this.trace[0][2];
+                //     let otime = this.trace[0][3];
+                //     for (let i = 1; i < this.trace.length; i++) {
+                //         let nx = ox - this.trace[i][0];
+                //         let ny = oy - this.trace[i][1];
+                //         // let nhue = this.trace[i][2];
+                //         // let ntime = this.trace[i][3];
 
-                        total_distance += Math.sqrt(nx**2 + ny**2);
+                //         total_distance += Math.sqrt(nx**2 + ny**2);
                         
-                        ox = this.trace[i][0];
-                        oy = this.trace[i][1];
+                //         ox = this.trace[i][0];
+                //         oy = this.trace[i][1];
 
-                        // ox = nx;
-                        // oy = ny;
-                        // ohue = nhue;
-                        // otime = ntime;
-                    }
-                    total_time = this.trace[this.trace.length-1][3] - this.trace[0][3];
-                    // safeLog([`total_distance: %c${total_distance}`, this.idStyle]);
-                    // safeLog([`total_time: %c${total_time}`, this.idStyle]);
+                //         // ox = nx;
+                //         // oy = ny;
+                //         // ohue = nhue;
+                //         // otime = ntime;
+                //     }
+                //     total_time = this.trace[this.trace.length-1][3] - this.trace[0][3];
+                //     // safeLog([`total_distance: %c${total_distance}`, this.idStyle]);
+                //     // safeLog([`total_time: %c${total_time}`, this.idStyle]);
     
-                    total_speed = total_distance/total_time*10;
-                    // safeLog([`total_speed: %c${total_speed}`, this.pstyle]);
-                    // safeLog([`total_speed: %c${total_speed}`, `background-color: hsla(210, 100%, 100%, .2); color: #fff; padding: .125rem .25rem; border-radius: .25rem;`]);
+                //     total_speed = total_distance/total_time*10;
+                //     // safeLog([`total_speed: %c${total_speed}`, this.pstyle]);
+                //     // safeLog([`total_speed: %c${total_speed}`, `background-color: hsla(210, 100%, 100%, .2); color: #fff; padding: .125rem .25rem; border-radius: .25rem;`]);
+                // }
+                // // console.log(`gf: %c${gf}`, "color: #06f");
+                // this.speed = total_speed;
+                // this.updateColors();
+            }
+            mousePull(){
+                let xAway = s.x - this.x;
+                let yAway = s.y - this.y;
+                // let xAway = this.x - s.x;
+                // let yAway = s.x - this.x;
+                // safeLog([`%cxAway: %c${xAway}%c | yAway: %c${yAway}`, 'color: #ccc;', this.pstyle, 'color: #ccc;', this.pstyle]);
+                // let hAway = Math.sqrt(xAway**2 + yAway**2);
+                let h1 = Math.abs(xAway) + Math.abs(yAway);
+                // safeLog([`distance: %c${h1}`, this.pstyle]);
+                let f1 = 0;
+                let dAway = 0;
+                if(h1 > this.size){
+                    f1 = 1 / (h1 + 10);
+                    // safeLog([`force: %c${f1}`, this.pstyle]);
+                    dAway = XYtoAngle(xAway,yAway);
+                    // safeLog([`mouse direction: %c${dAway}`, this.pstyle]);
+
+                    this.forceQueue.push({'speed':f1, 'd':dAway});
                 }
-                // console.log(`gf: %c${gf}`, "color: #06f");
-                this.speed = total_speed;
-                this.updateColors();
+                // let xyAway = AngleToXY(dAway);
+                // this.x += this.speed * this.xyAway.x;
+                // this.y += this.speed * this.xyAway.y;
+                statusReport({'x':xAway,'y':yAway,'d':dAway,'h':h1,'f':f1});
             }
             move(){
-                // if(s.x != this.x){
-                //     this.x = s.x;
-                // }
-                // if(s.y != this.y){
-                //     this.y = s.y;
-                // }
-                if(s.x != this.x || s.y != this.y){
-                    this.x = s.x;
-                    this.y = s.y;
-                    // this.updateTrace();
-                    // this.sectorCheck();
+                this.x += this.speed * this.dx;
+                this.y += this.speed * this.dy;
+
+                if(this.x > this.canvas.width-this.size || this.x < this.size){
+                    this.wallBounce(90);
+                    this.directionUpdate();
                 }
-
-
-                // this.x += this.speed * this.dx;
-                // this.y += this.speed * this.dy;
-
-                // if(this.x > this.canvas.width-this.size || this.x < this.size){
-                //     this.wallBounce(90);
-                //     this.directionUpdate();
-                // }
-                // if(this.y > this.canvas.height-this.size || this.y < this.size){
-                //     this.wallBounce(0);
-                //     this.directionUpdate();
-                // }
+                if(this.y > this.canvas.height-this.size || this.y < this.size){
+                    this.wallBounce(0);
+                    this.directionUpdate();
+                }
 
                 this.stepCount += 1;
                 if(this.stepCount > this.size){
@@ -1049,21 +1660,50 @@
                 if(this.momentumQueue.length > 0){this.addMomentum();}
 
                 this.move();
-                this.calcSpeed();
+                // this.calcSpeed();
+                this.mousePull();
+            }
+            drawArrow(){
+                let arrow_len = 10;
+                let arrow_thickness = 10;
+                let nx = this.x + (this.dx * (this.speed + 1) * arrow_len);
+                let ny = this.y + (this.dy * (this.speed + 1) * arrow_len);
+                let nx2 = nx + (this.dx * arrow_thickness);
+                let ny2 = ny + (this.dy * arrow_thickness);
+                let nd = this.rad + (.8 * Math.PI);
+                let nd2 = this.rad - (.8 * Math.PI);
+
+                let ctx_over = ctx['canvas_over'];
+
+                ctx_over.beginPath();
+                ctx_over.lineWidth = arrow_thickness*.5;
+                // // ctx_trace.lineWidth = sz*.5;
+                ctx_over.strokeStyle = '#fffc';
+                ctx_over.moveTo(this.x, this.y);
+                ctx_over.lineTo(nx, ny);
+                ctx_over.stroke();
+
+                ctx_over.beginPath();
+                ctx_over.fillStyle = '#fffc';
+                // ctx_over.arc(nx, ny, 2, nd, Math.PI * .5);
+                // ctx_over.arc(nx, ny, arrow_thickness*2, nd, nd2);
+                ctx_over.arc(nx2, ny2, arrow_thickness, nd, nd2);
+                ctx_over.lineTo(nx2, ny2);
+                ctx_over.fill();
             }
             draw(){
-                // this.hue = 210 - (this.speed * 36);
                 // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
-                // this.drawPath();
-                this.drawTrace();
-
                 // this.ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
-                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
-                this.ctx.fillStyle = this.clr;
-                
+                // this.drawPath();
+                if(s.trace){this.drawTrace();}
+
                 this.ctx.beginPath();
+                this.ctx.fillStyle = this.clr;
                 this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 this.ctx.fill();
+
+                // this.drawArrow();
+                if(s.arrow){this.drawArrow();}
             }
             drawPath(){
                 // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
@@ -1108,23 +1748,24 @@
                         let sz = (i / this.trace.length * 4) + 2;
                         // let sz = i+1;
                         // let hue = 210 - (this.trace[i][2] * 30);
-                        let hue = this.trace[i][2];
+                        // let hue = this.trace[i][2];
                         // let alp2 = (i / this.trace.length * .7) + .2;
-                        let alp2 = (i / this.trace.length * .75) + .05;
+                        // let alp2 = (i / this.trace.length * .75) + .05;
                         // let alp2 = 1;
                         // let clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
-                        let clr = `hsla(${hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
+                        // let clr = `hsla(${hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
+
+                        // ctx_trace.beginPath();
+                        // ctx_trace.lineWidth = 1;
+                        // // ctx_trace.lineWidth = sz*.5;
+                        // ctx_trace.strokeStyle = clr;
+                        // ctx_trace.moveTo(ox, oy);
+                        // ctx_trace.lineTo(nx, ny);
+                        // ctx_trace.stroke();
 
                         ctx_trace.beginPath();
-                        ctx_trace.lineWidth = 1;
-                        // ctx_trace.lineWidth = sz*.5;
-                        ctx_trace.strokeStyle = clr;
-                        ctx_trace.moveTo(ox, oy);
-                        ctx_trace.lineTo(nx, ny);
-                        ctx_trace.stroke();
-
-                        ctx_trace.beginPath();
-                        ctx_trace.fillStyle = clr;
+                        // ctx_trace.fillStyle = clr;
+                        ctx_trace.fillStyle = this.clr;
                         // let sz = i%2+1;
                         // let sz = (i / this.trace.length * 3) + 2;
                         ctx_trace.arc(nx, ny, sz, 0, Math.PI * 2);
@@ -1137,12 +1778,6 @@
             }
         }
 
-        // class point {
-        //     constructor(x,y){
-        //         this.x = x;
-        //         this.y = y;
-        //     }
-        // }
         class Particle3 {
             constructor(ctxid, id = -1, speed = 1, xyd = []){
                 this.ctx = ctx[ctxid];
@@ -1484,24 +2119,12 @@
                 }
                 // if(this.momentumQueue.length > 0){this.addMomentum();}
                 
-                this.reSize();
+                // this.reSize();
                 this.move();
             }
             draw(){
-                // this.hue = 210 - (this.speed * 36);
-                // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
                 // this.drawPath();
-                // this.drawTrace();
-                if(s.trace && !s.quid){
-                    this.drawTrace();
-                }
-                // if(s.trace){
-                //     if(s.quid) {
-                //         this.drawQuidTrace()
-                //     } else {
-                //         this.drawTrace();
-                //     }
-                // }
+                if(s.trace){this.drawTrace();}
 
                 // this.ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
                 // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
@@ -1511,12 +2134,11 @@
                 // this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 // this.ctx.fill();
 
-                this.ctx.beginPath();
-
+                // this.ctx.beginPath();
                 // this.alp = .75;
                 // this.alp = .3;
                 // this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
-                this.ctx.fillStyle = this.clr;
+                // this.ctx.fillStyle = this.clr;
                 // if(s.quid){
                 //     // this.ctx.filter = `blur(6px) url(#quid)`;
                 //     // this.ctx.filter = `drop-shadow(0px 0px 8px ${this.clr}) blur(6px) url(#quid)`;
@@ -1528,19 +2150,19 @@
                 //     // this.ctx.filter = `drop-shadow(0px 0px 8px #39f) blur(4px)`;
                 //     this.ctx.filter = `drop-shadow(0px 0px 5px #f39) blur(6px)`;
                 // }
-
-                if(s.quid){
-                    this.ctx.filter = `blur(6px)`;
-                    this.ctx.arc(this.x, this.y, this.size*2, 0, Math.PI * 2);
-                } else {
-                    this.ctx.filter = `blur(0px)`;
-                    this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                }
-
+                // if(s.quid){
+                //     this.ctx.filter = `blur(6px)`;
+                //     this.ctx.arc(this.x, this.y, this.size*2, 0, Math.PI * 2);
+                // } else {
+                //     this.ctx.filter = `blur(0px)`;
+                //     this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                // }
                 // this.ctx.filter = `blur(6px)`;
                 // // this.ctx.filter = `blur(12px)`;
 
-                // this.ctx.arc(this.x, this.y, this.size*2, 0, Math.PI * 2);
+                this.ctx.beginPath();
+                this.ctx.fillStyle = this.clr;
+                this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 this.ctx.fill();
             }
             drawPath(){
@@ -1583,63 +2205,27 @@
                         let ny = this.trace[i][1];
 
                         let sz = (i / this.trace.length * 4) + 2;
-                        // let sz = i+1;
-                        // let hue = 210 - (this.trace[i][2] * 30);
-                        let hue = this.trace[i][2];
-                        // let alp2 = (i / this.trace.length * .7) + .2;
-                        let alp2 = (i / this.trace.length * .75) + .05;
-                        // let alp2 = 1;
-                        // let clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
-                        let clr = `hsla(${hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
+                        // // let sz = i+1;
+                        // // let hue = 210 - (this.trace[i][2] * 30);
+                        // let hue = this.trace[i][2];
+                        // // let alp2 = (i / this.trace.length * .7) + .2;
+                        // let alp2 = (i / this.trace.length * .75) + .05;
+                        // // let alp2 = 1;
+                        // // let clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
+                        // let clr = `hsla(${hue}, ${this.sat}%, ${this.lum}%, ${alp2})`;
 
+                        // ctx_trace.beginPath();
+                        // ctx_trace.lineWidth = 1;
+                        // // ctx_trace.lineWidth = sz*.5;
+                        // ctx_trace.strokeStyle = clr;
+                        // ctx_trace.moveTo(ox, oy);
+                        // ctx_trace.lineTo(nx, ny);
+                        // ctx_trace.stroke();
+                        
                         ctx_trace.beginPath();
-                        ctx_trace.lineWidth = 1;
-                        // ctx_trace.lineWidth = sz*.5;
-                        ctx_trace.strokeStyle = clr;
-                        ctx_trace.moveTo(ox, oy);
-                        ctx_trace.lineTo(nx, ny);
-                        ctx_trace.stroke();
-
-                        ctx_trace.beginPath();
-                        ctx_trace.fillStyle = clr;
-                        // let sz = i%2+1;
-                        // let sz = (i / this.trace.length * 3) + 2;
-                        ctx_trace.arc(nx, ny, sz, 0, Math.PI * 2);
-                        ctx_trace.fill();
-
-                        ox = nx;
-                        oy = ny;
-                    }
-                }
-            }
-            drawQuidTrace(){
-
-                // this.ctx.fillStyle = this.clr;
-                // this.ctx.beginPath();
-                // this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                // this.ctx.fill();
-
-                if(this.trace.length > 1){
-                    // let szUp = 1;
-                    let ctx_trace = ctx['canvas_orbit'];
-                    // if(s.quid){let ctx_trace = this.ctx;}
-                    
-                    // ctx_trace.beginPath();
-                    // let ox = this.x;
-                    // let oy = this.y;
-                    let ox = this.trace[0][0];
-                    let oy = this.trace[0][1];
-                    for (let i = 1; i < this.trace.length - 1; i++) {
-                        let nx = this.trace[i][0];
-                        let ny = this.trace[i][1];
-
-                        // let sz = (i / this.trace.length * 4) + 2;
-
-                        ctx_trace.beginPath();
+                        // ctx_trace.fillStyle = clr;
                         ctx_trace.fillStyle = this.clr;
-                        // ctx_trace.filter = `blur(2px)`;
-                        // ctx_trace.arc(nx, ny, sz*2, 0, Math.PI * 2);
-                        ctx_trace.arc(nx, ny, this.size, 0, Math.PI * 2);
+                        ctx_trace.arc(nx, ny, sz, 0, Math.PI * 2);
                         ctx_trace.fill();
 
                         ox = nx;
@@ -2129,8 +2715,9 @@
 
         function start(){
             // particles.push(new MouseParticle('canvas_orbit'));
+            // particles.push(new MouseParticle2('canvas_orbit'));
 
-            let count = 12;
+            let count = 3;
             for (let index = 0; index < count; index++) {
                 // particles.push(new Particle(id = index, speed = 1));
                 // particles.push(new Particle(id = index, speed = 3));
@@ -2145,7 +2732,10 @@
                 // let sp = index/2;
                 // let sp = ((index)%6)/2;
                 // particles.push(new Particle3(ctx['canvas_orbit'], id = index, speed = sp));
-                particles.push(new Particle3('canvas_orbit', id = index, speed = sp));
+                // particles.push(new Particle3('canvas_orbit', id = index, speed = sp));
+                // particles.push(new MouseParticle2('canvas_orbit', id = index, speed = sp));
+                // particles.push(new MouseParticle2('canvas_orbit', id = index, speed = sp, xyzd = [150,250, 0, 0]));
+                particles.push(new MouseParticle2('canvas_orbit', id = index, speed = sp));
             }
 
             // /* particle moving horizontally */
@@ -2193,10 +2783,10 @@
 
         function handleParticles(){
             safeLog(`───`, 'color: #555;');
-            // pairing(particles);
-            // sectorCheck();
-            // ParticleGfCheck();
-            SectorCheck3();
+            // // pairing(particles);
+            // // sectorCheck();
+            // // ParticleGfCheck();
+            // SectorCheck3();
             for (let index = 0; index < particles.length; index++) {
                 const element = particles[index];
                 element.update();
@@ -2222,7 +2812,7 @@
             if(s.tags){
                 DrawTags();
             }
-            ParticleGfCheck();
+            // ParticleGfCheck();
         }
         function animate (){
             // ctx.clearRect(0,0,canvas.width, canvas.height);
@@ -2247,15 +2837,16 @@
                 // }
 
                 if(s.trace){
-                    // ctx['canvas_trace'].fillStyle = '#00000005';
-                    ctx['canvas_trace'].fillStyle = '#00000022';
-                    ctx['canvas_trace'].fillRect(0, 0, canvas['canvas_trace'].width, canvas['canvas_trace'].height);
-                    // ctx['canvas_trace'].clearRect(0,0,canvas['canvas_trace'].width, canvas['canvas_trace'].height);
+                    // // ctx['canvas_trace'].fillStyle = '#00000005';
+                    // // ctx['canvas_trace'].fillStyle = '#00000022';
+                    // ctx['canvas_trace'].fillStyle = '#00000002';
+                    // ctx['canvas_trace'].fillRect(0, 0, canvas['canvas_trace'].width, canvas['canvas_trace'].height);
+                    // // ctx['canvas_trace'].clearRect(0,0,canvas['canvas_trace'].width, canvas['canvas_trace'].height);
                 }
 
                 ctx['canvas_orbit'].clearRect(0,0,canvas['canvas_orbit'].width, canvas['canvas_orbit'].height);
 
-                if(s.tags){
+                if(s.tags || s.arrow){
                     ctx['canvas_over'].clearRect(0,0,canvas['canvas_over'].width, canvas['canvas_over'].height);
                 }
 
@@ -2323,6 +2914,8 @@
             settingsLog([`%cs%c.q:%c${s.q}`, sStyle.s, sStyle.n, sStyle.bool]);
             let infoModal = document.getElementById('info');
             infoModal.dataset.display = s.q;
+
+            ctx['canvas_trace'].clearRect(0,0,canvas['canvas_trace'].width, canvas['canvas_trace'].height);
         }
         function openS(){
             if(!s.q){
@@ -2330,6 +2923,14 @@
                 settingsLog([`%cs%c.s:%c${s.s}`, sStyle.s, sStyle.n, sStyle.bool]);
                 let settingsBtn = document.getElementById('settings');
                 settingsBtn.dataset.display = s.s;
+            }
+        }
+        function openW(){
+            if(!s.q){
+                s.w ? s.w = false : s.w = true;
+                settingsLog([`%cs%c.w:%c${s.w}`, sStyle.s, sStyle.n, sStyle.bool]);
+                let myConsoleElem = document.getElementById('myconsole');
+                myConsoleElem.dataset.display = s.w;
             }
         }
         function pause(){
@@ -2374,30 +2975,30 @@
             }
         }
         function speedSize(){
-            if(!s.q){
-                s.speedsize ? s.speedsize = false : s.speedsize = true;
-                settingsLog([`%cs%c.speedsize:%c${s.speedsize}`, sStyle.s, sStyle.n, sStyle.bool]);
-                let spszBtn = document.getElementById('speedsize');
-                if(s.speedsize){
-                    spszBtn.dataset.switch = 'on';
-                } else {
-                    spszBtn.dataset.switch = 'off';
-                }
-            }
+            // if(!s.q){
+            //     s.speedsize ? s.speedsize = false : s.speedsize = true;
+            //     settingsLog([`%cs%c.speedsize:%c${s.speedsize}`, sStyle.s, sStyle.n, sStyle.bool]);
+            //     let spszBtn = document.getElementById('speedsize');
+            //     if(s.speedsize){
+            //         spszBtn.dataset.switch = 'on';
+            //     } else {
+            //         spszBtn.dataset.switch = 'off';
+            //     }
+            // }
         }
         function liQuid(){
-            if(!s.q){
-                s.quid ? s.quid = false : s.quid = true;
-                settingsLog([`%cs%c.quid:%c${s.quid}`, sStyle.s, sStyle.n, sStyle.bool]);
-                let canvas_orbit_element = document.getElementById('canvas_orbit');
-                canvas_orbit_element.dataset.quid = s.quid;
-                let quidBtn = document.getElementById('quid');
-                if(s.quid){
-                    quidBtn.dataset.switch = 'on';
-                } else {
-                    quidBtn.dataset.switch = 'off';
-                }
-            }
+            // if(!s.q){
+            //     s.quid ? s.quid = false : s.quid = true;
+            //     settingsLog([`%cs%c.quid:%c${s.quid}`, sStyle.s, sStyle.n, sStyle.bool]);
+            //     let canvas_orbit_element = document.getElementById('canvas_orbit');
+            //     canvas_orbit_element.dataset.quid = s.quid;
+            //     let quidBtn = document.getElementById('quid');
+            //     if(s.quid){
+            //         quidBtn.dataset.switch = 'on';
+            //     } else {
+            //         quidBtn.dataset.switch = 'off';
+            //     }
+            // }
         }        
         function hueSp(){
             if(!s.q){
@@ -2410,6 +3011,18 @@
                     hueBtn.dataset.switch = 'on';
                 } else {
                     hueBtn.dataset.switch = 'off';
+                }
+            }
+        }
+        function arrowForward(){
+            if(!s.q){
+                s.arrow ? s.arrow = false : s.arrow = true;
+                settingsLog([`%cs%c.arrow:%c${s.arrow}`, sStyle.s, sStyle.n, sStyle.bool]);
+                let arrowBtn = document.getElementById('arrow');
+                if(s.arrow){
+                    arrowBtn.dataset.switch = 'on';
+                } else {
+                    arrowBtn.dataset.switch = 'off';
                 }
             }
         }
@@ -2437,6 +3050,9 @@
                 if(event.key == 's' || event.key == 'S') {
                     openS();
                 }
+                if(event.key == 'w' || event.key == 'W') {
+                    openW();
+                }
                 if(event.key == 'l' || event.key == 'L') {
                     toggleLog();
                 }
@@ -2447,7 +3063,7 @@
                     speedSize();
                 }
                 if(event.key == 't' || event.key == 'T') {
-                    // toggleCanvas('canvas_trace');
+                    toggleCanvas('canvas_trace');
                 }
                 if(event.key == 'g' || event.key == 'G') {
                     toggleCanvas('canvas_grid');
@@ -2463,6 +3079,9 @@
                 if(event.key == 'h' || event.key == 'H') {
                     // s.huesp ? s.huesp = false : s.huesp = true;
                     hueSp();
+                }
+                if(event.key == 'a' || event.key == 'A') {
+                    arrowForward();
                 }
             }
 
@@ -2489,7 +3108,7 @@
             StartLayers();
             DrawGrid(ctx['canvas_grid']);
             updateLayout();
-            updateFilters();
+            // updateFilters();
             
             start();
             initialSpeed = CheckSpeed();
@@ -2500,6 +3119,17 @@
 
             animate();
         });
+
+        // {'x':xAway,'y':yAway,'d':dAway,'h':h1,'f':f1}
+        var statusFormat = ['x','y','d','h','f'];
+        var statusForm = {'x':0,'y':0,'d':0,'h':0,'f':0};
+        var statusFix = {'x':2,'y':2,'d':1,'h':0,'f':4};
+        function statusReport(report = {'x':0,'y':0,'d':0,'h':0,'f':0}){
+            statusFormat.forEach(k => {
+                let output = document.getElementById(`s.${k}`);
+                output.innerText = report[k].toFixed(statusFix[k]);
+            });
+        }
 
         function PrintPath(ob){
             let rootStyle = 'background-color: #d2c057; color: #000000; border-radius: .25rem; padding: .125rem .25rem;';

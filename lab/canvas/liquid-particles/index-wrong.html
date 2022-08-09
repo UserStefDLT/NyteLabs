@@ -487,12 +487,12 @@
             gfamp: 10,
             gf_reduction: 100,
             gf_amplification: 10,
-            fLost: .1,
+            fLost: .5,
 
-            gf_active: true,
+            gf_active: false,
 
             huesp: true,
-            quid: true,
+            quid: false,
             speedsize: false,
             trace: false,
             tags: false,
@@ -2130,13 +2130,13 @@
         function start(){
             // particles.push(new MouseParticle('canvas_orbit'));
 
-            let count = 12;
+            let count = 24;
             for (let index = 0; index < count; index++) {
                 // particles.push(new Particle(id = index, speed = 1));
                 // particles.push(new Particle(id = index, speed = 3));
                 // particles.push(new Particle(id = index, speed = index));
                 // particles.push(new Particle(id = index, speed = 10));
-                let sp = .5;
+                let sp = .1;
                 // let sp = .1;
                 // let sp = 0;
                 // let sp = index;

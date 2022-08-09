@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Quid Dropplets | Canvas Exp | NyteLabs</title>
+    <title>Cloud Dropplets | Canvas Exp | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <!-- <link rel="stylesheet" href="../../../stylesheets/radio-nav.css"> -->
@@ -68,7 +68,7 @@
             position: absolute;
             position: fixed;
             /* min-height: 50vh; */
-            max-height: 50vh;
+            max-height: 70vh;
 
             min-width: 120px;
             width: 30vw;
@@ -184,6 +184,7 @@
         #gf_active[data-switch="on"] {--shw-clr: #93f9; background-color: #93f9;}
         #speedsize[data-switch="on"] {--shw-clr: #f339; background-color: #f339;}
         #quid[data-switch="on"] {--shw-clr: #3ff9; background-color: #3ff9;}
+        #cloud[data-switch="on"] {--shw-clr: #ccc9; background-color: #ccc9;}
         #huesp[data-switch="on"] {--shw-clr: #fff9; background-color: #fff9; background-image: linear-gradient(to bottom right,#39f9, #f399, #3f99, #f939);}
         /* #grid[data-switch="on"] {--shw-clr: #9999; background-color: #9999;}
         #trace[data-switch="on"] {--shw-clr: #3f99; background-color: #3f99;} */
@@ -351,7 +352,10 @@
     </style>
     <style>
         /* #canvas_orbit[data-quid='true'] {filter: url(#quid-50_20);} */
-        #canvas_orbit[data-quid='true'] {filter: blur(8px) url(#quid-50_20);}
+        /* #canvas_orbit[data-quid='true'] {filter: blur(8px) url(#quid-50_20);} */
+        /* #canvas_orbit[data-cloud='true'] {filter: blur(8px) url(#cloudy-f012-o5-sc100);} */
+        #canvas_orbit[data-filter='quid'] {filter: blur(8px) url(#quid-50_20);}
+        #canvas_orbit[data-filter='cloud'] {filter: blur(8px) url(#cloudy-f012-o5-sc100);}
         /* #canvas_orbit {filter: url(#quid);} */
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
@@ -359,7 +363,7 @@
 <body>
     <header>
         <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
-        <div class="title">Quid Dropplets</div>
+        <div class="title">Cloud Dropplets</div>
         <!-- <div class="subtitle">Attempt to make liquid looking like particles</div> -->
         <!-- <div class="xInfo" onclick="q()">info</div> -->
         <div class="xInfo" onclick="q()">i</div>
@@ -385,6 +389,7 @@
         <div class="row"><button id="gf_active" onclick="toggleGravity()" class="sbtn" data-switch="off">gravity</button></div>
         <div class="row"><button id="speedsize" onclick="speedSize()" class="sbtn" data-switch="off">speed size</button></div>
         <div class="row"><button id="quid" onclick="liQuid()" class="sbtn" data-switch="off">liquid</button></div>
+        <div class="row"><button id="cloud" onclick="liCloud()" class="sbtn" data-switch="off">cloudy</button></div>
         <div class="row"><button id="huesp" onclick="hueSp()" class="sbtn" data-switch="off">hue</button></div>
 
         <div class="row"><button id="grid" onclick="toggleCanvas('canvas_grid')" class="sbtn" data-toggle-layer="false" data-canvas="canvas_grid">grid</button></div>
@@ -407,6 +412,7 @@
         <div class="row"><kbd>F</kbd> <span>toggles the gravity.</span></div>
         <div class="row"><kbd>O</kbd> <span>toggles size lock, allowing size to be dependent on speed.</span></div>
         <div class="row"><kbd>Q</kbd> <span>toggles the liquid effect.</span></div>
+        <div class="row"><kbd>C</kbd> <span>toggles the liquid effect.</span></div>
         <div class="row"><kbd>H</kbd> <span>toggles hue of the particles.</span></div>
         <!-- <div class="row"><kbd>&nbsp;</kbd> <span>pauses the particles.</span></div> -->
         <div class="row"><kbd>Space</kbd> <span>pauses the particles.</span></div>
@@ -417,6 +423,10 @@
 
 <svg style='display: none;'>
     <defs>
+        <filter id="cloudy-f012-o5-sc100" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="5" />
+            <feDisplacementMap in="SourceGraphic" scale="100" />
+        </filter>
         <filter id="quid-50_20" x="-25%" y="-25%" width="150%" height="150%">
             <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
                     0 1 0 0 0
@@ -489,10 +499,11 @@
             gf_amplification: 10,
             fLost: .1,
 
-            gf_active: true,
+            gf_active: false,
 
             huesp: true,
-            quid: true,
+            cloud: false,
+            quid: false,
             speedsize: false,
             trace: false,
             tags: false,
@@ -1285,6 +1296,11 @@
                     this.huei += parseFloat((Math.random() * 3 - 1.5).toFixed(2));
                     this.hue = this.huei;
                 }
+                if(s.cloud) {
+                    this.lum = 100;
+                } else {
+                    this.lum = 60;
+                }
                 this.clr = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
                 this.pstyle = `background-color: ${this.clr}; color: hsl(${this.hue}, 100%, 5%); padding: .125rem .25rem; border-radius: .25rem;`;
                 this.idStyle = `background-color: hsla(${this.hue}, 100%, 50%, .2); color: ${this.clr}; padding: .125rem .25rem; border-radius: .25rem;`;
@@ -1529,7 +1545,7 @@
                 //     this.ctx.filter = `drop-shadow(0px 0px 5px #f39) blur(6px)`;
                 // }
 
-                if(s.quid){
+                if(s.quid || s.cloud){
                     this.ctx.filter = `blur(6px)`;
                     this.ctx.arc(this.x, this.y, this.size*2, 0, Math.PI * 2);
                 } else {
@@ -1932,7 +1948,7 @@
             
             // safeLog([`%c⏱ total_speed: ${total_speed.toFixed(4)}`, timeStyle]);
             
-            if(total_speed > 200) {
+            if(total_speed > 100) {
                 safeLog([`%c⏱ total_speed: ${total_speed.toFixed(4)}`, timeStyle]);
                 console.warn('💢Too Fast❗');
                 // console.log(' └─> Slowing down.');
@@ -2130,7 +2146,7 @@
         function start(){
             // particles.push(new MouseParticle('canvas_orbit'));
 
-            let count = 12;
+            let count = 6;
             for (let index = 0; index < count; index++) {
                 // particles.push(new Particle(id = index, speed = 1));
                 // particles.push(new Particle(id = index, speed = 3));
@@ -2390,15 +2406,33 @@
                 s.quid ? s.quid = false : s.quid = true;
                 settingsLog([`%cs%c.quid:%c${s.quid}`, sStyle.s, sStyle.n, sStyle.bool]);
                 let canvas_orbit_element = document.getElementById('canvas_orbit');
-                canvas_orbit_element.dataset.quid = s.quid;
+                // canvas_orbit_element.dataset.quid = s.quid;
                 let quidBtn = document.getElementById('quid');
                 if(s.quid){
                     quidBtn.dataset.switch = 'on';
+                    canvas_orbit_element.dataset.filter = 'quid';
                 } else {
                     quidBtn.dataset.switch = 'off';
+                    canvas_orbit_element.dataset.filter = 'none';
                 }
             }
-        }        
+        }
+        function liCloud(){
+            if(!s.q){
+                s.cloud ? s.cloud = false : s.cloud = true;
+                settingsLog([`%cs%c.quid:%c${s.quid}`, sStyle.s, sStyle.n, sStyle.bool]);
+                let canvas_orbit_element = document.getElementById('canvas_orbit');
+                // canvas_orbit_element.dataset.cloud = s.cloud;
+                let cloudBtn = document.getElementById('cloud');
+                if(s.cloud){
+                    cloudBtn.dataset.switch = 'on';
+                    canvas_orbit_element.dataset.filter = 'cloud';
+                } else {
+                    cloudBtn.dataset.switch = 'off';
+                    canvas_orbit_element.dataset.filter = 'none';
+                }
+            }
+        }
         function hueSp(){
             if(!s.q){
                 s.huesp ? s.huesp = false : s.huesp = true;
@@ -2459,6 +2493,10 @@
                 if(event.key == 'q' || event.key == 'Q') {
                     // s.quid ? s.quid = false : s.quid = true;
                     liQuid();
+                }
+                if(event.key == 'c' || event.key == 'C') {
+                    // s.quid ? s.quid = false : s.quid = true;
+                    liCloud();
                 }
                 if(event.key == 'h' || event.key == 'H') {
                     // s.huesp ? s.huesp = false : s.huesp = true;
