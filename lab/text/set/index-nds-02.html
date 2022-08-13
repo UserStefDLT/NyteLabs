@@ -459,39 +459,6 @@
             margin-top: 0;
         }
 
-        [type="color"] {
-            --bg-after: var(--bwt);
-            position: relative;
-            background-color: var(--bwt);
-            border: 0;
-        }
-        [type="color"]::after {
-            position: absolute;
-            content: '';
-            top: 50%; left: 50%;
-            height: 100%; width: 100%;
-            transform: translateX(-50%) translateY(-50%);
-            background-color: var(--bg-after);
-            /* background-image: linear-gradient(#3330, #0000); */
-            border-radius: 12px;
-        }
-        /* [type="color"]:not(:disabled) {
-            background-color: var(--bg-after);
-        } */
-        [type="color"]:disabled::after {
-            /* background-color: var(--bg-after); */
-            background-image: linear-gradient(#3339, #0009);
-        }
-
-        /* [id="word--color"]:checked ~ main label[for="word--color"]::before,
-        [id="half--color"]:checked ~ main label[for="half--color"]::before,
-        [id="half--text-decoration-color"]:checked ~ main label[for="half--text-decoration-color"]::before,
-        [id="first--color"]:checked ~ main label[for="first--color"]::before,
-        [id="first--color-bg"]:checked ~ main label[for="first--color-bg"]::before {
-            background-color: var(--bg-after);
-        } */
-
-
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
@@ -538,7 +505,7 @@
     <input type="checkbox" name="first--color-bg" id="first--color-bg" data-enabled-by="first" class="hidden">
 
 <main>
-    <details>
+    <details open>
         <summary>
             Style Options
         </summary>
@@ -629,7 +596,7 @@
             </section>
         </div>
     </details>
-    <details open>
+    <details>
         <summary>
             Input
             <!-- <div class="shelf-title">Input</div> -->
@@ -640,7 +607,7 @@
             <button class="submitBtn" onclick="WordBreak()">Submit</button>
         </div>
     </details>
-    <details id="result-view">
+    <details id="result-view" open>
         <summary>
             Result
             <!-- <div class="shelf-title">Result</div> -->
@@ -683,22 +650,19 @@
             // console.timeEnd('v4');
 
             // console.time('v3');
-            // let txtBox3 = WordStyle3(txt);
-            // displayElement.appendChild(txtBox3);
+            let txtBox3 = WordStyle3(txt);
+            displayElement.appendChild(txtBox3);
             // console.timeEnd('v3');
 
             // console.time('v2');
-            let txtBox2 = WordStyle2(txt);
-            displayElement.appendChild(txtBox2);
+            // let txtBox2 = WordStyle2(txt);
+            // displayElement.appendChild(txtBox2);
             // console.timeEnd('v2');
 
             // console.time('v1');
             // let txtBox1 = WordStyle1(txt);
             // displayElement.appendChild(txtBox1);
             // console.timeEnd('v1');
-
-            let resultView = document.getElementById('result-view');
-            if(!resultView.open){resultView.open = true;}
         }
 
         function WordStyle5(txt){
@@ -967,18 +931,9 @@
                     let color = ev.target.value;
                     let variable = ev.target.dataset.var;
                     ev.target.dataset.after = color;
-                    if(ev.target.type == "color"){
-                        // ev.target.style = `background-color: ${color};`
-                        // ev.target.style = `background-color: ${color}; --bg-after: ${color};`
-                        ev.target.style = `--bg-after: ${color};`
-                    }
                     MyVariables[`${variable}`] = color;
                     UpdateCustomVariables();
                 });
-                if(customElement.type == "color"){
-                    let variable = customElement.dataset.var;
-                    customElement.style = `--bg-after: ${MyVariables[`${variable}`]};`
-                }
             });
             let toggleLabels = document.querySelectorAll(`[data-toggle="checkbox"]`);
             toggleLabels.forEach(label => {
@@ -998,9 +953,8 @@
         }
         window.addEventListener('load', (ev) => {
             console.log(`Welcome to my Lab!`);
-            // WordTest();
+            WordTest();
             AddEvents();
-            UpdateCustomVariables();
         });
         function WordTest(){
             let inputElement = document.getElementById('input');

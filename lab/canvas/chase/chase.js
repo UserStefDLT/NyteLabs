@@ -611,6 +611,10 @@ class MouseParticle3 {
         }
         if(this.momentumQueue.length > 0){this.addMomentum();}
 
+        if(this.speed > 9) {
+            console.warn('💢Too Fast❗');
+            slowDown();
+        }
         this.move();
         // this.calcSpeed();
         // this.mousePull();
@@ -2204,6 +2208,10 @@ function speedCount(){
     particles.forEach(p => {
         total_speed += p.speed ** 2;
     });
+    if(total_speed > 50) {
+        console.warn('💢Too Fast❗');
+        slowDown();
+    }
     if(total_speed > 200) {
         safeLog([`%c⏱ total_speed: ${total_speed.toFixed(4)}`, timeStyle]);
         console.warn('💢Too Fast❗');
@@ -2310,8 +2318,8 @@ function start(){
     for (let index = 0; index < count; index++) {
         let sp = 1;
         // particles.push(new Particle3('canvas_orbit', id = index, speed = sp));
-        // particles.push(new MouseParticle3('canvas_orbit', id = index, speed = sp));
-        particles.push(new MouseParticle3('canvas_orbit', id = index, speed = sp, xyzd = [100, 100, s.zh2, 0]));
+        particles.push(new MouseParticle3('canvas_orbit', id = index, speed = sp));
+        // particles.push(new MouseParticle3('canvas_orbit', id = index, speed = sp, xyzd = [100, 100, s.zh2, 0]));
     }
     speedCount();
 }
@@ -2389,6 +2397,7 @@ function handleParticles(){
     // // ParticleGfCheck();
     // SectorCheck3();
 
+    
     if(s.arrow){
         ctx['canvas_over'].beginPath();
         ctx['canvas_over'].fillStyle = '#0003';
@@ -2403,8 +2412,6 @@ function handleParticles(){
         element.update();
         element.draw();
     }
-
-
     // if(!s.pause){
     //     pairing(particles);
     // // }
@@ -2636,6 +2643,7 @@ function arrowForward(){
         } else {
             arrowBtn.dataset.switch = 'off';
         }
+        ctx['canvas_over'].clearRect(0,0,canvas['canvas_over'].width, canvas['canvas_over'].height);
     }
 }
 function toggleLog(){

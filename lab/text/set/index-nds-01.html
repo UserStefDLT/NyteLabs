@@ -43,11 +43,11 @@
         .half {
             text-decoration: underline #06c;
         } */
-        /* .box p > span > span:nth-child(1) > span:nth-child(1),
+        .box p > span > span:nth-child(1) > span:nth-child(1),
         .first {
             color: #06c;
             font-weight: bold;
-        } */
+        }
         .submitBtn {
             font-size: 16px;
             margin: .25rem .5rem;
@@ -79,14 +79,9 @@
             --mt: 0rem;
             --mb: 0rem;
 
-            --bwt: #0000;
-            --bw9: #999;
-            --bwc: #ccc;
-            --clr-primary: #39f;
-
             --clr-line: var(--bwt);
             
-            /* --word--clr: var(--bwt);
+            --word--clr: var(--bwt);
             --word--clr-line: var(--bwt);
             --word--clr-bg: var(--bwt);
             --half--clr: var(--bwt);
@@ -94,25 +89,7 @@
             --half--clr-bg: var(--bwt);
             --first--clr: var(--bwt);
             --first--clr-line: var(--bwt);
-            --first--clr-bg: var(--bwt); */
-
-            --word--clr: var(--bw9);
-            --word--clr-line: var(--bwt);
-            --word--clr-bg: var(--bwt);
-            --half--clr: var(--bwc);
-            --half--clr-line: var(--clr-primary);
-            --half--clr-bg: var(--bwt);
-            --first--clr: var(--clr-primary);
-            --first--clr-line: var(--bwt);
             --first--clr-bg: var(--bwt);
-
-            /* "--word--clr": "#999",
-            "--word--clr-line": "#0000",
-            "--half--clr": "#ccc",
-            "--half--clr-line": "#39f",
-            "--first--clr": "#06c",
-            "--first--clr-line": "#0000",
-            "--font-size": "16px", */
 
             --font-size: 16px;
         }
@@ -122,26 +99,32 @@
             text-decoration: underline #06c;
         } */
 
-        [id="word--color"]:checked ~ main .word {color: var(--word--clr);}
-
-        .half {text-decoration-color: var(--half--clr-line);}
-        [id="half--color"]:checked ~ main .half {color: var(--half--clr);}
-        [id="first--color"]:checked ~ main .first {color: var(--first--clr);}
-
-        [id="half--bold"]:checked ~ main .half {font-weight: bold;}
-        [id="first--bold"]:checked ~ main .first {font-weight: bold;}
-
+        .word {
+            color: var(--word--clr);
+        }
+        .half {
+            text-decoration-color: #06c;
+            text-decoration-color: var(--half--clr-line);
+            color: var(--half--clr);
+        }
+        .first {
+            color: var(--first--clr);
+        }
         [id="half--text-decoration-line"] ~ main .half {
             text-decoration-line: none;
         }
         [id="half--text-decoration-line"]:checked ~ main .half {
             text-decoration-line: underline;
         }
+
         [id="half--text-decoration-style--solid"]:checked ~ main .half {text-decoration-style: solid;}
         [id="half--text-decoration-style--double"]:checked ~ main .half {text-decoration-style: double;}
         [id="half--text-decoration-style--dotted"]:checked ~ main .half {text-decoration-style: dotted;}
         [id="half--text-decoration-style--dashed"]:checked ~ main .half {text-decoration-style: dashed;}
         [id="half--text-decoration-style--wavy"]:checked ~ main .half {text-decoration-style: wavy;}
+        /* [id="half--text-decoration-line"]:checked ~ main .half {
+            text-decoration-line: underline;
+        } */
 
         #display {
             font-size: calc(var(--font-size) * 1px);
@@ -240,7 +223,6 @@
         .block {
             width: 100%;
             border-bottom: 1px solid #9993;
-            /* border-top: 1px solid #9993; */
             padding-bottom: .25rem;
             margin-bottom: .25rem;
         }
@@ -249,20 +231,14 @@
             /* margin: 0 1rem; */
             /* padding: 0 1rem; */
             border-bottom: 1px solid #9993;
-            /* border-top: 1px solid #9993; */
-            /* justify-content: space-around; */
+            justify-content: space-around;
             flex-direction: row;
             padding-bottom: .25rem;
             margin-bottom: .25rem;
         }
-        .block .row {
-            border-bottom: 1px dashed #9993;
-            /* border-top: 1px dashed #9993; */
-        }
         .row.left {
             justify-content: flex-start;
             border-bottom: 0px solid #9990;
-            /* border-top: 0px solid #9990; */
             padding-bottom: .0625rem;
             margin-bottom: .0625rem;
         }
@@ -275,7 +251,6 @@
             --half-vh: calc((var(--mt) + 1em + var(--mb)) / 2); */
 
             margin: .5rem auto .25rem;
-            border-bottom: 1px solid #9993;
         }
 
         label {
@@ -293,41 +268,69 @@
             position: relative;
         }
 
-        label[data-toggle="checkbox"] {
-            position: relative;
-            margin-right: 3rem;
-        }
-
 
         label[data-toggle="checkbox"]::before,
         label[data-toggle="checkbox"]::after {
             content: '';
             position: absolute;
+            top: 0; left: 100%;
+            /* transform: translateX(.5rem); */
+
             top: 50%;
-            left: 100%;
             transform: translateX(.5rem) translateY(-50%);
             
-            transition: 
-            transform 200ms ease-in-out, 
-            box-shadow 200ms ease-in-out, 
-            background-color 200ms ease-in-out;
+            transition: transform 200ms ease-in-out, background-color 200ms ease-in-out;
         }
         label[data-toggle="checkbox"]::before {
             height: 1rem; width: 2rem;
             border-radius: 100vmax;
+            /* background-color: #063; */
             background-color: #021;
-
-            /* outline: 1px outset #999; */
-            /* box-shadow: inset 1px 1px 2px #1119; */
+            outline: 1px outset #999;
+            box-shadow: inset 1px 1px 2px #1119;
         }
         label[data-toggle="checkbox"]::after {
             height: 1rem; width: 1rem;
             border-radius: 50%;
-            background-color: #777;
-            background-color: #eee;
-            
-            /* box-shadow: 0px 0px 2px 0px #1119; */
+            background-color: #333;
+            box-shadow: 0px 0px 2px 2px #1119;
         }
+
+
+        /* label[data-toggle="checkbox"]::before ,
+        label[for="half--text-decoration-line"]::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 100%;
+            height: 1rem; width: 2rem;
+            border-radius: 100vmax;
+            background: #000;
+            outline: 1px outset #999;
+            transform: translateX(.5rem);
+
+            top: var(--half-vh);
+            top: 50%;
+            top: calc(100% - var(--mb));
+            transform: translateX(.5rem) translateY(-50%);
+        }
+        label[data-toggle="checkbox"]::after,
+        label[for="half--text-decoration-line"]::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 100%;
+            height: 1rem; width: 1rem;
+            border-radius: 50%;
+            background: #999;
+            background-color: #333;
+            outline: 1px outset #999;
+            transform: translateX(.5rem);
+
+            top: var(--half-vh);
+            top: calc(100% - var(--mb));
+            transform: translateX(.5rem) translateY(-50%);
+
+            transition: transform 200ms ease-in-out, background-color 200ms ease-in-out;
+        } */
 
         /* 
         custom--style
@@ -342,52 +345,26 @@
         [id="word--style"]:checked ~ main label[for="word--style"]::after,
         [id="half--style"]:checked ~ main label[for="half--style"]::after,
         [id="first--style"]:checked ~ main label[for="first--style"]::after,
-
         [id="word--color"]:checked ~ main label[for="word--color"]::after,
-
-        [id="half--bold"]:checked ~ main label[for="half--bold"]::after,
         [id="half--color"]:checked ~ main label[for="half--color"]::after,
-        [id="half--text-decoration-color"]:checked ~ main label[for="half--text-decoration-color"]::after,
-        [id="half--text-decoration-line"]:checked ~ main label[for="half--text-decoration-line"]::after,
-
-        [id="first--bold"]:checked ~ main label[for="first--bold"]::after,
         [id="first--color"]:checked ~ main label[for="first--color"]::after,
-        [id="first--color-bg"]:checked ~ main label[for="first--color-bg"]::after {
+        [id="half--text-decoration-color"]:checked ~ main label[for="half--text-decoration-color"]::after,
+        [id="half--text-decoration-line"]:checked ~ main label[for="half--text-decoration-line"]::after {
             background-color: #eee;
+            /* transform: translateX(1.5rem); */
             transform: translateX(1.5rem) translateY(-50%);
         }
-        
         [id="custom--style"]:checked ~ main label[for="custom--style"]::before,
         [id="word--style"]:checked ~ main label[for="word--style"]::before,
         [id="half--style"]:checked ~ main label[for="half--style"]::before,
         [id="first--style"]:checked ~ main label[for="first--style"]::before,
-
         [id="word--color"]:checked ~ main label[for="word--color"]::before,
-
-        [id="half--bold"]:checked ~ main label[for="half--bold"]::before,
         [id="half--color"]:checked ~ main label[for="half--color"]::before,
-        [id="half--text-decoration-color"]:checked ~ main label[for="half--text-decoration-color"]::before,
-        [id="half--text-decoration-line"]:checked ~ main label[for="half--text-decoration-line"]::before,
-
-        [id="first--bold"]:checked ~ main label[for="first--bold"]::before,
         [id="first--color"]:checked ~ main label[for="first--color"]::before,
-        [id="first--color-bg"]:checked ~ main label[for="first--color-bg"]::before {
-            /* background-color: #3f9; */
-            background-color: #0c6;
+        [id="half--text-decoration-color"]:checked ~ main label[for="half--text-decoration-color"]::before,
+        [id="half--text-decoration-line"]:checked ~ main label[for="half--text-decoration-line"]::before {
+            background-color: #3f9;
         }
-
-
-        /* [id="custom--style"]:disabled ~ main label[for="custom--style"]::before,
-        [id="word--style"]:disabled ~ main label[for="word--style"]::before,
-        [id="half--style"]:disabled ~ main label[for="half--style"]::before,
-        [id="first--style"]:disabled ~ main label[for="first--style"]::before,
-        [id="word--color"]:disabled ~ main label[for="word--color"]::before,
-        [id="half--color"]:disabled ~ main label[for="half--color"]::before,
-        [id="first--color"]:disabled ~ main label[for="first--color"]::before,
-        [id="half--text-decoration-color"]:disabled ~ main label[for="half--text-decoration-color"]::before,
-        [id="half--text-decoration-line"]:disabled ~ main label[for="half--text-decoration-line"]::before {
-            background-color: #042;
-        } */
 
         label[data-toggle="radio"],
         .label-choice {
@@ -411,25 +388,6 @@
         [id="half--text-decoration-style--wavy"]:checked ~ main label[for="half--text-decoration-style--wavy"] {
             background-color: #39f9;
             background-image: linear-gradient(to bottom, #39f, #036);
-        }
-
-        /* [id="half--text-decoration-line"]:disabled ~ main label[for="half--text-decoration-style--solid"],
-        [id="half--text-decoration-line"]:disabled ~ main label[for="half--text-decoration-style--double"],
-        [id="half--text-decoration-line"]:disabled ~ main label[for="half--text-decoration-style--dotted"],
-        [id="half--text-decoration-line"]:disabled ~ main label[for="half--text-decoration-style--dashed"],
-        [id="half--text-decoration-line"]:disabled ~ main label[for="half--text-decoration-style--wavy"] {
-            background-image: linear-gradient(to bottom, #999, #333);
-            color: #9993;
-        } */
-
-        [id="half--text-decoration-style--solid"]:disabled ~ main label[for="half--text-decoration-style--solid"],
-        [id="half--text-decoration-style--double"]:disabled ~ main label[for="half--text-decoration-style--double"],
-        [id="half--text-decoration-style--dotted"]:disabled ~ main label[for="half--text-decoration-style--dotted"],
-        [id="half--text-decoration-style--dashed"]:disabled ~ main label[for="half--text-decoration-style--dashed"],
-        [id="half--text-decoration-style--wavy"]:disabled ~ main label[for="half--text-decoration-style--wavy"] {
-            background-image: linear-gradient(to bottom, #999, #333);
-            text-decoration-color: #999;
-            color: #999;
         }
 
         
@@ -459,39 +417,6 @@
             margin-top: 0;
         }
 
-        [type="color"] {
-            --bg-after: var(--bwt);
-            position: relative;
-            background-color: var(--bwt);
-            border: 0;
-        }
-        [type="color"]::after {
-            position: absolute;
-            content: '';
-            top: 50%; left: 50%;
-            height: 100%; width: 100%;
-            transform: translateX(-50%) translateY(-50%);
-            background-color: var(--bg-after);
-            /* background-image: linear-gradient(#3330, #0000); */
-            border-radius: 12px;
-        }
-        /* [type="color"]:not(:disabled) {
-            background-color: var(--bg-after);
-        } */
-        [type="color"]:disabled::after {
-            /* background-color: var(--bg-after); */
-            background-image: linear-gradient(#3339, #0009);
-        }
-
-        /* [id="word--color"]:checked ~ main label[for="word--color"]::before,
-        [id="half--color"]:checked ~ main label[for="half--color"]::before,
-        [id="half--text-decoration-color"]:checked ~ main label[for="half--text-decoration-color"]::before,
-        [id="first--color"]:checked ~ main label[for="first--color"]::before,
-        [id="first--color-bg"]:checked ~ main label[for="first--color-bg"]::before {
-            background-color: var(--bg-after);
-        } */
-
-
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
@@ -512,48 +437,46 @@
     <!-- word--style
     half--style
     first--style -->
-    <input type="checkbox" name="word--style" id="word--style" data-enabled-by="all" class="hidden" checked>
-    <input type="checkbox" name="half--style" id="half--style" data-enabled-by="all" class="hidden" checked>
-    <input type="checkbox" name="first--style" id="first--style" data-enabled-by="all" class="hidden" checked>
+    <input type="checkbox" name="word--style" id="word--style" class="hidden" checked>
+    <input type="checkbox" name="half--style" id="half--style" class="hidden" checked>
+    <input type="checkbox" name="first--style" id="first--style" class="hidden" checked>
     
     <!-- word--color -->
-    <input type="checkbox" name="word--color" id="word--color" data-enabled-by="word" class="hidden" checked>
+    <input type="checkbox" name="word--color" id="word--color" class="hidden" checked>
 
     <!-- half--color -->
-    <input type="checkbox" name="half--bold" id="half--bold" data-enabled-by="half" class="hidden">
-    <input type="checkbox" name="half--color" id="half--color" data-enabled-by="half" class="hidden" checked>
-    <input type="checkbox" name="half--text-decoration" id="half--text-decoration-line" data-enabled-by="half" class="hidden" checked>
+    <input type="checkbox" name="half--color" id="half--color" class="hidden" checked>
+    <input type="checkbox" name="half--text-decoration" id="half--text-decoration-line" class="hidden" checked>
     
-    <input type="radio" name="half--text-decoration-style" id="half--text-decoration-style--solid" data-enabled-by="half--text-decoration-line" class="hidden">
-    <input type="radio" name="half--text-decoration-style" id="half--text-decoration-style--double" data-enabled-by="half--text-decoration-line" class="hidden">
-    <input type="radio" name="half--text-decoration-style" id="half--text-decoration-style--dotted" data-enabled-by="half--text-decoration-line" class="hidden">
-    <input type="radio" name="half--text-decoration-style" id="half--text-decoration-style--dashed" data-enabled-by="half--text-decoration-line" class="hidden">
-    <input type="radio" name="half--text-decoration-style" id="half--text-decoration-style--wavy" data-enabled-by="half--text-decoration-line" class="hidden">
+    <input type="radio" name="half--text-decoration-style" id="half--text-decoration-style--solid" class="hidden">
+    <input type="radio" name="half--text-decoration-style" id="half--text-decoration-style--double" class="hidden">
+    <input type="radio" name="half--text-decoration-style" id="half--text-decoration-style--dotted" class="hidden">
+    <input type="radio" name="half--text-decoration-style" id="half--text-decoration-style--dashed" class="hidden">
+    <input type="radio" name="half--text-decoration-style" id="half--text-decoration-style--wavy" class="hidden">
 
-    <input type="checkbox" name="half--text-decoration" id="half--text-decoration-color" data-enabled-by="half" class="hidden" checked>
+    <input type="checkbox" name="half--text-decoration" id="half--text-decoration-color" class="hidden" checked>
 
     <!-- first--color -->
-    <input type="checkbox" name="first--bold" id="first--bold" data-enabled-by="first" class="hidden">
-    <input type="checkbox" name="first--color" id="first--color" data-enabled-by="first" class="hidden" checked>
-    <input type="checkbox" name="first--color-bg" id="first--color-bg" data-enabled-by="first" class="hidden">
+    <input type="checkbox" name="first--color" id="first--color" class="hidden" checked>
 
 <main>
-    <details>
+    <details open>
         <summary>
             Style Options
         </summary>
         <div id="set" class="settings">
-            <h3>Settings</h3>
-            <!-- <h3><label for="custom--style" data-toggle="checkbox" data-disables="all">Settings</label></h3> -->
+            <!-- <h3>Settings</h3> -->
+            <!-- <label for="custom--style" data-toggle="checkbox">
+                <h3>Settings</h3>
+            </label> -->
+            <h3><label for="custom--style" data-toggle="checkbox">Settings</label></h3>
             <section id="all" class="set">
-                <h4>Whole Word</h4>
-                <!-- <h4><label for="word--style" data-toggle="checkbox" data-disables="word">Whole Word</label></h4> -->
+                <h4><label for="word--style" data-toggle="checkbox">Whole Word</label></h4>
                 <div class="row" data-for="font-size">
-                    <label for="word--font-size">Font Size</label>
-                    <input type="range" id="range--word--font-size" name="font"
+                    <label for="all--font-size">Font Size</label>
+                    <input type="range" id="all--font-size" name="font"
                         min="8" max="32" step="2" value="16" data-after="16"
-                        data-input-update="true" data-var="--font-size" data-enabled-by="word--font-size">
-
+                        data-input-update="true" data-var="--font-size" >
                     <select id="all--font-size-select" name="font-choice" class="hidden">
                         <option value="8">8</option>
                         <option value="10">10</option>
@@ -570,26 +493,22 @@
                     </select>
                 </div>
                 <div class="row" data-for="color">
-                    <label for="word--color" data-toggle="checkbox">Color</label>
-                    <input type="color" id="pick--all--color" name="color" data-enabled-by="word--color"
-                    data-var="--word--clr" data-input-update="true" value="#aaaaaa">
+                    <label for="word--color" data-toggle="checkbox">color</label>
+                    <input type="color" id="pick--all--color" name="color"
+                    data-var="--word--clr" data-input-update="true" value="#cccccc">
                 </div>
             </section>
 
             <section id="half" class="set">
-                <h4>First Half</h4>
-                <!-- <h4><label for="half--style" data-toggle="checkbox" data-disables="half">First Half</label></h4> -->
-                <div class="row" data-for="bold">
-                    <label for="half--bold" data-toggle="checkbox">Bold</label>
-                </div>
+                <h4><label for="half--style" data-toggle="checkbox">First Half</label></h4>
                 <div class="row" data-for="color">
                     <label for="half--color" data-toggle="checkbox">Color</label>
-                    <input type="color" id="pick--half--color" name="color" data-enabled-by="half--color"
+                    <input type="color" id="pick--half--color" name="color"
                     data-var="--half--clr" data-input-update="true" value="#cccccc">
                 </div>
                 <div class="block" data-for="underline">
                     <div class="row left">
-                        <label for="half--text-decoration-line" data-toggle="checkbox">Underline</label>
+                        <label for="half--text-decoration-line">Underline</label>
                     </div>
                     <div class="row">
                         <label for="half--text-decoration-style">Style</label>
@@ -600,36 +519,29 @@
                         <label class="label-choice" for="half--text-decoration-style--wavy" style="text-decoration-style: wavy;">wavy</label>
                     </div>
                     <div class="row">
-                        <!-- <label for="half--text-decoration-color" data-toggle="checkbox">Color</label> -->
-                        <label for="half--text-decoration-color">Color</label>
-                        <!-- <input type="color" id="pick--half--text-decoration-color" name="color" data-enabled-by="half--text-decoration-color"
-                        data-var="--half--clr-line" data-input-update="true" value="#3399ff"> -->
-                        <input type="color" id="pick--half--text-decoration-color" name="color"  data-enabled-by="half--text-decoration-line"
-                        data-var="--half--clr-line" data-input-update="true" value="#3399ff">
+                        <label for="half--text-decoration-color" data-toggle="checkbox">Color</label>
+                        <input type="color" id="pick--half--text-decoration-color" name="color"
+                        data-var="--half--clr-line" data-input-update="true" value="#ffee22">
                     </div>
                 </div>
             </section>
 
             <section id="first" class="set">
-                <h4>First Letter</h4>
-                <!-- <h4><label for="first--style" data-toggle="checkbox" data-disables="first">First Letter</label></h4> -->
-                <div class="row" data-for="bold">
-                    <label for="first--bold" data-toggle="checkbox">Bold</label>
-                </div>
+                <h4><label for="first--style" data-toggle="checkbox">First Letter</label></h4>
                 <div class="row" data-for="color">
                     <label for="first--color" data-toggle="checkbox">Color</label>
-                    <input type="color" id="pick--first--color" name="color" data-enabled-by="first--color"
+                    <input type="color" id="pick--first--color" name="color"
                     data-var="--first--clr" data-input-update="true" value="#3399ff">
                 </div>
-                <!-- <div class="row" data-for="color-bg">
+                <div class="row" data-for="color">
                     <label for="first--color-bg" data-toggle="checkbox">Background Color</label>
-                    <input type="color" id="pick--first--color-bg" name="color" data-enabled-by="first--color-bg"
-                    data-var="--first--clr-bg" data-input-update="true" value="#000000" disabled>
-                </div> -->
+                    <input type="color" id="pick--first--color-bg" name="color"
+                    data-var="--first--clr-bg" data-input-update="true" value="#000000">
+                </div>
             </section>
         </div>
     </details>
-    <details open>
+    <details>
         <summary>
             Input
             <!-- <div class="shelf-title">Input</div> -->
@@ -640,7 +552,7 @@
             <button class="submitBtn" onclick="WordBreak()">Submit</button>
         </div>
     </details>
-    <details id="result-view">
+    <details id="result-view" open>
         <summary>
             Result
             <!-- <div class="shelf-title">Result</div> -->
@@ -683,22 +595,19 @@
             // console.timeEnd('v4');
 
             // console.time('v3');
-            // let txtBox3 = WordStyle3(txt);
-            // displayElement.appendChild(txtBox3);
+            let txtBox3 = WordStyle3(txt);
+            displayElement.appendChild(txtBox3);
             // console.timeEnd('v3');
 
             // console.time('v2');
-            let txtBox2 = WordStyle2(txt);
-            displayElement.appendChild(txtBox2);
+            // let txtBox2 = WordStyle2(txt);
+            // displayElement.appendChild(txtBox2);
             // console.timeEnd('v2');
 
             // console.time('v1');
             // let txtBox1 = WordStyle1(txt);
             // displayElement.appendChild(txtBox1);
             // console.timeEnd('v1');
-
-            let resultView = document.getElementById('result-view');
-            if(!resultView.open){resultView.open = true;}
         }
 
         function WordStyle5(txt){
@@ -926,7 +835,7 @@
         //     "--first--clr-bg": "#0000",
         // }
         var MyVariables = {
-            "--word--clr": "#aaa",
+            "--word--clr": "#999",
             "--word--clr-line": "#0000",
             "--half--clr": "#ccc",
             "--half--clr-line": "#39f",
@@ -942,65 +851,33 @@
             let display = document.getElementById('display');
             display.style = customStyle.join('');
         }
-
-        function ToggleDisable(ev){
-            let targerID = ev.target.attributes["for"].nodeValue;
-            let toggleLabels = document.querySelectorAll(`[data-enabled-by="${targerID}"]`);
-            // if(ev.target.dataset.disables != null){
-            //     toggleLabels = document.querySelectorAll(`data-enabled-by|="${targerID}"`);
-
-            //     if(ev.target.dataset.disables == 'all'){
-            //         toggleLabels = document.querySelectorAll(`data-enabled-by`);
-            //     }
-            // }
-            toggleLabels.forEach(tar => {
-                tar.disabled = !tar.disabled;
-            });
-            // item[i].disabled = !item[i].disabled;
-        }
-
         function AddEvents(){
-            let customVariables = document.querySelectorAll(`[data-input-update="true"]`);
+            let colors = document.querySelectorAll(`[data-input-update="true"]`);
             // let colors = document.querySelectorAll(`[type="color"]`);
-            customVariables.forEach(customElement => {
-                customElement.addEventListener('input', ev => {
+            colors.forEach(colorElement => {
+                colorElement.addEventListener('input', ev => {
+                    // console.log(ev);
+                    // console.log(ev.target);
+                    // console.log(ev.target.value);
+                    // console.log(ev.target.dataset.var);
+
                     let color = ev.target.value;
                     let variable = ev.target.dataset.var;
+                    // let display = document.getElementById('display');
+                    // display.style = `--${variable}: ${color};`;
+
                     ev.target.dataset.after = color;
-                    if(ev.target.type == "color"){
-                        // ev.target.style = `background-color: ${color};`
-                        // ev.target.style = `background-color: ${color}; --bg-after: ${color};`
-                        ev.target.style = `--bg-after: ${color};`
-                    }
+
                     MyVariables[`${variable}`] = color;
                     UpdateCustomVariables();
                 });
-                if(customElement.type == "color"){
-                    let variable = customElement.dataset.var;
-                    customElement.style = `--bg-after: ${MyVariables[`${variable}`]};`
-                }
             });
-            let toggleLabels = document.querySelectorAll(`[data-toggle="checkbox"]`);
-            toggleLabels.forEach(label => {
-                label.addEventListener('click', ToggleDisable);
-            });
-
-            // let toggleLabels = document.querySelectorAll(`[data-toggle="checkbox"]`);
-            // toggleLabels.forEach(label => {
-            //     label.addEventListener('click', ev => {
-            //         let targerID = ev.target.attributes["for"].nodeValue;
-            //         let toggleLabels = document.querySelectorAll(`data-enabled-by="${targerID}"`);
-            //         toggleLabels.forEach(tar => {
-            //             tar.disabled = !tar.disabled;
-            //         });
-            //     });
-            // });
         }
+
         window.addEventListener('load', (ev) => {
             console.log(`Welcome to my Lab!`);
-            // WordTest();
+            WordTest();
             AddEvents();
-            UpdateCustomVariables();
         });
         function WordTest(){
             let inputElement = document.getElementById('input');

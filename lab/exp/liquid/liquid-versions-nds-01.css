@@ -234,12 +234,10 @@
     transition: transform 300ms ease-in-out;
     animation: wave-05 1200ms ease-in-out infinite;
     animation-delay: calc(var(--i) * 120ms);
-    animation-play-state: paused;
 }
-.bottle-05:hover .quid-05 {
-    /* transform: scale(3, 1); */
+.quid-05:hover {
+    transform: scale(3, 1);
     /* transform: translateY(-20px); */
-    animation-play-state: running;
 }
 @keyframes wave-05 {
     0% {transform: scale(1, 1);}
@@ -362,12 +360,10 @@
     transition: transform 300ms ease-in-out;
     animation: wave-06 1200ms ease-in-out infinite;
     animation-delay: calc(var(--i) * 120ms);
-    animation-play-state: paused;
 }
-.bottle-06:hover .quid-06 {
+.quid-06:hover {
     transform: scale(3, 1);
     /* transform: translateY(-20px); */
-    animation-play-state: running;
 }
 @keyframes wave-06 {
     0% {transform: scale(1, 1);}
@@ -494,12 +490,10 @@
     transition: transform 300ms ease-in-out;
     animation: wave-07 1200ms ease-in-out infinite;
     animation-delay: calc(var(--i) * 120ms);
-    animation-play-state: paused;
 }
-.bottle-07:hover .quid-07 {
+.quid-07:hover {
     transform: scale(3, 1);
     /* transform: translateY(-20px); */
-    animation-play-state: running;
 }
 @keyframes wave-07 {
     0% {transform: scale(1, 1);}
@@ -607,97 +601,4 @@
     0% {transform: scale(1, 1);}
     50% {transform: scale(1, 1.5);}
     100% {transform: scale(1, 1);}
-}
-
-
-/* [liquid v.0.9] */
-.bottle-09 {
-    position: relative;
-    border: 1px dashed #fff9;
-    border-radius: 1rem;
-    padding: 0 .5rem;
-    height: 13rem;
-}
-.bottle-09::before{
-    content: '';
-    position: absolute;
-    top: 2rem; left: 50%;
-    transform: translate(-50%, 0%);
-    height: 12rem; width: 12rem;
-    /*outline: 8px dashed #f39;*/
-    border-radius: 2rem;
-
-    top: 0rem;
-    border: 8px outset #fff;
-    /* border-top: 8px solid #f390; */
-    border-radius: 2.5rem;
-    z-index: 2;
-}
-.bottle-09::after {
-    content: '';
-    position: absolute;
-    top: 2.5rem; left: 20%;
-    transform: translate(-50%, 0%);
-    height: 6rem; width: 4rem;
-    background-color: #fff0;
-    background-image: linear-gradient(to bottom, #fff6, #fff0);
-    outline: 8px dashed #3f30;
-    border-radius: 2rem;
-    border-radius: 150% 70% 90% 50%;
-    border-radius: 120% 90% 50% 20%;
-
-    z-index: 3;
-}
-.droplet-09 {
-    display: flex; flex-direction: row;
-    filter: url(#feCM-07);
-}
-.quid-09 {
-    /* filter: blur(8px) url(#feCM-07); */
-    border: 0;
-    border-radius: 0;
-    transition: box-shadow 300ms ease-in-out;
-    box-shadow:
-    0rem 9rem var(--shw-blur) var(--shw-scl) #39f,
-    0rem 9rem var(--shw-blur) var(--shw-scl) #39f,
-    0rem 9rem var(--shw-blur) var(--shw-scl) #39f,
-    0rem 0rem 0rem 0rem #0000;
-    
-    animation: wave-09n 1200ms ease-in-out infinite both;
-    animation-delay: calc(var(--i) * 120ms);
-    animation-play-state: paused;
-    
-    min-height: 2rem;
-    min-width: 3rem;
-    margin: 1.2rem -.55rem 8rem;
-    --shw-blur: 0rem;
-    --shw-scl: .5rem;
-    background-color: hsla(210, 100%, 60%, 0);
-    filter: blur(16px);
-}
-.bottle-09:hover .quid-09 {
-    animation-play-state: running;
-}
-@keyframes wave-09n {
-    0% {
-        box-shadow:
-        0rem 9rem var(--shw-blur) var(--shw-scl) #39f,
-        0rem 9rem var(--shw-blur) var(--shw-scl) #39f,
-        0rem 9rem var(--shw-blur) var(--shw-scl) #39f,
-        0rem 0rem 0rem 0rem #0000;
-    }
-    50% {
-        box-shadow:
-        0rem 5rem var(--shw-blur) var(--shw-scl) #39f,
-        0rem 7rem var(--shw-blur) var(--shw-scl) #39f,
-        0rem 9rem var(--shw-blur) var(--shw-scl) #39f,
-        0rem 0rem 0rem 0rem #0000;
-    }
-    100% {
-        box-shadow:
-        0rem 9rem var(--shw-blur) var(--shw-scl) #39f,
-        0rem 9rem var(--shw-blur) var(--shw-scl) #39f,
-        0rem 9rem var(--shw-blur) var(--shw-scl) #39f,
-        0rem 0rem 0rem 0rem #0000;
-    }
 }

@@ -310,3 +310,18 @@ function PrintObj1(ob, name = 'ob', keyArr = []){
     }
     console.groupEnd(path);
 }
+
+function recheck(){
+    console.log('recheck()');
+    let win_nav = document.getElementById('win_nav');
+    win_nav.innerHTML = WindowLog_navigator();
+
+    let win_dpi = document.getElementById('win_dpi');
+    win_dpi.innerHTML = WindowLog_devicePixelRatio();
+
+    let win_dim = document.getElementById('win_dim');
+    win_dim.innerHTML = WindowLog_LayoutViewport();
+
+    let win_url = document.getElementById('win_url');
+    win_url.innerHTML = WindowLog_location();
+}

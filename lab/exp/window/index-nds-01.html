@@ -34,27 +34,6 @@
             color: #6c0;
         }
     </style>
-    <style>
-        .floating {
-            position: fixed;
-            top: 10%; right: 0%;
-            transform: translateX(-20%) translateY(-50%);
-            z-index: 5;
-        }
-        .floating button {
-            border: 0;
-            padding: .25rem;
-            border-radius: .25rem;
-            background-image: linear-gradient(to bottom right, #39f, #0c6);
-            color: #fff;
-            text-shadow: 1px 1px 1px #1119;
-            cursor: pointer;
-        }
-        .floating button:hover {
-            outline: 1px dashed #39fc;
-            outline-offset: 2px;
-        }
-    </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
@@ -67,7 +46,6 @@
     </header>
 
 <main>
-    <div class="floating"><button onclick="recheck()">Recheck</button></div>
     <!-- <div class="shelf">
         <div class="shelf-title">Window Information</div>
         <div id="win" class="window-display"></div>
