@@ -39,14 +39,14 @@
             --clr-j1: hsl(28, 80%, 75%);
             --clr-j2: hsl(22, 50%, 44%);
 
-            --p1-clr: #aaa;
-            --p2-clr: #eb6;
-            --p3-clr: #38d;
-            --p4-clr: #c43;
-            --p5-clr: #d83;
-            --p6-clr: #ed3;
-            --p7-clr: #68d;
-            --p8-clr: #5cc;
+            --p1-clr: #aaa; --p1-shw: #aaa3; --p1-dark: #2c2c2c;
+            --p2-clr: #eb6; --p2-shw: #eb63; --p2-dark: #3a2f1e;
+            --p3-clr: #38d; --p3-shw: #38d3; --p3-dark: #142536;
+            --p4-clr: #c43; --p4-shw: #c433; --p4-dark: #331814;
+            --p5-clr: #d83; --p5-shw: #d833; --p5-dark: #362514;
+            --p6-clr: #ed3; --p6-shw: #ed33; --p6-dark: #3a3614;
+            --p7-clr: #68d; --p7-shw: #68d3; --p7-dark: #1e2536;
+            --p8-clr: #5cc; --p8-shw: #5cc3; --p8-dark: #1b3333;
 
             --p1-sz: 2440; 
             --p2-sz: 6052; 
@@ -56,6 +56,15 @@
             --p6-sz: 58232; 
             --p7-sz: 25362; 
             --p8-sz: 24622; 
+
+            --p1-rem: 7.80;
+            --p2-rem: 8.71;
+            --p3-rem: 8.76;
+            --p4-rem: 8.13;
+            --p5-rem: 11.15;
+            --p6-rem: 10.97;
+            --p7-rem: 10.14;
+            --p8-rem: 10.11;
 
             --p1-em: .055;
             --p2-em: .815;
@@ -127,14 +136,22 @@
             --p7-spin: 2.59; --p7-spin-2: 9320;
             --p8-spin: 2.68; --p8-spin-2: 9650;
         }
-        .o:nth-child(2) {--p-clr: var(--p1-clr); --p-sz: var(--p1-em); --p-sz: var(--p1-sz); --p-r: var(--p1-r); --p-o: var(--p1-o);}
-        .o:nth-child(3) {--p-clr: var(--p2-clr); --p-sz: var(--p2-em); --p-sz: var(--p2-sz); --p-r: var(--p2-r); --p-o: var(--p2-o);}
-        .o:nth-child(4) {--p-clr: var(--p3-clr); --p-sz: var(--p3-em); --p-sz: var(--p3-sz); --p-r: var(--p3-r); --p-o: var(--p3-o);}
-        .o:nth-child(5) {--p-clr: var(--p4-clr); --p-sz: var(--p4-em); --p-sz: var(--p4-sz); --p-r: var(--p4-r); --p-o: var(--p4-o);}
-        .o:nth-child(6) {--p-clr: var(--p5-clr); --p-sz: var(--p5-em); --p-sz: var(--p5-sz); --p-r: var(--p5-r); --p-o: var(--p5-o);}
-        .o:nth-child(7) {--p-clr: var(--p6-clr); --p-sz: var(--p6-em); --p-sz: var(--p6-sz); --p-r: var(--p6-r); --p-o: var(--p6-o);}
-        .o:nth-child(8) {--p-clr: var(--p7-clr); --p-sz: var(--p7-em); --p-sz: var(--p7-sz); --p-r: var(--p7-r); --p-o: var(--p7-o);}
-        .o:nth-child(9) {--p-clr: var(--p8-clr); --p-sz: var(--p8-em); --p-sz: var(--p8-sz); --p-r: var(--p8-r); --p-o: var(--p8-o);}
+        /* .o:nth-child(9) {--p-clr: var(--p1-clr); --p-shw: var(--p1-shw); --p-sz: var(--p1-em); --p-sz: var(--p1-sz); --p-r: var(--p1-r); --p-o: var(--p1-o);}
+        .o:nth-child(8) {--p-clr: var(--p2-clr); --p-shw: var(--p2-shw); --p-sz: var(--p2-em); --p-sz: var(--p2-sz); --p-r: var(--p2-r); --p-o: var(--p2-o);}
+        .o:nth-child(7) {--p-clr: var(--p3-clr); --p-shw: var(--p3-shw); --p-sz: var(--p3-em); --p-sz: var(--p3-sz); --p-r: var(--p3-r); --p-o: var(--p3-o);}
+        .o:nth-child(6) {--p-clr: var(--p4-clr); --p-shw: var(--p4-shw); --p-sz: var(--p4-em); --p-sz: var(--p4-sz); --p-r: var(--p4-r); --p-o: var(--p4-o);}
+        .o:nth-child(5) {--p-clr: var(--p5-clr); --p-shw: var(--p5-shw); --p-sz: var(--p5-em); --p-sz: var(--p5-sz); --p-r: var(--p5-r); --p-o: var(--p5-o);}
+        .o:nth-child(4) {--p-clr: var(--p6-clr); --p-shw: var(--p6-shw); --p-sz: var(--p6-em); --p-sz: var(--p6-sz); --p-r: var(--p6-r); --p-o: var(--p6-o);}
+        .o:nth-child(3) {--p-clr: var(--p7-clr); --p-shw: var(--p7-shw); --p-sz: var(--p7-em); --p-sz: var(--p7-sz); --p-r: var(--p7-r); --p-o: var(--p7-o);}
+        .o:nth-child(2) {--p-clr: var(--p8-clr); --p-shw: var(--p8-shw); --p-sz: var(--p8-em); --p-sz: var(--p8-sz); --p-r: var(--p8-r); --p-o: var(--p8-o);} */
+        .o1, .p1 {--pi: 1; --p-clr: var(--p1-clr); --p-shw: var(--p1-shw); --p-dark: var(--p1-dark); --p-sz: var(--p1-em); --p-sz: var(--p1-sz); --p-rem: var(--p1-rem); --p-r: var(--p1-r); --p-o: var(--p1-o);}
+        .o2, .p2 {--pi: 2; --p-clr: var(--p2-clr); --p-shw: var(--p2-shw); --p-dark: var(--p2-dark); --p-sz: var(--p2-em); --p-sz: var(--p2-sz); --p-rem: var(--p2-rem); --p-r: var(--p2-r); --p-o: var(--p2-o);}
+        .o3, .p3 {--pi: 3; --p-clr: var(--p3-clr); --p-shw: var(--p3-shw); --p-dark: var(--p3-dark); --p-sz: var(--p3-em); --p-sz: var(--p3-sz); --p-rem: var(--p3-rem); --p-r: var(--p3-r); --p-o: var(--p3-o);}
+        .o4, .p4 {--pi: 4; --p-clr: var(--p4-clr); --p-shw: var(--p4-shw); --p-dark: var(--p4-dark); --p-sz: var(--p4-em); --p-sz: var(--p4-sz); --p-rem: var(--p4-rem); --p-r: var(--p4-r); --p-o: var(--p4-o);}
+        .o5, .p5 {--pi: 5; --p-clr: var(--p5-clr); --p-shw: var(--p5-shw); --p-dark: var(--p5-dark); --p-sz: var(--p5-em); --p-sz: var(--p5-sz); --p-rem: var(--p5-rem); --p-r: var(--p5-r); --p-o: var(--p5-o);}
+        .o6, .p6 {--pi: 6; --p-clr: var(--p6-clr); --p-shw: var(--p6-shw); --p-dark: var(--p6-dark); --p-sz: var(--p6-em); --p-sz: var(--p6-sz); --p-rem: var(--p6-rem); --p-r: var(--p6-r); --p-o: var(--p6-o);}
+        .o7, .p7 {--pi: 7; --p-clr: var(--p7-clr); --p-shw: var(--p7-shw); --p-dark: var(--p7-dark); --p-sz: var(--p7-em); --p-sz: var(--p7-sz); --p-rem: var(--p7-rem); --p-r: var(--p7-r); --p-o: var(--p7-o);}
+        .o8, .p8 {--pi: 8; --p-clr: var(--p8-clr); --p-shw: var(--p8-shw); --p-dark: var(--p8-dark); --p-sz: var(--p8-em); --p-sz: var(--p8-sz); --p-rem: var(--p8-rem); --p-r: var(--p8-r); --p-o: var(--p8-o);}
     </style>
     <style>
         :root {
@@ -143,15 +160,16 @@
             --h: var(--sz);
             --w: var(--sz);
 
-            --ss-sz: 25rem;
+            --ss-sz: 32rem;
             --ss-h: var(--ss-sz);
             --ss-w: var(--ss-sz);
         }
         .ss {
             position: relative;
-            outline: 1px dashed var(--bwf9);
-            height: 500px;
-            width: 500px;
+            /* outline: 1px dashed var(--bwf9); */
+            box-shadow: 0 0 0 1px var(--bwf9);
+            height: 540px;
+            width: 540px;
             height: var(--ss-h);
             width: var(--ss-w);
             border-radius: 50%;
@@ -166,17 +184,30 @@
             box-shadow: 0 0 .25rem .125rem #ff5;
             border-radius: 50%;
             z-index: 9;
+            /* cursor: pointer; */
+            box-shadow: 
+            0 0 .0625rem 0rem #f829,
+            0 0 .125rem .0625rem #fc2c,
+            0 0 .25rem .125rem #ff5;
+            transition: box-shadow 500ms ease-in-out 200ms;
+        }
+        .s:hover {
+            box-shadow: 
+            0 0 .125rem .0625rem #f82,
+            0 0 .25rem .125rem #fc2,
+            0 0 .5rem .25rem #ff5;
+            transition: box-shadow 900ms ease-in-out;
         }
         .o {
-            --sz: calc(5rem + (var(--i) * 2rem));
+            --sz: calc(5rem + (var(--pi) * 3rem));
             --h: var(--sz);
             --w: var(--sz);
-            --hue: calc(var(--i) * 15);
-            --distance: calc(var(--i) * -3rem);
-            --duration: calc((var(--i) * 200ms) + 4000ms);
+            /* --hue: calc(var(--pi) * 15); */
+            --distance: calc(var(--pi) * -3rem);
+            --duration: calc((var(--pi) * 200ms) + 4000ms);
             --duration: calc((var(--p-o) * 10000ms));
 
-            --delay: calc(var(--i) * 200ms);
+            --delay: calc(var(--pi) * 200ms);
             position: absolute;
             top: 50%; left: 50%;
             height: var(--h);
@@ -185,7 +216,8 @@
             border-radius: 50%;
             /* border-radius: 50% 0% 50% 50%; */
 
-            outline: 1px dashed var(--bwf9);
+            /* outline: 1px dashed var(--bwf9); */
+            box-shadow: 0 0 0 1px var(--bwf9);
 
             /* transform-origin: 50% var(--distance);
             transform: translateX(-50%) translateY(calc(-50% - var(--distance))); */
@@ -207,27 +239,55 @@
             100%{transform: translateX(-50%) translateY(-50%) rotate(360deg);}
         }
 
+        .s:hover ~ .o > .p {
+            animation-play-state: running;
+        }
+
         .p {
             position: absolute;
             top: 0%; left: 50%;
             height: 1rem;
             width: 1rem;
+
+            --psz: calc(var(--p-rem) * 2px);
+            height: var(--psz);
+            width: var(--psz);
+
             /* border-radius: 50% 0% 50% 50%; */
             border-radius: 50%;
             /* --hue: calc(var(--i) * 15); */
             /* outline: 1px dashed var(--clr); */
             /* --clr: hsla(var(--hue), 50%, 40%, 1); */
-            --clr: var(--p-clr);
-            background-color: var(--clr);
+            /* --clr: var(--p-clr); */
+            background-color: var(--p-clr);
+            /* background-color: var(--p-dark); */
 
             /* --distance: calc(var(--i) * -3rem); */
             /* transform-origin: 50% var(--distance); */
             transform: translateX(-50%) translateY(-50%);
             /* transform: translateX(-50%) translateY(calc(-50% - var(--distance))); */
+
+            animation: orbit 5000ms linear infinite both;
+            animation-direction: reverse;
+            animation-duration: var(--duration);
+            animation-delay: var(--delay);
+            animation-play-state: paused;
         }
         @keyframes orbit1 {
             0%{transform: translateX(-50%) translateY(calc(-50% - var(--distance))) rotate(0deg);}
             100%{transform: translateX(-50%) translateY(calc(-50% - var(--distance))) rotate(360deg);}
+        }
+
+        .p:hover::after {
+            content: attr(data-planet-name);
+            position: absolute;
+            top: 0; left: 100%;
+            transform: translateY(-100%);
+            padding: .25rem;
+            /* background-color: var(--p-shw); */
+            background-color: var(--p-dark);
+            color: var(--p-clr);
+            box-shadow: 0 0 0 1px var(--p-clr);
         }
 
     </style>
@@ -245,22 +305,76 @@
 
 <main>
     <div class="shelf">
-        <div class="shelf-title">title</div>
+        <div class="shelf-title">touch the Sun to animate.</div>
         <div class="ss">
             <div class="s"></div>
-            <div class="o"><div class="p"></div></div>
-            <div class="o"><div class="p"></div></div>
-            <div class="o"><div class="p"></div></div>
-            <div class="o"><div class="p"></div></div>
-            <div class="o"><div class="p"></div></div>
-            <div class="o"><div class="p"></div></div>
-            <div class="o"><div class="p"></div></div>
-            <div class="o"><div class="p"></div></div>
-            <div class="o"><div class="p"></div></div>
+            <div class="o o8"><div class="p p8" data-planet-name="Neptune"></div></div>
+            <div class="o o7"><div class="p p7" data-planet-name="Uranus"></div></div>
+            <div class="o o6"><div class="p p6" data-planet-name="Saturn"></div></div>
+            <div class="o o5"><div class="p p5" data-planet-name="Jupiter"></div></div>
+            <div class="o o4"><div class="p p4" data-planet-name="Mars"></div></div>
+            <div class="o o3"><div class="p p3" data-planet-name="Earth"></div></div>
+            <div class="o o2"><div class="p p2" data-planet-name="Venus"></div></div>
+            <div class="o o1"><div class="p p1" data-planet-name="Mercury"></div></div>
+            <!-- <div class="o"><div class="p" data-planet-name="Mercury"></div></div>
+            <div class="o"><div class="p" data-planet-name="Venus"></div></div>
+            <div class="o"><div class="p" data-planet-name="Earth"></div></div>
+            <div class="o"><div class="p" data-planet-name="Mars"></div></div>
+            <div class="o"><div class="p" data-planet-name="Jupiter"></div></div>
+            <div class="o"><div class="p" data-planet-name="Saturn"></div></div>
+            <div class="o"><div class="p" data-planet-name="Uranus"></div></div>
+            <div class="o"><div class="p" data-planet-name="Neptune"></div></div> -->
+            <!-- <div class="o"><div class="p" data-planet-name=""></div></div> -->
         </div>
     </div>
 </main>
+<!-- let p = []
+p.push(2440);
+p.push(6052);
+p.push(6371);
+p.push(3390);
+p.push(69911);
+p.push(58232);
+p.push(25362);
+p.push(24622); -->
 
+<!-- 
+p[1] = 2440;
+p[2] = 6052;
+p[3] = 6371;
+p[4] = 3390;
+p[5] = 69911;
+p[6] = 58232;
+p[7] = 25362;
+p[8] = 24622;
+ -->
+<!-- 
+--p-1 : 7.799753318287247;
+--p-2 : 8.708144074908246;
+--p-3 : 8.759511722116489;
+--p-4 : 8.128585200374497;
+--p-5 : 11.154978283509006;
+--p-6 : 10.972190310798094;
+--p-7 : 10.141007269794844;
+--p-8 : 10.11139563120756; -->
+
+<!-- --p1-rem: 7.80;
+--p2-rem: 8.71;
+--p3-rem: 8.76;
+--p4-rem: 8.13;
+--p5-rem: 11.15;
+--p6-rem: 10.97;
+--p7-rem: 10.14;
+--p8-rem: 10.11;
+
+7.80
+8.71
+8.76
+8.13
+11.15
+10.97
+10.14
+10.11 -->
 
     <footer>
         <div class="my-name">

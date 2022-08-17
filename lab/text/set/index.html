@@ -637,7 +637,7 @@
         <div class="shelf">
             <!-- <div class="shelf-title">Input</div> -->
             <textarea name="input" id="input" cols="30" rows="10"></textarea>
-            <button id="WordBreakBtn" class="submitBtn" onclick="WordBreak()">Submit</button>
+            <button id="WordBreakBtn" class="submitBtn">Submit</button>
         </div>
     </details>
     <details id="result-view">
@@ -1003,7 +1003,17 @@
             UpdateCustomVariables();
 
             let WordBreakBtn = document.getElementById('WordBreakBtn');
-            WordBreakBtn.addEventListener('click', WordBreak);
+            // WordBreakBtn.addEventListener('click', WordBreak);
+            WordBreakBtn.addEventListener('click', (ev)=>{
+                let inputElement = document.getElementById('input');
+                let txt = inputElement.value;
+                let displayElement = document.getElementById('display');
+                let txtBox2 = WordStyle2(txt);
+                displayElement.appendChild(txtBox2);
+                let resultView = document.getElementById('result-view');
+                if(!resultView.open){resultView.open = true;}
+            });
+            // WordBreakBtn.addEventListener('touchend', WordBreak);
         });
         function WordTest(){
             let inputElement = document.getElementById('input');
