@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Hexagonal Maze | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+
+    <!-- <link rel="stylesheet" href="/NyteLabs/stylesheets/start.css">
+    <link rel="stylesheet" href="/NyteLabs/stylesheets/labst.css"> -->
+    
+    <!-- <link rel="stylesheet" href="../../../stylesheets/radio-nav.css"> -->
+    <!-- <link rel="stylesheet" href="../../../stylesheets/deck.css"> -->
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+    </style>
+    <style>
+        :root {
+            --bwf: #fff;
+            --bw0: #000;
+            --bw9: #999;
+            --bwt: #000;
+
+            --side: 3rem;
+            --th: .866;
+        }
+        .hgrid {
+            --cols: 9;
+            display: grid;
+            grid-template-columns: repeat(var(--cols), 1fr);
+        }
+        .col {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+
+        .h {
+            /* --h: 6rem; */
+            --h: var(--side);
+            --w: calc(1.1547 * var(--h));
+            height: var(--h);
+            width: var(--w);
+
+            background-color: #39f6;
+            background: linear-gradient(var(--bw9), var(--bw9)) center center / 100% .5rem no-repeat, #39f6;
+
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .h2::before, .h2::after,
+        .h2 {
+            position: relative;
+            --h: var(--side);
+            --w: calc(1.1547 * var(--h));
+            height: var(--h);
+            width: var(--w);
+            /* background-color: #39f6; */
+            background: linear-gradient(var(--bw9), var(--bw9)) center center / 100% .5rem no-repeat;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            transform: rotate(0deg);
+        }
+        .h2::before, .h2::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+        }
+        .h2::before {transform: translateX(-50%) translateY(-50%) rotate(-60deg);}
+        .h2::after {transform: translateX(-50%) translateY(-50%) rotate(60deg);}
+
+
+        .h3-dev {
+            /*tile: 4,6*/
+            /*after: 7,3*/
+            /*before: 1,9*/
+
+            /* --h7: -1; */
+
+            /* --clr-l: var(--bwt);
+            --clr-r: var(--bwt);
+            --clr-d: var(--bwt);
+            --hl: linear-gradient(var(--clr-l), var(--clr-l)) 0% center / 50% .5rem no-repeat;
+            --hr: linear-gradient(var(--clr-r), var(--clr-r)) 100% center / 50% .5rem no-repeat;
+            --dot: radial-gradient(var(--clr-d) 70%, var(--bwt) 70%) center center / .5rem .5rem no-repeat;
+
+
+            --cl7: var(--bwt);
+            --cl3: var(--bwt);
+            --cl9: var(--bwt);
+            --cl1: var(--bwt);
+            --cl4: var(--bwt);
+            --cl6: var(--bwt);
+            --clr-d: var(--bwt); */
+
+            /* --hl: linear-gradient(var(--clr-l), var(--clr-l)) 0% center / 50% .5rem no-repeat;
+            --hr: linear-gradient(var(--clr-r), var(--clr-r)) 100% center / 50% .5rem no-repeat;
+            --hl-ba: linear-gradient(var(--cl0), var(--cl0)) 0% center / 50% .5rem no-repeat, 
+            linear-gradient(var(--cl0), var(--cl0)) 100% center / 50% .5rem no-repeat;
+            --hl-c: linear-gradient(var(--cl0), var(--cl0)) 0% center / 50% .5rem no-repeat, 
+            linear-gradient(var(--cl0), var(--cl0)) 100% center / 50% .5rem no-repeat, 
+            radial-gradient(var(--clr-d) 70%, var(--bwt) 70%) center center / .5rem .5rem no-repeat; */
+
+            /* --alp-7: 0;
+            --alp-3: 0;
+            --alp-9: 0;
+            --alp-1: 0;
+            --alp-4: 0;
+            --alp-6: 0;
+            --alp-5: 0;
+
+            --cl7: hsla(210, 0%, 60%, var(--alp-7));
+            --cl3: hsla(210, 0%, 60%, var(--alp-3));
+            --cl9: hsla(210, 0%, 60%, var(--alp-9));
+            --cl1: hsla(210, 0%, 60%, var(--alp-1));
+            --cl4: hsla(210, 0%, 60%, var(--alp-4));
+            --cl6: hsla(210, 0%, 60%, var(--alp-6));
+            --cl5: hsla(210, 0%, 60%, var(--alp-5)); */
+        }
+
+        .h3 {
+            --a7: 0;
+            --a3: 0;
+            --a9: 0;
+            --a1: 0;
+            --a4: 0;
+            --a6: 0;
+            --a5: 0;
+            
+            --cl7: hsla(210, 0%, 60%, var(--a7));
+            --cl3: hsla(210, 0%, 60%, var(--a3));
+            --cl9: hsla(210, 0%, 60%, var(--a9));
+            --cl1: hsla(210, 0%, 60%, var(--a1));
+            --cl4: hsla(210, 0%, 60%, var(--a4));
+            --cl6: hsla(210, 0%, 60%, var(--a6));
+            --cl5: hsla(210, 0%, 60%, var(--a5));
+        }
+
+        .h3 {
+            --thickness: .5rem;
+            position: relative;
+            --h: var(--side);
+            --w: calc(1.1547 * var(--h));
+            background: linear-gradient(var(--cl4), var(--cl4)) 0% center / 50% var(--thickness) no-repeat, 
+            linear-gradient(var(--cl6), var(--cl6)) 100% center / 50% var(--thickness) no-repeat, 
+            radial-gradient(var(--cl5) 70%, var(--bwt) 70%) center center / var(--thickness) var(--thickness) no-repeat;
+            transform: rotate(0deg);
+        }
+        .h3, .h3::before, .h3::after {
+            height: var(--h);
+            width: var(--w);
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+        .h3::before, .h3::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+        }
+        .h3::before {
+            background: linear-gradient(var(--cl1), var(--cl1)) 0% center / 50% var(--thickness) no-repeat, 
+            linear-gradient(var(--cl9), var(--cl9)) 100% center / 50% var(--thickness) no-repeat;
+            transform: translateX(-50%) translateY(-50%) rotate(-60deg);
+        }
+        .h3::after {
+            background: linear-gradient(var(--cl7), var(--cl7)) 0% center / 50% .5rem no-repeat, 
+            linear-gradient(var(--cl3), var(--cl3)) 100% center / 50% .5rem no-repeat;
+            transform: translateX(-50%) translateY(-50%) rotate(60deg);
+        }
+
+
+        .h4 {
+            position: relative;
+            --h: var(--side);
+            --w: calc(1.1547 * var(--h));
+            background: linear-gradient(var(--bw9), var(--bw9)) left center / 50% .5rem no-repeat,
+            radial-gradient(var(--bw9) 70%, var(--bwt) 70%) center center / .5rem .5rem no-repeat;
+            transform: rotate(0deg);
+        }
+        .h4, .h4::before, .h4::after {
+            height: var(--h);
+            width: var(--w);
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+        .h4::before, .h4::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            background: linear-gradient(var(--bw9), var(--bw9)) left center / 50% .5rem no-repeat;
+        }
+        .h4::before {transform: translateX(-50%) translateY(-50%) rotate(-60deg);}
+        .h4::after {transform: translateX(-50%) translateY(-50%) rotate(60deg);}
+
+
+        .oct {
+            background: radial-gradient(var(--bw9) 50%, var(--bwt) 50%) center center / 1.5rem 1.5rem no-repeat;
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+    <!-- <link rel="stylesheet" href="/NyteLabs/stylesheets/end.css"> -->
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <div class="title">Hexagonal Maze</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <div class="subtitle"> 🚧 Under Construction 🚧 </div>
+    </header>
+
+<main>
+    <div class="shelf hidden">
+        <div class="shelf-title">columns</div>
+        <div class="col">
+            <div class="h"></div>
+            <div class="h2"></div>
+            <div class="h3" style="--a1:1; --a6: 1; --a7: 1; --a5: 1;"></div>
+            <div class="h3" style="--a1:1; --a4: 1; --a7: 1; --a5: 1;"></div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">tile</div>
+        <div class="h"></div>
+        <div class="h2"></div>
+        <!-- <div class="h3"></div> -->
+        <div class="h3" style="--a1:1; --a6: 1; --a7: 1; --a5: 1;"></div>
+        <div class="h3" style="--a1:1; --a4: 1; --a7: 1; --a5: 1;"></div>
+        <div class="h4"></div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+
+        const s = {
+            h: 12,
+            w: 8
+        }
+        var hmap = [];
+
+        function tileAsterix(){
+            let x = [];
+            for(let i = 0; i < 6; i++){
+                x.push(Math.floor(Math.random()*2));
+            }
+            return x;
+        }
+
+        function fillHexMap(){
+            // hmap = [];
+            for(let y = 0; y < s.h; y++){
+                let row = [];
+                for(let x = 0; x < s.w; x++){
+                    let tile = tileAsterix();
+                    row.push(tile);
+                }
+                hmap.push(row);
+            }
+            console.log(hmap);
+        }
+
+        function displayHexMaze(){
+            let display = document.getElementById('display');
+
+            let col = document.createElement('col');
+            /*every other column will get displayed vertically by .5 of the side len.*/
+            /*every other column will get displayed..*/
+            /*vertically by .5 of the side len.*/
+            /*horizontally by ?-.25 of the side len.*/
+
+            for(let x = 0; x < s.w; y++){
+                let col = document.createElement('div');
+                col.classList.add('col');
+                for(let y = 0; y < s.h; y++){
+                    let tile = document.createElement('div');
+                    tile.classList.add('tile');
+                    
+                    // let paths = tileAsterix();
+                    // let tileStyle = `--a7: 0; --a3: 0; --a9: 0; --a1: 0; --a4: 0; --a6: 0; --a5: 0;`;
+                    let p = tileAsterix();
+                    let p5 = Math.max(...p);
+                    let tileStyle = `--a1: ${p[0]}; --a3: ${p[1]}; --a4: ${p[2]}; --a5: ${p5}; --a6: ${p[3]}; --a7: ${p[4]}; --a9: ${p[5]};`;
+                    tile.style = tileStyle;
+                    // row.push(tile);
+                    col.appendChild(tile);
+                }
+                // hmap.push(row);
+                display.appendChild(col);
+            }
+
+        }
+
+
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+        });
+    </script>
+</body>
+</html>
