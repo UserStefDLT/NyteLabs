@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Tiles | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        
+    </style>
+    <style>
+        .tile--hex {  
+            --h: 5rem;
+            --w: calc(1.1547 * var(--h));
+            height: var(--h);
+            width: var(--w);
+            background-color: #39f6;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            margin: 1rem;
+        }
+        .patten--hex-star {
+            height: var(--h);
+            width: var(--w);
+            background-color: #ff5;
+            clip-path: polygon(25% 0%, 50% 45%, 75% 0%, 54.33% 47.5%, 100% 50%, 54.33% 52.5%, 75% 100%, 50% 55%, 25% 100%, 45.66% 52.5%, 0% 50%, 45.66% 47.5%, 25% 0%);
+        }
+    </style>
+    <style>
+        .h6 {
+            --h: 8rem;
+            --w: calc(1.1547 * var(--h));
+            position: relative;
+            height: var(--h);
+            width: var(--w);
+            background-color: #39f6;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            margin: 1rem;
+        }
+        .star {
+            --h: 8rem;
+            --w: calc(1.1547 * var(--h));
+            height: var(--h);
+            width: var(--w);
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            background-color: #ff5;
+            clip-path: polygon(25% 0%, 50% 45%, 75% 0%, 54.33% 47.5%, 100% 50%, 54.33% 52.5%, 75% 100%, 50% 55%, 25% 100%, 45.66% 52.5%, 0% 50%, 45.66% 47.5%, 25% 0%)
+        }
+
+        .h7 {
+            --h: 8rem;
+            --w: calc(1.1547 * var(--h));
+            position: relative;
+            height: var(--h);
+            width: var(--w);
+            background-color: #39f6;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            margin: 1rem;
+        }
+        .star-7 {
+            --h: 8rem;
+            --w: calc(1.1547 * var(--h));
+            height: var(--h);
+            width: var(--w);
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            background-color: #ff5;
+            /* clip-path: polygon(25% 0%, 50% 45%, 75% 0%, 54.33% 47.5%, 100% 50%, 54.33% 52.5%, 75% 100%, 50% 55%, 25% 100%, 45.66% 52.5%, 0% 50%, 45.66% 47.5%, 25% 0%); */
+            --s7: 50% 50%;
+            --s9: 50% 50%;
+            --s6: 50% 50%;
+            --s3: 50% 50%;
+            --s1: 50% 50%;
+            --s4: 50% 50%;
+        }
+        [data-sv7="true"] .star-7 {--s7: 45.66% 47.5%, 25% 0%, 50% 45%, 50% 50%;}
+        [data-sv9="true"] .star-7 {--s9: 50% 45%, 75% 0%, 54.33% 47.5%, 50% 50%;}
+        [data-sv6="true"] .star-7 {--s6: 54.33% 47.5%, 100% 50%, 54.33% 52.5%, 50% 50%;}
+        [data-sv3="true"] .star-7 {--s3: 54.33% 52.5%, 75% 100%, 50% 55%, 50% 50%;}
+        [data-sv1="true"] .star-7 {--s1: 50% 55%, 25% 100%, 45.66% 52.5%, 50% 50%;}
+        [data-sv4="true"] .star-7 {--s4: 45.66% 52.5%, 0% 50%, 45.66% 47.5%, 50% 50%;}
+        .star-7 {
+            /* --s7: 45.66% 47.5%, 25% 0%, 50% 45%, 50% 50%;
+            --s9: 50% 45%, 75% 0%, 54.33% 47.5%, 50% 50%;
+            --s6: 54.33% 47.5%, 100% 50%, 54.33% 52.5%, 50% 50%;
+            --s3: 54.33% 52.5%, 75% 100%, 50% 55%, 50% 50%;
+            --s1: 50% 55%, 25% 100%, 45.66% 52.5%, 50% 50%;
+            --s4: 45.66% 52.5%, 0% 50%, 45.66% 47.5%, 50% 50%; */
+
+            clip-path: polygon(50% 50%, var(--s7), var(--s9), var(--s6), var(--s3), var(--s1), var(--s4));
+        }
+
+        .star7s {
+            /* clip-path: polygon(
+                50% 50%, 
+                45.66% 47.5%, 25% 0%, 50% 45%, 
+                50% 50%, 
+                50% 45%, 75% 0%, 54.33% 47.5%,
+                50% 50%, 
+                54.33% 47.5%, 100% 50%, 54.33% 52.5%, 
+                50% 50%, 
+                54.33% 52.5%, 75% 100%, 50% 55%, 
+                50% 50%, 
+                50% 55%, 25% 100%, 45.66% 52.5%, 
+                50% 50%, 
+                45.66% 52.5%, 0% 50%, 45.66% 47.5%, 
+                50% 50%); */
+
+            /* --s7: 50% 50%, 45.66% 47.5%, 25% 0%, 50% 45%, 50% 50%;
+            --s9: 50% 50%, 50% 45%, 75% 0%, 54.33% 47.5%, 50% 50%;
+            --s6: 50% 50%, 54.33% 47.5%, 100% 50%, 54.33% 52.5%, 50% 50%;
+            --s3: 50% 50%, 54.33% 52.5%, 75% 100%, 50% 55%, 50% 50%;
+            --s1: 50% 50%, 50% 55%, 25% 100%, 45.66% 52.5%, 50% 50%;
+            --s4: 50% 50%, 45.66% 52.5%, 0% 50%, 45.66% 47.5%, 50% 50%; */
+
+            --s7: 50% 50%;
+            --s9: 50% 50%;
+            --s6: 50% 50%;
+            --s3: 50% 50%;
+            --s1: 50% 50%;
+            --s4: 50% 50%;
+
+            --s7: 45.66% 47.5%, 25% 0%, 50% 45%, 50% 50%;
+            --s9: 50% 45%, 75% 0%, 54.33% 47.5%, 50% 50%;
+            --s6: 54.33% 47.5%, 100% 50%, 54.33% 52.5%, 50% 50%;
+            --s3: 54.33% 52.5%, 75% 100%, 50% 55%, 50% 50%;
+            --s1: 50% 55%, 25% 100%, 45.66% 52.5%, 50% 50%;
+            --s4: 45.66% 52.5%, 0% 50%, 45.66% 47.5%, 50% 50%;
+
+            clip-path: polygon(
+                50% 50%, 
+                var(--s7),
+                var(--s9),
+                var(--s6),
+                var(--s3),
+                var(--s1),
+                var(--s4));
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Tiles</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <div class="subtitle"> 🚧 Under Construction 🚧 </div>
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">hex-periment</div>
+        <div class="h7" data-sv7="true" data-sv9="true" data-sv6="true" data-sv3="true" data-sv1="true" data-sv4="true">
+            <div class="star-7"></div>
+        </div>
+        <div class="h7" data-sv7="true" data-sv9="false" data-sv6="true" data-sv3="false" data-sv1="true" data-sv4="false">
+            <div class="star-7"></div>
+        </div>
+        <div class="h6">
+            <div class="star"></div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">hex tiles</div>
+        <div class="tile--hex">
+            <div class="patten--hex-star"></div>
+        </div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+
+        function addEvents(){
+            let stars = document.querySelectorAll('[class|="star"]');
+            stars.forEach(star => {
+                // star.addEventListener('click', (ev) => {console.log(`%cx: %c${ev.x}%c, y: %c${ev.y}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');});
+                star.addEventListener('mousemove', (ev) => {console.log(`%cx: %c${ev.x}%c, y: %c${ev.y}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');});
+            });
+        }
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            addEvents();
+        });
+    </script>
+</body>
+</html>

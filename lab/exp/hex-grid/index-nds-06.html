@@ -273,7 +273,7 @@
             var(--bg-tile); */
             --alp: 0;
             box-shadow: inset 0 0 2rem 2rem hsla(0, 80%, 40%, .25);
-            animation: startRaceLights 1800ms ease-in-out;
+            animation: startRaceLights 900ms ease-in-out;
             animation-iteration-count: 1;
             animation-fill-mode: both;
             animation-play-state: paused;
@@ -282,10 +282,8 @@
             animation-play-state: running;
         }
         @keyframes startRaceLights {
-            0% {box-shadow: inset 0 0 2rem 2rem hsla(0, 70%, 20%, .6);}
-            40% {box-shadow: inset 0 0 2rem 2rem hsla(0, 70%, 25%, .7);}
-            50% {box-shadow: inset 0 0 2rem 2rem hsla(60, 80%, 30%, .8);}
-            90% {box-shadow: inset 0 0 2rem 2rem hsla(60, 80%, 40%, .9);}
+            0% {box-shadow: inset 0 0 2rem 2rem hsla(0, 70%, 20%, .5);}
+            50% {box-shadow: inset 0 0 2rem 2rem hsla(60, 80%, 30%, .75);}
             100% {box-shadow: inset 0 0 2rem 2rem hsla(120, 90%, 50%, 1);
                 --txt-ready: var(--bwt);
                 --shadow-ready: var(--bwt);
@@ -297,7 +295,6 @@
         }
         .maze-start::before {
             content: 'Ready?';
-            content: 'Start';
             color: var(--txt-ready);
             text-shadow: 1px 1px 1px var(--shadow-ready);
             animation: waitingReadySet 900ms ease-in-out infinite both;
@@ -305,12 +302,12 @@
             animation-iteration-count: 6;
         }
         .maze-start::after {
-            content: 'Go!';
+            content: 'Go';
             color: var(--txt-go);
             text-shadow: 1px 1px 1px var(--shadow-go), 0px 0px 2px var(--shadow-go);
-            animation: RSGo 1800ms ease-in-out infinite alternate both;
+            animation: RSGo 450ms ease-in-out infinite alternate both;
             animation-play-state: var(--animation-play-state-go);
-            animation-iteration-count: 1;
+            animation-iteration-count: 3;
         }
         .maze-start::before, 
         .maze-start::after {
@@ -325,11 +322,8 @@
             100% {transform: translateX(-50%) translateY(-50%) scale(.8);}
         }
         @keyframes RSGo {
-            0% {transform: translateX(-50%) translateY(-50%) scale(.8); content: 'Ready?';}
-            25% {transform: translateX(-50%) translateY(-50%) scale(1.0);}
-            50% {transform: translateX(-50%) translateY(-50%) scale(1.2); content: 'Set';}
-            75% {transform: translateX(-50%) translateY(-50%) scale(.9);}
-            100% {transform: translateX(-50%) translateY(-50%) scale(1.2); content: 'Go!';}
+            0% {transform: translateX(-50%) translateY(-50%) scale(.9);}
+            100% {transform: translateX(-50%) translateY(-50%) scale(1.1);}
             /* 100% {transform: translateX(-50%) translateY(-50%) scale(1);} */
         }
 

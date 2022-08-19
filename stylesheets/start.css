@@ -210,6 +210,11 @@ main .shelf--heading time::before {content: "(";}
 main .shelf--heading time::after {content: ")";}
 
 
+/* @media (max-width: 375px){ 
+    .shelf {
+        justify-content: flex-start;
+    }
+} */
 
 /* 
  color
