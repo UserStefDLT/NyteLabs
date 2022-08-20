@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Maze Base | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        :root {
+            --bwt: #0000;
+            --bw0: #000;
+            --bw1: #111;
+            --bw2: #222;
+            --bw3: #333;
+            --bw4: #444;
+            --bw5: #555;
+            --bw6: #666;
+            --bw7: #777;
+            --bw8: #888;
+            --bw9: #999;
+            --bwa: #aaa;
+            --bwb: #bbb;
+            --bwc: #ccc;
+            --bwd: #ddd;
+            --bwe: #eee;
+            --bwf: #fff;
+        }
+    </style>
+    <style>
+        :root {
+            --bg: var(--bwt);
+            --sz-tile: 1rem;
+            --sz-player: .75rem;
+
+            --bg--1: var(--bwt);
+            --bg-0: var(--bwe);
+            --bg-2: #c06;
+            --bg-3: #0c6;
+            --bg-1: #06c;
+            --bg-9: #c60;
+            --bg-5: #999;
+
+            --bg-0: hsl(0, 0%, 93%);
+            --bg-2: hsl(330, 100%, 40%);
+            --bg-3: hsl(150, 100%, 40%);
+            --bg-1: hsl(210, 100%, 40%);
+            --bg-9: hsl(30, 100%, 40%);
+            --bg-5: hsl(0, 0%, 60%);
+
+            --hue-2: 330;
+            --hue-3: 150;
+            --hue-1: 210;
+            --hue-9: 30;
+
+            --hue: 0;
+            --sat: 100%;
+            --lum: 40%;
+            --alp: 1;
+
+            --hsl: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+        }
+        #display {position: relative;}
+        .grid {outline: 1px dashed #f009; outline-offset: 4px;}
+        .grid {
+            outline: 4px outset #fff;
+            box-shadow: 0 0 0 10px var(--bw0), inset 0 0 0 100vmin var(--bw0);
+            outline-offset: 8px;
+            border-radius: .125rem;
+        }
+        .row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+        }
+        .tile {
+            position: relative;
+            height: var(--sz-tile);
+            width: var(--sz-tile);
+            background-color: var(--bg);
+            border-radius: .125rem;
+
+            transition: background-color 900ms ease-in-out;
+        }
+        .tile[data-type="-1"] {--bg: var(--bwt);}
+        .tile[data-type="0"] {--bg: var(--bwe);}
+        .tile[data-type="2"] {--bg: #c06; --hue: var(--hue-2);}
+        .tile[data-type="3"] {--bg: #0c6; --hue: var(--hue-3);}
+        .tile[data-type="1"] {--bg: #06c; --hue: var(--hue-1);}
+        .tile[data-type="9"] {--bg: #c60; --hue: var(--hue-9);}
+        .tile[data-type="5"] {--bg: #999; --sat: 0%;}
+
+        .row {--iRow: var(--i);}
+        .tile[data-type="0"] {z-index: 2;}
+        .tile[data-type="1"],
+        .tile[data-type="9"] {z-index: 3;}
+        .tile[data-type="2"],
+        .tile[data-type="3"] {z-index: 4;}
+        .tile[data-type="5"] {z-index: 5;}
+
+        .tile[data-type="1"]::after {content: 'start';}
+        .tile[data-type="5"]::after {content: 'you';}
+        .tile[data-type="9"]::after {content: 'exit';}
+        .tile[data-type="1"]::after,
+        .tile[data-type="5"]::after,
+        .tile[data-type="9"]::after {
+            display: none;
+            position: absolute;
+            top: 0%; left: 50%;
+            transform: translateX(-50%) translateY(-100%);
+            padding: .125rem .25rem;
+            border-radius: .25rem;
+            color: var(--bwf);
+            text-shadow: 0px 0px 2px var(--bw0);
+            /* background-color: var(--bg);
+            --hsl-dark: hsla(var(--hue), var(--sat), 20%, var(--alp));
+            border: 1px solid var(--bg); */
+            --hsl-dark: hsla(var(--hue), var(--sat), 20%, .75);
+            background-color: var(--hsl-dark);
+            border: 1px outset var(--bg);
+            box-sizing: border-box;
+            z-index: 8;
+        }
+        .tile[data-type="1"]:hover::after,
+        .tile[data-type="5"]:hover::after,
+        .tile[data-type="9"]:hover::after {display: flex;}
+
+        .tile[data-type="5"][data-active="false"]::after {display: flex;}
+
+        #display[data-tags="true"] .tile::after {display: flex;}
+
+        /* Easy */
+        #difficulty-easy:checked ~ main .tile[data-type="0"] {
+            outline: 5px solid var(--bg);
+            outline-offset: -2px;
+        }
+        /* .tile[data-type="0"] {
+            outline: 5px solid var(--bg);
+            outline-offset: -2px;
+        } */
+
+        .tile[data-type="5"],
+        .player {
+            position: absolute;
+            height: var(--sz-tile);
+            width: var(--sz-tile);
+            background-color: var(--bwt);
+
+            --x: 0;
+            --y: 0;
+
+            --xOff: calc(var(--sz-tile) * var(--x));
+            --yOff: calc(var(--sz-tile) * var(--y));
+
+            transform: translateX(var(--xOff)) translateY(var(--yOff));
+            transition: transform 200ms ease-in-out;
+            transition: transform 200ms ease-in-out, background-color 900ms ease-in-out;
+
+            z-index: 5;
+        }
+        .tile[data-type="5"]::before,
+        .player::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+
+            height: var(--sz-player);
+            width: var(--sz-player);
+            border-radius: 50%;
+            --bg: #999;
+            background-color: var(--bg);
+            box-shadow: 0 0 2px 2px var(--bw3);
+        }
+    </style>
+    <style>
+        /* #display[data-cleared="true"] .tile[data-type="5"]::before {opacity: 0;}
+        #display[data-cleared="true"] .tile {--bg: var(--bwt);} */
+
+        #display {transform-style: preserve-3d; margin: 1rem auto;}
+        #display::after {
+            content: 'Level Cleared!';
+            content: 'Paused';
+
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            height: 100%; width: 100%;
+            height: 110%; width: 110%;
+            /* --display-sz: calc(100% + 12px); */
+            height: calc(100% + 24px); width: calc(100% + 24px);
+            
+            /* position: fixed; */
+            box-sizing: border-box;
+
+            border-radius: .25rem;
+            background-color: #1119;
+            background-color: #1113;
+            background-image: linear-gradient(to bottom, #1119, #111c 40%, var(--bw1), #111c 60%, #1119);
+            background-image: linear-gradient(to bottom, #1119, #111 40%, #111, #111 60%, #1119);
+            background-image: radial-gradient(#111, #111 30%, #1119 70%);
+            background-image: radial-gradient(#1119, #111c 40%, #111 100%);
+            background-image: radial-gradient(#1116, #1119 40%, #111c 100%);
+            backdrop-filter: blur(16px);
+            backdrop-filter: blur(2px);
+            border: 1px outset #fff9;
+
+            backface-visibility: hidden;
+            padding: .5rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #fff0;
+            font-size: 32px;
+            text-shadow: 0 0 2px var(--bw1);
+            text-shadow: 1px 2px 2px var(--bw1), 1px -2px 2px red;
+            text-shadow: 1px 2px 2px var(--bw1), 1px -2px 2px #03bcf4;
+            text-shadow: 1px 2px 2px var(--bw1), 1px -2px 2px #0bf, -2px 1px 1px #fb0;
+            text-shadow: 1px 2px 2px var(--bw1), 1px -1px 4px #0bf, -2px 1px 2px #fb0c;
+            text-shadow: 1px 3px 2px var(--bw1), 1px -2px 2px #0bf, -2px 1px 2px #fb0c;
+            text-shadow: 0px 3px 2px var(--bw0), 1px -2px 3px #0bf, -2px 1px 3px #fb0c;
+
+            background-image: radial-gradient(#1116, #1119 40%, #111c 100%);
+            text-shadow: 1px 2px 2px var(--bw1), 1px -1px 3px #03bcf4;
+
+            transform-style: preserve-3d;
+            transform: translateY(0%);
+            /* transform: scale(.8) perspective(5000px) translateZ(-200px); */
+            /* transform: perspective(5000px) translateZ(0px); */
+            transform: translateX(-50%) translateY(-50%) perspective(5000px) translateZ(-200px);
+            opacity: 0;
+            transition: 
+            transform 200ms ease-in-out, 
+            opacity 200ms ease-in-out,
+            color 200ms ease-in-out;
+            z-index: 8;
+        }
+        #display[data-paused="welcome"]::after {
+            content: 'Welcome';
+            color: #fff;
+            transform: translateX(-50%) translateY(-50%) perspective(5000px) translateZ(0px);
+            opacity: 1;
+        }
+        #display[data-paused="true"]::after {
+            content: 'Paused';
+            color: #fff;
+            transform: translateX(-50%) translateY(-50%) perspective(5000px) translateZ(0px);
+            opacity: 1;
+            transition: 
+            transform 200ms ease-in-out, 
+            opacity 100ms ease-in-out,
+            color 100ms ease-in-out;
+        }
+        #display[data-cleared="true"]::after {
+            content: 'Level Cleared!';
+            color: #fff;
+            transform: translateX(-50%) translateY(-50%) perspective(5000px) translateZ(0px);
+            opacity: 1;
+            transition: 
+            transform 600ms ease-in-out, 
+            opacity 600ms ease-in-out,
+            color 600ms ease-in-out;
+        }
+
+
+        /* #start[data-pause="true"] {}
+        #start[data-pause="false"] {} */
+        .tip {
+            background-color: #39f3;
+            padding: .125rem .25rem;
+            border-radius: .125rem;
+        }
+        #start[data-game="off"] ~ .tip::after {content: 'pause';}
+        #start[data-game="on"] ~ .tip::after {content: 'start';}
+
+    </style>
+    <link rel="stylesheet" href="settings.css">
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <h1 class="title">Maze Base</h1>
+        <!-- <div class="subtitle">subtitle</div> -->
+        <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div>
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+
+    <input type="radio" name="difficulty" id="difficulty-none">
+    <label for="difficulty-none">Normal</label>
+    <input type="radio" name="difficulty" id="difficulty-easy" checked>
+    <label for="difficulty-easy">Rounded</label>
+    
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">press <kbd id="start" data-game="on">Enter</kbd> to <span class="tip"></span>.</div>
+        <div id="display" data-tags="false" data-cleared="false" data-paused="welcome"></div>
+    </div>
+
+
+    <div id="settings" class="settings" data-display="false" data-keybind='s'>
+        <div class="stab" onclick="toggleSettings()"></div>
+        <h3>Settings</h3>
+        <div class="row"><button id="pause" onclick="pause()" class="sbtn" data-switch="off">pause</button></div>
+        <div class="row"><button id="tags" onclick="toggleTags()" class="sbtn" data-switch="off">tooltips</button></div>
+
+        <div class="row"><button id="redo" onclick="rebuild()" class="sbtn">rebuild</button></div>
+        
+        <!-- <div class="row"><button id="huesp" onclick="hueSp()" class="sbtn" data-switch="off">hue</button></div>        
+        <div class="row"><button id="gf_active" onclick="toggleGravity()" class="sbtn" data-switch="off">gravity</button></div>
+        <div class="row"><button id="grid" onclick="toggleCanvas('canvas_grid')" class="sbtn" data-toggle-layer="false" data-canvas="canvas_grid">grid</button></div>
+        <div class="row"><button id="trace" onclick="toggleCanvas('canvas_trace')" class="sbtn" data-toggle-layer="false" data-canvas="canvas_trace">trace</button></div> -->
+    </div>
+
+    <!-- <div id="myconsole" class="myconsole" data-display="false" data-keybind='w'>
+        <div class="ctab" onclick="openS2()"></div>
+        <h3>Status</h3>
+        <div class="row"><label for="s.x">x:</label><div id="s.x"></div></div>
+        <div class="row"><label for="s.y">y:</label><div id="s.y"></div></div>
+        <div class="row"><label for="s.d">d:</label><div id="s.d"></div></div>
+        <div class="row"><label for="s.h">h:</label><div id="s.h"></div></div>
+        <div class="row"><label for="s.f">f:</label><div id="s.f"></div></div>
+    </div> -->
+
+    <div id="info" class="info" data-display="false" data-keybind='q'>
+        <div class="xClose" onclick="q()"></div>
+        <h2>Info</h2>
+        <div class="row initial-description">
+            <p>Press <kbd>Esc</kbd> or close this view to return.</p>
+        </div>
+        <div class="row"><kbd>Esc</kbd> <span>toggles this view.</span></div>
+        <div class="row"><kbd>CapsLock</kbd> <span>toggles the settings.</span></div>
+        
+        <!-- <div class="row"><kbd>G</kbd> <span>toggles the grid.</span></div> -->
+        <!-- <div class="row"><kbd>T</kbd> <span>toggles the tracing path behind particles.</span></div> -->
+        <!-- <div class="row"><kbd>I</kbd> <span>toggles the id tags on top of the particles.</span></div> -->
+        <!-- <div class="row"><kbd>F</kbd> <span>toggles the gravity.</span></div> -->
+        <!-- <div class="row"><kbd>O</kbd> <span>toggles size lock, allowing size to be dependent on speed.</span></div> -->
+        <!-- <div class="row"><kbd>Q</kbd> <span>toggles the liquid effect.</span></div> -->
+        <!-- <div class="row"><kbd>H</kbd> <span>toggles hue of the particles.</span></div> -->
+        <!-- <div class="row"><kbd>&nbsp;</kbd> <span>pauses the particles.</span></div> -->
+        <div class="row"><kbd>Space</kbd> <span>pauses the game.</span></div>
+        
+        <!-- <div class="row"><kbd>L</kbd> <span>toggles the console logs.</span></div> -->
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        const s = {
+            h: window.innerHeight,
+            w: window.innerWidth,
+
+            grid: {
+                cols: 15,
+                rows: 15,
+                margin: 16
+            },
+            maze: {
+                active: false
+            },
+            tile: {
+                h: 20,
+                w: 20,
+                fill: 0
+            },
+
+            s: false,
+            steps: false,
+            tags: false,
+            log: true,
+            pause: true,
+            q: false,
+            z: false
+        }
+
+        const player = {
+            hp: 10,
+            x: 0,
+            y: 0,
+            z: 0
+        }
+        var level;
+        var playerOne;
+
+        const maze_settings = {
+            wall: -1,
+            path: 0,
+            start: 1,
+            end: 9
+        }
+
+        var direction_char = ['○', '↙', '↓', '↘', '←', '•', '→', '↖', '↑', '↗'];
+        var sides = [1,2,3,4,6,7,8,9];
+        const yxSide = {
+            0:{y:0,x:0},
+            1:{y:1,x:-1},
+            2:{y:1,x:0},
+            3:{y:1,x:1},
+            4:{y:0,x:-1},
+            5:{y:0,x:0},
+            6:{y:0,x:1},
+            7:{y:-1,x:-1},
+            8:{y:-1,x:0},
+            9:{y:-1,x:1}
+        };
+
+        class xy {
+            constructor(x = 0, y = 0, d = 0){
+                this.x = x;
+                this.y = y;
+                this.d = d;
+            }
+        }
+        class Maze {
+            constructor(w, h, fill = -1){
+                this.w = w;
+                this.h = h;
+                this.fill = fill;
+                this.start = new xy();
+                this.end = new xy();
+                this.maze = [];
+                this.stepMap = [];
+
+                this.game = 'off';
+
+                this.fillMap();
+                this.selectStart();
+            }
+            fillMap(fill = this.fill){
+                for(let y=0; y<this.h; y++){
+                    this.maze.push([]);
+                    this.stepMap.push([]);
+                    for(let x=0; x<this.w; x++){
+                        this.maze[y].push(fill);
+                        this.stepMap[y].push(0);
+                    }
+                }
+            }
+            selectStart() {
+                this.start.x = Math.floor(Math.random()*this.w);
+                this.start.y = Math.floor(Math.random()*this.h);
+
+                this.xyPath = new xy(this.start.x, this.start.y);
+                this.maze[this.start.y][this.start.x] = 1;
+
+                s.maze['start'] = new xy();
+                s.maze.start.x = this.start.x;
+                s.maze.start.y = this.start.y;
+            }
+            selectEnd() {
+                this.maze[this.end.y][this.end.x] = 9;
+                console.log(`%cSteps: %c${this.end.d}`, 'color:#ccc;', 'color:#f93;');
+                s.maze['end'] = new xy();
+                s.maze.end.x = this.end.x;
+                s.maze.end.y = this.end.y;
+
+                this.game = 'on';
+            }
+            isInMap(x,y){
+                if(x < 0 || x >= this.w || y < 0 || y >= this.h) {return false;}
+                else {return true;}
+            }
+            pathHelper(step, count = 0){
+                let possibleDirections = [];
+                for (let i = 0; i < sides.length; i++) {
+                    let d = sides[i];
+                    const yxd = yxSide[d];
+                    // if(this.isInMap(step.x + yxd.x, step.y + yxd.y) && this.maze[step.y][step.x] == -1) {possibleDirections.push(d);}
+                    if(this.isInMap(step.x + yxd.x, step.y + yxd.y) && this.maze[step.y + yxd.y][step.x + yxd.x] == -1) {
+                        possibleDirections.push(d);
+                    }
+                }
+                let pathSides = [...possibleDirections];
+                for (let i = 0; i < possibleDirections.length; i++) {
+                    // choose a direction → 'dNext' and 'next';
+                    let dNext = pathSides.splice(Math.floor(Math.random()*pathSides.length),1);
+                    let next = new xy(step.x + yxSide[dNext].x, step.y + yxSide[dNext].y);
+                    
+                    let validPath = true;
+
+                    // check around the path chosen.
+                    for (let i = 0; i < sides.length; i++) {
+                        let d = sides[i];
+                        /* yxA = yxAround */
+                        let yxA = new xy(next.x + yxSide[d].x, next.y + yxSide[d].y);
+
+                        // if this side is on the map, and not where we came from.
+                        if(this.isInMap(yxA.x,yxA.y) && !(yxA.x == step.x && yxA.y == step.y)) {
+                            // if it is a defined tile. (anything besides '-1')
+                            if(this.maze[yxA.y][yxA.x] != -1){
+                                validPath = false;
+                            }
+                        }
+                        
+                    }
+                    // if the path has something around that is not a '-1'
+                    // we just ignore that side.
+                    if(validPath){
+                        this.maze[next.y][next.x] = 0;
+                        this.stepMap[next.y][next.x] = count+1;
+                        this.pathHelper(next, count+1);
+
+                        if(count >= this.end.d){
+                            this.end.x = next.x;
+                            this.end.y = next.y;
+                            this.end.d = count;
+                        }
+                    }
+                }
+            }
+            makePath(){
+                // from the start..
+                // solve possible directions.
+                let possibleDirections = [];
+                for (let i = 0; i < sides.length; i++) {
+                    let d = sides[i];
+                    const yxd = yxSide[d];
+                    if(this.isInMap(this.xyPath.x + yxd.x, this.xyPath.y + yxd.y)) {
+                        possibleDirections.push(d);
+                    }
+                }
+                let pathSides = [...possibleDirections];
+                for (let i = 0; i < possibleDirections.length; i++) {
+                    let dNext = pathSides.splice(Math.floor(Math.random()*pathSides.length),1);
+                    let next = new xy(this.xyPath.x + yxSide[dNext].x, this.xyPath.y + yxSide[dNext].y);
+
+                    let validPath = true;
+                    // check around the path chosen.
+                    for (let i = 0; i < sides.length; i++) {
+                        let d = sides[i];
+                        let yxA = new xy(next.x + yxSide[d].x, next.y + yxSide[d].y);
+
+                        // if this side is on the map, and not where we came from.
+                        if(this.isInMap(yxA.x,yxA.y) && !(yxA.x == this.xyPath.x && yxA.y == this.xyPath.y)) {
+                            if(this.maze[yxA.y][yxA.x] != -1){
+                                validPath = false;
+                            }
+                        }
+                        
+                    }
+                    if(validPath){
+                        this.maze[next.y][next.x] = 0;
+                        this.pathHelper(next);
+                    }
+                }
+                this.selectEnd();
+            }
+            levelCleared() {
+                this.maze = [];
+                this.fillMap();
+
+                let display = document.getElementById('display');
+                display.dataset.cleared = 'true';
+
+                this.game = 'off';
+            }
+            rebuild() {
+                // this.maze = [];
+                // this.fillMap();
+                this.selectStart();
+                this.makePath();
+                playerOne.displayPlayer();
+                playerOne.GameOn();
+                
+                let display = document.getElementById('display');
+                display.dataset.cleared = 'false';
+                display.innerHTML = '';
+
+                BuildMaze_Display(s.grid.cols,s.grid.rows, this.maze);
+            }
+        }
+        function BuildMaze_Display(w, h, map){
+            let display = document.getElementById('display');
+
+            let grid = document.createElement('div');
+            grid.classList.add('grid');
+
+            // for(let x = 0; x < s.cols; x++){
+            for(let y = 0; y < h; y++){
+                let row = document.createElement('div');
+                row.classList.add('row');
+                // for(let y = 0; y < s.rows; y++){
+                for(let x = 0; x < w; x++){
+                    let tile = document.createElement('div');
+                    tile.classList.add('tile');
+                    
+                    tile.id = `xy${x},${y}`;
+                    tile.dataset.x = x;
+                    tile.dataset.y = y;
+                    tile.dataset.type = `${map[y][x]}`;
+
+                    row.appendChild(tile);
+                }
+                grid.appendChild(row);
+            }
+            display.appendChild(grid);
+        }
+        
+        function updateSettings(){
+            s.h = window.innerHeight;
+            s.w = window.innerWidth;
+
+            let h = s.h * .94 - 108;
+            let w = s.w * .95;
+
+            s.grid.cols = Math.floor((w - s.grid.margin) / s.tile.w);
+            s.grid.rows = Math.floor((h - s.grid.margin) / s.tile.h);
+
+            console.log(`%cw: %c${s.w}%c, h: %c${s.h}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+            console.log(`%cw: %c${w}%c, h: %c${h}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+            console.log(`%ccols: %c${s.grid.cols}%c, rows: %c${s.grid.rows}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+        }
+
+        class Player {
+            constructor(x = 0, y = 0){
+                this.x = x;
+                this.y = y;
+                this.active = false;
+                this.d = new xy();
+
+                this.playerElement = document.createElement('div');
+                // this.displayPlayer();
+            }
+            displayPlayer(){
+                let display = document.getElementById('display');
+                this.playerElement.id = 'playerOne';
+                if(!this.playerElement.classList.contains('player')) {
+                    this.playerElement.classList.add('player');
+                    this.playerElement.classList.add('tile');
+                }
+                this.playerElement.dataset.type = '5';
+                // this.playerElement.style = `--x: 0; --y: 0;`;
+                this.playerElement.style = `--x: ${this.x}; --y: ${this.y};`;
+                this.playerElement.dataset.active = this.active;
+                display.appendChild(this.playerElement);
+                // this.moveDisplay();
+            }
+            GameToggle(){
+                this.active = !this.active;
+                this.playerElement.dataset.active = this.active;
+            }
+            GameOn(){
+                if(!this.active){
+                    this.GameToggle();
+                }
+            }
+            moveDisplay(){
+                if(this.active){
+                    this.playerElement.style = `--x: ${this.x}; --y: ${this.y};`;
+                    // safeLog([`%c--x: %c${this.x}%c; --y: %c${this.y}%c;`, 'color: #999;', logStyle.xi, 'color: #999;', logStyle.xi, 'color: #999;']);
+                }
+            }
+            move(d){
+                let next = new xy(yxSide[d].x + this.x, yxSide[d].y + this.y);
+                // safeLog([`%c next.x: %c${next.x}%c, next.y: %c${next.y}`, 'color: #999;', 'color: #06c;', 'color: #999;', 'color: #06c;']);
+                if(level.isInMap(next.x, next.y)){
+                    // safeLog([`%ctile: (%c${next.x}%c, next.y: %c${next.y}%c) is in Map.`, 'color: #999;', 'color: #06c;', 'color: #999;', 'color: #06c;', 'color: #999;']);
+                    let tile = level.maze[next.y][next.x];
+                    // safeLog([`%ctile: %c${tile}`, 'color: #999;', 'color: #06c;']);
+                    if(tile == 9) {
+                        level.levelCleared();
+                        return true;
+                    } else if(tile == 0){
+                        this.x = next.x;
+                        this.y = next.y;
+                        this.moveDisplay();
+                        return true;
+                    }
+                }
+                return false;
+            }
+            moveXY(x,y){
+                if(this.active) {
+                    let next = new xy(this.x + x, this.y + y);
+                    if(level.isInMap(next.x, next.y)){
+                        let tile = level.maze[next.y][next.x];
+                        // safeLog([`%c→ tile: '%c${tile}%c'`, 'color: #999;', logStyle.xi, 'color: #999;']);
+                        if(tile == 9) {
+                            this.x = next.x;
+                            this.y = next.y;
+                            this.moveDisplay();
+                            this.GameOver();
+                            return true;
+                        } else if(tile == 0){
+                            this.x = next.x;
+                            this.y = next.y;
+                            // this.d.x = x;
+                            // this.d.y = y;
+                            this.moveDisplay();
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+            move2(d){
+                // console.log(d);
+                // safeLog([`%cmove2(%c${d}%c)`, 'color: #999;', logStyle.xi, 'color: #999;']);
+                // // safeLog([`%cd → '%c${d}%c'`, 'color: #999;', logStyle.xi, 'color: #999;']);
+                // safeLog([`%ctypeof d → '%c${typeof d}%c'`, 'color: #999;', logStyle.xi, 'color: #999;']);
+                let xyd = new xy(yxSide[d].x, yxSide[d].y);
+                
+                switch(`${d}`) {
+                    case '7':
+                    case '9':
+                    case '8':
+                        this.d.y = -1;
+                        break;
+                    case '7':
+                    case '1':
+                    case '4':
+                        this.d.x = -1;
+                        break;
+                    case '9':
+                    case '3':
+                    case '6':
+                        this.d.x = 1;
+                        break;
+                    case '1':
+                    case '3':
+                    case '2':
+                        this.d.y = 1;
+                        break;
+                    default:
+                        break;
+                }
+                // var ilogStyle = 'background-color: #06c6; color: #06c; padding: .0625rem .125rem; border-radius: .25rem; font-weight: bold;';
+                // var ilogStyle = logStyle.i;
+                // safeLog([`%c this.d(%c${this.d.x}%c,%c${this.d.y}%c)`, 'color: #999;', logStyle.xi, 'color: #999;', logStyle.xi, 'color: #999;']);
+
+                if([2,4,6,8].includes(d)){
+                    // safeLog([`%c→ [2,4,6,8].includes(%c${d}%c): '%c${[2,4,6,8].includes(d)}%c'`, 'color: #999;', logStyle.xi, 'color: #999;', logStyle.xi, 'color: #999;']);
+                    // try to go in the direction selected.
+                    let moveAttempt1 = this.moveXY(yxSide[d].x, yxSide[d].y);
+                    // safeLog([`%c→ moveAttempt1: '%c${moveAttempt1}%c'`, 'color: #999;', logStyle.xi, 'color: #999;']);
+                    // if(!this.moveXY(yxSide[d].x, yxSide[d].y)) {
+                    if(!moveAttempt1) {
+                        // if not, then pick from the previous direction to make a diagonal.
+                        if(d == 6 || d == 4) {xyd.y = yxSide[d].y + this.d.y;}
+                        if(d == 8 || d == 2) {xyd.x = yxSide[d].x + this.d.x;}
+                        let moveAttempt2 = this.moveXY(xyd.x, xyd.y);
+                        // safeLog([`%c→ moveAttempt2: '%c${moveAttempt2}%c'`, 'color: #999;', logStyle.xi, 'color: #999;']);
+                        // if(!this.moveXY(xyd.x, xyd.y)){
+                        if(!moveAttempt2){
+                            if(d == 6 || d == 4) {xyd.y = yxSide[d].y - this.d.y;}
+                            if(d == 8 || d == 2) {xyd.x = yxSide[d].x - this.d.x;}
+
+                            // last attempt.
+                            let moveAttempt3 = this.moveXY(xyd.x, xyd.y);
+                            // this.moveXY(xyd.x, xyd.y);
+
+                            // safeLog([`%c→ moveAttempt3: '%c${moveAttempt3}%c'`, 'color: #999;', logStyle.xi, 'color: #999;']);
+                        }
+                    }
+                } else if([1,3,7,9].includes(d)){
+                    let moveAttempt0 = this.moveXY(xyd.x, xyd.y);
+                    // safeLog([`%c→ moveAttempt0: '%c${moveAttempt0}%c'`, 'color: #999;', logStyle.xi, 'color: #999;']);
+                }
+            }
+            // playerCleared(){
+            GameOver(){
+                level.levelCleared();
+                this.x = -1;
+                this.y = -1;
+                if(this.active){
+                    this.GameToggle();
+                }
+                this.playerElement.style = `display: none;`;
+            }
+        }
+
+
+        /* ─── Settings ─── */
+        function updateLayout(){
+            let switches = document.querySelectorAll('[data-switch]');
+            switches.forEach(sw => {
+                let sid = sw.id;
+                if(s[sid]){
+                    sw.dataset.switch = 'on';
+                } else {
+                    sw.dataset.switch = 'off';
+                }
+            });
+            let displays = document.querySelectorAll('[data-display]');
+            displays.forEach(displayElem => {
+                let skey= displayElem.dataset.keybind;
+                displayElem.dataset.display = s[skey];
+            });
+            // let layerBtns = document.querySelectorAll('[data-layer]');
+            // layerBtns.forEach(layerBtn => {
+            //     let layerKey= layerBtn.dataset.canvas;
+            //     layerBtn.dataset.toggleLayer = toggle_layers[layerKey];
+            // });
+        }
+
+        function q(){
+            s.q = !s.q; /* s.q ? s.q = false : s.q = true; */
+            settingsLog([`%cs%c.q:%c${s.q}`, logStyle.s, logStyle.n, logStyle.bool]);
+            let infoModal = document.getElementById('info');
+            infoModal.dataset.display = s.q;
+        }
+        function toggleSettings(){
+            if(!s.q){
+                s.s = !s.s;
+                settingsLog([`%cs%c.s:%c${s.s}`, logStyle.s, logStyle.n, logStyle.bool]);
+                let settingsBtn = document.getElementById('settings');
+                settingsBtn.dataset.display = s.s;
+            }
+        }
+        function pause(){
+            if(!s.q){
+                s.pause = !s.pause;
+                settingsLog([`%cs%c.pause:%c${s.pause}`, logStyle.s, logStyle.n, logStyle.bool]);
+
+                let display = document.getElementById('display');
+                display.dataset.paused = s.pause;
+
+                let pauseBtn = document.getElementById('pause');
+                let startBtn = document.getElementById('start');
+                if(s.pause){
+                    pauseBtn.dataset.switch = 'on';
+                    startBtn.dataset.game = 'on';
+                } else {
+                    pauseBtn.dataset.switch = 'off';
+                    startBtn.dataset.game = 'off';
+                }
+                if(!playerOne.active){
+                    playerOne.GameOn();
+                }
+                // playerOne.GameToggle();
+            }
+        }
+        function toggleTags(){
+            if(!s.q){
+                s.tags = !s.tags;
+                settingsLog([`%cs%c.tags:%c${s.tags}`, logStyle.s, logStyle.n, logStyle.bool]);
+
+                let display = document.getElementById('display');
+                display.dataset.tags = s.tags;
+
+                let tagsBtn = document.getElementById('tags');
+                if(s.tags){
+                    tagsBtn.dataset.switch = 'on';
+                } else {
+                    tagsBtn.dataset.switch = 'off';
+                }
+            }
+        }
+
+        function rebuild() {
+            if(level.game == "on") {
+                level.levelCleared();
+                playerOne.GameOver();
+            }
+            level.rebuild();
+        }
+        function movePlayer(d){
+            // safeLog([`%cmovePlayer(%c${d}%c)`, 'color: #999;', 'color: #06c;', 'color: #999;']);
+            if(!s.pause){
+                playerOne.move2(d);
+            }
+        }
+        window.addEventListener("keydown", function (event) {
+            // console.log(`key: '${event.key}', keyCode: '${event.keyCode}'.`);
+            if(event.key == 'Escape') {
+                q();
+            }
+            if(s.q){
+                console.log(`key: '${event.key}', keyCode: '${event.keyCode}'.`);
+                // if(event.key == 'Escape' || event.key == 'q' || event.key == 'Q') {q();}
+                // if(event.key == '.' || event.key == 'CapsLock' || event.key == '`') {}
+            }
+            if(!s.q){
+                let evkey = event.key.toLowerCase();
+                if(event.key == ' ' || event.key == 'Enter') {pause();}
+                if(event.key == 'CapsLock') {toggleSettings();}
+                if(event.key == '`') {s.log = !s.log; settingsLog([`%cs%c.log:%c${s.log}`, logStyle.s, logStyle.n, logStyle.bool]);}
+
+                if(evkey == 'q' || event.key == '7') {movePlayer(7);}
+                if(evkey == 'w' || event.key == '8' || event.key == 'ArrowUp') {movePlayer(8);}
+                if(evkey == 'e' || event.key == '9') {movePlayer(9);}
+                if(evkey == 'a' || event.key == '4' || event.key == 'ArrowLeft') {movePlayer(4);}
+                if(evkey == 'd' || event.key == '6' || event.key == 'ArrowRight') {movePlayer(6);}
+                if(evkey == 'z' || event.key == '1') {movePlayer(1);}
+                if(evkey == 's' || event.key == '2' || event.key == 'ArrowDown') {movePlayer(2);}
+                if(evkey == 'x' || event.key == '3') {movePlayer(3);}
+                // if(!s.pause){
+                //     // if(evkey == 'w' || event.key == '8' || event.key == 'ArrowUp') {movePlayer(8);}
+                //     // if(evkey == 'a' || event.key == '4' || event.key == 'ArrowLeft') {movePlayer(4);}
+                //     // if(evkey == 'd' || event.key == '6' || event.key == 'ArrowRight') {movePlayer(6);}
+                //     // if(evkey == 's' || event.key == '2' || event.key == 'ArrowDown') {movePlayer(2);}
+                // }
+            }
+
+            // if(event.key == 'Tab' || event.key == '`') {openS();}
+        });
+
+        function addEvents(){
+            let startBtn = document.getElementById('start');
+            startBtn.addEventListener('click', pause);
+        }
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            updateSettings();
+
+            level = new Maze(s.grid.cols,s.grid.rows);
+            level.makePath();
+
+            playerOne = new Player(s.maze.start.x,s.maze.start.y);
+            playerOne.displayPlayer();
+
+            // playerOne.GameOn();
+
+            BuildMaze_Display(s.grid.cols,s.grid.rows, level.maze);
+            
+            addEvents();
+        });
+
+        // var ilogStyle = 'background-color: #06c6; color: #06c; padding: .0625rem .125rem; border-radius: .25rem; font-weight: bold;';
+        const logStyle = {
+            'xi': `background-color: #06c3; color: #39f; padding: .0625rem .125rem; border-radius: .25rem; font-weight: bold;`,
+            's': `background-color: #fff; color: #000; padding: .0625rem .125rem; border-radius: .25rem; font-weight: bold;`,
+            'n': `color: #ccc;`,
+            'setting': `color: #fff;`,
+            'bool': `background-color: #39f2; color: #39f; padding: .0625rem .25rem; border-radius: .25rem;`,
+        };
+        function settingsLog(s_log = ['']){
+            if(!s.q){
+                if(Array.isArray(s_log)){
+                    console.log(...s_log);
+                }
+                if(typeof s_log == 'string'){
+                    console.log(s_log);
+                }
+            }
+        }
+        function safeLog(arr = [''], bypass = false){
+            if(!s.q){
+                if(s.log || bypass){
+                    if(Array.isArray(arr)){
+                        console.log(...arr);
+                    }
+                    if(typeof arr == 'string'){
+                        console.log(arr);
+                    }
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>

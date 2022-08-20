@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Maze Base | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">Maze Base</h1>
+        <!-- <div class="subtitle">subtitle</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">experiment</div>
+        <div id="display"></div>
+        <!-- <div class="x"></div> -->
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        const s = {
+            h: 12,
+            w: 15,
+            cols: 12,
+            rows: 15,
+            grid: {
+                cols: 12,
+                rows: 15,
+                margin: 16
+            },
+            tile: {
+                h: 16,
+                w: 16,
+                fill: 0
+            }
+        }
+
+        const maze = {
+            wall = -1,
+            path = 0,
+            start = 1,
+            end = 9
+        }
+
+        var tile_sides = [1,2,3,4,5,6,7,8,9];
+        var sides = [1,2,3,4,6,7,8,9];
+        const yxSide1 = [
+            [1,-1],
+            [1,0],
+            [1,1],
+            [0,-1],
+            [0,0],
+            [0,1],
+            [-1,-1],
+            [-1,0],
+            [-1,1]
+        ];
+
+        // var yxOpposite = {2:8,4:6,6:4,8:2};
+        var yxOpposite = [9,8,7,6,5,4,3,2,1];
+        const yxSide = [
+            {y:1,x:-1},
+            {y:1,x:0},
+            {y:1,x:1},
+            {y:0,x:-1},
+            {y:0,x:0},
+            {y:0,x:1},
+            {y:-1,x:-1},
+            {y:-1,x:0},
+            {y:-1,x:1}
+        ];
+
+        class xy {
+            constructor(x = 0,y = 0){
+                this.x = x;
+                this.y = y;
+            }
+        }
+        class GridMap {
+            constructor(w, h, fill = 0){
+                this.w = w;
+                this.h = h;
+                this.fill = fill;
+                this.map = [];
+                this.fillMap();
+            }
+            fillMap(){
+                for(let y=0; y<h;y++){
+                    this.map.push([]);
+                    for(let x=0; x<w;x++){
+                        this.map[y].push(this.fill);
+                    }
+                }
+            }
+        }
+        
+        class Maze {
+            constructor(w, h, fill = -1){
+                this.w = w;
+                this.h = h;
+                this.fill = fill;
+                this.w = {};
+                this.w['map'] = [];
+                this.w['steps'] = [];
+
+                this.fillMap();
+            }
+            fillMap(){
+                for(let y=0; y<h;y++){
+                    this.w['map'].push([]);
+                    for(let x=0; x<w;x++){
+                        this.w['map'][y].push(this.fill);
+                    }
+                }
+            }
+            selectStart() {
+                this.start = new xy(Math.floor(Math.random()*this.w), Math.floor(Math.random()*this.h));
+    
+                // this.start = new xy();
+                // this.start.x = Math.floor(Math.random()*this.w);
+                // this.start.y = Math.floor(Math.random()*this.h);
+
+                this.xyPath = new xy(x = start.x, y = start.y);
+                this.w.map[start.y][start.x] = 1;
+            }
+            isInMap(x,y){
+                if(x < 0 || x >= this.w || y < 0 || y >= this.h) {return false;}
+                else {return true;}
+            }
+            pathHelper(step){
+                let possibleDirections = [];
+                for (let d = 0; d < sides.length; d++) {
+                    const yxd = yxSide[d];
+                    if(isInMap(step.x + yxd.x, step.y + yxd.y) && this.w.map[step.y][step.x] == -1) {
+                        possibleDirections.push(d);
+                    }
+                }
+                let pathSides = [...possibleDirections];
+                for (let i = 0; i < possibleDirections.length; i++) {
+                    // choose a direction → 'dNext' and 'next';
+                    let dNext = pathSides.splice(Math.floor(Math.random()*pathSides.length),1);
+                    let next = new xy(xyPath.x + yxSide[dNext].x, xyPath.y + yxSide[dNext].y);
+                    
+                    // check around the path chosen.
+                    for (let d = 0; d < sides.length; d++) {
+                        /* yxA = yxAround */
+                        let yxA = new xy(next.x + yxSide[d].x, next.y + yxSide[d].y);
+
+                        let validPath = true;
+
+                        // if this side is on the map, and not where we came from.
+                        if(isInMap(yxA.x,yxA.y) && yxA.x != next.x && yxA.y != next.y) {
+                            // if it is a defined tile. (anything besides '-1')
+                            if(this.w.map[next.y][next.x] != -1){
+                                validPath = false;
+                            }
+                        }
+                        
+                        if(validPath){
+                            this.w.map[next.y][next.x] = 0;
+                            this.pathHelper(next);
+                        }
+                    }
+                }
+            }
+            pathMaker3(){
+                // from the start..
+                let xyPath = new xy(x = start.x, y = start.y);
+
+                // solve possible directions.
+                let possibleDirections = [];
+                for (let d = 0; d < sides.length; d++) {
+                    const yxd = yxSide[d];
+                    if(isInMap(xyPath.x + yxd.x, xyPath.y + yxd.y)) {
+                        possibleDirections.push(d);
+                    }
+                }
+                let pathSides = [...possibleDirections];
+                for (let i = 0; i < possibleDirections.length; i++) {
+                    // choose a direction → 'dNext' and 'next';
+                    let dNext = pathSides.splice(Math.floor(Math.random()*pathSides.length),1);
+                    let next = new xy(xyPath.x + yxSide[dNext].x, xyPath.y + yxSide[dNext].y);
+                    
+                    // check around the path chosen.
+                    for (let d = 0; d < sides.length; d++) {
+                        /* yxA = yxAround */
+                        let yxA = new xy(next.x + yxSide[d].x, next.y + yxSide[d].y);
+
+                        let validPath = true;
+
+                        // if this side is on the map, and not where we came from.
+                        if(isInMap(yxA.x,yxA.y) && yxA.x != next.x && yxA.y != next.y) {
+                            // if it is a defined tile. (anything besides '-1')
+                            if(this.w.map[next.y][next.x] != -1){
+                                validPath = false;
+                            }
+                        }
+                        
+                        if(validPath){
+                            this.w.map[next.y][next.x] = 0;
+                            this.pathHelper(next);
+                        }
+                    }
+                }
+            }
+            
+            pathMaker2(){
+                // from the start..
+                for (let c = 0; c < 3; c++) {
+                    let xyPath = new xy(x = start.x, y = start.y);
+
+                    // solve possible directions.
+                    let possibleDirections = [];
+                    for (let d = 0; d < sides.length; d++) {
+                        const yxd = yxSide[d];
+                        if(isInMap(xyPath.x + yxd.x, xyPath.y + yxd.y)) {
+                            possibleDirections.push(d);
+                        }
+                    }
+                    let pathSides = [...possibleDirections];
+                    for (let i = 0; i < possibleDirections.length; i++) {
+                        let dNext = pathSides.splice(Math.floor(Math.random()*pathSides.length),1);
+                        let next = new xy(xyPath.x + yxSide[dNext].x, xyPath.y + yxSide[dNext].y);
+                        
+                        
+                        for (let d = 0; d < sides.length; d++) {
+                            const yxd = yxSide[d];
+                            /* yxA = yxAround */
+                            let yxA = new xy(next.x + yxd.x, next.y + yxd.y);
+
+                            // if this side is on the map, and not where we came from.
+                            if(isInMap(yxA.x,yxA.y) && yxA.x != next.x && yxA.y != next.y){
+                                // if it is a defined tile. (anything besides '-1')
+                                if(this.w.map[next.y][next.x] != -1){
+                                    this.w.map[next.y][next.x] = 0;
+                                    xyPath.x = next.x;
+                                    xyPath.y = next.y;
+                                }
+                            }
+                            
+                        }
+                        
+                    }
+                    
+
+
+                    // pick a direction.
+                    let directionKey = Math.floor(Math.random()*sides.length);
+                    // yxSide[directionKey]
+                    // can be [-1, 0, 1] for x and y.
+                    // let xAdd = Math.floor(Math.random()*3 - 1);
+                    // let yAdd = Math.floor(Math.random()*3 - 1);
+                    let xAdd = yxSide[directionKey][1];
+                    let yAdd = yxSide[directionKey][0];
+
+                    let xNext = xyPath.x + xAdd;
+                    let yNext = xyPath.y + yAdd;
+
+                    if(isInMap(xNext,yNext)) {
+                        
+                    } else {
+                        let directionKey = Math.floor(Math.random()*sides.length);
+                        let xAdd = yxSide[directionKey][1];
+                        let yAdd = yxSide[directionKey][0];
+                        let xNext = xyPath.x + xAdd;
+                        let yNext = xyPath.y + yAdd;
+                    }
+    
+                    if(isInMap(xNext,yNext)){
+                        let validSides = true;
+                        for (let i = 0; i < yxSide.length; i++) {
+                            const element = yxSide[i];
+                            
+                            let x2 = xNext + yxSide[i][1];
+                            let y2 = yNext + yxSide[i][0];
+                            
+                            // if this side is on the map, and not where we came from.
+                            if(isInMap(x2,y2) && x2 != xNext && y2 != yNext){
+                                // if it is a defined tile. (anything besides '-1')
+                                if(this.w.map[y2][x2] != -1){
+                                    validSides = false;
+                                }
+                            }
+                        }
+                        if(validSides) {
+                            this.w.map[xyPath.y][xyPath.x] = 0;
+                            xyPath.x = xNext;
+                            xyPath.y = yNext;
+                        }
+                    }
+                }
+                // if next tile is out of boundaries, choose another.
+            }
+            pathMaker(){
+                this.start = new xy(Math.floor(Math.random()*this.w), Math.floor(Math.random()*this.h));
+
+                this.start = new xy();
+                this.start.x = Math.floor(Math.random()*this.w);
+                this.start.y = Math.floor(Math.random()*this.h);
+
+                // pick a direction.
+                let direction_key = Math.floor(Math.random()*9);
+                // side_yx
+                // yxSide[direction_key]
+                let d = yxSide[direction_key];
+                let nextTile = [this.start.y + yxSide[direction_key][0], this.start.x + yxSide[direction_key][1]];
+                let yxNext = [this.start.y + yxSide[direction_key][0], this.start.x + yxSide[direction_key][1]];
+
+                // if next tile is out of boundaries, choose another.
+
+                for(let y=0; y<h;y++){
+                    this.w['map'].push([]);
+                    for(let x=0; x<w;x++){
+                        this.w['map'][y].push(this.fill);
+                    }
+                }
+            }
+        }
+        class w {
+            constructor(w, h, start=[]){
+                this.w = w;
+                this.h = h;
+
+                this.map = new GridMap(this.w, this.h);
+                this.step = new GridMap(this.w, this.h);
+
+                this.start = new xy();
+                this.end = new xy();
+                if(start.length == 0){
+                    this.start.x = Math.floor(Math.random()*this.w);
+                    this.start.y = Math.floor(Math.random()*this.h);
+                }
+            }
+        }
+
+        function BuildMaze(){}
+
+        function BuildMaze_Display(){
+            let display = document.getElementById('display');
+
+            let grid = document.createElement('div');
+            grid.classList.add('grid');
+
+            // for(let x = 0; x < s.cols; x++){
+            for(let y = 0; y < s.rows; y++){
+                let row = document.createElement('div');
+                row.classList.add('row');
+                // for(let y = 0; y < s.rows; y++){
+                for(let x = 0; x < s.cols; x++){
+                    let tile = document.createElement('div');
+                    tile.classList.add('tile');
+                    
+                    tile.id = `xy${x},${y}`;
+                    tile.dataset.x = x;
+                    tile.dataset.y = y;
+
+                    let p = tileAsterix();
+                    let p5 = Math.max(...p);
+                    let tileStyle = `--a1: ${p[0]}; --a3: ${p[1]}; --a4: ${p[2]}; --a5: ${p5}; --a6: ${p[3]}; --a7: ${p[4]}; --a9: ${p[5]};`;
+                    
+                    row.appendChild(tile);
+                }
+                grid.appendChild(col);
+            }
+            display.appendChild(grid);
+        }
+
+        function updateSettings(){
+            s.h = window.innerHeight;
+            s.w = window.innerWidth;
+
+            let h = s.h * .94 - 108;
+            let w = s.w * .95;
+
+            s.cols = Math.floor((w - s.grid.margin) / s.tile.w);
+            s.rows = Math.floor((h - s.grid.margin) / s.tile.h);
+
+            console.log(`%cw: %c${s.w}%c, h: %c${s.h}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+            console.log(`%cw: %c${w}%c, h: %c${h}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+            console.log(`%ccols: %c${s.cols}%c, rows: %c${s.rows}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+        }
+
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            updateSettings();
+
+            BuildMaze();
+            addEvents();
+        });
+    </script>
+</body>
+</html>

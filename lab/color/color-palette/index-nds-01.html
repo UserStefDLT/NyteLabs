@@ -5,257 +5,347 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Color Palette | NyteLabs</title>
+    <title>Color Palettes | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
-    
-    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
-    <link rel="stylesheet" href="../../../stylesheets/deck.css">
-    <!-- <link rel="stylesheet" href="my-css.css"> -->
     <style>
         /* *::before, *::after {
             position: absolute;
             top: 50%; left: 50%;
             transform: translateX(-50%) translateY(-50%);
         } */
-        :root {
-            --perspective: 5000px;
-            --bwt: #0000;
-            --bw0: #000;
-            --bw3: #333;
-            --bw6: #666;
-            --bw9: #999;
-            --bwc: #ccc;
-            --bwe: #eee;
-            --bwf: #fff;
-
-            --bw0: #000;
-            --bw3: #333;
-            --bw6: #666;
-            --bw9: #999;
-            --bwc: #ccc;
-            --bwf: #fff;
-        }
-        [class|="bgi-bwg"] {--bgi-bwg-1: var(--bwf); --bgi-bwg-2: var(--bwf);}
-        /* [class|="bgi-bwg"] {--bgi-bwg-1: var(--bwf); --bgi-bwg-2: var(--bwf);} */
-
-        [class|="bgi-bwg"][class^="bgi-bwg-0"] {--bgi-bwg-1: var(--bw0);}
-        [class|="bgi-bwg"][class^="bgi-bwg-3"] {--bgi-bwg-1: var(--bw3);}
-        [class|="bgi-bwg"][class^="bgi-bwg-6"] {--bgi-bwg-1: var(--bw6);}
-        [class|="bgi-bwg"][class^="bgi-bwg-9"] {--bgi-bwg-1: var(--bw9);}
-        [class|="bgi-bwg"][class^="bgi-bwg-c"] {--bgi-bwg-1: var(--bwc);}
-        [class|="bgi-bwg"][class^="bgi-bwg-f"] {--bgi-bwg-1: var(--bwf);}
-
-        [class|="bgi-bwg"][class$="0"] {--bgi-bwg-2: var(--bw0);}
-        [class|="bgi-bwg"][class$="3"] {--bgi-bwg-2: var(--bw3);}
-        [class|="bgi-bwg"][class$="6"] {--bgi-bwg-2: var(--bw6);}
-        [class|="bgi-bwg"][class$="9"] {--bgi-bwg-2: var(--bw9);}
-        [class|="bgi-bwg"][class$="c"] {--bgi-bwg-2: var(--bwc);}
-        [class|="bgi-bwg"][class$="f"] {--bgi-bwg-2: var(--bwf);}
-
-        [class|="bgi-bwg"][class^="bgi-bwg-e"] {--bgi-bwg-1: var(--bwe);}
-        [class|="bgi-bwg"][class$="e"] {--bgi-bwg-2: var(--bwe);}
-
-        [class|="bgi-bwg"] {
-            background-image: linear-gradient(to right bottom, var(--bgi-bwg-1), var(--bgi-bwg-2));
-        }
-
-
-
-        [data-bgi|="bgi-bwg"][data-bgi^="bgi-bwg-0"] {--bgi-bwg-1: var(--bw0);}
-        [data-bgi|="bgi-bwg"][data-bgi^="bgi-bwg-3"] {--bgi-bwg-1: var(--bw3);}
-        [data-bgi|="bgi-bwg"][data-bgi^="bgi-bwg-6"] {--bgi-bwg-1: var(--bw6);}
-        [data-bgi|="bgi-bwg"][data-bgi^="bgi-bwg-9"] {--bgi-bwg-1: var(--bw9);}
-        [data-bgi|="bgi-bwg"][data-bgi^="bgi-bwg-c"] {--bgi-bwg-1: var(--bwc);}
-        [data-bgi|="bgi-bwg"][data-bgi^="bgi-bwg-f"] {--bgi-bwg-1: var(--bwf);}
-
-        [data-bgi|="bgi-bwg"][data-bgi$="0"] {--bgi-bwg-2: var(--bw0);}
-        [data-bgi|="bgi-bwg"][data-bgi$="3"] {--bgi-bwg-2: var(--bw3);}
-        [data-bgi|="bgi-bwg"][data-bgi$="6"] {--bgi-bwg-2: var(--bw6);}
-        [data-bgi|="bgi-bwg"][data-bgi$="9"] {--bgi-bwg-2: var(--bw9);}
-        [data-bgi|="bgi-bwg"][data-bgi$="c"] {--bgi-bwg-2: var(--bwc);}
-        [data-bgi|="bgi-bwg"][data-bgi$="f"] {--bgi-bwg-2: var(--bwf);}
-
-        /* [data-bgi|="bgi-bwg"][data-bgi^="bgi-bwg-e"] {--bgi-bwg-1: var(--bwe);}
-        [data-bgi|="bgi-bwg"][data-bgi$="e"] {--bgi-bwg-2: var(--bwe);} */
-        [data-bgi|="bgi-bwg"] {
-            /* min-height: 30vh; */
-            background-image: linear-gradient(to right bottom, var(--bgi-bwg-1), var(--bgi-bwg-2));
+        h1.title {margin: 0;}
+        .shelf-title {
+            top: -1.25em;
+            border-bottom: 0px;
         }
     </style>
+    <link rel="stylesheet" href="clr.css">
     <style>
-        :root {
-            --clr: #39f;
-            --clr: #06c;
-            --clr: #369;
-            --clr: #036;
-            
-            --clr: hsl(210, 100%, 60%);
-            --clr: hsl(210, 100%, 40%);
-            --clr: hsl(210, 100%, 20%);
+        .color--card {
+            position: relative;
+            background: linear-gradient(to bottom, #eee, #ccc);
+            border-radius: .5rem;
+            overflow: hidden;
+            margin: .25rem .125rem;
 
-            
-            
-            --clr: hsl(0, 0%, 100%);
-            --clr: hsl(210, 100%, 80%);
-            --clr: hsl(210, 100%, 60%);
-            --clr: hsl(210, 100%, 40%);
-            --clr: hsl(210, 100%, 20%);
-            --clr: hsl(0, 0%, 0%);
+            /* display: flex; */
+            align-items: center;
+            justify-content: center;
+            /* flex-direction: row; */
 
-            --clr: #fff;
-            --clr: #def;
-            --clr: #bdf;
-            --clr: #9cf;
-            --clr: #39f;
-            --clr: #06c;
-            --clr: #036;
-            --clr: #024;
-            --clr: #012;
-            --clr: #000;
+            display: grid;
+            grid-template-columns: 1fr 20rem;
+            grid-template-columns: 15rem 20rem;
+            grid-template-columns: 12rem 20rem;
         }
-        .color-list {
+        .card--title {
+            font-size: 1.5rem;
+            font-size: 1.25rem;
+            color: var(--bw1);
+            /* text-shadow: 1px 1px 2px var(--bw3); */
+            /* text-shadow: 1px 1px 2px var(--bw2); */
+            /* padding: 0 1rem; */
+        }
+        .color--palette {
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: row;
-            flex-wrap: wrap;
         }
-        .color-card {
-            --sz: 6rem;
-            height: 8rem; width: 6rem;
-            height: var(--sz); width: var(--sz);
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            justify-content: flex-start;
-            flex-direction: column;
-
-            margin: .5rem;
-            --clr: #000;
-            border-radius: .25rem;
-            overflow: hidden;
-
-            /* clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); */
-            /* clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); */
-            /* --w: 100px; */
-            /* --h: calc(.866 * var(--w)); */
-            
-            --h: 6rem;
-            --w: calc(1.1547 * var(--h));
-            height: var(--h); width: var(--w);
-            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-
+        .color--tile {
+            position: relative;
+            --c: var(--bwt);
+            --sz: 5rem;
+            height: var(--sz);
+            width: var(--sz);
+            background-color: var(--c);
         }
-        /* .color-card {
-            transition: box-shadow 200ms ease-in-out, transform 200ms ease-in-out;
-            box-shadow: .125rem .125rem .125rem 0rem #1119;
-            transform: translate(0rem, 0rem);
-        }
-        .color-card:hover {
-            box-shadow: .25rem .25rem .5rem 0rem #1119;
-            transform: translate(-.125rem, -.125rem);
-        } */
-        .color-display {
-            /* --sz: 6rem; */
-            height: var(--sz); width: var(--sz);
-            height: 6rem; width: 6rem;
-            height: 7rem; width: 7rem;
-            min-height: 4rem;
-            min-width: 4rem;
-            min-height: 6rem;
-            min-width: 6rem;
-            background-color: var(--clr);
-        }
-        .color-description {
+        .color--tile::after {
+            content: attr(data-color-code);
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            height: 100%;
             width: 100%;
-            min-height: 2rem;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            align-items: flex-end;
+            padding: .25rem;
+
+            box-sizing: border-box;
+
+            color: var(--bwf);
+            text-shadow: 0px 0px 2px var(--bw0), 0px 0px 4px var(--bw0);
+            text-shadow: 0px 0px 1px var(--bw3), 0px 0px 2px var(--bw0);
+        }
+    </style>
+    <style>        
+        .color--bicard {
+            position: relative;
+            background: linear-gradient(to bottom, #eee, #ccc);
+            border-radius: .5rem;
+            overflow: hidden;
+            margin: .25rem .125rem;
+
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            /* padding: .5rem; */
-            /* background-color: #eee; */
-            /* background-color: #eeec; */
-            /* background-image: linear-gradient(to top, #1119, #1110); */
-            color: #222;
-            color: #eee;
-            text-shadow: 1px 1px 1px #1119;
-            font-weight: bold;
-            /* box-shadow: inset 0 0 1rem 0 #2226; */
-            /* box-shadow: inset 0 0 1rem 0 #2223; */
-            transform: translateY(0rem);
-            transition: transform 200ms ease-in-out;
+
+            /* display: grid;
+            grid-template-columns: 1fr 20rem;
+            grid-template-columns: 15rem 20rem;
+            grid-template-columns: 12rem 20rem; */
         }
-        .color-card:hover .color-description {
-            transform: translateY(-2rem);
+        /* .color--bicard--row {
+            display: grid;
+            grid-template-columns: 1fr 20rem;
+        } */
+        /* .palette-12 {
+            grid-template-columns: 8rem 20rem;
+        } */
+        .color--bicard .card--title {
+            font-size: 1.5rem;
         }
+        .card--subtitle {
+            color: var(--bw2);
+            margin: 0.5rem;
+        }
+
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
     <header>
-        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
-        <div class="title">Color Palette</div>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <h1 class="title">Color Palettes</h1>
         <!-- <div class="subtitle">subtitle</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
     </header>
 
+<!-- 
+Clear Monotone
+Soft Monotone
+High Constrast
+Distant Echoing
+
+.color-card>h2.card--title{}+.color--palette>.color--tile*4
+.color-card>h2.card--title{}+.color--palette>.color--tile[style="--c: #;"][data-color-code="#"]*4
+
+.color-card>h2.card--title{Soft Monotone}+.color--palette>.color--tile[style="--c: #;"][data-color-code="#"]*4
+.color-card>h2.card--title{High Constrast}+.color--palette>.color--tile[style="--c: #;"][data-color-code="#"]*4
+.color-card>h2.card--title{Distant Echoing}+.color--palette>.color--tile[style="--c: #;"][data-color-code="#"]*4
+
+
+.color-card>h2.card--title{Reverie Leaps}+.color--palette>.color--tile[style="--c: #;"][data-color-code="#"]*10
+.color-card>h2.card--title{Reverie Leaps}+.color--palette>.color--tile[style="--c: #;"][data-color-code="#"]*12
+
+.color-card>h2.card--title{Reverie Leaps}+.color--palette>.color--tile[style="--c: #;"][data-color-code="#"]*7
+ -->
+
 <main>
-    <div class="shelf" data-bgi="bgi-bwg-0c">
-        <div class="shelf-title">Colors</div>
-        <!-- 
-            def
-            bdf
-            024
-            012
-         -->
-        <div class="color-card" style="--clr: #fff;"><div class="color-display"></div><div class="color-description">#fff</div></div>
-        <div class="color-card" style="--clr: #def;"><div class="color-display"></div><div class="color-description">#9cf</div></div>
-        <div class="color-card" style="--clr: #bdf;"><div class="color-display"></div><div class="color-description">#9cf</div></div>
-        <div class="color-card" style="--clr: #9cf;"><div class="color-display"></div><div class="color-description">#9cf</div></div>
-        <div class="color-card" style="--clr: #39f;"><div class="color-display"></div><div class="color-description">#39f</div></div>
-        <div class="color-card" style="--clr: #06c;"><div class="color-display"></div><div class="color-description">#06c</div></div>
-        <div class="color-card" style="--clr: #036;"><div class="color-display"></div><div class="color-description">#036</div></div>
-        <div class="color-card" style="--clr: #024;"><div class="color-display"></div><div class="color-description">#036</div></div>
-        <div class="color-card" style="--clr: #012;"><div class="color-display"></div><div class="color-description">#036</div></div>
-        <div class="color-card" style="--clr: #000;"><div class="color-display"></div><div class="color-description">#000</div></div>
+    <div class="shelf hidden">
+        <div class="shelf-title">Monotone</div>
+        <div class="color-card">
+            <h2 class="card--title">Clear Monotone</h2>
+            <div class="color--palette">
+                <div class="color--tile" style="--c: #036;" data-color-code="#036"></div>
+                <div class="color--tile" style="--c: #06c;" data-color-code="#06c"></div>
+                <div class="color--tile" style="--c: #39f;" data-color-code="#39f"></div>
+                <div class="color--tile" style="--c: #9cf;" data-color-code="#9cf"></div>
+            </div>
+        </div>
+        <div class="color-card">
+            <h2 class="card--title">Soft Monotone</h2>
+            <div class="color--palette">
+                <div class="color--tile" style="--c: #036;" data-color-code="#036"></div>
+                <div class="color--tile" style="--c: #369;" data-color-code="#369"></div>
+                <div class="color--tile" style="--c: #69c;" data-color-code="#69c"></div>
+                <div class="color--tile" style="--c: #9cf;" data-color-code="#9cf"></div>
+            </div>
+        </div>
+        <div class="color-card">
+            <h2 class="card--title">High Constrast</h2>
+            <div class="color--palette">
+                <div class="color--tile" style="--c: #012;" data-color-code="#012"></div>
+                <div class="color--tile" style="--c: #024;" data-color-code="#024"></div>
+                <div class="color--tile" style="--c: #bdf;" data-color-code="#bdf"></div>
+                <div class="color--tile" style="--c: #def;" data-color-code="#def"></div>
+            </div>
+        </div>
+        <div class="color-card">
+            <h2 class="card--title">Distant Echoing</h2>
+            <div class="color--palette">
+                <div class="color--tile" style="--c: #03f;" data-color-code="#03f"></div>
+                <div class="color--tile" style="--c: #06f;" data-color-code="#06f"></div>
+                <div class="color--tile" style="--c: #09f;" data-color-code="#09f"></div>
+                <div class="color--tile" style="--c: #0cf;" data-color-code="#0cf"></div>
+            </div>
+        </div>
     </div>
-    <div class="shelf hidden" data-bgi="bgi-bwg-fc">
-        <div class="shelf-title">Colors</div>
-        <div class="color-card" style="--clr: #39f;"><div class="color-display"></div><div class="color-description">#39f</div></div>
-        <div class="color-card" style="--clr: #f39;"><div class="color-display"></div><div class="color-description">#f39</div></div>
-        <div class="color-card" style="--clr: #f93;"><div class="color-display"></div><div class="color-description">#f93</div></div>
-        <div class="color-card" style="--clr: #9f3;"><div class="color-display"></div><div class="color-description">#9f3</div></div>
-        <div class="color-card" style="--clr: #3f9;"><div class="color-display"></div><div class="color-description">#3f9</div></div>
-        <div class="color-card" style="--clr: #93f;"><div class="color-display"></div><div class="color-description">#93f</div></div>
+
+    <div class="shelf">
+        <!-- <div class="shelf-title">Monotone</div> -->
+        <h2 class="shelf-title">Monotone</h2>
+        <div class="color--card">
+            <!-- <h2 class="card--title">Clear Monotone</h2> -->
+            <h3 class="card--title">Clear Monotone</h3>
+            <div class="color--palette">
+                <div class="color--tile" style="--c: #036;" data-color-code="#036"></div>
+                <div class="color--tile" style="--c: #06c;" data-color-code="#06c"></div>
+                <div class="color--tile" style="--c: #39f;" data-color-code="#39f"></div>
+                <div class="color--tile" style="--c: #9cf;" data-color-code="#9cf"></div>
+            </div>
+        </div>
+        <div class="color--card">
+            <h3 class="card--title">Soft Monotone</h3>
+            <div class="color--palette">
+                <div class="color--tile" style="--c: #036;" data-color-code="#036"></div>
+                <div class="color--tile" style="--c: #369;" data-color-code="#369"></div>
+                <div class="color--tile" style="--c: #69c;" data-color-code="#69c"></div>
+                <div class="color--tile" style="--c: #9cf;" data-color-code="#9cf"></div>
+            </div>
+        </div>
+        <div class="color--card">
+            <h3 class="card--title">High Constrast</h3>
+            <div class="color--palette">
+                <div class="color--tile" style="--c: #012;" data-color-code="#012"></div>
+                <div class="color--tile" style="--c: #024;" data-color-code="#024"></div>
+                <div class="color--tile" style="--c: #bdf;" data-color-code="#bdf"></div>
+                <div class="color--tile" style="--c: #def;" data-color-code="#def"></div>
+            </div>
+        </div>
+        <div class="color--card">
+            <h3 class="card--title">Distant Echoing</h3>
+            <div class="color--palette">
+                <div class="color--tile" style="--c: #03f;" data-color-code="#03f"></div>
+                <div class="color--tile" style="--c: #06f;" data-color-code="#06f"></div>
+                <div class="color--tile" style="--c: #09f;" data-color-code="#09f"></div>
+                <div class="color--tile" style="--c: #0cf;" data-color-code="#0cf"></div>
+            </div>
+        </div>
     </div>
-    <div class="shelf" data-bgi="bgi-bwg-30">
-        <div class="shelf-title">Colors</div>
-        <div class="color-card" style="--clr: #f93;"><div class="color-display"></div><div class="color-description">#f93</div></div>
-        <div class="color-card" style="--clr: #9f3;"><div class="color-display"></div><div class="color-description">#9f3</div></div>
-        <div class="color-card" style="--clr: #3f9;"><div class="color-display"></div><div class="color-description">#3f9</div></div>
-        <div class="color-card" style="--clr: #39f;"><div class="color-display"></div><div class="color-description">#39f</div></div>
-        <div class="color-card" style="--clr: #93f;"><div class="color-display"></div><div class="color-description">#93f</div></div>
-        <div class="color-card" style="--clr: #f39;"><div class="color-display"></div><div class="color-description">#f39</div></div>
+
+    <div class="shelf hidden">
+        <h2 class="shelf-title">Monotone</h2>
+        <div class="color--card">
+            <h3 class="card--title">Clear Monotone</h3>
+            <div class="color--palette">
+                <div class="color--tile" style="--c: #603;" data-color-code="#603"></div>
+                <div class="color--tile" style="--c: #c06;" data-color-code="#c06"></div>
+                <div class="color--tile" style="--c: #f39;" data-color-code="#f39"></div>
+                <div class="color--tile" style="--c: #f9c;" data-color-code="#f9c"></div>
+            </div>
+        </div>
+        <div class="color--card">
+            <h3 class="card--title">Soft Monotone</h3>
+            <div class="color--palette">
+                <div class="color--tile" style="--c: #603;" data-color-code="#603"></div>
+                <div class="color--tile" style="--c: #936;" data-color-code="#936"></div>
+                <div class="color--tile" style="--c: #c69;" data-color-code="#c69"></div>
+                <div class="color--tile" style="--c: #f9c;" data-color-code="#f9c"></div>
+            </div>
+        </div>
+        <div class="color--card">
+            <h3 class="card--title">High Constrast</h3>
+            <div class="color--palette">
+                <div class="color--tile" style="--c: #201;" data-color-code="#201"></div>
+                <div class="color--tile" style="--c: #402;" data-color-code="#402"></div>
+                <div class="color--tile" style="--c: #fbd;" data-color-code="#fbd"></div>
+                <div class="color--tile" style="--c: #fde;" data-color-code="#fde"></div>
+            </div>
+        </div>
+        <div class="color--card">
+            <h3 class="card--title">Distant Echoing</h3>
+            <div class="color--palette">
+                <div class="color--tile" style="--c: #f03;" data-color-code="#f03"></div>
+                <div class="color--tile" style="--c: #f06;" data-color-code="#f06"></div>
+                <div class="color--tile" style="--c: #f09;" data-color-code="#f09"></div>
+                <div class="color--tile" style="--c: #f0c;" data-color-code="#f0c"></div>
+            </div>
+        </div>
     </div>
-    <div class="shelf" data-bgi="bgi-bwg-fc">
-        <div class="shelf-title">Colors</div>
-        <div class="color-card" style="--clr: #c60;"><div class="color-display"></div><div class="color-description">#c60</div></div>
-        <div class="color-card" style="--clr: #6c0;"><div class="color-display"></div><div class="color-description">#6c0</div></div>
-        <div class="color-card" style="--clr: #0c6;"><div class="color-display"></div><div class="color-description">#0c6</div></div>
-        <div class="color-card" style="--clr: #06c;"><div class="color-display"></div><div class="color-description">#06c</div></div>
-        <div class="color-card" style="--clr: #60c;"><div class="color-display"></div><div class="color-description">#60c</div></div>
-        <div class="color-card" style="--clr: #c06;"><div class="color-display"></div><div class="color-description">#c06</div></div>
+
+
+    <div class="shelf">
+        <div class="shelf-title">Reverie Leaps</div>
+        <!-- <h2 class="shelf-title">Monotone</h2> -->
+        <div class="color--bicard">
+            <h2 class="card--title">Reverie 10 Leaps</h2>
+            <h3 class="card--subtitle">5 Low Leaps</h3>
+            <div class="color--palette">
+                <div class="color--tile" style="--c: #012;" data-color-code="#012"></div>
+                <div class="color--tile" style="--c: #024;" data-color-code="#024"></div>
+                <div class="color--tile" style="--c: #048;" data-color-code="#048"></div>
+                <div class="color--tile" style="--c: #05a;" data-color-code="#05a"></div>
+                <div class="color--tile" style="--c: #07e;" data-color-code="#07e"></div>
+            </div>
+            <h3 class="card--subtitle">5 High Leaps</h3>
+            <div class="color--palette">
+                <div class="color--tile" style="--c: #18f;" data-color-code="#18f"></div>
+                <div class="color--tile" style="--c: #5af;" data-color-code="#5af"></div>
+                <div class="color--tile" style="--c: #7bf;" data-color-code="#7bf"></div>
+                <div class="color--tile" style="--c: #bdf;" data-color-code="#bdf"></div>
+                <div class="color--tile" style="--c: #def;" data-color-code="#def"></div>
+            </div>
+        </div>
+
+        <div class="color--bicard">
+            <h2 class="card--title">Reverie 12 Leaps</h2>
+            <h3 class="card--subtitle">6 Low Leaps</h3>
+            <div class="color--palette">
+                <div class="color--tile" style="--c: #012;" data-color-code="#012"></div>
+                <div class="color--tile" style="--c: #024;" data-color-code="#024"></div>
+                <div class="color--tile" style="--c: #036;" data-color-code="#036"></div>
+                <div class="color--tile" style="--c: #048;" data-color-code="#048"></div>
+                <div class="color--tile" style="--c: #05a;" data-color-code="#05a"></div>
+                <div class="color--tile" style="--c: #07e;" data-color-code="#07e"></div>
+            </div>
+            <h3 class="card--subtitle">6 High Leaps</h3>
+            <div class="color--palette">
+                <div class="color--tile" style="--c: #18f;" data-color-code="#18f"></div>
+                <div class="color--tile" style="--c: #5af;" data-color-code="#5af"></div>
+                <div class="color--tile" style="--c: #7bf;" data-color-code="#7bf"></div>
+                <div class="color--tile" style="--c: #9cf;" data-color-code="#9cf"></div>
+                <div class="color--tile" style="--c: #bdf;" data-color-code="#bdf"></div>
+                <div class="color--tile" style="--c: #def;" data-color-code="#def"></div>
+            </div>
+        </div>
+        
     </div>
-    <div class="shelf" data-bgi="bgi-bwg-fc">
-        <div class="shelf-title">Colors</div>
-        <div class="color-card" style="--clr: #630;"><div class="color-display"></div><div class="color-description">#630</div></div>
-        <div class="color-card" style="--clr: #360;"><div class="color-display"></div><div class="color-description">#360</div></div>
-        <div class="color-card" style="--clr: #063;"><div class="color-display"></div><div class="color-description">#063</div></div>
-        <div class="color-card" style="--clr: #036;"><div class="color-display"></div><div class="color-description">#036</div></div>
-        <div class="color-card" style="--clr: #306;"><div class="color-display"></div><div class="color-description">#306</div></div>
-        <div class="color-card" style="--clr: #603;"><div class="color-display"></div><div class="color-description">#603</div></div>
+
+    <div class="shelf">
+        <div class="shelf-title">Full Palettes</div>
+
+        <div class="color--bicard">
+            <h2 class="card--title">Full Palette</h2>
+            <h3 class="card--subtitle">7 Low Steps</h3>
+            <div class="color--palette">
+                <div class="color--tile" style="--c: #012;" data-color-code="#012"></div>
+                <div class="color--tile" style="--c: #024;" data-color-code="#024"></div>
+                <div class="color--tile" style="--c: #036;" data-color-code="#036"></div>
+                <div class="color--tile" style="--c: #048;" data-color-code="#048"></div>
+                <div class="color--tile" style="--c: #05a;" data-color-code="#05a"></div>
+                <div class="color--tile" style="--c: #06c;" data-color-code="#06c"></div>
+                <div class="color--tile" style="--c: #07e;" data-color-code="#07e"></div>
+            </div>
+            <h3 class="card--subtitle">7 High Steps</h3>
+            <div class="color--palette">
+                <div class="color--tile" style="--c: #18f;" data-color-code="#18f"></div>
+                <div class="color--tile" style="--c: #39f;" data-color-code="#39f"></div>
+                <div class="color--tile" style="--c: #5af;" data-color-code="#5af"></div>
+                <div class="color--tile" style="--c: #7bf;" data-color-code="#7bf"></div>
+                <div class="color--tile" style="--c: #9cf;" data-color-code="#9cf"></div>
+                <div class="color--tile" style="--c: #bdf;" data-color-code="#bdf"></div>
+                <div class="color--tile" style="--c: #def;" data-color-code="#def"></div>
+            </div>
+        </div>
+        
     </div>
 </main>
 
@@ -269,7 +359,9 @@
     <div class="name-end">by St&eacute;fano.</div>
     <!-- <script src="main.js"></script> -->
     <script>
-        // function
+        const s = {};
+
+        function colorCard(){}
         window.addEventListener('load', (ev) => {
             console.log(`Welcome to my Lab!`);
         });

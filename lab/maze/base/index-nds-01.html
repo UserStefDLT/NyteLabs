@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Maze Base | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        :root {
+            --bwt: #0000;
+            --bw0: #000;
+            --bw1: #111;
+            --bw2: #222;
+            --bw3: #333;
+            --bw4: #444;
+            --bw5: #555;
+            --bw6: #666;
+            --bw7: #777;
+            --bw8: #888;
+            --bw9: #999;
+            --bwa: #aaa;
+            --bwb: #bbb;
+            --bwc: #ccc;
+            --bwd: #ddd;
+            --bwe: #eee;
+            --bwf: #fff;
+        }
+    </style>
+    <style>
+        :root {
+            --bg: var(--bwt);
+        }
+        .grid {}
+        .row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+        }
+        .tile {
+            --sz: 1rem;
+            height: var(--sz);
+            width: var(--sz);
+            background-color: var(--bg);
+            border-radius: .125rem;
+        }
+        /* .tile[data-type="-1"] {--bg: var(--bw1);} */
+        .tile[data-type="-1"] {--bg: var(--bwt);}
+        .tile[data-type="0"] {--bg: var(--bwe);}
+        .tile[data-type="2"] {--bg: #c06;}
+        .tile[data-type="3"] {--bg: #0c6;}
+        /* .tile[data-type="1"] {--bg: #c00;} */
+        /* .tile[data-type="1"] {--bg: var(--bwe);} */
+        /* .tile[data-type="9"] {--bg: #0c0;} */
+        .tile[data-type="1"] {--bg: #06c;}
+        .tile[data-type="9"] {--bg: #c60;}
+
+        .row {--iRow: var(--i);}
+        .tile[data-type="0"] {z-index: 2;}
+        .tile[data-type="1"],
+        .tile[data-type="9"] {z-index: 3;}
+        .tile[data-type="2"],
+        .tile[data-type="3"] {z-index: 4;}
+
+        /* Easy */
+        /* .settings:has(#difficulty-easy:checked) ~ main .tile[data-type="0"], */
+        #difficulty-easy:checked ~ main .tile[data-type="0"] {
+            outline: 5px solid var(--bwe);
+            outline-offset: -2px;
+        }
+
+        /* wave */
+        /* .settings:has(#difficulty-wave:checked) ~ main .tile[data-type="0"], */
+        #difficulty-wave:checked ~ main .tile[data-type="0"] {
+            outline: 4px solid var(--bwe);
+            outline-offset: -2px;
+        }
+        /* .settings:has(#difficulty-wave:checked) ~ main .tile, */
+        #difficulty-wave:checked ~ main .tile {
+            /* outline: 4px solid var(--clr); */
+            --iup: calc(var(--iRow) + var(--i));
+            /* --iTime: calc(var(--iup) * 10ms + 5000ms); */
+            /* --iTime: calc(var(--iup) * 50ms + 3000ms); */
+            /* --iTime: calc(var(--i) * 50ms + 3000ms - (var(--iRow) * 20ms)); */
+            animation: weird-wave 5000ms ease-in-out infinite alternate both;
+            animation: weird-wave-04 10000ms ease-in-out infinite alternate both;
+            --iTime: calc(var(--iup) * 10ms + 5000ms);
+            animation-duration: var(--iTime);
+            animation-delay: calc(var(--iup) * -5ms);
+            animation-delay: calc(var(--iup) * 50ms);
+            animation-delay: calc(var(--iup) * 5ms);
+        }
+        @keyframes weird-wave-04 {
+            0% {transform: skew(0deg, 0deg) translate(calc(var(--i) * 1px), calc(var(--i) * -1px));}
+            75% {transform: skew(0deg, 0deg) translate(calc(var(--i) * 1px), calc(var(--i) * 1px));}
+            100% {transform: skew(0deg, 0deg) translate(calc(var(--i) * -1px), calc(var(--iRow) * -1px));}
+        }
+        @keyframes weird-wave-03 {
+            0% {transform: skew(10deg, -20deg) rotate(-45deg) rotate(calc(var(--i) * -1deg)) translate(calc(var(--i) * 2px), calc(var(--i) * -2px));}
+            75% {transform: skew(-30deg, 10deg) rotate(calc(var(--i) * 5deg)) translate(calc(var(--i) * 1px), calc(var(--i) * 2px));}
+            100% {transform: skew(20deg, -20deg) rotate(calc(var(--i) * -2deg + var(--iRow) * 8deg)) translate(calc(var(--i) * -1px), calc(var(--iRow) * -1px));}
+        }
+        @keyframes weird-wave-02 {
+            0% {transform: skew(10deg, -20deg) rotate(-45deg) translate(calc(var(--i) * 0px), calc(var(--i) * -1px));}
+            75% {transform: skew(-30deg, 10deg) rotate(45deg) translate(calc(var(--i) * 1px), calc(var(--i) * 0px));}
+            100% {transform: skew(20deg, -20deg) rotate(0deg) translate(calc(var(--i) * 2px), calc(var(--i) * -1px));}
+        }
+        @keyframes weird-wave-01 {
+            0% {transform: skew(10deg, -20deg) rotate(-45deg) rotate(calc(var(--i) * -1deg)) translate(calc(var(--i) * 5px), calc(var(--i) * -2px));}
+            75% {transform: skew(-30deg, calc(var(--i) * 2deg)) rotate(calc(var(--i) * 5deg)) translate(calc(var(--i) * 1px), calc(var(--i) * 2px));}
+            100% {transform: skew(20deg, calc(var(--i) * -1deg)) rotate(calc(var(--i) * -2deg + var(--iRow) * 5deg)) translate(calc(var(--i) * -1px), calc(var(--iRow) * -3px));}
+        }
+
+        /* hard */
+        /* .settings:has(#difficulty-hard:checked) ~ main .tile, */
+        #difficulty-hard:checked ~ main .tile {
+            outline: 0px solid var(--bwe);
+            --iup: calc(var(--iRow) + var(--i));
+            /* --iTime: calc(var(--iup) * 10ms + 500ms);
+            --iTime: calc(var(--iup) * 50ms + 3000ms);
+            --iTime: calc(var(--i) * 50ms + 3000ms - (var(--iRow) * 20ms)); */
+            --iTime: calc(var(--i) * 5ms + 3000ms);
+            --iTime: calc(var(--iRow) * 2ms + 3000ms);
+            --iTime: calc(var(--iRow) * 2ms + 3000ms + (var(--iup) * -1ms));
+            --iTime: calc(var(--iup) * 2ms + 3000ms);
+            --iTime: calc(var(--iup) * 5ms + 3000ms);
+            --iTime: calc(var(--i) * 50ms + 3000ms - (var(--iRow) * 20ms));
+            animation: weird 5000ms ease-in-out infinite alternate both;
+            animation-duration: var(--iTime);
+            animation-delay: calc(var(--iup) * -5ms);
+            /* animation-delay: calc(var(--iup) * 50ms); */
+        }
+        @keyframes weird {
+            0% {transform: skew(10deg, -20deg) rotate(-45deg) rotate(calc(var(--i) * -1deg)) translate(calc(var(--i) * 5px), calc(var(--i) * -2px));}
+            75% {transform: skew(-30deg, calc(var(--i) * 2deg)) rotate(calc(var(--i) * 5deg)) translate(calc(var(--i) * 1px), calc(var(--i) * 2px));}
+            100% {transform: skew(20deg, calc(var(--i) * -1deg)) rotate(calc(var(--i) * -2deg + var(--iRow) * 5deg)) translate(calc(var(--i) * -1px), calc(var(--iRow) * -3px));}
+        }
+        @keyframes weird-03 {
+            0% {transform: skew(10deg, -20deg) rotate(-45deg);}
+            75% {transform: skew(-30deg, calc(var(--i) * 2deg)) rotate(calc(var(--i) * 5deg));}
+            100% {transform: skew(20deg, calc(var(--i) * -1deg)) rotate(calc(var(--i) * -2deg + var(--iRow) * 5deg));}
+        }
+        @keyframes weird-02 {
+            0% {transform: skew(10deg, -20deg) rotate(-45deg);}
+            75% {transform: skew(-30deg, 10deg) rotate(45deg);}
+            100% {transform: skew(20deg, -20deg) rotate(0deg);}
+        }
+        @keyframes weird-01 {
+            0% {transform: skew(10deg, -20deg) rotate(0deg);}
+            75% {transform: skew(-30deg, 10deg) rotate(45deg);}
+            100% {transform: skew(10deg, -20deg) rotate(0deg);}
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">Maze Base</h1>
+        <!-- <div class="subtitle">subtitle</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+
+    <!-- <div class="settings">
+        <div class="irow">
+            <input type="radio" name="difficulty" id="difficulty-easy">
+            <label for="difficulty-easy">Easy</label>
+        </div>
+        <div class="irow">
+            <input type="radio" name="difficulty" id="difficulty-wave">
+            <label for="difficulty-wave">Wave</label>
+        </div>
+        <div class="irow">
+            <input type="radio" name="difficulty" id="difficulty-hard">
+            <label for="difficulty-hard">Hard</label>
+        </div>
+    </div> -->
+    <input type="radio" name="difficulty" id="difficulty-easy">
+    <label for="difficulty-easy">Easy</label>
+    <input type="radio" name="difficulty" id="difficulty-wave">
+    <label for="difficulty-wave">Wave</label>
+    <input type="radio" name="difficulty" id="difficulty-hard">
+    <label for="difficulty-hard">Hard</label>
+    <!-- #difficulty-easy
+    #difficulty-wave
+    #difficulty-hard -->
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">display</div>
+        <div id="display"></div>
+    </div>
+    <div class="shelf hidden">
+        <div class="shelf-title">model</div>
+        <div class="x">
+            <!-- .grid>.row*9>.tile[data-type="-1"]*9 -->
+            <div class="grid">
+                <div class="row">
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="1"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                </div>
+                <div class="row">
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="-1"></div>
+                </div>
+                <div class="row">
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                </div>
+                <div class="row">
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="-1"></div>
+                </div>
+                <div class="row">
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                </div>
+                <div class="row">
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="-1"></div>
+                </div>
+                <div class="row">
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                </div>
+                <div class="row">
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="-1"></div>
+                </div>
+                <div class="row">
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="0"></div>
+                    <div class="tile" data-type="-1"></div>
+                    <div class="tile" data-type="9"></div>
+                    <div class="tile" data-type="-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        const s = {
+            h: 12,
+            w: 15,
+            cols: 15,
+            rows: 15,
+            grid: {
+                cols: 15,
+                rows: 15,
+                margin: 16
+            },
+            tile: {
+                h: 32,
+                w: 32,
+                fill: 0
+            }
+        }
+
+        const maze_settings = {
+            wall: -1,
+            path: 0,
+            start: 1,
+            end: 9
+        }
+
+        var MazeTrial = [];
+        // ↑, ↓, →, ←, 
+        // ↖, ↗, ↘, ↙, 
+        // ['○', '↙', '↓', '↘', '←', '•', '→', '↖', '↑', '↗']
+        var direction_char = ['○', '↙', '↓', '↘', '←', '•', '→', '↖', '↑', '↗'];
+        var tile_sides = [1,2,3,4,5,6,7,8,9];
+        var sides = [1,2,3,4,6,7,8,9];
+        // var sides = [2,4,6,8];
+        // var sides2 = [1,2,3,4,6,7,8,9];
+        const yxSide1 = [
+            [1,-1],
+            [1,0],
+            [1,1],
+            [0,-1],
+            [0,0],
+            [0,1],
+            [-1,-1],
+            [-1,0],
+            [-1,1]
+        ];
+
+        // var yxOpposite = {2:8,4:6,6:4,8:2};
+        var yxOpposite = [9,8,7,6,5,4,3,2,1];
+        const yxSide2 = [
+            {y:1,x:-1},
+            {y:1,x:0},
+            {y:1,x:1},
+            {y:0,x:-1},
+            {y:0,x:0},
+            {y:0,x:1},
+            {y:-1,x:-1},
+            {y:-1,x:0},
+            {y:-1,x:1}
+        ];
+        const yxSide = {
+            0:{y:0,x:0},
+            1:{y:1,x:-1},
+            2:{y:1,x:0},
+            3:{y:1,x:1},
+            4:{y:0,x:-1},
+            5:{y:0,x:0},
+            6:{y:0,x:1},
+            7:{y:-1,x:-1},
+            8:{y:-1,x:0},
+            9:{y:-1,x:1}
+        };
+
+        class xy {
+            constructor(x = 0, y = 0){
+                this.x = x;
+                this.y = y;
+            }
+        }
+        class xyd {
+            constructor(x = 0, y = 0, d = 0){
+                this.x = x;
+                this.y = y;
+                this.d = d;
+            }
+        }
+        class GridMap {
+            constructor(w, h, fill = 0){
+                this.w = w;
+                this.h = h;
+                this.fill = fill;
+                this.map = [];
+                this.fillMap();
+            }
+            fillMap(){
+                for(let y=0; y<h;y++){
+                    this.map.push([]);
+                    for(let x=0; x<w;x++){
+                        this.map[y].push(this.fill);
+                    }
+                }
+            }
+        }
+        
+        class Maze {
+            constructor(w, h, fill = -1){
+                this.w = w;
+                this.h = h;
+                this.fill = fill;
+                this.start = new xy();
+                this.end = new xyd();
+                this.maze = [];
+                this.stepMap = [];
+                // this.w = {map:[], steps:[]};
+                // this.w['map'] = [];
+                // this.w['steps'] = [];
+
+                this.fillMap();
+                this.selectStart();
+            }
+            fillMap(){
+                // console.log(`%cw: %c${this.w}%c, h: %c${this.h}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+                for(let y=0; y<this.h; y++){
+                    this.maze.push([]);
+                    for(let x=0; x<this.w; x++){
+                        this.maze[y].push(this.fill);
+                        // console.log(`%cy: %c${y}%c, x: %c${x}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+                    }
+                }
+                // console.log(this.maze);
+            }
+            selectStart() {
+                // // this.start = new xy(Math.floor(Math.random()*this.w), Math.floor(Math.random()*this.h));
+                // // this.start = new xy();
+                // this.start.x = Math.floor(Math.random()*this.w);
+                // this.start.y = Math.floor(Math.random()*this.h);
+    
+                // this.start = new xy();
+                // this.start.x = Math.floor(Math.random()*this.w);
+                // this.start.y = Math.floor(Math.random()*this.h);
+
+                // this.xyPath = new xy(x = this.start.x, y = this.start.y);
+                this.xyPath = new xy(this.start.x, this.start.y);
+                this.maze[this.start.y][this.start.x] = 1;
+            }
+            selectEnd() {
+                this.maze[this.end.y][this.end.x] = 9;
+                console.log(`%cSteps: %c${this.end.d}`, 'color:#ccc;', 'color:#f93;');
+            }
+            isInMap(x,y){
+                if(x < 0 || x >= this.w || y < 0 || y >= this.h) {return false;}
+                else {return true;}
+            }
+            pathHelper(step, count = 0){
+                let possibleDirections = [];
+                for (let i = 0; i < sides.length; i++) {
+                    let d = sides[i];
+                    const yxd = yxSide[d];
+                    // if(this.isInMap(step.x + yxd.x, step.y + yxd.y) && this.maze[step.y][step.x] == -1) {possibleDirections.push(d);}
+                    if(this.isInMap(step.x + yxd.x, step.y + yxd.y) && this.maze[step.y + yxd.y][step.x + yxd.x] == -1) {
+                        possibleDirections.push(d);
+                    }
+                }
+                let pathSides = [...possibleDirections];
+                for (let i = 0; i < possibleDirections.length; i++) {
+                    // choose a direction → 'dNext' and 'next';
+                    let dNext = pathSides.splice(Math.floor(Math.random()*pathSides.length),1);
+                    let next = new xy(step.x + yxSide[dNext].x, step.y + yxSide[dNext].y);
+                    
+                    let validPath = true;
+
+                    // check around the path chosen.
+                    for (let i = 0; i < sides.length; i++) {
+                        let d = sides[i];
+                        /* yxA = yxAround */
+                        let yxA = new xy(next.x + yxSide[d].x, next.y + yxSide[d].y);
+
+                        // if this side is on the map, and not where we came from.
+                        if(this.isInMap(yxA.x,yxA.y) && !(yxA.x == step.x && yxA.y == step.y)) {
+                            // if it is a defined tile. (anything besides '-1')
+                            if(this.maze[yxA.y][yxA.x] != -1){
+                                validPath = false;
+                            }
+                        }
+                        
+                    }
+                    // if the path has something around that is not a '-1'
+                    // we just ignore that side.
+                    if(validPath){
+                        this.maze[next.y][next.x] = 0;
+                        this.pathHelper(next, count+1);
+
+                        if(count >= this.end.d){
+                            this.end.x = next.x;
+                            this.end.y = next.y;
+                            this.end.d = count;
+                        }
+                    }
+                }
+            }
+            pathMaker3(){
+                // this.selectStart();
+                // from the start..
+                // let xyPath = new xy(x = start.x, y = start.y);
+
+                // solve possible directions.
+                let possibleDirections = [];
+                for (let i = 0; i < sides.length; i++) {
+                    let d = sides[i];
+                    const yxd = yxSide[d];
+                    if(this.isInMap(this.xyPath.x + yxd.x, this.xyPath.y + yxd.y)) {
+                        possibleDirections.push(d);
+                    }
+                }
+                console.log(possibleDirections);
+                let pathSides = [...possibleDirections];
+                for (let i = 0; i < possibleDirections.length; i++) {
+                    // choose a direction → 'dNext' and 'next';
+                    let dNext = pathSides.splice(Math.floor(Math.random()*pathSides.length),1);
+                    let next = new xy(this.xyPath.x + yxSide[dNext].x, this.xyPath.y + yxSide[dNext].y);
+                    
+                    // console.group(`dNext: ${dNext}`);
+                    // console.groupEnd(`dNext: ${dNext}`);
+                    // console.log(`%cdNext: %c${dNext}`, 'color:#ccc;', 'color:#39f;');
+
+                    let validPath = true;
+                    // check around the path chosen.
+                    for (let i = 0; i < sides.length; i++) {
+                        let d = sides[i];
+                        /* yxA = yxAround */
+                        let yxA = new xy(next.x + yxSide[d].x, next.y + yxSide[d].y);
+                        // console.log(`%cyxA.x: %c${yxA.x}%c, yxA.y: %c${yxA.y}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+                        // console.log(`%cd: %c${direction_char[d]}`, 'color:#ccc;', 'color:#39f;');
+                        // console.log(`%cd: %c${d}${direction_char[d]}%c, yxA.x: %c${yxA.x}%c, yxA.y: %c${yxA.y}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+
+                        // let validPath = true;
+
+                        // let inMap = this.isInMap(yxA.x,yxA.y);
+                        // console.log(`%cinMap: %c${inMap}`, 'color:#ccc;', 'color:#39f;');
+
+                        // let isNotBack = !(yxA.x == this.xyPath.x && yxA.y == this.xyPath.y);
+                        // console.log(`%cisNotBack: %c${isNotBack}`, 'color:#ccc;', 'color:#39f;');
+                        
+                        // if this side is on the map, and not where we came from.
+                        if(this.isInMap(yxA.x,yxA.y) && !(yxA.x == this.xyPath.x && yxA.y == this.xyPath.y)) {
+                            // if it is a defined tile. (anything besides '-1')
+                            
+                            // console.log(`%cthis.maze[${yxA.y}][${yxA.x}]: %c${this.maze[yxA.y][yxA.x]}`, 'color:#ccc;', 'color:#39f;');
+                            if(this.maze[yxA.y][yxA.x] != -1){
+                                validPath = false;
+                            }
+                        }
+                        
+                    }
+                    if(validPath){
+                        this.maze[next.y][next.x] = 0;
+                        // console.log(`%cthis.maze[${next.y}][${next.x}]: %c${this.maze[next.y][next.x]}`, 'color:#ccc;', 'color:#39f;');
+                        this.pathHelper(next);
+                    }
+                    // console.groupEnd(`dNext: ${dNext}`);
+                }
+                this.selectEnd();
+            }
+        }
+        
+
+        function BuildMaze(w, h, fill = -1){
+            let grid = [];
+            for(let y=0; y<h;y++){
+                grid.push([]);
+                for(let x=0; x<w;x++){
+                    grid[y].push(fill);
+                }
+            }
+            return grid;
+        }
+
+        function BuildMaze_Display(w, h){
+            let display = document.getElementById('display');
+
+            let grid = document.createElement('div');
+            grid.classList.add('grid');
+
+            // for(let x = 0; x < s.cols; x++){
+            for(let y = 0; y < h; y++){
+                let row = document.createElement('div');
+                row.classList.add('row');
+                // for(let y = 0; y < s.rows; y++){
+                for(let x = 0; x < w; x++){
+                    let tile = document.createElement('div');
+                    tile.classList.add('tile');
+                    
+                    tile.id = `xy${x},${y}`;
+                    tile.dataset.x = x;
+                    tile.dataset.y = y;
+                    
+                    // tile.dataset.type = `${maze[y][x]}`;
+                    tile.dataset.type = `${level.maze[y][x]}`;
+                    // tile.dataset.type = `${MazeTrial[y][x]}`;
+
+                    row.appendChild(tile);
+                }
+                grid.appendChild(row);
+            }
+            display.appendChild(grid);
+        }
+
+        function updateSettings(){
+            s.h = window.innerHeight;
+            s.w = window.innerWidth;
+
+            let h = s.h * .94 - 108;
+            let w = s.w * .95;
+
+            s.grid.cols = Math.floor((w - s.grid.margin) / s.tile.w);
+            s.grid.rows = Math.floor((h - s.grid.margin) / s.tile.h);
+
+            console.log(`%cw: %c${s.w}%c, h: %c${s.h}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+            console.log(`%cw: %c${w}%c, h: %c${h}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+            console.log(`%ccols: %c${s.grid.cols}%c, rows: %c${s.grid.rows}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+        }
+
+        var level;
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            updateSettings();
+
+            level = new Maze(s.cols,s.rows);
+            // var myMaze = new Maze(s.grid.cols,s.grid.rows);
+            // MazeTrial = BuildMaze(s.grid.cols,s.grid.rows,-1);
+            // console.log(MazeTrial);
+            level.pathMaker3();
+
+            BuildMaze_Display(s.cols,s.rows);
+            // addEvents();
+        });
+    </script>
+</body>
+</html>

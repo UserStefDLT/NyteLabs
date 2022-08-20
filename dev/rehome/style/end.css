@@ -1,0 +1,79 @@
+/* 
+█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
+ ▐▀▀▀▌ ▐▄  ▌ ▐▀█▄  
+ ▐■■   ▐▀█▄▌ ▐  █▌ 
+ ▐▄▄▄▌ ▐  ▀▌ ▐▄█▀  
+█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+*/
+/* End of Page */
+footer {
+    min-height: 36px;
+    box-sizing: border-box;
+    padding: .5rem;
+    color: hsla(210, 5%, 29%, 89%);
+    user-select: none;
+}
+footer .my-name {
+    position: fixed;
+    bottom: .5rem;
+    left: 1rem;
+    user-select: none;
+    color: hsla(210, 5%, 29%, 89%);
+    bottom: 0px; left: 0px;
+    padding: 9px;
+}
+
+.name-end {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    color: hsla(210, 89%, 29%, 5%);
+    font-size: 29px;
+    font-family: 'Satisfy', cursive;
+    user-select: none;
+    transform-origin: 50% 100%;
+    transform: translateY(0px) scale(.89);
+    transition: 
+    transform 500ms ease-out,
+    color 500ms ease-out;
+}
+.name-end:hover {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    color: hsla(210, 89%, 29%, 50%);
+    font-size: 29px;
+    font-family: 'Satisfy', cursive;
+    user-select: none;
+    transform: translateY(-5px) scale(1);
+    transition: 
+    transform 500ms ease-out 2000ms,
+    color 1000ms ease-out 2000ms;
+}
+
+.name-end-2 {
+    position: fixed;
+    bottom: 5px; right: 12px;
+    color: hsla(210, 89%, 29%, 5%);
+    text-shadow: 0rem 0rem 0rem hsla(210, 29%, 89%, 0);
+    font-size: 29px;
+    font-family: 'Satisfy', cursive;
+    user-select: none;
+    filter: brightness(2);
+    transition: 
+        color 800ms ease-out,
+        text-shadow 800ms ease-out;
+}
+.name-end-2:hover {
+    color: hsla(210, 89%, 29%, .5);
+    text-shadow: -0.125rem -0.125rem 0rem #fff9;
+    text-shadow: -0.125rem -0.125rem 0rem hsla(210, 29%, 89%, 1);
+    transition: 
+        color 800ms ease-out 2000ms,
+        text-shadow 800ms ease-out 2000ms;
+}
+
+.hidden {
+    display: none !important; 
+    user-select: none;
+}

@@ -14,6 +14,14 @@
     --header-h: 40px;
     --content-h: calc(100vh - var(--header-h));
 
+    /* Layout Control */
+    --header-height: 48px;
+    --main-margin: calc(5vh);
+    --footer-height: 36px;
+    --main-top: calc(var(--header-height) + (var(--main-margin) / 2));
+    --main-offset: calc(var(--header-height) + var(--main-margin) + var(--footer-height));
+    --main-height: calc(100vh - var(--main-offset));
+
     --main-bg: hsla(210, 0%, 5%, 100%);
     --main-clr: hsla(0, 0%, 89%, 100%);
 
@@ -101,6 +109,7 @@ header > .title {
 
     transition: padding 300ms ease-in-out;
 }
+header > h1.title {margin: 0;}
 header > .subtitle {
     color: #fffa;
     padding: 0px 8px;

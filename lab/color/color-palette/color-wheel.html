@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Color Wheel | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        :root {
+            --c000: #f33; 
+            --c030: #f93; 
+            --c060: #ff3; 
+            --c090: #9f3; 
+            --c120: #3f3; 
+            --c150: #3f9; 
+            --c180: #3ff; 
+            --c210: #39f; 
+            --c240: #33f; 
+            --c270: #93f; 
+            --c300: #f3f; 
+            --c330: #f39; 
+            --backwheel: conic-gradient(
+                var(--c000),
+                var(--c030),
+                var(--c060),
+                var(--c090),
+                var(--c120),
+                var(--c150),
+                var(--c180),
+                var(--c210),
+                var(--c240),
+                var(--c270),
+                var(--c300),
+                var(--c330),
+                var(--c000)
+            );
+            --bg02: conic-gradient(
+                hsl(000, 100%, 50%),
+                hsl(030, 100%, 50%),
+                hsl(060, 100%, 50%),
+                hsl(090, 100%, 50%),
+                hsl(120, 100%, 50%),
+                hsl(150, 100%, 50%),
+                hsl(180, 100%, 50%),
+                hsl(210, 100%, 50%),
+                hsl(240, 100%, 50%),
+                hsl(270, 100%, 50%),
+                hsl(300, 100%, 50%),
+                hsl(330, 100%, 50%),
+                hsl(000, 100%, 50%)
+            );
+        }
+    </style>
+    <link rel="stylesheet" href="clr.css">
+    <style>
+        [class|="color-wheel"] {
+            position: relative;
+            --sz: 12rem;
+            height: var(--sz);
+            width: var(--sz);
+
+            border-radius: 1rem;
+            border-radius: 50%;
+            margin: 1rem;
+        }
+        [class|="color-wheel"]::after {
+            content: '';
+            --sz: 8rem;
+            height: var(--sz);
+            width: var(--sz);
+
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+
+            background-color: var(--bw0);
+            background-color: var(--main-bg);
+
+            border-radius: 50%;
+        }
+        .color-wheel--01 {
+            background: conic-gradient(
+                hsl(000, 100%, 50%),
+                hsl(060, 100%, 50%),
+                hsl(120, 100%, 50%),
+                hsl(180, 100%, 50%),
+                hsl(240, 100%, 50%),
+                hsl(300, 100%, 50%),
+                hsl(000, 100%, 50%)
+            );
+        }
+        .color-wheel--02 {
+            background: conic-gradient(
+                hsl(000, 100%, 50%),
+                hsl(030, 100%, 50%),
+                hsl(060, 100%, 50%),
+                hsl(090, 100%, 50%),
+                hsl(120, 100%, 50%),
+                hsl(150, 100%, 50%),
+                hsl(180, 100%, 50%),
+                hsl(210, 100%, 50%),
+                hsl(240, 100%, 50%),
+                hsl(270, 100%, 50%),
+                hsl(300, 100%, 50%),
+                hsl(330, 100%, 50%),
+                hsl(000, 100%, 50%)
+            );
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">Color Wheel</h1>
+        <!-- <div class="subtitle">subtitle</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">experiment</div>
+        <div class="color-wheel--01"></div>
+        <div class="color-wheel--02"></div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        const s = {};
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+        });
+    </script>
+</body>
+</html>
