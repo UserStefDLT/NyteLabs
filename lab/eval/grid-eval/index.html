@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Grid Eval | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+
+    </style>
+    <style>
+        :root {
+            --hue-html: 20;
+            --hue-css: 200;
+            --hue-all: 140;
+
+            --clr-html: hsla(20,85%,60%,1);
+            --clr-css: hsla(200,85%,40%,1);
+            --clr-all: hsla(140,85%,40%,1);
+            
+            --clr-dark-html: hsla(20,40%,35%,1);
+            --clr-dark-css: hsla(200,40%,25%,1);
+            --clr-dark-all: hsla(140,85%,25%,1);
+
+            --z: 0px;
+        }
+        .shelf-col {
+            display: flex;
+            flex-direction: column;
+        }
+        /* #html-input, */
+        .toggle-textarea {
+            background: #0000;
+            background-color: #123; color: #ff9f; 
+            border-radius: 0px; 
+            border: 2px solid #369; 
+            border-right: 1px solid #ffc9;
+            border-left: 1px solid #ffc9;
+            margin: .25rem auto;
+            width: 90vw;
+            max-width: 356px;
+        }
+        [class|="nybtn"] {
+            border: 2px solid transparent;
+            padding: 8px 12px;
+            font-size: 16px;
+            color: black;
+            margin: .125rem .25rem;
+            border-radius: .25rem;
+        }
+        .nybtn-eval {
+            background-color: hsla(calc(var(--i) * 60),100%,60%,1); 
+            background-color: hsla(210,100%,60%,1);
+            color: #fff;
+        }
+        .nybtn-reset {
+            --clr: hsla(210,0%,60%,1);
+            border: 2px solid var(--clr);
+            color: var(--clr);
+            background-color: transparent;
+        }
+        .nybtn-go {
+            background-color: hsla(270,100%,50%,1);
+            color: #fff;
+        }
+        .nybtn-clear {background-color: #eee; color: #333;}
+        /* .html-btn {background-color: hsla(30,100%,50%,1);}
+        .css-btn {background-color: hsla(225,100%,50%,1);} */
+        .eval-btn {background-color: hsla(140,85%,40%,1);}
+        .html-btn {background-color: hsla(20,85%,60%,1);}
+        .css-btn {background-color: hsla(200,85%,40%,1);}
+        .input-row,
+        .row-btns {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+        }
+
+        /* #html-display {display: flex; flex-direction: row; flex-wrap: wrap;} */
+        .btn,
+        .sample {
+            padding: 8px 12px;
+            font-size: 16px;
+            color: black;
+            margin: .125rem .25rem;
+            border-radius: .25rem;
+            font-size: 16px;
+        }
+    </style>
+    <style>
+        [name="input-tab"] {display: none;}
+        .toggle-textarea {display: none;}
+        #html-tab:checked ~ main #html-input {display: flex;}
+        #css-tab:checked ~ main #css-input {display: flex;}
+        #all-tab:checked ~ main #all-input {display: flex;}
+        /* .draw-settings {} */
+        [for="html-tab"] {--bg: var(--clr-dark-html);}
+        [for="css-tab"] {--bg: var(--clr-dark-css);}
+        [for="all-tab"] {--bg: var(--clr-dark-all);}
+        #html-tab:checked ~ main [for="html-tab"] {--bg: var(--clr-html); --z: 4px;}
+        #css-tab:checked ~ main [for="css-tab"] {--bg: var(--clr-css); --z: 4px;}
+        #all-tab:checked ~ main [for="all-tab"] {--bg: var(--clr-all); --z: 4px;}
+        /* .tab-label {
+            background-color: var(--bg);
+            padding: .125rem .5rem;
+            margin: .125rem;
+            border-radius: 2px 2px 0 0;
+            clip-path: polygon(0% 100%, 10% 0%, 90% 0%, 100% 100%, 0% 100%);
+        } */
+        .tab-label {
+            background-color: var(--bg);
+            height: 2rem; width: 6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 -.25rem;
+            clip-path: polygon(0% 100%, 10% 0%, 90% 0%, 100% 100%, 0% 100%);
+            clip-path: path('M 0 32 L 12 0 L 84 0 L 96 32 z');
+            transform: translateZ(var(--z));
+        }
+        .input-row {transform-style: preserve-3d;}
+
+        
+        #html-input {--clr: var(--clr-dark-html); --hue: var(--hue-html);}
+        #css-input {--clr: var(--clr-dark-css); --hue: var(--hue-css);}
+        #all-input {--clr: var(--clr-dark-all); --hue: var(--hue-all);}
+        .toggle-textarea {
+            background: #0000;
+            background-color: #125;
+            background-color: hsl(var(--hue), 40%, 5%, 1);
+            color: #eee; 
+            color: hsl(var(--hue), 80%, 50%, 1);
+            border-radius: 0px; 
+            border: 2px solid var(--clr); 
+            border-right: 1px solid #eee8;
+            border-left: 1px solid #eee8;
+            margin: 0rem auto;
+            width: 90vw;
+            max-width: 356px;
+        }
+        .toggle-textarea:focus-visible {
+            outline: 0px solid transparent;
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+<header>
+    <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+    <div class="title">Nytelabs</div>
+    <div class="subtitle">Grid Eval</div>
+</header>
+
+<input type="radio" name="input-tab" id="html-tab" checked>
+<input type="radio" name="input-tab" id="css-tab">
+<input type="radio" name="input-tab" id="all-tab">
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">Display</div>
+        <style id="css-display">.sample {background-color: hsla(210,100%,60%,1); color: black;}</style>
+        <div id="html-display"><button class="sample">Sample</button></div>
+    </div>
+
+    <div class="shelf shelf-col">
+        <div class="shelf-title">Code</div>
+        <!-- <div id="html-display">
+            <button style="background-color: hsla(210,100%,60%,1); color: black;" class="btn">Sample</button>
+        </div> -->
+        <div class="input-row">
+            <label for="html-tab" class="tab-label">HTML</label>
+            <label for="css-tab" class="tab-label">CSS</label>
+            <label for="all-tab" class="tab-label">All</label>
+        </div>
+        <div class="input-row">            
+            <textarea name="html-input" id="html-input" cols="30" rows="10" class="toggle-textarea">
+<button style="background-color: hsla(210,100%,60%,1); color: black;" class="sample">Sample</button>
+            </textarea>
+            <textarea name="css-input" id="css-input" cols="30" rows="10" class="toggle-textarea">.sample {
+    background-color: hsla(210,100%,60%,1);
+    color: black;
+}</textarea>
+            <textarea name="all-input" id="all-input" cols="30" rows="10" class="toggle-textarea"></textarea>
+        </div>
+
+
+        <div class="input-row">
+            <button type="button" onclick="UpdateHTML()" class="nybtn-eval html-btn">Update HTML</button>
+            <button type="button" onclick="UpdateCSS()" class="nybtn-eval css-btn">Update CSS</button>
+            <button type="button" onclick="UpdateAll()" class="nybtn-eval eval-btn">Update All</button>
+            <!-- <button type="button" data-cmd="eval" onclick="addHTML()" class="nybtn-eval">Eval</button> -->
+            <!-- <button type="button" data-cmd="reset" onclick="resetDisplay()" class="nybtn-reset">Reset</button> -->
+        </div>
+        
+        <div class="input-row">
+            <input type="number" name="dim" id="xlen" value="10" step="5" min="5" max="100">
+            <input type="number" name="dim" id="ylen" value="10" step="5" min="5" max="100">
+            <button type="button" onclick="BuildGrid()" class="nybtn-go">Build</button>
+            <button type="button" onclick="ResetDisplay()" class="nybtn-reset">Reset</button>
+            <button type="button" onclick="ClearDisplay()" class="nybtn-clear">Clear</button>
+        </div>
+    </div>
+</main>
+
+<!-- <div class="draw-settings">
+    <div class="input-row">
+        <input type="number" name="dim" id="xlen">
+        <input type="number" name="dim" id="ylen">
+        <button type="button" data-cmd="build" class="nybtn-go">Build</button>
+    </div>
+</div> -->
+
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    // var sample = `<button style="\nbackground-color: hsla(210,100%,60%,1); \ncolor: white;\n" class="btn">Sample</button>`;
+//     var sample = `<style>
+// .btn {background-color: hsla(calc(var(--i) * 60), 100%, 60%, 1);}
+// </style>
+// <button class="btn">Sample</button>
+// <button class="btn">Sample</button>
+// <button class="btn">Sample</button>`;
+    var css_grid = `.row {
+  display: flex;
+  flex-direction: row;
+}
+.tile{
+  height: 1rem;
+  width: 1rem;
+  background: #fff9;
+  margin: 1px;
+}`
+    var css_sample = `.list{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.sample {
+  --hue: calc(var(--i) * 60);
+  background-color: hsla(var(--hue), 100%, 60%, 1);
+  margin: .125rem .25rem;
+  padding: 8px 12px;
+  font-size: 16px;
+  color: black;
+  border-radius: .25rem;
+}`
+    var html_sample = `<div class="list">
+<div class="sample">Sample</div>
+<div class="sample">Sample</div>
+<div class="sample">Sample</div>
+</div>`
+    // var htmlInput = document.getElementById('html-input');
+    // var htmlDisplay = document.getElementById('html-display');
+
+    function UpdateFromJoin(){
+        let allInput = document.getElementById('all-input');
+        let split = allInput.value.split('</style>');
+        let cssVal = split[0].split('<style>')[1];
+        let htmlVal = split[1];
+
+        let htmlInput = document.getElementById('html-input');
+        let cssInput = document.getElementById('css-input');
+        cssInput.value = cssVal;
+        htmlInput.value = htmlVal;
+    }
+    function UpdateJoin(){
+        let allInput = document.getElementById('all-input');
+
+        let htmlInput = document.getElementById('html-input');
+        let cssInput = document.getElementById('css-input');
+
+        allInput.value = `<style>
+${cssInput.value}
+</style>
+${htmlInput.value}
+`;
+    }
+    function UpdateCSS(){
+        let cssDisplay = document.getElementById('css-display');
+        let cssInput = document.getElementById('css-input');
+
+        cssDisplay.innerHTML = cssInput.value;
+    }
+    function UpdateHTML(){
+        let htmlDisplay = document.getElementById('html-display');
+        let htmlInput = document.getElementById('html-input');
+
+        htmlDisplay.innerHTML = htmlInput.value;
+    }
+    function UpdateAll(){
+        let allOn = document.getElementById('all-tab').checked;
+        if(document.getElementById('all-tab').checked){
+            UpdateFromJoin();
+            UpdateCSS();
+            UpdateHTML();
+        } else {
+            UpdateCSS();
+            UpdateHTML();
+            UpdateJoin();
+        }
+    }
+    function BuildGrid_Display(w,h){
+        let tile = `<div class="tile"></div>`;
+        let tiles = tile.repeat(w);
+        let row = `<div class="row">${tiles}</div>`;
+        let rows = row.repeat(h);
+        let grid = `<div id="grid" class="grid">${rows}</div>`;
+        return grid;
+    }
+    function BuildGrid_Display1(w, h){
+        let grid = document.createElement('div');
+        grid.classList.add('grid');
+        grid.id = 'grid';
+        for(let y = 0; y < h; y++){
+            let row = document.createElement('div');
+            row.classList.add('row');
+            for(let x = 0; x < w; x++){
+                let tile = document.createElement('div');
+                tile.classList.add('tile');
+                tile.id = `xy,${x},${y}`;
+                row.appendChild(tile);
+            }
+            grid.appendChild(row);
+        }
+        return grid;
+    }
+    function BuildGrid(){
+        let xlen = parseInt(document.getElementById('xlen').value);
+        let ylen = parseInt(document.getElementById('ylen').value);
+
+        let grid = BuildGrid_Display(xlen, ylen);
+        let htmlInput = document.getElementById('html-input');
+        htmlInput.value = grid;
+        // UpdateHTML();
+        let cssInput = document.getElementById('css-input');
+        cssInput.value = css_grid;
+        UpdateAll();
+        // let htmlDisplay = document.getElementById('html-display');
+        // htmlDisplay.appendChild(grid);
+        // let htmlInput = document.getElementById('html-input');
+        // htmlInput.value = htmlDisplay.innerHTML;
+    }
+
+    function ResetDisplay(){
+        let htmlInput = document.getElementById('html-input');
+        htmlInput.value = html_sample;
+        let cssInput = document.getElementById('css-input');
+        cssInput.value = css_sample;
+        UpdateAll();
+    }
+    function ClearDisplay(){
+        let htmlInput = document.getElementById('html-input');
+        htmlInput.value = '';
+        let cssInput = document.getElementById('css-input');
+        cssInput.value = '';
+        UpdateAll();
+    }
+    
+
+    // window.addEventListener('click', (ev) =>{
+    //     if(ev.target.dataset.cmd == 'eval'){
+    //         addHTML();
+    //     }
+    //     if(ev.target.dataset.cmd == 'reset'){
+    //         resetDisplay();
+    //     }
+    // });
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+    });
+    /* Version-log:
+    [index-nds-01]: works.
+    [index-nds-02]: fix the grid dimension inputs to tell the user what they are.
+                    allow for hiding buttons and options.
+    */
+</script>
+</body>
+</html>

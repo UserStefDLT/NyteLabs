@@ -1,0 +1,218 @@
+/* Maze, grid, rows, tiles. */
+:root {
+    --bg: var(--bwt);
+    --sz-tile: 1rem;
+    --sz-player: .75rem;
+
+    --bg--1: var(--bwt);
+    --bg-0: var(--bwe);
+    --bg-2: #c06;
+    --bg-3: #0c6;
+    --bg-1: #06c;
+    --bg-9: #c60;
+    --bg-5: #999;
+
+    --bg-0: hsl(0, 0%, 93%);
+    --bg-2: hsl(330, 100%, 40%);
+    --bg-3: hsl(150, 100%, 40%);
+    --bg-1: hsl(210, 100%, 40%);
+    --bg-9: hsl(30, 100%, 40%);
+    --bg-5: hsl(0, 0%, 60%);
+
+    --hue-2: 330;
+    --hue-3: 150;
+    --hue-1: 210;
+    --hue-9: 30;
+
+    --hue: 0;
+    --sat: 100%;
+    --lum: 40%;
+    --alp: 1;
+
+    --hsl: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+    --step: 0;
+    --steps: 0;
+
+    /* --clr-contrast-tile: var(--bw1); */
+    /* --clr-contrast-tile: var(--bwe); */
+}
+#display {position: relative;}
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+.tile {
+    position: relative;
+    height: var(--sz-tile);
+    width: var(--sz-tile);
+    background-color: var(--bg);
+    border-radius: .125rem;
+
+    --hsl-tile-borders: hsla(var(--hue), 0%, 93%, var(--alp));
+    --hsl: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+    background-color: var(--hsl);
+}
+
+.tile {
+    border-radius: 0rem;
+}
+
+.tile[data-type="-1"] {background-color: var(--bwt);}
+
+.tile[data-type="-1"] {--bg: var(--bwt); --sat: 0%; --lum: 0%; --alp: 0;}
+.tile[data-type="0"] {--bg: var(--bwe); --hue: 210; --sat: 0%; --lum: 93%; --alp: 1;}
+.tile[data-type="2"] {--bg: #c06; --hue: var(--hue-2); --sat: 100%; --lum: 40%; --alp: 1;}
+.tile[data-type="3"] {--bg: #0c6; --hue: var(--hue-3); --sat: 100%; --lum: 40%; --alp: 1;}
+.tile[data-type="1"] {--bg: #06c; --hue: var(--hue-1); --sat: 100%; --lum: 40%; --alp: 1;}
+.tile[data-type="9"] {--bg: #c60; --hue: var(--hue-9); --sat: 100%; --lum: 40%; --alp: 1;}
+.tile[data-type="5"] {--bg: #999; --sat: 0%;}
+.tile[data-type="5"] {--bg: var(--bw9); --sat: 0%; --lum: 60%;}
+
+.tile[data-type="-1"] {--bg: var(--bwt); --clr: var(--bwe);}
+.tile[data-type="0"] {--bg: var(--bwe); --clr: var(--bw1);}
+.tile[data-type="2"] {--bg: #c06; --clr: var(--bwf); --hue: var(--hue-2);}
+.tile[data-type="3"] {--bg: #0c6; --clr: var(--bwf); --hue: var(--hue-3);}
+.tile[data-type="1"] {--bg: #06c; --clr: var(--bwf); --hue: var(--hue-1);}
+.tile[data-type="9"] {--bg: #c60; --clr: var(--bwf); --hue: var(--hue-9);}
+.tile[data-type="5"] {--bg: #999; --clr: var(--bw0);}
+.tile[data-type="5"] {--bg: var(--bw9);}
+
+.row {--iRow: var(--i);}
+.tile[data-type="0"] {z-index: 2;}
+.tile[data-type="1"],
+.tile[data-type="9"] {z-index: 3;}
+.tile[data-type="2"],
+.tile[data-type="3"] {z-index: 4;}
+.tile[data-type="5"] {z-index: 5;}
+
+.tile[data-type="1"]::after {content: 'start';}
+.tile[data-type="5"]::after {content: 'you';}
+.tile[data-type="9"]::after {content: 'exit';}
+.tile[data-type="1"]::after,
+.tile[data-type="5"]::after,
+.tile[data-type="9"]::after {
+    display: none;
+    position: absolute;
+    top: 0%; left: 50%;
+    transform: translateX(-50%) translateY(-100%);
+    padding: .125rem .25rem;
+    border-radius: .25rem;
+    color: var(--bwf);
+    text-shadow: 0px 0px 2px var(--bw0);
+    /* background-color: var(--bg);
+    --hsl-dark: hsla(var(--hue), var(--sat), 20%, var(--alp));
+    border: 1px solid var(--bg); */
+    --hsl-dark: hsla(var(--hue), var(--sat), 20%, .75);
+    background-color: var(--hsl-dark);
+    border: 1px outset var(--bg);
+    box-sizing: border-box;
+    z-index: 8;
+}
+
+.tile[data-type="1"]:hover::after,
+.tile[data-type="5"]:hover::after,
+.tile[data-type="9"]:hover::after {display: flex;}
+
+
+
+
+.tile[data-type="5"],
+.player {
+    position: absolute;
+    height: var(--sz-tile);
+    width: var(--sz-tile);
+    background-color: var(--bwt);
+
+    --x: 0;
+    --y: 0;
+
+    --xOff: calc(var(--sz-tile) * var(--x));
+    --yOff: calc(var(--sz-tile) * var(--y));
+
+    transform: translateX(var(--xOff)) translateY(var(--yOff));
+    transition: transform 200ms ease-in-out;
+
+    z-index: 5;
+}
+.tile[data-type="5"]::before,
+.player::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+
+    height: var(--sz-player);
+    width: var(--sz-player);
+    border-radius: 50%;
+    /* --bg: #999; */
+    --bg: var(--bw9);
+    background-color: var(--bg);
+    box-shadow: 0 0 2px 2px var(--bw3);
+}
+
+
+.tile::before {
+    /* content: attr(data-x) "," attr(data-y); */
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    height: 100%; width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: .125rem;
+    font-size: 10px;
+    opacity: 0;
+    user-select: none;
+
+    --step-hue: calc(var(--steps) * 1);
+    --step-clr: hsla(var(--step-hue), 100%, 50%, 1);
+    --step-shw: hsla(var(--step-hue), 100%, 10%, .25);
+    
+    color: transparent;
+    color: var(--step-clr);
+    text-shadow: 1px 1px 1px var(--step-shw), 0px 0px 2px var(--step-shw);
+
+    /* background-color: var(--step-clr); */
+}
+.tile[data-type="1"]::before,
+.tile[data-type="9"]::before {
+    color: var(--clr);
+    text-shadow: 1px 1px 1px var(--bw0), 0px 0px 2px var(--bw0);
+}
+
+
+.row {position: relative;}
+.row::before {
+    /* content: attr(data-y); */
+    position: absolute;
+    top: 50%; left: 0%;
+    transform: translateX(-100%) translateY(-50%);
+    height: 100%; 
+    width: 2rem;
+    padding: 0 .25rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    opacity: .25;
+    user-select: none;
+    color: var(--bwf);
+}
+.row::after {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    height: 100%; width: 100%;
+    outline: 1px dashed #fff9;
+    outline-offset: -1px;
+    box-sizing: border-box;
+    user-select: none;
+    z-index: -1;
+}

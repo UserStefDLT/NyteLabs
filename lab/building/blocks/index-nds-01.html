@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Blocks | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        
+    </style>
+    <style>
+        :root {
+            /* Making 3D blocks */
+            --sz-cube: 3rem;
+            --p: 5000px;
+        }
+        .grid, .row, .cube, .tile,
+        .cube::before, .cube::after {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            /* grid-template-columns: repeat(6, 1fr); */
+            gap: .25rem;
+            gap: 1rem;
+            margin: 4rem auto;
+            transform: perspective(var(--p)) rotate3d(1,0,0,54deg) rotate3d(0,0,1,-45deg);
+
+        }
+        .for-6 {
+            grid-template-columns: repeat(6, 1fr);
+            gap: .25rem;
+        }
+        .cube {
+            --sz: var(--sz-cube); 
+            height: var(--sz); width: var(--sz);
+
+            --hue: calc(var(--i) * 30);
+            --clr-txt: hsla(var(--hue), 100%, 60%, .5);
+            --clr-light: hsla(var(--hue), 100%, 60%, 1);
+            --clr-top: hsla(var(--hue), 100%, 50%, 1);
+            --clr-side: hsla(var(--hue), 100%, 30%, 1);
+            --clr-front: hsla(var(--hue), 100%, 20%, 1);
+            background-color: var(--clr-top);
+
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff0;
+            /* color: var(--clr-txt); */
+            text-shadow: 1px 1px 2px #111c;
+            text-shadow: 0px 0px 0px #888, -1px -1px 1px #555, 1px 1px 1px #bbb;
+
+            text-shadow: 
+            0px 0px 0px var(--clr-front), 
+            -1px -1px 1px var(--clr-side), 
+            1px 1px 1px var(--clr-top);
+
+            text-shadow: 
+            0px 0px 0px var(--clr-side), 
+            -1px -1px 1px var(--clr-front), 
+            1px 1px 1px var(--clr-light);
+
+            position: relative;
+            transform-origin: 50% 50% -24px;
+            transform: perspective(var(--p)) translateZ(48px);
+
+            transition: transform 200ms ease-in-out;
+        }
+
+        .cube::after,
+        .cube::before {
+            content: 'S';
+            position: absolute;
+            top: 50%; left: 50%;
+            height: var(--sz); width: var(--sz);
+            transform-origin: 50% 50% -24px;
+
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 2px #111c;
+        }
+        .cube::before {
+            transform: translateX(-50%) translateY(-50%) perspective(var(--p)) rotate3d(1,0,0,-90deg);
+            background-color: #999;
+            background-color: var(--clr-front);
+
+            --dark-front: hsla(var(--hue), 100%, 10%, 1);
+            --shw-front: hsla(var(--hue), 100%, 60%, .75);
+            color: var(--dark-front);
+            text-shadow: 1px 1px 2px var(--shw-front);
+        }
+        .cube::after {
+            transform: translateX(-50%) translateY(-50%) perspective(var(--p)) rotate3d(1,0,0,-90deg) rotate3d(0,1,0,-90deg);
+            background-color: #ccc;
+            background-color: var(--clr-side);
+
+            --dark-side: hsla(var(--hue), 100%, 15%, 1);
+            --shw-side: hsla(var(--hue), 100%, 60%, .75);
+            color: var(--dark-side);
+            text-shadow: 1px 1px 2px var(--shw-side);
+        }
+        .cube:hover {
+            transform: perspective(var(--p)) translateZ(96px);
+        }
+        .cube[data-char]::after,
+        .cube[data-char]::before {content: attr(data-char);}
+
+    </style>
+    <style>
+
+        .for-4 {
+            grid-template-columns: repeat(4, 1fr);
+            gap: .25rem;
+        }
+
+        .ny .cube {
+            --sz: var(--sz-cube); 
+            height: var(--sz); width: var(--sz);
+
+            --hue: calc(var(--i) * 180 + 60);
+            --hue: calc(var(--i) * 89 + var(--i) * 29);
+            --hue: calc(var(--i) * 89 + var(--i) * 5);
+            --hue: calc(var(--i) * 89 + var(--i) * -29 + var(--i) * -5);
+            --hue: calc(var(--i) * 89 + var(--i) * 54 + var(--i) * var(--i));
+            --hue: calc(var(--i) * 89 + var(--i) * 54);
+            --hue: calc((var(--i) - 5) * 29);
+            --hue: calc((var(--i) - 5) * 40);
+            --sat: 80%;
+            --lum: 70%;
+            --alp: 1;
+
+            --lum-top: calc(var(--lum) * 5 / 6);
+            --lum-side: calc(var(--lum) / 2);
+            --lum-front: calc(var(--lum) / 3);
+
+            --clr-txt: hsla(var(--hue), var(--sat), 60%, .5);
+
+            /* --clr-light: hsla(var(--hue), var(--sat), 60%, var(--alp));
+            --clr-top: hsla(var(--hue), var(--sat), 50%, var(--alp));
+            --clr-side: hsla(var(--hue), var(--sat), 30%, var(--alp));
+            --clr-front: hsla(var(--hue), var(--sat), 20%, var(--alp)); */
+
+            --clr-light: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+            --clr-top: hsla(var(--hue), var(--sat), var(--lum-top), var(--alp));
+            --clr-side: hsla(var(--hue), var(--sat), var(--lum-side), var(--alp));
+            --clr-front: hsla(var(--hue), var(--sat), var(--lum-front), var(--alp));
+
+            background-color: var(--clr-top);
+
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff0;
+            text-shadow: 
+            0px 0px 0px var(--clr-side), 
+            -1px -1px 1px var(--clr-front), 
+            1px 1px 1px var(--clr-light);
+
+            position: relative;
+            transform-origin: 50% 50% -24px;
+            transform: perspective(var(--p)) translateZ(48px);
+            transition: transform 200ms ease-in-out;
+            animation: clr-flickr 5000ms ease-in-out infinite both;
+            animation-delay: -100ms;
+            animation-play-state: paused;
+        }
+        .ny .cube:hover {
+            transform: perspective(var(--p)) translateZ(96px);
+        }
+        .ny .cube::before {
+            /* --lum-main: 20%; */
+            /* --lum-dark: 10%; */
+            --lum-main: calc(var(--lum) / 3);
+            --lum-dark: calc(var(--lum-main) / 2);
+            transform: translateX(-50%) translateY(-50%) perspective(var(--p)) rotate3d(1,0,0,-90deg);
+        }
+        .ny .cube::after {
+            /* --lum-main: 30%; */
+            /* --lum-dark: 15%; */
+            --lum-main: calc(var(--lum) / 2);
+            --lum-dark: calc(var(--lum-main) / 2);
+            transform: translateX(-50%) translateY(-50%) perspective(var(--p)) rotate3d(1,0,0,-90deg) rotate3d(0,1,0,-90deg);
+        }
+        .ny .cube::before,
+        .ny .cube::after {
+            --clr-main: hsla(var(--hue), var(--sat), var(--lum-main), var(--alp));
+            background-color: var(--clr-main);
+
+            /* --clr-shw: hsla(var(--hue), var(--sat), 60%, calc(var(--alp) * .75)); */
+            --clr-shw: hsla(var(--hue), var(--sat), calc(var(--lum-main) * 2), calc(var(--alp) * .75));
+            text-shadow: 1px 1px 2px var(--clr-shw);
+
+            --clr-dark: hsla(var(--hue), var(--sat), var(--lum-dark), var(--alp));
+            color: var(--clr-dark);
+        }
+
+        .ny:hover .cube {
+            /* animation: clr-flickr 5000ms ease-in-out infinite both; */
+            animation-play-state: running;
+        }
+        @keyframes clr-flickr {
+            0% {--hue: calc((var(--i) - 5) * 40);}
+            12.5% {--hue: calc(var(--i) * 180 + 60);}
+            25% {--hue: calc(var(--i) * 89 + var(--i) * 5);}
+            37.5% {--hue: calc(var(--i) * 89 + var(--i) * -29 + var(--i) * -5);}
+            50% {--hue: calc(var(--i) * 89 + var(--i) * 54 + var(--i) * var(--i));}
+            62.5% {--hue: calc(var(--i) * 89 + var(--i) * 54);}
+            75% {--hue: calc((var(--i) - 5) * 29);}
+            87.5% {--hue: calc(var(--i) * 89 + (var(--i) - 5) * 54);}
+            100% {--hue: calc((var(--i) - 5) * 40);}
+            
+        }
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">Blocks</h1>
+        <!-- <div class="subtitle">subtitle</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">exp ny</div>
+        <div class="grid for-4 ny">
+            <div class="cube" data-char="N">N</div>
+            <div class="cube" data-char="y">y</div>
+            <div class="cube" data-char="t">t</div>
+            <div class="cube" data-char="e">e</div>
+            <div class="cube" data-char="L">L</div>
+            <div class="cube" data-char="a">a</div>
+            <div class="cube" data-char="b">b</div>
+            <div class="cube" data-char="s">s</div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">exp 02</div>
+        <div class="grid for-6">
+            <div class="cube" data-char="B">B</div>
+            <div class="cube" data-char="l">l</div>
+            <div class="cube" data-char="o">o</div>
+            <div class="cube" data-char="c">c</div>
+            <div class="cube" data-char="k">k</div>
+            <div class="cube" data-char="s">s</div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">exp 01</div>
+        <div class="grid">
+            <div class="cube">S</div>
+            <div class="cube">S</div>
+            <div class="cube">S</div>
+            <div class="cube">S</div>
+            <div class="cube">S</div>
+            <div class="cube">S</div>
+        </div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        const s = {};
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+        });
+    </script>
+</body>
+</html>

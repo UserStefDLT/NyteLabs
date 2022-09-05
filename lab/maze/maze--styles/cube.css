@@ -1,0 +1,41 @@
+
+
+.cube {
+    --sz: var(--sz-cube); 
+    --sz-cube-back: calc(var(--sz-cube) * -.5);
+    height: var(--sz); width: var(--sz);
+
+    --hue: 210; --sat: 80%; --alp: 1;
+    
+    --lum: 80%;
+    --lum-top: calc(var(--lum) * 5 / 6);
+    --clr-top: hsla(var(--hue), var(--sat), var(--lum-top), var(--alp));
+    background-color: var(--clr-top);
+
+    color: var(--bwt);
+    position: relative;
+    transform-origin: 50% 50% var(--sz-cube-back);
+    transform: perspective(var(--p)) translateZ(var(--sz-cube));
+    transition: transform 200ms ease-in-out;
+}
+.cube::after,
+.cube::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    height: var(--sz); width: var(--sz);
+    transform-origin: 50% 50% var(--sz-cube-back);
+}
+.cube::before {
+    --lum-main: calc(var(--lum) / 3);
+    transform: translateX(-50%) translateY(-50%) perspective(var(--p)) rotate3d(1,0,0,-90deg);
+}
+.cube::after {
+    --lum-main: calc(var(--lum) / 2);
+    transform: translateX(-50%) translateY(-50%) perspective(var(--p)) rotate3d(1,0,0,-90deg) rotate3d(0,1,0,-90deg);
+}
+.cube::before,
+.cube::after {
+    --clr-main: hsla(var(--hue), var(--sat), var(--lum-main), var(--alp));
+    background-color: var(--clr-main);
+}

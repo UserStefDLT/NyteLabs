@@ -22,15 +22,21 @@
     </style>
     <style>
         :root {
-            --clr: rgba(255, 255, 255, 0.05);
-            --clr: #ffffff0d;
-            --clr: #fff1;
-            --clr: rgba(255, 255, 255, 0.067);
+            /* Layout: sizing. */
+            --sz: 11px;
+
+            /* Color for the count. */
+            --bg-0: #161b22;
+            --bg-1: #0e4429;
+            --bg-2: #006d32;
+            --bg-3: #26a641;
+            --bg-4: #39d353;
+            --out-clr: #fff1;
+            --out-clr-0: #2221;
+            --bg: var(--bg-0);
             
-            --clr: rgba(27, 31, 35, 0.06);
-            --clr: #1b1f230f;
-            --clr: #2221;
-            --clr: rgba(34, 34, 34, 0.067);
+            
+            --bg-1: var(--bg-3);
         }
         .cal {
             height: 100%;
@@ -49,11 +55,6 @@
             grid-template-rows: repeat(7, 1fr);
             gap: 4px;
         }
-        [data-count="0"] {--bg: #161b22; --out-clr: #2221;}
-        [data-count="1"] {--bg: #0e4429; --out-clr: #fff1;}
-        [data-count="2"] {--bg: #006d32; --out-clr: #fff1;}
-        [data-count="3"] {--bg: #26a641; --out-clr: #fff1;}
-        [data-count="4"] {--bg: #39d353; --out-clr: #fff1;}
         .day {
             --sz: 11px;
             height: var(--sz);
@@ -64,6 +65,21 @@
             outline-offset: -1px;
         }
     </style>
+    <style>
+        [data-count="0"] {--bg: var(--bg-0); --out-clr: #2221;}
+        [data-count="1"] {--bg: var(--bg-1);}
+        [data-count="2"] {--bg: var(--bg-2);}
+        [data-count="3"] {--bg: var(--bg-3);}
+        [data-count="4"] {--bg: var(--bg-4);}
+        .cal > .col > div {
+            height: var(--sz);
+            width: var(--sz);
+            border-radius: 2px;
+            background-color: var(--bg);
+            outline: 1px solid var(--out-clr-01);
+            outline-offset: -1px;
+        }
+    </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
@@ -71,16 +87,56 @@
         <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
         <div class="title">Git Calendar</div>
         <!-- <div class="subtitle">subtitle</div> -->
-        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
-        <div class="subtitle"> 🚧 Under Construction 🚧 </div>
+        <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div>
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
     </header>
 
 <main>
+    <div class="shelf hidden">
+        <div class="shelf-title">check</div>
+        <div class="cal">
+            <div class="col"><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="col">
+                <div class="day" data-count="1"></div>
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="0"></div>
+            </div>
+            <div class="col">
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="2"></div>
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="0"></div>
+            </div>
+            <div class="col">
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="3"></div>
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="0"></div>
+            </div>
+            <div class="col">
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="0"></div>
+                <div class="day" data-count="4"></div>
+            </div>
+            <div class="col"><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        </div>
+    </div>
     <div class="shelf">
         <div class="shelf-title">Hello</div>
-        <!-- .cal>.col*5>.day*7 -->
-        <!-- .cal>.col*5>.day[data-count='0']*7 -->
-        <!-- .cal>.col*20>.day[data-count='0']*7 -->
         <div class="cal">
             <div class="col">
                 <div class="day" data-count="0"></div>
@@ -273,19 +329,131 @@
             </div>
         </div>
     </div>
+    <div id="display" class="shelf">
+        <div class="shelf-title">Type</div>
+        <!-- <div id="display"></div> -->
+    </div>
 </main>
 
 
-    <footer>
-        <div class="my-name">
-            <a href="#">Back To Top</a>
-            &copy; 2022 | by Stéfano De La Torre 
-        </div>
-    </footer>
-    <div class="name-end">by St&eacute;fano.</div>
-    <!-- <script src="main.js"></script> -->
-    <script>
-        window.addEventListener('load', (ev) => { console.log(`Welcome to my Lab!`); });
-    </script>
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    var az = {
+        a: [31,20,31],
+        b: [31,21,10],
+        c: [31,17,17],
+        d: [31,17,14],
+        e: [31,21,21],
+        f: [31,20,20],
+        g: [31,17,19],
+        h: [31,4,31],
+        i: [17,31,17],
+        j: [17,31,16],
+        k: [31,4,27],
+        l: [31,1,1],
+        m: [31,8,31],
+        n: [31,16,31],
+        o: [31,17,31],
+        p: [31,20,28],
+        q: [27,20,31],
+        r: [31,20,11],
+        s: [29,21,23],
+        t: [16,31,16],
+        u: [31,1,31],
+        v: [30,1,30],
+        w: [31,2,4,2,31],
+        W: [30,1,6,1,30],
+        x: [27,14,27],
+        y: [27,7,27],
+        z: [19,21,25],
+        1: [17,31,17],
+        2: [19,21,9],
+        3: [21,21,31],
+        4: [28,4,31],
+        5: [29,21,22],
+        6: [31,21,23],
+        7: [16,16,31],
+        8: [31,21,31],
+        9: [29,21,31],
+        0: [31,17,31],
+        "+": [04,14,04],
+        "-": [04,04,04],
+        "=": [10,10,10],
+        ".": [1],
+        "!": [29],
+        '?': [24,19,28],
+        '(': [14,17],
+        ')': [17,14],
+        '[': [31,17],
+        ']': [17,31],
+        ':': [10],
+        '*': [10,4,10],
+        '%': [17,2,4,8,17],
+        '♥': [12,30,15,30,12],
+        '█': [31,31,31],
+        '<': [4,10,16],
+        '>': [16,10,4],
+        "'": [16],
+        '"': [16,0,16], 
+        " ": [],
+    }
+    const space_col = '<div class="col"><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>';
+
+    function Write(word){
+        let display = document.getElementById('display');
+        let azs = Object.keys(az);
+        let res = ['<div class="cal">'];
+        res.push(space_col);
+        for (let i = 0; i < word.length; i++) {
+            const e = word[i];
+            if(e == " "){
+                res.push(space_col);
+            } else if(azs.includes(e)){
+                for (let j = 0; j < az[e].length; j++) {
+                    let nbin = (az[e][j] + 32).toString(2);
+                    res.push('<div class="col">');
+                    let row = ['<div class="day" data-count="0"></div>'];
+                    for (let k = 1; k < nbin.length; k++) {
+                        const b = nbin[k];
+                        row.push(`<div class="day" data-count="${b}"></div>`);
+                        // res.push(`<div class="day" data-count="${b}"></div>`);
+                    }
+                    // res.push(az[e][j]);
+                    row.push('<div class="day" data-count="0"></div>');
+                    res.push(row.join(''));
+                    res.push('</div>');
+                }
+                res.push(space_col);
+            }
+        }
+        res.push('</div>');
+        display.innerHTML += res.join('');
+        // return res.join('');
+    }
+
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+    });
+    /* Version Log:
+    [index-nds-01]: Simple view of how it should look like.
+    [index-nds-02]: Adding a function to add some letters in a second view.
+    [index-nds-03]: Clean and add other letters.
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
+    [index-nds-07]: 
+    [index-nds-08]: 
+    [index-nds-09]: 
+    [index-nds-10]: 
+    
+    */
+</script>
 </body>
 </html>

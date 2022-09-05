@@ -1,0 +1,195 @@
+:root {
+    /* Making 3D blocks */
+    --sz-cube: 2rem;
+    --sz-cube-back: calc(var(--sz-cube) * -.5);
+    --sz-cube-half: calc(var(--sz-cube) / 2);
+    --p: 500px;
+    --p: 5000px;
+    --p: 1200px;
+    --axis-len: 9;
+    --nx: 9;
+    --ny: 1;
+}
+.row:nth-of-type(2n+0) {--m2: 1; --m2h: 1; --m2tf: 0;}
+.row:nth-of-type(2n+1) {--m2: 2; --m2h: .5; --m2tf: 1;}
+.row:nth-of-type(6n+0) {--m3: 1; --m6: .5;}
+.row:nth-of-type(6n+1) {--m3: 2; --m6: 2;}
+.row:nth-of-type(6n+2) {--m3: 3; --m6: 3;}
+.row:nth-of-type(6n+3) {--m3: 1; --m6: 4;}
+.row:nth-of-type(6n+4) {--m3: 2; --m6: 3;}
+.row:nth-of-type(6n+5) {--m3: 3; --m6: 2;}
+
+.cube:nth-of-type(2n+0) {--n2: 1; --n2h: 1; --n2tf: 0;}
+.cube:nth-of-type(2n+1) {--n2: 2; --n2h: .5; --n2tf: 1;}
+.cube:nth-of-type(6n+0) {--n3: 1; --n6: .5;}
+.cube:nth-of-type(6n+1) {--n3: 2; --n6: 2;}
+.cube:nth-of-type(6n+2) {--n3: 3; --n6: 3;}
+.cube:nth-of-type(6n+3) {--n3: 1; --n6: 4;}
+.cube:nth-of-type(6n+4) {--n3: 2; --n6: 3;}
+.cube:nth-of-type(6n+5) {--n3: 3; --n6: 2;}
+
+/* ready */
+.cube {
+    /* ijk */
+    --col-axis-len: var(--axis-len);
+    --col-axis-half: calc((var(--col-axis-len) + 1) / 2);
+    --j: calc(var(--col-axis-len) - var(--i) + 1);
+    --k: calc(var(--i) - var(--col-axis-half));
+    --kk: calc(var(--k) * var(--k));
+    --kk1: calc(var(--k) / (var(--kk) / 4 + 1));
+    --kk10: calc(var(--kk1) * var(--kk1));
+    --ij: calc(var(--i) + var(--j));
+    --ixj: calc(var(--i) * var(--j));
+    --ijkk: calc(var(--ij) + var(--kk));
+    --ijkk10: calc(var(--ij) + var(--kk10));
+
+    /* n236h + abcd */
+    --b: calc(var(--n2) * var(--n3));
+    --ah: calc(var(--n2h) + var(--n3));
+    --bh: calc(var(--n2h) * var(--n3));
+    --abh: calc(var(--ah) + var(--bh));
+    --axbh: calc(var(--ah) * var(--bh));
+    --c26h: calc(var(--n2h) - var(--n6));
+    --d26h: calc(var(--n2h) / var(--n6));
+    --cd26h: calc(var(--c26h) + var(--d26h));
+    --cxd26h: calc(var(--c26h) * var(--d26h));
+}
+
+.row {
+    /* ijk */
+    --row-axis-len: var(--axis-len);
+    --row-axis-half: calc((var(--row-axis-len) + 1) / 2);
+    --row-i: var(--i);
+    --row-j: calc(var(--row-axis-len) - var(--row-i) + 1);
+    --row-k: calc(var(--row-i) - var(--row-axis-half));
+    --row-kk: calc(var(--row-k) * var(--row-k));
+    --row-kk1: calc(var(--row-k) / (var(--row-kk) / 4 + 1));
+    --row-kk10: calc(var(--row-kk1) * var(--row-kk1));
+    --row-ij: calc(var(--row-i) + var(--row-j));
+    --row-ixj: calc(var(--row-i) * var(--row-j));
+    --row-ijkk: calc(var(--row-ij) + var(--row-kk));
+    --row-ijkk10: calc(var(--row-ij) + var(--row-kk10));
+
+    /* m236h + abcd */
+    --row-b: calc(var(--m2) * var(--m3));
+    --row-ah: calc(var(--m2h) + var(--m3));
+    --row-bh: calc(var(--m2h) * var(--m3));
+    --row-abh: calc(var(--row-ah) + var(--row-bh));
+    --row-axbh: calc(var(--row-ah) * var(--row-bh));
+    --row-c26h: calc(var(--m2h) - var(--m6));
+    --row-d26h: calc(var(--m2h) / var(--m6));
+    --row-cd26h: calc(var(--row-c26h) + var(--row-d26h));
+    --row-cxd26h: calc(var(--row-c26h) * var(--row-d26h));
+}
+
+.cube {
+    --row-val-24-base: calc(var(--row-kk));                      --row-24-mul: .5;       --row-24-add: 0;
+    --row-val-23-base: calc(var(--row-kk));                      --row-23-mul: .5;       --row-23-add: 0;
+    --row-val-22-base: calc(var(--row-i));                       --row-22-mul: -2;       --row-22-add: 0;
+    --row-val-21-base: calc(var(--row-kk1));                     --row-21-mul: 12;       --row-21-add: 0;
+    --row-val-20-base: calc(var(--row-ijkk10));                  --row-20-mul: 15;       --row-20-add: -150;
+    --row-val-19-base: calc(var(--row-ijkk10));                  --row-19-mul: 15;       --row-19-add: -150;
+    --row-val-18-base: calc(var(--m2tf));                        --row-18-mul: 10;       --row-18-add: 0;
+    --row-val-17-base: calc(var(--m2tf));                        --row-17-mul: 10;       --row-17-add: 0;
+    --row-val-16-base: calc(var(--m2tf));                        --row-16-mul: 10;       --row-16-add: 0;
+    --row-val-15-base: calc(var(--row-d26h) + var(--row-kk));    --row-15-mul: 1;        --row-15-add: 0;
+    --row-val-14-base: calc(var(--row-abh));                     --row-14-mul: -5;       --row-14-add: 0;
+    --row-val-13-base: calc(var(--row-axbh));                    --row-13-mul: 1;        --row-13-add: 0;
+    --row-val-12-base: calc(var(--row-cd26h));                   --row-12-mul: 3;        --row-12-add: 0;
+    --row-val-11-base: calc(var(--row-cxd26h));                  --row-11-mul: 8;        --row-11-add: 0;
+    --row-val-10-base: calc(var(--row-i) * var(--m2h));          --row-10-mul: 5;        --row-10-add: 0;
+    --row-val-09-base: calc(var(--row-kk10));                    --row-09-mul: -15;      --row-09-add: 0;
+    --row-val-08-base: calc(var(--row-kk10));                    --row-08-mul: 15;       --row-08-add: 0;
+    --row-val-07-base: calc(var(--row-ixj));                     --row-07-mul: 2;        --row-07-add: -30;
+    --row-val-06-base: calc(var(--row-ixj));                     --row-06-mul: 2;        --row-06-add: -30;
+    --row-val-05-base: calc(var(--row-ixj));                     --row-05-mul: -2;       --row-05-add: 10;
+    --row-val-04-base: calc(var(--row-ijkk));                    --row-04-mul: -1;       --row-04-add: +12;
+    --row-val-03-base: calc(var(--row-ijkk10));                  --row-03-mul: 5;        --row-03-add: -50;
+    --row-val-02-base: calc(var(--row-ah));                      --row-02-mul: 3;        --row-02-add: 0;
+    --row-val-01-base: calc(var(--row-kk));                      --row-01-mul: 5 / 4;    --row-01-add: 0;
+    --row-val-00-base: calc(var(--row-kk));                      --row-00-mul: -7 / 4;   --row-00-add: 25;
+    --row-val-nn-base: var(--row-kk);                            --row-nn-mul: 1;        --row-nn-add: 0;
+    --row-val: 1;
+
+    --col-val-24-base: calc(var(--kk));                 --col-24-mul: -1.25;--col-24-add: 0;
+    --col-val-23-base: calc(var(--kk1));                --col-23-mul: 4;    --col-23-add: 0;
+    --col-val-22-base: calc(var(--i));                  --col-22-mul: 2;    --col-22-add: 0;
+    --col-val-21-base: calc(var(--kk1));                --col-21-mul: 15;   --col-21-add: 0;
+    --col-val-20-base: calc(var(--ijkk));               --col-20-mul: 1;    --col-20-add: -12;
+    --col-val-19-base: calc(var(--ijkk10));             --col-19-mul: 15;   --col-19-add: -150;
+    --col-val-18-base: calc(var(--n2tf));               --col-18-mul: -30;  --col-18-add: 30;
+    --col-val-17-base: calc(var(--b));                  --col-17-mul: 3;    --col-17-add: 0;
+    --col-val-16-base: calc(var(--d26h) + var(--kk));   --col-16-mul: 1;    --col-16-add: 0;
+    --col-val-15-base: calc(var(--i) * var(--n2h));     --col-15-mul: 3;    --col-15-add: 0;
+    --col-val-14-base: calc(var(--abh));                --col-14-mul: 7;    --col-14-add: 0;
+    --col-val-13-base: calc(var(--axbh));               --col-13-mul: 1;    --col-13-add: 0;
+    --col-val-12-base: calc(var(--cd26h));              --col-12-mul: 3;    --col-12-add: 0;
+    --col-val-11-base: calc(var(--cxd26h));             --col-11-mul: 8;    --col-11-add: 0;
+    --col-val-10-base: calc(var(--i) * var(--n2h));     --col-10-mul: 3;    --col-10-add: 0;
+    --col-val-09-base: calc(var(--kk10));               --col-09-mul: 25;   --col-09-add: 0;
+    --col-val-08-base: calc(var(--kk10));               --col-08-mul: 25;   --col-08-add: 0;
+    --col-val-07-base: calc(var(--kk10));               --col-07-mul: 25;   --col-07-add: 0;
+    --col-val-06-base: calc(var(--ixj));                --col-06-mul: 2;    --col-06-add: 10;
+    --col-val-05-base: calc(var(--ixj));                --col-05-mul: 2;    --col-05-add: 10;
+    --col-val-04-base: calc(var(--ijkk));               --col-04-mul: 1;    --col-04-add: -12;
+    --col-val-03-base: calc(var(--ijkk10));             --col-03-mul: 5;    --col-03-add: -50;
+    --col-val-02-base: calc(var(--ah));                 --col-02-mul: 7;    --col-02-add: 0;
+    --col-val-01-base: calc(var(--kk));                 --col-01-mul: 5/4;  --col-01-add: 0;
+    --col-val-00-base: calc(var(--kk));                 --col-00-mul: 5/4;  --col-00-add: 0;
+    --col-val-nn-base: var(--kk);                       --col-nn-mul: 1;    --col-nn-add: 0;
+    --col-val: 1;
+
+    --row-v-00: calc(var(--row-val-00-base) * var(--row-00-mul) + var(--row-00-add)); --col-v-00: calc(var(--col-val-00-base) * var(--col-00-mul) + var(--col-00-add));
+    --row-v-01: calc(var(--row-val-01-base) * var(--row-01-mul) + var(--row-01-add)); --col-v-01: calc(var(--col-val-01-base) * var(--col-01-mul) + var(--col-01-add));
+    --row-v-02: calc(var(--row-val-02-base) * var(--row-02-mul) + var(--row-02-add)); --col-v-02: calc(var(--col-val-02-base) * var(--col-02-mul) + var(--col-02-add));
+    --row-v-03: calc(var(--row-val-03-base) * var(--row-03-mul) + var(--row-03-add)); --col-v-03: calc(var(--col-val-03-base) * var(--col-03-mul) + var(--col-03-add));
+    --row-v-04: calc(var(--row-val-04-base) * var(--row-04-mul) + var(--row-04-add)); --col-v-04: calc(var(--col-val-04-base) * var(--col-04-mul) + var(--col-04-add));
+    --row-v-05: calc(var(--row-val-05-base) * var(--row-05-mul) + var(--row-05-add)); --col-v-05: calc(var(--col-val-05-base) * var(--col-05-mul) + var(--col-05-add));
+    --row-v-06: calc(var(--row-val-06-base) * var(--row-06-mul) + var(--row-06-add)); --col-v-06: calc(var(--col-val-06-base) * var(--col-06-mul) + var(--col-06-add));
+    --row-v-07: calc(var(--row-val-07-base) * var(--row-07-mul) + var(--row-07-add)); --col-v-07: calc(var(--col-val-07-base) * var(--col-07-mul) + var(--col-07-add));
+    --row-v-08: calc(var(--row-val-08-base) * var(--row-08-mul) + var(--row-08-add)); --col-v-08: calc(var(--col-val-08-base) * var(--col-08-mul) + var(--col-08-add));
+    --row-v-09: calc(var(--row-val-09-base) * var(--row-09-mul) + var(--row-09-add)); --col-v-09: calc(var(--col-val-09-base) * var(--col-09-mul) + var(--col-09-add));
+    --row-v-10: calc(var(--row-val-10-base) * var(--row-10-mul) + var(--row-10-add)); --col-v-10: calc(var(--col-val-10-base) * var(--col-10-mul) + var(--col-10-add));
+    --row-v-11: calc(var(--row-val-11-base) * var(--row-11-mul) + var(--row-11-add)); --col-v-11: calc(var(--col-val-11-base) * var(--col-11-mul) + var(--col-11-add));
+    --row-v-12: calc(var(--row-val-12-base) * var(--row-12-mul) + var(--row-12-add)); --col-v-12: calc(var(--col-val-12-base) * var(--col-12-mul) + var(--col-12-add));
+    --row-v-13: calc(var(--row-val-13-base) * var(--row-13-mul) + var(--row-13-add)); --col-v-13: calc(var(--col-val-13-base) * var(--col-13-mul) + var(--col-13-add));
+    --row-v-14: calc(var(--row-val-14-base) * var(--row-14-mul) + var(--row-14-add)); --col-v-14: calc(var(--col-val-14-base) * var(--col-14-mul) + var(--col-14-add));
+    --row-v-15: calc(var(--row-val-15-base) * var(--row-15-mul) + var(--row-15-add)); --col-v-15: calc(var(--col-val-15-base) * var(--col-15-mul) + var(--col-15-add));
+    --row-v-16: calc(var(--row-val-16-base) * var(--row-16-mul) + var(--row-16-add)); --col-v-16: calc(var(--col-val-16-base) * var(--col-16-mul) + var(--col-16-add));
+    --row-v-17: calc(var(--row-val-17-base) * var(--row-17-mul) + var(--row-17-add)); --col-v-17: calc(var(--col-val-17-base) * var(--col-17-mul) + var(--col-17-add));
+    --row-v-18: calc(var(--row-val-18-base) * var(--row-18-mul) + var(--row-18-add)); --col-v-18: calc(var(--col-val-18-base) * var(--col-18-mul) + var(--col-18-add));
+    --row-v-19: calc(var(--row-val-19-base) * var(--row-19-mul) + var(--row-19-add)); --col-v-19: calc(var(--col-val-19-base) * var(--col-19-mul) + var(--col-19-add));
+    --row-v-20: calc(var(--row-val-20-base) * var(--row-20-mul) + var(--row-20-add)); --col-v-20: calc(var(--col-val-20-base) * var(--col-20-mul) + var(--col-20-add));
+    --row-v-21: calc(var(--row-val-21-base) * var(--row-21-mul) + var(--row-21-add)); --col-v-21: calc(var(--col-val-21-base) * var(--col-21-mul) + var(--col-21-add));
+    --row-v-22: calc(var(--row-val-22-base) * var(--row-22-mul) + var(--row-22-add)); --col-v-22: calc(var(--col-val-22-base) * var(--col-22-mul) + var(--col-22-add));
+    --row-v-23: calc(var(--row-val-23-base) * var(--row-23-mul) + var(--row-23-add)); --col-v-23: calc(var(--col-val-23-base) * var(--col-23-mul) + var(--col-23-add));
+    --row-v-24: calc(var(--row-val-24-base) * var(--row-24-mul) + var(--row-24-add)); --col-v-24: calc(var(--col-val-24-base) * var(--col-24-mul) + var(--col-24-add));
+    --row-v-25: calc(var(--row-val-25-base) * var(--row-25-mul) + var(--row-25-add)); --col-v-25: calc(var(--col-val-25-base) * var(--col-25-mul) + var(--col-25-add));
+    --row-v-26: calc(var(--row-val-26-base) * var(--row-26-mul) + var(--row-26-add)); --col-v-26: calc(var(--col-val-26-base) * var(--col-26-mul) + var(--col-26-add));
+    --row-v-27: calc(var(--row-val-27-base) * var(--row-27-mul) + var(--row-27-add)); --col-v-27: calc(var(--col-val-27-base) * var(--col-27-mul) + var(--col-27-add));
+    --row-v-28: calc(var(--row-val-28-base) * var(--row-28-mul) + var(--row-28-add)); --col-v-28: calc(var(--col-val-28-base) * var(--col-28-mul) + var(--col-28-add));
+    --row-v-29: calc(var(--row-val-29-base) * var(--row-29-mul) + var(--row-29-add)); --col-v-29: calc(var(--col-val-29-base) * var(--col-29-mul) + var(--col-29-add));
+    --row-v-30: calc(var(--row-val-30-base) * var(--row-30-mul) + var(--row-30-add)); --col-v-30: calc(var(--col-val-30-base) * var(--col-30-mul) + var(--col-30-add));
+
+    --row-v-nn: calc(var(--row-val-nn-base) * var(--row-nn-mul) + var(--row-nn-add)); --col-v-nn: calc(var(--col-val-nn-base) * var(--col-nn-mul) + var(--col-nn-add));
+}
+
+/* .cube {
+    --row-val: var(--row-v-nn);
+    --col-val: var(--col-v-nn);
+} */
+
+.map .row .cube {
+    --u: .25;
+    --u: .75;
+    --val: calc((var(--row-val) + var(--col-val)) * var(--u) + 0);
+
+    --r: 1rem;
+    --r: calc(var(--sz-cube) / 3);
+    --z: calc(var(--val) * var(--r));
+    transform: perspective(var(--p)) translateZ(var(--z));
+
+    --hue-step: 20;
+    --hue: calc(var(--val) * var(--hue-step));
+    --sat: 80%;
+}

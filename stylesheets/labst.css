@@ -1,4 +1,32 @@
 :root {
+/* [bw] Black and White */
+
+    /* --bwt: transparent; */
+    --bwt: #0000;
+    --bw0: #000;
+    --bw1: #111;
+    --bw2: #222;
+    --bw3: #333;
+    --bw4: #444;
+    --bw5: #555;
+    --bw6: #666;
+    --bw7: #777;
+    --bw8: #888;
+    --bw9: #999;
+    --bwa: #aaa;
+    --bwb: #bbb;
+    --bwc: #ccc;
+    --bwd: #ddd;
+    --bwe: #eee;
+    --bwf: #fff;
+    
+    --bwf9: #fff9;
+    --bw9: #999;
+    --bw99: #9999;
+    --clr-t: transparent;
+
+
+    /* Color Scheme: */
     --hue-1: 30;
     --hue-2: 90;
     --hue-3: 150;

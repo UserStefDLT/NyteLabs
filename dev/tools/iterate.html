@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Document</title>
+</head>
+<body>
+    --row-v-$$: calc(var(--row-val-$$-base) * var(--row-$$-mul) + var(--row-$$-add)); --col-v-$$: calc(var(--col-val-$$-base) * var(--col-$$-mul) + var(--col-$$-add));
+    p{--row-v-$$: calc(var(--row-val-$$-base) * var(--row-$$-mul) + var(--row-$$-add)); --col-v-$$: calc(var(--col-val-$$-base) * var(--col-$$-mul) + var(--col-$$-add));}*30
+
+    #exp[data-val="00"] .cube {--row-val: var(--row-v-00); --col-val: var(--col-v-00);}
+    p{#exp[data-val="$$"] .cube /--row-val: var(--row-v-$$); --col-val: var(--col-v-$$);/}*30
+
+    
+</body>
+</html>

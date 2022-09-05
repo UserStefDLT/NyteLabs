@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>3D Maze | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        .shelf.bg-macy1 {background-image: linear-gradient(45deg, #f391, #39f1);}
+    </style>
+    <style>
+        /* Maze, grid, rows, tiles. */
+        :root {
+            --p: 5000px;
+            /* --p: 1200px; */
+            --bg: var(--bwt);
+            --sz-tile: 1rem;
+            --sz-cube: var(--sz-tile);
+            --sz-player: .75rem;
+
+            --bg--1: var(--bwt);
+            --bg-0: var(--bwe);
+            --bg-2: #c06;
+            --bg-3: #0c6;
+            --bg-1: #06c;
+            --bg-9: #c60;
+            --bg-5: #999;
+
+            --bg-0: hsl(0, 0%, 93%);
+            --bg-2: hsl(330, 100%, 40%);
+            --bg-3: hsl(150, 100%, 40%);
+            --bg-1: hsl(210, 100%, 40%);
+            --bg-9: hsl(30, 100%, 40%);
+            --bg-5: hsl(0, 0%, 60%);
+
+            --hue-2: 330;
+            --hue-3: 150;
+            --hue-1: 210;
+            --hue-9: 30;
+
+            --hue: 0;
+            --sat: 100%;
+            --lum: 40%;
+            --alp: 1;
+
+            --hsl: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+            --step: 0;
+            --steps: 0;
+
+            /* --clr-contrast-tile: var(--bw1); */
+            /* --clr-contrast-tile: var(--bwe); */
+        }
+        :root {
+            /* --iso: perspective(var(--p)) rotate3d(1,0,0,54deg) rotate3d(0,0,1,-45deg);
+            --iso-n: perspective(var(--p)) rotate3d(0,0,1,45deg) rotate3d(1,0,0,-54deg);
+
+            --iso-x-deg: 54deg;
+            --iso-z-deg: -45deg;
+            --iso-x-deg: 0deg;
+            --iso-z-deg: 0deg;
+            --iso: perspective(var(--p)) rotate3d(1,0,0,var(--iso-x-deg)) rotate3d(0,0,1,var(--iso-z-deg));
+            --iso-n: perspective(var(--p)) rotate3d(0,0,1,calc(var(--iso-z-deg) * -1)) rotate3d(1,0,0,calc(var(--iso-x-deg) * -1)); */
+
+        }
+
+        /* General */
+        #display {position: relative;}
+        .grid{
+            transform-style: preserve-3d;
+            transition: transform 300ms ease-in-out;
+            /* transform: perspective(var(--p)); */
+            /* transform: perspective(5000px); */
+        }
+        .grid.iso {transform: perspective(var(--p)) rotate3d(1,0,0,54deg) rotate3d(0,0,1,-45deg);}
+        /* .cube::before, .cube::after, */
+        /* .grid,  */
+        .row, .cube, .tile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+        }
+        .row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+        }
+        .row {--iRow: var(--i);}
+        .tile {
+            position: relative;
+            height: var(--sz-tile);
+            width: var(--sz-tile);
+            background-color: var(--bg);
+        }
+
+        /* Tile Styles */
+        .tile {
+            /* border-radius: .125rem; */
+            border-radius: 0rem;
+        }
+
+        .tile[data-type="-1"] {--tileFor: 'walls';}
+        .tile[data-type="0"] {--tileFor: 'path';}
+        .tile[data-type="1"] {--tileFor: 'start';}
+        .tile[data-type="9"] {--tileFor: 'end';}
+       
+
+        /* Walls to Cubes. */
+        .tile[data-type="-1"] {
+            --sz: var(--sz-cube); 
+            --sz-cube-back: calc(var(--sz-cube) * -.5);
+            height: var(--sz); width: var(--sz);
+
+            --hue: 110; --sat: 40%; --lum: 40%; --alp: 1;
+            --hue: 210; --sat: 0%; --lum: 80%; --alp: 1;
+            
+            --lum: 80%;
+            --lum-top: calc(var(--lum) * 5 / 6);
+            --clr-top: hsla(var(--hue), var(--sat), var(--lum-top), var(--alp));
+            background-color: var(--clr-top);
+
+            color: var(--bwt);
+            position: relative;
+            box-sizing: border-box;
+            transform-origin: 50% 50% var(--sz-cube-back);
+            transform: perspective(var(--p)) translateZ(var(--sz-cube));
+            transform: perspective(var(--p)) translateZ(.5rem);
+            transition: transform 200ms ease-in-out;
+            user-select: none;
+        }
+        .tile[data-type="-1"]::after,
+        .tile[data-type="-1"]::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            height: var(--sz); width: var(--sz);
+            transform-origin: 50% 50% var(--sz-cube-back);
+        }
+        .tile[data-type="-1"]::before {
+            --lum-main: calc(var(--lum) / 3);
+            transform: translateX(-50%) translateY(-50%) perspective(var(--p)) rotate3d(1,0,0,-90deg);
+        }
+        .tile[data-type="-1"]::after {
+            --lum-main: calc(var(--lum) / 2);
+            transform: translateX(-50%) translateY(-50%) perspective(var(--p)) rotate3d(1,0,0,-90deg) rotate3d(0,1,0,-90deg);
+        }
+        .tile[data-type="-1"]::before,
+        .tile[data-type="-1"]::after {
+            --clr-main: hsla(var(--hue), var(--sat), var(--lum-main), var(--alp));
+            background-color: var(--clr-main);
+        }
+
+
+        /* Start and End tooltips */
+        .tile[data-type="1"]::after {content: 'start';}
+        .tile[data-type="5"]::after {content: 'you';}
+        .tile[data-type="9"]::after {content: 'exit';}
+        .tile[data-type="1"]::after,
+        .tile[data-type="5"]::after,
+        .tile[data-type="9"]::after {
+            display: none;
+            display: flex;
+            position: absolute;
+            top: 0%; left: 50%;
+            transform: translateX(-50%) translateY(-100%);
+            transform: translateX(-50%) translateY(-100%) translateZ(10px);
+
+            padding: .125rem .25rem;
+            border-radius: .25rem;
+            
+            --hsl-dark: hsla(var(--hue), var(--sat), 20%, .75);
+            background-color: var(--hsl-dark);
+            border: 1px outset var(--bg);
+            
+            color: var(--bwf);
+            text-shadow: 0px 0px 2px var(--bw0);
+
+            box-sizing: border-box;
+            z-index: 8;
+
+            transition: transform 300ms ease-in-out;
+
+
+            /* top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            transform-origin: 50% 100%;
+            transform: translateX(-50%) translateY(-100%) perspective(var(--p)) rotate3d(1,0,0,-54deg) rotate3d(0,0,1,45deg);
+            transform: translateX(-50%) translateY(-50%) perspective(var(--p)) translateZ(16px) rotate3d(0,0,1,45deg) rotate3d(1,0,0,-54deg);
+            transform-origin: 50% 50%;
+            
+            --iso-x-deg: 54deg;
+            --iso-z-deg: -45deg;
+            transform: translateX(-50%) translateY(-100%);
+            transform: translateX(-50%) translateY(-50%) translateZ(30px) rotate3d(0,0,1,45deg) rotate3d(1,0,0,-54deg);
+            transform: perspective(var(--p)) rotate3d(1,0,0,54deg) rotate3d(0,0,1,-45deg); */
+        }
+        .tile[data-type="1"]:hover::after,
+        .tile[data-type="5"]:hover::after,
+        .tile[data-type="9"]:hover::after {display: flex;}
+
+        /* Start and End */
+        .tile[data-type="1"] {--bg: #06c; --hue: var(--hue-1); --sat: 100%; --lum: 40%; --alp: 1;}
+        .tile[data-type="9"] {--bg: #c60; --hue: var(--hue-9); --sat: 100%; --lum: 40%; --alp: 1;}
+
+
+        /* Path */
+        .tile[data-type="0"] {--bg: var(--bwe); --hue: 210; --sat: 0%; --lum: 93%; --alp: 1;}
+        /* .tile[data-type="0"] {background-image: radial-gradient(#0000,#0003 70%);} */
+        .tile {
+            --hsl: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+            background-color: var(--hsl);
+        }
+
+        /* z-index */
+        .tile[data-type="0"] {z-index: 2;}
+        .tile[data-type="1"],
+        .tile[data-type="9"] {z-index: 3;}
+        .tile[data-type="2"],
+        .tile[data-type="3"] {z-index: 4;}
+        .tile[data-type="5"] {z-index: 5;}
+
+        /* Previously */
+        /* .tile[data-type="-1"] {background-color: var(--bwt);}
+
+        .tile[data-type="-1"] {--bg: var(--bwt); --sat: 0%; --lum: 0%; --alp: 0;}
+        .tile[data-type="0"] {--bg: var(--bwe); --hue: 210; --sat: 0%; --lum: 93%; --alp: 1;}
+        .tile[data-type="2"] {--bg: #c06; --hue: var(--hue-2); --sat: 100%; --lum: 40%; --alp: 1;}
+        .tile[data-type="3"] {--bg: #0c6; --hue: var(--hue-3); --sat: 100%; --lum: 40%; --alp: 1;}
+        .tile[data-type="1"] {--bg: #06c; --hue: var(--hue-1); --sat: 100%; --lum: 40%; --alp: 1;}
+        .tile[data-type="9"] {--bg: #c60; --hue: var(--hue-9); --sat: 100%; --lum: 40%; --alp: 1;}
+        .tile[data-type="5"] {--bg: #999; --sat: 0%;}
+        .tile[data-type="5"] {--bg: var(--bw9); --sat: 0%; --lum: 60%;}
+
+        .tile[data-type="-1"] {--bg: var(--bwt); --clr: var(--bwe);}
+        .tile[data-type="0"] {--bg: var(--bwe); --clr: var(--bw1);}
+        .tile[data-type="2"] {--bg: #c06; --clr: var(--bwf); --hue: var(--hue-2);}
+        .tile[data-type="3"] {--bg: #0c6; --clr: var(--bwf); --hue: var(--hue-3);}
+        .tile[data-type="1"] {--bg: #06c; --clr: var(--bwf); --hue: var(--hue-1);}
+        .tile[data-type="9"] {--bg: #c60; --clr: var(--bwf); --hue: var(--hue-9);}
+        .tile[data-type="5"] {--bg: #999; --clr: var(--bw0);}
+        .tile[data-type="5"] {--bg: var(--bw9);}
+
+
+        .tile {
+            --hsl-tile-borders: hsla(var(--hue), 0%, 93%, var(--alp));
+            --hsl: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+            background-color: var(--hsl);
+        }
+
+
+        .tile::before {
+            content: attr(data-x) "," attr(data-y);
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            height: 100%; width: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            padding: .125rem;
+            font-size: 10px;
+            opacity: 0;
+            user-select: none;
+
+            --step-hue: calc(var(--steps) * 1);
+            --step-clr: hsla(var(--step-hue), 100%, 50%, 1);
+            --step-shw: hsla(var(--step-hue), 100%, 10%, .25);
+            
+            color: transparent;
+            color: var(--step-clr);
+            text-shadow: 1px 1px 1px var(--step-shw), 0px 0px 2px var(--step-shw);
+
+            background-color: var(--step-clr);
+        }
+        .tile[data-type="1"]::before,
+        .tile[data-type="9"]::before {
+            color: var(--clr);
+            text-shadow: 1px 1px 1px var(--bw0), 0px 0px 2px var(--bw0);
+        }
+
+        .tile[data-type="0"] {z-index: 2;}
+        .tile[data-type="1"],
+        .tile[data-type="9"] {z-index: 3;}
+        .tile[data-type="2"],
+        .tile[data-type="3"] {z-index: 4;}
+        .tile[data-type="5"] {z-index: 5;} */
+
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/settings.css">
+    <style>
+        /* Settings. */
+        #toggleIso,
+        #toggleTags,
+        #toggleOpacity,
+        #toggleBorder {display: none;}
+        #toggleIso:checked ~ .options .toggleCheckboxLabel[for="toggleIso"],
+        #toggleTags:checked ~ .options .toggleCheckboxLabel[for="toggleTags"],
+        #toggleOpacity:checked ~ .options .toggleCheckboxLabel[for="toggleOpacity"],
+        #toggleBorder:checked ~ .options .toggleCheckboxLabel[for="toggleBorder"] {
+            color: var(--bwe);
+            --clr-outline: var(--bwc);
+            --bgc-before: #063;
+            --bgc-after: #0c6;
+            --ttx-after: 1rem;
+        }
+
+        /* ─ Toggle Effects ─ */
+
+        /* Toggle-Borders */
+        /* #toggleBorder:checked ~ main .tile[data-type="1"],
+        #toggleBorder:checked ~ main .tile[data-type="9"] {
+            box-shadow: 0 0 0 2px var(--hsl-tile-borders);
+            box-sizing: border-box;
+        }
+        #toggleBorder:checked ~ main .tile[data-type="0"] {
+            box-shadow: 0 0 0 4px var(--hsl-tile-borders);
+            box-sizing: border-box;
+        } */
+
+        /* Toggle-Opcacity */
+        #toggleOpacity:checked ~ main #display {opacity:.5;}
+        #toggleOpacity:checked ~ main #display .tile {--alp:.25;}
+        /* #toggleOpacity:checked ~ main #display .tile {--alp:.1;}
+        #toggleOpacity:checked ~ main #display .tile[data-type="1"],
+        #toggleOpacity:checked ~ main #display .tile[data-type="9"] {--alp:.25;} */
+
+        /* Toggle-Tags */
+        /* #toggleTags:checked ~ main #display .tile[data-type="-1"]:hover::before {content: attr(data-x) "," attr(data-y); opacity:1;}
+        #toggleTags:checked ~ main #display .tile:not([data-type="-1"])::before {content: attr(data-steps); opacity:1;} */
+
+        /* #toggleTags:checked ~ main #display .tile:hover::before {content: attr(data-x) "," attr(data-y); opacity:1;} */
+        /* #toggleTags:checked ~ main #display .tile:hover::before {content: attr(data-steps); opacity:1;} */
+        /* #toggleTags:checked ~ main #display .tile:hover::before {content: attr(data-x); opacity:1;} */
+
+        /* #toggleTags:checked ~ main #display .row::before {content: attr(data-y); opacity: .25;}
+        #toggleTags:checked ~ main #display .row:hover::before {content: attr(data-y); opacity: 1;}
+        #toggleTags:checked ~ main #display .row:hover::after {content: '';} */
+
+        /* Toggle-Iso */
+        #toggleIso:checked ~ main #display .grid {transform: perspective(var(--p)) rotate3d(1,0,0,54deg) rotate3d(0,0,1,-45deg);}
+        #toggleIso:checked ~ main #display .tile[data-type="1"]::after,
+        #toggleIso:checked ~ main #display .tile[data-type="5"]::after,
+        #toggleIso:checked ~ main #display .tile[data-type="9"]::after {
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%) translateZ(30px) rotate3d(0,0,1,45deg) rotate3d(1,0,0,-54deg);
+            transform: translateX(-50%) translateY(-50%) translateZ(50px) rotate3d(0,0,1,45deg) rotate3d(1,0,0,-36deg);
+            transform: translateX(-50%) translateY(-50%) translateZ(50px) rotate3d(0,0,1,45deg) rotate3d(1,0,0,-36deg) scale(1, 1.5);
+        }
+
+    </style>
+    <style>
+        /* Canvas */
+        #display {
+            /* outline: 1px dashed #3f3; */
+            outline: 2px outset #eee;
+            outline-offset: 4px;
+        }
+        #canvas {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            height: 512px; width: 512px;
+            height: 75vmin; width: 75vmin;
+            height: 75vh; width: 75vw;
+            /* outline: 2px dotted #f39c; */
+            /* outline-offset: 4px; */
+            /* outline: 2px dotted #f93c; */
+
+            background-color: #0000;
+            z-index: 9;
+            z-index: -5;
+        }
+        .ant-inspector {
+            display: none;
+            position: absolute;
+            top: 50%; left: 50%;
+            --top: 0;
+            --left: 0;
+            top: calc(16px + var(--top) * 1px - 3px);
+            left: calc(75px + var(--left) * 1px - 3px);
+            /* transform: translateX(-50%) translateY(-50%); */
+            height: var(--sz-tile);
+            width: var(--sz-tile);
+            background-color: #0363;
+            background-color: #036;
+            box-shadow: inset 0 0 0 2px var(--bwf9);
+            box-shadow: inset 0 0 0 2px var(--bwf);
+            z-index: 9;
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <h1 class="title">3D Maze</h1>
+        <!-- <div class="subtitle">Only makes mazes. (no players)</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+    <!-- <input type="checkbox" name="toggle" id="toggleBorder" checked> -->
+    <input type="checkbox" name="toggle" id="toggleBorder">
+    <!-- <input type="checkbox" name="toggle" id="toggleOpacity" checked> -->
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleTags">
+    <input type="checkbox" name="toggle" id="toggleIso">
+
+<main>
+    <div class="shelf bg-macy1">
+        <div class="shelf-title">A-maze-thing</div>
+        <div id="display"></div>
+        <canvas id="canvas"></canvas>
+        <div class="ant-inspector"></div>
+    </div>
+</main>
+
+<div class="options">
+    <label for="toggleIso" class="toggleCheckboxLabel" data-toggle="Isometric">Isometric</label>
+    <!-- <label for="toggleTags" class="toggleCheckboxLabel" data-toggle="Tags">Grid Tags</label> -->
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+    <!-- <label for="toggleBorder" class="toggleCheckboxLabel" data-toggle="Borders">Borders</label> -->
+</div>
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+
+<script>
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        tile: {
+            real_sz: 16,
+            real_h: 16,
+            real_w: 16,
+            h: 20,
+            w: 20,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 16
+        },
+        maze: {},
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+        },
+
+        player: false,
+
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        pause: false,
+        q: false,
+        z: false
+    }
+    var level;
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = s.grid.w;
+    canvas.height = s.grid.h;
+
+    const maze_settings = {
+        wall: -1,
+        path: 0,
+        start: 1,
+        end: 9
+    }
+
+    var direction_char = ['○', '↙', '↓', '↘', '←', '•', '→', '↖', '↑', '↗'];
+    // var sides = [1,2,3,4,5,6,7,8,9];
+    const sides = [2, 4, 6, 8];
+    const sides_around = [1, 2, 3, 4, 6, 7, 8, 9];
+    const xySide = {
+        0:{y:0,x:0},
+        1:{y:1,x:-1},
+        2:{y:1,x:0},
+        3:{y:1,x:1},
+        4:{y:0,x:-1},
+        5:{y:0,x:0},
+        6:{y:0,x:1},
+        7:{y:-1,x:-1},
+        8:{y:-1,x:0},
+        9:{y:-1,x:1}
+    };
+
+    class MazeSide {
+        constructor(w, h, fill = -1) {
+            this.h = h;
+            this.w = w;
+            this.fill = fill;
+            this.start = {x: 0, y: 0};
+            this.end = {x: 0, y: 0, d: 0};
+            this.maze = [];
+            this.stepMap = [];
+            this.step = 0;
+
+            this.FillMap();
+            this.SelectStart();
+        }
+        FillMap(fill = this.fill) {
+            this.maze = [];
+            this.stepMap = [];
+            for (let y = 0; y < this.h; y++) {
+                this.maze.push([]);
+                this.stepMap.push([]);
+                for (let x = 0; x < this.w; x++) {
+                    this.maze[y].push(fill);
+                    this.stepMap[y].push(0);
+                }
+            }
+        }
+        SelectStart() {
+            this.start.x = Math.floor(Math.random() * this.w);
+            this.start.y = Math.floor(Math.random() * this.h);
+            this.MoveTo(this.start.x, this.start.y, 1);
+        }
+        SelectEnd() {
+            // this.MoveTo(this.end.x, this.end.y, 9);
+            this.maze[this.end.y][this.end.x] = 9;
+            this.MoveTo(this.end.x, this.end.y, 9, this.end.d);
+        }
+        IsInMap(x, y) {
+            if (x < 0 || y < 0 || x >= this.w || y >= this.h) {
+                return false;
+            }
+            return true;
+        }
+        IsTile(x, y, tile) {
+            if (this.IsInMap(x, y)) {
+                return (this.maze[y][x] == tile);
+            }
+        }
+        IsClear(x, y) {
+            return this.IsTile(x, y, -1);
+        }
+
+        ValidSides(x, y) {
+            let valid = [];
+            for (let i = 0; i < sides.length; i++) {
+                let d = sides[i];
+                let nx = x + xySide[d].x;
+                let ny = y + xySide[d].y;
+                if (this.IsClear(nx, ny)) {
+                    valid.push(d);
+                }
+            }
+            return valid;
+        }
+        CheckAround(x, y, nx, ny, d) {
+            for (let i = 0; i < sides_around.length; i++) {
+                let ad = sides_around[i];
+                let ax = nx + xySide[ad].x;
+                let ay = ny + xySide[ad].y;
+
+                if(!((xySide[d].x && x == ax) || (xySide[d].y && y == ay)) && !this.IsClear(ax, ay)){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        MakePath_Helper(x, y, steps = this.step) {
+            let validSides = this.ValidSides(x, y);
+            if(validSides.length > 0) {
+                let sidesLeft = [...validSides];
+                
+                for (let i = 0; i < validSides.length; i++) {
+                    let d = sidesLeft.splice(Math.floor(Math.random() * sidesLeft.length), 1);
+
+                    let nx = x + xySide[d].x;
+                    let ny = y + xySide[d].y;
+
+                    if (this.CheckAround(x, y, nx, ny, d)) {
+                        this.MoveTo(nx, ny, 0, steps);
+                        this.MakePath_Helper(nx, ny, steps + 1);
+                    }
+                }
+            }
+        }
+        MakePath() {
+            let x = this.start.x;
+            let y = this.start.y;
+
+            let validSides = this.ValidSides(x, y);
+
+            let d = validSides[Math.floor(Math.random() * validSides.length)];
+
+            let nx = x + xySide[d].x;
+            let ny = y + xySide[d].y;
+
+            this.MoveTo(nx, ny);
+
+            this.MakePath_Helper(nx, ny);
+            this.SelectEnd();
+        }
+
+        MoveTo(x, y, tile = 0, step = this.step) {
+            // safeLog([`%c → At step #%c${this.step}%c, MoveTo(%c${x}%c, %c${y}%c, %c${tile}%c, %c${step}%c)`, logSty.c, logSty.s, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+            this.maze[y][x] = tile;
+            this.stepMap[y][x] = step;
+            if (step >= this.end.d) {
+                this.end.x = x;
+                this.end.y = y;
+                this.end.d = step;
+            }
+            this.step++;
+            this.UpdateTileInDOM(x, y, tile, step);
+        }
+
+        UpdateTileInDOM(x, y, tile = -1, step = 0) {
+            let tile_id = `xy,${x},${y}`;
+            let tile_elem = document.getElementById(tile_id);
+            if (tile_elem) {
+                // tile_elem.dataset.tile = tile;
+                // tile_elem.dataset.step = step;
+                // tile_elem.style = `--step: ${step};`;
+                tile_elem.dataset.type = tile;
+                tile_elem.dataset.steps = step;
+                tile_elem.style = `--steps: ${step};`;
+            }
+        }
+    }
+
+    function BuildMaze_Display(w, h, map){
+        let display = document.getElementById('display');
+
+        let grid = document.createElement('div');
+        grid.classList.add('grid');
+
+        for(let y = 0; y < h; y++){
+            let row = document.createElement('div');
+            row.classList.add('row');
+            row.dataset.y = y;
+            for(let x = 0; x < w; x++){
+                let tile = document.createElement('div');
+                tile.classList.add('tile');
+
+                tile.id = `xy,${x},${y}`;
+                tile.dataset.x = x;
+                tile.dataset.y = y;
+                tile.dataset.steps = 0;
+                tile.dataset.type = `-1`;
+
+                row.appendChild(tile);
+            }
+            grid.appendChild(row);
+        }
+        display.appendChild(grid);
+    }
+    
+
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+
+        let h = s.h * .94 - 108;
+        let w = s.w * .95;
+
+        s.grid.cols = Math.floor((w - s.grid.margin) / s.tile.w);
+        s.grid.rows = Math.floor((h - s.grid.margin) / s.tile.h);
+        
+        if(s.grid.cols > 32) { s.grid.cols = 32; }
+        if(s.grid.rows > 32) { s.grid.rows = 32; }
+
+        s.canvas.w = s.grid.cols * 16;
+        s.canvas.h = s.grid.rows * 16;
+
+        console.log(`%cinnerWidth: %c${s.w}%c, innerHeight: %c${s.h}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+        console.log(`%cw: %c${w}%c, h: %c${h}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+        console.log(`%ccols: %c${s.grid.cols}%c, rows: %c${s.grid.rows}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+        updateView();
+    }
+    function updateView(){
+        let display = document.getElementById('display');
+        display.style = `width: ${s.canvas.w}px; height: ${s.canvas.h}px;`;
+        canvas.width = s.canvas.w;
+        canvas.height = s.canvas.h;
+        canvas.style = `width: ${s.canvas.w}px; height: ${s.canvas.h}px;`;
+    }
+
+
+    function q(){
+        s.q = !s.q;
+        sLog([`%cs%c.q:%c${s.q}`, logSty.s, logSty.c, logSty.bool]);
+    }
+    function openS(){
+        if(!s.q){
+            s.s = !s.s;
+            sLog([`%cs%c.s:%c${s.s}`, logSty.s, logSty.c, logSty.bool]);
+            let settingsBtn = document.getElementById('settings');
+            if(settingsBtn){settingsBtn.dataset.paused = s.s;}
+        }
+    }
+    function pause(){
+        if(!s.q){
+            s.pause = !s.pause;
+            sLog([`%cs%c.pause:%c${s.pause}`, logSty.s, logSty.c, logSty.bool]);
+            let pauseBtn = document.getElementById('pause');
+            if(pauseBtn){pauseBtn.dataset.paused = s.pause;}
+        }
+    }
+    function toggleTags(){
+        if(!s.q){
+            s.tags = !s.tags;
+            sLog([`%cs%c.tags:%c${s.tags}`, logSty.s, logSty.c, logSty.bool]);
+            let tagsBtn = document.getElementById('tags');
+            if(tagsBtn){tagsBtn.dataset.active = s.tags;}
+            
+            let tagsCheckBox = document.getElementById('toggleTags');
+            if(tagsCheckBox){
+                if(s.tags){
+                    tagsCheckBox.checked = true;
+                } else {
+                    tagsCheckBox.checked = false;
+                }
+            } 
+        }
+    }
+    function toggleLog(){
+        if(!s.q){
+            s.log = !s.log;
+            sLog([`%cs%c.log:%c${s.log}`, logSty.s, logSty.c, logSty.bool]);
+        }
+    }
+    window.addEventListener("keydown", function (event) {
+        if(event.key == 'Escape') {q();}
+        if(s.q){console.log(`→ %ckey: %c${event.key}%c | keyCode: %c${event.keyCode}`, logSty.c, logSty.keyStyle, logSty.c, logSty.keyCodeStyle);}
+        if(!s.q){
+            if(event.key == ' ' || event.key == 'Enter') {pause();}
+            if(event.key == '`') {openS();}
+            // if(event.key == 'CapsLock') {lockKeys();}
+            if(event.key == 'CapsLock') {s.lockKeys = !s.lockKeys;}
+            if(!s.pause){
+                if(event.key == 'l' || event.key == 'L') {toggleLog();}
+                // if(event.key == 'w' || event.key == 'W') {openW();}
+                if(event.key == 'i' || event.key == 'I') {toggleTags();}
+
+
+            } 
+            if(!s.lockKeys){
+                // if(evkey == 'q' || event.key == '7') {movePlayer(7);}
+                // if(evkey == 'w' || event.key == '8' || event.key == 'ArrowUp') {movePlayer(8);}
+                // if(evkey == 'e' || event.key == '9') {movePlayer(9);}
+                // if(evkey == 'a' || event.key == '4' || event.key == 'ArrowLeft') {movePlayer(4);}
+                // if(evkey == 'd' || event.key == '6' || event.key == 'ArrowRight') {movePlayer(6);}
+                // if(evkey == 'z' || event.key == '1') {movePlayer(1);}
+                // if(evkey == 's' || event.key == '2' || event.key == 'ArrowDown') {movePlayer(2);}
+                // if(evkey == 'x' || event.key == '3') {movePlayer(3);}
+            }
+        }
+    });
+
+    // window.addEventListener('load', (ev) => {
+    //     console.log(`Welcome to my Lab!`);
+    //     updateSettings();
+
+    //     BuildMaze_Display(s.grid.cols,s.grid.rows);
+
+    //     level = new MazeSide(s.grid.cols,s.grid.rows);
+    //     // level.makePath2();
+    //     level.MakePath();
+    //     // BuildMaze_Display(level.w, level.h);
+
+    //     // BuildMaze_Display(level.w, level.h, level.maze);
+    // });
+
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        console.time("Load");
+
+        console.time("updateSettings");
+        updateSettings();
+        console.timeEnd("updateSettings");
+
+        console.log('---');
+        
+        console.time("BuildMaze_Display");
+        BuildMaze_Display(s.grid.cols,s.grid.rows);
+        console.timeEnd("BuildMaze_Display");
+
+        console.log('---');
+        
+        console.time("Maze");
+        level = new MazeSide(s.grid.cols,s.grid.rows);
+        setTimeout(() => {
+            console.time("MakePath");
+            level.MakePath();
+            console.timeEnd("MakePath");
+        }, 100);
+        // console.time("MakePath");
+        // level.MakePath();
+        // console.timeEnd("MakePath");
+        console.timeEnd("Maze");
+
+        console.timeEnd("Load");
+        // console.log(level.step);
+    });
+
+
+    
+    const logSty = {
+        's': `background-color: #fff; color: #000; padding: .0625rem .125rem; border-radius: .25rem; font-weight: bold;`,
+        'c': `color: #ccc;`,
+
+        'keyCodeStyle': `background-color: #0369; padding: 2px 4px; border-radius: 4px; color: #39f;`,
+        'keyStyle': `background: linear-gradient(180deg,#eee,#ddd); margin: 2px; padding: 4px 6px; border-radius: 4px; color: #111; font-size: .9rem; font-weight: 700; border-bottom: 2px solid #aaa; line-height: 1;`,
+
+        'setting': `color: #fff;`,
+        'bool': `background-color: #39f2; color: #39f; padding: .0625rem .25rem; border-radius: .25rem;`,
+        'b': `background-color: #39f2; color: #39f; padding: .0625rem .25rem; border-radius: .25rem;`,
+        'z': `color: #0000;`
+    }
+    function settingsLog(s_log = ['']){
+        if(!s.q){
+            if(Array.isArray(s_log)){
+                console.log(...s_log);
+            }
+            if(typeof s_log == 'string'){
+                console.log(s_log);
+            }
+        }
+    }
+    function safeLog(arr = [''], bypass = false){
+        if(!s.q){
+            if(s.log || bypass){
+                if(Array.isArray(arr)){
+                    console.log(...arr);
+                }
+                if(typeof arr == 'string'){
+                    console.log(arr);
+                }
+            }
+        }
+    }
+
+    function safeLogList(msg = '___: ', arr = ['']){
+        /* receives a list to log. */
+        /* the first format will be normal, so 'logSty.c' */
+        /* the next ones will be between 'logSty.b' and 'logSty.c' */
+        if(!s.q){
+            if(s.log){
+                let arrString = arr.join('%c, %c');
+                let toLog = [`%c→ ${msg}: %c${arrString}`];
+                for (let i = 0; i < arr.length; i++) {
+                    toLog.push(logSty.c);
+                    toLog.push(logSty.b);
+                }
+                console.log(...toLog);
+            }
+        }
+    }
+    function safeLogList2(msg = '___: ', arr = [''], otherStyles = []){
+        /* receives a list to log. */
+        /* the first format will be normal, so 'logSty.c' */
+        /* the next ones will be between 'logSty.b' and 'logSty.c' */
+        if(!s.q){
+            if(s.log){
+                let arrString = arr.join('%c, %c');
+                let toLog = [`%c→ ${msg}: %c${arrString}%c.`];
+                toLog.push(logSty.c);
+                if(otherStyles.length > 0){toLog.push(...otherStyles);}
+                for (let i = 0; i < arr.length; i++) {
+                    toLog.push(logSty.b);
+                    toLog.push(logSty.c);
+                }
+                console.log(...toLog);
+            }
+        }
+    }
+    
+    /* Version Log:
+    [index-nds-00]: Simple MazeSide.
+    [index-nds-01]: 3D Version.
+    [index-nds-02]: 
+    [index-nds-03]: 
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
+    [index-nds-07]: 
+    [index-nds-08]: 
+    [index-nds-09]: 
+    [index-nds-10]: 
+    [index-nds-11]: 
+    [index-nds-12]: 
+    
+    */
+</script>
+</body>
+</html>

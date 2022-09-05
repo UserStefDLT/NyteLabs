@@ -1,0 +1,81 @@
+
+[PHB]: Player's Handbook.
+
+CONTENTS
+    Preface
+    Introduction
+        Worlds of Adventure
+        Using This Book
+        How To Play
+        Adventures
+    Ch. 1: Step-By-Step Characters
+        Beyond 1st Level
+    Ch. 2: Races
+        Choosing a Race
+        Dwarf | Elf | Halfling | Human | Dragonborn | Gnome | Half-Elf | Half-Orc | Tiefling
+    Ch. 3: Classes
+        Classes Summary
+        Barbarian | Bard | Cleric | Druid | Fighter | Monk | Paladin | Ranger | Rogue | Sorcerer | Warlock | Wizard
+    Ch. 4: Personality and Background
+        Character Details
+        Inspiration
+        Backgrounds
+    Ch. 5: Equipment
+        Starting Equipment
+        Wealth
+        Armor and Shields
+        Weapons
+        Adventuring Gear
+        Tools
+        Mounts and Vehicles
+        Trade Goods
+        Expenses
+        Trinkets
+    Ch. 6: Customization Options
+        Multiclassing
+        Feats
+    Ch. 7: Using Ability Scores
+        Ability Scores and Modifiers
+        Advantage and Disadvantage
+        Proficiency Bonus
+        Ability Checks
+        Using Each Ability
+        Saving Throws
+    Ch. 8: Adventuring
+        Time
+        Movement
+        The Environment
+        Social Interaction
+        Resting
+        Between Adventures
+    Ch. 9: Combat
+        The Order of Combat
+        Movement and Position
+        Actions in Combat
+        Making an Attack
+        Cover
+        Damage and Healing
+        Mounted Combat
+        Underwater Combat
+    Ch. 10: Spellcasting
+        What Is a Spell?
+        Casting a Spell
+    Ch. 11: Spells
+        Spell Lists
+        Bard | Cleric | Druid | Paladin | Ranger | Sorcerer | Warlock | Wizard
+        Spell Descriptions (A-B)
+        Spell Descriptions (C)
+        Spell Descriptions (D-F)
+        Spell Descriptions (G-K)
+        Spell Descriptions (L-O)
+        Spell Descriptions (P-R)
+        Spell Descriptions (S)
+        Spell Descriptions (T-Z)
+    Appendix A: Conditions
+    Appendix B: Gods of the Multiverse
+    Appendix C: The Planes of Existence
+        The Material Plane
+        Beyond the Material
+    Appendix D: Creature Statistics
+    Appendix E: Inspirational Reading
+    Credits

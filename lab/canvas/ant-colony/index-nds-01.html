@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Ant Colony | Canvas | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <!-- <link rel="stylesheet" href="../../../stylesheets/radio-nav.css"> -->
+    <!-- <link rel="stylesheet" href="../../../stylesheets/deck.css"> -->
+    <link rel="stylesheet" href="../../../stylesheets/canvas.css">
+    <style>
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Ant Colony</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <!-- <div class="shelf-title">title</div> -->
+        <canvas id="canvas"></canvas>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const s = {
+            h: window.innerHeight,
+            w: window.innerWidth,
+
+            h2: window.innerHeight/2,
+            w2: window.innerWidth/2,
+
+            mouse: {
+                x: 0,
+                y: 0,
+                z: 0,
+            },
+
+            s: false,
+            steps: false,
+            tags: false,
+            log: true,
+            pause: false,
+            q: false,
+            z: false
+        }
+
+        window.addEventListener('resize', () =>{
+            // layers.forEach(layer=>{
+            //     canvas[layer].width = window.innerWidth;
+            //     canvas[layer].height = window.innerHeight;
+            // })
+            s.h = window.innerHeight;
+            s.w = window.innerWidth;
+            canvas.width = s.w;
+            canvas.height = s.h;
+            s.w2 = s.w/2;
+            s.h2 = s.h/2;
+
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            // ctx['canvas_bg'].clearRect(0,0,canvas['canvas_bg'].width, canvas['canvas_bg'].height);
+            // DrawGrid(ctx['canvas_bg']);
+        });
+
+        /* Functions */
+
+        function AngleToXY(angle){
+            angle = angle%360;
+            let rad = angle * Math.PI / 180;
+            let xy = {"x":0,"y":0};
+            if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+            if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+            return xy;
+        }
+        function XYtoAngle(x,y){
+            let angle = 0;
+            if(x == 0) {
+                if(y > 0) {return 90;}
+                if(y < 0) {return 270;}
+            }
+            if(x < 0) { angle += 180; }
+            if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
+            return angle;
+        }
+
+
+
+        /* Classes */
+
+        class xy {
+            constructor(x = 0, y = 0){
+                this.x = x;
+                this.y = y;
+                this.d = 0;
+                this.a = 0;
+            }
+        }
+    
+        class Ant {
+            constructor(id=-1,x=0,y=0,energy=-1){
+                this.id = id;
+                this.x = x;
+                this.y = y;
+
+                this.size = 3;
+                // this.xy = new p(x,y);
+                this.vel = 1;
+                this.angle = Math.random() * 360;
+                /* 'd' for direction, or the angle. */
+                this.d = new xy();
+                if(energy < 0){
+                    this.e = Math.floor(Math.random() * 20 + 40);
+                } else {
+                    this.e = energy;
+                }
+                this.eStart = this.e;
+
+                // this.hue = 210;
+                this.hue = Math.floor(Math.random() * 360);
+                this.sat = 100;
+                this.lum = 60;
+                this.alp = 1;
+
+                safeLog([`%cAnt #%c${this.id}%c has hatched.`, logSty.c, logSty.bool, logSty.c]);
+            }
+            update(){
+                // this.angle += Math.floor(Math.random() * 3 - 1);
+                // this.angle += Math.floor(Math.random() * 5 - 2);
+                this.angle += Math.floor(Math.random() * 9 - 4);
+                let axy = AngleToXY(this.angle);
+                this.d.x = axy.x;
+                this.d.y = axy.y;
+
+                this.x += this.d.x * this.vel;
+                this.y += this.d.y * this.vel;
+
+                if(this.y > canvas.height || this.x > canvas.width || this.y < 0 || this.x < 0){
+                    this.x = Math.random() * (canvas.width/2) + (canvas.width/4);
+                    this.y = Math.random() * (canvas.height/2) + (canvas.height/4);
+                    this.e = this.eStart;
+                    safeLog([`%cAnt #%c${this.id}%c got lost and sent back.`, logSty.c, logSty.bool, logSty.c]);
+                }
+
+                // this.e--;
+                this.e -= .2;
+                // let val = this.e / this.eStart;
+                // this.sat = 20 + (val * 70);
+                // this.lum = 5 + (val * 45);
+                
+                // let val = this.e / this.eStart;
+                // this.sat = 50 + (val * 40);
+                // this.lum = 5 + (val * 45);
+
+                let val = Math.floor(10 * this.e / this.eStart) / 10;
+                this.sat = 50 + (val * 40);
+                this.lum = 5 + (val * 45);
+            }
+            draw(){
+                ctx.fillStyle = `hsl(60, 100%, 40%)`;
+                ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%,${this.alp})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        class Particle {
+            constructor(){
+                // this.x = s.x;
+                // this.y = s.y;
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.hue = Math.random() * 360;
+                this.hueSp = Math.random() * 3;
+
+                // this.size = Math.random() * 5 + 1;
+                // this.size = Math.random() * 5 + 5;
+                this.size = Math.random() * 2 + 1;
+                this.spX = Math.random() * 3 - 1.5;
+                this.spY = Math.random() * 3 - 1.5;
+            }
+            update(){
+                this.x += this.spX;
+                this.y += this.spY;
+                if(this.y > canvas.height || this.x > canvas.width || this.y < 0 || this.x < 0){
+                    this.x = Math.random() * (canvas.width/2) + (canvas.width/4);
+                    this.y = Math.random() * (canvas.height/2) + (canvas.height/4);
+                }
+                this.size += Math.random() * 2 - 1;
+                if(this.size < 2) this.size += 1;
+                if(this.size > 5) this.size -= 1;
+                this.hue += this.hueSp;
+                if(this.hue > 360) this.hue -= 360;
+            }
+            draw(){
+                // ctx.fillStyle = '#f398';
+                // ctx.fillStyle = `hsl(${this.hue}, 100%, 40%)`;
+                ctx.fillStyle = `hsl(60, 100%, 40%)`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function hatchAnts(n){
+            for (let index = 0; index < n; index++) {
+                particles.push(new Ant(particles.length, s.w2, s.h2));
+            }
+        }
+
+        /* Animation */
+        function start(){
+            let count = 5;
+            for (let index = 0; index < count; index++) {
+                // particles.push(new Particle());
+                particles.push(new Ant(particles.length, s.w2, s.h2));
+            }
+        }
+        // start();
+        function handleParticles(){
+            // if(particles.length < 1){
+            //     // hatchAnts(2);
+            //     hatchAnts(Math.floor(Math.random() * 5));
+            // }
+            for (let index = 0; index < particles.length; index++) {
+                const element = particles[index];
+                element.update();
+                if(element.e < 1) {
+                    safeLog([`%cAnt #%c${element.id}%c has died.`, logSty.c, logSty.bool, logSty.c]);
+                    particles.splice(index,1);
+                    index--;
+                } else {
+                    element.draw();
+                }
+            }
+        }
+
+        function animate (){
+            if(!s.q && !s.pause && particles.length > 0){
+                // ctx.clearRect(0,0,canvas.width, canvas.height);
+                // ctx.fillStyle = '#00000022';
+                // ctx.fillRect(0, 0, canvas.width, canvas.height);
+                handleParticles();
+            }
+            requestAnimationFrame(animate);
+        }
+        // animate();
+
+
+        function q(){
+            s.q = !s.q;
+            sLog([`%cs%c.q:%c${s.q}`, logSty.s, logSty.c, logSty.bool]);
+        }
+        function openS(){
+            if(!s.q){
+                s.s = !s.s;
+                sLog([`%cs%c.s:%c${s.s}`, logSty.s, logSty.c, logSty.bool]);
+                let settingsBtn = document.getElementById('settings');
+                if(settingsBtn){settingsBtn.dataset.paused = s.s;}
+            }
+        }
+        function pause(){
+            if(!s.q){
+                s.pause = !s.pause;
+                sLog([`%cs%c.pause:%c${s.pause}`, logSty.s, logSty.c, logSty.bool]);
+                let pauseBtn = document.getElementById('pause');
+                if(pauseBtn){pauseBtn.dataset.paused = s.pause;}
+            }
+        }
+        function toggleTags(){
+            if(!s.q){
+                s.tags = !s.tags;
+                sLog([`%cs%c.tags:%c${s.tags}`, logSty.s, logSty.c, logSty.bool]);
+                let tagsBtn = document.getElementById('tags');
+                if(tagsBtn){tagsBtn.dataset.active = s.tags;}
+            }
+        }
+        function toggleLog(){
+            if(!s.q){
+                s.log = !s.log;
+                sLog([`%cs%c.log:%c${s.log}`, logSty.s, logSty.c, logSty.bool]);
+            }
+        }
+        
+
+
+        /* Events */
+        window.addEventListener("keydown", function (event) {
+            if(event.key == 'Escape') {q();}
+            if(s.q){console.log(`→ %ckey: %c${event.key}%c | keyCode: %c${event.keyCode}`, logSty.c, logSty.keyStyle, logSty.c, logSty.keyCodeStyle);}
+            if(!s.q){
+                if(event.key == ' ' || event.key == 'Enter') {pause();}
+                if(event.key == '`') {openS();}
+                // if(event.key == 'CapsLock') {lockKeys();}
+                if(event.key == 'CapsLock') {s.lockKeys = !s.lockKeys;}
+                if(!s.lockKeys){
+                    if(event.key == 'l' || event.key == 'L') {toggleLog();}
+                    if(event.key == 'i' || event.key == 'I') {toggleTags();}
+
+
+                    // consider changing the toggle of canvas to the numbers in the keyboard.
+                    // `keycodes → keypad: 96 to 105, and 48 to 57 the keyboard numbers.` 
+                    // so, we could use keycode 49 to 57 and ignore the 0.
+                    // if(event.key == 't' || event.key == 'T') {
+                    //     toggleCanvas('canvas_trace');
+                    // }
+                    // if(event.key == 'g' || event.key == 'G') {
+                    //     toggleCanvas('canvas_grid');
+                    // }
+                }
+
+            }
+        });
+
+        window.addEventListener('mousemove', (ev) =>{
+            if(!s.q && !s.pause){
+                s.x = ev.clientX;
+                s.y = ev.clientY;
+            }
+        });
+
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            updateSettings();
+
+            start();
+            animate();
+        });
+
+        function updateSettings(){
+            s.h = window.innerHeight;
+            s.w = window.innerWidth;
+
+            let h = s.h * .94 - 108;
+            let w = s.w * .95;
+
+            // s.grid.cols = Math.floor((w - s.grid.margin) / s.tile.w);
+            // s.grid.rows = Math.floor((h - s.grid.margin) / s.tile.h);
+
+            // if(s.grid.cols > 32) { s.grid.cols = 32; }
+            // if(s.grid.rows > 32) { s.grid.rows = 32; }
+
+            // console.log(`%cinnerWidth: %c${s.w}%c, innerHeight: %c${s.h}`, logSty.c, logSty.bool, logSty.c, logSty.bool);
+            // console.log(`%cw: %c${w}%c, h: %c${h}`, logSty.c, logSty.bool, logSty.c, logSty.bool);
+            safeLog([`%cinnerWidth: %c${s.w}%c, innerHeight: %c${s.h}`, logSty.c, logSty.bool, logSty.c, logSty.bool]);
+            safeLog([`%cw: %c${w}%c, h: %c${h}`, logSty.c, logSty.bool, logSty.c, logSty.bool]);
+            // console.log(`%ccols: %c${s.grid.cols}%c, rows: %c${s.grid.rows}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+        }
+
+        /* Log Style */
+        const logSty = {
+            's': `background-color: #fff; color: #000; padding: .0625rem .125rem; border-radius: .25rem; font-weight: bold;`,
+            'c': `color: #ccc;`,
+
+            'keyCodeStyle': `background-color: #0369; padding: 2px 4px; border-radius: 4px; color: #39f;`,
+            'keyStyle': `background: linear-gradient(180deg,#eee,#ddd); margin: 2px; padding: 4px 6px; border-radius: 4px; color: #111; font-size: .9rem; font-weight: 700; border-bottom: 2px solid #aaa; line-height: 1;`,
+
+            'setting': `color: #fff;`,
+            'bool': `background-color: #39f2; color: #39f; padding: .0625rem .25rem; border-radius: .25rem;`,
+        }
+        /* sLog → settingsLog() */
+        function sLog(s_log = ['']){
+            if(Array.isArray(s_log)){
+                console.log(...s_log);
+            }
+            if(typeof s_log == 'string'){
+                console.log(s_log);
+            }
+        }
+        function safeLog(arr = ['']){
+            if(!s.q){
+                if(s.log){
+                    if(Array.isArray(arr)){
+                        console.log(...arr);
+                    }
+                    if(typeof arr == 'string'){
+                        console.log(arr);
+                    }
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>

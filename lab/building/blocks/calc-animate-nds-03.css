@@ -1,0 +1,98 @@
+
+/* calculating variables for animation. */
+.row .cube {
+    --u: .25;
+    --u: .75;
+    --val: calc((var(--row-val) + var(--col-val)) * var(--u) + 0);
+
+    --hue-step: .5;
+    --hue-step: .25;
+    --hue-step: -1;
+}
+
+.row .cube {
+    --a-name-main: oscilate;
+    --a-name-beaf: oscilate-clr;
+}
+.row .cube {animation-name: var(--a-name-main);}
+.row .cube::before,
+.row .cube::after {animation-name: var(--a-name-beaf);}
+.row .cube,
+.row .cube::before,
+.row .cube::after {
+    --animation-duration: 4500ms;
+    --animation-duration: 1000ms;
+    --animation-duration: 1200ms;
+    --animation-duration: 1500ms;
+    --animation-delay: 50ms;
+    animation-duration: var(--animation-duration);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+    animation-delay: calc(var(--val) * var(--animation-delay));
+    animation-play-state: paused;
+}
+.shelf:hover .row .cube,
+.shelf:hover .row .cube::before,
+.shelf:hover .row .cube::after {
+    animation-play-state: running;
+}
+@keyframes oscilate {
+    0% {transform: perspective(var(--p)) translateZ(0rem); background-color: hsla(calc(1 * var(--hue-step)), 80%, 50%, 1);}
+    25% {transform: perspective(var(--p)) translateZ(1.5rem); background-color: hsla(calc(90 * var(--hue-step)), 80%, 50%, 1);}
+    50% {transform: perspective(var(--p)) translateZ(3rem); background-color: hsla(calc(180 * var(--hue-step)), 80%, 50%, 1);}
+    75% {transform: perspective(var(--p)) translateZ(1.5rem); background-color: hsla(calc(90 * var(--hue-step)), 80%, 50%, 1);}
+    100% {transform: perspective(var(--p)) translateZ(0rem); background-color: hsla(calc(1 * var(--hue-step)), 80%, 50%, 1);}
+}
+@keyframes oscilate-07 {
+    0% {transform: perspective(var(--p)) translateZ(0rem); background-color: hsla(calc(1 * var(--hue-step)), 80%, 50%, 1);}
+    50% {transform: perspective(var(--p)) translateZ(3rem); background-color: hsla(calc(180 * var(--hue-step)), 80%, 50%, 1);}
+    100% {transform: perspective(var(--p)) translateZ(0rem); background-color: hsla(calc(1 * var(--hue-step)), 80%, 50%, 1);}
+}
+@keyframes oscilate-06 {
+    0% {transform: perspective(var(--p)) translateZ(0rem); background-color: hsla(calc(1 * var(--hue)), 80%, 50%, 1);}
+    50% {transform: perspective(var(--p)) translateZ(2rem); background-color: hsla(calc(180 * var(--hue)), 80%, 50%, 1);}
+    100% {transform: perspective(var(--p)) translateZ(0rem); background-color: hsla(calc(1 * var(--hue)), 80%, 50%, 1);}
+}
+@keyframes oscilate-05 {
+    0% {transform: perspective(var(--p)) translateZ(0rem); background-color: hsla(1, 80%, 50%, 1);}
+    50% {transform: perspective(var(--p)) translateZ(2rem); background-color: hsla(180, 80%, 50%, 1);}
+    100% {transform: perspective(var(--p)) translateZ(0rem); background-color: hsla(1, 80%, 50%, 1);}
+}
+@keyframes oscilate-04 {
+    0% {transform: perspective(var(--p)) translateZ(0rem); background-color: hsla(calc(1 * var(--hue-step)), 80%, 50%, 1);}
+    50% {transform: perspective(var(--p)) translateZ(2rem); background-color: hsla(calc(180 * var(--hue-step)), 80%, 50%, 1);}
+    100% {transform: perspective(var(--p)) translateZ(0rem); background-color: hsla(calc(1 * var(--hue-step)), 80%, 50%, 1);}
+}
+@keyframes oscilate-03 {
+    0% {transform: perspective(var(--p)) translateZ(0rem); background-color: hsla(calc(1 * var(--hue-step)), 80%, 50%, 1); --hue: calc(calc(1 * var(--hue-step)));}
+    50% {transform: perspective(var(--p)) translateZ(2rem); background-color: hsla(calc(30 * var(--hue-step)), 80%, 50%, 1); --hue: calc(calc(30 * var(--hue-step)));}
+    100% {transform: perspective(var(--p)) translateZ(0rem); background-color: hsla(calc(1 * var(--hue-step)), 80%, 50%, 1); --hue: calc(calc(1 * var(--hue-step)));}
+}
+@keyframes oscilate-02 {
+    0% {transform: perspective(var(--p)) translateZ(0rem); --hue: calc(calc(1 * var(--hue-step)));}
+    50% {transform: perspective(var(--p)) translateZ(2rem); --hue: calc(calc(30 * var(--hue-step)));}
+    100% {transform: perspective(var(--p)) translateZ(0rem); --hue: calc(calc(1 * var(--hue-step)));}
+}
+@keyframes oscilate-01 {
+    0% {transform: perspective(var(--p)) translateZ(0rem);}
+    50% {transform: perspective(var(--p)) translateZ(2rem);}
+    100% {transform: perspective(var(--p)) translateZ(0rem);}
+}
+@keyframes oscilate-clr {
+    0% {background-color: hsla(calc(1 * var(--hue-step)), 80%, var(--lum-main), 1);}
+    50% {background-color: hsla(calc(90 * var(--hue-step)), 80%, var(--lum-main), 1);}
+    50% {background-color: hsla(calc(180 * var(--hue-step)), 80%, var(--lum-main), 1);}
+    50% {background-color: hsla(calc(90 * var(--hue-step)), 80%, var(--lum-main), 1);}
+    100% {background-color: hsla(calc(1 * var(--hue-step)), 80%, var(--lum-main), 1);}
+}
+@keyframes oscilate-clr-02 {
+    0% {background-color: hsla(calc(1 * var(--hue-step)), 80%, var(--lum-main), 1);}
+    50% {background-color: hsla(calc(180 * var(--hue-step)), 80%, var(--lum-main), 1);}
+    100% {background-color: hsla(calc(1 * var(--hue-step)), 80%, var(--lum-main), 1);}
+}
+@keyframes oscilate-clr-01 {
+    0% {background-color: hsla(1, 80%, var(--lum-main), 1);}
+    50% {background-color: hsla(180, 80%, var(--lum-main), 1);}
+    100% {background-color: hsla(1, 80%, var(--lum-main), 1);}
+}

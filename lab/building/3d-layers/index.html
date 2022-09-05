@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>3d Layers | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        :root {
+            --p: 1000px;
+            --sz-tile: 1rem;
+            --bg: hsla(0, 0%, 0%, 0);
+        }
+        .shelf {height: 74vh;}
+    </style>
+    <style>
+        .layer, .row, .tile,
+        .d1, .d2, .d3,
+        .cube {
+            min-height: var(--sz-tile);
+            min-width: var(--sz-tile);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+        }
+        .cube {
+            min-height: 10rem;
+            min-width: 10rem;
+            outline: 4px double #fff9;
+            outline-offset: 8px;
+            border-radius: 1rem;
+            background: hsl(210, 0%, 100%, 0.1);
+            transform: perspective(500px);
+        }
+        .iso {
+            /* --iso54: 54deg; */
+            /* --iso54: 24deg; */
+            --iso54: 0deg;
+            transform: perspective(var(--p)) rotate3d(1,0,0,var(--iso54)) rotate3d(0,0,1,-45deg);
+            animation: displayCase 15000ms ease-in-out infinite alternate both;
+            animation-play-state: paused;
+        }
+        @keyframes displayCase {
+            0% {transform: perspective(var(--p)) rotate3d(1,0,0,var(--iso54)) rotate3d(0,0,1,-45deg);}
+            100% {transform: perspective(var(--p)) rotate3d(1,0,0,var(--iso54)) rotate3d(0,0,1,45deg);}
+        }
+        .layer, .row, .tile,
+        .d1, .d2, .d3 {
+            /* outline: 1px dashed #c339; */
+            /* outline: 1px dashed var(--clr-outline); */
+            outline-offset: -2px;
+            padding: 0.25rem;
+            margin: 0.25rem;
+        }
+        /* .d1 {--clr-outline: hsla(0, 80%, 20%, .5);}
+        .d2 {--clr-outline: hsla(0, 80%, 35%, .75);}
+        .d3 {--clr-outline: hsla(0, 80%, 50%, 1);} */
+        .d1 {--clr-outline: hsla(0, 0%, 20%, .05);}
+        .d2 {--clr-outline: hsla(0, 0%, 20%, .75);}
+        .d3 {--clr-outline: hsla(0, 0%, 20%, 1);}
+
+        .d1 {flex-direction: column;}
+        .d2 {flex-direction: row;}
+        .d3 {flex-direction: column;}
+
+        .d1::after, .d2::after, .d3::after {
+            content: attr(data-d);
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            padding: .75rem;
+        }
+        .d1::after {
+            top: 0%; left: 50%;
+            transform: translateX(-100%) translateY(-100%);
+            opacity: 0;
+        }
+        .d2::after {
+            top: 50%; left: 0%;
+            transform: translateX(-100%) translateY(-50%);
+            opacity: 0;
+        }
+
+        /* .d1 {transform: perspective(var(--p)) rotate3d(1,0,0,60deg);} */
+        .d1 {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%) perspective(var(--p)) translateZ(calc(var(--i) * 2rem));
+            transform: translateX(-50%) translateY(-50%) perspective(var(--p)) translateZ(calc((var(--i) - 2) * 2rem));
+        }
+        .d2 {
+            position: relative;
+            /* top: 50%; left: 50%; */
+            /* transform: translateX(-50%) translateY(-50%); */
+            /* transform: translateX(-50%) translateY(-50%) perspective(var(--p)) rotate3d(1,0,0,-90deg); */
+            transform: perspective(var(--p)) rotate3d(1,0,0,-90deg);
+        }
+        .d3 {
+            position: relative;
+            transform: perspective(var(--p)) rotate3d(0,1,0,90deg);
+            animation: displayCase 15000ms ease-in-out infinite alternate-reverse both;
+            animation: displayCase-r 15000ms ease-in-out infinite alternate-reverse both;
+            animation: displayCase-r 2000ms ease-in-out infinite alternate both;
+            animation-play-state: paused;
+        }
+        @keyframes displayCase-r {
+            0% {transform: perspective(var(--p)) rotate3d(0,1,0,-45deg);}
+            100% {transform: perspective(var(--p)) rotate3d(0,1,0,45deg);}
+        }
+
+        .d1 {--bg: hsla(180, 80%, 20%, .05);}
+        .d2 {--bg: hsla(90, 80%, 35%, .15);}
+        .d3 {--bg: hsla(0, 80%, 50%, .5);}
+        
+        .d1 {--hue-1: var(--i);}
+        .d2 {--hue-2: var(--i);}
+        .d3 {--hue-3: var(--i);}
+        .d1 {--bg: hsla(180, 80%, 20%, 0);}
+        .d2 {--bg: hsla(90, 80%, 35%, 0);}
+        .d3 {
+            --hue: calc((var(--hue-1) + var(--hue-2) + var(--hue-3)) * 30);
+            --bg: hsla(var(--hue), 80%, 50%, .5);
+        }
+        .d1, .d2, .d3 {
+            background-color: var(--bg);
+            text-shadow: 1px 1px 1px var(--bw1), 0px 0px 2px var(--bw1);
+        }
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/settings.css">
+    <style>
+        /* Settings */
+        #toggleIsometric {display: none;}
+        #toggleBorderRadius {display: none;}
+        #toggleIsometric:checked ~ .options .toggleCheckboxLabel[for="toggleIsometric"],
+        #toggleBorderRadius:checked ~ .options .toggleCheckboxLabel[for="toggleBorderRadius"] {
+            color: var(--bwe);
+            --clr-outline: var(--bwc);
+            --bgc-before: #063;
+            --bgc-after: #0c6;
+            --ttx-after: 1rem;
+        }
+
+        #toggleIsometric:checked ~ main .iso {
+            --iso54: 0deg;
+            --iso54: 90deg;
+            --iso54: 54deg;
+            /* --iso54: 24deg; */
+            /* transform: perspective(var(--p)) rotate3d(1,0,0,var(--iso54)) rotate3d(0,0,1,-45deg); */
+            animation: displayCase 15000ms ease-in-out infinite alternate both;
+            animation: displayCase 2000ms ease-in-out infinite alternate both;
+            animation-play-state: paused;
+        }
+        #toggleAnimation:checked ~ main .d3,
+        #toggleAnimation:checked ~ main .iso {animation-play-state: running;}
+        #toggleBorderRadius:checked ~ main .d2 {border-radius: var(--sz-tile);}
+        #toggleBorderRadius:checked ~ main .d3 {border-radius: 50%;}
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">3d Layers</h1>
+        <!-- <div class="subtitle">subtitle</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <div class="subtitle"> 🚧 Under Construction 🚧 </div>
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleBorderRadius" checked>
+    <input type="checkbox" name="toggle" id="toggleIsometric" checked>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">experiment</div>
+
+        <!-- .cube>.d1*3>.d2*3>.d3*3 -->
+        <!-- .cube>.d1*3>.d2*3>.d3{$}*3 -->
+        <!-- .cube>.d1[data-d="$"]*3>.d2[data-d="$"]*3>.d3[data-d="$"]*3 -->
+        <div class="cube iso">
+            <div class="d1" data-d="1">
+                <div class="d2" data-d="1">
+                    <div class="d3" data-d="1"></div>
+                    <div class="d3" data-d="2"></div>
+                    <div class="d3" data-d="3"></div>
+                </div>
+                <div class="d2" data-d="2">
+                    <div class="d3" data-d="1"></div>
+                    <div class="d3" data-d="2"></div>
+                    <div class="d3" data-d="3"></div>
+                </div>
+                <div class="d2" data-d="3">
+                    <div class="d3" data-d="1"></div>
+                    <div class="d3" data-d="2"></div>
+                    <div class="d3" data-d="3"></div>
+                </div>
+            </div>
+            <div class="d1" data-d="2">
+                <div class="d2" data-d="1">
+                    <div class="d3" data-d="1"></div>
+                    <div class="d3" data-d="2"></div>
+                    <div class="d3" data-d="3"></div>
+                </div>
+                <div class="d2" data-d="2">
+                    <div class="d3" data-d="1"></div>
+                    <div class="d3" data-d="2"></div>
+                    <div class="d3" data-d="3"></div>
+                </div>
+                <div class="d2" data-d="3">
+                    <div class="d3" data-d="1"></div>
+                    <div class="d3" data-d="2"></div>
+                    <div class="d3" data-d="3"></div>
+                </div>
+            </div>
+            <div class="d1" data-d="3">
+                <div class="d2" data-d="1">
+                    <div class="d3" data-d="1"></div>
+                    <div class="d3" data-d="2"></div>
+                    <div class="d3" data-d="3"></div>
+                </div>
+                <div class="d2" data-d="2">
+                    <div class="d3" data-d="1"></div>
+                    <div class="d3" data-d="2"></div>
+                    <div class="d3" data-d="3"></div>
+                </div>
+                <div class="d2" data-d="3">
+                    <div class="d3" data-d="1"></div>
+                    <div class="d3" data-d="2"></div>
+                    <div class="d3" data-d="3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="options">
+    <label for="toggleIsometric" class="toggleCheckboxLabel" data-toggle="Isometric">Isometric</label>
+    <label for="toggleBorderRadius" class="toggleCheckboxLabel" data-toggle="BorderRadius">Border Radius</label>
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+</div>
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        const s = {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            mouse: {
+                x: 0,
+                y: 0,
+                z: 0,
+            },
+
+            s: false,
+            tags: false,
+            log: true,
+            lockKeys: false,
+            pause: false,
+            q: false
+        }
+
+
+
+        function q(){
+            s.q = !s.q;
+            sLog([`%cs%c.q:%c${s.q}`, logSty.s, logSty.c, logSty.bool]);
+        }
+        function openS(){
+            if(!s.q){
+                s.s = !s.s;
+                sLog([`%cs%c.s:%c${s.s}`, logSty.s, logSty.c, logSty.bool]);
+                let settingsBtn = document.getElementById('settings');
+                if(settingsBtn){settingsBtn.dataset.paused = s.s;}
+            }
+        }
+        function pause(){
+            if(!s.q){
+                s.pause = !s.pause;
+                sLog([`%cs%c.pause:%c${s.pause}`, logSty.s, logSty.c, logSty.bool]);
+                let pauseBtn = document.getElementById('pause');
+                if(pauseBtn){pauseBtn.dataset.paused = s.pause;}
+            }
+        }
+        function toggleTags(){
+            if(!s.q){
+                s.tags = !s.tags;
+                sLog([`%cs%c.tags:%c${s.tags}`, logSty.s, logSty.c, logSty.bool]);
+                let tagsBtn = document.getElementById('tags');
+                if(tagsBtn){tagsBtn.dataset.active = s.tags;}
+
+                // if(s.tags){
+                //     DrawTags();
+                // } else {
+                //     ctx['canvas_tags'].clearRect(0,0,canvas['canvas_tags'].width, canvas['canvas_tags'].height);
+                // }
+            }
+        }
+
+        function toggleLog(){
+            if(!s.q){
+                s.log = !s.log;
+                sLog([`%cs%c.log:%c${s.log}`, logSty.s, logSty.c, logSty.bool]);
+            }
+        }
+
+        // window.addEventListener("keydown", function (event) {
+        //     if(event.key == 'Escape') {q();}
+        //     if(s.q){console.log(`→ %ckey: %c${event.key}%c | keyCode: %c${event.keyCode}`, logSty.c, logSty.keyStyle, logSty.c, logSty.keyCodeStyle);}
+        //     if(!s.q){
+        //         if(event.key == ' ' || event.key == 'Enter') {pause();}
+        //         if(event.key == '`') {openS();}
+        //         // if(event.key == 'CapsLock') {lockKeys();}
+        //         if(event.key == 'CapsLock') {s.lockKeys = !s.lockKeys;}
+        //         if(!s.lockKeys){
+        //             if(event.key == 'l' || event.key == 'L') {toggleLog();}
+        //             // if(event.key == 'w' || event.key == 'W') {openW();}
+        //             if(event.key == 'i' || event.key == 'I') {toggleTags();}
+        //         }
+        //     }
+        // });
+        // window.addEventListener('mousemove', (ev) =>{
+        //     if(!s.q && !s.pause){
+        //         s.mouse.x = ev.clientX;
+        //         s.mouse.y = ev.clientY;
+        //     }
+        // });
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+
+        });
+
+        /* Log Style */
+        const logSty = {
+            's': `background-color: #fff; color: #000; padding: .0625rem .125rem; border-radius: .25rem; font-weight: bold;`,
+            'c': `color: #ccc;`,
+
+            'keyCodeStyle': `background-color: #0369; padding: 2px 4px; border-radius: 4px; color: #39f;`,
+            'keyStyle': `background: linear-gradient(180deg,#eee,#ddd); margin: 2px; padding: 4px 6px; border-radius: 4px; color: #111; font-size: .9rem; font-weight: 700; border-bottom: 2px solid #aaa; line-height: 1;`,
+
+            'setting': `color: #fff;`,
+            'bool': `background-color: #39f2; color: #39f; padding: .0625rem .25rem; border-radius: .25rem;`,
+        }
+        /* sLog → settingsLog() */
+        function sLog(s_log = ['']){
+            if(Array.isArray(s_log)){
+                console.log(...s_log);
+            }
+            if(typeof s_log == 'string'){
+                console.log(s_log);
+            }
+        }
+        function safeLog(arr = ['']){
+            if(!s.q){
+                if(s.log){
+                    if(Array.isArray(arr)){
+                        console.log(...arr);
+                    }
+                    if(typeof arr == 'string'){
+                        console.log(arr);
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

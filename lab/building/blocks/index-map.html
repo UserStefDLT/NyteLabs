@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Blocks | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        .shelf {height: 74vh;}
+    </style>
+    <style>
+        :root {
+            /* Making 3D blocks */
+            --sz-cube: 2rem;
+            --sz-cube-back: calc(var(--sz-cube) * -.5);
+            --sz-cube-half: calc(var(--sz-cube) / 2);
+            --p: 500px;
+            --p: 5000px;
+            --p: 1200px;
+            --axis-len: 9;
+            --nx: 9;
+            --ny: 1;
+        }
+        .grid, .row, .cube, .tile,
+        .cube::before, .cube::after {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+        }
+        /* .cube:hover {transform: perspective(var(--p)) translateZ(96px);} */
+        /* .cube[data-char]::after,
+        .cube[data-char]::before {content: attr(data-char);} */
+    </style>
+    <style>
+        /* :root {
+            --axis-len: 9;
+            --nx: 9;
+            --ny: 1;
+        } */
+        .grid,
+        .row {
+            display: grid;
+            gap: .25rem;
+        }
+        .grid {grid-template-columns: repeat(var(--ny), 1fr); margin: 4rem auto;}
+        .row {grid-template-columns: repeat(var(--nx), 1fr);}
+        .grid, .iso {transform: perspective(var(--p)) rotate3d(1,0,0,54deg) rotate3d(0,0,1,-45deg);}
+
+        .cube {
+            --sz: var(--sz-cube); 
+            height: var(--sz); width: var(--sz);
+    
+            --hue: 210;
+            --sat: 80%;
+            --lum: 80%;
+            --alp: 1;
+            --lum-top: calc(var(--lum) * 5 / 6);
+            --clr-top: hsla(var(--hue), var(--sat), var(--lum-top), var(--alp));
+            background-color: var(--clr-top);
+
+            /* background-color: hsla(var(--hue), 80%, 80%, 1); */
+
+            color: var(--bwt);
+            position: relative;
+            transform-origin: 50% 50% var(--sz-cube-back);
+            transform: perspective(var(--p)) translateZ(var(--sz-cube));
+            transition: transform 200ms ease-in-out;
+        }
+        .cube::after,
+        .cube::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            height: var(--sz); width: var(--sz);
+            transform-origin: 50% 50% var(--sz-cube-back);
+        }
+        .cube::before {
+            --lum-main: calc(var(--lum) / 3);
+            transform: translateX(-50%) translateY(-50%) perspective(var(--p)) rotate3d(1,0,0,-90deg);
+        }
+        .cube::after {
+            --lum-main: calc(var(--lum) / 2);
+            transform: translateX(-50%) translateY(-50%) perspective(var(--p)) rotate3d(1,0,0,-90deg) rotate3d(0,1,0,-90deg);
+        }
+        .cube::before,
+        .cube::after {
+            --clr-main: hsla(var(--hue), var(--sat), var(--lum-main), var(--alp));
+            background-color: var(--clr-main);
+        }
+
+    </style>
+    <style>
+        /* calculating for curves */
+        .row {
+            --row-axis-len: var(--axis-len);
+            --row-axis-half: calc((var(--row-axis-len) + 1) / 2);
+            --row-i: var(--i);
+            --row-k: calc(var(--row-i) - var(--row-axis-half));
+            --row-kk: calc(var(--row-k) * var(--row-k));
+            --row-kk1: calc(var(--row-k) / (var(--row-kk) / 4 + 1));
+            --row-kk10: calc(var(--row-kk1) * var(--row-kk1));
+        }
+        .cube {
+            --col-axis-len: var(--axis-len);
+            --col-axis-half: calc((var(--col-axis-len) + 1) / 2);
+            --k: calc(var(--i) - var(--col-axis-half));
+            --kk: calc(var(--k) * var(--k));
+            --kk1: calc(var(--k) / (var(--kk) / 4 + 1));
+            --kk10: calc(var(--kk1) * var(--kk1));
+        }
+        .row {
+            --row-val: calc(var(--row-kk10) * -2);
+            --row-val: calc(var(--row-kk1) * -2);
+            --row-val: calc(var(--row-kk) * .5);
+            --row-val: calc(var(--row-kk) * 1);
+        }
+        .cube {
+            --col-val: calc(var(--kk10) * 2);
+            --col-val: calc(var(--kk1) * 2);
+            --col-val: calc(var(--kk) * -.125);
+            --col-val: calc(var(--kk) * 1);
+        }
+
+        .row .cube {
+            --u: .25;
+            --u: .75;
+            --val: calc((var(--row-val) + var(--col-val)) * var(--u) + 0);
+
+            --r: 1rem;
+            --r: calc(var(--sz-cube) / 3);
+            --z: calc(var(--val) * var(--r));
+            transform: perspective(var(--p)) translateZ(var(--z));
+
+            --hue-step: 20;
+            --hue-step: .5;
+            --hue-step: .25;
+            --hue-step: -1;
+            --hue: calc(var(--val) * var(--hue-step));
+        }
+
+        
+        /* calculating variables for animation. */
+        .row .cube {
+            --u: .25;
+            --u: .75;
+            --val: calc((var(--row-val) + var(--col-val)) * var(--u) + 0);
+
+            --hue-step: .5;
+            --hue-step: .25;
+            --hue-step: -1;
+        }
+
+        .row .cube {
+            --a-name-main: oscilate;
+            --a-name-beaf: oscilate-clr;
+        }
+        .row .cube {animation-name: var(--a-name-main);}
+        .row .cube::before,
+        .row .cube::after {animation-name: var(--a-name-beaf);}
+        .row .cube,
+        .row .cube::before,
+        .row .cube::after {
+            --animation-duration: 4500ms;
+            --animation-duration: 1000ms;
+            --animation-duration: 1200ms;
+            --animation-duration: 1500ms;
+            --animation-delay: 50ms;
+            animation-duration: var(--animation-duration);
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            animation-fill-mode: both;
+            animation-delay: calc(var(--val) * var(--animation-delay));
+            animation-play-state: paused;
+        }
+        .shelf:hover .row .cube,
+        .shelf:hover .row .cube::before,
+        .shelf:hover .row .cube::after {
+            animation-play-state: running;
+        }
+        @keyframes oscilate {
+            0% {transform: perspective(var(--p)) translateZ(0rem); background-color: hsla(calc(1 * var(--hue-step)), 80%, 50%, 1);}
+            25% {transform: perspective(var(--p)) translateZ(1.5rem); background-color: hsla(calc(90 * var(--hue-step)), 80%, 50%, 1);}
+            50% {transform: perspective(var(--p)) translateZ(3rem); background-color: hsla(calc(180 * var(--hue-step)), 80%, 50%, 1);}
+            75% {transform: perspective(var(--p)) translateZ(1.5rem); background-color: hsla(calc(90 * var(--hue-step)), 80%, 50%, 1);}
+            100% {transform: perspective(var(--p)) translateZ(0rem); background-color: hsla(calc(1 * var(--hue-step)), 80%, 50%, 1);}
+        }
+        @keyframes oscilate-clr {
+            0% {background-color: hsla(calc(1 * var(--hue-step)), 80%, var(--lum-main), 1);}
+            50% {background-color: hsla(calc(90 * var(--hue-step)), 80%, var(--lum-main), 1);}
+            50% {background-color: hsla(calc(180 * var(--hue-step)), 80%, var(--lum-main), 1);}
+            50% {background-color: hsla(calc(90 * var(--hue-step)), 80%, var(--lum-main), 1);}
+            100% {background-color: hsla(calc(1 * var(--hue-step)), 80%, var(--lum-main), 1);}
+        }
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">Blocks</h1>
+        <!-- <div class="subtitle">subtitle</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">exp</div>
+        <!-- .grid>.row*9>.cube*9 -->
+        <div class="grid">
+            <div class="row">
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+            </div>
+            <div class="row">
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+            </div>
+            <div class="row">
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+            </div>
+            <div class="row">
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+            </div>
+            <div class="row">
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+            </div>
+            <div class="row">
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+            </div>
+            <div class="row">
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+            </div>
+            <div class="row">
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+            </div>
+            <div class="row">
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        const s = {};
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+        });
+    </script>
+</body>
+</html>

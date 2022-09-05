@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Waving Tiles | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        
+    </style>
+    <style>
+        :root {
+            --sz-tile: 1rem;
+            --p: 5000px;
+            --nx: 15;
+            --ny: 1;
+            --sz-gap: .125rem; 
+            --sz-gap: 0rem;
+        }
+        .list, .grid, .row, .cube, .tile,
+        .cube::before, .cube::after {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+        }
+        .list {
+            display: grid;
+            grid-template-columns: repeat(var(--ny), 1fr);
+            gap: var(--sz-gap);
+            margin: 5rem auto;
+        }
+        .iso {
+            --iso54: 54deg;
+            /* --iso54: 24deg; */
+            transform: perspective(var(--p)) rotate3d(1,0,0,var(--iso54)) rotate3d(0,0,1,-45deg);
+            animation: displayCase 15000ms ease-in-out infinite alternate both;
+        }
+        @keyframes displayCase {
+            0% {transform: perspective(var(--p)) rotate3d(1,0,0,var(--iso54)) rotate3d(0,0,1,-45deg);}
+            100% {transform: perspective(var(--p)) rotate3d(1,0,0,var(--iso54)) rotate3d(0,0,1,45deg);}
+        }
+
+        .row {
+            --y: var(--i);
+            display: grid;
+            grid-template-columns: repeat(var(--nx), 1fr);
+            gap: var(--sz-gap);
+        }
+    </style>
+    <style>
+        .list-01 {
+            --p: 400px;
+            margin: .5rem auto 5rem;
+        }
+        .list-01 .iso {--iso54: 24deg; transform: perspective(var(--p)) rotate3d(1,0,0,var(--iso54)) rotate3d(0,0,1,-45deg);}
+        .list-01 .row div {
+            --x: var(--i);
+            position: relative;
+            --sz: var(--sz-tile); 
+            height: var(--sz); width: var(--sz);
+            --hue-step: 15;
+            --hue-i: calc(var(--i) * var(--hue-step));
+            --xy: calc(var(--x) + var(--y));
+            --hue: calc(var(--xy) * var(--hue-step));
+            --clr-top: hsla(var(--hue), 100%, 50%, 1);
+            background-color: var(--clr-top);
+            
+            --xy2: calc(var(--x) * -1 + var(--y) * .5);
+            transform-style: preserve-3d;
+            
+            transform: perspective(5000px) translateZ(calc(var(--xy2) * 4px)); 
+            
+            transform: perspective(5000px) translateZ(calc(var(--xy2) * 4px))  rotate3d(0,1,0,calc(var(--xy) * 5deg)) rotate3d(1,0,0,calc(var(--xy) * -2deg));
+            
+            /*
+            transform: rotate(calc(var(--xy) * 1deg));
+            transform: rotate(calc(var(--i) * 1deg));
+            */
+            /*
+            transform-origin: 50% 50% calc(var(--sz-tile) * -.5);
+            transform: perspective(var(--p)) translateZ(var(--sz-tile)); */
+            
+            /*
+            --val: cal( (var(--x) * var(--x) );
+            
+            --xk: calc( var(--x) -  ( (var(--nx) +1) / 2 ) );
+            --yk: calc( var(--y) -  ( (var(--nx) +1) / 2 ) );
+            
+            --xkk1: calc( var(--xk) / (1 + var(--xk) * var(--xk) / 4) );
+            --ykk1: calc( var(--yk) / (1 + var(--yk) * var(--yk) / 4) );
+            
+            --kk10: calc( var(--xkk1) * var(--ykk1) );
+            
+            --u: .25;
+            --val: calc( var(--kk10) * var(--u) + -20 );
+            */
+            /* --xy: var(--val); */
+            /*
+            transform: perspective(var(--p)) translateZ(calc(var(--val) * 8px)); */
+            /*
+            transform: perspective(var(--p)) translateZ(calc(var(--xy) * 4px)); */
+        }
+        .list-01 .row div {
+            /* animation: wind 15000ms linear infinite alternate both; */
+        }
+        @keyframes wind-01 {
+            0% {transform: perspective(5000px) translateZ(calc(var(--xy2) * 4px))  rotate3d(0,1,0,calc(var(--xy2) * 5deg)) rotate3d(1,0,0,calc(var(--xy) * 0deg));}
+            50% {transform: perspective(5000px) translateZ(calc(var(--xy2) * 4px))  rotate3d(0,1,0,calc(var(--xy2) * 10deg)) rotate3d(1,0,0,calc(var(--xy) * 15deg));}
+            100% {transform: perspective(5000px) translateZ(calc(var(--xy2) * 4px))  rotate3d(0,1,0,calc(var(--xy2) * 30deg)) rotate3d(1,0,0,calc(var(--xy) * -15deg));}
+        }
+        @keyframes wind-00 {
+            0% {transform: perspective(5000px) translateZ(calc(var(--xy2) * 4px))  rotate3d(0,1,0,calc(var(--xy) * 5deg)) rotate3d(1,0,0,calc(var(--xy) * -2deg));}
+            50% {transform: perspective(5000px) translateZ(calc(var(--xy2) * 4px))  rotate3d(0,1,0,calc(var(--xy) * 5deg)) rotate3d(1,0,0,calc(var(--xy) * 30deg));}
+            100% {transform: perspective(5000px) translateZ(calc(var(--xy2) * 4px))  rotate3d(0,1,0,calc(var(--xy) * 30deg)) rotate3d(1,0,0,calc(var(--xy) * 5deg));}
+        }
+    </style>
+    <style>
+        .list {
+            --p: 400px;
+            margin: .5rem auto 5rem;
+        }
+        .list .row div {
+            --x: var(--i);
+            position: relative;
+
+            --sz: var(--sz-tile); 
+            height: var(--sz); width: var(--sz);
+
+            --hue-step: 15;
+            --hue-i: calc(var(--i) * var(--hue-step));
+            --xy: calc(var(--x) + var(--y));
+            --hue: calc(var(--xy) * var(--hue-step));
+            --clr-top: hsla(var(--hue), 100%, 50%, 1);
+            background-color: var(--clr-top);
+
+            /*transform-origin: 50% 50% calc(var(--sz-tile) * -.5);*/
+
+            --xy2: calc(var(--x) * -1 + var(--y) * .5);
+            --xy3: calc(var(--x) * 1 + var(--y) * 1);
+            transform-style: preserve-3d;
+
+            /* transform: perspective(5000px) translateZ(calc(var(--xy3) * 2px));  */
+            /*transform: perspective(5000px) translateZ(calc(var(--xy2) * 4px))  rotate3d(0,1,0,calc(var(--xy3) * 5deg)) rotate3d(1,0,0,calc(var(--xy3) * -2deg));*/
+            /* transform: perspective(5000px) translateZ(calc(var(--xy2) * 4px))  rotate3d(0,1,0,calc(var(--xy3) * -1deg)) rotate3d(1,0,0,calc(var(--xy3) * 1deg)); */
+        }
+        .list .row div {
+            --val: calc( var(--x) * var(--x) );
+            --xk: calc( var(--x) -  ( (var(--nx) +1) / 2 ) );
+            --yk: calc( var(--y) -  ( (var(--nx) +1) / 2 ) );
+            --xkk1: calc( var(--xk) / (1 + var(--xk) * var(--xk) / 4) );
+            --ykk1: calc( var(--yk) / (1 + var(--yk) * var(--yk) / 4) );
+            --kk10: calc( var(--xkk1) * var(--ykk1) );
+
+            --u: 25;
+            --val: calc( var(--kk10) * var(--u) + -20 );
+
+            --u: 5;
+            --val: calc( var(--kk10) * var(--u) + 0 );
+
+            --u: 10;
+            --val: calc( var(--kk10) * var(--u) + -10 );
+
+            --kk10: calc( var(--xk) * var(--yk) );
+            --u: .1;
+            --val: calc( var(--kk10) * var(--u) + -10 );
+
+            --a-hue-step: .5;
+            --a-hue-step: -1.5;
+            --xy: var(--val);
+            transform: perspective(var(--p)) translateZ(calc(var(--val) * 8px));
+            /*transform: perspective(var(--p)) translateZ(calc(var(--xy) * 4px)); */
+        }
+        .list-03 .row div {--u: 5; --val: calc( var(--kk10) * var(--u) + 0);}
+        .list-04 .row div {--u: 15; --val: calc( var(--kk10) * var(--u) + -10);}
+
+        .list .row div {
+            animation: wind 15000ms linear infinite alternate both;
+            animation: oscilating-wind 15000ms linear infinite alternate both;
+            --animation-duration: 15000ms;
+            --animation-duration: 4000ms;
+            --animation-delay: 50ms;
+            animation-duration: var(--animation-duration);
+            animation-delay: calc(var(--val) * var(--animation-delay));
+            animation-play-state: paused;
+        }
+        @keyframes wind {
+            0% {transform: perspective(var(--p)) translateZ(calc(var(--val) * 8px)) rotate3d(0,1,0,calc(var(--xy2) * 5deg)) rotate3d(1,0,0,calc(var(--xy) * 0deg));}
+            50% {transform: perspective(var(--p)) translateZ(calc(var(--val) * 8px))  rotate3d(0,1,0,calc(var(--xy2) * 10deg)) rotate3d(1,0,0,calc(var(--xy) * 15deg));}
+            100% {transform: perspective(var(--p)) translateZ(calc(var(--val) * 8px))  rotate3d(0,1,0,calc(var(--xy2) * 30deg)) rotate3d(1,0,0,calc(var(--xy) * -15deg));}
+        }
+        @keyframes oscilating-wind {
+            0% {transform: perspective(var(--p)) translateZ(calc(var(--val) * 0rem)) rotate3d(0,1,0,calc(var(--xy2) * 5deg)) rotate3d(1,0,0,calc(var(--xy) * 0deg)); background-color: hsla(calc(1 * var(--a-hue-step)), 80%, 50%, 1);}
+            25% {transform: perspective(var(--p)) translateZ(calc(var(--val) * .5rem)); background-color: hsla(calc(90 * var(--a-hue-step)), 80%, 50%, 1);}
+            50% {transform: perspective(var(--p)) translateZ(calc(var(--val) * .75rem)) rotate3d(0,1,0,calc(var(--xy2) * 10deg)) rotate3d(1,0,0,calc(var(--xy) * 15deg)); background-color: hsla(calc(180 * var(--a-hue-step)), 80%, 50%, 1);}
+            75% {transform: perspective(var(--p)) translateZ(calc(var(--val) * .5rem)); background-color: hsla(calc(90 * var(--a-hue-step)), 80%, 50%, 1);}
+            100% {transform: perspective(var(--p)) translateZ(calc(var(--val) * 0rem)) rotate3d(0,1,0,calc(var(--xy2) * 30deg)) rotate3d(1,0,0,calc(var(--xy) * -15deg)); background-color: hsla(calc(1 * var(--a-hue-step)), 80%, 50%, 1);}
+        }
+        @keyframes wind-02 {
+            0% {transform: perspective(var(--p)) translateZ(calc(var(--val) * 8px)) rotate3d(0,1,0,calc(var(--xy2) * 5deg)) rotate3d(1,0,0,calc(var(--xy) * 0deg));}
+            50% {transform: perspective(var(--p)) translateZ(calc(var(--val) * 8px))  rotate3d(0,1,0,calc(var(--xy2) * 10deg)) rotate3d(1,0,0,calc(var(--xy) * 15deg));}
+            100% {transform: perspective(var(--p)) translateZ(calc(var(--val) * 8px))  rotate3d(0,1,0,calc(var(--xy2) * 30deg)) rotate3d(1,0,0,calc(var(--xy) * -15deg));}
+        }
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/settings.css">
+    <style>
+        /* Settings */
+        #toggleBorderRadius {display: none;}
+        #toggleBorderRadius:checked ~ .options .toggleCheckboxLabel[for="toggleBorderRadius"] {
+            color: var(--bwe);
+            --clr-outline: var(--bwc);
+            --bgc-before: #063;
+            --bgc-after: #0c6;
+            --ttx-after: 1rem;
+        }
+
+        #toggleAnimation:checked ~ main .list .row div {
+            animation-play-state: running;
+        }
+        #toggleBorderRadius:checked ~ main .list .row div {
+            border-radius: 50%;
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <h1 class="title">Waving Tiles</h1>
+        <!-- <div class="subtitle">subtitle</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleBorderRadius">
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">experiment</div>
+        <div class="list iso">
+            <div class="row"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="row"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="row"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="row"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="row"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            
+            <div class="row"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="row"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="row"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="row"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="row"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            
+            <div class="row"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="row"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="row"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="row"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <div class="row"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        </div>
+    </div>
+</main>
+
+<div class="options">
+    <label for="toggleBorderRadius" class="toggleCheckboxLabel" data-toggle="BorderRadius">Border Radius</label>
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+</div>
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        const s = {};
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+        });
+    </script>
+</body>
+</html>

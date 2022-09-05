@@ -45,13 +45,7 @@ footer .my-name{
     color 500ms ease-out;
 }
 .name-end:hover{
-    position: fixed;
-    bottom: 0px;
-    right: 0px;
     color: hsla(210, 89%, 29%, 50%);
-    font-size: 29px;
-    font-family: 'Satisfy', cursive;
-    user-select: none;
     transform: translateY(-5px) scale(1);
     transition: 
     transform 500ms ease-out 2000ms,

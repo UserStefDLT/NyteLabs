@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Event: Keydown | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <style>
+        .clr {
+            --c: hsl(0, 0%, 93%);
+            --c: hsl(0, 0%, 87%);
+
+            --c: #e6e6e6;
+        }
+        #kbd {
+            background: linear-gradient(180deg,#eee,#ddd);
+            
+            background-color: #eee;
+            border-bottom: 2px solid #aaa;
+            margin: .25rem;
+            padding: 4px 6px;
+            border-radius: 4px;
+            font-family: consolas, "Liberation Mono", courier, monospace;
+            color: #111;
+            font-size: .9rem;
+            font-weight: 700;
+            line-height: 1;
+            
+
+            min-height: 1rem;
+            white-space: nowrap;
+        }
+
+        kbd {
+            background: linear-gradient(180deg,#eee,#ddd);
+            background-color: #f4f4f4;
+            border: 1px solid #d5d5d5;
+            border: 0px solid #d5d5d5;
+            border-bottom: 2px solid #aaa;
+            border-radius: 4px;
+            font-family: consolas,"Liberation Mono",courier,monospace;
+            font-size: .9rem;
+            font-weight: 700;
+            line-height: 1;
+            margin: .25rem;
+            padding: 4px 6px;
+            white-space: nowrap;
+            color: #111;
+            min-height: 1rem;
+            user-select: none;
+        }
+        .kbd-disable {
+            background: linear-gradient(180deg,#777,#555);
+            color: #333;
+            border: 0px solid transparent;
+            border-bottom: 2px solid #444;
+        }
+
+        .display-log {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        .display-log p {
+            width: 100%;
+            margin: .25rem 0;
+            text-align: left;
+            box-shadow: 0 .0625rem .125rem 0 #1119;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .display-log span {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 2rem;
+            margin-right: .25rem;
+        }
+
+        [data-key] {position: relative;}
+        [data-key]:hover {z-index: 1;}
+        [data-key]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: 0%; left: 50%;
+            transform: translateX(-50%) translateY(0%);
+
+            min-height: 1rem;
+
+            background-color: #f4f4f4;
+            background: linear-gradient(180deg,#eee,#ddd);
+
+            border: 1px solid #d5d5d5;
+            border: 0px solid #d5d5d5;
+            border-bottom: 2px solid #aaa;
+            border-radius: 4px;
+
+            font-family: consolas,"Liberation Mono",courier,monospace;
+            font-size: .9rem;
+            font-weight: 700;
+            line-height: 1;
+
+            padding: 4px 6px;
+
+            white-space: nowrap;
+            color: #111;
+            
+            user-select: none;
+
+            /* disabled */
+            background: linear-gradient(180deg,#777,#555);
+            color: #333;
+            border: 0px solid transparent;
+            border-bottom: 2px solid #444;
+
+            opacity: 0;
+            z-index: -1;
+            transition: transform 200ms ease-in-out, opacity 150ms ease-in-out 150ms;
+            transition: transform 150ms ease-in-out 50ms, opacity 100ms ease-in-out;
+        }
+        [data-key]:hover::after {
+            transform: translateX(-50%) translateY(-100%); 
+            opacity: 1;
+            transition: transform 250ms ease-in-out 50ms, opacity 100ms ease-in-out;
+            transition: transform 200ms ease-in-out, opacity 100ms ease-in-out 100ms;
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <div class="title">Event: Keydown</div>
+        <div class="subtitle">press any key.</div>
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">keylog</div>
+        <div id="display" class="display-log"></div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="keydown.js"></script> -->
+    <script>            
+        // var display = document.getElementById('display');
+        var keyTips = {
+            "ArrowDown":{"key":"↓", "tooltip": "Down"},
+            "ArrowUp":{"key":"↑", "tooltip": "Up"},
+            "ArrowLeft":{"key":"←", "tooltip": "Left"},
+            "ArrowRight":{"key":"→", "tooltip": "Right"},
+            "S":{"key":"S", "tooltip":"↓"},
+            "W":{"key":"W", "tooltip":"↑"},
+            "A":{"key":"A", "tooltip":"←"},
+            "D":{"key":"D", "tooltip":"→"},
+            "s":{"key":"s", "tooltip":"↓"},
+            "w":{"key":"w", "tooltip":"↑"},
+            "a":{"key":"a", "tooltip":"←"},
+            "d":{"key":"d", "tooltip":"→"},
+            " ":{"key":"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "tooltip":"Space"},
+            "Escape":{"key":"esc", "tooltip": 0}
+        };
+
+        var keyLog = [];
+
+        // var keyStyle2 = `
+        // background: linear-gradient(180deg,red,blue);
+        // background-color: #eee;
+        // border-bottom: 2px solid #aaa;
+        // margin: .25rem;
+        // padding: 4px 6px;
+        // border-radius: 4px;
+        // font-family: consolas, "Liberation Mono", courier, monospace;
+        // color: #111;
+        // font-size: .9rem;
+        // font-weight: 700;
+        // line-height: 1;
+        // `;
+        // console.log(`(4)→ %ckey: %ck%c | keyCode: %c107`, 'color: #ccc;', `background: linear-gradient(180deg,#eee,#ddd); margin: 2px; padding: 4px 6px; border-radius: 4px; color: #111; font-size: .9rem; font-weight: 700; border-bottom: 2px solid #aaa; line-height: 1;`, 'color: #ccc;', `background-color: #0369; padding: 2px 4px; border-radius: 4px; color: #39f;`);
+
+        // console.log(`(3)→ %ckey: %ck%c | keyCode: %c107`, 'color: #ccc;', `background: linear-gradient(180deg,#eee,#ddd); margin: 2px; padding: 4px 6px; border-radius: 4px; color: #111; font-size: .9rem; font-weight: 700;`, 'color: #ccc;', `background-color: #0369; padding: 2px 4px; border-radius: 4px; color: #39f;`);
+        // console.log(`(2)→ %ckey: %ck%c, keyCode: %c107%c.`, 'color: #ccc;', keyStyle, 'color: #ccc;', `background-color: #0369; margin: 2px; padding: 2px 4px; border-radius: 4px; color: #39f;`, 'color: #ccc;');
+        // console.log(`(2)→ %ckey: %ck%c | keyCode: %c107`, 'color: #ccc;', `background: linear-gradient(180deg,red,blue); background-color: #eee; margin: 2px; padding: 4px 6px; border-radius: 4px; color: #111; font-size: .9rem; font-weight: 700;`, 'color: #ccc;', `background-color: #0369; padding: 2px 4px; border-radius: 4px; color: #39f;`);
+        // var clrc = 'color: #ccc;';
+        // console.log(`(1)→%ckey: %ck%c, keyCode: %c107%c.`, 'color: #ccc;', `background-color: #eee; margin: 4px; padding: 4px 6px; border-radius: 4px; color: #111; font-size: .9rem; font-weight: 700;`, 'color: #ccc;', `background-color: #0369; margin: 2px; padding: 2px 4px; border-radius: 4px; color: #39f;`, 'color: #ccc;');
+        // console.log(`(0)→%ckey: %ck%c, keyCode: %c107%c.`, 'color: #ccc;', `background-color: #eee; margin: 4px; padding: 4px 6px; border-radius: 4px; color: #111; font-size: .9rem; font-weight: 700; border-bottom: 2px solid #aaa; line-height: 1;`, 'color: #ccc;', `background-color: #0369; margin: 2px; padding: 2px 4px; border-radius: 4px; color: #39f;`, 'color: #ccc;');
+        // console.log(`%ckey: %ck%c, keyCode: %c107%c.`, 'color: #ccc;', keyStyle, 'color: #ccc;', `background-color: #0369; margin: 2px; padding: 2px 4px; border-radius: 4px; color: #39f;`, 'color: #ccc;');
+        // console.log(`%ckey: %ck%c, keyCode: %c107%c.`, clrc, keyStyle, clrc, keyCodeStyle, clrc);
+        // var keyCodeStyle = `background-color: #0369; padding: 2px 4px; border-radius: 4px; color: #39f;`;
+        // var keyStyle = `background-color: #eee; margin: 2px; padding: 4px 6px; border-radius: 4px; color: #111; font-size: .9rem; font-weight: 700; border-bottom: 2px solid #aaa; line-height: 1;`;
+
+        // var keyStyle1 = `background-color: #eee; margin: 4px; padding: 4px 6px; border-radius: 4px; color: #111; font-size: .9rem; font-weight: 700;`;
+        // var keyStyle0 = `background-color: #eee; margin: 4px; padding: 4px 6px; border-radius: 4px; color: #111; font-size: .9rem; font-weight: 700; border-bottom: 2px solid #aaa; line-height: 1;`;
+        // var keyStyle0b = `background-color: #eee; margin: 4px; padding: 4px 6px; border-radius: 4px; color: #111; font-size: .9rem; font-weight: 700; border-bottom: 2px solid #aaa; line-height: 1; font-family: consolas, "Liberation Mono", courier, monospace;`;
+        // var keyStyle_00 = `
+        // background-color: #eee;
+        // margin: 4px; padding: 4px 6px; border-radius: 4px;
+        // color: #111; font-size: .9rem; font-weight: 700; 
+
+        // border-bottom: 2px solid #aaa;
+        // line-height: 1;
+        // font-family: consolas, "Liberation Mono", courier, monospace;
+        // `;
+        // var keyStyle_01 = `
+        // background-color: #eee;
+        // border-bottom: 2px solid #aaa;
+        // margin: .25rem;
+        // padding: 4px 6px;
+        // border-radius: 4px;
+        // font-family: consolas, "Liberation Mono", courier, monospace;
+        // color: #111;
+        // font-size: .9rem;
+        // font-weight: 700;
+        // line-height: 1;
+        // `;
+
+        // console.log(`(4)→ %ckey: %ck%c | keyCode: %c107`, 
+        // 'color: #ccc;', 
+        // `background: linear-gradient(180deg,#eee,#ddd); margin: 2px; padding: 4px 6px; border-radius: 4px; color: #111; font-size: .9rem; font-weight: 700; border-bottom: 2px solid #aaa; line-height: 1;`, 
+        // 'color: #ccc;', 
+        // `background-color: #0369; padding: 2px 4px; border-radius: 4px; color: #39f;`);
+        // console.log(`→ %ckey: %ck%c | keyCode: %c107`, clrc, keyStyle, clrc, keyCodeStyle);
+
+        var clrc = 'color: #ccc;';
+        var keyCodeStyle = `background-color: #0369; padding: 2px 4px; border-radius: 4px; color: #39f;`;
+        var keyStyle = `background: linear-gradient(180deg,#eee,#ddd); margin: 2px; padding: 4px 6px; border-radius: 4px; color: #111; font-size: .9rem; font-weight: 700; border-bottom: 2px solid #aaa; line-height: 1;`;
+        window.addEventListener("keydown", function (event) {
+            // console.log(`→ %ckey: %ck%c | keyCode: %c107`, clrc, keyStyle, clrc, keyCodeStyle);
+            console.log(`→ %ckey: %c${event.key}%c | keyCode: %c${event.keyCode}`, clrc, keyStyle, clrc, keyCodeStyle);
+            if (event.defaultPrevented) {
+                return;
+            }
+
+            var display = document.getElementById('display');
+            let msg = ['<span>You pressed: </span>','.'];
+            let key = '';
+            if(Object.keys(keyTips).includes(event.key)) {
+                key = `<kbd data-key="${keyTips[event.key].key}" data-tooltip="${keyTips[event.key].tooltip}">${keyTips[event.key].key}</kbd>`
+            } else {
+                key = `<kbd class="kbd-disable">${event.key}</kbd>`
+            }
+            keyLog.push(key);
+            let keyList = keyLog.join('');
+            display.innerHTML = msg[0] + keyList;
+
+            event.preventDefault();
+        }, true);
+
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+        });
+    </script>
+</body>
+</html>

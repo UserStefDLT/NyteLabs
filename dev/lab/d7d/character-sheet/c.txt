@@ -1,0 +1,118 @@
+[Character Sheet]
+
+[Profile]
+└─[Name]
+└─[Race]
+└─[Classes]
+└─[Level]
+└─[Personality and Background]
+
+
+[Skills]
+└─[Ability Scores]
+  └─[Strength]
+  └─[Constitution]
+  └─[Dexterity]
+  └─[Intelligence]
+  └─[Wisdom]
+  └─[Charisma]
+└─[Saving Throws]
+  └─[Strength]
+  └─[Constitution]
+  └─[Dexterity]
+  └─[Intelligence]
+  └─[Wisdom]
+  └─[Charisma]
+└─[Proficiencies]
+  └─[Strength]
+    └─[Athletics]
+  └─[Dexterity]
+    └─[Acrobatics]
+    └─[Sleight of Hand]
+    └─[Stealth]
+  └─[Intelligence]
+    └─[Arcana]
+    └─[History]
+    └─[Investigation]
+    └─[Nature]
+    └─[Religion]
+  └─[Wisdom]
+    └─[Animal Handling]
+    └─[Insight]
+    └─[Medicine]
+    └─[Perception]
+    └─[Survival]
+  └─[Charisma]
+    └─[Deception]
+    └─[Intimidation]
+    └─[Performance]
+    └─[Persuasion]
+
+
+[Inventory] {Equipment}
+└─[Coin]
+  └─[Platinum]
+  └─[Gold]
+  └─[Silver]
+  └─[Copper]
+└─[Equipment]: {Has a mechanical use}
+  └─[Weapons]
+  └─[Armor]
+  └─[Shields]
+  └─[Ammunition]
+  └─[Spellcasting Focus]
+  └─[Gear]
+└─[Other Adventuring Gear]
+└─[Tools]
+└─[Mounts]: 
+  └─[Mounts and Vehicles]
+└─[Other]: 
+  └─[Trade Goods, Expenses, Trinkets]
+
+
+[Stats]
+└─[hp]
+└─[ac]
+└─[]
+└─[]
+
+
+
+ ─────────────── 
+
+[Strength]
+[Constitution]
+[Dexterity]
+[Intelligence]
+[Wisdom]
+[Charisma]
+
+
+Strength
+└─[Athletics]
+
+Dexterity
+└─[Acrobatics]
+└─[Sleight of Hand]
+└─[Stealth]
+
+Intelligence
+└─[Arcana]
+└─[History]
+└─[Investigation]
+└─[Nature]
+└─[Religion]
+
+Wisdom
+└─[Animal Handling]
+└─[Insight]
+└─[Medicine]
+└─[Perception]
+└─[Survival]
+
+Charisma
+└─[Deception]
+└─[Intimidation]
+└─[Performance]
+└─[Persuasion]
+

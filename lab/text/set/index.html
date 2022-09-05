@@ -663,6 +663,7 @@
     <!-- <script src="main.js"></script> -->
     <script>
         var textFromURL = `https://www.churchofjesuschrist.org/study/scriptures/bofm/1-ne/1?lang=spa`;
+        
         function WordBreak(){
             let inputElement = document.getElementById('input');
             let txt = inputElement.value;
@@ -716,9 +717,9 @@
                 let p2e = document.createElement('p');
                 words.forEach(word=>{
                     let half = Math.round(word.length/2);
-                    // p2.push(`<span class="word"><span class="half" style="text-decoration: underline #06c;"><b style="color: #06c;">${word.at(0)}</b>${word.substring(1,half)}</span>${word.substring(half)}</span>`);
-                    // p2.push(`<span class="word"><span class="half"><span class="first">${word.at(0)}</span>${word.substring(1,half)}</span>${word.substring(half)}</span> `);
-                    p2 += `<span class="word"><span class="half"><span class="first">${word.at(0)}</span>${word.substring(1,half)}</span>${word.substring(half)}</span> `;
+                    // p2.push(`<span class="word"><span class="half" style="text-decoration: underline #06c;"><b style="color: #06c;">${word[0]}</b>${word.substring(1,half)}</span>${word.substring(half)}</span>`);
+                    // p2.push(`<span class="word"><span class="half"><span class="first">${word[0]}</span>${word.substring(1,half)}</span>${word.substring(half)}</span> `);
+                    p2 += `<span class="word"><span class="half"><span class="first">${word[0]}</span>${word.substring(1,half)}</span>${word.substring(half)}</span> `;
                 });
                 // p2e.innerHTML = p2.join('');
                 p2e.innerHTML = p2;
@@ -746,7 +747,7 @@
 
                     let first = document.createElement('span');
                     // first.classList.add('first');
-                    first.innerText = w.at(0);
+                    first.innerText = w[0];
 
                     // let afterFirst = document.createElement('span');
                     // afterFirst.innerText = w.substring(1,h);
@@ -790,7 +791,7 @@
 
                     let first = document.createElement('span');
                     // first.classList.add('first');
-                    first.innerText = w.at(0);
+                    first.innerText = w[0];
 
                     let afterFirst = document.createElement('span');
                     afterFirst.innerText = w.substring(1,h);
@@ -837,7 +838,7 @@
 
                     let first = document.createElement('span');
                     first.classList.add('first');
-                    first.innerText = w.at(0);
+                    first.innerText = w[0];
 
                     let afterFirst = document.createElement('span');
                     afterFirst.innerText = w.substring(1,h);
@@ -874,7 +875,7 @@
                 let words = p.split(' ');
                 words.forEach(word=>{
                     let half = Math.round(word.length/2);
-                    p2.push(`<span class="word"><span class="half" style="text-decoration: underline #06c;"><b style="color: #06c;">${word.at(0)}</b>${word.substring(1,half)}</span>${word.substring(half)}</span>`);
+                    p2.push(`<span class="word"><span class="half" style="text-decoration: underline #06c;"><b style="color: #06c;">${word[0]}</b>${word.substring(1,half)}</span>${word.substring(half)}</span>`);
                 });
                 let p2e = document.createElement('p');
                 p2e.classList.add('para');
@@ -901,7 +902,7 @@
                 let words = p.split(' ');
                 words.forEach(word=>{
                     let half = Math.round(word.length/2);
-                    p2.push(`<span class="word"><span class="half" style="text-decoration: underline #06c;"><b style="color: #06c;">${word.at(0)}</b>${word.substring(1,half)}</span>${word.substring(half)}</span>`);
+                    p2.push(`<span class="word"><span class="half" style="text-decoration: underline #06c;"><b style="color: #06c;">${word[0]}</b>${word.substring(1,half)}</span>${word.substring(half)}</span>`);
                 });
                 let p2e = document.createElement('p');
                 p2e.classList.add('para');
@@ -1002,18 +1003,18 @@
             AddEvents();
             UpdateCustomVariables();
 
-            let WordBreakBtn = document.getElementById('WordBreakBtn');
-            // WordBreakBtn.addEventListener('click', WordBreak);
-            WordBreakBtn.addEventListener('click', (ev)=>{
-                let inputElement = document.getElementById('input');
-                let txt = inputElement.value;
-                let displayElement = document.getElementById('display');
-                let txtBox2 = WordStyle2(txt);
-                displayElement.appendChild(txtBox2);
-                let resultView = document.getElementById('result-view');
-                if(!resultView.open){resultView.open = true;}
-            });
-            // WordBreakBtn.addEventListener('touchend', WordBreak);
+            // let WordBreakBtn = document.getElementById('WordBreakBtn');
+            // // WordBreakBtn.addEventListener('click', WordBreak);
+            // WordBreakBtn.addEventListener('click', (ev)=>{
+            //     let inputElement = document.getElementById('input');
+            //     let txt = inputElement.value;
+            //     let displayElement = document.getElementById('display');
+            //     let txtBox2 = WordStyle2(txt);
+            //     displayElement.appendChild(txtBox2);
+            //     let resultView = document.getElementById('result-view');
+            //     if(!resultView.open){resultView.open = true;}
+            // });
+            // // WordBreakBtn.addEventListener('touchend', WordBreak);
         });
         function WordTest(){
             let inputElement = document.getElementById('input');

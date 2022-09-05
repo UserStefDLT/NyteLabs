@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Wave Blocks | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+
+    </style>
+        <link rel="stylesheet" href="style--blocks.css">
+        <link rel="stylesheet" href="calc.css">
+    <style>
+        .cube {--row-val: var(--row-v-nn); --col-val: var(--col-v-nn);}
+        #exp[data-val="nn"] .cube {--row-val: var(--row-v-nn); --col-val: var(--col-v-nn);}
+        #exp[data-val="0"] .cube {--row-val: var(--row-v-00); --col-val: var(--col-v-00);}
+        #exp[data-val="1"] .cube {--row-val: var(--row-v-01); --col-val: var(--col-v-01);}
+        #exp[data-val="2"] .cube {--row-val: var(--row-v-02); --col-val: var(--col-v-02);}
+        #exp[data-val="3"] .cube {--row-val: var(--row-v-03); --col-val: var(--col-v-03);}
+        #exp[data-val="4"] .cube {--row-val: var(--row-v-04); --col-val: var(--col-v-04);}
+        #exp[data-val="5"] .cube {--row-val: var(--row-v-05); --col-val: var(--col-v-05);}
+        #exp[data-val="6"] .cube {--row-val: var(--row-v-06); --col-val: var(--col-v-06);}
+        #exp[data-val="7"] .cube {--row-val: var(--row-v-07); --col-val: var(--col-v-07);}
+        #exp[data-val="8"] .cube {--row-val: var(--row-v-08); --col-val: var(--col-v-08);}
+        #exp[data-val="9"] .cube {--row-val: var(--row-v-09); --col-val: var(--col-v-09);}
+        #exp[data-val="10"] .cube {--row-val: var(--row-v-10); --col-val: var(--col-v-10);}
+        #exp[data-val="11"] .cube {--row-val: var(--row-v-11); --col-val: var(--col-v-11);}
+        #exp[data-val="12"] .cube {--row-val: var(--row-v-12); --col-val: var(--col-v-12);}
+        #exp[data-val="13"] .cube {--row-val: var(--row-v-13); --col-val: var(--col-v-13);}
+        #exp[data-val="14"] .cube {--row-val: var(--row-v-14); --col-val: var(--col-v-14);}
+        #exp[data-val="15"] .cube {--row-val: var(--row-v-15); --col-val: var(--col-v-15);}
+        #exp[data-val="16"] .cube {--row-val: var(--row-v-16); --col-val: var(--col-v-16);}
+        #exp[data-val="17"] .cube {--row-val: var(--row-v-17); --col-val: var(--col-v-17);}
+        #exp[data-val="18"] .cube {--row-val: var(--row-v-18); --col-val: var(--col-v-18);}
+        #exp[data-val="19"] .cube {--row-val: var(--row-v-19); --col-val: var(--col-v-19);}
+        #exp[data-val="20"] .cube {--row-val: var(--row-v-20); --col-val: var(--col-v-20);}
+        #exp[data-val="21"] .cube {--row-val: var(--row-v-21); --col-val: var(--col-v-21);}
+        #exp[data-val="22"] .cube {--row-val: var(--row-v-22); --col-val: var(--col-v-22);}
+        #exp[data-val="23"] .cube {--row-val: var(--row-v-23); --col-val: var(--col-v-23);}
+        #exp[data-val="24"] .cube {--row-val: var(--row-v-24); --col-val: var(--col-v-24);}
+        #exp[data-val="25"] .cube {--row-val: var(--row-v-25); --col-val: var(--col-v-25);}
+        #exp[data-val="26"] .cube {--row-val: var(--row-v-26); --col-val: var(--col-v-26);}
+        #exp[data-val="27"] .cube {--row-val: var(--row-v-27); --col-val: var(--col-v-27);}
+        #exp[data-val="28"] .cube {--row-val: var(--row-v-28); --col-val: var(--col-v-28);}
+        #exp[data-val="29"] .cube {--row-val: var(--row-v-29); --col-val: var(--col-v-29);}
+        #exp[data-val="30"] .cube {--row-val: var(--row-v-30); --col-val: var(--col-v-30);}
+    </style>
+    <link rel="stylesheet" href="calc-animate.css">
+    <style>
+        .options {
+            position: absolute;
+            top: var(--header-height);
+            left: 50%;
+            transform: translateX(-50%) translateY(0%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            padding: .25rem;
+            z-index: 2;
+        }
+        .selectBtn {
+            box-sizing: border-box;
+            height: 2rem;
+            width: 2rem;
+            font-size: 1.5rem;
+            background-image: linear-gradient(to top, #036, #39f);
+            color: #fff;
+            text-shadow: 0px 2px 0px #111;
+            padding: .25rem;
+            padding: .25rem .25rem .35rem;
+            border-radius: .25rem;
+            border-radius: 1rem;
+            /* border-radius: 25rem; */
+            margin: 0 .25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+            user-select: none;
+            transition: border-radius 200ms ease-in-out;
+        }
+        .selectBtn:hover {
+            border-radius: 1rem;
+            border-radius: .25rem;
+        }
+        .val {
+            box-sizing: border-box;
+            height: 2rem;
+            width: 7rem;
+            font-size: 1.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 2px #111;
+            background-image: linear-gradient(to top, #0369, #39f3);
+            background-image: linear-gradient(to top, #39f9, #0369);
+            padding: .25rem;
+            border-radius: .25rem;
+            margin: 0 .25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+        }
+
+        /* #toggleAnimation {display: none;} */
+        #toggleAnimation:checked ~ main .cube,
+        #toggleAnimation:checked ~ main .cube::before,
+        #toggleAnimation:checked ~ main .cube::after {
+            animation-play-state: running;
+        }
+
+        /* .toggleCheckboxLabel {color: #fff;}
+        .toggleCheckboxLabel::before {content: attr(data-toggle) ": ";  color: #fff;}
+        #toggleAnimation:not(:checked) ~ main .toggleCheckboxLabel::after {content: 'off'; color: #ccc;}
+        #toggleAnimation:checked ~ main .toggleCheckboxLabel::after {content: 'On'; color: #fff;} */
+
+    </style>
+    <style>
+        #toggleAnimation {display: none;}
+
+        .toggleCheckboxLabel {
+            position: relative;
+            color: #9999;
+            padding: 0 1rem;
+            transition:
+                color 200ms ease-in-out,
+                transform 200ms ease-in-out;
+            user-select: none;
+        }
+        .toggleCheckboxLabel::before,
+        .toggleCheckboxLabel::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 100%;
+            transform: translateX(0%) translateY(-50%);
+            color: #fff;
+            background-color: #333;
+            outline: 2px outset #999;
+            transition:
+            outline 200ms ease-in-out,
+            background-color 200ms ease-in-out,
+            transform 200ms ease-in-out;
+            cursor: pointer;
+            user-select: none;
+        }
+        .toggleCheckboxLabel::before {
+            height: 1rem;
+            width: 2rem;
+            border-radius: 5rem;
+            outline-offset: 4px;
+            background-color: #222;
+        }
+        .toggleCheckboxLabel::after {
+            height: 1rem;
+            width: 1rem;
+            border-radius: 50%;
+            transform: translateX(0%) translateY(-50%);
+        }
+        #toggleAnimation:checked ~ .options .toggleCheckboxLabel::before {
+            background-color: #063;
+            outline: 2px outset #ccc;
+        }
+        #toggleAnimation:checked ~ .options .toggleCheckboxLabel::after {
+            background-color: #0c6;
+            transform: translateX(1rem) translateY(-50%);
+            outline: 2px outset #ccc;
+        }
+        /* #toggleAnimation:checked ~ .options .toggleCheckboxLabel {color: #ccc;} */
+        #toggleAnimation:checked ~ .options .toggleCheckboxLabel {color: #eee;}
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">Wave Blocks</h1>
+        <!-- <div class="subtitle">subtitle</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">exp</div>
+        <!-- .grid>.row*9>.cube*9 -->
+        <div id="exp" data-val="1">
+            <div class="grid">
+                <div class="row">
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                </div>
+                <div class="row">
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                </div>
+                <div class="row">
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                </div>
+                <div class="row">
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                </div>
+                <div class="row">
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                </div>
+                <div class="row">
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                </div>
+                <div class="row">
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                </div>
+                <div class="row">
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                </div>
+                <div class="row">
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                    <div class="cube"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="options">
+    <div id="go-left" class="selectBtn" data-add="-1">←</div>
+    <div id="val" class="val">1 / 24</div>
+    <div id="go-right" class="selectBtn" data-add="1">→</div>
+
+    
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+</div>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        const s = {
+            val: 1,
+            valRange: 24,
+        };
+        function selectWave(ev){
+            let add = ev.target.dataset.add;
+            s.val += parseInt(add);
+            // console.log(`id: ${ev.target.id}`);
+            console.log(`s.val: %c${s.val}`, 'color: #036; background-color: #39fc; padding: .125rem .25rem; border-radius: .25rem;');
+
+            if(s.val < 0){s.val = s.valRange};
+            if(s.val > s.valRange){s.val = 0};
+
+            let valElem = document.getElementById('val');
+            valElem.innerHTML = `${s.val} / 24`;
+
+            let elem = document.getElementById('exp');
+            elem.dataset.val = s.val;
+        }
+        
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            
+            let gLeft = document.getElementById('go-left');
+            gLeft.addEventListener('click', selectWave);
+            let gRight = document.getElementById('go-right');
+            gRight.addEventListener('click', selectWave);
+            
+        });
+    </script>
+</body>
+</html>

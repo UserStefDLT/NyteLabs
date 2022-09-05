@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Blocks | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        .shelf {height: 74vh;}
+    </style>
+    <style>
+        :root {
+            /* Making 3D blocks */
+            --sz-cube: 3rem;
+            --sz-cube-back: calc(var(--sz-cube) * -.5);
+            --sz-cube-half: calc(var(--sz-cube) / 2);
+            --p: 5000px;
+        }
+        .grid, .row, .cube, .tile,
+        .cube::before, .cube::after {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            /* grid-template-columns: repeat(6, 1fr); */
+            gap: .25rem;
+            gap: 1rem;
+            margin: 4rem auto;
+            transform: perspective(var(--p)) rotate3d(1,0,0,54deg) rotate3d(0,0,1,-45deg);
+
+        }
+        .for-6 {
+            grid-template-columns: repeat(6, 1fr);
+            gap: .25rem;
+        }
+        .cube {
+            --sz: var(--sz-cube); 
+            height: var(--sz); width: var(--sz);
+
+            --hue: calc(var(--i) * 30);
+            --clr-txt: hsla(var(--hue), 100%, 60%, .5);
+            --clr-light: hsla(var(--hue), 100%, 60%, 1);
+            --clr-top: hsla(var(--hue), 100%, 50%, 1);
+            --clr-side: hsla(var(--hue), 100%, 30%, 1);
+            --clr-front: hsla(var(--hue), 100%, 20%, 1);
+            background-color: var(--clr-top);
+
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff0;
+            /* color: var(--clr-txt); */
+            text-shadow: 1px 1px 2px #111c;
+            text-shadow: 0px 0px 0px #888, -1px -1px 1px #555, 1px 1px 1px #bbb;
+
+            text-shadow: 
+            0px 0px 0px var(--clr-front), 
+            -1px -1px 1px var(--clr-side), 
+            1px 1px 1px var(--clr-top);
+
+            text-shadow: 
+            0px 0px 0px var(--clr-side), 
+            -1px -1px 1px var(--clr-front), 
+            1px 1px 1px var(--clr-light);
+
+            position: relative;
+            transform-origin: 50% 50% -24px;
+            transform-origin: 50% 50% var(--sz-cube-back);
+            transform: perspective(var(--p)) translateZ(48px);
+            transform: perspective(var(--p)) translateZ(var(--sz-cube));
+
+            transition: transform 200ms ease-in-out;
+        }
+
+        .cube::after,
+        .cube::before {
+            content: 'S';
+            position: absolute;
+            top: 50%; left: 50%;
+            height: var(--sz); width: var(--sz);
+            transform-origin: 50% 50% -24px;
+            transform-origin: 50% 50% var(--sz-cube-back);
+
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 2px #111c;
+        }
+        .cube::before {
+            transform: translateX(-50%) translateY(-50%) perspective(var(--p)) rotate3d(1,0,0,-90deg);
+            background-color: #999;
+            background-color: var(--clr-front);
+
+            --dark-front: hsla(var(--hue), 100%, 10%, 1);
+            --shw-front: hsla(var(--hue), 100%, 60%, .75);
+            color: var(--dark-front);
+            text-shadow: 1px 1px 2px var(--shw-front);
+        }
+        .cube::after {
+            transform: translateX(-50%) translateY(-50%) perspective(var(--p)) rotate3d(1,0,0,-90deg) rotate3d(0,1,0,-90deg);
+            background-color: #ccc;
+            background-color: var(--clr-side);
+
+            --dark-side: hsla(var(--hue), 100%, 15%, 1);
+            --shw-side: hsla(var(--hue), 100%, 60%, .75);
+            color: var(--dark-side);
+            text-shadow: 1px 1px 2px var(--shw-side);
+        }
+        .cube:hover {
+            transform: perspective(var(--p)) translateZ(96px);
+        }
+        .cube[data-char]::after,
+        .cube[data-char]::before {content: attr(data-char);}
+
+    </style>
+    <style>
+        .for-4 {
+            grid-template-columns: repeat(4, 1fr);
+            gap: .25rem;
+        }
+        .ny .cube {
+            --sz: var(--sz-cube); 
+            height: var(--sz); width: var(--sz);
+
+            --hue: calc((var(--i) - 5) * 40);
+            --sat: 80%;
+            --lum: 70%;
+            --alp: 1;
+
+            --lum-top: calc(var(--lum) * 5 / 6);
+            --lum-side: calc(var(--lum) / 2);
+            --lum-front: calc(var(--lum) / 3);
+
+            --clr-light: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+            --clr-top: hsla(var(--hue), var(--sat), var(--lum-top), var(--alp));
+            --clr-side: hsla(var(--hue), var(--sat), var(--lum-side), var(--alp));
+            --clr-front: hsla(var(--hue), var(--sat), var(--lum-front), var(--alp));
+
+            background-color: var(--clr-top);
+
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff0;
+            text-shadow: 
+            0px 0px 0px var(--clr-side), 
+            -1px -1px 1px var(--clr-front), 
+            1px 1px 1px var(--clr-light);
+
+            position: relative;
+            transform-origin: 50% 50% -24px;
+            transform: perspective(var(--p)) translateZ(48px);
+            transition: transform 200ms ease-in-out;
+            
+            /* animation: clr-flickr 5000ms ease-in-out infinite both; */
+            /* animation-play-state: paused; */
+        }
+        .ny .cube:hover {
+            transform: perspective(var(--p)) translateZ(96px);
+        }
+        .ny .cube::before {
+            --lum-main: calc(var(--lum) / 3);
+            --lum-dark: calc(var(--lum-main) / 2);
+            transform: translateX(-50%) translateY(-50%) perspective(var(--p)) rotate3d(1,0,0,-90deg);
+        }
+        .ny .cube::after {
+            --lum-main: calc(var(--lum) / 2);
+            --lum-dark: calc(var(--lum-main) / 2);
+            transform: translateX(-50%) translateY(-50%) perspective(var(--p)) rotate3d(1,0,0,-90deg) rotate3d(0,1,0,-90deg);
+        }
+        .ny .cube::before,
+        .ny .cube::after {
+            --clr-main: hsla(var(--hue), var(--sat), var(--lum-main), var(--alp));
+            background-color: var(--clr-main);
+
+            /* --clr-shw: hsla(var(--hue), var(--sat), 60%, calc(var(--alp) * .75)); */
+            --clr-shw: hsla(var(--hue), var(--sat), calc(var(--lum-main) * 2), calc(var(--alp) * .75));
+            text-shadow: 1px 1px 2px var(--clr-shw);
+
+            --clr-dark: hsla(var(--hue), var(--sat), var(--lum-dark), var(--alp));
+            color: var(--clr-dark);
+        }
+    </style>
+    <style>
+        .grid.for-ny {
+            display: grid;
+            --nx: 5;
+            --ny: 5;
+            grid-template-columns: repeat(var(--ny), 1fr);
+            gap: .25rem;
+        }
+        .row.for-nx {
+            display: grid;
+            grid-template-columns: repeat(var(--nx), 1fr);
+            gap: .25rem;
+        }
+        .map .cube {
+            /* --hue: calc((var(--i) - 5) * 40); */
+            --hue: 210;
+            --sat: 0%;
+            --lum: 80%;
+            --alp: 1;
+
+            --lum-top: calc(var(--lum) * 5 / 6);
+            --lum-side: calc(var(--lum) / 2);
+            --lum-front: calc(var(--lum) / 3);
+
+            --clr-light: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+            --clr-top: hsla(var(--hue), var(--sat), var(--lum-top), var(--alp));
+            --clr-side: hsla(var(--hue), var(--sat), var(--lum-side), var(--alp));
+            --clr-front: hsla(var(--hue), var(--sat), var(--lum-front), var(--alp));
+
+            background-color: var(--clr-top);
+
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff0;
+            /* text-shadow: 
+            0px 0px 0px var(--clr-side), 
+            -1px -1px 1px var(--clr-front), 
+            1px 1px 1px var(--clr-light); */
+
+            position: relative;
+            transform-origin: 50% 50% -24px;
+            transform: perspective(var(--p)) translateZ(48px);
+            transition: transform 200ms ease-in-out;
+        }
+        .map .cube:hover {
+            transform: perspective(var(--p)) translateZ(96px);
+        }
+        .map .cube::before {
+            --lum-main: calc(var(--lum) / 3);
+            --lum-dark: calc(var(--lum-main) / 2);
+            transform: translateX(-50%) translateY(-50%) perspective(var(--p)) rotate3d(1,0,0,-90deg);
+        }
+        .map .cube::after {
+            --lum-main: calc(var(--lum) / 2);
+            --lum-dark: calc(var(--lum-main) / 2);
+            transform: translateX(-50%) translateY(-50%) perspective(var(--p)) rotate3d(1,0,0,-90deg) rotate3d(0,1,0,-90deg);
+        }
+        .map .cube::before,
+        .map .cube::after {
+            content: '';
+            --clr-main: hsla(var(--hue), var(--sat), var(--lum-main), var(--alp));
+            background-color: var(--clr-main);
+            /* --clr-shw: hsla(var(--hue), var(--sat), calc(var(--lum-main) * 2), calc(var(--alp) * .75));
+            text-shadow: 1px 1px 2px var(--clr-shw);
+            --clr-dark: hsla(var(--hue), var(--sat), var(--lum-dark), var(--alp));
+            color: var(--clr-dark); */
+        }
+
+        .cube2 {
+            --u: 1;
+            --val: calc(var(--updn) * var(--u) * 10);
+            --val: calc(var(--updn) * var(--u) * 5);
+            --val: calc(var(--a) * var(--u) * 4 - 10);
+            --val: calc(var(--b) * var(--u) * 3);
+            --val: calc(var(--c) * var(--u) * 5);
+            --val: calc(var(--d) * var(--u) * 5);
+            --val: calc(var(--ab) * var(--u));
+            --val: calc(var(--axb) * var(--u) * .5);
+            --val: calc(var(--cd) * var(--u) * 2);
+            --val: calc(var(--cxd) * var(--u) * 5);
+            --val: calc(var(--ah) * var(--u) * 3);
+            --val: calc(var(--bh) * var(--u) * 4);
+            --val: calc(var(--c26h) * var(--u) * 5);
+            --val: calc(var(--d26h) * var(--u));
+            --val: calc(var(--d26h) * var(--u) + var(--kk) / 24);
+            --val: calc(var(--abh) * var(--u));
+            --val: calc(var(--axbh) * var(--u));
+            --val: calc(var(--cd26h) * var(--u));
+            --val: calc(var(--cxd26h) * var(--u) * 8);
+            --val: calc(var(--i) * var(--n2h) * var(--u) * .1);
+            --val: calc(var(--kk10) * var(--u) * 5);
+            --val: calc(var(--ixj) * var(--u) * .07 - 20);
+            --val: calc(var(--ijkk) * var(--u) * .05 - 12);
+            --val: calc(var(--ijkk10) * var(--u) * 2 - 100);
+            --val: calc(var(--j-ixk) * var(--u) * .035 - 20);
+            --val: calc(var(--ah) * var(--u));
+        }
+
+        .row {
+            /* --len: 45;
+            --half-len: 23;
+            --j: calc(45 - var(--i) + 1);
+            --k: calc(var(--i) - 23);
+            --ixj: calc(var(--i) * var(--j));
+            --j-ixk: calc(var(--j) + (var(--i) * var(--k))); */
+            
+            --row-axis-len: 9;
+            --row-axis-half: calc((var(--row-axis-len) + 1) / 2);
+            --row-i: var(--i);
+            --row-j: calc(var(--row-axis-len) - var(--row-i) + 1);
+            --row-k: calc(var(--row-i) - var(--row-axis-half));
+
+            --row-ij: calc(var(--row-i) + var(--row-j));
+            --row-ixj: calc(var(--row-i) * var(--row-j));
+            --row-j-ixk: calc(var(--row-j) + (var(--row-i) * var(--row-k)));
+
+            --row-kk: calc(var(--row-k) * var(--row-k));
+            --row-kk1: calc(var(--row-k) / (var(--row-kk) / 4 + 1));
+            --row-kk10: calc(var(--row-kk1) * var(--row-kk1));
+
+            --row-ijkk: calc(var(--row-ij) + var(--row-kk));
+            --row-ijkk10: calc(var(--row-ij) + var(--row-kk10));
+        }
+        .map .row:nth-of-type(2n) {--m2: 1; --m2h: 1; --m2tf: 0;}
+        .map .row:nth-of-type(2n+1) {--m2: 2; --m2h: .5; --m2tf: 1;}
+        .map .row:nth-of-type(3n) {--m3: 1; --m3h: 1/3;}
+        .map .row:nth-of-type(3n+1) {--m3: 2; --m3h: 2/3;}
+        .map .row:nth-of-type(3n+2) {--m3: 3; --m3h: 1;}
+        .map .row:nth-of-type(6n) {--m6: 1; --m6h: .5;}
+        .map .row:nth-of-type(6n+1) {--m6: 2; --m6h: 2;}
+        .map .row:nth-of-type(6n+2) {--m6: 3; --m6h: 3;}
+        .map .row:nth-of-type(6n+3) {--m6: 4; --m6h: 4;}
+        .map .row:nth-of-type(6n+4) {--m6: 3; --m6h: 3;}
+        .map .row:nth-of-type(6n+5) {--m6: 2; --m6h: 2;}
+        .map .row {
+            --row-a: calc(var(--m2) + var(--m3));
+            --row-b: calc(var(--m2) * var(--m3));
+            --row-c: calc(var(--m2) - var(--m3));
+            --row-d: calc(var(--m2) / var(--m3));
+
+            --row-ab: calc(var(--row-a) + var(--row-b));
+            --row-axb: calc(var(--row-a) * var(--row-b));
+            --row-cd: calc(var(--row-c) + var(--row-d));
+            --row-cxd: calc(var(--row-c) * var(--row-d));
+
+
+            --row-ah: calc(var(--m2h) + var(--m3));
+            --row-bh: calc(var(--m2h) * var(--m3));
+            --row-abh: calc(var(--row-ah) + var(--row-bh));
+            --row-axbh: calc(var(--row-ah) * var(--row-bh));
+
+            --row-c26h: calc(var(--m2h) - var(--m6h));
+            --row-d26h: calc(var(--m2h) / var(--m6h));
+
+            --row-cd26h: calc(var(--row-c26h) + var(--row-d26h));
+            --row-cxd26h: calc(var(--row-c26h) * var(--row-d26h));
+        }
+        
+
+
+        .map .cube {
+            /* --len: 45;
+            --half-len: 23; */
+            --axis-len: 9;
+            --axis-half: calc((var(--axis-len) + 1) / 2);
+
+            --j: calc(var(--axis-len) - var(--i) + 1);
+            --k: calc(var(--i) - var(--axis-half));
+
+            /* --j: calc(45 - var(--i) + 1);
+            --k: calc(var(--i) - 23);
+            --jk: calc(var(--j) + var(--k));
+            --ijk: calc(var(--i) + var(--j) + var(--k)); */
+            
+            --ij: calc(var(--i) + var(--j));
+            --ixj: calc(var(--i) * var(--j));
+            --j-ixk: calc(var(--j) + (var(--i) * var(--k)));
+
+            --kk: calc(var(--k) * var(--k));
+            --kk1: calc(var(--k) / (var(--kk) / 4 + 1));
+            --kk10: calc(var(--kk1) * var(--kk1));
+
+            --ijkk: calc(var(--ij) + var(--kk));
+            --ijkk10: calc(var(--ij) + var(--kk10));
+        }        
+        .map .cube:nth-of-type(2n) {--n2: 1; --n2h: 1; --n2tf: 0;}
+        .map .cube:nth-of-type(2n+1) {--n2: 2; --n2h: .5; --n2tf: 1;}
+        .map .cube:nth-of-type(3n) {--n3: 1; --n3h: 1/3;}
+        .map .cube:nth-of-type(3n+1) {--n3: 2; --n3h: 2/3;}
+        .map .cube:nth-of-type(3n+2) {--n3: 3; --n3h: 1;}
+        .map .cube:nth-of-type(6n) {--n6: 1; --n6h: .5;}
+        .map .cube:nth-of-type(6n+1) {--n6: 2; --n6h: 2;}
+        .map .cube:nth-of-type(6n+2) {--n6: 3; --n6h: 3;}
+        .map .cube:nth-of-type(6n+3) {--n6: 4; --n6h: 4;}
+        .map .cube:nth-of-type(6n+4) {--n6: 3; --n6h: 3;}
+        .map .cube:nth-of-type(6n+5) {--n6: 2; --n6h: 2;}
+        .map .cube {
+            --a: calc(var(--n2) + var(--n3));
+            --b: calc(var(--n2) * var(--n3));
+            --c: calc(var(--n2) - var(--n3));
+            --d: calc(var(--n2) / var(--n3));
+
+            --ab: calc(var(--a) + var(--b));
+            --axb: calc(var(--a) * var(--b));
+            --cd: calc(var(--c) + var(--d));
+            --cxd: calc(var(--c) * var(--d));
+
+            --ah: calc(var(--n2h) + var(--n3));
+            --bh: calc(var(--n2h) * var(--n3));
+            --abh: calc(var(--ah) + var(--bh));
+            --axbh: calc(var(--ah) * var(--bh));
+
+            --c26h: calc(var(--n2h) - var(--n6h));
+            --d26h: calc(var(--n2h) / var(--n6h));
+
+            --cd26h: calc(var(--c26h) + var(--d26h));
+            --cxd26h: calc(var(--c26h) * var(--d26h));
+        }
+
+
+        .map .row {
+            --row-u: 1;
+            /* --row-val: calc(var(--row-j-ixk) * var(--row-u) * .035 - 20); */
+            /* --row-val: calc(var(--row-kk10) * var(--row-u) * 5); */
+            /* --row-val: calc(var(--row-i) * var(--row-n2h) * var(--row-u) * .1); */
+            /* --row-val: calc(var(--row-cd26h) * var(--row-u)); */
+            /* --row-val: calc(var(--row-abh) * var(--row-u)); */
+            --row-val: calc(var(--m2tf) * var(--row-u) * 10);
+            --row-val: calc(var(--m2tf) * var(--row-u) * 5);
+            --row-val: calc(var(--row-a) * var(--row-u) * 4 - 10);
+            --row-val: calc(var(--row-b) * var(--row-u) * 3);
+            --row-val: calc(var(--row-c) * var(--row-u) * 5);
+            --row-val: calc(var(--row-d) * var(--row-u) * 5);
+            --row-val: calc(var(--row-ab) * var(--row-u));
+            --row-val: calc(var(--row-axb) * var(--row-u) * .5);
+            --row-val: calc(var(--row-cd) * var(--row-u) * 2);
+            --row-val: calc(var(--row-cxd) * var(--row-u) * 5);
+            --row-val: calc(var(--row-ah) * var(--row-u) * 3);
+            --row-val: calc(var(--row-bh) * var(--row-u) * 4);
+            --row-val: calc(var(--row-c26h) * var(--row-u) * 5);
+            --row-val: calc(var(--row-d26h) * var(--row-u));
+            --row-val: calc(var(--row-d26h) * var(--row-u) + var(--row-kk) / 24);
+            
+            
+            
+            --row-val-18: calc(var(--m2tf) * var(--row-u) * 10);
+            --row-val-17: calc(var(--m2tf) * var(--row-u) * 10);
+            --row-val-16: calc(var(--m2tf) * var(--row-u) * 10);
+            --row-val-15: calc(var(--row-d26h) * var(--row-u) + var(--row-kk));
+            --row-val-14: calc(var(--row-abh) * var(--row-u) * -5);
+            --row-val-13: calc(var(--row-axbh) * var(--row-u));
+            --row-val-12: calc(var(--row-cd26h) * var(--row-u) * 3);
+            --row-val-11: calc(var(--row-cxd26h) * var(--row-u) * 8);
+            --row-val-10: calc(var(--row-i) * var(--n2h) * var(--row-u) * 5);
+            --row-val-09: calc(var(--row-kk10) * var(--row-u) * -15);
+            --row-val-08: calc(var(--row-kk10) * var(--row-u) * 15);
+            --row-val-07: calc(var(--row-ixj) * var(--row-u) * 2 - 30);
+            --row-val-06: calc(var(--row-ixj) * var(--row-u) * 2 - 30);
+            --row-val-05: calc(var(--row-ixj) * var(--row-u) * -2 + 10);
+            --row-val-04: calc(var(--row-ijkk) * var(--row-u) * -1 - 12);
+            --row-val-03: calc(var(--row-ijkk10) * var(--row-u) * 5 - 50);
+            --row-val-02: calc(var(--row-ah) * var(--row-u) * 3);
+
+            --row-val-01: calc(var(--row-kk) / 4 * 5);
+            --row-val-00: calc(var(--row-kk) / 4 * -7 + 25);
+
+            --row-val: calc(var(--row-ixj) * var(--row-u) * 2 - 30);
+            --row-val: calc(var(--row-ixj) * var(--row-u) * 2 - 30);
+            --row-val: calc(var(--row-ixj) * var(--row-u) * -2 + 10);
+            --row-val: calc(var(--row-ijkk) * var(--row-u) * -1 - 12);
+            --row-val: calc(var(--row-ijkk10) * var(--row-u) * 5 - 50);
+
+            --row-val: 1;
+            --row-val: calc(var(--row-cd26h) * var(--row-u) * 3);
+            --row-val: calc(var(--row-cxd26h) * var(--row-u) * 8);
+            --row-val: calc(var(--row-kk) / 4 * -7 + 25);
+        }
+        .map .cube {
+            --col-u: 1;
+            /* --col-val: calc(var(--j-ixk) * var(--col-u) * .035 - 20); */
+            /* --col-val: calc(var(--kk10) * var(--col-u) * 5); */
+            /* --col-val: calc(var(--i) * var(--n2h) * var(--col-u) * .1); */
+            /* --col-val: calc(var(--cd26h) * var(--col-u)); */
+            /* --col-val: calc(var(--abh) * var(--col-u)); */
+            --col-val: calc(var(--n2tf) * var(--col-u) * 10);
+            --col-val: calc(var(--n2tf) * var(--col-u) * 5);
+            --col-val: calc(var(--a) * var(--col-u) * 4 - 10);
+            --col-val: calc(var(--b) * var(--col-u) * 3);
+            --col-val: calc(var(--c) * var(--col-u) * 5);
+            --col-val: calc(var(--d) * var(--col-u) * 5);
+            --col-val: calc(var(--ab) * var(--col-u));
+            --col-val: calc(var(--axb) * var(--col-u) * .5);
+            --col-val: calc(var(--cd) * var(--col-u) * 2);
+            --col-val: calc(var(--cxd) * var(--col-u) * 5);
+            --col-val: calc(var(--ah) * var(--col-u) * 3);
+            --col-val: calc(var(--bh) * var(--col-u) * 4);
+            --col-val: calc(var(--c26h) * var(--col-u) * 5);
+            --col-val: calc(var(--d26h) * var(--col-u));
+            --col-val: calc(var(--d26h) * var(--col-u) + var(--kk) / 24);
+            
+            
+            --col-val-18: calc(var(--n2tf) * var(--col-u) * -30 + 30);
+            --col-val-17: calc(var(--b) * var(--col-u) * 3);
+            --col-val-16: calc(var(--d26h) * var(--col-u) + var(--kk));
+            --col-val-15: calc(var(--i) * var(--n2h) * var(--col-u) * 3);
+            --col-val-14: calc(var(--abh) * var(--col-u) * 7);
+            --col-val-13: calc(var(--axbh) * var(--col-u));
+            --col-val-12: calc(var(--cd26h) * var(--col-u) * 3);
+            --col-val-11: calc(var(--cxd26h) * var(--col-u) * 8);
+            --col-val-10: calc(var(--i) * var(--n2h) * var(--col-u) * 3);
+            --col-val-09: calc(var(--kk10) * var(--col-u) * 25);
+            --col-val-08: calc(var(--kk10) * var(--col-u) * 25);
+            --col-val-07: calc(var(--kk10) * var(--col-u) * 25);
+            --col-val-06: calc(var(--ixj) * var(--col-u) * 2 + 10);
+            --col-val-05: calc(var(--ixj) * var(--col-u) * 2 + 10);
+            --col-val-04: calc(var(--ijkk) * var(--col-u) * 1 - 12);
+            --col-val-03: calc(var(--ijkk10) * var(--col-u) * 5 - 50);
+            --col-val-02: calc(var(--ah) * var(--col-u) * 7);
+
+            --col-val-01: calc(var(--kk) / 4 * 5);
+
+            --col-val: calc(var(--kk10) * var(--col-u) * 25);
+            --col-val: calc(var(--ixj) * var(--col-u) * 2 + 10);
+            --col-val: calc(var(--ixj) * var(--col-u) * 2 + 10);
+            --col-val: calc(var(--ijkk) * var(--col-u) * 1 - 12);
+            --col-val: calc(var(--ijkk10) * var(--col-u) * 5 - 50);
+
+            --col-val: 1;
+            --col-val: calc(var(--cd26h) * var(--col-u) * 3);
+            --col-val: calc(var(--cxd26h) * var(--col-u) * 8);
+            --col-val: calc(var(--kk) / 4 * 5);
+        }
+
+        
+
+        .map .row .cube {
+            --z: 0px;
+            /* --u: 1; */
+            /* --val: calc(var(--updn) * var(--u) * 10);
+            --val: calc(var(--updn) * var(--u) * 5);
+            --val: calc(var(--a) * var(--u) * 4 - 10);
+            --val: calc(var(--b) * var(--u) * 3);
+            --val: calc(var(--c) * var(--u) * 5);
+            --val: calc(var(--d) * var(--u) * 5);
+            --val: calc(var(--ab) * var(--u));
+            --val: calc(var(--axb) * var(--u) * .5);
+            --val: calc(var(--cd) * var(--u) * 2);
+            --val: calc(var(--cxd) * var(--u) * 5);
+            --val: calc(var(--ah) * var(--u) * 3);
+            --val: calc(var(--bh) * var(--u) * 4);
+            --val: calc(var(--c26h) * var(--u) * 5);
+            --val: calc(var(--d26h) * var(--u));
+            --val: calc(var(--d26h) * var(--u) + var(--kk) / 24);
+            --val: calc(var(--abh) * var(--u));
+            --val: calc(var(--axbh) * var(--u));
+            --val: calc(var(--cd26h) * var(--u));
+            --val: calc(var(--cxd26h) * var(--u) * 8);
+            --val: calc(var(--i) * var(--n2h) * var(--u) * .1);
+            --val: calc(var(--kk10) * var(--u) * 5);
+            --val: calc(var(--ixj) * var(--u) * .07 - 20);
+            --val: calc(var(--ijkk) * var(--u) * .05 - 12);
+            --val: calc(var(--ijkk10) * var(--u) * 2 - 100);
+            --val: calc(var(--j-ixk) * var(--u) * .035 - 20);
+            --val: calc(var(--ah) * var(--u)); */
+
+            --u: .25;
+            --val: calc((var(--row-val) + var(--col-val)) * var(--u) + 0);
+
+            --r: 1rem;
+            --z: calc(var(--val) * var(--r));
+            transform: perspective(var(--p)) translateZ(var(--z));
+
+            --hue-step: 10;
+            --hue-step: 20;
+            --hue: calc(var(--val) * var(--hue-step));
+            --sat: 80%;
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">Blocks</h1>
+        <!-- <div class="subtitle">subtitle</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">exp ny</div>
+        <div class="grid for-ny map" style="--ny: 1; --nx: 9;">
+            <!-- .row*9>.cube*9 -->
+            <div class="row for-nx">
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+            </div>
+            <div class="row for-nx">
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+            </div>
+            <div class="row for-nx">
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+            </div>
+            <div class="row for-nx">
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+            </div>
+            <div class="row for-nx">
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+            </div>
+            <div class="row for-nx">
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+            </div>
+            <div class="row for-nx">
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+            </div>
+            <div class="row for-nx">
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+            </div>
+            <div class="row for-nx">
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+                <div class="cube"></div>
+            </div>
+        </div>
+    </div>
+    <div class="shelf hidden">
+        <div class="shelf-title">exp 02</div>
+        <div class="grid for-6">
+            <div class="cube" data-char="B">B</div>
+            <div class="cube" data-char="l">l</div>
+            <div class="cube" data-char="o">o</div>
+            <div class="cube" data-char="c">c</div>
+            <div class="cube" data-char="k">k</div>
+            <div class="cube" data-char="s">s</div>
+        </div>
+    </div>
+    <div class="shelf hidden">
+        <div class="shelf-title">exp 01</div>
+        <div class="grid">
+            <div class="cube">S</div>
+            <div class="cube">S</div>
+            <div class="cube">S</div>
+            <div class="cube">S</div>
+            <div class="cube">S</div>
+            <div class="cube">S</div>
+        </div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        const s = {};
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+        });
+    </script>
+</body>
+</html>

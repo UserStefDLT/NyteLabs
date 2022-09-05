@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Event: Keydown | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">    
+    <style>
+        kbd {
+            min-height: 1rem;
+            /* height: 26px; */
+            margin: .25rem;
+            padding: 4px 6px;
+            border: 0px;
+            border-bottom: 2px solid #aaa;
+            border-radius: 4px;
+
+            background: linear-gradient(180deg,#eee,#ddd);
+            color: #111;
+            font-family: consolas,"Liberation Mono",courier,monospace;
+            font-size: .9rem;
+            font-weight: 700;
+            line-height: 1;
+            
+            white-space: nowrap;
+            user-select: none;
+            /* box-sizing: border-box; */
+        }
+        .kbd-disable {
+            background: linear-gradient(180deg,#777,#555);
+            color: #333;
+            border: 0px;
+            border-bottom: 2px solid #444;
+        }
+
+        .display-log {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            flex-direction: row;
+            flex-wrap: wrap;
+            padding: 0rem 1rem;
+            /* overflow: hidden; */
+        }
+        .display-log p {
+            width: 100%;
+            margin: .25rem 0;
+            text-align: left;
+            box-shadow: 0 .0625rem .125rem 0 #1119;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .display-log span {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 2rem;
+            margin-right: .25rem;
+        }
+
+        [data-key] {position: relative;}
+        [data-key]:hover {z-index: 1;}
+        [data-key]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: 0%; left: 50%;
+            transform: translateX(-50%) translateY(0%);
+
+            min-height: 1rem;
+
+            background-color: #f4f4f4;
+            background: linear-gradient(180deg,#eee,#ddd);
+
+            border: 1px solid #d5d5d5;
+            border: 0px solid #d5d5d5;
+            border-bottom: 2px solid #aaa;
+            border-radius: 4px;
+
+            font-family: consolas,"Liberation Mono",courier,monospace;
+            font-size: .9rem;
+            font-weight: 700;
+            line-height: 1;
+
+            padding: 4px 6px;
+
+            white-space: nowrap;
+            color: #111;
+            
+            user-select: none;
+
+            /* disabled */
+            background: linear-gradient(180deg,#777,#555);
+            color: #333;
+            border: 0px solid transparent;
+            border-bottom: 2px solid #444;
+
+            opacity: 0;
+            z-index: -1;
+            transition: transform 200ms ease-in-out, opacity 150ms ease-in-out 150ms;
+            transition: transform 150ms ease-in-out 50ms, opacity 100ms ease-in-out;
+        }
+        [data-key]:hover::after {
+            transform: translateX(-50%) translateY(-100%); 
+            opacity: 1;
+            transition: transform 250ms ease-in-out 50ms, opacity 100ms ease-in-out;
+            transition: transform 200ms ease-in-out, opacity 100ms ease-in-out 100ms;
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <div class="title">Event: Keydown</div>
+        <div class="subtitle">press any key.</div>
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">keylog</div>
+        <div id="display" class="display-log"></div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="keydown.js"></script> -->
+    <script>
+        const s = {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            mouse: {
+                x: 0,
+                y: 0,
+                z: 0,
+            },
+
+
+            display: {
+                h: 0,
+                w: 0,
+            },
+            char: {
+                h: 18,
+                w: 10,
+                real_w: 7.95,
+                padding: 12,
+                margin: 8
+            },
+            tile: {
+                h: 26,
+                w: 20,
+                padding: 12,
+                margin: 8
+            },
+            grid: {
+                w: 0,
+                h: 0,
+                cols: 10,
+                rows: 15,
+                margin: 32
+            },
+            
+            keyLimit: 50,
+            keyLog: {
+                keyLimit: 50,
+            },
+
+            s: false,
+            tags: false,
+            log: true,
+            lockKeys: false,
+            pause: false,
+            q: false
+        }
+
+        // var display = document.getElementById('display');
+        var keyTips = {
+            "ArrowDown":{"key":"↓", "tooltip": "Down"},
+            "ArrowUp":{"key":"↑", "tooltip": "Up"},
+            "ArrowLeft":{"key":"←", "tooltip": "Left"},
+            "ArrowRight":{"key":"→", "tooltip": "Right"},
+            "S":{"key":"S", "tooltip":"↓"},
+            "W":{"key":"W", "tooltip":"↑"},
+            "A":{"key":"A", "tooltip":"←"},
+            "D":{"key":"D", "tooltip":"→"},
+            "s":{"key":"s", "tooltip":"↓"},
+            "w":{"key":"w", "tooltip":"↑"},
+            "a":{"key":"a", "tooltip":"←"},
+            "d":{"key":"d", "tooltip":"→"},
+            " ":{"key":"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", "tooltip":"Space"},
+            "Escape":{"key":"esc", "tooltip": 0}
+        };
+        var keyLog = [];
+        var keyDisplay = '<span>You pressed: </span>';
+        /* Difference of the 'displayKeyLog':
+            displayKeyLog4() → copy from 1, adds a second log called 'keyCount'.
+            displayKeyLog3() → creates an element instead of appending strings, then appends it to the display.
+            displayKeyLog2() → doesn't use the 'keyLog', instead injects the element directly.
+            displayKeyLog1() → keeps a limit on how many charaters are logged. (currently set to 50)
+            displayKeyLog0() → it is how I had it before making these versions.
+         */
+        var keyCount = [];
+        const msg_w = 100;
+        function CharCount2(){
+            // let allkeys = keyCount.join(', ');
+            let allchars = keyCount.join('');
+            let charCount = keyCount.length;
+
+            // console.log(`%c → keyCount.len: %c${keyCount.length}`, logSty.c, logSty.bool);
+            // console.log(`%c → allchars: %c${allchars}`, logSty.c, logSty.bool);
+            // console.log(`%c → allchars.len: %c${allchars.length}`, logSty.c, logSty.bool);
+
+            // let allkeys = keyCount.join('%c, %c');
+            // let keysToLog = '%c → allkeys: %c' + allkeys;
+            // let ToLog = [keysToLog];
+            // for (let i = 0; i < keyCount.length; i++) {
+            //     ToLog.push(logSty.c);
+            //     ToLog.push(logSty.bool);
+            // }
+            // safeLog(ToLog);
+
+
+            // let allchars_w = allchars.length * 8;
+            let allchars_w = allchars.length * 10;
+            let charCount_w = charCount * (s.char.padding + s.char.margin);
+            // let charCount_w = charCount * (12 + 8);
+
+            // console.log(`%c → allchars_w: %c${allchars_w}`, logSty.c, logSty.bool);
+            // console.log(`%c → charCount_w: %c${charCount_w}`, logSty.c, logSty.bool);
+            // console.log(`%c → s.display.w: %c${s.display.w}`, logSty.c, logSty.bool);
+            
+            // let allw = allchars_w + charCount_w;
+            let allw = allchars_w + charCount_w + msg_w;
+            // console.log(`%c → allw: %c${allw}`, logSty.c, logSty.bool);
+            // console.log(`%c → allw = (allchars_w + charCount_w): %c${allw}%c = (%c${allchars_w}%c + %c${charCount_w}%c)`, logSty.c, logSty.bool, logSty.c, logSty.bool, logSty.c, logSty.bool, logSty.c);
+            // console.log(`%c → allw = (allchars_w + charCount_w + msg_w): %c${allw}%c = (%c${allchars_w}%c + %c${charCount_w}%c + %c${msg_w}%c)`, logSty.c, logSty.bool, logSty.c, logSty.bool, logSty.c, logSty.bool, logSty.c, logSty.bool, logSty.c);
+            
+            let allr = allw / s.display.w;
+            // console.log(`%c → allr: %c${allr}`, logSty.c, logSty.bool);
+            // console.log(`%c → allr = (allw / s.display.w): %c${allr}%c = (%c${allw}%c + %c${s.display.w}%c)`, logSty.c, logSty.bool, logSty.c, logSty.bool, logSty.c, logSty.bool, logSty.c);
+
+            let rowsLimit = s.grid.h/34;
+            if(allr > rowsLimit) {
+                keyLog.shift(); keyCount.shift();
+            }
+        }
+        function CharCount(){
+            // let allkeys = keyCount.join(', ');
+            let allchars = keyCount.join('');
+            let charCount = keyCount.length;
+
+            console.log(`%c → keyCount.len: %c${keyCount.length}`, logSty.c, logSty.bool);
+            console.log(`%c → allchars: %c${allchars}`, logSty.c, logSty.bool);
+            console.log(`%c → allchars.len: %c${allchars.length}`, logSty.c, logSty.bool);
+
+            let allkeys = keyCount.join('%c, %c');
+            let keysToLog = '%c → allkeys: %c' + allkeys;
+            let ToLog = [keysToLog];
+            for (let i = 0; i < keyCount.length; i++) {
+                ToLog.push(logSty.c);
+                ToLog.push(logSty.bool);
+            }
+            safeLog(ToLog);
+
+
+            // let allchars_w = allchars.length * 8;
+            let allchars_w = allchars.length * (s.char.w + 2);
+            let charCount_w = charCount * (s.char.padding + s.char.margin);
+            // let charCount_w = charCount * (12 + 8);
+
+            console.log(`%c → allchars_w: %c${allchars_w}`, logSty.c, logSty.bool);
+            console.log(`%c → charCount_w: %c${charCount_w}`, logSty.c, logSty.bool);
+            console.log(`%c → s.display.w: %c${s.display.w}`, logSty.c, logSty.bool);
+            
+            // let allw = allchars_w + charCount_w;
+            let allw = allchars_w + charCount_w + msg_w;
+            console.log(`%c → allw: %c${allw}`, logSty.c, logSty.bool);
+            // console.log(`%c → allw = (allchars_w + charCount_w): %c${allw}%c = (%c${allchars_w}%c + %c${charCount_w}%c)`, logSty.c, logSty.bool, logSty.c, logSty.bool, logSty.c, logSty.bool, logSty.c);
+            console.log(`%c → allw = (allchars_w + charCount_w + msg_w): %c${allw}%c = (%c${allchars_w}%c + %c${charCount_w}%c + %c${msg_w}%c)`, logSty.c, logSty.bool, logSty.c, logSty.bool, logSty.c, logSty.bool, logSty.c, logSty.bool, logSty.c);
+            
+            let allr = allw / s.display.w;
+            console.log(`%c → allr: %c${allr}`, logSty.c, logSty.bool);
+            console.log(`%c → allr = (allw / s.display.w): %c${allr}%c = (%c${allw}%c + %c${s.display.w}%c)`, logSty.c, logSty.bool, logSty.c, logSty.bool, logSty.c, logSty.bool, logSty.c);
+
+            let rowsLimit = s.grid.h/34;
+            if(allr > rowsLimit) {
+                keyLog.shift(); keyCount.shift();
+            }
+        }
+        function displayKeyLog5(keyInput){
+            var display = document.getElementById('display');
+            let key = '';
+            if(Object.keys(keyTips).includes(keyInput)) {
+                key = keyTips[keyInput].key;
+            } else {
+                key = keyInput;
+            }
+            keyCount.push(key);
+            
+            // let allchars = keyCount.join('');
+            // let charCount = keyCount.length;
+
+            // let allchars_w = allchars * 8;
+            // let charCount_w = charCount * 12;
+            
+            // let allw = allchars_w + charCount_w;
+
+            // let allr = allw / s.display.w;
+
+
+            
+            // let first_row_w = s.display.w - msg_w;
+            let keyElement = '';
+            if(Object.keys(keyTips).includes(keyInput)) {
+                keyElement = `<kbd data-key="${keyTips[keyInput].key}" data-tooltip="${keyTips[keyInput].tooltip}">${keyTips[keyInput].key}</kbd>`;
+                // key = keyTips[keyInput].key;
+            } else {
+                keyElement = `<kbd class="kbd-disable">${keyInput}</kbd>`
+                // key = keyInput;
+            }
+
+
+            keyLog.push(keyElement);
+            if(keyLog.length > 50) {keyLog.shift();}
+            display.innerHTML = '<span>You pressed: </span>' + keyLog.join('');
+        }
+        function displayKeyLog4(keyInput){
+            var display = document.getElementById('display');
+            let key = '';
+            if(Object.keys(keyTips).includes(keyInput)) {
+                key = `<kbd data-key="${keyTips[keyInput].key}" data-tooltip="${keyTips[keyInput].tooltip}">${keyTips[keyInput].key}</kbd>`;
+                if(keyInput == " "){
+                    keyCount.push("Space");
+                } else {
+                    keyCount.push(keyTips[keyInput].key);
+                }
+            } else {
+                key = `<kbd class="kbd-disable">${keyInput}</kbd>`;
+                keyCount.push(keyInput);
+            }
+            keyLog.push(key);
+            if(keyLog.length > s.keyLimit) {keyLog.shift(); keyCount.shift();}
+            CharCount2();
+            display.innerHTML = '<span>You pressed: </span>' + keyLog.join('');
+        }
+        function displayKeyLog3(keyInput){
+            let keyElement = document.createElement('kbd');
+            if(Object.keys(keyTips).includes(keyInput)) {
+                keyElement.dataset.key = keyTips[keyInput].key;
+                keyElement.dataset.tooltip = keyTips[keyInput].tooltip;
+                keyElement.innerHTML = keyTips[keyInput].key;
+            } else {
+                keyElement.classList.add('kbd-disable');
+                keyElement.innerHTML = keyInput;
+            }
+            let display = document.getElementById('display');
+            display.appendChild(keyElement);
+        }
+        function displayKeyLog2(keyInput){
+            let display = document.getElementById('display');
+            if(Object.keys(keyTips).includes(keyInput)) {
+                keyDisplay += `<kbd data-key="${keyTips[keyInput].key}" data-tooltip="${keyTips[keyInput].tooltip}">${keyTips[keyInput].key}</kbd>`
+            } else {
+                keyDisplay += `<kbd class="kbd-disable">${keyInput}</kbd>`
+            }
+            display.innerHTML = keyDisplay;
+        }
+        function displayKeyLog1(keyInput){
+            var display = document.getElementById('display');
+            let key = '';
+            if(Object.keys(keyTips).includes(keyInput)) {
+                key = `<kbd data-key="${keyTips[keyInput].key}" data-tooltip="${keyTips[keyInput].tooltip}">${keyTips[keyInput].key}</kbd>`
+            } else {
+                key = `<kbd class="kbd-disable">${keyInput}</kbd>`
+            }
+            keyLog.push(key);
+            if(keyLog.length > 50) {keyLog.shift();}
+            display.innerHTML = '<span>You pressed: </span>' + keyLog.join('');
+        }
+        function displayKeyLog0(keyInput){
+            var display = document.getElementById('display');
+            let msg = ['<span>You pressed: </span>','.'];
+            let key = '';
+            if(Object.keys(keyTips).includes(keyInput)) {
+                key = `<kbd data-key="${keyTips[keyInput].key}" data-tooltip="${keyTips[keyInput].tooltip}">${keyTips[keyInput].key}</kbd>`
+            } else {
+                key = `<kbd class="kbd-disable">${keyInput}</kbd>`
+            }
+            keyLog.push(key);
+            let keyList = keyLog.join('');
+            display.innerHTML = msg[0] + keyList;
+        }
+
+
+
+        function q(){
+            s.q = !s.q;
+            sLog([`%cs%c.q:%c${s.q}`, logSty.s, logSty.c, logSty.bool]);
+        }
+        function openS(){
+            if(!s.q){
+                s.s = !s.s;
+                sLog([`%cs%c.s:%c${s.s}`, logSty.s, logSty.c, logSty.bool]);
+                let settingsBtn = document.getElementById('settings');
+                if(settingsBtn){settingsBtn.dataset.paused = s.s;}
+            }
+        }
+        function pause(){
+            if(!s.q){
+                s.pause = !s.pause;
+                sLog([`%cs%c.pause:%c${s.pause}`, logSty.s, logSty.c, logSty.bool]);
+                let pauseBtn = document.getElementById('pause');
+                if(pauseBtn){pauseBtn.dataset.paused = s.pause;}
+            }
+        }
+        function toggleTags(){
+            if(!s.q){
+                s.tags = !s.tags;
+                sLog([`%cs%c.tags:%c${s.tags}`, logSty.s, logSty.c, logSty.bool]);
+                let tagsBtn = document.getElementById('tags');
+                if(tagsBtn){tagsBtn.dataset.active = s.tags;}
+            }
+        }
+        function toggleLog(){
+            if(!s.q){
+                s.log = !s.log;
+                sLog([`%cs%c.log:%c${s.log}`, logSty.s, logSty.c, logSty.bool]);
+            }
+        }
+
+        window.addEventListener("keydown", function (event) {
+            if(event.key == 'Escape') {q();}
+            if(s.q){console.log(`→ %ckey: %c${event.key}%c | keyCode: %c${event.keyCode}`, logSty.c, logSty.keyStyle, logSty.c, logSty.keyCodeStyle);}
+            if(!s.q){
+                if(event.key == ' ' || event.key == 'Enter') {pause();}
+                if(event.key == '`') {openS();}
+                // if(event.key == 'CapsLock') {lockKeys();}
+                if(event.key == 'CapsLock') {s.lockKeys = !s.lockKeys;}
+                if(!s.lockKeys){
+                    if(event.key == 'l' || event.key == 'L') {toggleLog();}
+                    if(event.key == 'i' || event.key == 'I') {toggleTags();}
+                }
+                // displayKeyLog0(event.key);
+                // displayKeyLog1(event.key);
+                // displayKeyLog2(event.key);
+                // displayKeyLog3(event.key);
+                displayKeyLog4(event.key);
+            }
+
+            if (event.defaultPrevented) {
+                return;
+            }
+
+            event.preventDefault();
+        }, true);
+
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            updateSettings();
+        });
+
+        /* Update Settings */
+        function updateLimit(){
+            let keyH = s.tile.h + s.tile.margin;
+            
+            let largestKey_chars = 9;
+            let keyMP = s.tile.padding + s.tile.margin;
+            let largestKey_w = (largestKey_chars * s.char.w) + keyMP;
+            let largestKeyArea = largestKey_w * keyH;
+
+            let displayLim = s.display.w * s.display.h;
+            let keyLimCount = (displayLim) - (msg_w * keyH) / largestKeyArea;
+            s.keyLimit = keyLimCount;
+        }
+        function updateSettings(){
+            s.h = window.innerHeight;
+            s.w = window.innerWidth;
+
+            /* header:48px + fotter:36px + shelf-margin-top:24px + shelf-padding:32px = 140px */
+            // let h = s.h * .94 - 140;
+
+            /* (s.h * 94) because main has a margin of 3vh for top and bottom. */
+            /* (s.w * 95) because main has width of 95vw. */
+            /* header[h]:48px + fotter[h]:36px = 84px */
+            /* header[h]:48px + fotter[h]:36px + shelf[margin-top]:24px = 108px */
+            let h = s.h * .94 - 108;
+            let w = s.w * .95;
+            
+            s.display.w = w - s.grid.margin;
+            s.display.h = h - s.grid.margin;
+
+            let tile_h = s.tile.h + s.tile.margin; /* 34 */
+            /* 'grid_h' is the max height for the display now. */
+            let grid_h = Math.floor((h - s.grid.margin) / tile_h) * tile_h;
+            s.grid.h = grid_h;
+
+            let display = document.getElementById('display');
+            display.style = `max-height: ${grid_h}px;`;
+
+            // s.grid.cols = Math.floor((w - s.grid.margin) / s.tile.w);
+            // s.grid.rows = Math.floor((h - s.grid.margin) / s.tile.h);
+            
+            s.grid.cols = Math.floor((w - s.grid.margin) / (s.tile.w + s.tile.margin));
+            s.grid.rows = Math.floor((h - s.grid.margin) / (s.tile.h + s.tile.margin));
+
+            console.log(`%cw: %c${s.w}%c, h: %c${s.h}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+            console.log(`%cw: %c${w}%c, h: %c${h}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+            console.log(`%ccols: %c${s.grid.cols}%c, rows: %c${s.grid.rows}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+
+            updateLimit();
+            console.log(`%cdisplay.w: %c${s.display.w}%c, display.h: %c${s.display.h}`, logSty.c, logSty.bool, logSty.c, logSty.bool);
+        }
+
+        /* Log Style */
+        const logSty = {
+            's': `background-color: #fff; color: #000; padding: .0625rem .125rem; border-radius: .25rem; font-weight: bold;`,
+            'c': `color: #ccc;`,
+
+            'keyCodeStyle': `background-color: #0369; padding: 2px 4px; border-radius: 4px; color: #39f;`,
+            'keyStyle': `background: linear-gradient(180deg,#eee,#ddd); margin: 2px; padding: 4px 6px; border-radius: 4px; color: #111; font-size: .9rem; font-weight: 700; border-bottom: 2px solid #aaa; line-height: 1;`,
+
+            'setting': `color: #fff;`,
+            'bool': `background-color: #39f2; color: #39f; padding: .0625rem .25rem; border-radius: .25rem;`,
+        }
+        /* sLog → settingsLog() */
+        function sLog(s_log = ['']){
+            if(Array.isArray(s_log)){
+                console.log(...s_log);
+            }
+            if(typeof s_log == 'string'){
+                console.log(s_log);
+            }
+        }
+        function safeLog(arr = ['']){
+            if(!s.q){
+                if(s.log){
+                    if(Array.isArray(arr)){
+                        console.log(...arr);
+                    }
+                    if(typeof arr == 'string'){
+                        console.log(arr);
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

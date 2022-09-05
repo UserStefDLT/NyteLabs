@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en" onmousemove>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>btn text | lab-c | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+    </style>
+    <style>
+        #display > div,
+        .box {
+            margin: 1rem 3rem; 
+            outline: 1px dashed #036;
+            outline-offset: 4px; 
+            border-radius: 4px; 
+            color: #999;
+        }
+        #display > div > p,
+        .para {
+            box-shadow: 
+            0px 5px 0px -4px #fff3, 
+            0px -5px 0px -4px #fff3; 
+            margin: .25rem; 
+            padding: .25rem;
+        }
+        /* .box p > span::after,
+        .word::after {content: ' ';} */
+
+        /* .box p > span > span:nth-child(1),
+        .half {
+            text-decoration: underline #06c;
+        } */
+        /* .box p > span > span:nth-child(1) > span:nth-child(1),
+        .first {
+            color: #06c;
+            font-weight: bold;
+        } */
+        .submitBtn {
+            font-size: 16px;
+            margin: .5rem .5rem;
+            padding: .25rem .5rem;
+            border-radius: .25rem;
+
+            padding: .5em 1em;
+            border-radius: .5rem;
+            
+            border: 0;
+            color: #fff;
+            text-shadow: 1px 1px 1px #1119;
+            background-image: linear-gradient(to bottom, #39f, #06c);
+
+            cursor: pointer;
+
+            box-shadow: 0 0 0em 0em #39f0;
+            /* box-shadow: 0 0 0em #39f0; */
+            transition: box-shadow 200ms ease-in-out;
+        }
+        .submitBtn:hover {
+            /* box-shadow: 0 0 .25em .25em #39f9; */
+            box-shadow: 0 0 .5em #39f9;
+            box-shadow: 0 0 .5em .25em #39f9;
+        }
+        .debugBtn {
+            font-size: 16px;
+            margin: .5rem .5rem;
+            padding: .25rem .5rem;
+            border-radius: .25rem;
+
+            padding: .5em 1em;
+            border-radius: .5rem;
+            
+            border: 0;
+            color: #fff;
+            text-shadow: 1px 1px 1px #1119;
+            background-image: linear-gradient(to bottom, #f93, #c60);
+            background-image: linear-gradient(to bottom, #ccc, #666);
+
+            cursor: pointer;
+
+            box-shadow: 0 0 0em 0em #39f0;
+            /* box-shadow: 0 0 0em #39f0; */
+            transition: box-shadow 200ms ease-in-out;
+        }
+        .debugBtn:hover {
+            /* box-shadow: 0 0 .25em .25em #39f9; */
+            box-shadow: 0 0 .5em #f939;
+            box-shadow: 0 0 .5em .25em #f939;
+        }
+        #input-view .row,
+        #input-view .col {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            box-sizing: border-box;
+            border: 0;
+        }
+        #input-view .row {flex-direction: row;}
+        #input-view .col {flex-direction: column;}
+    </style>
+    <style>
+        :root {
+            --mt: 0rem;
+            --mb: 0rem;
+
+            --bwt: #0000;
+            --bw9: #999;
+            --bwc: #ccc;
+            --clr-primary: #39f;
+
+            --clr-line: var(--bwt);
+            
+            /* --word--clr: var(--bwt);
+            --word--clr-line: var(--bwt);
+            --word--clr-bg: var(--bwt);
+            --half--clr: var(--bwt);
+            --half--clr-line: var(--bwt);
+            --half--clr-bg: var(--bwt);
+            --first--clr: var(--bwt);
+            --first--clr-line: var(--bwt);
+            --first--clr-bg: var(--bwt); */
+
+            --word--clr: var(--bw9);
+            --word--clr-line: var(--bwt);
+            --word--clr-bg: var(--bwt);
+            --half--clr: var(--bwc);
+            --half--clr-line: var(--clr-primary);
+            --half--clr-bg: var(--bwt);
+            --first--clr: var(--clr-primary);
+            --first--clr-line: var(--bwt);
+            --first--clr-bg: var(--bwt);
+
+            /* "--word--clr": "#999",
+            "--word--clr-line": "#0000",
+            "--half--clr": "#ccc",
+            "--half--clr-line": "#39f",
+            "--first--clr": "#06c",
+            "--first--clr-line": "#0000",
+            "--font-size": "16px", */
+
+            --font-size: 16px;
+        }
+        /* [id="half--text-decoration-line"]:checked ~ main 
+        .box p > span > span:nth-child(1),
+        .half {
+            text-decoration: underline #06c;
+        } */
+
+        [id="word--color"]:checked ~ main .word {color: var(--word--clr);}
+
+        .half {text-decoration-color: var(--half--clr-line);}
+        [id="half--color"]:checked ~ main .half {color: var(--half--clr);}
+        [id="first--color"]:checked ~ main .first {color: var(--first--clr);}
+
+        [id="half--bold"]:checked ~ main .half {font-weight: bold;}
+        [id="first--bold"]:checked ~ main .first {font-weight: bold;}
+
+        [id="half--text-decoration-line"] ~ main .half {
+            text-decoration-line: none;
+        }
+        [id="half--text-decoration-line"]:checked ~ main .half {
+            text-decoration-line: underline;
+        }
+        [id="half--text-decoration-style--solid"]:checked ~ main .half {text-decoration-style: solid;}
+        [id="half--text-decoration-style--double"]:checked ~ main .half {text-decoration-style: double;}
+        [id="half--text-decoration-style--dotted"]:checked ~ main .half {text-decoration-style: dotted;}
+        [id="half--text-decoration-style--dashed"]:checked ~ main .half {text-decoration-style: dashed;}
+        [id="half--text-decoration-style--wavy"]:checked ~ main .half {text-decoration-style: wavy;}
+
+        #display {
+            font-size: calc(var(--font-size) * 1px);
+        }
+
+
+        /* 
+        color: var(--clr);
+        text-decoration-color: var(--clr-deco);
+        text-shadow: var(--shw-x) var(--shw-y) var(--shw-blur) var(--shw-clr);
+
+
+        font-family: Helvetica, Arial, sans-serif;
+
+        font-size: 12px;
+        font-size: 14px;
+        font-size: 16px;
+        font-size: 18px;
+        font-size: 20px;
+
+        font-style: normal;
+        font-style: italic;
+        font-style: oblique;
+
+        font-weight: lighter;
+        font-weight: normal;
+        font-weight: bold;
+        font-weight: bolder;
+
+        text-transform: none;
+        text-transform: uppercase;
+        text-transform: lowercase;
+        text-transform: capitalize;
+        text-transform: full-width;
+
+        text-decoration: none;
+        text-decoration: underline;
+        text-decoration: overline;
+        text-decoration: line-through;
+
+        text-decoration-line: none;
+        text-decoration-line: underline;
+        text-decoration-line: overline;
+        text-decoration-line: line-through;
+        text-decoration-line: underline overline;
+
+        text-decoration-style: solid;
+        text-decoration-style: double;
+        text-decoration-style: dotted;
+        text-decoration-style: dashed;
+        text-decoration-style: wave;
+        
+        text-decoration-color: blue;
+
+        text-shadow: ;
+        
+        text-align: left;
+        text-align: right;
+        text-align: center;
+        text-align: justify;
+
+        line-height: 1.6;
+
+        letter-spacing: ;
+
+        word-spacing: ;
+
+        word-break: break-word;
+        */
+
+        .settings,
+        .set, 
+        .block,
+        .row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+
+        .settings {
+            outline: 1px dashed #fff9;
+            border-radius: 1rem;
+            margin: 0rem;
+            padding: .5rem;
+        }
+        section.set {
+            width: 100%;
+            margin: 0 1rem;
+            padding: .5rem;
+            border-radius: .5rem;
+            outline: 1px solid #fff9;
+            outline-offset: -2px;
+        }
+        .block {
+            width: 100%;
+            border-bottom: 1px solid #9993;
+            /* border-top: 1px solid #9993; */
+            padding-bottom: .25rem;
+            margin-bottom: .25rem;
+        }
+        .row {
+            width: 100%;
+            /* margin: 0 1rem; */
+            /* padding: 0 1rem; */
+            border-bottom: 1px solid #9993;
+            /* border-top: 1px solid #9993; */
+            /* justify-content: space-around; */
+            flex-direction: row;
+            padding-bottom: .25rem;
+            margin-bottom: .25rem;
+        }
+        .block .row {
+            border-bottom: 1px dashed #9993;
+            /* border-top: 1px dashed #9993; */
+        }
+        .row.left {
+            justify-content: flex-start;
+            border-bottom: 0px solid #9990;
+            /* border-top: 0px solid #9990; */
+            padding-bottom: .0625rem;
+            margin-bottom: .0625rem;
+        }
+
+        h3, h4 {
+            /* --mt: .5rem;
+            --mb: .25rem;
+            --txt-vh: calc(var(--mt) + 1em + var(--mb));
+            --half-vh: calc(var(--txt-vh) / 2);
+            --half-vh: calc((var(--mt) + 1em + var(--mb)) / 2); */
+
+            margin: .5rem auto .25rem;
+            border-bottom: 1px solid #9993;
+        }
+
+        label {
+            margin: .125rem .25rem;
+        }
+
+        /* [name="half--text-decoration-style"],
+        [id="half--text-decoration-line"] {display: none;} */
+
+        /* label[data-toggle="checkbox"] {
+            --half-vh: calc((var(--mt) + 1em + var(--mb)) / 2);
+        } */
+        label[data-toggle="checkbox"],
+        label[for="half--text-decoration-line"] {
+            position: relative;
+        }
+
+        label[data-toggle="checkbox"] {
+            position: relative;
+            margin-right: 3rem;
+        }
+
+
+        label[data-toggle="checkbox"]::before,
+        label[data-toggle="checkbox"]::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            transform: translateX(.5rem) translateY(-50%);
+            
+            transition: 
+            transform 200ms ease-in-out, 
+            box-shadow 200ms ease-in-out, 
+            background-color 200ms ease-in-out;
+        }
+        label[data-toggle="checkbox"]::before {
+            height: 1rem; width: 2rem;
+            border-radius: 100vmax;
+            background-color: #021;
+
+            /* outline: 1px outset #999; */
+            /* box-shadow: inset 1px 1px 2px #1119; */
+        }
+        label[data-toggle="checkbox"]::after {
+            height: 1rem; width: 1rem;
+            border-radius: 50%;
+            background-color: #777;
+            background-color: #eee;
+            
+            /* box-shadow: 0px 0px 2px 0px #1119; */
+        }
+
+        /* 
+        custom--style
+        word--style
+        half--style
+        first--style
+        word--color
+        half--color
+        first--color
+         */
+        [id="custom--style"]:checked ~ main label[for="custom--style"]::after,
+        [id="word--style"]:checked ~ main label[for="word--style"]::after,
+        [id="half--style"]:checked ~ main label[for="half--style"]::after,
+        [id="first--style"]:checked ~ main label[for="first--style"]::after,
+
+        [id="word--color"]:checked ~ main label[for="word--color"]::after,
+
+        [id="half--bold"]:checked ~ main label[for="half--bold"]::after,
+        [id="half--color"]:checked ~ main label[for="half--color"]::after,
+        [id="half--text-decoration-color"]:checked ~ main label[for="half--text-decoration-color"]::after,
+        [id="half--text-decoration-line"]:checked ~ main label[for="half--text-decoration-line"]::after,
+
+        [id="first--bold"]:checked ~ main label[for="first--bold"]::after,
+        [id="first--color"]:checked ~ main label[for="first--color"]::after,
+        [id="first--color-bg"]:checked ~ main label[for="first--color-bg"]::after {
+            background-color: #eee;
+            transform: translateX(1.5rem) translateY(-50%);
+        }
+        
+        [id="custom--style"]:checked ~ main label[for="custom--style"]::before,
+        [id="word--style"]:checked ~ main label[for="word--style"]::before,
+        [id="half--style"]:checked ~ main label[for="half--style"]::before,
+        [id="first--style"]:checked ~ main label[for="first--style"]::before,
+
+        [id="word--color"]:checked ~ main label[for="word--color"]::before,
+
+        [id="half--bold"]:checked ~ main label[for="half--bold"]::before,
+        [id="half--color"]:checked ~ main label[for="half--color"]::before,
+        [id="half--text-decoration-color"]:checked ~ main label[for="half--text-decoration-color"]::before,
+        [id="half--text-decoration-line"]:checked ~ main label[for="half--text-decoration-line"]::before,
+
+        [id="first--bold"]:checked ~ main label[for="first--bold"]::before,
+        [id="first--color"]:checked ~ main label[for="first--color"]::before,
+        [id="first--color-bg"]:checked ~ main label[for="first--color-bg"]::before {
+            /* background-color: #3f9; */
+            background-color: #0c6;
+        }
+
+
+        /* [id="custom--style"]:disabled ~ main label[for="custom--style"]::before,
+        [id="word--style"]:disabled ~ main label[for="word--style"]::before,
+        [id="half--style"]:disabled ~ main label[for="half--style"]::before,
+        [id="first--style"]:disabled ~ main label[for="first--style"]::before,
+        [id="word--color"]:disabled ~ main label[for="word--color"]::before,
+        [id="half--color"]:disabled ~ main label[for="half--color"]::before,
+        [id="first--color"]:disabled ~ main label[for="first--color"]::before,
+        [id="half--text-decoration-color"]:disabled ~ main label[for="half--text-decoration-color"]::before,
+        [id="half--text-decoration-line"]:disabled ~ main label[for="half--text-decoration-line"]::before {
+            background-color: #042;
+        } */
+
+        label[data-toggle="radio"],
+        .label-choice {
+            margin: .25rem;
+            padding: .125rem .25rem;
+            outline: 1px solid #fff9;
+            border-radius: .25rem;
+            text-shadow: 1px 1px 1px #1119;
+        }
+        [for|="half--text-decoration-style-"] {
+            /* --clr-line: #39f; */
+            text-decoration: underline;
+            /* text-decoration-color: var(--clr-line); */
+            text-decoration-color: var(--half--clr-line);
+            padding: .25rem;
+        }
+        [id="half--text-decoration-style--solid"]:checked ~ main label[for="half--text-decoration-style--solid"],
+        [id="half--text-decoration-style--double"]:checked ~ main label[for="half--text-decoration-style--double"],
+        [id="half--text-decoration-style--dotted"]:checked ~ main label[for="half--text-decoration-style--dotted"],
+        [id="half--text-decoration-style--dashed"]:checked ~ main label[for="half--text-decoration-style--dashed"],
+        [id="half--text-decoration-style--wavy"]:checked ~ main label[for="half--text-decoration-style--wavy"] {
+            background-color: #39f9;
+            background-image: linear-gradient(to bottom, #39f, #036);
+        }
+
+        /* [id="half--text-decoration-line"]:disabled ~ main label[for="half--text-decoration-style--solid"],
+        [id="half--text-decoration-line"]:disabled ~ main label[for="half--text-decoration-style--double"],
+        [id="half--text-decoration-line"]:disabled ~ main label[for="half--text-decoration-style--dotted"],
+        [id="half--text-decoration-line"]:disabled ~ main label[for="half--text-decoration-style--dashed"],
+        [id="half--text-decoration-line"]:disabled ~ main label[for="half--text-decoration-style--wavy"] {
+            background-image: linear-gradient(to bottom, #999, #333);
+            color: #9993;
+        } */
+
+        [id="half--text-decoration-style--solid"]:disabled ~ main label[for="half--text-decoration-style--solid"],
+        [id="half--text-decoration-style--double"]:disabled ~ main label[for="half--text-decoration-style--double"],
+        [id="half--text-decoration-style--dotted"]:disabled ~ main label[for="half--text-decoration-style--dotted"],
+        [id="half--text-decoration-style--dashed"]:disabled ~ main label[for="half--text-decoration-style--dashed"],
+        [id="half--text-decoration-style--wavy"]:disabled ~ main label[for="half--text-decoration-style--wavy"] {
+            background-image: linear-gradient(to bottom, #999, #333);
+            text-decoration-color: #999;
+            color: #999;
+        }
+
+        
+        [type="range"] {
+            position: relative;
+        }
+        [type="range"]::after {
+            /* content: attr("value") 'px'; */
+            content: attr(data-after) 'px';
+            position: absolute;
+            top: 50%; left: 100%;
+            transform: translateY(-50%);
+            color: white;
+            margin: .25rem;
+        }
+
+
+        details {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+        summary{
+            text-align: left;
+            margin: 0 0.5rem 0.5rem;
+        }
+        details .shelf {
+            margin-top: 0;
+        }
+
+        [type="color"] {
+            --bg-after: var(--bwt);
+            position: relative;
+            background-color: var(--bwt);
+            border: 0;
+        }
+        [type="color"]::after {
+            position: absolute;
+            content: '';
+            top: 50%; left: 50%;
+            height: 100%; width: 100%;
+            transform: translateX(-50%) translateY(-50%);
+            background-color: var(--bg-after);
+            /* background-image: linear-gradient(#3330, #0000); */
+            border-radius: 12px;
+        }
+        /* [type="color"]:not(:disabled) {
+            background-color: var(--bg-after);
+        } */
+        [type="color"]:disabled::after {
+            /* background-color: var(--bg-after); */
+            background-image: linear-gradient(#3339, #0009);
+        }
+
+        /* [id="word--color"]:checked ~ main label[for="word--color"]::before,
+        [id="half--color"]:checked ~ main label[for="half--color"]::before,
+        [id="half--text-decoration-color"]:checked ~ main label[for="half--text-decoration-color"]::before,
+        [id="first--color"]:checked ~ main label[for="first--color"]::before,
+        [id="first--color-bg"]:checked ~ main label[for="first--color-bg"]::before {
+            background-color: var(--bg-after);
+        } */
+
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">Text Style</div>
+        <div class="subtitle">Debug</div>
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+
+    <!-- <input type="hidden" name="hidden" data-half--text-decoration=""> -->
+    <!-- <input type="checkbox" name="text-decoration" id="half--text-decoration-line"> -->
+
+    <!-- custom--style -->
+    <input type="checkbox" name="custom--style" id="custom--style" class="hidden" checked>
+    <!-- word--style
+    half--style
+    first--style -->
+    <input type="checkbox" name="word--style" id="word--style" data-enabled-by="all" class="hidden" checked>
+    <input type="checkbox" name="half--style" id="half--style" data-enabled-by="all" class="hidden" checked>
+    <input type="checkbox" name="first--style" id="first--style" data-enabled-by="all" class="hidden" checked>
+    
+    <!-- word--color -->
+    <input type="checkbox" name="word--color" id="word--color" data-enabled-by="word" class="hidden" checked>
+
+    <!-- half--color -->
+    <input type="checkbox" name="half--bold" id="half--bold" data-enabled-by="half" class="hidden">
+    <input type="checkbox" name="half--color" id="half--color" data-enabled-by="half" class="hidden" checked>
+    <input type="checkbox" name="half--text-decoration" id="half--text-decoration-line" data-enabled-by="half" class="hidden" checked>
+    
+    <input type="radio" name="half--text-decoration-style" id="half--text-decoration-style--solid" data-enabled-by="half--text-decoration-line" class="hidden">
+    <input type="radio" name="half--text-decoration-style" id="half--text-decoration-style--double" data-enabled-by="half--text-decoration-line" class="hidden">
+    <input type="radio" name="half--text-decoration-style" id="half--text-decoration-style--dotted" data-enabled-by="half--text-decoration-line" class="hidden">
+    <input type="radio" name="half--text-decoration-style" id="half--text-decoration-style--dashed" data-enabled-by="half--text-decoration-line" class="hidden">
+    <input type="radio" name="half--text-decoration-style" id="half--text-decoration-style--wavy" data-enabled-by="half--text-decoration-line" class="hidden">
+
+    <input type="checkbox" name="half--text-decoration" id="half--text-decoration-color" data-enabled-by="half" class="hidden" checked>
+
+    <!-- first--color -->
+    <input type="checkbox" name="first--bold" id="first--bold" data-enabled-by="first" class="hidden">
+    <input type="checkbox" name="first--color" id="first--color" data-enabled-by="first" class="hidden" checked>
+    <input type="checkbox" name="first--color-bg" id="first--color-bg" data-enabled-by="first" class="hidden">
+
+<main>
+    <details>
+        <summary>
+            Style Options
+        </summary>
+        <div id="set" class="settings">
+            <h3>Settings</h3>
+            <!-- <h3><label for="custom--style" data-toggle="checkbox" data-disables="all">Settings</label></h3> -->
+            <section id="all" class="set">
+                <h4>Whole Word</h4>
+                <!-- <h4><label for="word--style" data-toggle="checkbox" data-disables="word">Whole Word</label></h4> -->
+                <div class="row" data-for="font-size">
+                    <label for="word--font-size">Font Size</label>
+                    <input type="range" id="range--word--font-size" name="font"
+                        min="8" max="32" step="2" value="16" data-after="16"
+                        data-input-update="true" data-var="--font-size" data-enabled-by="word--font-size">
+
+                    <select id="all--font-size-select" name="font-choice" class="hidden">
+                        <option value="8">8</option>
+                        <option value="10">10</option>
+                        <option value="12">12</option>
+                        <option value="14">14</option>
+                        <option value="16" selected>16</option>
+                        <option value="18">18</option>
+                        <option value="20">20</option>
+                        <option value="22">22</option>
+                        <option value="26">26</option>
+                        <option value="28">28</option>
+                        <option value="30">30</option>
+                        <option value="32">32</option>
+                    </select>
+                </div>
+                <div class="row" data-for="color">
+                    <label for="word--color" data-toggle="checkbox">Color</label>
+                    <input type="color" id="pick--all--color" name="color" data-enabled-by="word--color"
+                    data-var="--word--clr" data-input-update="true" value="#aaaaaa">
+                </div>
+            </section>
+
+            <section id="half" class="set">
+                <h4>First Half</h4>
+                <!-- <h4><label for="half--style" data-toggle="checkbox" data-disables="half">First Half</label></h4> -->
+                <div class="row" data-for="bold">
+                    <label for="half--bold" data-toggle="checkbox">Bold</label>
+                </div>
+                <div class="row" data-for="color">
+                    <label for="half--color" data-toggle="checkbox">Color</label>
+                    <input type="color" id="pick--half--color" name="color" data-enabled-by="half--color"
+                    data-var="--half--clr" data-input-update="true" value="#cccccc">
+                </div>
+                <div class="block" data-for="underline">
+                    <div class="row left">
+                        <label for="half--text-decoration-line" data-toggle="checkbox">Underline</label>
+                    </div>
+                    <div class="row">
+                        <label for="half--text-decoration-style">Style</label>
+                        <label class="label-choice" for="half--text-decoration-style--solid" style="text-decoration-style: solid;">solid</label>
+                        <label class="label-choice" for="half--text-decoration-style--double" style="text-decoration-style: double;">double</label>
+                        <label class="label-choice" for="half--text-decoration-style--dotted" style="text-decoration-style: dotted;">dotted</label>
+                        <label class="label-choice" for="half--text-decoration-style--dashed" style="text-decoration-style: dashed;">dashed</label>
+                        <label class="label-choice" for="half--text-decoration-style--wavy" style="text-decoration-style: wavy;">wavy</label>
+                    </div>
+                    <div class="row">
+                        <!-- <label for="half--text-decoration-color" data-toggle="checkbox">Color</label> -->
+                        <label for="half--text-decoration-color">Color</label>
+                        <!-- <input type="color" id="pick--half--text-decoration-color" name="color" data-enabled-by="half--text-decoration-color"
+                        data-var="--half--clr-line" data-input-update="true" value="#3399ff"> -->
+                        <input type="color" id="pick--half--text-decoration-color" name="color"  data-enabled-by="half--text-decoration-line"
+                        data-var="--half--clr-line" data-input-update="true" value="#3399ff">
+                    </div>
+                </div>
+            </section>
+
+            <section id="first" class="set">
+                <h4>First Letter</h4>
+                <!-- <h4><label for="first--style" data-toggle="checkbox" data-disables="first">First Letter</label></h4> -->
+                <div class="row" data-for="bold">
+                    <label for="first--bold" data-toggle="checkbox">Bold</label>
+                </div>
+                <div class="row" data-for="color">
+                    <label for="first--color" data-toggle="checkbox">Color</label>
+                    <input type="color" id="pick--first--color" name="color" data-enabled-by="first--color"
+                    data-var="--first--clr" data-input-update="true" value="#3399ff">
+                </div>
+                <!-- <div class="row" data-for="color-bg">
+                    <label for="first--color-bg" data-toggle="checkbox">Background Color</label>
+                    <input type="color" id="pick--first--color-bg" name="color" data-enabled-by="first--color-bg"
+                    data-var="--first--clr-bg" data-input-update="true" value="#000000" disabled>
+                </div> -->
+            </section>
+        </div>
+    </details>
+    <details open>
+        <summary>
+            Input
+            <!-- <div class="shelf-title">Input</div> -->
+        </summary>
+        <div id="input-view" class="shelf">
+            <div class="row">
+                <textarea name="input" id="input" cols="30" rows="10"></textarea>
+                <div class="col">
+                    <button type="button" id="WordBreakBtn" class="submitBtn" onclick="WordBreak()">Submit</button>
+                    <div id="WordDebugBtn" class="debugBtn" onclick="WordDebug()">Word Debug</div>
+                </div>
+            </div>
+        </div>
+    </details>
+    <details id="result-view">
+        <summary>
+            Result
+            <!-- <div class="shelf-title">Result</div> -->
+        </summary>
+        <div class="shelf">
+            <!-- <div class="shelf-title">Output</div> -->
+            <div id="display"></div>
+        </div>
+    </details>
+
+    <details id="result-view">
+        <summary>
+            Debug
+        </summary>
+        <div class="shelf">
+            <pre id="log"></pre>
+        </div>
+    </details>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        function WordDebug(){
+            let i = 0;
+            let logElement = document.getElementById('log');
+            logElement.innerHTML = '';
+            logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → Start of log.</p>`;
+            i++;
+
+            let inputElement = document.getElementById('input');
+            let txt = inputElement.value;
+            
+            logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → txt: ${txt}</p>`;
+            i++;
+
+            var box = [`<div class="box">`];
+            // logElement.innerHTML += `<p>box[0]: ${box[0]}</p>`;
+            logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → box.length: ${box.length}</p>`;
+            i++;
+            let paragraphs = txt.split(/\n+/gi);
+
+            paragraphs.forEach(p=>{
+                let p2 = [`<p class="para">`];
+                logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → p2.length: ${p2.length}</p>`;
+                i++;
+                let words = p.split(' ');
+                // logElement.innerHTML += `<p>words: ${words}</p>`;
+                logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → words: ${words}</p>`;
+                i++;
+                words.forEach(word=>{
+                    logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → word: ${word}</p>`;
+                    i++;
+
+                    let half = Math.round(word.length/2);
+                    logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → half: ${half}</p>`;
+                    i++;
+
+                    // p2.push(`<span class="word"><span class="half" style="text-decoration: underline #06c;"><b style="color: #06c;">${word.at(0)}</b>${word.substring(1,half)}</span>${word.substring(half)}</span>`);
+                    p2.push(`<span class="word">`);
+                    logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → p2.length: ${p2.length}</p>`;
+                    i++;
+
+                    p2.push(`<span class="half" style="text-decoration: underline #06c;">`);
+                    logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → p2.length: ${p2.length}</p>`;
+                    i++;
+                    // here it stops in mobile.
+                    // p2.push(`<b style="color: #06c;">${word.at(0)}</b>`);
+                    p2.push(`<b style="color: #06c;">${word[0]}</b>`);
+                    logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → word[0]: ${word[0]}</p>`;
+                    i++;
+                    logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → p2.length: ${p2.length}</p>`;
+                    i++;
+                    p2.push(`${word.substring(1,half)}`);
+                    logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → word.substring(1,half): ${word.substring(1,half)}</p>`;
+                    i++;
+                    logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → p2.length: ${p2.length}</p>`;
+                    i++;
+                    p2.push(`</span>${word.substring(half)}`);
+                    logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → p2.length: ${p2.length}</p>`;
+                    i++;
+                    p2.push(`</span> `);
+                    logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → p2.length: ${p2.length}</p>`;
+                    i++;
+
+                    // p2.push(`
+                    // <span class="word">
+                    //     <span class="half" style="text-decoration: underline #06c;">
+                    //         <b style="color: #06c;">${word.at(0)}</b>${word.substring(1,half)}
+                    //     </span>${word.substring(half)}
+                    // </span>`);
+                    // p2j = p2.join('');
+                    // logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → p2.join(''): ${p2.join('')}</p>`;
+                    // logElement.innerText += p2.join('');
+                    logElement.innerHTML += `<p> ───── [<span style="color: red;">i:${i}</span>] → end of p2 word. ───── </p>`;
+                    i++;
+                });
+                logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → end of words.</p>`;
+                i++;
+                
+                p2.push(`<p>`);
+                logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → p2.join(''): ${p2.join('')}</p>`;
+                i++;
+
+                box.push(p2.join(''));
+                logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → box.length: ${box.length}</p>`;
+                i++;
+
+                // logElement.innerHTML += `<p>p2.join(' '): ${p2.join(' ')}</p>`;
+            });
+            box.push(`</div>`);
+            logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → end of box.</p>`;
+            i++;
+            
+            logElement.innerHTML += `<p>[<span style="color: red;">i:${i}</span>] → box.join(''): ${box.join('')}.</p>`;
+            i++;
+            // logElement.innerHTML += `<p>box.join(''): ${box.join('')}</p>`;
+            let displayElement = document.getElementById('display');
+            displayElement.innerHTML = box.join('');
+        }
+
+        function WordStyle5(txt){
+            var box = document.createElement('div');
+            let paragraphs = txt.split(/\n+/gi);
+            if(box.children.length > 0){
+                for(let i = box.children.length - 1; i > -1; i--){
+                    box.children[i].remove();
+                }
+            }
+            paragraphs.forEach(p=>{
+                // let p2 = [];
+                let p2 = '';
+                let words = p.split(' ');
+                let p2e = document.createElement('p');
+                words.forEach(word=>{
+                    let half = Math.round(word.length/2);
+                    // p2.push(`<span class="word"><span class="half" style="text-decoration: underline #06c;"><b style="color: #06c;">${word.at(0)}</b>${word.substring(1,half)}</span>${word.substring(half)}</span>`);
+                    // p2.push(`<span class="word"><span class="half"><span class="first">${word.at(0)}</span>${word.substring(1,half)}</span>${word.substring(half)}</span> `);
+                    p2 += `<span class="word"><span class="half"><span class="first">${word.at(0)}</span>${word.substring(1,half)}</span>${word.substring(half)}</span> `;
+                });
+                // p2e.innerHTML = p2.join('');
+                p2e.innerHTML = p2;
+                box.appendChild(p2e);
+            });
+            return box;
+        }
+
+        function WordStyle4(txt){
+            let box = document.createElement('div');
+            box.classList.add('box');
+            let paragraphs = txt.split(/\n+/gi);
+            paragraphs.forEach(p=>{
+                // let p2 = [];
+                let words = p.split(' ');
+                let p2e = document.createElement('p');
+                // p2e.classList.add('para');
+                words.forEach(w=>{
+                    let h = Math.round(w.length/2);
+                    let word = document.createElement('span');
+                    // word.classList.add('word');
+
+                    let half = document.createElement('span');
+                    // half.classList.add('half');
+
+                    let first = document.createElement('span');
+                    // first.classList.add('first');
+                    first.innerText = w.at(0);
+
+                    // let afterFirst = document.createElement('span');
+                    // afterFirst.innerText = w.substring(1,h);
+
+                    half.appendChild(first);
+                    // half.appendChild(afterFirst);
+                    half.innerText += w.substring(1,h);
+
+                    // let secondHalf = document.createElement('span');
+                    // // secondHalf.classList.add('secondHalf');
+                    // secondHalf.innerText = w.substring(h) + ' ';
+                    // // secondHalf.innerText = w.substring(h);
+
+                    word.appendChild(half);
+                    // word.appendChild(secondHalf);
+                    word.innerText += w.substring(h) + ' ';
+
+                    p2e.appendChild(word);
+                });
+                box.appendChild(p2e);
+            });
+            return box;
+        }
+
+        function WordStyle3(txt){
+            let box = document.createElement('div');
+            box.classList.add('box');
+            let paragraphs = txt.split(/\n+/gi);
+            paragraphs.forEach(p=>{
+                // let p2 = [];
+                let words = p.split(' ');
+                let p2e = document.createElement('p');
+                // p2e.classList.add('para');
+                words.forEach(w=>{
+                    let h = Math.round(w.length/2);
+                    let word = document.createElement('span');
+                    // word.classList.add('word');
+
+                    let half = document.createElement('span');
+                    // half.classList.add('half');
+
+                    let first = document.createElement('span');
+                    // first.classList.add('first');
+                    first.innerText = w.at(0);
+
+                    let afterFirst = document.createElement('span');
+                    afterFirst.innerText = w.substring(1,h);
+
+                    half.appendChild(first);
+                    half.appendChild(afterFirst);
+
+                    let secondHalf = document.createElement('span');
+                    // secondHalf.classList.add('secondHalf');
+                    secondHalf.innerText = w.substring(h) + ' ';
+                    // secondHalf.innerText = w.substring(h);
+
+                    word.appendChild(half);
+                    word.appendChild(secondHalf);
+
+                    p2e.appendChild(word);
+                });
+                box.appendChild(p2e);
+            });
+            return box;
+        }
+
+        function WordStyle2(txt){
+            let box = document.createElement('div');
+            box.classList.add('box');
+            let paragraphs = txt.split(/\n+/gi);
+            if(box.children.length > 0){
+                for(let i = box.children.length - 1; i > -1; i--){
+                    box.children[i].remove();
+                }
+            }
+            paragraphs.forEach(p=>{
+                // let p2 = [];
+                let words = p.split(' ');
+                let p2e = document.createElement('p');
+                p2e.classList.add('para');
+                words.forEach(w=>{
+                    let h = Math.round(w.length/2);
+                    let word = document.createElement('span');
+                    word.classList.add('word');
+
+                    let half = document.createElement('span');
+                    half.classList.add('half');
+
+                    let first = document.createElement('span');
+                    first.classList.add('first');
+                    first.innerText = w.at(0);
+
+                    let afterFirst = document.createElement('span');
+                    afterFirst.innerText = w.substring(1,h);
+
+                    half.appendChild(first);
+                    half.appendChild(afterFirst);
+
+                    let secondHalf = document.createElement('span');
+                    secondHalf.classList.add('secondHalf');
+                    secondHalf.innerText = w.substring(h) + ' ';
+
+                    word.appendChild(half);
+                    word.appendChild(secondHalf);
+
+                    p2e.appendChild(word);
+                });
+                box.appendChild(p2e);
+            });
+            return box;
+        }
+        
+        function WordStyle1(txt){
+            var box = document.createElement('div');
+            box.style = 'margin: 1rem 3rem; outline: 1px dashed #036; outline-offset: 4px; border-radius: 4px; color: #999;';
+            box.classList.add('box');
+            let paragraphs = txt.split(/\n+/gi);
+            if(box.children.length > 0){
+                for(let i = box.children.length - 1; i > -1; i--){
+                    box.children[i].remove();
+                }
+            }
+            paragraphs.forEach(p=>{
+                let p2 = [];
+                let words = p.split(' ');
+                words.forEach(word=>{
+                    let half = Math.round(word.length/2);
+                    p2.push(`<span class="word"><span class="half" style="text-decoration: underline #06c;"><b style="color: #06c;">${word.at(0)}</b>${word.substring(1,half)}</span>${word.substring(half)}</span>`);
+                });
+                let p2e = document.createElement('p');
+                p2e.classList.add('para');
+                // p2e.style = 'box-shadow: 0px 5px 0px -4px #fff3, -2px 0px 0px 0px #fff6';
+                p2e.style = 'box-shadow: 0px 5px 0px -4px #fff3, 0px -5px 0px -4px #fff3; margin: .25rem; padding: .25rem;';
+                p2e.innerHTML = p2.join(' ');
+                box.appendChild(p2e);
+            });
+            return box;
+        }
+        
+        function WordStyle0(txt){
+            var box = document.createElement('div');
+            box.style = 'margin: 1rem 3rem; outline: 1px dashed #036;     outline-offset: 4px; border-radius: 4px; color: #999;';
+            box.classList.add('box');
+            let paragraphs = txt.split(/\n+/gi);
+            if(box.children.length > 0){
+                for(let i = box.children.length - 1; i > -1; i--){
+                    box.children[i].remove();
+                }
+            }
+            paragraphs.forEach(p=>{
+                let p2 = [];
+                let words = p.split(' ');
+                words.forEach(word=>{
+                    let half = Math.round(word.length/2);
+                    p2.push(`<span class="word"><span class="half" style="text-decoration: underline #06c;"><b style="color: #06c;">${word.at(0)}</b>${word.substring(1,half)}</span>${word.substring(half)}</span>`);
+                });
+                let p2e = document.createElement('p');
+                p2e.classList.add('para');
+                p2e.style = 'box-shadow: 0px 5px 0px -4px #fff3, -2px 0px 0px 0px #fff6';
+                p2e.style = 'box-shadow: 0px 5px 0px -4px #fff3, 0px -5px 0px -4px #fff3; margin: .25rem; padding: .25rem;';
+                p2e.innerHTML = p2.join(' ');
+                box.appendChild(p2e);
+            });
+            return box;
+        }
+
+        function WordBreak(){
+            let inputElement = document.getElementById('input');
+            let txt = inputElement.value;
+            // let txtBox = WordStyle2(txt);
+            let displayElement = document.getElementById('display');
+            // displayElement.appendChild(txtBox);
+
+            /* avg time for 1st chapter of 1st Nephi is 8ms. */
+
+            // console.time('v5');
+            // let txtBox5 = WordStyle5(txt);
+            // displayElement.appendChild(txtBox5);
+            // console.timeEnd('v5');
+
+            // console.time('v4');
+            // let txtBox4 = WordStyle4(txt);
+            // displayElement.appendChild(txtBox4);
+            // console.timeEnd('v4');
+
+            // console.time('v3');
+            // let txtBox3 = WordStyle3(txt);
+            // displayElement.appendChild(txtBox3);
+            // console.timeEnd('v3');
+
+            // console.time('v2');
+            let txtBox2 = WordStyle2(txt);
+            displayElement.appendChild(txtBox2);
+            // console.timeEnd('v2');
+
+            // console.time('v1');
+            // let txtBox1 = WordStyle1(txt);
+            // displayElement.appendChild(txtBox1);
+            // console.timeEnd('v1');
+
+            let resultView = document.getElementById('result-view');
+            if(!resultView.open){resultView.open = true;}
+        }
+
+
+        // var ColorVariables = {
+        //     "--word--clr": "#999",
+        //     "--word--clr-line": "#0000",
+        //     "--word--clr-bg": "#0000",
+        //     "--half--clr": "#0000",
+        //     "--half--clr-line": "#0000",
+        //     "--half--clr-bg": "#0000",
+        //     "--first--clr": "#06c",
+        //     "--first--clr-line": "#0000",
+        //     "--first--clr-bg": "#0000",
+        // }
+        var MyVariables = {
+            "--word--clr": "#aaa",
+            "--word--clr-line": "#0000",
+            "--half--clr": "#ccc",
+            "--half--clr-line": "#39f",
+            "--first--clr": "#06c",
+            "--first--clr-line": "#0000",
+            "--font-size": "16px",
+        }
+        function UpdateCustomVariables(){
+            let customStyle = [];
+            Object.keys(MyVariables).forEach(v => {
+                customStyle.push(`${v}: ${MyVariables[v]};`);
+            });
+            let display = document.getElementById('display');
+            display.style = customStyle.join('');
+        }
+
+        function ToggleDisable(ev){
+            let targerID = ev.target.attributes["for"].nodeValue;
+            let toggleLabels = document.querySelectorAll(`[data-enabled-by="${targerID}"]`);
+            // if(ev.target.dataset.disables != null){
+            //     toggleLabels = document.querySelectorAll(`data-enabled-by|="${targerID}"`);
+
+            //     if(ev.target.dataset.disables == 'all'){
+            //         toggleLabels = document.querySelectorAll(`data-enabled-by`);
+            //     }
+            // }
+            toggleLabels.forEach(tar => {
+                tar.disabled = !tar.disabled;
+            });
+            // item[i].disabled = !item[i].disabled;
+        }
+
+        function AddEvents(){
+            let customVariables = document.querySelectorAll(`[data-input-update="true"]`);
+            // let colors = document.querySelectorAll(`[type="color"]`);
+            customVariables.forEach(customElement => {
+                customElement.addEventListener('input', ev => {
+                    let color = ev.target.value;
+                    let variable = ev.target.dataset.var;
+                    ev.target.dataset.after = color;
+                    if(ev.target.type == "color"){
+                        // ev.target.style = `background-color: ${color};`
+                        // ev.target.style = `background-color: ${color}; --bg-after: ${color};`
+                        ev.target.style = `--bg-after: ${color};`
+                    }
+                    MyVariables[`${variable}`] = color;
+                    UpdateCustomVariables();
+                });
+                if(customElement.type == "color"){
+                    let variable = customElement.dataset.var;
+                    customElement.style = `--bg-after: ${MyVariables[`${variable}`]};`
+                }
+            });
+            let toggleLabels = document.querySelectorAll(`[data-toggle="checkbox"]`);
+            toggleLabels.forEach(label => {
+                label.addEventListener('click', ToggleDisable);
+            });
+
+            // let toggleLabels = document.querySelectorAll(`[data-toggle="checkbox"]`);
+            // toggleLabels.forEach(label => {
+            //     label.addEventListener('click', ev => {
+            //         let targerID = ev.target.attributes["for"].nodeValue;
+            //         let toggleLabels = document.querySelectorAll(`data-enabled-by="${targerID}"`);
+            //         toggleLabels.forEach(tar => {
+            //             tar.disabled = !tar.disabled;
+            //         });
+            //     });
+            // });
+        }
+        // window.addEventListener('load', (ev) => {
+        //     console.log(`Welcome to my Lab!`);
+        //     // WordTest();
+        //     AddEvents();
+        //     UpdateCustomVariables();
+
+        //     let WordBreakBtn = document.getElementById('WordBreakBtn');
+        //     // WordBreakBtn.addEventListener('click', WordBreak);
+        //     WordBreakBtn.addEventListener('click', (ev)=>{
+        //         let inputElement = document.getElementById('input');
+        //         let txt = inputElement.value;
+        //         let displayElement = document.getElementById('display');
+        //         let txtBox2 = WordStyle2(txt);
+        //         displayElement.appendChild(txtBox2);
+        //         let resultView = document.getElementById('result-view');
+        //         if(!resultView.open){resultView.open = true;}
+        //     });
+        //     // WordBreakBtn.addEventListener('touchend', WordBreak);
+        // });
+        
+        function WordTest(){
+            let inputElement = document.getElementById('input');
+            let txt = textUsedForTesting;
+            // let txtBox = WordStyle2(txt);
+            let displayElement = document.getElementById('display');
+            // displayElement.appendChild(txtBox);
+            
+            /* avg time for 1st chapter of 1st Nephi is 8ms. */
+            
+            // console.time('v3');
+            let txtBox2 = WordStyle2(txt);
+            displayElement.appendChild(txtBox2);
+            // console.timeEnd('v3');
+            
+            let resultView = document.getElementById('result-view');
+            if(!resultView.open){resultView.open = true;}
+        }
+
+        var textFromURL = `https://www.churchofjesuschrist.org/study/scriptures/bofm/1-ne/1?lang=spa`;
+        var textUsedForTesting = `1 Yo, Nefi, nací de buenos padres y recibí, por tanto, alguna instrucción en toda la ciencia de mi padre; y habiendo conocido muchas aflicciones durante el curso de mi vida, siendo, no obstante, altamente favorecido del Señor todos mis días; sí, habiendo logrado un conocimiento grande de la bondad y los misterios de Dios, escribo, por tanto, la historia de los hechos de mi vida.
+2 Sí, hago la relación en el lenguaje de mi padre, que se compone de la ciencia de los judíos y el idioma de los egipcios.
+3 Y sé que la historia que escribo es verdadera; y la escribo de mi propia mano, con arreglo a mis conocimientos.
+4 Pues sucedió que al comenzar el primer año del reinado de Sedequías, rey de Judá (mi padre Lehi había morado en Jerusalén toda su vida), llegaron muchos profetas ese mismo año profetizando al pueblo que se arrepintiera, o la gran ciudad de Jerusalén sería destruida.
+5 Aconteció, por tanto, que mientras iba por su camino, mi padre Lehi oró al Señor, sí, con todo su corazón, a favor de su pueblo.
+6 Y ocurrió que mientras estaba orando al Señor, apareció ante él, sobre una roca, un pilar de fuego; y fue mucho lo que vio y oyó; y se estremeció y tembló extremadamente por las cosas que vio y oyó.
+7 Y sucedió que volvió a su casa en Jerusalén, y se echó sobre su lecho, dominado por el Espíritu y por las cosas que había visto.
+8 Y dominado de esta manera por el Espíritu, fue arrebatado en una visión, en la que vio abrirse los cielos, y creyó ver a Dios sentado en su trono, rodeado de innumerables concursos de ángeles, en actitud de estar cantando y alabando a su Dios.
+9 Y sucedió que vio a Uno que descendía del cielo, y vio que su resplandor era mayor que el del sol al mediodía.
+10 Y vio también que lo seguían otros doce, cuyo brillo excedía al de las estrellas del firmamento.
+11 Y descendieron y avanzaron por la faz de la tierra; y el primero llegó hasta donde estaba mi padre, y le dio un libro y le mandó que lo leyera.
+12 Y sucedió que mientras leía, fue lleno del Espíritu del Señor.
+13 Y leyó, diciendo: ¡Ay, ay de ti, Jerusalén, porque he visto tus abominaciones! Sí, mi padre leyó muchas cosas concernientes a Jerusalén: que sería destruida, así como sus habitantes; que muchos perecerían por la espada y muchos serían llevados cautivos a Babilonia.
+14 Y acaeció que cuando mi padre hubo leído y visto muchas cosas grandes y maravillosas, prorrumpió en exclamaciones al Señor, tales como: ¡Cuán grandes y maravillosas son tus obras, oh Señor Dios Todopoderoso! ¡Tu trono se eleva en las alturas de los cielos, y tu poder, y tu bondad y misericordia se extienden sobre todos los habitantes de la tierra; y porque eres misericordioso, no dejarás perecer a los que acudan a ti!
+15 Así se expresaba mi padre en alabanzas a su Dios; porque su alma se regocijaba y todo su corazón estaba henchido a causa de las cosas que había visto, sí, que el Señor le había mostrado.
+16 Y yo, Nefi, no doy cuenta completa de lo que mi padre ha escrito, porque ha escrito muchas cosas que vio en visiones y sueños; y ha escrito también muchas cosas que profetizó y habló a sus hijos, de las que no daré cuenta entera,
+17 sino que haré una relación de los hechos de mi vida. He aquí, haré un compendio de los anales de mi padre sobre planchas que he preparado con mis propias manos; por tanto, después que los haya compendiado, escribiré la historia de mi propia vida.
+18 Por lo tanto, quisiera que supieseis que después que el Señor hubo mostrado a mi padre Lehi tantas cosas maravillosas, sí, con respecto a la destrucción de Jerusalén, he aquí, mi padre salió entre el pueblo y empezó a profetizar y a declararles concerniente a lo que él había visto y oído.
+19 Y aconteció que los judíos se burlaron de él por las cosas que testificó de ellos, porque verdaderamente les testificó de sus maldades y abominaciones; y les dio testimonio de que las cosas que había visto y oído, así como las que había leído en el libro, manifestaban claramente la venida de un Mesías y también la redención del mundo.
+20 Y cuando los judíos oyeron esto, se irritaron contra él, sí, tal como contra los profetas de la antigüedad, a quienes habían echado fuera, y apedreado, y matado; y procuraron también quitarle la vida. Pero he aquí, yo, Nefi, os mostraré que las tiernas misericordias del Señor se extienden sobre todos aquellos que, a causa de su fe, él ha escogido, para hacerlos poderosos, sí, hasta tener el poder de librarse.`;
+        
+
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            AddEvents();
+            UpdateCustomVariables();
+        });
+        // AddEvents();
+        // UpdateCustomVariables();
+        // window.addEventListener('load', (ev) => {
+        //     console.log(`Welcome to my Lab!`);
+        // });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Ant Maze | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+
+    </style>
+    <style>
+        /* Maze, grid, rows, tiles. */
+        :root {
+            --bg: var(--bwt);
+            --sz-tile: 1rem;
+            --sz-player: .75rem;
+
+            --bg--1: var(--bwt);
+            --bg-0: var(--bwe);
+            --bg-2: #c06;
+            --bg-3: #0c6;
+            --bg-1: #06c;
+            --bg-9: #c60;
+            --bg-5: #999;
+
+            --bg-0: hsl(0, 0%, 93%);
+            --bg-2: hsl(330, 100%, 40%);
+            --bg-3: hsl(150, 100%, 40%);
+            --bg-1: hsl(210, 100%, 40%);
+            --bg-9: hsl(30, 100%, 40%);
+            --bg-5: hsl(0, 0%, 60%);
+
+            --hue-2: 330;
+            --hue-3: 150;
+            --hue-1: 210;
+            --hue-9: 30;
+
+            --hue: 0;
+            --sat: 100%;
+            --lum: 40%;
+            --alp: 1;
+
+            --hsl: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+
+            /* --clr-contrast-tile: var(--bw1); */
+            /* --clr-contrast-tile: var(--bwe); */
+        }
+        #display {position: relative;}
+        .row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+        }
+        .tile {
+            position: relative;
+            height: var(--sz-tile);
+            width: var(--sz-tile);
+            background-color: var(--bg);
+            border-radius: .125rem;
+
+            --hsl-tile-borders: hsla(var(--hue), 0%, 93%, var(--alp));
+            --hsl: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+            background-color: var(--hsl);
+        }
+        /* .tile[data-type="-1"] {--bg: var(--bwt); --clr-contrast-tile: var(--bwf);}
+        .tile[data-type="0"] {--bg: var(--bwe);}
+        .tile[data-type="2"] {--bg: #c06; --hue: var(--hue-2);}
+        .tile[data-type="3"] {--bg: #0c6; --hue: var(--hue-3);}
+        .tile[data-type="1"] {--bg: #06c; --hue: var(--hue-1);}
+        .tile[data-type="9"] {--bg: #c60; --hue: var(--hue-9);}
+        .tile[data-type="5"] {--bg: #999; --sat: 0%;}
+        .tile[data-type="5"] {--bg: var(--bw9); --sat: 0%; --lum: 60%;} */
+        .tile[data-type="-1"] {background-color: var(--bwt);}
+
+        .tile[data-type="-1"] {--bg: var(--bwt); --sat: 0%; --lum: 0%; --alp: 0;}
+        .tile[data-type="0"] {--bg: var(--bwe); --hue: 210; --sat: 0%; --lum: 93%; --alp: 1;}
+        .tile[data-type="2"] {--bg: #c06; --hue: var(--hue-2); --sat: 100%; --lum: 40%; --alp: 1;}
+        .tile[data-type="3"] {--bg: #0c6; --hue: var(--hue-3); --sat: 100%; --lum: 40%; --alp: 1;}
+        .tile[data-type="1"] {--bg: #06c; --hue: var(--hue-1); --sat: 100%; --lum: 40%; --alp: 1;}
+        .tile[data-type="9"] {--bg: #c60; --hue: var(--hue-9); --sat: 100%; --lum: 40%; --alp: 1;}
+        .tile[data-type="5"] {--bg: #999; --sat: 0%;}
+        .tile[data-type="5"] {--bg: var(--bw9); --sat: 0%; --lum: 60%;}
+
+        .tile[data-type="-1"] {--bg: var(--bwt); --clr: var(--bwe);}
+        .tile[data-type="0"] {--bg: var(--bwe); --clr: var(--bw1);}
+        .tile[data-type="2"] {--bg: #c06; --clr: var(--bwf); --hue: var(--hue-2);}
+        .tile[data-type="3"] {--bg: #0c6; --clr: var(--bwf); --hue: var(--hue-3);}
+        .tile[data-type="1"] {--bg: #06c; --clr: var(--bwf); --hue: var(--hue-1);}
+        .tile[data-type="9"] {--bg: #c60; --clr: var(--bwf); --hue: var(--hue-9);}
+        .tile[data-type="5"] {--bg: #999; --clr: var(--bw0);}
+        .tile[data-type="5"] {--bg: var(--bw9);}
+
+        .row {--iRow: var(--i);}
+        .tile[data-type="0"] {z-index: 2;}
+        .tile[data-type="1"],
+        .tile[data-type="9"] {z-index: 3;}
+        .tile[data-type="2"],
+        .tile[data-type="3"] {z-index: 4;}
+        .tile[data-type="5"] {z-index: 5;}
+
+        .tile[data-type="1"]::after {content: 'start';}
+        .tile[data-type="5"]::after {content: 'you';}
+        .tile[data-type="9"]::after {content: 'exit';}
+        .tile[data-type="1"]::after,
+        .tile[data-type="5"]::after,
+        .tile[data-type="9"]::after {
+            display: none;
+            position: absolute;
+            top: 0%; left: 50%;
+            transform: translateX(-50%) translateY(-100%);
+            padding: .125rem .25rem;
+            border-radius: .25rem;
+            color: var(--bwf);
+            text-shadow: 0px 0px 2px var(--bw0);
+            /* background-color: var(--bg);
+            --hsl-dark: hsla(var(--hue), var(--sat), 20%, var(--alp));
+            border: 1px solid var(--bg); */
+            --hsl-dark: hsla(var(--hue), var(--sat), 20%, .75);
+            background-color: var(--hsl-dark);
+            border: 1px outset var(--bg);
+            box-sizing: border-box;
+            z-index: 8;
+        }
+
+        .tile[data-type="1"]:hover::after,
+        .tile[data-type="5"]:hover::after,
+        .tile[data-type="9"]:hover::after {display: flex;}
+
+
+        /* Easy */
+        /* #toggleBorder:checked ~ main .tile[data-type="1"],
+        #toggleBorder:checked ~ main .tile[data-type="9"],
+        #toggleBorder:checked ~ main .tile[data-type="0"] {
+            box-shadow: 0 0 0 4px var(--bwe);
+            box-sizing: border-box;
+        } */
+        #toggleBorder:checked ~ main .tile[data-type="1"],
+        #toggleBorder:checked ~ main .tile[data-type="9"] {
+            box-shadow: 0 0 0 2px var(--hsl-tile-borders);
+            box-sizing: border-box;
+        }
+        #toggleBorder:checked ~ main .tile[data-type="0"] {
+            box-shadow: 0 0 0 4px var(--hsl-tile-borders);
+            box-sizing: border-box;
+        }
+
+        .tile[data-type="5"],
+        .player {
+            position: absolute;
+            height: var(--sz-tile);
+            width: var(--sz-tile);
+            background-color: var(--bwt);
+
+            --x: 0;
+            --y: 0;
+
+            --xOff: calc(var(--sz-tile) * var(--x));
+            --yOff: calc(var(--sz-tile) * var(--y));
+
+            transform: translateX(var(--xOff)) translateY(var(--yOff));
+            transition: transform 200ms ease-in-out;
+
+            z-index: 5;
+        }
+        .tile[data-type="5"]::before,
+        .player::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+
+            height: var(--sz-player);
+            width: var(--sz-player);
+            border-radius: 50%;
+            /* --bg: #999; */
+            --bg: var(--bw9);
+            background-color: var(--bg);
+            box-shadow: 0 0 2px 2px var(--bw3);
+        }
+
+
+        .tile::before {
+            /* content: attr(data-x) "," attr(data-y); */
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            height: 100%; width: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            padding: .125rem;
+            font-size: 10px;
+
+            opacity: 0;
+            user-select: none;
+
+            width: max-content;
+            /* background-color: #1119; */
+            /* color: #fff; */
+            color: var(--clr);
+            text-shadow: 1px 1px 1px var(--bw0), 0px 0px 2px var(--bw0);
+
+
+            --step-hue: calc(var(--steps) * 5);
+            --step-clr: hsla(var(--step-hue), 100%, 50%, 1);
+            --step-shw: hsla(var(--step-hue), 100%, 10%, .25);
+            color: var(--step-clr);
+            text-shadow: 1px 1px 1px var(--step-shw), 0px 0px 2px var(--step-shw);
+            /* box-shadow: 
+            inset 0px 0px 0px var(--sz-tile) var(--step-shw), 
+            inset 0px 0px 2px calc(var(--sz-tile)/4) var(--bg); */
+            
+        }
+        .tile[data-type="1"]::before,
+        .tile[data-type="9"]::before {
+            color: var(--clr);
+            text-shadow: 1px 1px 1px var(--bw0), 0px 0px 2px var(--bw0);
+        }
+
+
+        .row {position: relative;}
+
+        .row::before {
+            /* content: attr(data-y); */
+            position: absolute;
+            top: 50%; left: 0%;
+            transform: translateX(-100%) translateY(-50%);
+            height: 100%; 
+            width: 2rem;
+            padding: 0 .25rem;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            opacity: 0;
+            opacity: .25;
+            user-select: none;
+            color: var(--bwf);
+
+            /* width: max-content;
+            background-color: #1119;
+            color: #fff; */
+        }
+        .row::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            height: 100%; width: 100%;
+            outline: 1px dashed #fff9;
+            outline-offset: -1px;
+            box-sizing: border-box;
+            user-select: none;
+            z-index: -1;
+        }
+
+    </style>
+    <style>
+        /* Canvas */
+        #display {
+            /* outline: 1px dashed #3f3; */
+            outline: 2px outset #eee;
+            outline-offset: 4px;
+        }
+        #canvas {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            height: 512px; width: 512px;
+            height: 75vmin; width: 75vmin;
+            height: 75vh; width: 75vw;
+            /* outline: 2px dotted #f39c; */
+            /* outline-offset: 4px; */
+            /* outline: 2px dotted #f93c; */
+
+            background-color: #0000;
+            z-index: 9;
+            z-index: -5;
+        }
+        .ant-inspector {
+            display: none;
+            position: absolute;
+            top: 50%; left: 50%;
+            --top: 0;
+            --left: 0;
+            top: calc(16px + var(--top) * 1px - 3px);
+            left: calc(75px + var(--left) * 1px - 3px);
+            /* transform: translateX(-50%) translateY(-50%); */
+            height: var(--sz-tile);
+            width: var(--sz-tile);
+            background-color: #0363;
+            background-color: #036;
+            box-shadow: inset 0 0 0 2px var(--bwf9);
+            box-shadow: inset 0 0 0 2px var(--bwf);
+            z-index: 9;
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/settings.css">
+    <style>
+        /* Settings. */
+        #toggleTags,
+        #toggleOpacity,
+        #toggleBorder {display: none;}
+        #toggleTags:checked ~ .options .toggleCheckboxLabel[for="toggleTags"],
+        #toggleOpacity:checked ~ .options .toggleCheckboxLabel[for="toggleOpacity"],
+        #toggleBorder:checked ~ .options .toggleCheckboxLabel[for="toggleBorder"] {
+            color: var(--bwe);
+            --clr-outline: var(--bwc);
+            --bgc-before: #063;
+            --bgc-after: #0c6;
+            --ttx-after: 1rem;
+        }
+        /* #toggleOpacity:checked ~ main #display {opacity:.5;} */
+        /* #toggleOpacity:checked ~ main #display .tile {--alp:.25;} */
+        #toggleOpacity:checked ~ main #display .tile {--alp:.1;}
+        #toggleOpacity:checked ~ main #display .tile[data-type="1"],
+        #toggleOpacity:checked ~ main #display .tile[data-type="9"] {--alp:.25;}
+
+        #toggleTags:checked ~ main #display .tile[data-type="-1"]:hover::before {content: attr(data-x) "," attr(data-y); opacity:1;}
+        #toggleTags:checked ~ main #display .tile:not([data-type="-1"])::before {content: attr(data-steps); opacity:1;}
+        /* #toggleTags:checked ~ main #display .tile:hover::before {content: attr(data-x) "," attr(data-y); opacity:1;} */
+        /* #toggleTags:checked ~ main #display .tile:hover::before {content: attr(data-steps); opacity:1;} */
+        /* #toggleTags:checked ~ main #display .tile:hover::before {content: attr(data-x); opacity:1;} */
+
+        /* #toggleTags:checked ~ main #display .row::before {content: attr(data-y); opacity: .25;}
+        #toggleTags:checked ~ main #display .row:hover::before {content: attr(data-y); opacity: 1;}
+        #toggleTags:checked ~ main #display .row:hover::after {content: '';} */
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <h1 class="title">Maze</h1>
+        <!-- <div class="subtitle">Only makes mazes. (no players)</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <div class="subtitle"> 🚧 Under Construction 🚧 </div>
+    </header>
+    <!-- <input type="checkbox" name="toggle" id="toggleBorder" checked> -->
+    <input type="checkbox" name="toggle" id="toggleBorder">
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleTags" checked>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">A-maze-ing</div>
+        <div id="display"></div>
+        <canvas id="canvas"></canvas>
+        <div class="ant-inspector"></div>
+    </div>
+</main>
+
+<div class="options">
+    <label for="toggleTags" class="toggleCheckboxLabel" data-toggle="Tags">Grid Tags</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+    <label for="toggleBorder" class="toggleCheckboxLabel" data-toggle="Borders">Borders</label>
+</div>
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+
+<script>
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        tile: {
+            real_sz: 16,
+            real_h: 16,
+            real_w: 16,
+            h: 20,
+            w: 20,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 16
+        },
+        maze: {},
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+        },
+
+        player: false,
+
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        pause: false,
+        q: false,
+        z: false
+    }
+    var level;
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = s.grid.w;
+    canvas.height = s.grid.h;
+
+    const maze_settings = {
+        wall: -1,
+        path: 0,
+        start: 1,
+        end: 9
+    }
+
+    var direction_char = ['○', '↙', '↓', '↘', '←', '•', '→', '↖', '↑', '↗'];
+    // var sides = [1,2,3,4,6,7,8,9];
+    // var sides = [1,2,3,4,5,6,7,8,9];
+    // const yxSide = {
+    //     0:{y:0,x:0},
+    //     1:{y:1,x:-1},
+    //     2:{y:1,x:0},
+    //     3:{y:1,x:1},
+    //     4:{y:0,x:-1},
+    //     5:{y:0,x:0},
+    //     6:{y:0,x:1},
+    //     7:{y:-1,x:-1},
+    //     8:{y:-1,x:0},
+    //     9:{y:-1,x:1}
+    // };
+    var sides_around = [1,2,3,4,6,7,8,9];
+    var sides = [2,4,6,8];
+    const yxSide = {
+        0:{y:0,x:0},
+        1:{y:1,x:-1},
+        2:{y:1,x:0},
+        3:{y:1,x:1},
+        4:{y:0,x:-1},
+        5:{y:0,x:0},
+        6:{y:0,x:1},
+        7:{y:-1,x:-1},
+        8:{y:-1,x:0},
+        9:{y:-1,x:1}
+    };
+
+    class xy {
+        constructor(x = 0, y = 0, d = 0, id = -1){
+            this.x = x;
+            this.y = y;
+            this.d = d;
+            this.id = id;
+        }
+    }
+    
+
+    class Ant {
+        constructor(parentId = -1, id = -1, x = 0, y = 0, continual_steps = 0){
+            this.parentId = parentId;
+            this.id = id;
+            this.x = x;
+            this.y = y;
+            // this.pre_x = this.x;
+            // this.pre_y = this.y;
+            this.steps = 0;
+            this.continual_steps = continual_steps;
+            /* 'd' will be a tile direction (1-4,6-9) */
+            this.d = 0;
+
+            this.size = 5;
+            // this.hue = Math.floor(Math.random() * 360);
+            // this.hue = this.id * 5;
+            this.hue = this.continual_steps * 5;
+
+            this.tileh = s.tile.real_sz / 2;
+            // this.xleft = (this.x * s.tile.real_w) + this.tileh;
+            // this.ytop = (this.y * s.tile.real_h) + this.tileh;
+            this.xleft = 0;
+            this.ytop = 0;
+            this.update();
+
+            this.pre_x = this.xleft;
+            this.pre_y = this.ytop;
+
+            this.pathSides = [];
+
+            // this.clr = `hsla(${this.hue}, 100%, 50%, 1)`;
+            // this.idStyle = `background-color: hsla(${this.hue}, 100%, 50%, .2); color: ${this.clr}; padding: .125rem .25rem; border-radius: .25rem;`;
+            // this.hatchStyle = `background-color: hsla(${this.hue}, 100%, 20%, 1); color: ${this.clr}; padding: .125rem .25rem; border-radius: .25rem; font-weight: bold;`;
+            this.idStyle = `background-color: hsla(${this.hue}, 100%, 50%, .2); color: hsla(${this.hue}, 100%, 50%, 1); padding: .125rem .25rem; border-radius: .25rem;`;
+            this.hatchStyle = `background-color: hsla(${this.hue}, 100%, 50%, 1); color: hsla(${this.hue}, 100%, 5%, 1); padding: .125rem .25rem; border-radius: .25rem; font-weight: bold;`;
+        }
+        update(){
+            this.pre_x = this.xleft;
+            this.pre_y = this.ytop;
+
+            this.xleft = (this.x * s.tile.real_w) + this.tileh;
+            this.ytop = (this.y * s.tile.real_h) + this.tileh;
+        }
+        move(x,y,d){
+            this.x = x;
+            this.y = y;
+            this.update();
+            this.steps++;
+            this.continual_steps++;
+            this.d = d;
+            this.hue = this.continual_steps * 5;
+            // this.xleft = (this.x * s.tile.real_w) + this.tileh;
+            // this.ytop = (this.y * s.tile.real_h) + this.tileh;
+        }
+        draw(){
+            // ctx.fillStyle = `hsl(60, 100%, 40%)`;
+            // ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%,${this.alp})`;
+            // ctx.fillStyle = `hsla(${this.hue}, 100%, 40%, .75)`;
+            // ctx.beginPath();
+            // ctx.arc(this.xleft, this.ytop, this.size, 0, Math.PI * 2);
+            // ctx.fill();
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = `hsla(${this.hue}, 100%, 20%, 1)`;
+            ctx.moveTo(this.pre_x, this.pre_y);
+            ctx.lineTo(this.xleft, this.ytop);
+            ctx.stroke();
+
+            ctx.font = `16px serif`;
+            ctx.textBaseline = "middle";
+            ctx.textAlign = "center";
+            ctx.fillStyle = `hsla(${this.hue}, 100%, 50%, 1)`;
+            ctx.fillText(this.id, this.xleft, this.ytop);
+        }
+    }
+    
+    class Maze {
+        constructor(w, h, fill = -1){
+            this.w = w;
+            this.h = h;
+            this.fill = fill;
+            this.start = new xy();
+            this.end = new xy();
+            this.endingAnt = [];
+            this.maze = [];
+            this.stepMap = [];
+
+            this.fillMap();
+            this.selectStart();
+
+            this.antCount = 0;
+            this.ants = [];
+            this.antsAtHome = [];
+            this.pathLog = {
+                possibleDirections: [],
+                stepCount: 0,
+                directionsChosen: [],
+                antLog: [],
+            }
+        }
+        fillMap(fill = this.fill){
+            for(let y=0; y<this.h; y++){
+                this.maze.push([]);
+                this.stepMap.push([]);
+                for(let x=0; x<this.w; x++){
+                    this.maze[y].push(fill);
+                    this.stepMap[y].push(0);
+                }
+            }
+        }
+        selectStart() {
+            this.start.x = Math.floor(Math.random()*this.w);
+            this.start.y = Math.floor(Math.random()*this.h);
+
+            this.xyPath = new xy(this.start.x, this.start.y);
+            this.maze[this.start.y][this.start.x] = 1;
+
+            // s.maze['start'] = new xy();
+            // s.maze.start.x = this.start.x;
+            // s.maze.start.y = this.start.y;
+        }
+        selectEnd() {
+            this.maze[this.end.y][this.end.x] = 9;
+            // console.log(`%cSteps: %c${this.end.d}`, 'color:#ccc;', 'color:#f93;');
+            console.log(`🐜 #%c${this.end.id}%c Steps: %c${this.end.d}`, logSty.s, 'color:#ccc;', 'color:#f93;');
+            console.log(`🐜 #%c${this.endingAnt[0].id}%c Personal steps: %c${this.endingAnt[0].steps}`, this.endingAnt[0].idStyle, 'color:#ccc;', 'color:#f93;');
+            // s.maze['end'] = new xy();
+            // s.maze.end.x = this.end.x;
+            // s.maze.end.y = this.end.y;
+        }
+        isInMap(x,y){
+            if(x < 0 || x >= this.w || y < 0 || y >= this.h) {return false;}
+            else {return true;}
+        }
+        isClear(x,y){
+            if(this.maze[y][x] == -1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        endUpdate1(x,y,count,id){
+            if(count >= this.end.d){
+                this.end.x = x;
+                this.end.y = y;
+                this.end.d = count;
+                this.end.id = id;
+            }
+        }
+        endUpdate(e){
+            if(e.continual_steps >= this.end.d){
+                this.end.x = e.x;
+                this.end.y = e.y;
+                this.end.d = e.continual_steps;
+                this.end.id = e.id;
+
+                this.endingAnt = [];
+                this.endingAnt.push(e);
+            }
+        }
+        drawAnts(){
+            // 2) draw and directions. [e.pathSides]
+            for (let index = 0; index < this.ants.length; index++) {
+                const e = this.ants[index];
+                e.draw();
+            }
+        }
+        hatchAnt(e,x,y,d=0){
+            if(this.ants.length < 5){
+                this.pathLog.directionsChosen[this.pathLog.stepCount].push(`${this.antCount}(${d}${direction_char[d]})`);
+
+                this.maze[y][x] = 0;
+                // let nAnt = new Ant(this.antCount,x,y);
+                let nAnt = new Ant(e.id,this.antCount,x,y,e.continual_steps);
+                if(e.id > -1){
+                    // nAnt.pre_x = e.xleft;
+                    // nAnt.pre_y = e.ytop;
+                    nAnt.pre_x = e.pre_x;
+                    nAnt.pre_y = e.pre_y;
+                } else {
+                    // nAnt.pre_x = this.start.x;
+                    // nAnt.pre_y = this.start.y;
+                    // nAnt.pre_x = this.xyPath.x;
+                    // nAnt.pre_y = this.xyPath.y;
+                    nAnt.pre_x = (this.start.x * s.tile.real_w) + nAnt.tileh;
+                    nAnt.pre_y = (this.start.y * s.tile.real_w) + nAnt.tileh;
+                }
+                this.ants.push(nAnt);
+                this.antCount++;
+                nAnt.draw();
+
+                safeLog([`%c🐜 #%c${nAnt.id}%c has hatched into: (%c${nAnt.x}%c,%c${nAnt.y}%c)`, logSty.c, nAnt.hatchStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+            }
+
+            // safeLog([`%cAnt #%c${newAnt.id}%c has hatched into: (%c${newAnt.x}%c,%c${newAnt.y}%c)`, logSty.c, logSty.s, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+            // safeLog([`%cAnt #%c${newAnt.id}%c has hatched into: (%c${newAnt.x}%c,%c${newAnt.y}%c)`, logSty.c, newAnt.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+            // safeLog([`%cAnt #%c${newAnt.id}%c🐜 has hatched into: (%c${newAnt.x}%c,%c${newAnt.y}%c)`, logSty.c, newAnt.hatchStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+            // safeLog([`%cAnt #%c${newAnt.id}%c has hatched into: (%c${newAnt.x}%c,%c${newAnt.y}%c)🐜`, logSty.c, newAnt.hatchStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+
+            // safeLog([`%cAnt #%c${antid}%c has hatched into: (%c${nx}%c,%c${ny}%c)`, logSty.c, logSty.s, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+            // safeLog([`%cAnt #%c${antid}%c🐜 has hatched into: (%c${nx}%c,%c${ny}%c)`, logSty.c, newAnt.hatchStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+            // safeLog([`%cAnt #%c${antid}%c has hatched into: (%c${nx}%c,%c${ny}%c)🐜`, logSty.c, newAnt.hatchStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+            // safeLog([`%c🐜 #%c${antid}%c has hatched into: (%c${nx}%c,%c${ny}%c)`, logSty.c, newAnt.hatchStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+        }
+        checkAround(e,ex,ey,nx,ny){
+            for (let i = 0; i < sides.length; i++) {
+                let ax = nx + yxSide[sides[i]].x;
+                let ay = ny + yxSide[sides[i]].y;
+
+                // safeLog([`%cAnt #%c${e.id}%c checking in the %c${direction_char[sides[i]]}%c direction: (%c${ax}%c,%c${ay}%c)`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                // if(this.isInMap(ax,ay)){
+                //     safeLog([`%c🔍 Ant #%c${e.id}%c reports that: (%c${ax}%c,%c${ay}%c) is in Map 💠.`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                //     if(!(ex == ax && ey == ay)){
+                //         safeLog([`%c🔍 Ant #%c${e.id}%c reports that: (%c${ax}%c,%c${ay}%c) is not the previous location 👌.`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                //         if(!this.isClear(ax,ay)){
+                //             safeLog([`%c🔍 Ant #%c${e.id}%c reports that: (%c${ax}%c,%c${ay}%c) is is not Clear ⛔.`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                //         } else {
+                //             safeLog([`%c🔍 Ant #%c${e.id}%c reports that: (%c${ax}%c,%c${ay}%c) is Clear 🆓.`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                //         }
+                //     } else {
+                //         safeLog([`%c🔍 Ant #%c${e.id}%c reports that: (%c${ax}%c,%c${ay}%c) is the previous location ⛔.`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                //     }
+                // } else {
+                //     safeLog([`%c🔍 Ant #%c${e.id}%c reports that: (%c${ax}%c,%c${ay}%c) is out of map ⛔.`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                // }
+
+                // isInMap, isNotPrevious, isClear
+                // if [isInMap] 
+                //          is true, then check next. 
+                //          is false, then ignore (stop checking). 
+                // if [isPrevious] 
+                //          is false, then check next, 
+                //          is true, then ignore, 
+                // if [isClear] 
+                //          is false, then enter and change to false.
+                //          is true, then ignore.
+                if(this.isInMap(ax,ay) && !(ex == ax && ey == ay) && !this.isClear(ax,ay)) {
+                    // safeLog([`%cAnt #%c${e.id}%c reports that at: (%c${ax}%c,%c${ay}%c) there is a problem ⛔.`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                    return false;
+                }
+            }
+            // safeLog([`%c🔍 Ant #%c${e.id}%c reports that: (%c${nx}%c,%c${ny}%c) is Good ✅.`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+            return true;
+        }
+        handleAnt(e){
+            let pSides = [...e.pathSides];
+            let antMoved = false;
+
+            let ant = new xy(e.x,e.y);
+            let eid = e.id;
+            let ex = e.x;
+            let ey = e.y;
+            for (let i = 0; i < e.pathSides.length; i++) {
+                // /* 3) random direction. [nd] */
+                let nd = pSides.splice(Math.floor(Math.random()*pSides.length),1);
+                // // safeLogList2(`Ant #%c${e.id}%c → Possible Directions`, e.pathSides, [e.idStyle, logSty.c]);
+                // safeLogList2(`Ant #%c${e.id}%c → Possible Directions (left)`, pSides, [e.idStyle, logSty.c]);
+                let nx = ex + yxSide[nd[0]].x;
+                let ny = ey + yxSide[nd[0]].y;
+                // if(!antMoved){
+                //     safeLog([`%cAnt #%c${e.id}%c, is considering to move to: %c${direction_char[nd]}%c (%c${nx}%c,%c${ny}%c)`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                // } else {
+                //     safeLog([`%cAnt #%c${e.id}%c moved, but there is another path option at: %c${direction_char[nd]}%c (%c${nx}%c,%c${ny}%c)`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                // }
+                
+                // /* 4) around. [nxy] */
+                let validPath = this.checkAround(e,ex,ey,nx,ny);
+
+                // /* 5) move & draw. */
+                if(validPath){
+                    if(!antMoved){
+                        // safeLog([`%cAnt #%c${e.id}%c found a valid path at: (%c${nx}%c,%c${ny}%c)`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+
+                        this.pathLog.directionsChosen[this.pathLog.stepCount].push(nd);
+                        this.maze[ny][nx] = 0;
+
+                        e.move(nx,ny,nd);
+                        e.draw();
+                        // safeLog([`%cAnt #%c${e.id}%c moved to: (%c${e.x}%c|%c${e.y}%c)`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+
+                        antMoved = true;
+                        // this.endUpdate(e.x,e.y,e.steps,e.id);
+                        // this.endUpdate(e.x,e.y,e.continual_steps,e.steps,e.id);
+                        this.endUpdate(e);
+                    } else {
+                        // /* 6) hatch new ants to follow in the directions left. */
+                        // safeLog([`%cThere is a valid path for a new ant: #%c${this.antCount}%c at: (%c${nx}%c,%c${ny}%c)`, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                        
+                        this.hatchAnt(e,nx,ny,nd);
+                    }
+                }
+            }
+            return antMoved;
+        }
+        handleAnts(){
+            // safeLog([`%c → There are %c${this.ants.length}%c ants.`, logSty.c, logSty.b, logSty.c]);
+            let antsToCheck = this.ants.length;
+            for (let index = 0; index < antsToCheck; index++) {
+                const e = this.ants[index];
+                // safeLog([`%cAnt #%c${e.id}%c is at: (%c${e.x}%c,%c${e.y}%c)`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                // /* 2) directions. [e.pathSides] */
+                e.pathSides = [...this.possibleSides(e.x,e.y)];
+                // safeLogList2(`Ant #%c${e.id}%c → Possible Directions`, e.pathSides, [e.idStyle, logSty.c]);
+                // // safeLogList2(`Ant #%c${e.id}%c → Possible Directions`, this.pathLog.possibleDirections, [e.idStyle, logSty.c]);
+                if(e.pathSides.length > 0){
+                    if(this.handleAnt(e)){
+                        // safeLog([`%cAnt #%c${e.id}%c moved to: (%c${e.x}%c|%c${e.y}%c)`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                        safeLog([`%cAnt #%c${e.id}%c moved to: %c${direction_char[e.d]}%c (%c${e.x}%c|%c${e.y}%c)`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                    } else {
+                        // safeLog([`%cAnt #%c${e.id}%c at: (%c${e.x}%c,%c${e.y}%c), couln't move, and has no more directions to move into.`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                        // // safeLog([`%cAnt #%c${e.id}%c is being sent home.`, logSty.c, e.idStyle, logSty.c]);
+                        // // safeLog([`%cAnt #%c${e.id}%c is being sent home. %c🕳`, logSty.c, e.idStyle, logSty.c, "color: #000;"]);
+                        // // safeLog([`%cAnt #%c${e.id}%c is being sent home. %c🕳`, logSty.c, e.idStyle, logSty.c, logSty.s]);
+                        safeLog([`%cAnt #%c${e.id}%c is being sent home. %c🏠`, logSty.c, e.idStyle, logSty.c, logSty.s]);
+                        e.move(this.start.x,this.start.y,5);
+                        this.antsAtHome.push(...this.ants.splice(index,1));
+                        index--;
+                        antsToCheck--;
+                    }
+                } else {
+                    // safeLog([`%cAnt #%c${e.id}%c at: (%c${e.x}%c,%c${e.y}%c), has no more directions to move into.`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                    // // safeLog([`%cAnt #%c${e.id}%c is being sent home.`, logSty.c, e.idStyle, logSty.c]);
+                    safeLog([`%cAnt #%c${e.id}%c is being sent home. %c🏠`, logSty.c, e.idStyle, logSty.c, logSty.s]);
+                    e.move(this.start.x,this.start.y,5);
+                    this.antsAtHome.push(...this.ants.splice(index,1));
+                    index--;
+                    antsToCheck--;
+                }
+            }
+        }
+        possibleSides(x,y){
+            let possibleDirections = [];
+            for (let i = 0; i < sides.length; i++) {
+                let d = sides[i];
+                let nx = x + yxSide[d].x;
+                let ny = y + yxSide[d].y;
+                if(this.isInMap(nx,ny) && this.isClear(nx,ny)) {
+                    possibleDirections.push(d);
+                }
+            }
+            return possibleDirections;
+        }
+        makePath2(){
+            this.pathLog.possibleDirections = this.possibleSides(this.xyPath.x,this.xyPath.y);
+            let pathSides = [...this.pathLog.possibleDirections];
+
+            this.pathLog.directionsChosen.push([]);
+            // safeLogList('Possible Directions', this.pathLog.possibleDirections);
+            // pic a random side, make an ant.
+
+            // for each side,
+            for (let i = 0; i < this.pathLog.possibleDirections.length; i++) {
+                let dNext = pathSides.splice(Math.floor(Math.random()*pathSides.length),1);
+                let next = new xy(this.xyPath.x + yxSide[dNext].x, this.xyPath.y + yxSide[dNext].y);
+
+                let validPath = true;
+                // check around the path chosen.
+                for (let i = 0; i < sides.length; i++) {
+                    let d = sides[i];
+                    let yxA = new xy(next.x + yxSide[d].x, next.y + yxSide[d].y);
+
+                    // if this side is on the map, and not where we came from.
+                    if(this.isInMap(yxA.x,yxA.y) && !(yxA.x == this.xyPath.x && yxA.y == this.xyPath.y)) {
+                        if(this.maze[yxA.y][yxA.x] != -1){
+                            validPath = false;
+                        }
+                    }
+                }
+                if(validPath){
+                    this.hatchAnt({"id":-1,"steps":0},next.x,next.y,dNext);
+                }
+            }
+            // safeLogList('Directions Chosen', this.pathLog.directionsChosen[this.pathLog.stepCount]);
+
+
+            while(!s.q && this.ants.length > 0){
+                this.pathLog.stepCount++;
+                this.pathLog.directionsChosen.push([]);
+                this.handleAnts();
+            }
+            this.selectEnd();
+
+            // this.pathLog.stepCount++;
+            // this.pathLog.directionsChosen.push([]);
+            // this.handleAnts();
+        }
+        
+
+        pathHelper(step, count = 0){
+            let possibleDirections = [];
+            for (let i = 0; i < sides.length; i++) {
+                let d = sides[i];
+                const yxd = yxSide[d];
+                // if(this.isInMap(step.x + yxd.x, step.y + yxd.y) && this.maze[step.y][step.x] == -1) {possibleDirections.push(d);}
+                if(this.isInMap(step.x + yxd.x, step.y + yxd.y) && this.maze[step.y + yxd.y][step.x + yxd.x] == -1) {
+                    possibleDirections.push(d);
+                }
+            }
+            let pathSides = [...possibleDirections];
+            for (let i = 0; i < possibleDirections.length; i++) {
+                // choose a direction → 'dNext' and 'next';
+                let dNext = pathSides.splice(Math.floor(Math.random()*pathSides.length),1);
+                let next = new xy(step.x + yxSide[dNext].x, step.y + yxSide[dNext].y);
+                
+                let validPath = true;
+
+                // check around the path chosen.
+                for (let i = 0; i < sides.length; i++) {
+                    let d = sides[i];
+                    /* yxA = yxAround */
+                    let yxA = new xy(next.x + yxSide[d].x, next.y + yxSide[d].y);
+
+                    // if this side is on the map, and not where we came from.
+                    if(this.isInMap(yxA.x,yxA.y) && !(yxA.x == step.x && yxA.y == step.y)) {
+                        // if it is a defined tile. (anything besides '-1')
+                        if(this.maze[yxA.y][yxA.x] != -1){
+                            validPath = false;
+                        }
+                    }
+                    
+                }
+                // if the path has something around that is not a '-1'
+                // we just ignore that side.
+                if(validPath){
+                    this.maze[next.y][next.x] = 0;
+                    this.stepMap[next.y][next.x] = count+1;
+                    this.pathHelper(next, count+1);
+
+                    if(count >= this.end.d){
+                        this.end.x = next.x;
+                        this.end.y = next.y;
+                        this.end.d = count;
+                    }
+                }
+            }
+        }
+        makePath(){
+            // from the start..
+            
+            // solve possible directions.
+            let possibleDirections = [];
+            for (let i = 0; i < sides.length; i++) {
+                let d = sides[i];
+                const yxd = yxSide[d];
+                if(this.isInMap(this.xyPath.x + yxd.x, this.xyPath.y + yxd.y)) {
+                    possibleDirections.push(d);
+                }
+            }
+            let pathSides = [...possibleDirections];
+            for (let i = 0; i < possibleDirections.length; i++) {
+                let dNext = pathSides.splice(Math.floor(Math.random()*pathSides.length),1);
+                let next = new xy(this.xyPath.x + yxSide[dNext].x, this.xyPath.y + yxSide[dNext].y);
+
+                let validPath = true;
+                // check around the path chosen.
+                for (let i = 0; i < sides.length; i++) {
+                    let d = sides[i];
+                    let yxA = new xy(next.x + yxSide[d].x, next.y + yxSide[d].y);
+
+                    // if this side is on the map, and not where we came from.
+                    if(this.isInMap(yxA.x,yxA.y) && !(yxA.x == this.xyPath.x && yxA.y == this.xyPath.y)) {
+                        if(this.maze[yxA.y][yxA.x] != -1){
+                            validPath = false;
+                        }
+                    }
+                    
+                }
+                if(validPath){
+                    this.maze[next.y][next.x] = 0;
+                    this.pathHelper(next);
+                }
+            }
+            this.selectEnd();
+        }
+        
+        levelCleared() {
+            this.fillMap();
+        }
+    }
+
+    class MazeSide {
+        constructor(w, h, fill = -1){
+            this.w = w;
+            this.h = h;
+            this.fill = fill;
+            this.start = new xy();
+            this.end = new xy();
+            this.maze = [];
+            this.stepMap = [];
+            this.steps = 0;
+
+            this.fillMap();
+            this.selectStart();
+        }
+        fillMap(fill = this.fill){
+            for(let y=0; y<this.h; y++){
+                this.maze.push([]);
+                this.stepMap.push([]);
+                for(let x=0; x<this.w; x++){
+                    this.maze[y].push(fill);
+                    this.stepMap[y].push(0);
+                }
+            }
+        }
+        selectStart() {
+            this.start.x = Math.floor(Math.random()*this.w);
+            this.start.y = Math.floor(Math.random()*this.h);
+            safeLog([`%cStep #%c${this.steps}%c, maze starts at: (%c${this.start.x}%c,%c${this.start.y}%c)`, logSty.c, logSty.s, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+            this.xyPathTo(this.start.x,this.start.y,this.steps,1);
+        }
+        selectEnd() {
+            this.maze[this.end.y][this.end.x] = 9;
+            console.log(`%cSteps to the End: %c${this.end.d}`, 'color:#ccc;', 'color:#f93;');
+            // console.log(`🐜 #%c${this.end.id}%c Steps: %c${this.end.d}`, logSty.s, 'color:#ccc;', 'color:#f93;');
+            // console.log(`🐜 #%c${this.endingAnt[0].id}%c Personal steps: %c${this.endingAnt[0].steps}`, this.endingAnt[0].idStyle, 'color:#ccc;', 'color:#f93;');
+            // s.maze['end'] = new xy();
+            // s.maze.end.x = this.end.x;
+            // s.maze.end.y = this.end.y;
+            this.updateView(this.end.x,this.end.y,this.end.d,9);
+        }
+        isInMap(x,y){
+            if(x < 0 || x >= this.w || y < 0 || y >= this.h) {return false;}
+            else {return true;}
+        }
+        isClear(x,y){
+            if(this.maze[y][x] == -1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        checkAround3(ex,ey,nx,ny){
+            for (let i = 0; i < sides_around.length; i++) {
+                let ax = nx + yxSide[sides_around[i]].x;
+                let ay = ny + yxSide[sides_around[i]].y;
+
+                // // safeLog([`%cAnt #%c${e.id}%c checking in the %c${direction_char[sides[i]]}%c direction: (%c${ax}%c,%c${ay}%c)`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                // if(this.isInMap(ax,ay)){
+                //     // safeLog([`%c🔍 Ant #%c${e.id}%c reports that: (%c${ax}%c,%c${ay}%c) is in Map 💠.`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                //     if(!(ex == ax && ey == ay)){
+                //         // safeLog([`%c🔍 Ant #%c${e.id}%c reports that: (%c${ax}%c,%c${ay}%c) is not the previous location 👌.`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                //         if(!this.isClear(ax,ay)){
+                //             // safeLog([`%c🔍 Ant #%c${e.id}%c reports that: (%c${ax}%c,%c${ay}%c) is is not Clear ⛔.`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                //         } else {
+                //             // safeLog([`%c🔍 Ant #%c${e.id}%c reports that: (%c${ax}%c,%c${ay}%c) is Clear 🆓.`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                //         }
+                //     } else {
+                //         // safeLog([`%c🔍 Ant #%c${e.id}%c reports that: (%c${ax}%c,%c${ay}%c) is the previous location ⛔.`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                //     }
+                // } else {
+                //     // safeLog([`%c🔍 Ant #%c${e.id}%c reports that: (%c${ax}%c,%c${ay}%c) is out of map ⛔.`, logSty.c, e.idStyle, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                // }
+                
+                /*
+                from ex to nx;
+                if →, n - e = 1;
+                if ←, n - e = -1;
+
+                if(nx - ex == nx - ax)
+
+                ↖↑↗
+                ←•→
+                ↙↓↘
+
+                four options:
+                    d8: ↑ (0,-1)
+                    d4: ← (-1,0)
+                    d6: → (1,0)
+                        -s: [-1,0]
+                        (ex == ax && ey == ay): then ignore.
+
+                        e-n: [-1,0]
+                        n-e: [1,0]
+
+                        (e-n) * s == n-e
+                        ((e-n) * s == n-e): then ignore
+
+                        yxSide[sides_around[i]].x * (ex - nx) == (nx - ex)
+                        yxSide[sides_around[i]].y * (ey - ny) == (ny - ey)
+
+                        yxSide[sides_around[i]].x * (ex - nx) == (nx - ex) && yxSide[sides_around[i]].y * (ey - ny) == (ny - ey)
+
+                        let sx = yxSide[sides_around[i]].x
+                        let sy = yxSide[sides_around[i]].y
+
+                        let enx = ex - nx;
+                        let eny = ey - ny;
+                        let x_match = false;
+                        let y_match = false;
+                        if(enx) {
+                            x_match = sx * enx == (nx - ex);
+                        }
+                        if(eny) {
+                            y_match = sy * eny == (ny - ey);
+                        }
+                        !(x_match && y_match)
+
+                        let nex = nx - ex;
+                        let ney = ny - ey;
+
+                    d2: ↓ (0,-1)
+
+                */
+                // let sx = yxSide[sides_around[i]].x
+                // let sy = yxSide[sides_around[i]].y
+                // let ax = nx + sx;
+                // let ay = ny + sy;
+
+                // let enx = ex - nx;
+                // let eny = ey - ny;
+                // let x_match = false;
+                // let y_match = false;
+                // if(enx) {
+                //     x_match = sx * enx == (nx - ex);
+                // }
+                // if(eny) {
+                //     y_match = sy * eny == (ny - ey);
+                // }
+                // !(x_match && y_match);
+
+
+                // (ex - nx) || sx * (ex - nx) == (nx - ex)
+                // (ex - nx) || ex == ax
+                // (ey - ny)
+
+                if(this.isInMap(ax,ay)){
+
+                    if(!(ex == ax && ey == ay)){
+                    // if(!(x_match && y_match)){
+
+                        if(!this.isClear(ax,ay)){
+
+                        }
+                    }
+                }
+                /*
+                
+                !(((ex == ax) * (ex - nx)) && ((ey == ay) * (ey - ny)))
+                !( (ex == ax && ex - nx) || (ey == ay && ey - ny) )
+
+                e==a * e-n
+                true   1|-1 = t
+                true    0   = f
+                false  1|-1 = f
+                false   0   = f
+
+                (ex==ax * ex-nx) || (ey==ay * ey-ny)
+                true   1|-1 = t     
+                true    0   = f
+                false  1|-1 = f
+                false   0   = f
+
+                check if we ignore this side.
+                eax | enx | eay | eny    eax*enx | eay*eny
+                 0  |  0  |  0  |  0   →    0         0    = 
+                 0  |  0  |  0  |  1   →    0         0    = 
+                 0  |  0  |  1  |  0   →    0         0    = 
+                 0  |  0  |  1  |  1   →    0         1    = 
+                 0  |  1  |  0  |  0   →    0         0    = 
+                 0  |  1  |  0  |  1   →    0         0    = 
+                 0  |  1  |  1  |  0   →    0         0    = 
+                 0  |  1  |  1  |  1   →    0         1    = 
+                 1  |  0  |  0  |  0   →    0         0    = 
+                 1  |  0  |  0  |  1   →    0         0    = 
+                 1  |  0  |  1  |  0   →    0         0    = 1
+                 1  |  0  |  1  |  1   →    0         1    = 1
+                 1  |  1  |  0  |  0   →    1         0    = 
+                 1  |  1  |  0  |  1   →    1         0    = 
+                 1  |  1  |  1  |  0   →    1         0    = 1
+                 1  |  1  |  1  |  1   →    1         1    = 1
+  
+                (eax*eay) = true if this side 'a' is a match to 'e'
+                (eax+eay) = true if either of is a match.
+
+                (a && c) = true if this side 'a' is a match to 'e'
+                (!a && d) = true if either of is a match.
+                (!b && c) = true if either of is a match.
+
+
+                Check for what to avoid.
+                | (a) | (b) | (c) | (d) | → |         |   a  &  d  |   b  &  c  | → 
+                | eax | enx | eay | eny |   | eax*eay | !eax & eny | !eay & eny |   
+                |  0  |  0  |  0  |  0  | → |    -    | 1    .     | 1    .     | → 
+                |  0  |  0  |  0  |  1  | → |    -    | 1    .   1 | 1    .     | → 
+                |  0  |  0  |  1  |  0  | → |    -    | 1    .     | 1    .   1 | → 
+                |  0  |  0  |  1  |  1  | → |    -    | 1    .   1 | 1    .   1 | → 
+                |  0  |  1  |  0  |  0  | → |    -    | 1    .     |      .     | → 
+                |  0  |  1  |  0  |  1  | → |    -    | 1    .   1 |      .     | → 
+                |  0  |  1  |  1  |  0  | → |    -    | 1    .     |      .   1 | → 
+                |  0  |  1  |  1  |  1  | → |    -    | 1    .   1 |      .   1 | → 
+                |  1  |  0  |  0  |  0  | → |    -    |      .     | 1    .     | → 
+                |  1  |  0  |  0  |  1  | → |    -    |      .   1 | 1    .     | → 
+                |  1  |  0  |  1  |  0  | → |    1    |      .     | 1    .   1 | → 
+                |  1  |  0  |  1  |  1  | → |    1    |      .   1 | 1    .   1 | → 
+                |  1  |  1  |  0  |  0  | → |    -    |      .     |      .     | → 
+                |  1  |  1  |  0  |  1  | → |    -    |      .   1 |      .     | → 
+                |  1  |  1  |  1  |  0  | → |    1    |      .     |      .   1 | → 
+                |  1  |  1  |  1  |  1  | → |    1    |      .   1 |      .   1 | → 
+
+                | (a) | (b) | (c) | (d) | → |         |   a & !d  |   b & !c  | → 
+                | eax | enx | eay | eny |   | eax*eay |  eax&!eny |  eay*!eny |   
+                |  0  |  0  |  0  |  0  | → |    -    |     -   1 | -   -   1 | → 
+                |  0  |  0  |  0  |  1  | → |    -    |     -   - | -   -   1 | → 
+                |  0  |  0  |  1  |  0  | → |    -    |     -   1 | -   -     | → 
+                |  0  |  0  |  1  |  1  | → |    -    |     -   - | -   -     | → 
+                |  0  |  1  |  0  |  0  | → |    -    |     -   1 | 1   1   1 | → 
+                |  0  |  1  |  0  |  1  | → |    -    |     -   - | 1   1   1 | → 
+                |  0  |  1  |  1  |  0  | → |    -    |     -   1 | 1   -   - | → 
+                |  0  |  1  |  1  |  1  | → |    -    |     -   - | 1   -   - | → 
+                |  1  |  0  |  0  |  0  | → |    -    | 1   1   1 | -   -   1 | → 
+                |  1  |  0  |  0  |  1  | → |    -    | 1   -   - | -   -   1 | → 
+                |  1  |  0  |  1  |  0  | → |    1    | 1   1   1 | -   -   - | → 
+                |  1  |  0  |  1  |  1  | → |    1    | 1   -   - | -   -   - | → 
+                |  1  |  1  |  0  |  0  | → |    -    | 1   1   1 | 1   1   1 | → 
+                |  1  |  1  |  0  |  1  | → |    -    | 1   -   - | 1   1   1 | → 
+                |  1  |  1  |  1  |  0  | → |    1    | 1   1   1 | 1   -   - | → 
+                |  1  |  1  |  1  |  1  | → |    1    | 1   -   - | 1   -   - | → 
+
+                True if: 
+                [_][+][+]
+                [_][+][+]
+                [_][+][+]
+
+                | (a) | (b) | (c) | (d) | → |   a   c   |   a  &  d  |   b  &  c  | → 
+                | eax | enx | eay | eny |   | (eax*eay) | !eax & eny | !eay & eny |   
+                |  0  |  0  |  0  |  0  | → |     -     | 1    .     | 1    .     | → 
+                |  0  |  0  |  0  |  1  | → |     -     | 1    .   1 | 1    .     | → 
+                |  0  |  0  |  1  |  0  | → |     -     | 1    .     | 1    .   1 | → 
+                |  0  |  0  |  1  |  1  | → |     -     | 1    .   1 | 1    .   1 | → 
+                |  0  |  1  |  0  |  0  | → |     -     | 1    .     |      .     | → 
+                |  0  |  1  |  0  |  1  | → |     -     | 1    .   1 |      .     | → 
+                |  0  |  1  |  1  |  0  | → |     -     | 1    .     |      .   1 | → 
+                |  0  |  1  |  1  |  1  | → |     -     | 1    .   1 |      .   1 | → 
+                |  1  |  0  |  0  |  0  | → |     -     |      .     | 1    .     | → 
+                |  1  |  0  |  0  |  1  | → |     -     |      .   1 | 1    .     | → 
+                |  1  |  0  |  1  |  0  | → |     -     |      .     | 1    .   1 | → 
+                |  1  |  0  |  1  |  1  | → |     -     |      .   1 | 1    .   1 | → 
+                |  1  |  1  |  0  |  0  | → |     -     |      .     |      .     | → 
+                |  1  |  1  |  0  |  1  | → |     -     |      .   1 |      .     | → 
+                |  1  |  1  |  1  |  0  | → |     -     |      .     |      .   1 | → 
+                |  1  |  1  |  1  |  1  | → |     -     |      .   1 |      .   1 | → 
+
+                || (a) | (b) || (c) | (d) | → |  a & c  |  a & b  |  c & d  |   a  &  d  |   b  &  c  | → 
+                || eax | enx || eay | eny |   | eax*eay | eax&enx | eay&eny | !eax & eny | !eax & eny |   
+                ||  0  |  0  ||  0  |  1  | → |    -    |    -    |    0    | 1    .   1 | 1    .     | → 
+                ||  0  |  0  ||  1  |  1  | → |    -    |    -    |    1    | 1    .   1 | 1    .   1 | → 
+                ||  0  |  1  ||  0  |  0  | → |    -    |    0    |    -    | 1    .     |      .     | → 
+                ||  0  |  1  ||  1  |  0  | → |    -    |    0    |    -    | 1    .     |      .   1 | → 
+                ||  1  |  0  ||  0  |  1  | → |    -    |    -    |    0    |      .   1 | 1    .     | → 
+                ||  1  |  0  ||  1  |  1  | → |    1    |    -    |    1    |      .   1 | 1    .   1 | → 
+                ||  1  |  1  ||  0  |  0  | → |    -    |    1    |    -    |      .     |      .     | → 
+                ||  1  |  1  ||  1  |  0  | → |    1    |    1    |    -    |      .     |      .   1 | → 
+
+
+                || (a) | (b) || (c) | (d) | → |  a & b  |  c & d  | → 
+                || eax | enx || eay | eny |   | eax&enx | eay&eny | → 
+              1 ||  0  |  0  ||  0  |  1  | → |    -    |    0    | → 
+              2 ||  0  |  0  ||  1  |  1  | → |    -    |    1    | → 
+              3 ||  0  |  1  ||  0  |  0  | → |    0    |    -    | → 
+              4 ||  0  |  1  ||  1  |  0  | → |    0    |    -    | → 
+              5 ||  1  |  0  ||  0  |  1  | → |    -    |    0    | → 
+              6 ||  1  |  0  ||  1  |  1  | → |    -    |    1    | → 
+              7 ||  1  |  1  ||  0  |  0  | → |    1    |    -    | → 
+              8 ||  1  |  1  ||  1  |  0  | → |    1    |    -    | → 
+
+                || (a) | (b) || (c) | (d) | → |  a & b  |  c & d  | → 
+                || eax | enx || eay | eny |   | eax&enx | eay&eny | → 
+
+              1 ||  0  |  0  ||  0  |  1  | → |    -    |    0    | → 
+              5 ||  1  |  0  ||  0  |  1  | → |    -    |    0    | → 
+              3 ||  0  |  1  ||  0  |  0  | → |    0    |    -    | → 
+              4 ||  0  |  1  ||  1  |  0  | → |    0    |    -    | → 
+
+              2 ||  0  |  0  ||  1  |  1  | → |    -    |    1    | → 
+              6 ||  1  |  0  ||  1  |  1  | → |    -    |    1    | → 
+              7 ||  1  |  1  ||  0  |  0  | → |    1    |    -    | → 
+              8 ||  1  |  1  ||  1  |  0  | → |    1    |    -    | → 
+              
+                if(ex - nx != 0 && ex == ax), then false (ignore)
+                if(ey - ny != 0 && ey == ay), then false (ignore)
+
+
+
+
+                'enx' is true
+                if(ex - nx) enx = true;
+                if(ey - ny) eny = true;
+
+                when 'd' = [4,6], then enx = true;
+                when 'd' = [2,8], then eny = true;
+
+                for e(3,3) → n(4,3)
+                'eax' is true: 
+                [+][_][_]
+                [+][_][_]
+                [+][_][_]
+
+                'eay' is true: 
+                [_][_][_]
+                [+][+][+]
+                [_][_][_]
+
+                | (a) | (b) | (c) | (d) | → |  a & c  |  a & b  |  c & d  |   a  &  d  |   b  &  c  | → 
+                | eax | enx | eay | eny |   | eax*eay | eax&enx | eay&eny | !eax & eny | !eay & eny |   
+                |  0  |  0  |  0  |  1  | → |    -    |    -    |    -    | 1    .   1 | 1    .     | → 
+                |  0  |  0  |  1  |  1  | → |    -    |    -    |    1    | 1    .   1 | 1    .   1 | → 
+                |  0  |  1  |  0  |  0  | → |    -    |    -    |    -    | 1    .     |      .     | → 
+                |  0  |  1  |  1  |  0  | → |    -    |    -    |    -    | 1    .     |      .   1 | → 
+                'e' and 'a' matches on 'x'
+                |  1  |  0  |  0  |  1  | → |    -    |    -    |    -    |      .   1 | 1    .     | → 
+                |  1  |  0  |  1  |  1  | → |    1    |    -    |    1    |      .   1 | 1    .   1 | → 
+                |  1  |  1  |  0  |  0  | → |    -    |    1    |    -    |      .     |      .     | → 
+                |  1  |  1  |  1  |  0  | → |    1    |    1    |    -    |      .     |      .   1 | → 
+  
+
+                in 'e - n' or 'n - e',
+                there is x and y, the one that is not a '0' needs to match.
+
+                if en or ne is '0' or e != a
+                if (e==a) then false, ignore this side
+                if !(e-n) then false, ignore this side
+
+                we only check if 'a' matches with 'e' if 'e-n' is not '0'
+                when 'a' matches with 'e', we don't check.
+
+                (match_x and en_x) || (match_y and en_y)
+
+                if(ex-en == 0)
+                */
+
+                if(this.isInMap(ax,ay) && !((ex - nx != 0 && ex == ax) || (ey - ny != 0 && ey == ay)) && !this.isClear(ax,ay)) {
+                    return false;
+                }
+
+                // if(this.isInMap(ax,ay) && !(ex == ax && ey == ay) && !this.isClear(ax,ay)) {
+                //     return false;
+                // }
+
+            }
+            return true;
+        }
+        checkAround2(ex,ey,nx,ny){
+            for (let i = 0; i < sides_around.length; i++) {
+                let ax = nx + yxSide[sides_around[i]].x;
+                let ay = ny + yxSide[sides_around[i]].y;
+                if(this.isInMap(ax,ay) && !(ex == ax && ey == ay) && !this.isClear(ax,ay)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        checkAround(ex,ey,nx,ny){
+            for (let i = 0; i < sides.length; i++) {
+                let ax = nx + yxSide[sides[i]].x;
+                let ay = ny + yxSide[sides[i]].y;
+                if(this.isInMap(ax,ay) && !(ex == ax && ey == ay) && !this.isClear(ax,ay)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        possibleSides(x,y){
+            let possibleDirections = [];
+            for (let i = 0; i < sides.length; i++) {
+                let d = sides[i];
+                let nx = x + yxSide[d].x;
+                let ny = y + yxSide[d].y;
+                // if(this.isInMap(nx,ny) && this.isClear(nx,ny) && this.checkAround(x,y,nx,ny)) {
+                //     // this.checkAround2(x,y,nx,ny);
+                //     possibleDirections.push(d);
+                // }
+                if(this.isInMap(nx,ny) && this.isClear(nx,ny)) {
+                    // if(this.checkAround(x,y,nx,ny)){
+                    //     possibleDirections.push(d);
+                    // }
+                    possibleDirections.push(d);
+                }
+            }
+            return possibleDirections;
+        }
+        makePathHelper(x,y,step = 0){
+            let possibleDirections = this.possibleSides(x,y);
+            safeLogList2(`Step #%c${step}%c → Possible Directions`, possibleDirections, [logSty.s, logSty.c]);
+            if(possibleDirections.length > 0 && step < 5){
+                let pathSides = [...possibleDirections];
+                for (let i = 0; i < possibleDirections.length; i++) {
+                    let d = pathSides.splice(Math.floor(Math.random()*pathSides.length),1);
+                    // safeLog([`%c → At step #%c${this.steps}%c, at index: (%c${i}%c), direction from pathSides: (%c${d}%c)`, logSty.c, logSty.s, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+                    let nx = x + yxSide[d].x;
+                    let ny = y + yxSide[d].y;
+                    if(this.checkAround3(x,y,nx,ny)){
+                        // this.xyPathTo(nx,ny,step);
+                        // this.xyPathTo(nx,ny,this.steps);
+                        this.xyPathTo(nx,ny);
+                        this.makePathHelper(nx,ny,step+1);
+                    }
+                }
+            }
+        }
+        makePath(){
+            let possibleDirections = this.possibleSides(this.start.x,this.start.y);
+            safeLogList2(`Step #%c${this.steps}%c → Possible Directions`, possibleDirections, [logSty.s, logSty.c]);
+
+            // let random_direction_id = Math.floor(Math.random()*possibleDirections.length);
+            // let d = possibleDirections[random_direction_id];
+            let d = possibleDirections[Math.floor(Math.random()*possibleDirections.length)];
+            // safeLog([`%c → At step #%c${this.steps}%c, random direction id: (%c${random_direction_id}%c), direction: (%c${d}%c)`, logSty.c, logSty.s, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+
+            let nx = this.start.x + yxSide[d].x;
+            let ny = this.start.y + yxSide[d].y;
+
+            // this.xyPathTo(nx,ny,this.steps);
+            this.xyPathTo(nx,ny,this.steps,0);
+            this.makePathHelper(nx,ny,this.steps);
+        }
+
+
+        xyPathTo(x,y,steps = this.steps,tile = 0){
+            safeLog([`%c → At step #%c${steps}%c, making tile (%c${tile}%c) path to : (%c${x}%c,%c${y}%c)`, logSty.c, logSty.s, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+            this.maze[y][x] = tile;
+            this.stepMap[y][x] = steps;
+            if(steps >= this.end.d){
+                this.end.x = x;
+                this.end.y = y;
+                this.end.d = steps;
+            }
+            this.steps++;
+            this.updateView(x,y,steps,tile);
+        }
+        updateView(x,y,steps = 0,tile){
+            let tile_id = `xy,${x},${y}`;
+            let tile_element = document.getElementById(tile_id);
+            if(tile_element){
+                tile_element.dataset.type = tile;
+                tile_element.dataset.steps = steps;
+                tile_element.style = `--steps: ${steps};`;
+            }
+        }
+    }
+
+    function BuildMaze_Display(w, h, map){
+        let display = document.getElementById('display');
+
+        let grid = document.createElement('div');
+        grid.classList.add('grid');
+
+        for(let y = 0; y < h; y++){
+            let row = document.createElement('div');
+            row.classList.add('row');
+            row.dataset.y = y;
+            for(let x = 0; x < w; x++){
+                let tile = document.createElement('div');
+                tile.classList.add('tile');
+                
+                tile.id = `xy,${x},${y}`;
+                // tile.id = `xy${x},${y}`;
+                // tile.id = `tile-${x},${y}`;
+                tile.dataset.x = x;
+                tile.dataset.y = y;
+                tile.dataset.steps = 0;
+                tile.dataset.type = `-1`;
+                // tile.dataset.type = `${map[y][x]}`;
+
+                row.appendChild(tile);
+            }
+            grid.appendChild(row);
+        }
+        display.appendChild(grid);
+    }
+    
+
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+
+        let h = s.h * .94 - 108;
+        let w = s.w * .95;
+
+        s.grid.cols = Math.floor((w - s.grid.margin) / s.tile.w);
+        s.grid.rows = Math.floor((h - s.grid.margin) / s.tile.h);
+        
+        if(s.grid.cols > 32) { s.grid.cols = 32; }
+        if(s.grid.rows > 32) { s.grid.rows = 32; }
+
+        s.canvas.w = s.grid.cols * 16;
+        s.canvas.h = s.grid.rows * 16;
+        // canvas.width = s.canvas.w;
+        // canvas.height = s.canvas.h;
+        // canvas.style = `width: ${s.canvas.w}px; height: ${s.canvas.h}px;`;
+
+        console.log(`%cw: %c${s.w}%c, h: %c${s.h}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+        console.log(`%cw: %c${w}%c, h: %c${h}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+        console.log(`%ccols: %c${s.grid.cols}%c, rows: %c${s.grid.rows}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+        updateView();
+    }
+    function updateView(){
+        let display = document.getElementById('display');
+        display.style = `width: ${s.canvas.w}px; height: ${s.canvas.h}px;`;
+        canvas.width = s.canvas.w;
+        canvas.height = s.canvas.h;
+        canvas.style = `width: ${s.canvas.w}px; height: ${s.canvas.h}px;`;
+    }
+
+
+    function q(){
+        s.q = !s.q;
+        settingsLog([`%cs%c.q:%c${s.q}`, logStyle.s, logStyle.n, logStyle.bool]);
+    }
+    window.addEventListener("keydown", function (event) {
+        // console.log(`key: '${event.key}', keyCode: '${event.keyCode}'.`);
+        if(event.key == 'Escape') {
+            q();
+        }
+        if(s.q){
+            console.log(`key: '${event.key}', keyCode: '${event.keyCode}'.`);
+            // if(event.key == 'Escape' || event.key == 'q' || event.key == 'Q') {q();}
+            // if(event.key == '.' || event.key == 'CapsLock' || event.key == '`') {}
+        }
+        if(!s.q){
+            let evkey = event.key.toLowerCase();
+            if(event.key == ' ' || event.key == 'Enter') {
+                s.pause = !s.pause;
+            }
+            if(event.key == '`') {
+                s.log = !s.log;
+            }
+
+            // if(evkey == 'q' || event.key == '7') {movePlayer(7);}
+            // if(evkey == 'w' || event.key == '8' || event.key == 'ArrowUp') {movePlayer(8);}
+            // if(evkey == 'e' || event.key == '9') {movePlayer(9);}
+            // if(evkey == 'a' || event.key == '4' || event.key == 'ArrowLeft') {movePlayer(4);}
+            // if(evkey == 'd' || event.key == '6' || event.key == 'ArrowRight') {movePlayer(6);}
+            // if(evkey == 'z' || event.key == '1') {movePlayer(1);}
+            // if(evkey == 's' || event.key == '2' || event.key == 'ArrowDown') {movePlayer(2);}
+            // if(evkey == 'x' || event.key == '3') {movePlayer(3);}
+        }
+
+        // if(event.key == 'Tab' || event.key == '`') {openS();}
+    });
+
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        updateSettings();
+
+        BuildMaze_Display(s.grid.cols,s.grid.rows);
+
+        level = new MazeSide(s.grid.cols,s.grid.rows);
+        // level.makePath2();
+        level.makePath();
+        // BuildMaze_Display(level.w, level.h);
+
+        // BuildMaze_Display(level.w, level.h, level.maze);
+    });
+
+    
+    const logSty = {
+        's': `background-color: #fff; color: #000; padding: .0625rem .125rem; border-radius: .25rem; font-weight: bold;`,
+        'c': `color: #ccc;`,
+
+        'keyCodeStyle': `background-color: #0369; padding: 2px 4px; border-radius: 4px; color: #39f;`,
+        'keyStyle': `background: linear-gradient(180deg,#eee,#ddd); margin: 2px; padding: 4px 6px; border-radius: 4px; color: #111; font-size: .9rem; font-weight: 700; border-bottom: 2px solid #aaa; line-height: 1;`,
+
+        'setting': `color: #fff;`,
+        'bool': `background-color: #39f2; color: #39f; padding: .0625rem .25rem; border-radius: .25rem;`,
+        'b': `background-color: #39f2; color: #39f; padding: .0625rem .25rem; border-radius: .25rem;`,
+        'z': `color: #0000;`
+    }
+    function settingsLog(s_log = ['']){
+        if(!s.q){
+            if(Array.isArray(s_log)){
+                console.log(...s_log);
+            }
+            if(typeof s_log == 'string'){
+                console.log(s_log);
+            }
+        }
+    }
+    function safeLog(arr = [''], bypass = false){
+        if(!s.q){
+            if(s.log || bypass){
+                if(Array.isArray(arr)){
+                    console.log(...arr);
+                }
+                if(typeof arr == 'string'){
+                    console.log(arr);
+                }
+            }
+        }
+    }
+
+    function safeLogList(msg = '___: ', arr = ['']){
+        /* receives a list to log. */
+        /* the first format will be normal, so 'logSty.c' */
+        /* the next ones will be between 'logSty.b' and 'logSty.c' */
+        if(!s.q){
+            if(s.log){
+                let arrString = arr.join('%c, %c');
+                let toLog = [`%c→ ${msg}: %c${arrString}`];
+                for (let i = 0; i < arr.length; i++) {
+                    toLog.push(logSty.c);
+                    toLog.push(logSty.b);
+                }
+                console.log(...toLog);
+            }
+        }
+    }
+    function safeLogList2(msg = '___: ', arr = [''], otherStyles = []){
+        /* receives a list to log. */
+        /* the first format will be normal, so 'logSty.c' */
+        /* the next ones will be between 'logSty.b' and 'logSty.c' */
+        if(!s.q){
+            if(s.log){
+                let arrString = arr.join('%c, %c');
+                let toLog = [`%c→ ${msg}: %c${arrString}%c.`];
+                toLog.push(logSty.c);
+                if(otherStyles.length > 0){toLog.push(...otherStyles);}
+                for (let i = 0; i < arr.length; i++) {
+                    toLog.push(logSty.b);
+                    toLog.push(logSty.c);
+                }
+                console.log(...toLog);
+            }
+        }
+    }
+    
+    /* Version Log:
+    [exp-nds-00]: Goal: Simplify for a maze in tiles that moves to the sides only.
+    [exp-nds-01]: MazeSide class ready.
+    [exp-nds-02]: CheckAround fixed.
+    [exp-nds-03]: 
+    [exp-nds-04]: 
+    [exp-nds-05]: 
+    [exp-nds-06]: 
+    [exp-nds-07]: 
+    [exp-nds-08]: 
+    [exp-nds-09]: 
+    [exp-nds-10]: 
+    [exp-nds-11]: 
+    [exp-nds-12]: 
+    [exp-nds-13]: 
+    
+    */
+</script>
+</body>
+</html>
