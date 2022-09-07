@@ -287,11 +287,8 @@
     }
     function getHue(i, j, xlen, ylen){
         // xlen, ylen
-        // let x = (xlen + 1)/2 - (i + 1);
-        // let y = (ylen + 1)/2 - (j + 1);
-
-        let x = (i + 1) - (xlen + 1)/2;
-        let y = (j + 1) - (ylen + 1)/2;
+        let x = (xlen + 1)/2 - (i + 1);
+        let y = (ylen + 1)/2 - (j + 1);
         let yy = y * y;
         let xx = x * x;
         let q = yy + xx;
@@ -320,65 +317,9 @@
         // hue = q * h2;
         // hue = h2 + x * -50 + y * -50;
         // hue = q * h2;
-        // hue = q + xy * 4;
+        hue = q + xy * 4;
         // if(hue > 10) {hue = Math.log10(hue) * 10;}
         // if(hue < -10) {hue = Math.log10(hue * -1) * 10;}
-
-        let x1 = (i + 1);
-        let y1 = (j + 1);
-        let x2 = i - xlen;
-        let y2 = j - ylen;
-
-        let xx1 = x1 * x1;
-        let yy1 = y1 * y1;
-        let xx2 = x2 * x2;
-        let yy2 = y2 * y2;
-        
-        let q1 = xx1 + yy1;
-        let q2 = xx2 + yy1;
-        let q3 = xx2 + yy2;
-        let q4 = xx1 + yy2;
-
-        // hue = (360 - q1);
-        // hue = (360 - q2);
-        // hue = (360 - q1) + (360 - q2);
-        // hue = (360 - q1) + (360 - q2) + (360 - q3) + (360 - q4);
-        // hue = x1 + y1;
-        // hue = x2 + y2;
-        // hue = h;
-
-        // let q1w = (360 * (2/q1));
-        // let q2w = (360 * (2/q2));
-        // let q3w = (360 * (2/q3));
-        // let q4w = (360 * (2/q4));
-
-        let q1r = Math.round(360 * (2/q1));
-        let q2r = Math.round(360 * (2/q2));
-        let q3r = Math.round(360 * (2/q3));
-        let q4r = Math.round(360 * (2/q4));
-
-        let q1f = Math.floor(360 * (2/q1));
-        let q2f = Math.floor(360 * (2/q2));
-        let q3f = Math.floor(360 * (2/q3));
-        let q4f = Math.floor(360 * (2/q4));
-
-        // hue = q1w + q2w + q3w;
-
-        // hue = q1 % 100;
-        // hue = q1 * .25;
-        // hue = x1 + y1;
-        // hue = x1 * y1;
-        // hue = x1 * y1 + q1 * .25;
-        // hue = (x1 * y1) * 12 / (q1 * .25 + 1);
-        // hue = (x1 + y1) * 50 / (q1 * .25 + 1);
-
-        // hue = q1;
-        // hue = q1w * q2w * q3w * q4w;
-        // hue = q1r * q2r * q3r * q4r * 2;
-        // hue = q1f * q2f * q3f * q4f * 10;
-        // hue = q1r * q2r * 2;
-        hue = q1f * q2f * 5;
-
 
         return hue;
     }

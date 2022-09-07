@@ -1,0 +1,202 @@
+#html-display {
+display: flex;
+align-items: center;
+justify-content: center;
+min-height: 500px;
+}
+.row {
+    display: flex;
+    flex-direction: row;
+}
+.tile{
+    height: 1rem;
+    width: 1rem;
+    background: #fff9;
+    margin: 0px;
+}
+
+.grid {
+--xlen: 20;
+--ylen: 20;
+height: max-content;
+width: max-content;
+margin: auto;
+/*
+transform: rotate3d(1,0,0,54deg) rotate3d(0,0,1,-45deg);
+transform: rotate3d(1,0,0,54deg) rotate3d(0,0,1,0deg);*/
+/*
+animation: spin 12000ms linear infinite both;
+animation-play-state: paused;
+*/
+}
+/*
+.grid:hover {
+animation-play-state: running;
+}
+*/
+@keyframes spin {
+0%{transform: rotate3d(1,0,0,54deg) rotate3d(0,0,1,0deg);}
+
+25%{transform: rotate3d(1,0,0,54deg) rotate3d(0,0,1,90deg);}
+
+50%{transform: rotate3d(1,0,0,54deg) rotate3d(0,0,1,180deg);}
+
+75%{transform: rotate3d(1,0,0,54deg) rotate3d(0,0,1,270deg);}
+
+100%{transform: rotate3d(1,0,0,54deg) rotate3d(0,0,1,360deg);}
+}
+@keyframes spin1 {
+0%{transform: rotate3d(1,0,0,54deg) rotate3d(0,0,1,0deg);}
+100%{transform: rotate3d(1,0,0,54deg) rotate3d(0,0,1,180deg);}
+}
+
+.grid, .row, .tile {transform-style: preserve-3d;}
+.row {--j: var(--i);}
+.tile {
+--xhalf: calc((var(--xlen) + 1) / 2);
+--yhalf: calc((var(--ylen) + 1) / 2);
+--x: calc(var(--i) - var(--xhalf));
+--y: calc(var(--j) - var(--yhalf));
+
+--h: calc(var(--x) + var(--y));
+--xy: calc(var(--x) * var(--y));
+
+--xx: calc(var(--x) * var(--x));
+--yy: calc(var(--y) * var(--y));
+
+--q: calc(var(--xx) + var(--yy));
+
+--xy100q4: calc(var(--h) * 100 / (var(--q) / 4 + 1));
+--xy150q3: calc(var(--xy) * 150 / (var(--q) / 3 + 1));
+
+--val: var(--xy150q3);
+
+
+
+--x1: var(--i);
+--y1: var(--j);
+--x2: calc(var(--i) - 1 - var(--xlen));
+--y2: calc(var(--j) - 1 - var(--ylen));
+--xx1: calc(var(--x1) * var(--x1));
+--xx2: calc(var(--x2) * var(--x2));
+--yy1: calc(var(--y1) * var(--y1));
+--yy2: calc(var(--y2) * var(--y2));
+--q1: calc(var(--xx1) + var(--yy1));
+--q2: calc(var(--xx2) + var(--yy1));
+--q3: calc(var(--xx2) + var(--yy2));
+--q4: calc(var(--xx1) + var(--yy2));
+
+--q1-2: calc(var(--q1) * 2);
+--q2-2: calc(var(--q2) * 2);
+--q3-2: calc(var(--q3) * 2);
+--q4-2: calc(var(--q4) * 2);
+
+--q12: calc(var(--q1) + var(--q2));
+--q13: calc(var(--q1) + var(--q3));
+
+--val: var(--q4-2);
+--val: var(--q12);
+
+
+
+
+--q1u: calc(360 - var(--q1));
+--q2u: calc(360 - var(--q2));
+--q3u: calc(360 - var(--q3));
+--q4u: calc(360 - var(--q4));
+--q1234u: calc(var(--q1u) + var(--q2u) + var(--q3u) + var(--q4u));
+--q12u: calc(var(--q1u) + var(--q2u));
+
+--q1w: calc(90 * (10/var(--q1)));
+--q2w: calc(90 * (10/var(--q2)));
+--q3w: calc(90 * (10/var(--q3)));
+--q4w: calc(90 * (10/var(--q4)));
+--q1234w: calc(var(--q1w) + var(--q2w) + var(--q3w) + var(--q4w));
+--q12w: calc(var(--q1w) + var(--q2w));
+
+--val: var(--q1234u);
+--val: var(--q12u);
+--val: var(--q12w);
+--val: calc(var(--q12w) * 5);
+
+
+--hue: calc(var(--val) * 1);
+--clr: hsla(var(--hue), 100%, 50%, .75);
+
+--z-deg: calc(var(--val) * 1deg);
+--z-px: calc(var(--val) * .3px);
+
+--time: calc(var(--val) * 10);
+}
+
+.tile {
+background-color: var(--clr);
+
+/*
+transform: translateZ(var(--z-px));
+transform: rotate(var(--z-deg)) translateZ(var(--z-px));
+transform: rotate(var(--z-deg));*/
+/*
+transform: rotate(45deg) translateZ(var(--z-px));*/
+}
+
+.tile {
+    --lit-q: calc(1 - (var(--q) / 300));
+    opacity: .75;
+    background-color: hsla(var(--hue), 100%, 50%, var(--lit-q));
+    transition: transform 300ms ease-in-out, background-color 300ms ease-in-out;
+}
+/*
+.tile {
+    animation: undulate 6000ms ease-in-out infinite both;
+    animation-delay: calc(15ms * var(--val) + 100ms);
+    animation-delay: calc(-15ms * var(--time) + 100ms);
+    animation-play-state: paused;
+}
+*/
+@keyframes undulate {
+    0%{transform: rotate3d(0,0,1,calc(1deg)) translateZ(calc(1px));}
+    50%{transform: rotate3d(0,0,1,calc(45deg)) translateZ(calc(20px));}
+    100%{transform: rotate3d(0,0,1,calc(1deg)) translateZ(calc(1px));}
+}
+
+
+
+
+.option {
+position: absolute;
+top: 6px; right: 2px;
+padding: 0px;
+height: max-content;
+}
+#toggle {display:none;} 
+label.toggleLabel {
+    color: #fff9;
+    background: #000;
+    padding: .25rem;
+    border-radius: .25rem;
+    transition: color 300ms ease-in-out, background-color 300ms ease-in-out;
+}
+
+.toggleLabel::after {content: '-off';}
+#toggle:checked ~ .option .toggleLabel::after {content: '-on';}
+
+#toggle:checked ~ .option .toggleLabel {
+    color: #000;
+    background: #fff;
+}
+
+#toggle:checked ~ .grid .tile,
+#toggle:checked ~ .grid {
+    animation-play-state: running;
+}
+
+
+/*
+[html]
+
+<input type="checkbox" id="toggle">
+<div class="option">
+<label for="toggle" class="toggleLabel">Animati</label>
+</div>
+*/

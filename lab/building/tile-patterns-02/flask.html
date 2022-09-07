@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tile-eq</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Alegreya|Ubuntu|Satisfy&display=swap');
+        body {
+            margin: 0;
+            /* background-image: linear-gradient(to top left, #123, #789); */
+            background-color: #000;
+            min-height: 100vh;
+            font-family: 'Ubuntu', sans-serif;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            color: #fff;
+        }
+        h1 {margin: 1rem;}
+        main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+        footer {position: fixed; bottom: 0; opacity: .29; color: #1234;}
+    </style>
+    <style>
+        *:nth-child(1) {--i: 1;}
+        *:nth-child(2) {--i: 2;}
+        *:nth-child(3) {--i: 3;}
+        *:nth-child(4) {--i: 4;}
+        *:nth-child(5) {--i: 5;}
+        *:nth-child(6) {--i: 6;}
+        *:nth-child(7) {--i: 7;}
+        *:nth-child(8) {--i: 8;}
+        *:nth-child(9) {--i: 9;}
+        *:nth-child(10) {--i: 10;}
+        *:nth-child(11) {--i: 11;}
+        *:nth-child(12) {--i: 12;}
+        *:nth-child(13) {--i: 13;}
+        *:nth-child(14) {--i: 14;}
+        *:nth-child(15) {--i: 15;}
+        *:nth-child(16) {--i: 16;}
+        *:nth-child(17) {--i: 17;}
+        *:nth-child(18) {--i: 18;}
+        *:nth-child(19) {--i: 19;}
+        *:nth-child(20) {--i: 20;}
+        *:nth-child(21) {--i: 21;}
+        *:nth-child(22) {--i: 22;}
+        *:nth-child(23) {--i: 23;}
+        *:nth-child(24) {--i: 24;}
+        *:nth-child(25) {--i: 25;}
+        *:nth-child(26) {--i: 26;}
+        *:nth-child(27) {--i: 27;}
+        *:nth-child(28) {--i: 28;}
+        *:nth-child(29) {--i: 29;}
+        *:nth-child(30) {--i: 30;}
+        *:nth-child(31) {--i: 31;}
+        *:nth-child(32) {--i: 32;}
+        *:nth-child(33) {--i: 33;}
+        *:nth-child(34) {--i: 34;}
+        *:nth-child(35) {--i: 35;}
+        *:nth-child(36) {--i: 36;}
+        *:nth-child(37) {--i: 37;}
+        *:nth-child(38) {--i: 38;}
+        *:nth-child(39) {--i: 39;}
+        *:nth-child(40) {--i: 40;}
+        *:nth-child(41) {--i: 41;}
+        *:nth-child(42) {--i: 42;}
+        *:nth-child(43) {--i: 43;}
+        *:nth-child(44) {--i: 44;}
+        *:nth-child(45) {--i: 45;}
+        *:nth-child(46) {--i: 46;}
+        *:nth-child(47) {--i: 47;}
+        *:nth-child(48) {--i: 48;}
+        *:nth-child(49) {--i: 49;}
+        *:nth-child(50) {--i: 50;}
+    </style>
+    <style>
+        .grid {
+            width: max-content; margin: auto;
+            --xlen: 10;
+            --ylen: 10;
+        }
+        .grid {
+            transform: perspective(5000px);
+            transform: perspective(5000px) rotate3d(1,0,0,54deg) rotate3d(0,0,1,45deg);
+            transform: perspective(5000px) rotate3d(1,0,0,54deg) rotate3d(0,0,1,45deg) translateZ(-300px);
+            transform: perspective(var(--p)) rotate3d(1,0,0,var(--x-deg)) rotate3d(0,0,1,15deg) translateZ(var(--z));
+            --p: 50000px;
+            --x-deg: 0deg;
+            --z: 0px;
+            --p: 5000px;
+            --x-deg: 54deg;
+            --z: 0px;
+            transition: transform 900ms ease-in-out, background-color 900ms ease-in-out;
+            transition: transform 900ms ease-in-out, background-color 900ms ease-in-out, animation-play-state 900ms ease-in-out;
+            animation: spin 12000ms linear 0ms infinite both;
+            animation-play-state: paused;
+        }
+        .grid:hover {
+            animation-play-state: running;
+        }
+        /* main:hover .grid {
+            --p: 5000px;
+            --x-deg: 54deg;
+            --z: 0px;
+        } */
+        @keyframes spin {
+            0% {transform: perspective(var(--p)) rotate3d(1,0,0,var(--x-deg)) rotate3d(0,0,1,0deg) translateZ(var(--z));}
+            100% {transform: perspective(var(--p)) rotate3d(1,0,0,var(--x-deg)) rotate3d(0,0,1,360deg) translateZ(var(--z));}
+        }
+
+        .grid, .row, .tile {
+            transform-style: preserve-3d;
+        }
+        .row {
+            display: flex;
+            flex-direction: row;
+        }
+        .tile {
+            height: 1rem;
+            width: 1rem;
+            background-color: #fff;
+            /* margin: .125rem; */
+        }
+        .row {--j: var(--i);}
+        .tile {
+            --x: var(--i);
+            --y: var(--j);
+            --x: calc((var(--xlen) + 1)/2 - var(--i));
+            --y: calc((var(--ylen) + 1)/2 - var(--j));
+            --xx: calc(var(--x) * var(--x));
+            --yy: calc(var(--y) * var(--y));
+            --xy: calc(var(--x) * var(--y));
+            --hh: calc(var(--xx) + var(--yy));
+
+
+            --hue: calc(var(--xx) + var(--yy));
+            --hue: calc(var(--x) * var(--y));
+
+            --hue: calc(var(--xy) * 2 / var(--hh));
+            --hue: calc(var(--xy) * 150 / var(--hh));
+            --hue: calc(var(--xy) * 150 / (var(--hh) / 3 + 1));
+
+            /* --hue: calc((var(--xy) + var(--hh))); */
+
+
+            background-color: hsla(var(--hue), 100%, 50%, 1);
+            background-color: hsla(var(--hue), 100%, 50%, .75);
+            background-color: hsla(var(--hue), 100%, 50%, .5);
+            
+            transform: rotateZ(calc(var(--hue) * 1deg));
+            transform: rotateZ(calc(var(--hue) * 1deg)) scale(1.5);
+            transform: rotateZ(calc(var(--hue) * 1deg)) scale(1.5) translateZ(calc(var(--hue) * 1px));
+            transform: rotateZ(calc(var(--hue) * 1deg)) translateZ(calc(var(--hue) * 1px));
+            transform: rotateZ(calc(var(--hue) * 1deg)) translateZ(calc(var(--hue) * .5px));
+            transform: rotateZ(calc(var(--hue) * 1deg)) scale(1.15) translateZ(calc(var(--hue) * .5px));
+            
+            
+            background-color: hsla(var(--hue), 0%, 50%, .5);
+            transform: rotateZ(calc(var(--hue) * 0deg)) scale(1) translateZ(calc(var(--hue) * 0px));
+            
+            transition: transform 900ms ease-in-out, background-color 900ms ease-in-out;
+        }
+        main:hover .tile {
+            background-color: hsla(var(--hue), 100%, 50%, 1);
+            background-color: hsla(var(--hue), 100%, 50%, .75);
+            background-color: hsla(var(--hue), 100%, 50%, .5);
+            transform: rotateZ(calc(var(--hue) * 1deg)) scale(1.15) translateZ(calc(var(--hue) * .5px));
+        }
+
+        .tile {
+            --x1: var(--i);
+            --y1: var(--j);
+            --x2: calc(var(--xlen) - var(--i));
+            --y2: calc(var(--ylen) - var(--j));
+            --xx1: calc(var(--x1) * var(--x1));
+            --xx2: calc(var(--x2) * var(--x2));
+            --yy1: calc(var(--y1) * var(--y1));
+            --yy2: calc(var(--y2) * var(--y2));
+            --q1: calc(var(--xx1) + var(--yy1));
+            --q2: calc(var(--xx2) + var(--yy1));
+            --q3: calc(var(--xx2) + var(--yy2));
+            --q4: calc(var(--xx1) + var(--yy2));
+
+            --q1-2: calc(var(--q1) * 2);
+            --q2-2: calc(var(--q2) * 2);
+            --q3-2: calc(var(--q3) * 2);
+            --q4-2: calc(var(--q4) * 2);
+
+            --q12: calc(var(--q1) + var(--q2));
+            --q13: calc(var(--q1) + var(--q3));
+
+            --val: var(--q4-2);
+            --val: var(--q12);
+
+        }
+
+        .tile {
+            --hue: calc(var(--val) * 1);
+            --clr: hsla(var(--hue), 100%, 50%, .75);
+
+            --z-deg: calc(var(--val) * 1deg);
+            --z-px: calc(var(--val) * .3px);
+
+            --lit-q: calc(1 - (var(--q) / 300));
+            opacity: .75;
+            background-color: hsla(var(--hue), 100%, 50%, var(--lit-q));
+            transition: transform 300ms ease-in-out, background-color 300ms ease-in-out;
+        }
+
+
+        .tile {
+            animation: undulate 6000ms ease-in-out infinite both;
+            animation-delay: calc(15ms * var(--val) + 100ms);
+            animation-play-state: paused;
+        }
+        @keyframes undulate {
+            0%{transform: rotate3d(0,0,1,calc(1deg)) translateZ(calc(1px));}
+            50%{transform: rotate3d(0,0,1,calc(45deg)) translateZ(calc(20px));}
+            100%{transform: rotate3d(0,0,1,calc(1deg)) translateZ(calc(1px));}
+        }
+    
+    </style>
+    <style>
+        .option {
+            position: absolute;
+            top: 6px; right: 2px;
+            padding: 0px;
+            height: max-content;
+        }
+        #toggle {display:none;} 
+        label.toggleLabel {
+            color: #fff9;
+            background: #000;
+            padding: .25rem;
+            border-radius: .25rem;
+            transition: color 300ms ease-in-out, background-color 300ms ease-in-out;
+        }
+
+        .toggleLabel::after {content: '-off';}
+        #toggle:checked ~ .option .toggleLabel::after {content: '-on';}
+
+        #toggle:checked ~ .option .toggleLabel {
+            color: #000;
+            background: #fff;
+        }
+
+        #toggle:checked ~ .grid .tile,
+        #toggle:checked ~ .grid {
+            animation-play-state: running;
+        }
+    </style>
+</head>
+<body>
+    <header><h1>NyteLabst</h1></header>
+    <main>
+        <div id="display"></div>
+    </main>
+
+    
+
+
+    <footer>
+        <div class="my-name">
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <script>
+
+        var intDOM = `#grid.grid>.row*34>.tile*34`;
+
+        function BuildGrid(rows,cols){
+            let grid = document.createElement('div');
+            grid.classList.add('grid');
+            grid.id = 'grid';
+            for (let y = 0; y < rows; y++) {
+                let row = document.createElement('div');
+                row.classList.add('row');
+                for (let x = 0; x < cols; x++) {
+                    let tile = document.createElement('div');
+                    tile.classList.add('tile');
+                    row.appendChild(tile);
+                }
+                grid.appendChild(row);
+            }
+            return grid;
+        }
+
+        window.addEventListener('load', (ev) => {
+            console.log('Welcome to my Lab!');
+            // let display = document.getElementById('display');
+            // let h = Math.floor(window.innerHeight / 20);
+            // let w = Math.floor(window.innerWidth / 20);
+            // let sz = Math.min(h,w);
+            // display.appendChild(BuildGrid(sz,sz));
+
+            // let grid = document.getElementById('grid');
+            // grid.style = `--xlen: ${sz}; --ylen: ${sz};`;
+            
+            let h = 20;
+            let w = 20;
+            let display = document.getElementById('display');
+            display.appendChild(BuildGrid(w,h));
+            let grid = document.getElementById('grid');
+            grid.style = `--xlen: ${w}; --ylen: ${h};`;
+        });
+
+    </script>
+</body>
+</html>
