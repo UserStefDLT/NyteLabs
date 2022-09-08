@@ -1,0 +1,179 @@
+.displayList {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: .5rem;
+}
+.displayPairs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .5rem;
+}
+
+.row:nth-child(6n+1) { --hue: 30; }
+.row:nth-child(6n+2) { --hue: 90; }
+.row:nth-child(6n+3) { --hue: 150; }
+.row:nth-child(6n+4) { --hue: 210; }
+.row:nth-child(6n+5) { --hue: 270; }
+.row:nth-child(6n+6) { --hue: 330; }
+.row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: .5rem;
+    box-shadow: 0 0 0 2px hsl(var(--hue), 80%, 60%);
+    border-radius: .5rem;
+    padding: .25rem .5rem;
+    /* margin: .25rem .5rem; */
+}
+
+.pair {
+    position: relative;
+    outline: 1px solid #abc9;
+    outline-offset: 1px;
+}
+
+.x-axis::before { content: 'x: '; }
+.y-axis::before { content: 'y: '; }
+.x-axis::after,
+.y-axis::after { content: '%'; }
+
+.x-axis::before,
+.x-axis::after,
+.y-axis::before,
+.y-axis::after {
+    padding: 0 .125rem;
+    color: hsl(var(--hue), 70%, 30%);
+}
+
+/* .x-axis::before,
+.x-axis::after {
+
+}
+.y-axis::before,
+.y-axis::after {
+
+} */
+
+[data-xtoTens="1"] { --nx10: 1; }
+/* [data-xtoOnes="1"] { --nx1: 1; }
+[data-ytoTens="1"] { --ny10: 1; }
+[data-ytoOnes="1"] { --ny1: 1; } */
+
+
+[data-xto-tens="1"] { --nx10: 1; }
+[data-xto-tens="2"] { --nx10: 2; }
+[data-xto-tens="3"] { --nx10: 3; }
+[data-xto-tens="4"] { --nx10: 4; }
+[data-xto-tens="5"] { --nx10: 5; }
+[data-xto-tens="6"] { --nx10: 6; }
+[data-xto-tens="7"] { --nx10: 7; }
+[data-xto-tens="8"] { --nx10: 8; }
+[data-xto-tens="9"] { --nx10: 9; }
+[data-xto-tens="0"] { --nx10: 0; }
+
+[data-xto-ones="1"] { --nx1: 1; }
+[data-xto-ones="2"] { --nx1: 2; }
+[data-xto-ones="3"] { --nx1: 3; }
+[data-xto-ones="4"] { --nx1: 4; }
+[data-xto-ones="5"] { --nx1: 5; }
+[data-xto-ones="6"] { --nx1: 6; }
+[data-xto-ones="7"] { --nx1: 7; }
+[data-xto-ones="8"] { --nx1: 8; }
+[data-xto-ones="9"] { --nx1: 9; }
+[data-xto-ones="0"] { --nx1: 0; }
+
+[data-yto-tens="1"] { --ny10: 1; }
+[data-yto-tens="2"] { --ny10: 2; }
+[data-yto-tens="3"] { --ny10: 3; }
+[data-yto-tens="4"] { --ny10: 4; }
+[data-yto-tens="5"] { --ny10: 5; }
+[data-yto-tens="6"] { --ny10: 6; }
+[data-yto-tens="7"] { --ny10: 7; }
+[data-yto-tens="8"] { --ny10: 8; }
+[data-yto-tens="9"] { --ny10: 9; }
+[data-yto-tens="0"] { --ny10: 0; }
+
+[data-yto-ones="1"] { --ny1: 1; }
+[data-yto-ones="2"] { --ny1: 2; }
+[data-yto-ones="3"] { --ny1: 3; }
+[data-yto-ones="4"] { --ny1: 4; }
+[data-yto-ones="5"] { --ny1: 5; }
+[data-yto-ones="6"] { --ny1: 6; }
+[data-yto-ones="7"] { --ny1: 7; }
+[data-yto-ones="8"] { --ny1: 8; }
+[data-yto-ones="9"] { --ny1: 9; }
+[data-yto-ones="0"] { --ny1: 0; }
+
+
+
+
+.x-axis { --brd: 50% 0 0 50%; }
+.y-axis { --brd: 0 50% 50% 0; }
+
+.x-axis { --brd: 1rem 0 0 1rem; }
+.y-axis { --brd: 0 1rem 1rem 0; }
+
+.visualizeFill {
+    position: absolute;
+    height: 100%; width: 100%;
+    height: 1.25rem; width: 3rem;
+    /* transform: ; */
+    background-color: hsl(var(--hue), 80%, 60%);
+    /* background-color: #fff; */
+    margin: 0 .25rem;
+
+    transform: translateY(-50%);
+
+    border-radius: var(--brd);
+}
+.x-axis .visualizeFill { top: 50%; right: 100%; }
+.y-axis .visualizeFill { top: 50%; left: 100%; }
+
+/* .x-axis .visualizeFill { width: calc(var(--nx10) * 20px); }
+.y-axis .visualizeFill { width: calc(var(--ny10) * 20px); } */
+.x-axis .visualizeFill { width: calc((var(--nx10) * 20px) + (var(--nx1) * 2px)); }
+.y-axis .visualizeFill { width: calc((var(--ny10) * 20px) + (var(--ny1) * 2px)); }
+
+
+.y-axis .visualizeFill::after {
+    content: calc((var(--ny10)*10) + var(--ny1));
+    border-radius: var(--brd);
+    background-color: hsl(var(--hue), 80%, 60%);
+}
+
+
+
+/* Also */
+
+input#befaft {display:none;}
+label[for="befaft"] {
+    margin: .25rem .5rem;
+    padding: .25rem 1rem;
+    border-radius: .5rem;
+    background-image: 
+    linear-gradient(100deg, #0000 60%, #c33), linear-gradient(-100deg, #0000 60%, #3c3),
+    linear-gradient(100deg, #0000 80%, #39f), linear-gradient(-100deg, #0000 80%, #f39);
+    background-image: 
+    linear-gradient(135deg, #0000 80%, #39f), linear-gradient(-135deg, #0000 80%, #f39),
+    linear-gradient(45deg, #0000 80%, #f93), linear-gradient(-45deg, #0000 80%, #3f9);
+    transition: background-position 600ms ease-in-out;
+    background-size: 200% 200%, 200% 200%, 200% 200%, 200% 200%;
+    background-position: 100% 100%, 0% 100%, 0% 0%, 100% 0%;
+}
+label[for="befaft"]:hover {background-position: 80% 50%, 20% 50%, 80% 50%, 20% 50%;}
+input#befaft:checked ~ main label[for="befaft"] {background-position: 0% 0%, 100% 100%, 100% 0%, 0% 0%;}
+/* input#befaft:checked ~ main :is(.x-axis, .y-axis):is(::before,::after) { */
+/* input#befaft:checked ~ main :is(.x-axis::before, .x-axis::after, .y-axis::before, .y-axis::after) { */
+input#befaft:checked ~ main :is(.x-axis, .y-axis)::before,
+input#befaft:checked ~ main :is(.x-axis, .y-axis)::after {
+    display: none;
+}
+.f-code {font-family: 'Courier New', Courier, monospace;}
+
+/* and */
+
+label[for="befaft"] {
+    user-select: none;
+    cursor: pointer;
+}

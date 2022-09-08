@@ -160,6 +160,33 @@ For example:
 
 [✓, ✗, ⋯]
 
+[✓]    [btns]
+[✓]    [building]
+[✓]    [canvas]
+[✓]    [cards]
+[✓]    [color]
+[ ]    [designs]
+[ ]    [dev]
+[ ]    [dice]
+[ ]    [eval]
+[ ]    [exp]
+[ ]    [holonomy]
+[ ]    [keyevents]
+[ ]    [layout]
+[ ]    [maze]
+[ ]    [other]
+[ ]    [pattern-weaver]
+[ ]    [recreate]
+[ ]    [spheres]
+[ ]    [stars]
+[ ]    [svg]
+[ ]    [text]
+[ ]    [unknown]
+[ ]    [waves]
+[ ]    [xo]
+
+// ─────────────── //
+
 [btns]
     └[btn-styles]       [✗]
     └[btn-types]        [✓] 'my basic styles for buttons.'
@@ -212,29 +239,29 @@ For example:
     └[try]                              [✗] 'visuals on angles as a visual aid for understanding the collision of particles.'
 
 [cards]
-    └[card-designs]         []
-    └[deck-20-saf]          []
-    └[deck-a04]             []
-    └[deck-sphere]          []
+    └[card-designs]         [⋯] 'has variants of the same design. consider having designs and variants'
+    └[deck-20-saf]          [✗] 'only shows [nyCard 20] animation.'
+    └[deck-a04]             [✓] 'shows NyCard animations 20-22 + 18'
+    └[deck-sphere]          [✓] 'shows small card designs. + the [nyCard 20] animation.'
 
 [color]
-    └[color-check]          []
-    └[color-palette]        []
-    └[color-paths]          []
-    └[color-random]         []
-    └[color-sequence]       []
-    └[color-symmetry]       []
+    └[color-check]          [✗] 'it is a tool for comparing colors.'
+    └[color-palette]        [⋯] 'only shows color palettes in a single hue. [210]'
+    └[color-paths]          [✗] 'it was meant to be a hexagonal scrolling color selection.'
+    └[color-random]         [✓] 'gives random hsla colors.'
+    └[color-sequence]       [✓] 'colors based on selected characters.'
+    └[color-symmetry]       [+] 'personal tool for selecting hex code colors.'
 
 [designs]
-    └[!unknown-exp]             []
-    └[accidental-designs]       []
-    └[bg-up]                    []
-    └[myst-box]                 []
-    └[tiles]                    []
-    └[turbulence-filter]        []
+    └[!unknown-exp]         [✗] 'designs like a gold block, and progress bar.'
+    └[accidental-designs]   [✗] 'simple small designs to keep, but not for show. a candle and small blocks'
+    └[bg-up]                [✓] 'repeating background pattern.'
+    └[myst-box]             [✓] 'Attempt to make a 3d myst'
+    └[tiles]                [✗] 'hexagonal tiles, it is a test, but could be to display.'
+    └[turbulence-filter]    [✓] 'My favorite turbulence filter.'
 
 [dev]
-    └[grid]                 []
+    └[grid]                 [✗] 'compares different methods for making grids.'
 
 [dice]
     └[d4]       []
@@ -244,44 +271,44 @@ For example:
     └[d20]      []
 
 [eval]
-    └[base-eval]    []
-    └[grid-eval]    []
+    └[base-eval]    [✓]
+    └[grid-eval]    [✓]
 
 [exp]
-    └[creature-randomizer]      []
-    └[creature-randomizer-01]   []
-    └[dome-animation]           []
-    └[dotsphere]                []
-    └[flow-arrows]              []
-    └[grid-boxes]               []
-    └[hex-grid]                 []
-    └[liquid]                   []
-    └[randsphere]               []
-    └[spheres]                  []
-    └[spheriment]               []
-    └[star-sphere]              []
-    └[tile-patterns]            []
-    └[window]                   []
+    └[creature-randomizer]      [✓] 'displays a combination of [color, element, animal]. next 2+ creatures.'
+    └[creature-randomizer-01]   [✗] 'previous version.'
+    └[dome-animation]           [✓] 'animation.'
+    └[dotsphere]                [✓] 'sphere rotation + animation.' + 'there are presents.'
+    └[flow-arrows]              [⋯] 'follow mouse movement to add the illusion of wind.' (needs work.)
+    └[grid-boxes]               [⋯] 'tiles light up when hover. could be used for a background.' (it is prof of concept.)
+    └[hex-grid]                 [⋯] 'Random Hexagonal Maze.' (exit is not secured / needs improvement)
+    └[liquid]                   [⋯] 'Making the liquid animation for a potion. Works, and while only v.0.9 is responsive, it is not a smooth animation.'
+    └[randsphere]               [✓] 'random dotsphere.'
+    └[spheres]                  [⋯] 'like [dome-animation]'
+    └[spheriment]               [✗] 'for personal use. to better understand 3d rotations.'
+    └[star-sphere]              [⋯] 'contains the stars in a sphere animation + color lights in a sphere rotating. + base of [dome-animation]'
+    └[tile-patterns]            [✗] 'for confirming design of tiles patterns.'
+    └[window]                   [✓] 'displays the base of the client. [navigator, dpi, dimensions, url.]'
 
 [holonomy]
-    └[holonomy-key-controllers] []
-    └[rotation-rings]           []
+    └[holonomy-key-controllers] [⋯] 'change title. currently is testing how to display the controllers for a 3D object.'
+    └[rotation-rings]           [⋯] 'doesn't look the best, but it has space to grow.'
 
 [keyevents]
-    └[keydown]  []
+    └[keydown]                  [⋯] 'display the keys with the apperance of a key from a keyboard. it is not responsive.'
 
 [layout]
-    └[bar-graphs]               []
-    └[cal]                      []
-    └[glowing-chip]             []
-    └[grid-data]                []
-    └[layout-3d]                []
-    └[login-styles]             []
-    └[neumorphic-design]        []
-    └[responsive-dashboard]     []
-    └[screen-grid]              []
-    └[toggle-settings]          []
-    └[web-layout]               []
+    └[bar-graphs]               [✓] 'shows bar graphs with 3 different styles for the design. [fill, ghost, glow.]'
+    └[cal]                      [✗] 'emoty'
+    └[glowing-chip]             [✓] 'design of a selector with the apperance of a chip.'
+    └[grid-data]                [+] 'tool for personal use to visualize the hue in the [tile-patterns]'
+    └[layout-3d]                [✓] '3d layout'
+    └[login-styles]             [✗] 'incomplete.'
+    └[neumorphic-design]        [✓] 'style design that looks like smooth relieve. it can be improved for dark mode.'
+    └[responsive-dashboard]     [✗] "under construction"
+    └[screen-grid]              [✗] 'emoty'
+    └[toggle-settings]          [✗] 'style for controller settings. currently only [toggle].'
+    └[web-layout]               [✓] 'basic webpage layout.'
 
 [maze]
     └[ant-colony]       []
