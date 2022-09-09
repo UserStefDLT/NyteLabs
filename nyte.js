@@ -333,11 +333,13 @@ For example:
     *[path]
     *[isometric]
 
+    [✓, ✗, ⋯]
+
 [other]
-    └[git-calendar]     []
+    └[git-calendar]     [✗] 'for personal use.'
 
 [pattern-weaver]
-    └[pattern-$$]*36
+    └[pattern-$$]*36    [⋯] 'hard to explain.'
 
 [recreate]
     └[glowing-circles]      []
