@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>NyteLabs_Template | NyteLabs</title>
+    <title>Loading Circles | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <style>
@@ -14,9 +14,52 @@
             top: 50%; left: 50%;
             transform: translateX(-50%) translateY(-50%);
         } */
-        :root {}
+        
     </style>
+<style>
+    :root {
+        --p: 500px
+    }
+    .list, .dot {transform-style: preserve-3d;}
+    .list {
+        display: flex; 
+        flex-direction: row; 
+        background-color: #eee;
+        padding: 2rem 1rem;
+        /*
+        transform: perspective(var(--p)) rotateX(54deg) rotateZ(45deg);
+        */
+    }
 
+    .dot {
+        padding: .5rem;
+        font-size: 16px;
+        margin: .25rem;
+
+        background-color: hsla(calc(var(--i) * 15), 100%, 60%, 1);
+        height: 2rem; width: 2rem;
+        color: transparent;
+        border-radius: 50%;
+        border: 0;
+        box-shadow: 0px 0px 0px 0px #3339;
+        animation: bounce 1500ms ease-in-out alternate infinite both;
+        animation-delay: calc(var(--i) * 250ms);
+    }
+    @keyframes bounce {
+        0% {
+        transform: perspective(var(--p)) translateY(0px) translateZ(0px);
+        box-shadow: 0px 0px 0px 0px #3339;
+        }
+        50% {
+        transform: perspective(var(--p)) translateY(0px) translateZ(0px);
+        box-shadow: 0px 0px 0px 0px #3339;
+        }
+        100% {
+        transform: perspective(var(--p)) translateY(-20px) translateZ(50px);
+        box-shadow: 3px 20px 6px -2px #3336;
+        }
+    }
+</style>
     <link rel="stylesheet" href="../../../stylesheets/settings.css">
     <style>
         /* Settings. */
@@ -58,8 +101,8 @@
 <body>
     <header>
         <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
-        <h1 class="title">NyteLabs_Template</h1>
-        <!-- <div class="subtitle">subtitle</div> -->
+        <h1 class="title">NyteLabs</h1>
+        <div class="subtitle">loading...</div>
         <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
         <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
     </header>
@@ -68,9 +111,14 @@
 
 <main>
     <div class="shelf">
-        <div class="shelf-title">experiment</div>
-        <div id="display"></div>
-        <div class="x"></div>
+        <div class="shelf-title">animation</div>
+        <div class="list">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
     </div>
 </main>
 

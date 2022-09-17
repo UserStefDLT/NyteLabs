@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>SVG Box | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        
+    </style>
+<style>
+    :root {
+        --sz-side: 60px;
+        --sz: 120px;
+        --sz: 100px;
+        --sz-h: calc(var(--sz) / 2);
+        --p: 50000px;
+        --p: 5000px;
+        --p: 1000px;
+        --iso-deg: 54deg;
+        --x-deg: 0deg;
+        --y-deg: 0deg;
+        --z-deg: 0deg;
+
+        --hue-side: 0;
+        --hue-step: 30;
+        --alp: .75;
+    }
+    .box {
+        position: relative;
+        height: 150px; width: 150px;
+        margin: 1rem;
+        margin-top: 5rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        /* outline: 1px dashed #fff9;
+        outline-offset: 2px;
+        border-radius: 50%; */
+
+        transform-style: preserve-3d;
+        /* transform: perspective(var(--p)) rotate3d(1,0,0,54deg) rotate3d(0,0,1,45deg); */
+        transform: perspective(var(--p)) rotate3d(1,0,0,var(--x-deg)) rotate3d(0,0,1,45deg);
+        transition: transform 300ms ease-in-out;
+    }
+
+
+    .zf, .zb, .yu, .yd, .xr, .xl {
+        --hue-side: var(--i);
+        position: absolute;
+        top: 0; left: 0;
+        top: calc((100% - var(--sz)) / 2); left: calc((100% - var(--sz)) / 2);
+        height: max-content;
+        width: max-content;
+        height: 120px; width: 120px;
+        height: var(--sz); width: var(--sz);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        /* outline: 1px dashed hsla(calc(var(--i) * 15), 100%, 60%, 1); */
+        /* outline-offset: -4px; */
+        /* margin: 1rem; */
+        transform-style: preserve-3d;
+        /* transform-origin: 60px 60px -60px;*/
+        transform-origin: var(--sz-h) var(--sz-h) var(--sz-h);
+        transform-origin: var(--sz-h) var(--sz-h) calc(var(--sz-h) * -1);
+
+        backface-visibility: hidden;
+        transition: transform 300ms ease-in-out;
+    }
+
+    .xr {transform: translateZ(var(--sz)) rotate3d(1,0,0,-90deg);}
+    .xl {transform: translateZ(var(--sz)) rotate3d(1,0,0,90deg);}
+
+    .yu {transform: translateZ(var(--sz));}
+    .yd {transform: translateZ(var(--sz)) rotate3d(1,0,0,180deg);}
+
+    .zf {transform: translateZ(var(--sz)) rotate3d(0,1,0,90deg);}
+    .zb {transform: translateZ(var(--sz)) rotate3d(0,1,0,-90deg);}
+
+
+    /* Box + SVG */
+
+    /* svg {background-image: linear-gradient(to bottom, var(--bwf9), var(--bw99));} */
+    .bwt {background-image: linear-gradient(to bottom, var(--bwt), var(--bwt));}
+    .path-sq {
+        fill: #0009;
+        fill: hsla(calc(var(--hue-side) * var(--hue-step)), 100%, 60%, var(--alp));
+        /* stroke: #000; */
+        stroke: var(--bwt);
+    }
+    .box {
+        animation: spin1 12000ms linear infinite both;
+        /* animation: spin2 12000ms linear infinite both; */
+        /* animation: spin 6000ms linear infinite both; */
+        
+        /* animation-delay: calc(30ms * var(--hue)); */
+        animation-delay: -1500ms;
+        animation-play-state: paused;
+    }
+    @keyframes spin {
+        0%{transform: rotate3d(1,0,0,var(--x-deg)) rotate3d(0,0,1,0deg);}
+        100%{transform: rotate3d(1,0,0,var(--x-deg)) rotate3d(0,0,1,180deg);}
+    }
+    @keyframes spin2 {
+        0%{transform: rotate3d(1,0,0,var(--x-deg)) rotate3d(0,0,1,0deg);}
+
+        25%{transform: rotate3d(1,0,0,var(--x-deg)) rotate3d(0,0,1,90deg);}
+
+        50%{transform: rotate3d(1,0,0,var(--x-deg)) rotate3d(0,0,1,180deg);}
+
+        75%{transform: rotate3d(1,0,0,var(--x-deg)) rotate3d(0,0,1,270deg);}
+
+        100%{transform: rotate3d(1,0,0,var(--x-deg)) rotate3d(0,0,1,360deg);}
+    }
+    @keyframes spin1 {
+        0%{transform: perspective(var(--p)) rotate3d(1,0,0,var(--x-deg)) rotate3d(0,0,1,0deg);}
+        100%{transform: perspective(var(--p)) rotate3d(1,0,0,var(--x-deg)) rotate3d(0,0,1,360deg);}
+    }
+
+</style>
+<style>
+    .yu-zf, .yu-zb {
+        --hue-side: var(--i);
+        position: absolute;
+        top: calc((100% - var(--sz)) / 2); left: calc((100% - var(--sz)) / 2);
+        height: var(--sz); width: var(--sz);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        transform-style: preserve-3d;
+        /* transform-origin: 60px 60px -60px;*/
+        transform-origin: var(--sz-h) var(--sz-h) var(--sz-h);
+        transform-origin: var(--sz-h) var(--sz-h) calc(var(--sz-h) * -1);
+
+        backface-visibility: hidden;
+        transition: transform 300ms ease-in-out;
+    }
+    .yu-zf {
+        transform: translateZ(var(--sz)) rotate3d(0,1,0,-60deg);
+        transform-origin: 0px 50px 0px;
+    }
+    .yu-zb {
+        transform: translateZ(var(--sz)) rotate3d(0,1,0,60deg);
+        transform-origin: 100px 50px 0px;
+    }
+    .xr-2 {transform-origin: 50px 0px 0px;}
+    .xl-2 {transform-origin: 50px 100px 0px;}
+    .xr-2 {transform: translateZ(var(--sz)) rotate3d(1,0,0,-90deg) rotate3d(0,0,1,180deg);}
+    .xl-2 {transform: translateZ(var(--sz)) rotate3d(1,0,0,90deg);}
+    .xl-2 {transform: translateZ(calc(var(--sz) * 2)) rotate3d(1,0,0,90deg);}
+    .xr-2 {transform: translateZ(calc(var(--sz) * 1)) rotate3d(1,0,0,-90deg) rotate3d(0,0,1,180deg);}
+    .xl-2 {transform: translateZ(calc(var(--sz) * 2)) rotate3d(1,0,0,-90deg) rotate3d(0,0,1,180deg);}
+    .xr-2 {transform: translateZ(calc(var(--sz) * 1)) rotate3d(1,0,0,90deg)}
+</style>
+<style>
+    .box-02 {
+        position: relative;
+        height: 150px; width: 150px;
+        margin: 5rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        outline: 1px dashed #fff9;
+        outline-offset: 2px;
+        border-radius: 50%;
+
+        transform-style: preserve-3d;
+        /* transform: perspective(var(--p)) rotate3d(1,0,0,54deg) rotate3d(0,0,1,45deg); */
+        /* transform: perspective(var(--p)) rotate3d(1,0,0,var(--x-deg)) rotate3d(0,1,0,var(--y-deg)) rotate3d(0,0,1,var(--z-deg)); */
+        /* transform: perspective(var(--p)) rotate3d(1,0,0,var(--x-deg)) rotate3d(0,1,0,var(--y-deg)); */
+        transform: perspective(var(--p)) rotate3d(0,1,0,var(--x-deg)) rotate3d(-1,0,0,var(--y-deg));
+        transition: transform 0ms linear;
+
+        cursor: grab;
+        user-select: none;
+    }
+</style>
+<link rel="stylesheet" href="../../../stylesheets/settings.css">
+<style>
+    /* Settings. */
+    #toggleBackface,
+    #toggleIsometric,
+    #toggleSpin,
+    #toggleLights,
+    #toggleIso,
+    #toggleOpacity {display: none;}
+    #toggleBackface:checked ~ .options .toggleCheckboxLabel[for="toggleBackface"],
+    #toggleIsometric:checked ~ .options .toggleCheckboxLabel[for="toggleIsometric"],
+    #toggleSpin:checked ~ .options .toggleCheckboxLabel[for="toggleSpin"],
+    #toggleLights:checked ~ .options .toggleCheckboxLabel[for="toggleLights"],
+    #toggleIso:checked ~ .options .toggleCheckboxLabel[for="toggleIso"],
+    #toggleOpacity:checked ~ .options .toggleCheckboxLabel[for="toggleOpacity"] {
+        color: var(--bwe);
+        --clr-outline: var(--bwc);
+        --bgc-before: #063;
+        --bgc-after: #0c6;
+        --ttx-after: 1rem;
+    }
+
+    /* ─ Toggle Effects ─ */
+
+    /* Toggle-Opcacity */
+    #toggleOpacity:checked ~ main #display {opacity:.5;}
+
+    /* Toggle-Animation */
+    /* #toggleAnimation:checked ~ main .grid {
+        animation: spin 3600ms ease-in-out infinite both;
+        animation-name: spin;
+        animation-duration: 3600ms;
+        animation-timing-function: linear;
+        animation-delay: 0ms;
+        animation-iteration-count: infinite;
+        animation-fill-mode: both;
+        
+        animation-delay: calc(30ms * var(--hue));
+        animation-play-state: running;
+    } */
+    #toggleSpin:checked ~ main .box {
+        /* animation: spin 3600ms ease-in-out infinite both; */
+        
+        /* animation-delay: calc(30ms * var(--hue)); */
+        animation-play-state: running;
+    }
+    #toggleIsometric:checked ~ main .box {
+        --x-deg: var(--iso-deg);
+    }
+    #toggleBackface:checked ~ main [class|="box"] * {
+        backface-visibility: visible;
+        --alp: .5;
+    }
+
+
+
+</style>
+<link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">SVG Box</h1>
+        <!-- <div class="subtitle">subtitle</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+    <input type="checkbox" name="toggle" id="toggleSpin">
+    <input type="checkbox" name="toggle" id="toggleIsometric" checked>
+    <input type="checkbox" name="toggle" id="toggleBackface" checked>
+    <!-- <input type="checkbox" name="toggle" id="toggleOpacity"> -->
+    <!-- <input type="checkbox" name="toggle" id="toggleLights"> -->
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">box</div>
+        <div id="box-02" class="box-02">
+            <div class="zf">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/>
+                </svg>
+            </div>
+            <div class="zb">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/>
+                </svg>
+            </div>
+            <div class="xr">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/>
+                </svg>
+            </div>
+            <div class="xl">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/>
+                </svg>
+            </div>
+            <div class="yu">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/>
+                </svg>
+            </div>
+            <div class="yd">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">box</div>
+        <div class="box">
+            <div class="zf">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/>
+                </svg>
+            </div>
+            <div class="zb">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/>
+                </svg>
+            </div>
+            <div class="xr">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/>
+                </svg>
+            </div>
+            <div class="xl">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/>
+                </svg>
+            </div>
+            <div class="yu hidden">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/>
+                </svg>
+            </div>
+            <div class="yd">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/>
+                </svg>
+            </div>
+
+            <div class="yu-zf">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/>
+                </svg>
+            </div>
+            <div class="yu-zb">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/>
+                </svg>
+            </div>
+
+            <div class="xr xr-2">
+                <svg class="bwt" width="100" height="100">
+                    <!-- <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/> -->
+                    <!-- <path class="path-sq" d="M 0 0 L 50 50 L 100 0 L 0 0" /> -->
+                    <path class="path-sq" d="M 0 0 L 50 86.6 L 100 0 L 0 0" />
+                </svg>
+            </div>
+            <div class="xl xl-2">
+                <svg class="bwt" width="100" height="100">
+                    <!-- <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/> -->
+                    <!-- <path class="path-sq" d="M 0 0 L 50 50 L 100 0 L 0 0"/> -->
+                    <path class="path-sq" d="M 0 0 L 50 86.6 L 100 0 L 0 0"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">box</div>
+        <div class="box">
+            <div class="zf">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/>
+                    <circle cx="0" cy="0" r="2" fill="red"/>
+                    <circle cx="100" cy="100" r="2" fill="red"/>
+                    <circle cx="100" cy="0" r="2" fill="red"/>
+                    <circle cx="0" cy="100" r="2" fill="red"/>
+                </svg>
+            </div>
+            <div class="zb">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/>
+                    <circle cx="0" cy="0" r="2" fill="red"/>
+                    <circle cx="100" cy="100" r="2" fill="red"/>
+                    <circle cx="100" cy="0" r="2" fill="red"/>
+                    <circle cx="0" cy="100" r="2" fill="red"/>
+                </svg>
+            </div>
+            <div class="xr">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/>
+                    <circle cx="0" cy="0" r="2" fill="red"/>
+                    <circle cx="100" cy="100" r="2" fill="red"/>
+                    <circle cx="100" cy="0" r="2" fill="red"/>
+                    <circle cx="0" cy="100" r="2" fill="red"/>
+                </svg>
+            </div>
+            <div class="xl">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/>
+                    <circle cx="0" cy="0" r="2" fill="red"/>
+                    <circle cx="100" cy="100" r="2" fill="red"/>
+                    <circle cx="100" cy="0" r="2" fill="red"/>
+                    <circle cx="0" cy="100" r="2" fill="red"/>
+                </svg>
+            </div>
+            <div class="yu">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/>
+                    <circle cx="0" cy="0" r="2" fill="red"/>
+                    <circle cx="100" cy="100" r="2" fill="red"/>
+                    <circle cx="100" cy="0" r="2" fill="red"/>
+                    <circle cx="0" cy="100" r="2" fill="red"/>
+                </svg>
+            </div>
+            <div class="yd">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 0 0 H 100 V 100 H 0 L 0 0"/>
+                    <circle cx="0" cy="0" r="2" fill="red"/>
+                    <circle cx="100" cy="100" r="2" fill="red"/>
+                    <circle cx="100" cy="0" r="2" fill="red"/>
+                    <circle cx="0" cy="100" r="2" fill="red"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div class="shelf hidden">
+        <div class="shelf-title">bwt box</div>
+        <div class="box">
+            <div class="zf">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 10 10 H 90 V 90 H 10 L 10 10"/>
+                    <circle cx="10" cy="10" r="2" fill="red"/>
+                    <circle cx="90" cy="90" r="2" fill="red"/>
+                    <circle cx="90" cy="10" r="2" fill="red"/>
+                    <circle cx="10" cy="90" r="2" fill="red"/>
+                </svg>
+            </div>
+            <div class="zb">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 10 10 H 90 V 90 H 10 L 10 10"/>
+                    <circle cx="10" cy="10" r="2" fill="red"/>
+                    <circle cx="90" cy="90" r="2" fill="red"/>
+                    <circle cx="90" cy="10" r="2" fill="red"/>
+                    <circle cx="10" cy="90" r="2" fill="red"/>
+                </svg>
+            </div>
+            <div class="xr">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 10 10 H 90 V 90 H 10 L 10 10"/>
+                    <circle cx="10" cy="10" r="2" fill="red"/>
+                    <circle cx="90" cy="90" r="2" fill="red"/>
+                    <circle cx="90" cy="10" r="2" fill="red"/>
+                    <circle cx="10" cy="90" r="2" fill="red"/>
+                </svg>
+            </div>
+            <div class="xl">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 10 10 H 90 V 90 H 10 L 10 10"/>
+                    <circle cx="10" cy="10" r="2" fill="red"/>
+                    <circle cx="90" cy="90" r="2" fill="red"/>
+                    <circle cx="90" cy="10" r="2" fill="red"/>
+                    <circle cx="10" cy="90" r="2" fill="red"/>
+                </svg>
+            </div>
+            <div class="yu">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 10 10 H 90 V 90 H 10 L 10 10"/>
+                    <circle cx="10" cy="10" r="2" fill="red"/>
+                    <circle cx="90" cy="90" r="2" fill="red"/>
+                    <circle cx="90" cy="10" r="2" fill="red"/>
+                    <circle cx="10" cy="90" r="2" fill="red"/>
+                </svg>
+            </div>
+            <div class="yd">
+                <svg class="bwt" width="100" height="100">
+                    <path class="path-sq" d="M 10 10 H 90 V 90 H 10 L 10 10"/>
+                    <circle cx="10" cy="10" r="2" fill="red"/>
+                    <circle cx="90" cy="90" r="2" fill="red"/>
+                    <circle cx="90" cy="10" r="2" fill="red"/>
+                    <circle cx="10" cy="90" r="2" fill="red"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div class="shelf hidden">
+        <div class="shelf-title">box</div>
+        <div class="box">
+            <div class="zf">
+                <svg width="100" height="100">
+                    <path class="path-sq" d="M 10 10 H 90 V 90 H 10 L 10 10"/>
+                    <circle cx="10" cy="10" r="2" fill="red"/>
+                    <circle cx="90" cy="90" r="2" fill="red"/>
+                    <circle cx="90" cy="10" r="2" fill="red"/>
+                    <circle cx="10" cy="90" r="2" fill="red"/>
+                </svg>
+            </div>
+            <div class="zb">
+                <svg width="100" height="100">
+                    <path class="path-sq" d="M 10 10 H 90 V 90 H 10 L 10 10"/>
+                    <circle cx="10" cy="10" r="2" fill="red"/>
+                    <circle cx="90" cy="90" r="2" fill="red"/>
+                    <circle cx="90" cy="10" r="2" fill="red"/>
+                    <circle cx="10" cy="90" r="2" fill="red"/>
+                </svg>
+            </div>
+            <div class="xr">
+                <svg width="100" height="100">
+                    <path class="path-sq" d="M 10 10 H 90 V 90 H 10 L 10 10"/>
+                    <circle cx="10" cy="10" r="2" fill="red"/>
+                    <circle cx="90" cy="90" r="2" fill="red"/>
+                    <circle cx="90" cy="10" r="2" fill="red"/>
+                    <circle cx="10" cy="90" r="2" fill="red"/>
+                </svg>
+            </div>
+            <div class="xl">
+                <svg width="100" height="100">
+                    <path class="path-sq" d="M 10 10 H 90 V 90 H 10 L 10 10"/>
+                    <circle cx="10" cy="10" r="2" fill="red"/>
+                    <circle cx="90" cy="90" r="2" fill="red"/>
+                    <circle cx="90" cy="10" r="2" fill="red"/>
+                    <circle cx="10" cy="90" r="2" fill="red"/>
+                </svg>
+            </div>
+            <div class="yu">
+                <svg width="100" height="100">
+                    <path class="path-sq" d="M 10 10 H 90 V 90 H 10 L 10 10"/>
+                    <circle cx="10" cy="10" r="2" fill="red"/>
+                    <circle cx="90" cy="90" r="2" fill="red"/>
+                    <circle cx="90" cy="10" r="2" fill="red"/>
+                    <circle cx="10" cy="90" r="2" fill="red"/>
+                </svg>
+            </div>
+            <div class="yd">
+                <svg width="100" height="100">
+                    <path class="path-sq" d="M 10 10 H 90 V 90 H 10 L 10 10"/>
+                    <circle cx="10" cy="10" r="2" fill="red"/>
+                    <circle cx="90" cy="90" r="2" fill="red"/>
+                    <circle cx="90" cy="10" r="2" fill="red"/>
+                    <circle cx="10" cy="90" r="2" fill="red"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div class="options">
+    <label for="toggleSpin" class="toggleCheckboxLabel" data-toggle="Spin">🌀</label>
+    <label for="toggleIsometric" class="toggleCheckboxLabel" data-toggle="Isometric">🌌</label>
+    <label for="toggleBackface" class="toggleCheckboxLabel" data-toggle="Backface">💫</label>
+    <!-- <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label> -->
+</div>
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+        },
+
+        player: false,
+
+        s: false,
+        steps: false,
+        tags: false,
+        log: false,
+        lockKeys: false,
+        pause: false,
+        q: false
+    };
+    const box = {
+        x: 0,
+        y: 0,
+        z: 0,
+        start: {
+            x: 0,
+            y: 0,
+            z: 0,
+        },
+        touches: [],
+        touch_xyz: {'x': 0, 'y': 0, 'z': 0},
+
+        grabing: false
+    };
+</script>
+<script src="../../../scripts/settings.js"></script>
+<script>
+    const box2 = document.getElementById('box-02');
+    function startup() {
+        box2.addEventListener("touchstart", handleBoxStart, false);
+        box2.addEventListener("touchend", handleBoxEnd, false);
+        box2.addEventListener("touchcancel", handleBoxCancel, false);
+        box2.addEventListener("touchmove", handleBoxMove, false);
+    }
+    var ongoingTouches = [];
+    function handleBoxStart(evt) {
+        evt.preventDefault();
+        if(s.log){console.log(`%ctouchstart%c → handleBoxStart()`, 'color: #3f9; background-color: #3f92; border-radius: 4px; padding: 2px;', 'color: #999;');}
+        box.grabing = true;
+
+        var touches = evt.changedTouches;
+        for (var i = 0; i < touches.length; i++) {
+            ongoingTouches.push(copyTouch(touches[i]));
+            box.touches.push({'x': 0, 'y': 0, 'z': 0});
+            box.touches[i].x += touches[i].pageX;
+            box.touches[i].y += touches[i].pageY;
+            // console.log(`%ci: %c${i}%c → x: %c${touches[i].pageX}%c, y: %c${touches[i].pageY}`, 'color: #ccc', 'color: #39f', 'color: #ccc', 'color: #39f', 'color: #ccc', 'color: #39f');
+            // console.log(`%c box → x: %c${box.touches[i].x}%c, y: %c${box.touches[i].y}`, 'color: #ccc', 'color: #39f', 'color: #ccc', 'color: #39f');
+        }
+    }
+    function handleBoxMove(evt) {
+        evt.preventDefault();
+        var touches = evt.changedTouches;
+        for (var i = 0; i < touches.length; i++) {
+            // console.log(`%cfor loop(i: %c${i}%c)`, 'color: #ccc', 'color: #39f', 'color: #ccc');
+            var idx = ongoingTouchIndexById(touches[i].identifier);
+            if (idx == 0) {
+                // console.log(`%c → idx: %c${idx}`, 'color: #ccc;', 'color: #39f;');
+                // console.log("continuing touch "+idx);
+                // console.log(`%cbox → moveTo(%c${ongoingTouches[idx].pageX}%c, %c${ongoingTouches[idx].pageY}%c);`, 'color: #ccc', 'color: #39f', 'color: #ccc', 'color: #39f', 'color: #ccc');
+                let nx = ongoingTouches[idx].pageX - box.touches[idx].x;
+                let ny = ongoingTouches[idx].pageY - box.touches[idx].y;
+                // console.log(`%c → nx: %c${nx}%c, ny: %c${ny}`, 'color: #ccc;', 'color: #39f;', 'color: #ccc;', 'color: #39f;');
+                if(s.log){
+                    let arrowTagX = '←→';
+                    let arrowTagY = '↑↓';
+                    if(nx < 0){arrowTagX = '←';} else if(nx > 0) {arrowTagX = '→';}
+                    if(ny < 0){arrowTagY = '↑';} else if(ny > 0) {arrowTagY = '↓';}
+                    console.log(`%c → nx: %c${nx}%c, ny: %c${ny}`, 'color: #ccc;', 'color: #39f; background-color: #06c3; border-radius: 4px;', 'color: #ccc;', 'color: #39f; background-color: #06c3; border-radius: 4px;');
+                    console.log(`%c🌐 going: %c${arrowTagX}|${arrowTagY}`, 'color: #ccc;', 'color: #fff; background-color: #06c3; border-radius: 4px;');
+                }
+                box.x += nx;
+                box.y += ny;
+                let x = (box.x % 360).toFixed(2);
+                let y = (box.y % 360).toFixed(2);
+                box2.style = `--x-deg: ${x}deg; --y-deg: ${y}deg;`;
+
+                box.touches[idx].x = ongoingTouches[idx].pageX;
+                box.touches[idx].y = ongoingTouches[idx].pageY;
+
+                /* 
+                up goes left
+                down goes right
+                left goes down
+                right goes up
+                 */
+
+                ongoingTouches.splice(idx, 1, copyTouch(touches[i]));  // swap in the new touch record
+                if(s.log){ console.log("."); }
+            } else {
+                console.log("can't figure out which touch to continue");
+            }
+        }
+    }
+    function handleBoxEnd(evt) {
+        evt.preventDefault();
+        var touches = evt.changedTouches;
+        for (var i = 0; i < touches.length; i++) {
+            var idx = ongoingTouchIndexById(touches[i].identifier);
+            if (idx >= 0) {
+                ongoingTouches.splice(idx, 1);  // remove it; we're done
+                box.touches.splice(idx, 1);
+            } else {
+                console.log("can't figure out which touch to end");
+            }
+        }
+        box.grabing = false;
+        if(s.log){console.log(`%ctouchend%c → handleBoxEnd()`, 'color: #f39; background-color: #f392; border-radius: 4px; padding: 2px;', 'color: #999;');}
+    }
+    function handleBoxCancel(evt) {
+        evt.preventDefault();
+        console.log("touchcancel.");
+        var touches = evt.changedTouches;
+
+        for (var i = 0; i < touches.length; i++) {
+            var idx = ongoingTouchIndexById(touches[i].identifier);
+            ongoingTouches.splice(idx, 1);  // remove it; we're done
+            box.touches.splice(idx, 1);
+        }
+        box.grabing = false;
+        if(s.log){console.log(`%ctouchcancel%c → handleBoxCancel()`, 'color: #ff3; background-color: #ff32; border-radius: 4px; padding: 2px;', 'color: #999;');}
+    }
+
+    function copyTouch({ identifier, pageX, pageY }) {
+        return { identifier, pageX, pageY };
+    }
+    function ongoingTouchIndexById(idToFind) {
+        for (var i = 0; i < ongoingTouches.length; i++) {
+            var id = ongoingTouches[i].identifier;
+
+            if (id == idToFind) {
+                return i;
+            }
+        }
+        return -1;    // not found
+    }
+
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        startup();
+    });
+    /* Version Log:
+    [index-nds-00]: Base form works.
+    [index-nds-01]: fix spin button: 🌀: spin, 🌌: isometric, 💫: backface-visibility.
+                    next: define the values in the css with custom properties within the element.
+    [index-nds-02]: fill svg up to corners. made house shape.
+    [index-nds-03]: it rotates on touch❗
+    [index-nds-03b]: it rotates on touch❗ and the log is clear.
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
+    [index-nds-07]: 
+    [index-nds-08]: 
+    [index-nds-09]: 
+    [index-nds-10]: 
+    
+    */
+</script>
+</body>
+</html>

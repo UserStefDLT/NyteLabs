@@ -1,0 +1,372 @@
+:root {
+    --add-h: 0;
+    --add-w: 0;
+}
+.list {}
+.grid {display: grid; gap: .5rem;}
+.pairs {grid-template-columns: repeat(2, 1fr);}
+
+[class|="btn"] {
+    position: relative;
+    min-height: 1rem; min-width: 1rem;
+    --h: 3rem;
+    --w: 8rem;
+    height: var(--h); width: var(--w);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: .25rem;
+    /* background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); */
+    /* color: var(--bwt); */
+    /* isolation: isolate; */
+    font-weight: bold;
+    font-size: 24px;
+    margin: .25rem;
+    cursor: pointer;
+    user-select: none;
+}
+/* [class|="btn"]:hover {
+    outline: 1px solid var(--bwf9);
+    outline-offset: 4px;
+} */
+
+.btn-01 {
+    background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+    /* color: var(--bwt); */
+    /* text-shadow: 0 0 1px var(--bw1); */
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: bold;
+    font-size: 24px;
+}
+.btn-01::before,
+.btn-01::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    height: calc(var(--h) + var(--add-h)); width: calc(var(--w) + var(--add-w));
+    border-radius: .25rem;
+    z-index: -1;
+}
+.btn-01::before {
+    --bg-border: 2px;
+    --add-h: var(--bg-border); --add-w: var(--bg-border);
+    background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+    filter: blur(3px);
+    z-index: -2;
+}
+.btn-01::after {
+    --add-h: 0px; --add-w: 0px;
+    background: #111;
+}
+
+.btn-02 {
+    background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+    background: #111;
+    font-weight: bold;
+    font-size: 24px;
+}
+.btn-02::before,
+.btn-02::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    --add-h: 0px; --add-w: 0px;
+    height: calc(var(--h) + var(--add-h)); width: calc(var(--w) + var(--add-w));
+
+    border-radius: .25rem;
+    background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+
+    z-index: -1;
+}
+.btn-02::before {
+    --bg-border: 4px;
+    --add-h: var(--bg-border); --add-w: var(--bg-border);
+    /* background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); */
+    filter: blur(3px);
+    z-index: -2;
+}
+.btn-02::after {
+    --bg-border: 2px;
+    --add-h: var(--bg-border); --add-w: var(--bg-border);
+}
+
+.btn-03 {
+    font-weight: bold;
+    font-size: 24px;
+    overflow: hidden;
+}
+.btn-03::before,
+.btn-03::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    --add-h: 0px; --add-w: 0px;
+    height: calc(var(--h) + var(--add-h)); width: calc(var(--w) + var(--add-w));
+    border-radius: .25rem;
+    background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+    z-index: -1;
+}
+.btn-03::before {
+    --bg-border: 4px;
+    --add-h: var(--bg-border); --add-w: var(--bg-border);
+    height: 8.5rem; width: 8.5rem;
+    /* background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); */
+    filter: blur(3px);
+    z-index: -2;
+    animation: spin 6000ms linear infinite both;
+    animation: spin 6000ms ease-in-out infinite both;
+    animation: spin 3000ms cubic-bezier(0.23, 0.9, 0.41, 0.07) infinite both;
+    animation: spin 3000ms cubic-bezier(0.29,-0.36, 0.64, 1.5) infinite both;
+    animation-play-state: paused;
+}
+.btn-03::after {
+    --bg-border: -4px;
+    --add-h: var(--bg-border); --add-w: var(--bg-border);
+    background: #111;
+}
+.btn-03:hover::before {animation-play-state: running;}
+@keyframes spin {
+    0% {transform: translateX(-50%) translateY(-50%) rotate(0deg);}
+    50% {transform: translateX(-50%) translateY(-50%) rotate(180deg);}
+    100% {transform: translateX(-50%) translateY(-50%) rotate(360deg);}
+}
+
+.btn-04 {
+    --blur: 3px;
+    /* background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); */
+    background: var(--bwd);
+    background: var(--bw9);
+    background: var(--bw5);
+    background: var(--bw0);
+    background: #111;
+    font-weight: bold;
+    font-size: 24px;
+    text-shadow: 0px 4px 4px #000;
+    text-shadow: 0px 4px 4px #000, 1px 4px 4px #000, -1px 4px 4px #000;
+    /* text-shadow: 0px 2px 2px #000, 0px 0px 0px #000, 0px 0px 0px #000; */
+    /* text-shadow: 0px 8px 4px #000, 1px 8px 6px #000, -1px 8px 6px #000; */
+    transition: filter 500ms ease-in-out;
+    transition: text-shadow 400ms ease-in-out 50ms;
+}
+.btn-04:hover {
+    --blur: 8px;
+    text-shadow: 0px 8px 4px #000, 1px 8px 6px #000, -1px 8px 6px #000;
+    /* text-shadow: 0px 2px 2px #000, 0px 0px 0px #000, 0px 0px 0px #000; */
+    /* text-shadow: 0px 4px 4px #000, 1px 4px 4px #000, -1px 4px 4px #000; */
+    text-shadow: 0px 6px 4px #000, 1px 8px 6px #000, -1px 8px 6px #000;
+}
+.btn-04::before,
+.btn-04::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    --add-h: 0px; --add-w: 0px;
+    height: calc(var(--h) + var(--add-h)); width: calc(var(--w) + var(--add-w));
+
+    border-radius: .25rem;
+    /* background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); */
+    background: conic-gradient(from var(--conic-spin), #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+    animation: spin-conic-04 3000ms cubic-bezier(0.29,-0.36, 0.64, 1.5) infinite both;
+    animation: spin-conic-04 3000ms linear infinite both;
+
+    opacity: 1;
+    /* transition: filter 600ms ease-in-out 100ms;
+    transition: filter 300ms ease-in-out; */
+    /* transition: filter 600ms ease-in-out 100ms, opacity 300ms ease-in-out 0ms; */
+    /* transition: filter 600ms ease-in-out 100ms, opacity 600ms ease-in-out 100ms; */
+    /* transition: filter 300ms ease-in-out, opacity 300ms ease-in-out; */
+    /* transition: filter 300ms linear, opacity 300ms linear;
+    transition: filter 300ms ease-in-out, opacity 300ms ease-in-out;
+    transition: filter 400ms ease-in-out, opacity 400ms ease-in-out; */
+    transition: filter 400ms ease-in-out 100ms, opacity 500ms ease-in-out 50ms;
+    /* transition: filter 600ms cubic-bezier(0.29,-0.36, 0.64, 1.5) 100ms; */
+    z-index: -1;
+}
+.btn-04:hover::before,
+.btn-04:hover::after {
+    /* opacity: .75; */
+    /* transition: filter 300ms ease-in-out; */
+    /* transition: filter 300ms cubic-bezier(0.29,-0.36, 0.64, 1.5);
+    transition: filter 300ms cubic-bezier(0.29,-0.36, 0.64, 1.5), opacity 300ms ease-in-out;
+    transition: filter 300ms cubic-bezier(0.29,-0.36, 0.64, 1.5), opacity 300ms cubic-bezier(0.29,-0.36, 0.64, 1.5); */
+    /* transition: filter 300ms linear, opacity 300ms linear; */
+    /* transition: filter 300ms ease-in-out, opacity 300ms ease-in-out; */
+    /* transition: filter 300ms ease-in-out, opacity 300ms ease-in-out; */
+    /* transition: filter 400ms ease-in-out 50ms, opacity 500ms ease-in-out; */
+}
+/* .btn-04:hover::before {opacity: .5;} */
+/* .btn-04:hover::before {opacity: .5; filter: blur(6px);} */
+.btn-04::before {
+    --bg-border: 4px;
+    --add-h: var(--bg-border); --add-w: var(--bg-border);
+    /* background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); */
+    filter: blur(3px);
+    /* filter: blur(var(--blur)); */
+    z-index: -2;
+}
+.btn-04:hover::before {opacity: .75; filter: blur(8px);}
+.btn-04::after {
+    --bg-border: 2px;
+    --add-h: var(--bg-border); --add-w: var(--bg-border);
+}
+.btn-04:hover::after {--bg-border: 4px;}
+@keyframes spin-conic-04 {
+    0% {--conic-spin: 0deg;}
+    50% {--conic-spin: 180deg;}
+    100% {--conic-spin: 360deg;}
+}
+
+/* ─────────────── */
+
+[class|="btn--bgi"] {background: #111; --bgi-glow: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);}
+[class|="btn--bgi"]::before,
+[class|="btn--bgi"]::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    --bg-border: 2px;
+    --add-h: var(--bg-border); --add-w: var(--bg-border);
+    height: calc(var(--h) + var(--add-h)); width: calc(var(--w) + var(--add-w));
+
+    border-radius: .25rem;
+    /* background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); */
+    background: var(--bgi-glow);
+    z-index: -1;
+}
+[class|="btn--bgi"]::before {
+    --bg-border: 4px;
+    --add-h: var(--bg-border); --add-w: var(--bg-border);
+    filter: blur(3px);
+    z-index: -2;
+}
+
+.btn--bgi-00 {--bgi-glow: linear-gradient(to top, #123, #789);}
+.btn--bgi-01 {--bgi-glow: linear-gradient(#123, #789);}
+.btn--bgi-02 {--bgi-glow: linear-gradient(135deg, #39f, #f39);}
+.btn--bgi-03 {--bgi-glow: linear-gradient(135deg, #39f, #f39, #f93, #3f9);}
+.btn--bgi-04 {--bgi-glow: conic-gradient(#39f, #f39, #f93, #3f9, #39f);}
+.btn--bgi-05 {--bgi-glow: conic-gradient(from 45deg, #f93, #3f9, #39f, #f39, #f93);}
+
+
+/* ─────────────── */
+
+/* .exp-00 {
+    font-weight: bold;
+    font-size: 24px;
+    overflow: hidden;
+}
+.exp-00::before,
+.exp-00::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    --add-h: 0px; --add-w: 0px;
+    height: calc(var(--h) + var(--add-h)); width: calc(var(--w) + var(--add-w));
+    border-radius: .25rem;
+    background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+    background-image: conic-gradient(from var(--conic-spin), #f93, #3f9, #000, #39f, #f39, #000, #f93);
+    z-index: -1;
+}
+.exp-00::before {
+    --bg-border: 4px;
+    --add-h: var(--bg-border); --add-w: var(--bg-border);
+    height: 8.5rem; width: 8.5rem;
+    background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+    filter: blur(3px);
+    z-index: -2;
+    animation: spin 6000ms linear infinite both;
+    animation: spin 6000ms ease-in-out infinite both;
+    animation: spin 3000ms cubic-bezier(0.23, 0.9, 0.41, 0.07) infinite both;
+    animation: spin 3000ms cubic-bezier(0.29,-0.36, 0.64, 1.5) infinite both;
+    animation-play-state: paused;
+}
+.exp-00::after {
+    --bg-border: -4px;
+    --add-h: var(--bg-border); --add-w: var(--bg-border);
+    background: #111;
+} */
+.exp-00 {
+    --conic-spin: 45deg;
+    font-weight: bold;
+    font-size: 24px;
+    background-image: conic-gradient(from var(--conic-spin), #f93, #3f9, #39f, #f39, #f93);
+    /* background-image: conic-gradient(from var(--conic-spin), #f93, #3f9, #000, #39f, #f39, #000, #f93);
+    background-image: conic-gradient(from var(--conic-spin), #f93 90deg 135deg, #3f9 135deg 180deg, #000, #39f 210deg 270deg, #f39 270deg 315deg, #000, #f93);
+    background-image: conic-gradient(from var(--conic-spin), #f93 90deg 135deg, #3f9 135deg 180deg, #000, #39f 210deg 270deg, #f39 270deg 315deg, #000);
+    background-image: conic-gradient(from var(--conic-spin), #f93 0deg 90deg,#000 90deg 180deg, #39f 180deg 270deg, #f39 270deg 360deg);
+    background-image: conic-gradient(from var(--conic-spin), #f93 0deg 90deg,#000 90deg 180deg, #39f 180deg 270deg, #fff 270deg 360deg); */
+    animation: spin-conic 3000ms cubic-bezier(0.29,-0.36, 0.64, 1.5) infinite both;
+    /* animation: spin-conic 3000ms linear infinite both; */
+    animation-play-state: paused;
+}
+.exp-00:hover {animation-play-state: running;}
+@keyframes spin-conic {
+    0% {--conic-spin: 0deg;}
+    50% {--conic-spin: 180deg;}
+    100% {--conic-spin: 360deg;}
+}
+
+/* ─────────────── */
+
+.exp-01 {
+    --conic-spin: 45deg;
+    font-weight: bold;
+    font-size: 24px;
+    background-image: 
+    linear-gradient(to bottom right, var(--bw0), var(--bw1)),
+    conic-gradient(from var(--conic-spin), #f93, #3f9, #39f, #f39, #f93);
+    background-size: calc(100% - .5rem) calc(100% - .5rem), 100% 100%;
+    background-position: .25rem .25rem, 0% 0%;
+    background-repeat: no-repeat;
+    border-radius: .25rem;
+    /* animation: spin-conic 3000ms cubic-bezier(0.29,-0.36, 0.64, 1.5) infinite both; */
+    animation: spin-conic-01 3000ms linear infinite both;
+    animation-play-state: paused;
+}
+.exp-01:hover {animation-play-state: running;}
+@keyframes spin-conic-01 {
+    0% {--conic-spin: 0deg;}
+    50% {--conic-spin: 180deg;}
+    100% {--conic-spin: 360deg;}
+}
+
+/* ─────────────── */
+
+
+.exp-02 {
+    /* --z-deg--spin: 45;
+    --spin: 45;
+    --spin: 1;
+    --z-deg: calc(var(--spin) * 1deg); */
+    font-weight: bold;
+    font-size: 24px;
+    background-image: 
+    linear-gradient(to bottom right, var(--bw0), var(--bw1)),
+    conic-gradient(from var(--conic-spin), #f93, #3f9, #39f, #f39, #f93);
+    background-size: calc(100% - .5rem) calc(100% - .5rem), 100% 100%;
+    background-position: .25rem .25rem, 0% 0%;
+    background-repeat: no-repeat;
+    border-radius: .25rem;
+    /* animation: spin-conic 3000ms cubic-bezier(0.29,-0.36, 0.64, 1.5) infinite both; */
+    animation: spin-conic-01 3000ms linear infinite both;
+    animation-play-state: paused;
+}
+.exp-02:hover {animation-play-state: running;}
+@keyframes spin-conic-02 {
+    0% {--z-deg: calc(var(--spin) * 0deg); background-image: conic-gradient(from calc(var(--spin) * 0deg), #f93, #3f9, #39f, #f39, #f93);}
+    50% {--z-deg: calc(var(--spin) * 90deg); background-image: conic-gradient(from calc(var(--spin) * 90deg), #f93, #3f9, #39f, #f39, #f93);}
+    100% {--z-deg: calc(var(--spin) * 180deg); background-image: conic-gradient(from calc(var(--spin) * 360deg), #f93, #3f9, #39f, #f39, #f93);}
+}
+@keyframes spin-conic-02a {
+    0% {background-image: conic-gradient(from 0deg, #f93, #3f9, #39f, #f39, #f93);}
+    50% {background-image: conic-gradient(from 180deg, #f93, #3f9, #39f, #f39, #f93);}
+    100% {background-image: conic-gradient(from 360deg, #f93, #3f9, #39f, #f39, #f93);}
+}

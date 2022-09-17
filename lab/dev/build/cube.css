@@ -1,0 +1,69 @@
+:root {
+    /* Making 3D blocks */
+    --sz-cube: 2rem;
+    --sz-cube-back: calc(var(--sz-cube) * -.5);
+    --sz-cube-half: calc(var(--sz-cube) / 2);
+    --p: 5000px;
+  }
+  .grid, .row, .cube, .tile,
+  .cube::before, .cube::after {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-style: preserve-3d;
+  }
+  
+  /* Grid, Rows, and Cubes */
+  .grid {
+    margin: 1rem auto;
+    transform: perspective(var(--p)) rotate3d(1,0,0,54deg) rotate3d(0,0,1,-45deg);
+  }
+  .row {flex-direction: row;}
+  .cube {
+    --sz: var(--sz-cube); 
+    height: var(--sz); width: var(--sz);
+  
+    --hue: 210;
+    --sat: 80%;
+    --lum: 80%;
+    --alp: 1;
+    --lum-top: calc(var(--lum) * 5 / 6);
+    --clr-top: hsla(var(--hue), var(--sat), var(--lum-top), var(--alp));
+    background-color: var(--clr-top);
+  
+    color: var(--bwf);
+    position: relative;
+    margin: .25rem;
+  
+    transform-origin: 50% 50% var(--sz-cube-back);
+    transform: translateZ(var(--sz-cube));
+  
+    transition: transform 200ms ease-in-out;
+  }
+  .cube::after,
+  .cube::before {
+    content: 'T';
+    position: absolute;
+    top: 50%; left: 50%;
+    height: var(--sz); width: var(--sz);
+    transform-origin: 50% 50% var(--sz-cube-back);
+  }
+  .cube::before {
+    --lum-main: calc(var(--lum) / 3);
+    --x-deg: -90deg;
+    --y-deg: 0deg;
+  }
+  .cube::after {
+    --lum-main: calc(var(--lum) / 2);
+    --x-deg: -90deg;
+    --y-deg: -90deg;
+  }
+  .cube::before,
+  .cube::after {
+    --clr-main: hsla(var(--hue), var(--sat), var(--lum-main), var(--alp));
+    background-color: var(--clr-main);
+  
+    transform: translateX(-50%) translateY(-50%) translateZ(0rem) perspective(var(--p)) rotate3d(1,0,0,var(--x-deg)) rotate3d(0,1,0,var(--y-deg));
+  
+  }
+  

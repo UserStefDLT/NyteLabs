@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table | Nytelabs</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Alegreya|Ubuntu|Satisfy&display=swap');
+        :root {
+            --bwt: #0000;
+            --bw0: #000;
+            --bw1: #111;
+            --bw2: #222;
+            --bw3: #333;
+            --bw4: #444;
+            --bw5: #555;
+            --bw6: #666;
+            --bw7: #777;
+            --bw8: #888;
+            --bw9: #999;
+            --bwa: #aaa;
+            --bwb: #bbb;
+            --bwc: #ccc;
+            --bwd: #ddd;
+            --bwe: #eee;
+            --bwf: #fff;
+            
+            --bwf9: #fff9;
+            --bw9: #999;
+            --bw99: #9999;
+            --clr-t: transparent;
+        }
+        body {
+            background-color: var(--bwe);
+            background-color: var(--bwf);
+            color: var(--bw2);
+            font-family: 'Ubuntu', sans-serif;
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+        .title {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+        main {
+            height: max-content;
+            width: 90%;
+            margin: 1rem auto;
+        }
+        #display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+    <style>
+        td {
+            border: 1px solid var(--bw3);
+        }
+        .tile {
+            --sz: 2rem;
+            height: var(--sz);
+            width: var(--sz);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+
+</head>
+<body>
+<header>
+    <!-- <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a> -->
+    <h1 class="title">NyteLabs</h1>
+</header>
+
+<main>
+    <div id="display"></div>
+</main>
+
+<script>
+    function RandDot(){
+        let r = Math.floor(Math.random()*100);
+        let a = Math.floor(Math.random()*360);
+        return {"r": r, "a": a};
+    }
+    function RandXY(len = 100){
+        let x = Math.floor(Math.random()*len);
+        let y = Math.floor(Math.random()*len);
+        return {"x": x, "y": y};
+    }
+    function RandSpread(){
+        let x = Math.floor(Math.random()*100);
+        let y = Math.floor(Math.random()*x);
+        return {"x": x, "y": y};
+    }
+    
+    /* forLoop()
+        * c: count.
+        * f: function.
+        * v: variables.
+        */
+    function LoopC(c,f,v=[]){
+        let arr = [];
+        for(let i = 0; i<c; i++){
+            if(v.length > 0){
+                arr.push(f(...v));
+            } else {
+                arr.push(f());
+            }
+        }
+        return arr;
+    }
+
+    function DisplayList(list){
+        let display = document.getElementById('display');
+        let displayLen = display.children.length;
+
+        let listElement = document.createElement('div');
+        listElement.classList.add('list');
+        listElement.id = `list-${displayLen}`;
+
+        let ylen = 0;
+        if(Array.isArray(list)){ylen = list.length;}
+        for(let y = 0; y < ylen; y++){
+            let row = document.createElement('div');
+            row.classList.add('row');
+
+            if(typeof list[y] == 'object') {
+                let keys = Object.keys(list[y]);
+                let xlen = keys.length;
+                for(let x = 0; x < xlen; x++){
+                    let tile = document.createElement('div');
+                    tile.classList.add('tile', 'result-cell');
+                    // tile.id = `xy,${x},${y}`;
+                    tile.innerHTML = list[y][keys[x]];
+
+                    row.appendChild(tile);
+                }
+            } else {
+                let tile = document.createElement('div');
+                tile.classList.add('tile', 'result-cell');
+                // tile.id = `y,${y}`;
+                tile.innerHTML = list[y];
+
+                row.appendChild(tile);
+            }
+            listElement.appendChild(row);
+        }
+        display.appendChild(listElement);
+    }
+    function DisplayGridList(list){
+        let display = document.getElementById('display');
+        let displayLen = display.children.length;
+
+        let gridList = document.createElement('div');
+        gridList.classList.add('grid-list');
+        gridList.id = `grid-list-${displayLen}`;
+
+        let ylen = 0;
+        // let xlen = 0;
+        let xlen_Lim = 0;
+        if(Array.isArray(list)){ylen = list.length;}
+        for(let y = 0; y < ylen; y++){
+            let row = document.createElement('div');
+            row.classList.add('row');
+
+            if(typeof list[y] == 'object') {
+                let keys = Object.keys(list[y]);
+                let xlen = keys.length;
+                if(xlen > xlen_Lim){xlen_Lim = xlen;}
+                for(let x = 0; x < xlen; x++){
+                    let tile = document.createElement('div');
+                    tile.classList.add('tile', 'result-cell');
+                    // tile.id = `xy,${x},${y}`;
+                    tile.innerHTML = list[y][keys[x]];
+
+                    row.appendChild(tile);
+                }
+            } else {
+                let tile = document.createElement('div');
+                tile.classList.add('tile', 'result-cell');
+                // tile.id = `y,${y}`;
+                tile.innerHTML = list[y];
+
+                row.appendChild(tile);
+            }
+            gridList.appendChild(row);
+        }
+        gridList.style = `--xlen: ${xlen_Lim};`;
+        display.appendChild(gridList);
+    }
+    function DisplayTableList(list){
+        let display = document.getElementById('display');
+        let displayLen = display.children.length;
+        
+        if(typeof list == 'object'){
+            let tableList = document.createElement('table');
+            tableList.classList.add('table-list');
+            tableList.id = `table-list-${displayLen}`;
+            
+            let tlHead = document.createElement('thead');
+            let colKeys = Object.keys(list);
+            let ylen = colKeys.length;
+
+            let xlen = 1;
+            console.log(xlen);
+            console.log(`typeof list[0] == 'object' → ${typeof list[0]} → ${typeof list[0] == 'object'}`);
+            if(typeof list[0] == 'object'){
+                xlen = Object.keys(list[0]).length;
+            }
+            console.log(xlen);
+
+            for (let i = 0; i < xlen; i++) {
+                let th = document.createElement('th');
+                th.innerText = colKeys[i];
+                tlHead.appendChild(th);
+            }
+            tableList.appendChild(tlHead);
+    
+            let tlBody = document.createElement('tbody');
+            let xlen_Lim = xlen;
+            if(Array.isArray(list)){ylen = list.length;}
+            for(let y = 0; y < ylen; y++){
+                let row = document.createElement('tr');
+                // row.classList.add('row');
+    
+                if(typeof list[y] == 'object') {
+                    let keys = Object.keys(list[y]);
+                    xlen = keys.length;
+                    if(xlen > xlen_Lim){xlen_Lim = xlen;}
+                    for(let x = 0; x < xlen; x++){
+                        let tile = document.createElement('td');
+                        tile.classList.add('tile', 'td-res');
+                        // tile.classList.add('tile', 'result-cell');
+                        // tile.id = `xy,${x},${y}`;
+                        tile.innerHTML = list[y][keys[x]];
+    
+                        row.appendChild(tile);
+                    }
+                } else {
+                    let tile = document.createElement('td');
+                    tile.classList.add('tile', 'td-res');
+                    // tile.classList.add('tile', 'result-cell');
+                    // tile.id = `y,${y}`;
+                    tile.innerHTML = list[y];
+    
+                    row.appendChild(tile);
+                }
+                tlBody.appendChild(row);
+            }
+            tableList.appendChild(tlBody);
+
+            display.appendChild(tableList);
+        }
+
+
+        let el = document.createElement('div');
+        el.classList.add('single-element');
+        el.id = `el-${displayLen}`;
+        display.appendChild(el);
+    }
+
+
+    function DisplayTable(list){
+        let display = document.getElementById('display');
+        let displayLen = display.children.length;
+
+        let tableList = document.createElement('table');
+        // tableList.classList.add('list');
+        tableList.id = `list-${displayLen}`;
+
+        let ykeys = Object.keys(list);
+        let xkeys = Object.keys(list[0]);
+        let ylen = ykeys.length;
+        let xlen = xkeys.length;
+
+        let thead = document.createElement('thead');
+        for (let i = 0; i < xlen; i++) {
+            let th = document.createElement('th');
+            th.innerText = xkeys[i];
+            thead.appendChild(th);
+        }
+
+        let tbody = document.createElement('tbody');
+
+        for(let y = 0; y < ylen; y++){
+            let row = document.createElement('tr');
+            for(let x = 0; x < xlen; x++){
+                let td = document.createElement('td');
+                let tile = document.createElement('div');
+                tile.classList.add('tile');
+                tile.innerHTML = list[ykeys[y]][xkeys[x]];
+                td.appendChild(tile);
+                row.appendChild(td);
+            }
+            tbody.appendChild(row);
+        }
+        
+        tableList.appendChild(thead);
+        tableList.appendChild(tbody);
+
+        display.appendChild(tableList);
+    }
+
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        let listXY = LoopC(10,RandXY,[100]);
+        DisplayTable(listXY);
+
+        // let listDot = LoopC(10,RandDot);
+        // DisplayTableList(listDot);
+
+        // DisplayGridList(listXY);
+        // DisplayGridList(listDot);
+        // DisplayList(listXY);
+        // DisplayList(listDot);
+    });
+</script>
+</body>
+</html>

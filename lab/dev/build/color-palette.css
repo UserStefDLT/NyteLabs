@@ -1,0 +1,61 @@
+:root {
+    --roof: #ceb662;
+    
+    --roof-01a: #dac754;
+    --roof-01b: #a18f41;
+
+    --roof-02: #ac8f5a;
+    --roof-02a: #c4a364;
+    --roof-02b: #836839;
+
+    --roof-03a: #b49272;
+    --roof-03a: #6a523e;
+
+    --roof-04a: #beb075;
+    --roof-04a: #958c67;
+
+    --roof-05a: #c5854b;
+    --roof-05a: #82532f;
+
+    --roof-06a: #54453c;
+    --roof-06a: #261f19;
+
+
+    --wall: #999;
+
+    --wall-01a: #c7b9a1;
+    --wall-01b: #59544e;
+
+    --wall-02a: #fff;
+    --wall-02b: #000;
+
+    --grass: #795c;
+    --grass-01: #838d33;
+    --grass-02: #6e7b1f;
+    --grass-03: #636d1b;
+    --grass-04: #616819;
+    --grass-05: #847e28;
+    --grass-06: #2c280d;
+    --grass-07: #292e0a;
+
+    --ground: #753c;
+    --ground-01: #72563a;
+    --ground-02: #664b30;
+    --ground-03: #281e14;
+    --ground-02: #000;
+
+    --water-01: #1c9262;
+    --water-02: #187e5a;
+    --water-03: #177353;
+
+    --tree-01: #545c33;
+    --tree-02: #343e27;
+    --tree-03: #242a18;
+    
+    --wood-01: #483a23;
+    --wood-01: #4f4029;
+    --wood-02: #443b32;
+
+    --path: #000;
+    --clr: #000;
+}

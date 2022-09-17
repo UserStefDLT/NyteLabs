@@ -56,6 +56,47 @@ re: 16.6870 ms | jo: 32.3740 ms | cr: 17.7192 ms
 re: 12.6718 ms | jo: 43.6437 ms | cr: 30.6960 ms
 */
 
+/*
+let t0 = `re: 05.5529 ms | jo: 06.9809 ms | cr: 12.1230 ms
+re: 05.7019 ms | jo: 13.3508 ms | cr: 10.0410 ms
+re: 05.0402 ms | jo: 08.1198 ms | cr: 33.2607 ms
+re: 05.1779 ms | jo: 10.3422 ms | cr: 12.4919 ms
+re: 10.0969 ms | jo: 19.8088 ms | cr: 39.6972 ms
+re: 07.1430 ms | jo: 06.7309 ms | cr: 23.1779 ms
+re: 08.0949 ms | jo: 27.8840 ms | cr: 14.8020 ms
+re: 11.5717 ms | jo: 19.3530 ms | cr: 22.0109 ms
+re: 08.6042 ms | jo: 33.1420 ms | cr: 31.5009 ms
+re: 17.8049 ms | jo: 24.2668 ms | cr: 16.2233 ms
+re: 05.1320 ms | jo: 11.4887 ms | cr: 17.6779 ms
+re: 16.6870 ms | jo: 32.3740 ms | cr: 17.7192 ms
+re: 12.6718 ms | jo: 43.6437 ms | cr: 30.6960 ms`;
+
+let t1 = t0.split('\n');
+let t2 = [];
+t1.forEach(row => {
+    let r1 = row.split(' ');
+    t2.push(parseInt(r1[1]));
+    t2.push(parseInt(r1[5]));
+    t2.push(parseInt(r1[9]));
+});
+console.log(t2);
+
+let t2 = {1:[],5:[],9:[]};
+let t3 = [1,5,9];
+let t4 = {1: 0, 5: 0, 9:0};
+
+t2 = {1:[],5:[],9:[]};
+t4 = {1: 0, 5: 0, 9:0};
+t1.forEach(row => {
+    let r1 = row.split(' ');
+    t3.forEach(k => {
+        t2[k].push(parseFloat(r1[k]));
+        t4[k] += parseFloat(r1[k]);
+    });
+});
+console.log(t2);
+console.log(t4);
+ */
 
 
 

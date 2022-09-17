@@ -199,6 +199,7 @@ For example:
     └[blocks]           [✓] 'Design using blocks for displaying text, a logo, buttons, etc.'
     └[brick-wall]       [✓] 'background patterns.'
     └[grass]            [✗]
+    └[svg-block]        [✓] 'shows a cube block, a house block, and a cube block that can be rotated on touch.'
     └[tile-patterns]    [✓] 'patterns in a grid display with styling in the tiles'
     └[tile-patterns-02] [✗]
     └[tile-wf]          [✓] 'design for terrain tiles for making paths.'
@@ -303,6 +304,7 @@ For example:
     └[glowing-chip]             [✓] 'design of a selector with the apperance of a chip.'
     └[grid-data]                [+] 'tool for personal use to visualize the hue in the [tile-patterns]'
     └[layout-3d]                [✓] '3d layout'
+    └[loading-circles]          [✓] 'circles animating for loading feedback.'
     └[login-styles]             [✗] 'incomplete.'
     └[neumorphic-design]        [✓] 'style design that looks like smooth relieve. it can be improved for dark mode.'
     └[responsive-dashboard]     [✗] "under construction"
@@ -394,8 +396,9 @@ For example:
     └[wave-map]             []
 
 [xo]
-    └[xo4]      []
-    └[xo6]      []
+    └[css-only]     []
+    └[xo4]          []
+    └[xo6]          []
 
 
 // ───────────────  ───────────────  ─────────────── //

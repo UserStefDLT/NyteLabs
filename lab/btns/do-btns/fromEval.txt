@@ -1,0 +1,74 @@
+<style>
+@property --conic-spin {
+syntax: "<angle>";
+inherits: false;
+initial-value: 0deg;
+}
+.btn {
+--conic-spin: 0deg;
+min-height: 2em;
+min-width: 5em;
+font-size: 24px;
+color: #fff;
+background: #111;
+border-radius: .25em;
+border: 0;
+position: relative;
+display: flex;
+align-items: center;
+justify-content: center;
+margin: 1rem;
+cursor: pointer;
+user-select: none;
+}
+.btn::before,
+.btn::after {
+content: '';
+position: absolute;
+top: 50%; left: 50%;
+transform: translate(-50%, -50%);
+
+height: calc(100% + 2px);
+width: calc(100% + 2px);
+
+background: conic-gradient(from var(--conic-spin), #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+background: conic-gradient(from var(--conic-spin), #f00, #0f0, #00f, #f00);
+background: conic-gradient(from var(--conic-spin), red, green, blue, #f00);
+
+border-radius: .25em;
+transition: filter 250ms ease-in-out;
+animation: spin-conic 3000ms linear infinite both;
+animation-play-state: paused;
+z-index: -1;
+}
+.btn::before {filter: blur(4px);}
+.btn:hover::before {filter: blur(8px);}
+.btn:hover::before,
+.btn:hover::after {animation-play-state: running;}
+
+@keyframes spin-conic {
+0% {--conic-spin: 0deg;}
+100% {--conic-spin: 360deg;}
+}
+
+.btn:nth-of-type(1)::before,
+.btn:nth-of-type(1)::after {
+background: conic-gradient(from var(--conic-spin), #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+}
+.btn:nth-of-type(2)::before,
+.btn:nth-of-type(2)::after {
+background: conic-gradient(from var(--conic-spin), #f00, #0f0, #00f, #f00);
+}
+.btn:nth-of-type(3)::before,
+.btn:nth-of-type(3)::after {
+background: conic-gradient(from var(--conic-spin), red, green, blue, #f00);
+}
+.btn:nth-of-type(4)::before,
+.btn:nth-of-type(4)::after {
+background: conic-gradient(from var(--conic-spin), #f39, #39f, #39f, #f39, #f39);
+}
+</style>
+<button class="btn">Sample</button>
+<button class="btn">Sample</button>
+<button class="btn">Sample</button>
+<button class="btn">Sample</button>

@@ -16,7 +16,39 @@
         } */
         :root {}
     </style>
+<style>
+    .list, .xi {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .list {
+        flex-direction: row;
+        --j: var(--i);
+    }
+    .xi {
+        --sz: 3rem;
+        min-height: var(--sz);
+        min-width: var(--sz);
+        --hue: calc((var(--i) + var(--j)) * 15);
+        --clr: hsla(var(--hue), 100%, 50%, 1);
+        background-color: hsla(var(--hue), 100%, 50%, .25);
+        border: 1px ridge var(--clr);
+        border-radius: .25rem;
+        margin: .5rem;
+        color: var(--bwf);
+        text-shadow: 2px 2px 2px var(--bw1);
 
+        cursor: pointer;
+        user-select: none;
+    }
+    .xi2 {
+        border: 1px dashed var(--clr);
+    }
+
+    .list:has(.xi2) {border: 1px solid greenyellow;}
+    .list:has(.xi:nth-child(7)) {border: 1px solid red;}
+</style>
     <link rel="stylesheet" href="../../../stylesheets/settings.css">
     <style>
         /* Settings. */
@@ -58,8 +90,8 @@
 <body>
     <header>
         <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
-        <h1 class="title">NyteLabs_Template</h1>
-        <!-- <div class="subtitle">subtitle</div> -->
+        <h1 class="title">NyteLabs</h1>
+        <div class="subtitle">:has()</div>
         <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
         <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
     </header>
@@ -69,8 +101,37 @@
 <main>
     <div class="shelf">
         <div class="shelf-title">experiment</div>
-        <div id="display"></div>
-        <div class="x"></div>
+        <div class="list">
+            <div class="xi">1</div>
+            <div class="xi">2</div>
+            <div class="xi">3</div>
+            <div class="xi">4</div>
+            <div class="xi">5</div>
+        </div>
+        <div class="list">
+            <div class="xi">1</div>
+            <div class="xi">2</div>
+            <div class="xi xi2">3</div>
+            <div class="xi">4</div>
+            <div class="xi">5</div>
+        </div>
+        <div class="list">
+            <div class="xi">1</div>
+            <div class="xi">2</div>
+            <div class="xi">3</div>
+            <div class="xi">4</div>
+            <div class="xi">5</div>
+        </div>
+        <div class="list">
+            <div class="xi">1</div>
+            <div class="xi">2</div>
+            <div class="xi">3</div>
+            <div class="xi">4</div>
+            <div class="xi">5</div>
+            <div class="xi">6</div>
+            <div class="xi">7</div>
+            <div class="xi">8</div>
+        </div>
     </div>
 </main>
 

@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Do Btns | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <link rel="stylesheet" href="custom.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+    </style>
+<style>
+    :root {
+        --add-h: 0;
+        --add-w: 0;
+    }
+    .list {}
+    .grid {display: grid; gap: .5rem;}
+    .pairs {grid-template-columns: repeat(2, 1fr);}
+
+    [class|="btn"] {
+        position: relative;
+        min-height: 1rem; min-width: 1rem;
+        --h: 3rem;
+        --w: 8rem;
+        height: var(--h); width: var(--w);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: .25rem;
+        /* background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); */
+        /* color: var(--bwt); */
+        /* isolation: isolate; */
+        font-weight: bold;
+        font-size: 24px;
+        margin: .25rem;
+        cursor: pointer;
+        user-select: none;
+    }
+    /* [class|="btn"]:hover {
+        outline: 1px solid var(--bwf9);
+        outline-offset: 4px;
+    } */
+
+    .btn-01 {
+        background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+        /* color: var(--bwt); */
+        /* text-shadow: 0 0 1px var(--bw1); */
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        font-weight: bold;
+        font-size: 24px;
+    }
+    .btn-01::before,
+    .btn-01::after {
+        content: '';
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        height: calc(var(--h) + var(--add-h)); width: calc(var(--w) + var(--add-w));
+        border-radius: .25rem;
+        z-index: -1;
+    }
+    .btn-01::before {
+        --bg-border: 2px;
+        --add-h: var(--bg-border); --add-w: var(--bg-border);
+        background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+        filter: blur(3px);
+        z-index: -2;
+    }
+    .btn-01::after {
+        --add-h: 0px; --add-w: 0px;
+        background: #111;
+    }
+
+    .btn-02 {
+        background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+        background: #111;
+        font-weight: bold;
+        font-size: 24px;
+    }
+    .btn-02::before,
+    .btn-02::after {
+        content: '';
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        --add-h: 0px; --add-w: 0px;
+        height: calc(var(--h) + var(--add-h)); width: calc(var(--w) + var(--add-w));
+
+        border-radius: .25rem;
+        background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+
+        z-index: -1;
+    }
+    .btn-02::before {
+        --bg-border: 4px;
+        --add-h: var(--bg-border); --add-w: var(--bg-border);
+        /* background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); */
+        filter: blur(3px);
+        z-index: -2;
+    }
+    .btn-02::after {
+        --bg-border: 2px;
+        --add-h: var(--bg-border); --add-w: var(--bg-border);
+    }
+
+    .btn-03 {
+        font-weight: bold;
+        font-size: 24px;
+        overflow: hidden;
+    }
+    .btn-03::before,
+    .btn-03::after {
+        content: '';
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        --add-h: 0px; --add-w: 0px;
+        height: calc(var(--h) + var(--add-h)); width: calc(var(--w) + var(--add-w));
+        border-radius: .25rem;
+        background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+        z-index: -1;
+    }
+    .btn-03::before {
+        --bg-border: 4px;
+        --add-h: var(--bg-border); --add-w: var(--bg-border);
+        height: 8.5rem; width: 8.5rem;
+        /* background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); */
+        filter: blur(3px);
+        z-index: -2;
+        animation: spin 6000ms linear infinite both;
+        animation: spin 6000ms ease-in-out infinite both;
+        animation: spin 3000ms cubic-bezier(0.23, 0.9, 0.41, 0.07) infinite both;
+        animation: spin 3000ms cubic-bezier(0.29,-0.36, 0.64, 1.5) infinite both;
+        animation-play-state: paused;
+    }
+    .btn-03::after {
+        --bg-border: -4px;
+        --add-h: var(--bg-border); --add-w: var(--bg-border);
+        background: #111;
+    }
+    .btn-03:hover::before {animation-play-state: running;}
+    @keyframes spin {
+        0% {transform: translateX(-50%) translateY(-50%) rotate(0deg);}
+        50% {transform: translateX(-50%) translateY(-50%) rotate(180deg);}
+        100% {transform: translateX(-50%) translateY(-50%) rotate(360deg);}
+    }
+
+    .btn-04 {
+        --blur: 3px;
+        /* background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); */
+        background: var(--bwd);
+        background: var(--bw9);
+        background: var(--bw5);
+        background: var(--bw0);
+        background: #111;
+        font-weight: bold;
+        font-size: 24px;
+        text-shadow: 0px 4px 4px #000;
+        text-shadow: 0px 4px 4px #000, 1px 4px 4px #000, -1px 4px 4px #000;
+        /* text-shadow: 0px 2px 2px #000, 0px 0px 0px #000, 0px 0px 0px #000; */
+        /* text-shadow: 0px 8px 4px #000, 1px 8px 6px #000, -1px 8px 6px #000; */
+        transition: filter 500ms ease-in-out;
+        transition: text-shadow 400ms ease-in-out 50ms;
+    }
+    .btn-04:hover {
+        --blur: 8px;
+        text-shadow: 0px 8px 4px #000, 1px 8px 6px #000, -1px 8px 6px #000;
+        /* text-shadow: 0px 2px 2px #000, 0px 0px 0px #000, 0px 0px 0px #000; */
+        /* text-shadow: 0px 4px 4px #000, 1px 4px 4px #000, -1px 4px 4px #000; */
+        text-shadow: 0px 6px 4px #000, 1px 8px 6px #000, -1px 8px 6px #000;
+    }
+    .btn-04::before,
+    .btn-04::after {
+        content: '';
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        --add-h: 0px; --add-w: 0px;
+        height: calc(var(--h) + var(--add-h)); width: calc(var(--w) + var(--add-w));
+
+        border-radius: .25rem;
+        /* background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); */
+        background: conic-gradient(from var(--conic-spin), #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+        animation: spin-conic-04 3000ms cubic-bezier(0.29,-0.36, 0.64, 1.5) infinite both;
+        animation: spin-conic-04 3000ms linear infinite both;
+
+        opacity: 1;
+        /* transition: filter 600ms ease-in-out 100ms;
+        transition: filter 300ms ease-in-out; */
+        /* transition: filter 600ms ease-in-out 100ms, opacity 300ms ease-in-out 0ms; */
+        /* transition: filter 600ms ease-in-out 100ms, opacity 600ms ease-in-out 100ms; */
+        /* transition: filter 300ms ease-in-out, opacity 300ms ease-in-out; */
+        /* transition: filter 300ms linear, opacity 300ms linear;
+        transition: filter 300ms ease-in-out, opacity 300ms ease-in-out;
+        transition: filter 400ms ease-in-out, opacity 400ms ease-in-out; */
+        transition: filter 400ms ease-in-out 100ms, opacity 500ms ease-in-out 50ms;
+        /* transition: filter 600ms cubic-bezier(0.29,-0.36, 0.64, 1.5) 100ms; */
+        z-index: -1;
+    }
+    .btn-04:hover::before,
+    .btn-04:hover::after {
+        /* opacity: .75; */
+        /* transition: filter 300ms ease-in-out; */
+        /* transition: filter 300ms cubic-bezier(0.29,-0.36, 0.64, 1.5);
+        transition: filter 300ms cubic-bezier(0.29,-0.36, 0.64, 1.5), opacity 300ms ease-in-out;
+        transition: filter 300ms cubic-bezier(0.29,-0.36, 0.64, 1.5), opacity 300ms cubic-bezier(0.29,-0.36, 0.64, 1.5); */
+        /* transition: filter 300ms linear, opacity 300ms linear; */
+        /* transition: filter 300ms ease-in-out, opacity 300ms ease-in-out; */
+        /* transition: filter 300ms ease-in-out, opacity 300ms ease-in-out; */
+        /* transition: filter 400ms ease-in-out 50ms, opacity 500ms ease-in-out; */
+    }
+    /* .btn-04:hover::before {opacity: .5;} */
+    /* .btn-04:hover::before {opacity: .5; filter: blur(6px);} */
+    .btn-04::before {
+        --bg-border: 4px;
+        --add-h: var(--bg-border); --add-w: var(--bg-border);
+        /* background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); */
+        filter: blur(3px);
+        /* filter: blur(var(--blur)); */
+        z-index: -2;
+    }
+    .btn-04:hover::before {opacity: .75; filter: blur(8px);}
+    .btn-04::after {
+        --bg-border: 2px;
+        --add-h: var(--bg-border); --add-w: var(--bg-border);
+    }
+    .btn-04:hover::after {--bg-border: 4px;}
+    @keyframes spin-conic-04 {
+        0% {--conic-spin: 0deg;}
+        50% {--conic-spin: 180deg;}
+        100% {--conic-spin: 360deg;}
+    }
+
+</style>
+<style>
+    [class|="btn--bgi"] {background: #111; --bgi-glow: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);}
+    [class|="btn--bgi"]::before,
+    [class|="btn--bgi"]::after {
+        content: '';
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        --bg-border: 2px;
+        --add-h: var(--bg-border); --add-w: var(--bg-border);
+        height: calc(var(--h) + var(--add-h)); width: calc(var(--w) + var(--add-w));
+
+        border-radius: .25rem;
+        /* background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00); */
+        background: var(--bgi-glow);
+        z-index: -1;
+    }
+    [class|="btn--bgi"]::before {
+        --bg-border: 4px;
+        --add-h: var(--bg-border); --add-w: var(--bg-border);
+        filter: blur(3px);
+        z-index: -2;
+    }
+
+    .btn--bgi-00 {--bgi-glow: linear-gradient(to top, #123, #789);}
+    .btn--bgi-01 {--bgi-glow: linear-gradient(#123, #789);}
+    .btn--bgi-02 {--bgi-glow: linear-gradient(135deg, #39f, #f39);}
+    .btn--bgi-03 {--bgi-glow: linear-gradient(135deg, #39f, #f39, #f93, #3f9);}
+    .btn--bgi-04 {--bgi-glow: conic-gradient(#39f, #f39, #f93, #3f9, #39f);}
+    .btn--bgi-05 {--bgi-glow: conic-gradient(from 45deg, #f93, #3f9, #39f, #f39, #f93);}
+
+</style>
+<style>
+
+    /* .exp-00 {
+        font-weight: bold;
+        font-size: 24px;
+        overflow: hidden;
+    }
+    .exp-00::before,
+    .exp-00::after {
+        content: '';
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        --add-h: 0px; --add-w: 0px;
+        height: calc(var(--h) + var(--add-h)); width: calc(var(--w) + var(--add-w));
+        border-radius: .25rem;
+        background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+        background-image: conic-gradient(from var(--conic-spin), #f93, #3f9, #000, #39f, #f39, #000, #f93);
+        z-index: -1;
+    }
+    .exp-00::before {
+        --bg-border: 4px;
+        --add-h: var(--bg-border); --add-w: var(--bg-border);
+        height: 8.5rem; width: 8.5rem;
+        background: conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+        filter: blur(3px);
+        z-index: -2;
+        animation: spin 6000ms linear infinite both;
+        animation: spin 6000ms ease-in-out infinite both;
+        animation: spin 3000ms cubic-bezier(0.23, 0.9, 0.41, 0.07) infinite both;
+        animation: spin 3000ms cubic-bezier(0.29,-0.36, 0.64, 1.5) infinite both;
+        animation-play-state: paused;
+    }
+    .exp-00::after {
+        --bg-border: -4px;
+        --add-h: var(--bg-border); --add-w: var(--bg-border);
+        background: #111;
+    } */
+    .exp-00 {
+        --conic-spin: 45deg;
+        font-weight: bold;
+        font-size: 24px;
+        background-image: conic-gradient(from var(--conic-spin), #f93, #3f9, #39f, #f39, #f93);
+        /* background-image: conic-gradient(from var(--conic-spin), #f93, #3f9, #000, #39f, #f39, #000, #f93);
+        background-image: conic-gradient(from var(--conic-spin), #f93 90deg 135deg, #3f9 135deg 180deg, #000, #39f 210deg 270deg, #f39 270deg 315deg, #000, #f93);
+        background-image: conic-gradient(from var(--conic-spin), #f93 90deg 135deg, #3f9 135deg 180deg, #000, #39f 210deg 270deg, #f39 270deg 315deg, #000);
+        background-image: conic-gradient(from var(--conic-spin), #f93 0deg 90deg,#000 90deg 180deg, #39f 180deg 270deg, #f39 270deg 360deg);
+        background-image: conic-gradient(from var(--conic-spin), #f93 0deg 90deg,#000 90deg 180deg, #39f 180deg 270deg, #fff 270deg 360deg); */
+        animation: spin-conic-00 3000ms cubic-bezier(0.29,-0.36, 0.64, 1.5) infinite both;
+        /* animation: spin-conic 3000ms linear infinite both; */
+        animation-play-state: paused;
+    }
+    .exp-00:hover {animation-play-state: running;}
+    @keyframes spin-conic-00 {
+        0% {--conic-spin: 0deg;}
+        50% {--conic-spin: 180deg;}
+        100% {--conic-spin: 360deg;}
+    }
+
+    /* ─────────────── */
+    
+    .exp-01 {
+        --conic-spin: 45deg;
+        font-weight: bold;
+        font-size: 24px;
+        background-image: 
+        linear-gradient(to bottom right, var(--bw0), var(--bw1)),
+        conic-gradient(from var(--conic-spin), #f93, #3f9, #39f, #f39, #f93);
+        background-size: calc(100% - .5rem) calc(100% - .5rem), 100% 100%;
+        background-position: .25rem .25rem, 0% 0%;
+        background-repeat: no-repeat;
+        border-radius: .25rem;
+        /* animation: spin-conic 3000ms cubic-bezier(0.29,-0.36, 0.64, 1.5) infinite both; */
+        animation: spin-conic-01 3000ms linear infinite both;
+        animation-play-state: paused;
+    }
+    .exp-01:hover {animation-play-state: running;}
+    @keyframes spin-conic-01 {
+        0% {--conic-spin: 0deg;}
+        50% {--conic-spin: 180deg;}
+        100% {--conic-spin: 360deg;}
+    }
+
+    /* ─────────────── */
+
+    
+    .exp-02 {
+        /* --z-deg--spin: 45;
+        --spin: 45;
+        --spin: 1;
+        --z-deg: calc(var(--spin) * 1deg); */
+        font-weight: bold;
+        font-size: 24px;
+        background-image: 
+        linear-gradient(to bottom right, var(--bw0), var(--bw1)),
+        conic-gradient(from var(--conic-spin), #f93, #3f9, #39f, #f39, #f93);
+        background-size: calc(100% - .5rem) calc(100% - .5rem), 100% 100%;
+        background-position: .25rem .25rem, 0% 0%;
+        background-repeat: no-repeat;
+        border-radius: .25rem;
+        /* animation: spin-conic 3000ms cubic-bezier(0.29,-0.36, 0.64, 1.5) infinite both; */
+        animation: spin-conic-01 3000ms linear infinite both;
+        animation-play-state: paused;
+    }
+    .exp-02:hover {animation-play-state: running;}
+    @keyframes spin-conic-02 {
+        0% {--z-deg: calc(var(--spin) * 0deg); background-image: conic-gradient(from calc(var(--spin) * 0deg), #f93, #3f9, #39f, #f39, #f93);}
+        50% {--z-deg: calc(var(--spin) * 90deg); background-image: conic-gradient(from calc(var(--spin) * 90deg), #f93, #3f9, #39f, #f39, #f93);}
+        100% {--z-deg: calc(var(--spin) * 180deg); background-image: conic-gradient(from calc(var(--spin) * 360deg), #f93, #3f9, #39f, #f39, #f93);}
+    }
+    @keyframes spin-conic-02a {
+        0% {background-image: conic-gradient(from 0deg, #f93, #3f9, #39f, #f39, #f93);}
+        50% {background-image: conic-gradient(from 180deg, #f93, #3f9, #39f, #f39, #f93);}
+        100% {background-image: conic-gradient(from 360deg, #f93, #3f9, #39f, #f39, #f93);}
+    }
+</style>
+<style>
+    @keyframes spin-conic {
+        0% {--conic-spin: 0deg;}
+        100% {--conic-spin: 360deg;}
+    }
+
+    /* ─────────────── */
+    
+    .btn4 {
+        --h: 3rem;
+        --w: 8rem;
+        --br: .25rem;
+        --blur: 3px;
+
+        height: var(--h); 
+        width: var(--w);
+        margin: .25rem;
+        border-radius: var(--br);
+
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-weight: bold;
+        font-size: 24px;
+        
+        cursor: pointer;
+        user-select: none;
+        
+        background: #111;
+
+        text-shadow: 0px 4px 4px #000, 1px 4px 4px #000, -1px 4px 4px #000;
+        transition: text-shadow 400ms ease-in-out 50ms;
+    }
+    .btn4:hover {
+        --blur: 8px;
+        text-shadow: 0px 6px 4px #000, 1px 8px 6px #000, -1px 8px 6px #000;
+    }
+    .btn4::before,
+    .btn4::after {
+        content: '';
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+
+        --add-sz: 2px;
+        height: calc(var(--h) + var(--add-sz)); width: calc(var(--w) + var(--add-sz));
+
+        border-radius: .25rem;
+        background: conic-gradient(from var(--conic-spin), #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+
+        opacity: 1;
+
+        animation: spin-conic 3000ms linear infinite both;
+        transition: filter 400ms ease-in-out 100ms, opacity 500ms ease-in-out 50ms;
+
+        z-index: -1;
+    }
+    .btn4::before {
+        --add-sz: 4px;
+        filter: blur(var(--blur));
+        z-index: -2;
+    }
+    .btn4:hover::before {opacity: .75;}
+    .btn4:hover::after {--add-sz: 4px;}
+    
+    /* ─────────────── */
+    
+    [class|="nybtn"] {
+        --h: 3rem;
+        --w: 8rem;
+        --m: .5rem .25rem;
+        --pad: .25rem .5rem;
+        --br: .25rem;
+
+        min-height: var(--h); 
+        min-width: var(--w);
+        margin: var(--m);
+        padding: var(--pad);
+        box-sizing: border-box;
+        border-radius: var(--br);
+
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-weight: bold;
+        font-size: 24px;
+
+        cursor: pointer;
+        user-select: none;
+    }
+    [class|="nybtn"]::before,
+    [class|="nybtn"]::after {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+
+        height: var(--h);
+        width: var(--w);
+        border-radius: var(--br);
+    }
+
+    [class|="nybtn--glow"] {
+        --blur: 3px;
+        --add-sz: 2px;
+        --bgi: conic-gradient(from var(--conic-spin), #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+        background: var(--bw9);
+        background: var(--bw5);
+        background: var(--bw0);
+        background: var(--bw1);
+
+        text-shadow: 0px 2px 2px #0009;
+        /* text-shadow: 0px 2px 2px #0009, 1px 2px 2px #0009, -1px 2px 2px #0009;
+        transition: text-shadow 400ms ease-in-out 50ms; */
+
+        animation: spin-conic 3000ms linear infinite both;
+    }
+    [class|="nybtn--glow"]:hover {
+        --blur: 8px;
+        --add-sz: 4px;
+        /* text-shadow: 0px 2px 4px #0009, 1px 4px 6px #0006, -1px 4px 6px #0006; */
+    }
+    [class|="nybtn--glow"]::before,
+    [class|="nybtn--glow"]::after {
+        /* content: ''; */
+        /* height: calc(var(--h) + var(--add-sz)); 
+        width: calc(var(--w) + var(--add-sz)); */
+        height: calc(100% + var(--add-sz));
+        width: calc(100% + var(--add-sz));
+        background: var(--bgi);
+        transition: filter 400ms ease-in-out 100ms;
+        z-index: -1;
+    }
+    [class|="nybtn--glow"]::before {filter: blur(var(--blur)); z-index: -2;}
+
+    /* ─────────────── */
+
+    .nybtn--glow-iris {
+        text-shadow: 0px 2px 2px #0009, 1px 2px 2px #0009, -1px 2px 2px #0009;
+        transition: text-shadow 400ms ease-in-out 50ms;
+    }
+    .nybtn--glow-iris:hover {text-shadow: 0px 2px 4px #0009, 1px 4px 6px #0006, -1px 4px 6px #0006;}
+    .nybtn--glow-iris::before,
+    .nybtn--glow-iris::after {
+        content: '';
+        transition: filter 400ms ease-in-out 100ms, opacity 500ms ease-in-out 50ms;
+    }
+    .nybtn--glow-iris::before {opacity: 1;}
+    .nybtn--glow-iris:hover::before {opacity: .75;}
+
+    /* ─────────────── */
+
+    .nybtn--glow-temp {
+        --bgi: conic-gradient(from var(--conic-spin), #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+        animation: spin-conic 3000ms linear infinite both;
+    }
+    .nybtn--glow-temp:hover {--blur: 8px; --add-sz: 4px;}
+    .nybtn--glow-temp::before,
+    .nybtn--glow-temp::after {content: ''; transition: filter 400ms ease-in-out 100ms, opacity 500ms ease-in-out 50ms;}
+    .nybtn--glow-temp::before {opacity: 1;}
+    .nybtn--glow-temp:hover::before {opacity: .75;}
+
+
+    /* ─────────────── */
+    
+    .nybtn--glow-rgb {--bgi: conic-gradient(from var(--conic-spin), #f00, #0f0, #00f, #f00);}
+    .nybtn--glow-rgb::before, 
+    .nybtn--glow-rgb::after {content: '';}
+
+    .nybtn--glow-rb-sharp {--bgi: repeating-conic-gradient(from var(--conic-spin), #f00 0deg 45deg, #00f 45deg 90deg);}
+    .nybtn--glow-rb-sharp::before, 
+    .nybtn--glow-rb-sharp::after {content: '';}
+
+    .nybtn--glow-rb {--bgi: repeating-conic-gradient(from var(--conic-spin), #f00 0deg, #00f 45deg, #f00 90deg);}
+    .nybtn--glow-rb::before, 
+    .nybtn--glow-rb::after {content: '';}
+
+    /* ─────────────── */
+
+    .nybtn--glow-iris-02 {
+        --bg-border: 2px;
+        --blur: 3px;
+        --add-sz: 2px;
+        background: #111;
+        background: #999;
+
+        text-shadow: 0px 4px 4px #000, 1px 4px 4px #000, -1px 4px 4px #000;
+        text-shadow: 0px 2px 2px #0009, 1px 2px 2px #0009, -1px 2px 2px #0009;
+
+        --bgi: conic-gradient(from var(--conic-spin), #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+        
+        transition: text-shadow 400ms ease-in-out 50ms;
+
+        animation: spin-conic 3000ms linear infinite both;
+        /* animation-play-state: paused; */
+    }
+    .nybtn--glow-iris-02:hover {
+        --bg-border: 4px;
+        --blur: 16px;
+        --add-sz: 4px;
+        /* animation-play-state: running; */
+        text-shadow: 0px 6px 4px #000, 1px 8px 6px #000, -1px 8px 6px #000;
+        text-shadow: 0px 2px 4px #0009, 1px 4px 6px #0006, -1px 4px 6px #0006;
+    }
+    .nybtn--glow-iris-02::before,
+    .nybtn--glow-iris-02::after {content: '';
+        --add-h: var(--bg-border); --add-w: var(--bg-border);
+        height: calc(var(--h) + var(--add-h)); 
+        width: calc(var(--w) + var(--add-w));
+
+        height: calc(100% + var(--add-sz));
+        width: calc(100% + var(--add-sz));
+
+        background: var(--bgi);
+
+        opacity: 1;
+        transition: filter 400ms ease-in-out 100ms, opacity 500ms ease-in-out 50ms;
+        z-index: -1;
+    }
+    .nybtn--glow-iris-02::before {
+        filter: blur(var(--blur));
+        z-index: -2;
+    }
+    .nybtn--glow-iris-02:hover::before {opacity: .75;}
+
+    /* ─────────────── */
+
+    /* glow-hex */
+    .nybtn--glow-hex {
+        height: 3rem; 
+        width: 8rem;
+
+        margin: .25rem;
+        border-radius: .25rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-weight: bold;
+        font-size: 24px;
+
+        background-image: 
+        linear-gradient(to bottom right, var(--bw0), var(--bw1)),
+        conic-gradient(from var(--conic-spin), #f93, #3f9, #39f, #f39, #f93);
+        background-size: calc(100% - .5rem) calc(100% - .5rem), 100% 100%;
+        background-position: .25rem .25rem, 0% 0%;
+        background-repeat: no-repeat;
+
+        animation: spin-conic 3000ms linear infinite both;
+        animation-play-state: paused;
+
+        cursor: pointer;
+        user-select: none;
+    }
+    .nybtn--glow-hex:hover {animation-play-state: running;}
+    
+    .nyglow---hex-02 {
+        --h: 3rem;
+        --w: 8rem;
+        --br: .25rem;
+        --blur: 3px;
+        --add-sz: 2px;
+
+        height: var(--h); 
+        width: var(--w);
+        margin: .25rem;
+        border-radius: var(--br);
+
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-weight: bold;
+        font-size: 24px;
+
+        --bgi: conic-gradient(from var(--conic-spin), #f93, #3f9, #39f, #f39, #f93);
+        background-color: #111;
+        
+        animation: spin-conic 3000ms linear infinite both;
+        /* animation-play-state: paused; */
+
+        cursor: pointer;
+        user-select: none;
+    }
+    .nyglow---hex-02:hover {
+        --blur: 12px;
+        --add-sz: 4px;
+        /* animation-play-state: running; */
+    }
+    .nyglow---hex-02::before,
+    .nyglow---hex-02::after {
+        content: '';
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+
+        /* --add-sz: 2px; */
+        height: calc(var(--h) + var(--add-sz)); width: calc(var(--w) + var(--add-sz));
+
+        border-radius: var(--br);
+        background: var(--bgi);
+
+        opacity: 1;
+
+        /* animation: spin-conic 3000ms linear infinite both; */
+        transition: filter 400ms ease-in-out 100ms, opacity 500ms ease-in-out 50ms;
+
+        z-index: -1;
+    }
+    .nyglow---hex-02::before {
+        filter: blur(var(--blur));
+        z-index: -2;
+    }
+
+</style>
+    <link rel="stylesheet" href="../../../stylesheets/settings.css">
+    <style>
+        /* Settings. */
+        #toggleLights,
+        #toggleIso,
+        #toggleOpacity {display: none;}
+        #toggleLights:checked ~ .options .toggleCheckboxLabel[for="toggleLights"],
+        #toggleIso:checked ~ .options .toggleCheckboxLabel[for="toggleIso"],
+        #toggleOpacity:checked ~ .options .toggleCheckboxLabel[for="toggleOpacity"] {
+            color: var(--bwe);
+            --clr-outline: var(--bwc);
+            --bgc-before: #063;
+            --bgc-after: #0c6;
+            --ttx-after: 1rem;
+        }
+
+        /* ─ Toggle Effects ─ */
+
+        /* Toggle-Opcacity */
+        #toggleOpacity:checked ~ main #display {opacity:.5;}
+
+        /* Toggle-Animation */
+        /* #toggleAnimation:checked ~ main .grid {
+            animation: spin 3600ms ease-in-out infinite both;
+            animation-name: spin;
+            animation-duration: 3600ms;
+            animation-timing-function: linear;
+            animation-delay: 0ms;
+            animation-iteration-count: infinite;
+            animation-fill-mode: both;
+            
+            animation-delay: calc(30ms * var(--hue));
+            animation-play-state: running;
+        } */
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <h1 class="title">Nytelabs</h1>
+        <!-- <div class="subtitle">subtitle</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+
+<main>
+    <div class="shelf">
+        <div class="nybtn--glow-hex">glow-hex</div>
+        <div class="nyglow---hex-02">glow-hex</div>
+        <div class="btn4">btn4</div>
+        <div class="nybtn--glow-iris">glow-iris</div>
+        <div class="nybtn--glow-iris-02">glow-iris-02</div>
+        <div class="nybtn--glow-iris-02">glow-iris-02 btn check</div>
+    </div>
+    <div class="shelf">
+        <div class="nybtn--glow-rgb">nybtn--glow-rgb</div>
+        <div class="nybtn--glow-rb">nybtn--glow-rb</div>
+        <div class="nybtn--glow-rb-sharp">rb-sharp</div>
+    </div>
+    <div class="shelf">
+        <div class="btn-0 exp-00">exp-00</div>
+        <div class="btn-0 exp-01">exp-01</div>
+        <div class="btn-0 exp-02">exp-02</div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">all hues</div>
+        <div class="btn-01">colores</div>
+        <div class="btn-02">colores</div>
+        <div class="btn-03">colores</div>
+        <div class="btn-04">colores</div>
+    </div>
+    <div class="shelf">
+        <div class="shelf-title">palettes</div>
+        <div class="grid pairs">
+            <div class="btn--bgi-00">btn-00</div>
+            <div class="btn--bgi-01">btn-01</div>
+            <div class="btn--bgi-02">btn-02</div>
+            <div class="btn--bgi-03">btn-03</div>
+            <div class="btn--bgi-04">btn-04</div>
+            <div class="btn--bgi-05">btn-05</div>
+        </div>
+    </div>
+</main>
+
+<!-- <div class="options">
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+        },
+
+        player: false,
+
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+
+</script>
+<script src="../../../scripts/settings.js"></script>
+<script>
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+
+    });
+    /* Version Log:
+    [index-nds-00]: Base from [nytemp2].
+    [index-nds-01]: initial buttons 01, 02, 03 (animation: spin)
+    [index-nds-02]: btn-04 animation of glow. mostly ready.
+    [index-nds-03]: versions with more general classes.
+    [index-nds-04]: 
+    */
+</script>
+</body>
+</html>

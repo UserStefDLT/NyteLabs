@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Building a Grid | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        /* .shelf.bg-macy1 {background-image: linear-gradient(45deg, #f391, #39f1); justify-content: initial;} */
+        .shelf {background-image: linear-gradient(45deg, #f391, #39f1); justify-content: initial;}
+    </style>
+    <style>
+        :root {
+            --p: 5000px;
+            --bg: var(--bwt);
+            --sz-tile: 1rem;
+            /* --sz-tile: .5rem; */
+
+            --hue: 0; --sat: 100%; --lum: 40%; --alp: 1;
+            --hsl: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+        }
+        #display {position: relative; margin: auto;}
+        .grid {
+            transform-style: preserve-3d;
+            transition: transform 0ms ease-in-out;
+        }
+        .row, .tile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+        }
+        .row {flex-direction: row;}
+        .row {--j: var(--i);}
+        .tile {
+            position: relative;
+            height: var(--sz-tile);
+            width: var(--sz-tile);
+            /* background-color: var(--bg); */
+            /* border-radius: 0rem; */
+            /* box-sizing: border-box; */
+        }
+        .tile {
+            /* --hue: calc(var(--i) + var(--j)); */
+            background-color: #fff6;
+            background-color: #eee;
+            margin: 1px;
+            /* transition: background-color 200ms ease-in-out; */
+        }
+
+        .tile:hover {
+            background-color: #eee9;
+        }
+    </style>
+    <style>
+        .tile[data-type="0"] {background-color: #444c;}
+        .tile[data-type="1"] {background-color: #999c;}
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/settings.css">
+    <style>
+        /* Settings. */
+        #toggleLights,
+        #toggleIso,
+        #toggleOpacity {display: none;}
+        #toggleLights:checked ~ .options .toggleCheckboxLabel[for="toggleLights"],
+        #toggleIso:checked ~ .options .toggleCheckboxLabel[for="toggleIso"],
+        #toggleOpacity:checked ~ .options .toggleCheckboxLabel[for="toggleOpacity"] {
+            color: var(--bwe);
+            --clr-outline: var(--bwc);
+            --bgc-before: #063;
+            --bgc-after: #0c6;
+            --ttx-after: 1rem;
+        }
+
+        /* ─ Toggle Effects ─ */
+
+        /* Toggle-Opcacity */
+        #toggleOpacity:checked ~ main #display {opacity:.5;}
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">Building a Grid</h1>
+    </header>
+    <!-- <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights"> -->
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title hidden">display</div>
+        <div id="display"></div>
+    </div>
+</main>
+
+<!-- <div class="options">
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+        },
+
+        player: false,
+
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+
+</script>
+<script src="../../../scripts/settings.js"></script>
+<script>
+    var display;
+    var level;
+
+    const building = {
+        0: [0,0],
+        1: [1,1],
+        2: [2,2],
+        3: [2,3],
+    };
+
+    function BuildGridDisplay_repeat(w,h){
+        let tile = `<div class="tile"></div>`;
+        let tiles = tile.repeat(w);
+        let row = `<div class="row">${tiles}</div>`;
+        let rows = row.repeat(h);
+        let grid = `<div class="grid">${rows}</div>`;
+        // display.innerHTML = grid;
+        return grid;
+    }
+
+    function BuildGridDisplay_id_createElement(w, h){
+        // let display = document.getElementById('display-03');
+        let grid = document.createElement('div');
+        grid.classList.add('grid');
+
+        for(let y = 0; y < h; y++){
+            let row = document.createElement('div');
+            row.classList.add('row');
+            for(let x = 0; x < w; x++){
+                let tile = document.createElement('div');
+                tile.classList.add('tile');
+                tile.id = `xy,${x},${y}`;
+                row.appendChild(tile);
+            }
+            grid.appendChild(row);
+        }
+        // display.appendChild(grid);
+        return grid;
+    }
+
+    function BuildGridDisplay_c_createElement(w, h, c = {"grid": ["grid"], "row": ["row"], "tile": ["tile"]}){
+        let grid = document.createElement('div');
+        grid.classList.add(...c.grid);
+        for(let y = 0; y < h; y++){
+            let row = document.createElement('div');
+            row.classList.add(...c.row);
+            for(let x = 0; x < w; x++){
+                let tile = document.createElement('div');
+                tile.classList.add(...c.tile);
+                tile.id = `xy,${x},${y}`;
+                row.appendChild(tile);
+            }
+            grid.appendChild(row);
+        }
+        return grid;
+    }
+
+    function MarkTile(ev){
+        let tileid = ev.target.id;
+        let x = parseInt(tileid.split(',')[1]);
+        let y = parseInt(tileid.split(',')[2]);
+        console.log(`%cx: %c${x}%c, y: %c${y}`, 'color: #ccc', 'color: #39f', 'color: #ccc', 'color: #39f');
+
+        ev.target.dataset.type = 0;
+    }
+
+    class GridMap {
+        constructor(w,h){
+            this.w = w;
+            this.h = h;
+            this.map = [];
+            this.buildings = [];
+            
+            this.grid = document.createElement('div');
+            this.grid.classList.add('grid');
+
+            this.BuildMap();
+        }
+        BuildMap(fill = this.fill) {
+            this.map = [];
+            for (let y = 0; y < this.h; y++) {
+                this.map.push([]);
+
+                let row = document.createElement('div');
+                row.classList.add('row');
+                for (let x = 0; x < this.w; x++) {
+                    this.map[y].push(fill);
+
+                    let tile = document.createElement('div');
+                    tile.classList.add('tile');
+                    // tile.id = `xy,${x},${y}`;
+                    // tile.addEventListener('click', AddBuilding);
+                    tile.dataset.x = x;
+                    tile.dataset.y = y;
+                    tile.addEventListener('click', this.AddBuilding);
+                    tile.dataset.type = -1;
+                    row.appendChild(tile);
+                }
+                this.grid.appendChild(row);
+            }
+        }
+        getGrid(){return this.grid;}
+
+        IsInMap(x, y) {
+            if (x < 0 || y < 0 || x >= this.w || y >= this.h) {
+                return false;
+            }
+            return true;
+        }
+        IsTile(x, y, tile) {
+            if (this.IsInMap(x, y)) {
+                // let res = this.map[y][x] == tile;
+                // return (this.map[y][x] == tile);
+                // let res = this.grid.children[y].children[x].dataset.type == tile;
+                // return res;
+                return (this.grid.children[y].children[x].dataset.type == tile);
+            }
+            return false;
+        }
+        IsClear(x, y) {
+            return this.IsTile(x, y, -1);
+        }
+
+
+        AddBuilding(ev){
+            let ex = parseInt(ev.target.dataset.x);
+            let ey = parseInt(ev.target.dataset.y);
+            console.log(`%cx: %c${ex}%c, y: %c${ey}`, 'color: #ccc', 'color: #39f', 'color: #ccc', 'color: #39f');
+
+            let add = building[3][0];
+            let range = building[3][1] - building[3][0] + 1;
+            let xLen = Math.floor(Math.random() * range + add);
+            let yLen = Math.floor(Math.random() * range + add);
+
+            console.log(`%cxLen: %c${xLen}%c, yLen: %c${yLen}`, 'color: #ccc', 'color: #39f', 'color: #ccc', 'color: #39f');
+
+            for (let y = 0; y < yLen; y++) {
+                for (let x = 0; x < xLen; x++) {
+                    let nx = ex + x;
+                    let ny = ey + y;
+                    console.log(`%cnx: %c${nx}%c, ny: %c${ny}`, 'color: #ccc', 'color: #39f', 'color: #ccc', 'color: #39f');
+                    let clear = level.IsClear(nx,ny);
+                    console.log(`%cIsClear: %c${clear}`, 'color: #ccc', 'color: #39f');
+                    if(clear){
+                        level.grid.children[ny].children[nx].dataset.type = 0;
+                    }
+                    // if(level.IsClear(nx,ny)){
+                    //     level.grid.children[y].children[x].dataset.type = 0;
+                    // }
+                    // if(this.IsClear(nx,ny)){
+                    //     this.grid.children[y].children[x].dataset.type = 0;
+                    // }
+                }
+            }
+        }
+
+    }
+
+
+
+
+    function AddBuilding1(ev){
+        let tileid = ev.target.id;
+        let ex = parseInt(tileid.split(',')[1]);
+        let ey = parseInt(tileid.split(',')[2]);
+        console.log(`%cx: %c${ex}%c, y: %c${ey}`, 'color: #ccc', 'color: #39f', 'color: #ccc', 'color: #39f');
+        // ev.target.dataset.type = 0;
+
+        for (let y = 0; y < building[3][0]; y++) {
+            // const element = array[y];
+            for (let x = 0; x < building[3][1]; x++) {
+                let nx = ex + x;
+                let ny = ey + y;
+
+                let next_tile = document.getElementById(`xy,${nx},${ny}`);
+                next_tile.dataset.type = 0;
+            }
+        }
+    }
+
+    function BuildGrid_Display(w, h){
+        let display = document.getElementById('display');
+        let grid = document.createElement('div');
+        grid.classList.add('grid');
+
+        for(let y = 0; y < h; y++){
+            let row = document.createElement('div');
+            row.classList.add('row');
+            for(let x = 0; x < w; x++){
+                let tile = document.createElement('div');
+                tile.classList.add('tile');
+                tile.id = `xy,${x},${y}`;
+                tile.addEventListener('click', AddBuilding1);
+                // tile.dataset.tile = -1;
+                row.appendChild(tile);
+            }
+            grid.appendChild(row);
+        }
+        display.appendChild(grid);
+        // return grid;
+    }
+
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        let w = 20;
+        let h = 20;
+
+        display = document.getElementById('display');
+
+        console.log('---');
+        console.time("GridMap");
+        level = new GridMap(w,h);
+        console.timeEnd("GridMap");
+        console.log('---');
+
+        display.appendChild(level.getGrid());
+        
+        // console.log('---');
+        // console.time("BuildGrid_Display");
+        // BuildGrid_Display(w,h);
+        // console.timeEnd("BuildGrid_Display");
+    });
+
+    /* Version Log:
+    [index-nds-00]: 
+    [index-nds-01]: makes a grid and makes buildings when click on tile. also avoids outside of the grid.
+    [index-nds-02]: 
+    [index-nds-03]: 
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
+    [index-nds-07]: 
+    [index-nds-08]: 
+    [index-nds-09]: 
+    [index-nds-10]: 
+    
+    */
+</script>
+</body>
+</html>
