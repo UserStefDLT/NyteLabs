@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>NyteLabs_Template | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        :root {}
+    </style>
+<style>
+
+    .logo {
+    position: relative;
+    height: 300px;
+    width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+    .bg, .text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    }
+    .bg {
+    background-color: #fff0;
+    background-image: radial-gradient(#fd8 50%, #fff0 70%);
+    
+    background-image: radial-gradient(#fd7 50%, #fff0 60%), linear-gradient(0deg, #123 0%, #789 100%);
+    
+    background-image: radial-gradient(#ffff 50%, #fff0 55%), linear-gradient(0deg, #123 0%, #789 100%);
+    
+    background-image: radial-gradient(#000 40px, #fff 60px, #000 70px, #0000 80px), 
+    conic-gradient(
+    #000 0deg 10deg,
+    #f00 30deg, 
+    #0f0 60deg 80deg, 
+    #000 90deg 100deg,
+    #3f9 110deg 135deg,
+    #0ff 170deg 190deg,
+    #00f 240deg,
+    #000 250deg 300deg,
+    #f39 330deg),
+    linear-gradient(0deg, #000 40%, #f00 60%);
+    
+    background-image: linear-gradient(135deg,
+    #fff 0px, #fff 60px, 
+    #000 80px, #000 120px, 
+    #f00 140px, #0f0 200px, #0f0 210px,
+    
+    #000,
+    #0ff,
+    #0000);
+    
+    background-image: linear-gradient(45deg,
+        #f8fcff,
+            #ffe6a9,
+            #af6929,
+            #5a1d3a,
+            #52296d,
+            #342378,
+            #0a54bc,
+            #5491ed,
+            #bcf1cf,
+            #dff4a5,
+            #fded67,
+            #ff9a7a,
+            #b047b5,
+            #5c54bb,
+            #4697a3,
+            #00bcbe,
+            #5ceb92,
+            #cbef92,
+            #e0eca0,
+            #f3b8b0,
+            #f3b8b0,
+            #e45ad3,
+            #c473d7,
+            #9197ba,
+            #4caf9b,
+            #2fc795,
+            #b8b7bc,
+    #0000);
+    
+    background-image: linear-gradient(135deg,
+        #f8fcff00 50px, #f8fcff 50px,
+        #ffe6a9,
+        #af6929,
+        #5a1d3a,
+        #52296d,
+        #342378,
+        #0a54bc,
+        #5491ed,
+        #bcf1cf,
+        #dff4a5,
+        #fded67,
+        #ffbb44,
+        #ff9a7a,
+        #b047b5,
+        #5c54bb,
+        #00bcbe,
+        #5ceb92,
+        #e0eca0,
+        #e45ad3,
+        #2fc795,
+        #b8b7bc 370px, #0000 375px
+    );
+    background-image: linear-gradient(135deg,
+        #f8fcff00 50px, #f8fcff 50px,
+        #ffe6a9, #af6929, #5a1d3a, #52296d, #342378, #0a54bc, #5491ed,
+        #bcf1cf, #dff4a5, #fded67, #ffbb44, #ff9a7a, #b047b5, #5c54bb,
+        #00bcbe, #5ceb92, #e0eca0, #e45ad3, #2fc795, #b8b7bc 370px, 
+        #0000 375px), 
+        linear-gradient(45deg,
+        #f8fcff, #ffe6a9, #af6929, #5a1d3a,
+        #52296d, #342378, #0a54bc, #5491ed,
+    
+        #bcf1cf, #dff4a5, #fded67, #ff9a7a,
+        #b047b5, #5c54bb, #4697a3, #00bcbe,
+    
+        #5ceb92, #cbef92, #e0eca0, #f3b8b0,
+        #f3b8b0, #e45ad3, #c473d7, #9197ba,
+        #4caf9b, #2fc795, #b8b7bc,
+        #0000);
+    
+    height: 300px;
+    width: 300px;
+    
+    filter: blur(0px) url(#bg-flow2);
+    /*filter: blur(0px) url(#ny-flow);*/
+    /*background-filter: blur(16px);*/
+    /*background-image: linear-gradient(0deg, red 50%, blue 50%), linear-gradient(90deg, yellow 50%, cyan 50%);*/
+    background-blend-mode: darken;
+    background-blend-mode: screen;
+    background-blend-mode: difference;
+    background-blend-mode: overlay;
+    }
+    .text {
+    color: #fff;
+    text-shadow: 2px 2px 2px #222;
+    font-size: 5rem;
+    }
+    
+</style>
+
+    <link rel="stylesheet" href="../../../stylesheets/settings.css">
+    <style>
+        /* Settings. */
+        #toggleLights,
+        #toggleIso,
+        #toggleOpacity {display: none;}
+        #toggleLights:checked ~ .options .toggleCheckboxLabel[for="toggleLights"],
+        #toggleIso:checked ~ .options .toggleCheckboxLabel[for="toggleIso"],
+        #toggleOpacity:checked ~ .options .toggleCheckboxLabel[for="toggleOpacity"] {
+            color: var(--bwe);
+            --clr-outline: var(--bwc);
+            --bgc-before: #063;
+            --bgc-after: #0c6;
+            --ttx-after: 1rem;
+        }
+
+        /* ─ Toggle Effects ─ */
+
+        /* Toggle-Opcacity */
+        #toggleOpacity:checked ~ main #display {opacity:.5;}
+
+        /* Toggle-Animation */
+        /* #toggleAnimation:checked ~ main .grid {
+            animation: spin 3600ms ease-in-out infinite both;
+            animation-name: spin;
+            animation-duration: 3600ms;
+            animation-timing-function: linear;
+            animation-delay: 0ms;
+            animation-iteration-count: infinite;
+            animation-fill-mode: both;
+            
+            animation-delay: calc(30ms * var(--hue));
+            animation-play-state: running;
+        } */
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">NyteLabs</h1>
+        <!-- <div class="subtitle">Stef Logo</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">experiment</div>
+        <div id="display">
+            <div class="logo">
+                <div class="bg"></div>
+                <div class="text">Stef</div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<svg>
+    <defs>
+        <filter id="bg-flow" x="-25%" y="-25%" width="150%" height="150%">
+        <feTurbulence type="fractalNoise" id="fractalNoise" baseFrequency=".018" numOctaves="5" seed="5" result="fractalNoise">
+        </feTurbulence>
+        <feTurbulence type="turbulence" id="turbulence" baseFrequency=".036" numOctaves="5" seed="5" result="turbulence">
+        </feTurbulence>
+        <feDisplacementMap
+            in="fractalNoise"
+            in2="turbulence"
+            scale="100"
+            xChannelSelector="R"
+            yChannelSelector="R"
+            result="Displaced">
+        </feDisplacementMap>
+        <feDisplacementMap
+            in="SourceGraphic"
+            in2="Displaced"
+            scale="100"
+            xChannelSelector="R"
+            yChannelSelector="R"
+            result="mixed">
+        </feDisplacementMap>
+        </filter>
+    
+        <filter id="bg-flow2" x="-25%" y="-25%" width="150%" height="150%">
+    
+    
+        <feTurbulence type="turbulence" id="turbulence" baseFrequency=".036" numOctaves="5" seed="5" result="turbulence">
+        </feTurbulence>
+    
+        <feTurbulence type="fractalNoise" id="fractalNoise" baseFrequency=".018" numOctaves="5" seed="5" result="fractalNoise">
+        </feTurbulence>
+    
+        <feDisplacementMap
+            in="fractalNoise"
+            in2="turbulence"
+            scale="100"
+            xChannelSelector="R"
+            yChannelSelector="R"
+            result="Displaced">
+        </feDisplacementMap>
+    
+        <feDisplacementMap
+            in="SourceGraphic"
+            in2="Displaced"
+            scale="100"
+            xChannelSelector="R"
+            yChannelSelector="R"
+            result="mixed">
+        </feDisplacementMap>
+    
+        </filter>
+    
+            <filter id="ny-flow" 
+                x="-25%" y="-25%" width="150%" height="150%">
+                <feTurbulence type="fractalNoise" id="fractalNoise"
+                    baseFrequency=".018" numOctaves="5" seed="5"
+                    result="fractalNoise">
+                    <animate id="noiseAnimate"
+                        attributeName="baseFrequency"
+                        values=".018;.012;.032;.018" from="0"
+                        to="100" dur="60s"
+                        repeatCount="indefinite" >
+                    </animate>
+                </feTurbulence>
+                <feTurbulence type="turbulence" id="turbulence"
+                    baseFrequency=".036" numOctaves="5" seed="5"
+                    result="turbulence">
+                    <animate id="noiseAnimate"
+                        attributeName="baseFrequency"
+                        values=".029;.036;.021;.029" from="0"
+                        to="100" dur="60s"
+                        repeatCount="indefinite" >
+                    </animate>
+                </feTurbulence>
+                <feDisplacementMap
+                    in="fractalNoise"
+                    in2="turbulence"
+                    scale="100"
+                    xChannelSelector="R"
+                    yChannelSelector="R"
+                    result="Displaced">
+                    <animate id="scaleAnimate"
+                        attributeName="scale"
+                        values="-40;80;-40" from="0"
+                        to="100" dur="60s"
+                        repeatCount="indefinite" >
+                    </animate>
+                </feDisplacementMap>
+                <feDisplacementMap
+                    in="SourceGraphic"
+                    in2="Displaced"
+                    scale="100"
+                    xChannelSelector="R"
+                    yChannelSelector="R"
+                    result="mixed">
+                    <animate id="scaleAnimate"
+                        attributeName="scale"
+                        values="80;20;80" from="0"
+                        to="100" dur="60s"
+                        repeatCount="indefinite" >
+                    </animate>
+                </feDisplacementMap>
+            </filter>
+    </defs>
+</svg>
+
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+
+    });
+</script>
+</body>
+</html>

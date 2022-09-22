@@ -1,0 +1,131 @@
+
+
+.row {
+    display: flex;
+    flex-direction: row;
+  }
+  .tile{
+    height: 1rem;
+    width: 1rem;
+    background: #fff9;
+    margin: 0px;
+  }
+  
+  
+  
+  .grid, .row, .tile {
+  transform-style: preserve-3d;
+  }
+  
+  .grid {
+  --xlen: 20;
+  --ylen: 20;
+  --xlen2: calc((var(--xlen) + 1) / 2);
+  --ylen2: calc((var(--ylen) + 1) / 2);
+  
+  transform: rotateX(54deg) rotateZ(45deg);
+  transform: perspective(500px);
+  
+  transform: perspective(500px) rotateX(30deg);
+  }
+  
+  .row { --j: var(--i); }
+  .tile {
+  --x: calc(var(--i) - (var(--xlen) + 1) / 2);
+  --y: calc(var(--j) - (var(--ylen) + 1) / 2);
+  
+  --x1: calc(var(--i));
+  --x2: calc(var(--i) - (var(--xlen) + 1));
+  
+  --xx: calc(var(--x) * var(--x));
+  --yy: calc(var(--y) * var(--y));
+  --q: calc(var(--xx) + var(--yy));
+  
+  --xx1: calc(var(--x1) * var(--x1));
+  --xx2: calc(var(--x2) * var(--x2));
+  --q1: calc(var(--xx1) + var(--yy));
+  --q2: calc(var(--xx2) + var(--yy));
+  
+  --val: var(--q);
+  /*
+  --val: calc(var(--dim) - var(--q));
+  --val: calc(var(--dim2) - var(--q));
+  --val: calc(var(--dim2) - (var(--q) / var(--dim2) * 150) );
+  --val: calc(var(--q) - var(--dim)); */
+  
+  --d-q1: calc(var(--dim) - var(--q1));
+  --d-q2: calc(var(--dim) - var(--q2));
+  
+  --val: var(--q1);
+  --val: calc(var(--dim) - var(--q1));
+  
+  /*--val: calc(var(--q1) + var(--q2));*/
+  /*--val: calc(var(--d-q1) + var(--d-q2));*/
+  
+  --val: var(--q);
+  
+  --hue: calc(var(--val) * 1);
+  --clr: hsla(var(--hue), 100%, 50%, .5);
+  --clr1: hsla(var(--hue), 100%, 50%, 0);
+  --zpx: calc(var(--val) * -.5px);
+  --zdeg: calc(var(--val) * 2deg);
+  --xdeg: calc(var(--q1) * 2deg);
+  --ydeg: calc(var(--val) * 2deg);
+  }
+  .tile {
+  background-color: var(--clr);
+  transform: rotateX(var(--zdeg));
+  
+  transform: translateZ(var(--zpx));
+  
+  transform-origin: 0% 0%;
+  transform: rotateX(var(--zdeg));
+  transform: rotateX(var(--xdeg)) rotateY(var(--ydeg));
+  /*transform: rotateX(var(--xdeg));*/
+  }
+  
+  
+  
+  /*
+  .tile {
+  --z1: calc(var(--q1) * -.5px);
+  --z2: calc(var(--q2) * -.5px);
+  
+  transform: translateZ(var(--z1));
+  }
+  
+  .tile {
+  animation: wave 3000ms linear infinite both;
+  animation-delay: calc(var(--q2) * 20ms + 50ms);
+  }
+  
+  @keyframes wave {
+  0%{transform: translateZ(0px);}
+  50%{transform: translateZ(30px);}
+  100%{transform: translateZ(0px);}
+  }
+  
+  .tile {position: relative;}
+  .tile::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  height: 1rem;
+  width: 1rem;
+  background-color: var(--clr);
+  transform: translateZ(50px);
+  transform: translateZ(var(--z2));
+  
+  animation: wave 3000ms linear infinite both;
+  animation-delay: calc(var(--q2) * 20ms + 50ms);
+  }
+  
+  */
+  
+  
+  
+  
+  
+  
+  

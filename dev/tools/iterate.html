@@ -10,6 +10,9 @@
     #exp[data-val="00"] .cube {--row-val: var(--row-v-00); --col-val: var(--col-v-00);}
     p{#exp[data-val="$$"] .cube /--row-val: var(--row-v-$$); --col-val: var(--col-v-$$);/}*30
 
+    *:nth-of-type(36n+$) {--x36: 0; --y36: 0;}
+    p{*:nth-of-type(36n+$) --x36: 0; --y36: 0;}*36
+    
     
 </body>
 </html>

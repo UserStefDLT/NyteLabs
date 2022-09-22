@@ -63,7 +63,7 @@
             width: 1.5rem;
             width: 2.5rem;
             background-color: var(--bwt);
-            background-color: var(--bwe);
+            /* background-color: var(--bwe); */
             color: var(--bw2);
             /* transform: rotate(45deg); */
             cursor: cell;
@@ -73,6 +73,7 @@
             --y: calc(var(--ylen) + 1 - var(--j));
             --hue: calc(var(--x) + var(--y));
             --clr: hsla(var(--hue), 100%, 40%, 1);
+            --clr: hsla(var(--hue), 100%, 60%, 1);
             color: var(--clr);
         }
         .tile[data-xy]::before {
@@ -352,15 +353,15 @@
         // let q3w = (360 * (2/q3));
         // let q4w = (360 * (2/q4));
 
-        let q1r = Math.round(360 * (2/q1));
-        let q2r = Math.round(360 * (2/q2));
-        let q3r = Math.round(360 * (2/q3));
-        let q4r = Math.round(360 * (2/q4));
+        // let q1r = Math.round(360 * (2/q1));
+        // let q2r = Math.round(360 * (2/q2));
+        // let q3r = Math.round(360 * (2/q3));
+        // let q4r = Math.round(360 * (2/q4));
 
-        let q1f = Math.floor(360 * (2/q1));
-        let q2f = Math.floor(360 * (2/q2));
-        let q3f = Math.floor(360 * (2/q3));
-        let q4f = Math.floor(360 * (2/q4));
+        // let q1f = Math.floor(360 * (2/q1));
+        // let q2f = Math.floor(360 * (2/q2));
+        // let q3f = Math.floor(360 * (2/q3));
+        // let q4f = Math.floor(360 * (2/q4));
 
         // hue = q1w + q2w + q3w;
 
@@ -377,8 +378,27 @@
         // hue = q1r * q2r * q3r * q4r * 2;
         // hue = q1f * q2f * q3f * q4f * 10;
         // hue = q1r * q2r * 2;
-        hue = q1f * q2f * 5;
+        // hue = q1f * q2f * 5;
 
+        // hue = q1 * .25;
+        // hue = x1 * 4;
+        // hue = x * 10;
+        // hue = x * .4;
+        // hue = x1 * .1;
+        // x1w = Math.cos(Math.PI * x1 * .1) * 50;
+        // x2w = Math.cos(Math.PI * y1 * .1) * 50;
+        // hue = x1w + x2w;
+        // hue = Math.cos(Math.PI * x * .1) * 50;
+        // hue = Math.cos(Math.PI * q * .01) * 90;
+        
+        // q1w = Math.cos(Math.PI * q1 * .005) * 45;
+        // q2w = Math.cos(Math.PI * q2 * .005) * 45;
+        // hue = q1w + q2w;
+        // hue = q1 + q2;
+        // hue = q1 * .25;
+        hue = Math.cos(Math.PI * q1 * .005) * 90;
+        
+        // hue = Math.cos(Math.PI * q * .005) * 90;
 
         return hue;
     }

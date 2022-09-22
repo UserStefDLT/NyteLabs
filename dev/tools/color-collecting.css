@@ -1,0 +1,164 @@
+
+
+.feTurbulence {
+    --clr: #f8fcff;
+    --clr: #ffe6a9;
+    --clr: #af6929;
+    --clr: #5a1d3a;
+    --clr: #52296d;
+    --clr: #342378;
+    --clr: #0a54bc;
+    --clr: #5491ed;
+    --clr: #bcf1cf;
+    --clr: #dff4a5;
+    --clr: #fded67;
+    --clr: #ff9a7a;
+    --clr: #b047b5;
+    --clr: #5c54bb;
+    --clr: #4697a3;
+    --clr: #00bcbe;
+    --clr: #5ceb92;
+    --clr: #cbef92;
+    --clr: #e0eca0;
+    --clr: #f3b8b0;
+    --clr: #f3b8b0;
+    --clr: #e45ad3;
+    --clr: #c473d7;
+    --clr: #9197ba;
+    --clr: #4caf9b;
+    --clr: #2fc795;
+    --clr: #b8b7bc;
+
+
+
+    /* Top */
+    --clr: #fffcef;
+    --clr: #ffcc7f;
+    --clr: #833f0a;
+    --clr: #523558;
+
+    /* Blues */
+    --clr: #3530a6;
+    --clr: #5388c0;
+    --clr: #00a1ff;
+    --clr: #6fd5ff;
+
+    /* Glow */
+    --clr: #bdf4d1;
+    --clr: #f2f686;
+    --clr: #ffe56c;
+    --clr: #ffa869;
+    --clr: #f08794;
+    --clr: #d75579;
+    --clr: #dd59c4;
+    --clr: #8d46c7;
+    --clr: #6c52d4;
+
+
+    --clr: hexClr;
+    --clr: hexClr;
+    --clr: hexClr;
+    --clr: hexClr;
+}
+
+.gradient {
+background-image: linear-gradient(135deg,
+    #f8fcff,
+    #ffe6a9,
+    #af6929,
+    #5a1d3a,
+    #52296d,
+    #342378,
+    #0a54bc,
+    #5491ed,
+    #bcf1cf,
+    #dff4a5,
+    #fded67,
+    #ff9a7a,
+    #b047b5,
+    #5c54bb,
+    #4697a3,
+    #00bcbe,
+    #5ceb92,
+    #cbef92,
+    #e0eca0,
+    #f3b8b0,
+    #f3b8b0,
+    #e45ad3,
+    #c473d7,
+    #9197ba,
+    #4caf9b,
+    #2fc795,
+    #b8b7bc
+);
+background-image: linear-gradient(135deg,
+    #f8fcff,
+    #ffe6a9,
+    #af6929,
+    #5a1d3a,
+    #52296d,
+    #342378,
+    #0a54bc,
+    #5491ed,
+    #bcf1cf,
+    #dff4a5,
+    #fded67,
+    #ffbb44,
+    #ff9a7a,
+    #b047b5,
+    #5c54bb,
+    #00bcbe,
+    #5ceb92,
+    #e0eca0,
+    #e45ad3,
+    #2fc795,
+    #b8b7bc
+);
+
+background-image: linear-gradient(135deg,
+    #f8fcff00 50px, #f8fcff 50px,
+    #ffe6a9,
+    #af6929,
+    #5a1d3a,
+    #52296d,
+    #342378,
+    #0a54bc,
+    #5491ed,
+    #bcf1cf,
+    #dff4a5,
+    #fded67,
+    #ffbb44,
+    #ff9a7a,
+    #b047b5,
+    #5c54bb,
+    #00bcbe,
+    #5ceb92,
+    #e0eca0,
+    #e45ad3,
+    #2fc795,
+    #b8b7bc 370px, #0000 375px
+);
+
+
+background-image: linear-gradient(135deg,
+    #f8fcff00 50px, #f8fcff 50px,
+    #ffe6a9, #af6929, #5a1d3a, #52296d, #342378, #0a54bc, #5491ed,
+    #bcf1cf, #dff4a5, #fded67, #ffbb44, #ff9a7a, #b047b5, #5c54bb,
+    #00bcbe, #5ceb92, #e0eca0, #e45ad3, #2fc795, #b8b7bc 370px, 
+    #0000 375px), 
+    linear-gradient(45deg,
+    #f8fcff, #ffe6a9, #af6929, #5a1d3a,
+    #52296d, #342378, #0a54bc, #5491ed,
+
+    #bcf1cf, #dff4a5, #fded67, #ff9a7a,
+    #b047b5, #5c54bb, #4697a3, #00bcbe,
+
+    #5ceb92, #cbef92, #e0eca0, #f3b8b0,
+    #f3b8b0, #e45ad3, #c473d7, #9197ba,
+    #4caf9b, #2fc795, #b8b7bc,
+    #0000);
+}
+
+.backdrop-test {
+    background-image: linear-gradient(0deg, red 50%, blue 50%), linear-gradient(90deg, yellow 50%, cyan 50%);
+}

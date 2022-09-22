@@ -1,0 +1,53 @@
+/* Period */
+*:nth-of-type(12n+0) {--p12: 0;}
+*:nth-of-type(12n+1) {--p12: 1;}
+*:nth-of-type(12n+2) {--p12: 2;}
+*:nth-of-type(12n+3) {--p12: 3;}
+*:nth-of-type(12n+4) {--p12: 2;}
+*:nth-of-type(12n+5) {--p12: 1;}
+*:nth-of-type(12n+6) {--p12: 0;}
+*:nth-of-type(12n+7) {--p12: -1;}
+*:nth-of-type(12n+8) {--p12: -2;}
+*:nth-of-type(12n+9) {--p12: -3;}
+*:nth-of-type(12n+10) {--p12: -2;}
+*:nth-of-type(12n+11) {--p12: -1;}
+
+
+*:nth-of-type(36n+0) {--x36: 9; --y36: 0;}
+*:nth-of-type(36n+1) {--x36: 8; --y36: 1;}
+*:nth-of-type(36n+2) {--x36: 7; --y36: 2;}
+*:nth-of-type(36n+3) {--x36: 6; --y36: 3;}
+*:nth-of-type(36n+4) {--x36: 5; --y36: 4;}
+*:nth-of-type(36n+5) {--x36: 4; --y36: 5;}
+*:nth-of-type(36n+6) {--x36: 3; --y36: 6;}
+*:nth-of-type(36n+7) {--x36: 2; --y36: 7;}
+*:nth-of-type(36n+8) {--x36: 1; --y36: 8;}
+*:nth-of-type(36n+9) {--x36: 0; --y36: 9;}
+*:nth-of-type(36n+10) {--x36: -1; --y36: 8;}
+*:nth-of-type(36n+11) {--x36: -2; --y36: 7;}
+*:nth-of-type(36n+12) {--x36: -3; --y36: 6;}
+*:nth-of-type(36n+13) {--x36: -4; --y36: 5;}
+*:nth-of-type(36n+14) {--x36: -5; --y36: 4;}
+*:nth-of-type(36n+15) {--x36: -6; --y36: 3;}
+*:nth-of-type(36n+16) {--x36: -7; --y36: 2;}
+*:nth-of-type(36n+17) {--x36: -8; --y36: 1;}
+*:nth-of-type(36n+18) {--x36: -9; --y36: 0;}
+*:nth-of-type(36n+19) {--x36: -8; --y36: -1;}
+*:nth-of-type(36n+20) {--x36: -7; --y36: -2;}
+*:nth-of-type(36n+21) {--x36: -6; --y36: -3;}
+*:nth-of-type(36n+22) {--x36: -5; --y36: -4;}
+*:nth-of-type(36n+23) {--x36: -4; --y36: -5;}
+*:nth-of-type(36n+24) {--x36: -3; --y36: -6;}
+*:nth-of-type(36n+25) {--x36: -2; --y36: -7;}
+*:nth-of-type(36n+26) {--x36: -1; --y36: -8;}
+*:nth-of-type(36n+27) {--x36: 0; --y36: -9;}
+*:nth-of-type(36n+28) {--x36: 1; --y36: -8;}
+*:nth-of-type(36n+29) {--x36: 2; --y36: -7;}
+*:nth-of-type(36n+30) {--x36: 3; --y36: -6;}
+*:nth-of-type(36n+31) {--x36: 4; --y36: -5;}
+*:nth-of-type(36n+32) {--x36: 5; --y36: -4;}
+*:nth-of-type(36n+33) {--x36: 6; --y36: -3;}
+*:nth-of-type(36n+34) {--x36: 7; --y36: -2;}
+*:nth-of-type(36n+35) {--x36: 8; --y36: -1;}
+
+

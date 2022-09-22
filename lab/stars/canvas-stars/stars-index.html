@@ -12,6 +12,11 @@
     <link rel="stylesheet" href="../../../stylesheets/deck.css">
     <link rel="stylesheet" href="../../../stylesheets/canvas.css">
     <style>
+        body {
+            background-image: 
+                radial-gradient(farthest-corner at 100% 100%, #456, #7890),
+                radial-gradient(farthest-corner at 100% 100%, #123, #123);
+        }
         header {
             /* backdrop-filter: brightness(5) blur(5px); */
             backdrop-filter: brightness(1) blur(5px);
@@ -33,7 +38,7 @@
     </div>
 </main>
 
-<svg style="position: absolute; top: -99999px" xmlns="http://www.w3.org/2000/svg">
+<!-- <svg style="position: absolute; top: -99999px" xmlns="http://www.w3.org/2000/svg">
     <filter id="svgBlur" x="-5%" y="-5%" width="110%" height="110%">
         <feGaussianBlur in="SourceGraphic" stdDeviation="5"/>
     </filter>
@@ -41,7 +46,7 @@
         <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="5" />
         <feDisplacementMap in="SourceGraphic" scale="100" />
     </filter>
-</svg>
+</svg> -->
 
     <footer>
         <div class="my-name">
@@ -307,14 +312,14 @@
         }
 
         function animate (){
-            // ctx.clearRect(0,0,canvas.width, canvas.height);
-            // ctx.fillStyle = `hsla(${hue}, 100%, 5%, ${s.z}%)`;
-            // ctx.filter = `brightness(.5)`;
-            // ctx.backdropFilter = `blur(.5)`;
-            // ctx.fillStyle = `#0002`;
-            // ctx.fillStyle = `#0006`;
-            ctx.fillStyle = `#000f`;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            // // ctx.fillStyle = `hsla(${hue}, 100%, 5%, ${s.z}%)`;
+            // // ctx.filter = `brightness(.5)`;
+            // // ctx.backdropFilter = `blur(.5)`;
+            // // ctx.fillStyle = `#0002`;
+            // // ctx.fillStyle = `#0006`;
+            // ctx.fillStyle = `#000f`;
+            // ctx.fillRect(0, 0, canvas.width, canvas.height);
             // hueHelix();
             handleParticles();
             requestAnimationFrame(animate);

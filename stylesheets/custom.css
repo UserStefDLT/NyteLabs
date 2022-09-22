@@ -1,0 +1,26 @@
+@property --conic-spin {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+@property --x-deg {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+@property --y-deg {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+@property --z-deg {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+
+@property --hue {
+    syntax: "<number>";
+    inherits: false;
+    initial-value: 0;
+}
