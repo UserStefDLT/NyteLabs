@@ -266,3 +266,10 @@ h: 5
 let angle = Math.atan(y/x) * 180 / Math.PI;
 */
 
+
+/* ─Basic Code to Remember─ */
+
+// setTimeout(() => {
+//     // delayed code goes here.
+// }, 1500);
+
