@@ -1,0 +1,222 @@
+<style>
+/* interesting twist on the css style text. */
+:root {
+--fsz: 12rem;
+--sz: 500px;
+}
+svg { display: none; }
+.logo {
+position: relative;
+height: var(--sz);
+width: var(--sz);
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: hidden;
+}
+.bg, .text {
+position: absolute;
+top: 50%; left: 50%;
+transform: translate(-50%, -50%);
+}
+
+.bg {
+  background-color: #000;
+  color: #111;
+  height: var(--sz);
+  width: var(--sz);
+  font-size: var(--fsz);
+}
+
+.text {
+  color: #fff0;
+  text-shadow: 2px 2px 2px #0009;
+  text-shadow: 0px 0px 0px #0000, 2px 2px 2px #0000;
+  font-size: var(--fsz);
+mix-blend-mode: screen;
+}
+.text::before,
+.text::after {
+content: "Stef";
+position: absolute;
+top: 50%; left: 50%;
+transform: translateX(-50%) translateY(-50%);
+height: 100%; width: 100%;
+
+color: #fff0;
+font-size: var(--fsz);
+z-index: -1;
+mix-blend-mode: difference;
+}
+
+.text::before {
+color: #0000;
+text-shadow: 2px 2px 0px #f93;
+/*text-shadow: 0px 0px 0px #c606, 2px 2px 2px #c60c;*/
+filter: blur(1px) url(#txt-flow-b);
+}
+
+.text::after {
+color: #0000;
+text-shadow: -2px -2px 0px #39f;
+/*text-shadow: 0px 0px 0px #06c6, 2px 2px 2px #06cc;*/
+filter: blur(1px) url(#txt-flow-a);
+}
+
+/*
+.text::before,
+.text::after {
+filter: blur(1px) url(#txt-flow);
+}
+*/
+
+
+
+/*
+.text::before {
+color: #fff0;
+color: #000;
+text-shadow: 2px 2px 0px #f93, -2px -2px 0px #39f;
+
+text-shadow: 2px 2px 0px #f93;
+filter: blur(1px) url(#txt-flow);
+}
+
+.text::after {
+color: #f39;
+color: #fff;
+color: #000;
+text-shadow: 2px 2px 0px #f93, -2px -2px 0px #39f;
+
+color: #000;
+text-shadow: -2px -2px 0px #39f;
+filter: blur(1px) url(#txt-flow);
+}
+*/
+</style>
+
+
+
+<div class="logo">
+
+<div class="bg"></div>
+<div class="text">Stef</div>
+
+</div>
+
+<svg>
+<defs>
+  <filter id="txt-flow" x="-25%" y="-25%" width="150%" height="150%">
+    <feTurbulence type="fractalNoise" id="fractalNoise" baseFrequency=".024" numOctaves="5" seed="5" result="fractalNoise">
+    </feTurbulence>
+    <feTurbulence type="turbulence" id="turbulence" baseFrequency=".036" numOctaves="5" seed="5" result="turbulence">
+    </feTurbulence>
+
+    <feDisplacementMap
+        in="fractalNoise"
+        in2="turbulence"
+        scale="80"
+        xChannelSelector="R"
+        yChannelSelector="R"
+        result="Displaced">
+    </feDisplacementMap>
+    <feDisplacementMap
+        in="SourceGraphic"
+        in2="Displaced"
+        scale="30"
+        xChannelSelector="R"
+        yChannelSelector="R"
+        result="mixed">
+    </feDisplacementMap>
+  </filter>
+
+  <filter id="txt-flow-a" x="-25%" y="-25%" width="150%" height="150%">
+    <feTurbulence type="fractalNoise" id="fractalNoise" baseFrequency=".024" numOctaves="5" seed="5" result="fractalNoise">
+
+      <animate id="noiseAnimate"
+        attributeName="baseFrequency"
+        values=".024;.012;.032;.024" 
+        from="0" to="100" dur="30s"
+        repeatCount="indefinite" >
+      </animate>
+
+    </feTurbulence>
+    <feTurbulence type="turbulence" id="turbulence" baseFrequency=".036" numOctaves="5" seed="5" result="turbulence">
+    </feTurbulence>
+
+    <feDisplacementMap
+        in="fractalNoise"
+        in2="turbulence"
+        scale="80"
+        xChannelSelector="R"
+        yChannelSelector="R"
+        result="Displaced">
+      <animate id="scaleAnimate"
+        attributeName="scale"
+        values="40;120;40" from="0"
+        to="100" dur="30s"
+        repeatCount="indefinite" >
+      </animate>
+    </feDisplacementMap>
+    <feDisplacementMap
+        in="SourceGraphic"
+        in2="Displaced"
+        scale="50"
+        xChannelSelector="R"
+        yChannelSelector="R"
+        result="mixed">
+      <animate id="scaleAnimate"
+        attributeName="scale"
+        values="20;40;20" from="0"
+        to="100" dur="30s"
+        repeatCount="indefinite" >
+      </animate>
+    </feDisplacementMap>
+  </filter>
+
+  <filter id="txt-flow-b" x="-25%" y="-25%" width="150%" height="150%">
+    <feTurbulence type="fractalNoise" id="fractalNoise" baseFrequency=".024" numOctaves="5" seed="5" result="fractalNoise">
+
+      <animate id="noiseAnimate"
+        attributeName="baseFrequency"
+        values=".024;.032;.012;.024" 
+        from="0" to="100" dur="30s"
+        repeatCount="indefinite" >
+      </animate>
+
+    </feTurbulence>
+    <feTurbulence type="turbulence" id="turbulence" baseFrequency=".036" numOctaves="5" seed="5" result="turbulence">
+    </feTurbulence>
+
+    <feDisplacementMap
+        in="fractalNoise"
+        in2="turbulence"
+        scale="80"
+        xChannelSelector="R"
+        yChannelSelector="R"
+        result="Displaced">
+      <animate id="scaleAnimate"
+        attributeName="scale"
+        values="120;80;120" from="0"
+        to="100" dur="30s"
+        repeatCount="indefinite" >
+      </animate>
+    </feDisplacementMap>
+    <feDisplacementMap
+        in="SourceGraphic"
+        in2="Displaced"
+        scale="50"
+        xChannelSelector="R"
+        yChannelSelector="R"
+        result="mixed">
+      <animate id="scaleAnimate"
+        attributeName="scale"
+        values="40;20;40" from="0"
+        to="100" dur="30s"
+        repeatCount="indefinite" >
+      </animate>
+    </feDisplacementMap>
+  </filter>
+</defs>
+</svg>
+

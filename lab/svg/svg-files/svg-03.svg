@@ -1,0 +1,29 @@
+<svg viewBox="0 0 500 200" style="background: #eee;" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        .sample {
+            font: bold 120px sans-serif;
+            filter: url(#svgBlur) url(#cloud);
+            filter: blur(0px) url(#cloud-2);
+            text-shadow: 0px 120px 10px #06c;
+            filter: blur(4px) url(#cloud-2);
+            text-shadow: 0px 120px 0px #06c;
+        }
+    </style>
+    <defs>
+        <filter id="svgBlur" x="-25%" y="-25%" width="150%" height="150%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="4"/>
+        </filter>
+
+        <filter id="cloud" x="-25%" y="-25%" width="150%" height="150%" >
+            <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="5" seed="2" />
+            <feDisplacementMap in="SourceGraphic" scale="50" />
+        </filter>
+
+        <filter id="cloud-2" x="-25%" y="-25%" width="150%" height="250%" >
+            <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="5" seed="2" />
+            <feDisplacementMap in="SourceGraphic" scale="80" />
+        </filter>
+
+    </defs>
+    <text x="30" y="30" class="sample">Sample</text>
+</svg>

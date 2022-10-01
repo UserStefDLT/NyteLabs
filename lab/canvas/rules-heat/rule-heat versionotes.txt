@@ -1,0 +1,51 @@
+
+Heat Rules.
+
+1	→ initial test of particle changing color by proximity.
+2	→ two particles falling and colliding.
+3	→ trying multiple particles from random locations.
+4	→ oscillating swarm.
+6	→ orbiting and oscillating swarm.
+6-b	→ compact light.
+	+ reduce the entropy of the orbit to keep their movement up.
+6-c	→ 
+6-c1	→ 
+6-c2	→ 
+6-c3	→ 
+6-c4	→ fire works.
+6-c5	→ fire works again.
+6-c6	→ compress and then makes a purple projecticle.
+6-c7	→ compresses into a stable orbit.
+6-c8	→ from projecticle to orbit.
+6-c9	→ somewhat stable explosions.
+6-c10	→ orbitng the center.
+6-c11	→ groups in fixed angle round.
+6-c12	→ unstable but somewhat fixed locations in orbit.
+6-c13	→ unclear behavior.
+6-c14	→ 
+
+7	→ orbiting swarm.
+8	→ oscillating swarm.
+8-b	→ like a fireplace with particles being pushed out on the bottom corners.
+9	→ like a fireplace with particles raining (pushed out).
+9-b	→ 5 heat particles that oscillate to eachother, and others following.
+10	→ erratic behavior.
+11	→ pulsing or beating heart. it centers and expands.
+12	→ like red cells that dive into walls and explode.
+12-b	→ 
+12-c	→ wave patterns of space and color.
+	+ Try more particles.
+12-d	→ evenly spread out groups.
+13	→ blue orbs interacting and losing their stability.
+14	→ stables fast at first. makes an orbiting swarm.
+15	→ the color change looks like fire already.
+16	→ pop corn.
+17	→ consistent erratic behavior. like visual effect of a superpower.
+18	→ the oscillation looks like waves crashing on a rock.
+19	→ looks like fireworks on the corners, and a constant ocean in the center.
+20	→ more explosive but wave returning.
+
+
+
+consider adding to draw:
+if(e.hue < 0) {console.log(`id:${e.id}, hue: ${e.hue};`)}

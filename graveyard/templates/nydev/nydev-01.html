@@ -20,12 +20,8 @@
     <link rel="stylesheet" href="../../../stylesheets/settings.css">
     <style>
         /* Settings. */
-        #toggleLights,
-        #toggleIso,
-        #toggleOpacity {display: none;}
-        #toggleLights:checked ~ .options .toggleCheckboxLabel[for="toggleLights"],
-        #toggleIso:checked ~ .options .toggleCheckboxLabel[for="toggleIso"],
-        #toggleOpacity:checked ~ .options .toggleCheckboxLabel[for="toggleOpacity"] {
+        #toggleLights {display: none;}
+        #toggleLights:checked ~ .options .toggleCheckboxLabel[for="toggleLights"] {
             color: var(--bwe);
             --clr-outline: var(--bwc);
             --bgc-before: #063;
@@ -36,7 +32,8 @@
         /* ─ Toggle Effects ─ */
 
         /* Toggle-Opcacity */
-        #toggleOpacity:checked ~ main #display {opacity:.5;}
+        #toggleLights:not(:checked) ~ main #display {opacity: 0;}
+        #toggleLights:checked ~ main #display {opacity: 1;}
 
         /* Toggle-Animation */
         /* #toggleAnimation:checked ~ main .grid {
@@ -51,13 +48,6 @@
             animation-delay: calc(30ms * var(--hue));
             animation-play-state: running;
         } */
-
-        #toggleAnimation:not(:checked) ~ main *,
-        #toggleAnimation:not(:checked) ~ main *::before,
-        #toggleAnimation:not(:checked) ~ main *::after {
-            animation-play-state: paused;
-        }
-
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
@@ -69,20 +59,18 @@
         <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
         <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
     </header>
-    <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
     <input type="checkbox" name="toggle" id="toggleLights">
 
 <main>
     <div class="shelf">
-        <h3 class="shelf-title">experiment</h3>
+        <div class="shelf-title">experiment</div>
         <div id="display"></div>
         <div class="x"></div>
     </div>
 </main>
 
 <!-- <div class="options">
-    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
     <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
     <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
 </div> -->
@@ -139,26 +127,90 @@
 </script>
 <script src="../../../scripts/settings.js"></script>
 <script>
+    const flow_variants = {
+        fq: [.1, .05, .025, .012, .006, .001],
+        o: [1, 2, 3, 5],
+        sc: [20, 50, 100, 200],
+    }
+    const vfet_Temp = `
+        <filter id="fe-turbulence-$[fq]-$[o]-$[sc]" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="fractalNoise" baseFrequency="$[fq]" numOctaves="$[o]">
+            </feTurbulence>
+            <feDisplacementMap in="SourceGraphic" scale="$[sc]">
+            </feDisplacementMap>
+        </filter>`;
+    const vfet_e_Temp = `<div class="card card-fet">
+        <div class="box--gradient" style="filter: url(#fe-turbulence-$[fq]-$[o]-$[sc]);"></div>
+        <code class="code--filter">fq:$[fq], o:$[o], sc:$[sc]</code>
+        </div>`;
+
+
+    const variants = {
+        h: [0, 30, 60, 90, 120, 150, 180, 210, 330],
+        s: [20, 40, 70, 100],
+        l: [10, 20, 40, 60, 80],
+    }
+    const hsl_variants = {
+        h: [30, 150, 210, 330],
+        s: [25, 50, 100],
+        l: [10, 40, 60],
+    }
+    const i_var = {
+        h: [30, 150, 210, 330],
+        s: [50, 100],
+        l: [20, 60],
+    }
+    const vClrCard_Temp = `<div class="card" style="--hue: $[h]; --sat: $[s]; --lum: $[l];">
+        <div class="box--color"></div>
+        <code class="code--color">hsl($[h], $[s]%, $[l]%);</code>
+        </div>`;
+
+    
+
+    function vList2_helper(v,i){
+        let vlis = [];
+        let key = Object.keys(v)[i];
+        let vi = v[Object.keys(v)[i]];
+        for (let j = 0; j < vi.length; j++) {
+            if(Object.keys(v).length > (i + 1)){
+                let ne = vList2_helper(v,i+1);
+                ne.forEach(ni=>{
+                    ni[key] = vi[j];
+                    vlis.push(ni);
+                });
+            } else {
+                let ni = {};
+                ni[key] = vi[j];
+                vlis.push(ni);
+            }
+        }
+        return vlis;
+    }
+    function vList2(v){
+        let vList = vList2_helper(v,0);
+        console.log(vList);
+        return vList;
+    }
+    function variantBuilder(t,v){
+        let keys = Object.keys(v);
+        let vt2 = t.replaceAll('[','{vi.').replaceAll(']','}');
+
+        let elemList = [];
+        let vList = vList2(v);
+
+        vList.forEach(vi=>{
+            let htmlElem = '';
+            let vt2e = `htmlElem = \`${vt2}\``;
+            eval(vt2e);
+            elemList.push(htmlElem);
+        });
+        return elemList;
+    }
+
     window.addEventListener('load', (ev) => {
         console.log(`Welcome to my Lab!`);
 
     });
-    /* Version Log:
-    [index-nds-00]: 
-    [index-nds-01]: 
-    [index-nds-02]: 
-    [index-nds-03]: 
-    [index-nds-04]: 
-    [index-nds-05]: 
-    [index-nds-06]: 
-    [index-nds-07]: 
-    [index-nds-08]: 
-    [index-nds-09]: 
-    [index-nds-10]: 
-    [index-nds-11]: 
-    [index-nds-12]: 
-    
-    */
 </script>
 </body>
 </html>

@@ -1,0 +1,108 @@
+<style>
+/* full screen card. */
+.list {
+  position: relative;
+  max-width: 95vw;
+  min-height: 40rem; min-width: 24rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.card {
+  position: relative;
+  --hue: 50;
+  --hue: 210;
+  background-image: conic-gradient(
+    hsla(var(--hue), 35%, 75%, 1) 90deg, 
+    hsla(var(--hue), 45%, 60%, 1) 110deg, 
+    hsla(var(--hue), 50%, 40%, 1) 135deg, 
+    hsla(var(--hue), 55%, 25%, 1) 150deg,
+    hsla(var(--hue), 60%, 15%, 1) 170deg,
+    hsla(var(--hue), 70%, 10%, 1) 180deg);
+  background-size: 250% 200%;
+  background-position: 100% 100%;
+
+  padding: 8px 12px;
+  border-radius: 0rem;
+  box-sizing: border-box;
+
+  font-size: 16px;
+  color: #fff;
+  text-shadow: 1px 1px 2px #0019;
+
+  height: 40rem; width: 20rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.card > p {
+  font-weight: bold;
+  font-size: 20px;
+  margin: 1rem .5rem;
+  transform: translateX(50%); opacity: 0;
+}
+
+.card:hover > p {
+animation: slide-in 400ms ease-in-out both;
+animation-delay: calc(var(--i) * 100ms);
+}
+@keyframes slide-in {
+0% {transform: translateX(50%); opacity: 0;}
+100% {transform: translateX(0%); opacity: 1;}
+}
+
+.tag {
+  position: absolute;
+  bottom: 0; right: 0;
+  font-weight: bolder;
+  padding: .5rem;
+}
+.tag::before {content: '#';}
+
+
+
+.list {
+transform-origin: 50% 50% -10rem;
+transform-style: preserve-3d;
+transform: perspective(5000px) rotateY(0deg);
+transition: transform 600ms ease-in-out 1200ms;
+}
+.shelf:hover .list {
+transform: perspective(5000px) rotateY(-90deg);
+}
+.card {
+position: absolute;
+transform-origin: 50% 50% -10rem;
+transition: 
+transform 600ms ease-in-out 1200ms,
+opacity 0ms ease-in-out 1200ms;
+}
+.card:nth-of-type(2) {
+transform: rotateY(90deg);
+}
+
+</style>
+
+<div class="list">
+<div class="card">
+<div class="tag">Stef</div>
+
+<p> In life we find many obstacles to be able to get to different destinations. </p>
+<p> Sometimes it is the inclination of a mountain or a hole in the ground. </p>
+<p> Sometimes it is doubt from seeing a lot of people going in the opposite direction. </p>
+<p> Sometimes it will be rain, other times it will be the Sun. </p>
+
+</div>
+
+<div class="card">
+<div class="tag">Stef</div>
+<p> It is important that we remember why we are going. </p>
+<p> It is helpful to have an umbrella for the rain, to have time to rest, to find shade from the Sun. </p>
+<p> But as helpful as all that is, what is essential so we are able to complete all challenges and overcome all obstacles is to have good company. </p>
+<p> Either friends or family, either a teammate or even a critic. </p>
+<p> As long as we are not alone, we find a way to overcome things we would have never even try. </p>
+
+</div>
+</div>
+

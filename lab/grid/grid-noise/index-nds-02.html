@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>NyteLabs_Template | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        :root {}
+    </style>
+<style>
+    :root {
+        --bg: var(--bwt);
+        --sz-tile: 1rem;
+
+        --hue: 210;
+        --sat: 100%;
+        --lum: 50%;
+        --alp: 1;
+        --clr: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+    }
+    #display {
+        position: relative;
+        /* min-height: calc(84vh - 140px);
+        min-width: calc(95vw - 2rem); */
+        margin: auto;
+    }
+    .grid {
+        transform-style: preserve-3d;
+        transition: transform 300ms ease-in-out;
+        /* transition: transform;
+        transition-timing-function: ease-in-out;
+        transition-duration: 300ms; */
+    }
+    .row, .tile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform-style: preserve-3d;
+    }
+    .row {flex-direction: row;}
+    /* .row {--j: var(--i);} */
+    .tile {
+        position: relative;
+        min-height: var(--sz-tile);
+        min-width: var(--sz-tile);
+        /* background-color: var(--bg); */
+        /* border-radius: 0rem; */
+        /* box-sizing: border-box; */
+        margin: 1px;
+    }
+    .tile {
+        /* --hue: 330; */
+        --clr: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+        background-color: var(--clr);
+        color: #c06;
+    }
+
+    .tile[data-noise="0"] {
+        background-color: #000;
+        color: #0c6;
+    }
+    .tile[data-noise="1"] {
+        background-color: #0c6;
+        color: #000;
+    }
+
+</style>
+    <link rel="stylesheet" href="../../../stylesheets/settings.css">
+    <style>
+        /* Settings. */
+        #toggleLights,
+        #toggleIso,
+        #toggleOpacity {display: none;}
+        #toggleLights:checked ~ .options .toggleCheckboxLabel[for="toggleLights"],
+        #toggleIso:checked ~ .options .toggleCheckboxLabel[for="toggleIso"],
+        #toggleOpacity:checked ~ .options .toggleCheckboxLabel[for="toggleOpacity"] {
+            color: var(--bwe);
+            --clr-outline: var(--bwc);
+            --bgc-before: #063;
+            --bgc-after: #0c6;
+            --ttx-after: 1rem;
+        }
+
+        /* ─ Toggle Effects ─ */
+
+        /* Toggle-Opcacity */
+        #toggleOpacity:checked ~ main #display {opacity:.5;}
+
+        /* Toggle-Animation */
+        /* #toggleAnimation:checked ~ main .grid {
+            animation: spin 3600ms ease-in-out infinite both;
+            animation-name: spin;
+            animation-duration: 3600ms;
+            animation-timing-function: linear;
+            animation-delay: 0ms;
+            animation-iteration-count: infinite;
+            animation-fill-mode: both;
+            
+            animation-delay: calc(30ms * var(--hue));
+            animation-play-state: running;
+        } */
+
+        #toggleAnimation:not(:checked) ~ main *,
+        #toggleAnimation:not(:checked) ~ main *::before,
+        #toggleAnimation:not(:checked) ~ main *::after {
+            animation-play-state: paused;
+        }
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">NyteLabs</h1>
+        <!-- <div class="subtitle">subtitle</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+
+<main>
+    <div class="shelf">
+        <h3 class="shelf-title">experiment</h3>
+        <div id="display"></div>
+    </div>
+</main>
+
+<!-- <div class="options">
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+        },
+
+        player: false,
+
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+
+</script>
+<script src="../../../scripts/settings.js"></script>
+<script>
+    var main_grid = [];
+    function isInMap(x,y){
+        if(x < 0 || y < 0 || x >= s.grid.cols || y >= s.grid.rows){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function BuildGrid(w, h , fill = 0){
+        let g = [];
+        for(let y = 0; y < h; y++){
+            g.push([]);
+            for(let x = 0; x < w; x++){
+                g[y].push(fill);
+            }
+        }
+        return g;
+    }
+    function GridNoise(grid, fun=(a,b)=>{return a+b;}){
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                grid[y][x] = fun(x,y);
+            }
+        }
+    }
+    function UpdateGridTiles(grid){
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                let tile_id = `xy,${x},${y}`;
+                let tile = document.getElementById(tile_id);
+                if(tile){
+                    let val = grid[y][x];
+                    tile.innerHTML = grid[y][x];
+                    // tile.style = `--hue: ${val};`;
+                    // tile.style = `--lum: ${val*100}%;`;
+                    tile.dataset.noise = val;
+                }
+            }
+        }
+    }
+    function HandleNoise(grid, fun=(g1,a,b)=>{return a+b;}){
+        let g2 = [];
+        for(let y = 0; y < grid.length; y++){
+            g2.push([]);
+            for(let x = 0; x < grid[y].length; x++){
+                let val = fun(grid,x,y);
+                g2[y].push(val);
+                // grid[y][x] = fun(x,y);
+            }
+        }
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                grid[y][x] = g2[y][x];
+            }
+        }
+    }
+    function HandleNoise2(g1, fun=(ga,gb,a,b)=>{return a+b;}){
+        let g2 = [];
+        for(let y = 0; y < g1.length; y++){
+            g2.push([]);
+            for(let x = 0; x < g1[y].length; x++){
+                let val = fun(g1,g2,x,y);
+                g2[y].push(val);
+            }
+        }
+        for(let y = 0; y < g1.length; y++){
+            for(let x = 0; x < g1[y].length; x++){
+                g1[y][x] = g2[y][x];
+            }
+        }
+    }
+
+    function getHue(i, j, xlen, ylen){
+        let x = (i + 1) - (xlen + 1)/2;
+        let y = (j + 1) - (ylen + 1)/2;
+        // let yy = y * y;
+        // let xx = x * x;
+        // let q = yy + xx;
+        let h = y + x;
+        // let xy = y * x;
+        // let hq4 = 100 * h / ( q / 4 + 1 );
+        
+        let hue = 0;
+        hue = h;
+    }
+    function getXY(i, j, w, h){
+        let x = (w + 1)/2 - (i + 1);
+        let y = (h + 1)/2 - (j + 1);
+        let xy = `${x},${y}`;
+        return xy;
+    }
+    function UpdateTilesXY(w, h){
+        for(let y = 0; y < h; y++){
+            for(let x = 0; x < w; x++){
+                let tile_id = `xy,${x},${y}`;
+                let tile = document.getElementById(tile_id);
+                if(tile){
+                    let hue = getHue(x,y,s.grid.cols,s.grid.rows);
+                    tile.innerHTML = hue.toFixed(0);
+                    tile.dataset.xy = getXY(x,y,s.grid.cols,s.grid.rows);
+                    tile.style = `--hue: ${hue};`;
+                }
+            }
+        }
+    }
+    function BuildGrid_Display(w, h){
+        let display = document.getElementById('display');
+
+        let grid = document.createElement('div');
+        grid.classList.add('grid');
+        grid.id = 'grid';
+
+        for(let y = 0; y < h; y++){
+            let row = document.createElement('div');
+            row.classList.add('row');
+            for(let x = 0; x < w; x++){
+                let tile = document.createElement('div');
+                tile.classList.add('tile');
+                tile.id = `xy,${x},${y}`;
+                // tile.dataset.type = `0`;
+
+                row.appendChild(tile);
+            }
+            grid.appendChild(row);
+        }
+        display.appendChild(grid);
+    }
+
+    const fst = {
+        "rand": ()=>{return Math.random();},
+        "rand-01": ()=>{return Math.floor(Math.random()*2);},
+        "a+b": (a,b)=>{return a+b;},
+    }
+    const fup = {
+        "smooth": (g,x,y)=>{
+            let sum = 0;
+            for (let i = -1; i < 2; i++) {
+                for (let j = -1; j < 2; j++) {
+                    let nx = x + j;
+                    let ny = y + i;
+                    if(isInMap(nx,ny)){
+                        sum += g[ny][nx];
+                    }
+                }
+            }
+            return Math.round(sum/9);
+        },
+        "smooth-2": (g,x,y)=>{
+            let sum = 0;
+            for (let i = -2; i < 3; i++) {
+                for (let j = -2; j < 3; j++) {
+                    let nx = x + j;
+                    let ny = y + i;
+                    // let inMap = isInMap(nx,ny);
+                    // console.log(`nx: ${nx}, ny: ${ny}, inMap: ${inMap}`);
+                    if(isInMap(nx,ny)){
+                        sum += g[ny][nx];
+                    }
+                }
+            }
+            return Math.round(sum/25);
+        },
+        "smooth-r2": (g,x,y)=>{
+            let sum = 0;
+            for (let i = -2; i < 3; i++) {
+                for (let j = -2; j < 3; j++) {
+                    let nx = x + j;
+                    let ny = y + i;
+                    // let inMap = isInMap(nx,ny);
+                    // console.log(`nx: ${nx}, ny: ${ny}, inMap: ${inMap}`);
+                    if(isInMap(nx,ny)){
+                        sum += g[ny][nx];
+                    } else {
+                        sum += Math.floor(Math.random()*2);
+                    }
+                }
+            }
+            return Math.round(sum/25);
+        },
+        "sides": (g,x,y)=>{
+            let sum = g[y][x] * -1;
+            for (let i = -1; i < 2; i++) {
+                let ny = y + i;
+                if(isInMap(x,ny)){
+                    sum += g[ny][x];
+                } else {
+                    sum += Math.floor(Math.random()*2);
+                }
+            }
+            for (let j = -1; j < 2; j++) {
+                let nx = x + j;
+                if(isInMap(nx,y)){
+                    sum += g[y][nx];
+                } else {
+                    sum += Math.floor(Math.random()*2);
+                }
+            }
+            return Math.round(sum/5);
+        },
+        "sides-2": (g,x,y)=>{
+            let sum = g[y][x] * -1;
+            for (let i = -2; i < 3; i++) {
+                let ny = y + i;
+                if(isInMap(x,ny)){
+                    sum += g[ny][x];
+                } else {
+                    sum += Math.floor(Math.random()*2);
+                }
+            }
+            for (let j = -2; j < 3; j++) {
+                let nx = x + j;
+                if(isInMap(nx,y)){
+                    sum += g[y][nx];
+                } else {
+                    sum += Math.floor(Math.random()*2);
+                }
+            }
+            return Math.round(sum/9);
+        },
+        "rotate": (g1,g2,x,y)=>{
+            // let d8 = g[y-1][x];
+            // let d6 = g[y][x+1];
+            // let d4 = g[y][x-1];
+            // let d2 = g[y+1][x];
+
+            g2[y-1][x] = g1[y][x-1];
+            g2[y][x-1] = g1[y+1][x];
+            g2[y+1][x] = g1[y][x+1];
+            g2[y][x+1] = g1[y-1][x];
+            return g2[y][x];
+        },
+    }
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        // let w = 12;
+        // let h = 12;
+        s.grid.cols = 24;
+        s.grid.rows = 24;
+        let w = s.grid.cols;
+        let h = s.grid.rows;
+
+        main_grid = BuildGrid(w,h,0);
+        GridNoise(main_grid, fst["rand-01"]);
+
+        BuildGrid_Display(w,h);
+
+        UpdateGridTiles(main_grid);
+
+        HandleNoise(main_grid, fup["smooth"]);
+        HandleNoise(main_grid, fup["sides"]);
+        HandleNoise(main_grid, fup["smooth-2"]);
+        UpdateGridTiles(main_grid);
+
+        // HandleNoise(main_grid, fup["smooth"]);
+        // HandleNoise2(main_grid, fup["rotate"]);
+        // HandleNoise(main_grid, fup["smooth-2"]);
+        // UpdateGridTiles(main_grid);
+    });
+</script>
+</body>
+</html>

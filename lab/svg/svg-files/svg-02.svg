@@ -1,0 +1,44 @@
+<svg viewBox="0 0 500 400" height="400" width="500" style="background: #eee;" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        .small {
+            font: italic 13px sans-serif;
+        }
+        .heavy {
+            font: bold 30px sans-serif;
+            filter: url(#svgBlur);
+        }
+        .Rrrrr {
+            font: italic 40px serif;
+            fill: red;
+        }
+        .sample {
+            font: bold 120px sans-serif;
+            filter: url(#svgBlur) url(#cloud);
+            filter: blur(0px) url(#cloud-2);
+            text-shadow: 0px 100px 10px #123;
+        }
+    </style>
+    <defs>
+        <filter id="svgBlur" x="-25%" y="-25%" width="150%" height="150%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="4"/>
+        </filter>
+
+        <filter id="cloud" x="-25%" y="-25%" width="150%" height="150%" >
+            <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="5" seed="2" />
+            <feDisplacementMap in="SourceGraphic" scale="50" />
+        </filter>
+
+        <filter id="cloud-2" x="-25%" y="-25%" width="150%" height="250%" >
+            <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="5" seed="2" />
+            <feDisplacementMap in="SourceGraphic" scale="80" />
+        </filter>
+
+    </defs>
+
+    <text x="20" y="35" class="small">My</text>
+    <text x="40" y="35" class="heavy">cat</text>
+    <text x="55" y="55" class="small">is</text>
+    <text x="65" y="55" class="Rrrrr">Grumpy!</text>
+
+    <text x="20" y="160" class="sample">Sample</text>
+</svg>

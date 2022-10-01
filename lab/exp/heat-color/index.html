@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Heat Color | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        :root {
+            /* Starting Attempt. */
+            --clr: hsla(0, 100%, 50%, 1);
+            --clr: hsla(60, 100%, 75%, 1);
+            --clr: hsla(120, 100%, 100%, 1);
+            --clr: hsla(180, 100%, 75%, 1);
+            --clr: hsla(240, 100%, 50%, 1);
+
+            /* Adding black to the ends. */
+            --clr: hsla(0, 100%, 0%, 1);
+            --clr: hsla(0, 100%, 25%, 1);
+            --clr: hsla(0, 100%, 50%, 1);
+            --clr: hsla(60, 100%, 75%, 1);
+            --clr: hsla(120, 100%, 100%, 1);
+            --clr: hsla(180, 100%, 75%, 1);
+            --clr: hsla(240, 100%, 50%, 1);
+            --clr: hsla(240, 100%, 25%, 1);
+            --clr: hsla(240, 100%, 0%, 1);
+
+            /* Adding out of spectrum. */
+            --clr: hsla(0, 100%, 50%, 0);
+            --clr: hsla(0, 100%, 50%, .25);
+            --clr: hsla(0, 100%, 50%, .5);
+            --clr: hsla(0, 100%, 50%, .75);
+            --clr: hsla(0, 100%, 50%, 1);
+            --clr: hsla(60, 100%, 75%, 1);
+            --clr: hsla(120, 100%, 100%, 1);
+            --clr: hsla(180, 100%, 75%, 1);
+            --clr: hsla(240, 100%, 50%, 1);
+            --clr: hsla(240, 100%, 50%, .75);
+            --clr: hsla(240, 100%, 50%, .5);
+            --clr: hsla(240, 100%, 50%, .25);
+            --clr: hsla(240, 100%, 50%, 0);
+
+            --clr: hsla(0, 100%, 50%, 1);
+            --clr: hsla(30, 100%, 50%, 1);
+            --clr: hsla(60, 100%, 50%, 1);
+            --clr: hsla(90, 100%, 50%, 1);
+            --clr: hsla(120, 100%, 50%, 1);
+            --clr: hsla(150, 100%, 50%, 1);
+            --clr: hsla(180, 100%, 50%, 1);
+            --clr: hsla(210, 100%, 50%, 1);
+            --clr: hsla(240, 100%, 50%, 1);
+
+            --clr: hsla(0, 100%, 50%, 1);
+            --clr: hsla(30, 100%, 60%, 1);
+            --clr: hsla(60, 100%, 70%, 1);
+            --clr: hsla(90, 100%, 80%, 1);
+            --clr: hsla(120, 100%, 90%, 1);
+            --clr: hsla(150, 100%, 80%, 1);
+            --clr: hsla(180, 100%, 70%, 1);
+            --clr: hsla(210, 100%, 60%, 1);
+            --clr: hsla(240, 100%, 50%, 1);
+        }
+    </style>
+<style>
+    :root {
+        --hue: 315; --sat: 100%; --lum: 50%; --alp: 1;
+        --hue: 210; --sat: 100%; --lum: 60%; --alp: 1;
+    }
+    .row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+    }
+    .list {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        margin: .25rem 1rem;
+    }
+    .card {
+        --hue: 315;
+        --sat: 100%;
+        --lum: 50%;
+        --alp: 1;
+        /* height: 100px; */
+    }
+    .color {
+        height: 36px;
+        height: 18px;
+        width: 50px;
+        background-color: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+    }
+    .temp {
+        width: 60px;
+        /* padding: .5rem; */
+        text-align: right;
+    }
+
+    :root {
+        --temp: 0;
+        --temp-lum: 0;
+    }
+    .temp-color {
+        --hue: calc(240 - (var(--temp) * 2.4));
+        --lum: calc((100 - var(--temp-lum)) * 1%);
+        height: 36px;
+        height: 18px;
+        width: 50px;
+        background-color: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+    }
+    .temp-val {
+        width: 60px;
+        text-align: right;
+    }
+</style>
+    <link rel="stylesheet" href="../../../stylesheets/settings.css">
+    <style>
+        /* Settings. */
+        #toggleLights,
+        #toggleIso,
+        #toggleOpacity {display: none;}
+        #toggleLights:checked ~ .options .toggleCheckboxLabel[for="toggleLights"],
+        #toggleIso:checked ~ .options .toggleCheckboxLabel[for="toggleIso"],
+        #toggleOpacity:checked ~ .options .toggleCheckboxLabel[for="toggleOpacity"] {
+            color: var(--bwe);
+            --clr-outline: var(--bwc);
+            --bgc-before: #063;
+            --bgc-after: #0c6;
+            --ttx-after: 1rem;
+        }
+
+        /* ─ Toggle Effects ─ */
+
+        /* Toggle-Opcacity */
+        #toggleOpacity:checked ~ main #display {opacity:.5;}
+
+        /* Toggle-Animation */
+        /* #toggleAnimation:checked ~ main .grid {
+            animation: spin 3600ms ease-in-out infinite both;
+            animation-name: spin;
+            animation-duration: 3600ms;
+            animation-timing-function: linear;
+            animation-delay: 0ms;
+            animation-iteration-count: infinite;
+            animation-fill-mode: both;
+            
+            animation-delay: calc(30ms * var(--hue));
+            animation-play-state: running;
+        } */
+
+        #toggleAnimation:not(:checked) ~ main *,
+        #toggleAnimation:not(:checked) ~ main *::before,
+        #toggleAnimation:not(:checked) ~ main *::after {
+            animation-play-state: paused;
+        }
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">NyteLabs</h1>
+        <!-- <div class="subtitle">heat color</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+
+<main>
+    <div class="shelf">
+        <h3 class="shelf-title">Temperature scale relations</h3>
+        <div id="Temperature" class="row"></div>
+    </div>
+    <div class="shelf">
+        <h3 class="shelf-title">experiment</h3>
+        <div id="display" class="row"></div>
+    </div>
+</main>
+
+<!-- <div class="options">
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+        },
+
+        player: false,
+
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+
+</script>
+<script src="../../../scripts/settings.js"></script>
+<script>
+
+    function TempToColor_3(temp){
+        let hue = (temp * 2.4);
+        let sat = 100;
+        let lum = 100 - Math.abs(temp-50);
+        let alp = 1;
+        let color = `--hue: ${hue}; --sat: ${sat}%; --lum: ${lum}%; --alp: ${alp}; --temp: ${temp};`;
+        return color;
+        
+        let temp_lum = Math.abs(temp-50);
+        // --hue: calc(var(--temp) * 2.4);
+        // --lum: calc(100 - var(--temp-lum));
+    }
+    function RenderHeat_3(temp){
+        let temp_lum = Math.abs(temp-50);
+        let card = `<div class="card row" style="--temp: ${temp}; --temp-lum: ${temp_lum};">
+            <div class="temp-color"></div>
+            <div class="temp-val">${temp} °C</div>
+        </div>`;
+        return card;
+    }
+    function TempRow_3(){
+        let display_temp = document.getElementById('Temperature');
+        let list = document.createElement('div');
+        list.classList.add('list');
+        let cards = [];
+        for (let i = 25; i > -1; i--) {
+            let temp = (i - 2) * 5;
+            cards.push(RenderHeat_3(temp));
+        }
+        list.innerHTML = cards.join('');
+        display_temp.appendChild(list);
+    }
+
+
+    /*
+    0 → (temp-50) = 50
+    10 → (temp-50) = 40
+    30 → (temp-50) = 20
+    50 → (temp-50) = 0
+    70 → (temp-50) = 20
+    90 → (temp-50) = 40
+    100 → (temp-50) = 50
+    */
+
+    /* TempToColor_2(temp)
+     * 
+     * → temp: from 0 to 100.
+     * 50
+     */
+    function TempToColor_2(temp){
+        let hue = (temp * 2.4);
+        let sat = 100;
+        let lum = 100 - Math.abs(temp-50);
+        let alp = 1;
+        if(temp < 0 || temp > 100){ alp = .25; }
+        // if(temp < 0 || temp > 100){ alp = temp%100; }
+        let color = `--hue: ${hue}; --sat: ${sat}%; --lum: ${lum}%; --alp: ${alp};`;
+        return color;
+    }
+    function RenderHeat_2(temp){
+        let card = document.createElement('div');
+        // card.classList.add('card');
+        // card.classList.add('row');
+        card.classList.add('card', 'row');
+        card.style = TempToColor_2(temp);
+        let color_elem = document.createElement('div');
+        color_elem.classList.add('color');
+        let temp_elem = document.createElement('div');
+        temp_elem.classList.add('temp');
+        temp_elem.innerText = `${temp} °C`;
+
+        card.appendChild(color_elem);
+        card.appendChild(temp_elem);
+
+        return card;
+    }
+    /* Temp: 
+        K = °C - 273.15;
+        Melting point of H2O    → [373.15 K] / [ 100.00 °C]
+        Human Body Temperature  → [310.15 K] / [  37.00 °C]
+        Room temperature        → [293.15 K] / [  20.00 °C]
+        Melting point of H2O    → [273.15 K] / [   0.00 °C]
+        Absolute zero (exactly)	→ [  0.00 K] / [−273.15 °C]
+
+    */
+    function TempRow_2(){
+        let display_temp = document.getElementById('Temperature');
+        let list = document.createElement('div');
+        list.classList.add('list');
+        for (let i = 0; i < 25; i++) {
+            let temp = (i - 2) * 5;
+            // let temp = (12 - i) * 10;
+            list.appendChild(RenderHeat_2(temp));
+        }
+        display_temp.appendChild(list);
+    }
+
+    function TempToColor_1(temp){
+        let fix_temp = temp;
+        let alp = 1;
+        if(temp > 100) {alp = 1 - ((temp - 100) / 50); fix_temp = 100;}
+        if(temp < -100) {alp = 1 + ((temp + 100) / 50); fix_temp = -100;}
+        let hue = 120 + (fix_temp * -1.2);
+        let lum = 100 - Math.abs(fix_temp/2);
+
+        let color = `--hue: ${hue}; --sat: 100%; --lum: ${lum}%; --alp: ${alp};`;
+        return color;
+    }
+    function RenderHeat_1(temp){
+        let card = document.createElement('div');
+        card.classList.add('card');
+        card.style = TempToColor_1(temp);
+        let color_elem = document.createElement('div');
+        color_elem.classList.add('color');
+        let temp_elem = document.createElement('div');
+        temp_elem.classList.add('temp');
+        temp_elem.innerText = `${temp} °C`;
+
+        card.appendChild(color_elem);
+        card.appendChild(temp_elem);
+
+        return card;
+    }
+
+    function RenderHeat(temp){
+        let fix_temp = temp;
+        let alp = 1;
+        if(temp > 100) {alp = 1 - ((temp - 100) / 50); fix_temp = 100;}
+        if(temp < -100) {alp = 1 + ((temp + 100) / 50); fix_temp = -100;}
+        let hue = 120 + (fix_temp * -1.2);
+        let lum = 100 - Math.abs(fix_temp/2);
+
+        let card = document.createElement('div');
+        card.classList.add('card');
+        card.classList.add('row');
+        card.style = `--hue: ${hue}; --sat: 100%; --lum: ${lum}%; --alp: ${alp};`;
+        // card.style = TempToColor(temp);
+        let color_elem = document.createElement('div');
+        color_elem.classList.add('color');
+        let temp_elem = document.createElement('div');
+        temp_elem.classList.add('temp');
+        temp_elem.innerText = `${temp} °C`;
+
+        card.appendChild(color_elem);
+        card.appendChild(temp_elem);
+
+        return card;
+    }
+    function TempRow(){
+        let display = document.getElementById('display');
+        let list = document.createElement('div');
+        list.classList.add('list');
+        for (let i = 0; i < 25; i++) {
+            let temp = (12 - i) * 10;
+            list.appendChild(RenderHeat(temp));
+        }
+        display.appendChild(list);
+    }
+
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        TempRow();
+
+        TempRow_2();
+        TempRow_3();
+    });
+
+    /* Version Log:
+    [index-nds-00]: from nytemp2.html
+    [index-nds-01]: Makes one list of temperature and colors.
+    [index-nds-02]: 
+    [index-nds-03]: 
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
+    [index-nds-07]: 
+    [index-nds-08]: 
+    [index-nds-09]: 
+    [index-nds-10]: 
+    [index-nds-11]: 
+    [index-nds-12]: 
+    
+    */
+
+    /* About Temperature: 
+        K = °C - 273.15;
+        Since 1743 the Celsius scale has been based on: 
+            0 °C for the freezing point of water and 
+            100 °C for the boiling point of water at 1 atm pressure.
+
+            [273.15 K] / [0.0 °C]   → Melting point of H2O
+            [293.15 K] / [20.0 °C]  → Room temperature
+            [310.15 K] / [37.0 °C]  → Normal human body temperature (average)
+            [373.15 K] / [100.0 °C] → Melting point of H2O
+
+        Melting point of H2O    → [273.15 K] / [  0.0 °C] / [ 32 °F]
+        Room temperature        → [293.15 K] / [ 20.0 °C] / [ 68 °F]
+        Human Body Temperature  → [310.15 K] / [ 37.0 °C] / [ 98.6 °F]
+        Melting point of H2O    → [373.15 K] / [100.0 °C] / [212 °F]
+
+        Absolute zero (exactly)	→ [  0.00 K] / [−273.15 °C] / [−459.67 °F]
+        Melting point of H2O    → [273.15 K] / [   0.00 °C] / [     32 °F]
+        Room temperature        → [293.15 K] / [  20.00 °C] / [     68 °F]
+        Human Body Temperature  → [310.15 K] / [  37.00 °C] / [     98.6 °F]
+        Melting point of H2O    → [373.15 K] / [ 100.00 °C] / [    212 °F]
+        
+        Absolute zero (exactly)	→ [  0.00 K] / [−273.15 °C]
+        Melting point of H2O    → [273.15 K] / [   0.00 °C]
+        Room temperature        → [293.15 K] / [  20.00 °C]
+        Human Body Temperature  → [310.15 K] / [  37.00 °C]
+        Melting point of H2O    → [373.15 K] / [ 100.00 °C]
+    */
+</script>
+</body>
+</html>
