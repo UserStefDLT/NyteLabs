@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Interaction Rules | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <link rel="stylesheet" href="../../../stylesheets/canvas.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        :root {}
+        .subtitle{user-select: none;}
+    </style>
+<style>
+    .box {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        max-height: 500px;
+        max-width: 500px;
+        height: 95vh;
+        width: 95vw;
+        min-height: 100px;
+        min-width: 100px;
+        /* outline: 1px dashed var(--bwf9); */
+        z-index: 5;
+    }
+    :root {
+        --clr-sun: #f93;
+        --clr-sun-glow: #f939;
+        --clr-sun-zero: #f930;
+    }
+    .sun {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        height: 100px; width: 100px;
+        border: 1px solid var(--clr-sun-glow);
+        border-radius: 50%;
+        z-index: 8;
+    }
+</style>
+    <link rel="stylesheet" href="../../../stylesheets/settings.css">
+    <style>
+        /* Settings. */
+        #toggleLights,
+        #toggleIso,
+        #toggleOpacity {display: none;}
+        #toggleLights:checked ~ .options .toggleCheckboxLabel[for="toggleLights"],
+        #toggleIso:checked ~ .options .toggleCheckboxLabel[for="toggleIso"],
+        #toggleOpacity:checked ~ .options .toggleCheckboxLabel[for="toggleOpacity"] {
+            color: var(--bwe);
+            --clr-outline: var(--bwc);
+            --bgc-before: #063;
+            --bgc-after: #0c6;
+            --ttx-after: 1rem;
+        }
+
+        /* ─ Toggle Effects ─ */
+
+        /* Toggle-Opcacity */
+        /* #toggleOpacity:checked ~ main #display {opacity:.5;} */
+
+        /* Toggle-Animation */
+        /* #toggleAnimation:checked ~ main .grid {
+            animation: spin 3600ms ease-in-out infinite both;
+            animation-name: spin;
+            animation-duration: 3600ms;
+            animation-timing-function: linear;
+            animation-delay: 0ms;
+            animation-iteration-count: infinite;
+            animation-fill-mode: both;
+            
+            animation-delay: calc(30ms * var(--hue));
+            animation-play-state: running;
+        } */
+
+        #toggleAnimation:not(:checked) ~ main .sun::before,
+        #toggleAnimation:not(:checked) ~ main .sun::after {
+            animation-play-state: paused;
+        }
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <h1 class="title">NyteLabs</h1>
+        <div class="subtitle">Interaction Rules</div>
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+
+<main>
+    <canvas id="canvas"></canvas>
+    <!-- <div class="box"></div> -->
+    <!-- <div class="sun"></div> -->
+</main>
+
+<!-- <div class="options">
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            // h: window.innerHeight,
+            // w: window.innerWidth,
+            h: 500,
+            w: 500,
+            padding: 50,
+            brush: "e",
+            // brush: "none",
+        },
+
+        player: false,
+
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+
+</script>
+<script src="../../../scripts/settings.js"></script>
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    /* ─── Other functions ─── */
+    function AngleToXY(angle){
+        angle = angle%360;
+        let rad = angle * Math.PI / 180;
+        let xy = {"x":0,"y":0};
+        if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+        if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+        return xy;
+    }
+    function XYtoAngle(x,y){
+        let angle = 0;
+        if(x == 0) {
+            if(y > 0) {return 90;}
+            if(y < 0) {return 270;}
+        }
+        if(x < 0) { angle += 180; }
+        if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
+        return angle;
+    }
+
+    /* ─── Drawing ─── */
+    /* */
+    /* ─── Particle ─── */
+    /* ─── Create ─── */
+    /* ─── Rules ─── */
+
+    function draw_e(ctx,e){
+        if(e.x > 0 && e.x < (s.w) && e.y > 0 && e.y < (s.h)){
+            ctx.fillStyle = e.color;
+            ctx.beginPath();
+            ctx.arc(e.x, e.y, e.size/2, 0, Math.PI * 2);
+            ctx.fill();
+        } 
+    }
+    function draw_c(ctx,e){
+        if(e.x > 0 && e.x < (s.w) && e.y > 0 && e.y < (s.h)){
+            ctx.fillStyle = e.getColor();
+            ctx.beginPath();
+            ctx.arc(e.x, e.y, e.size/2, 0, Math.PI * 2);
+            ctx.fill();
+        } 
+    }
+    function drawSquare(ctx,left,top,c,w,h){
+        ctx.fillStyle = c;
+        ctx.fillRect(left,top,w,h);
+    }
+
+    const particles = [];
+    class p {
+        constructor(id,type="p",x,y,z=0,color="#8889"){
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.vx = 0;
+            this.vy = 0;
+            this.vz = 0;
+
+            this.size = 5;
+            this.color = color;
+
+        }
+    }
+    class pa {
+        constructor(id,type="p",x,y,vx,vy){
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.vx = vx;
+            this.vy = vy;
+            // this.z = 0;
+            // this.vz = 0;
+
+            this.mass = 1;
+            this.size = 4;
+
+            this.hue = 210;
+            this.sat = 100;
+            this.lum = 50;
+            this.alp = .5;
+            this.c = "hsla(0,0%,50%,.5)";
+            this.heat = 0;
+            this.vh = 0;
+        }
+        getColor(){
+            if(this.type == "heat"){
+                return this.getHeatColor();
+            } else if(this.type == "p1"){
+                this.c = `hsla(0, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                return this.c;
+            } else if(this.type == "p2"){
+                this.c = `hsla(180, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                return this.c;
+            } else {
+                this.hue = Math.round(XYtoAngle(this.vx,this.vy));
+                this.c = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                return this.c;
+            }
+        }
+        getHeatColor(){
+            this.hue = 240 - (this.heat * 2.4);
+            this.lum = 100 - Math.abs(this.heat-50);
+            this.c = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            return this.c;
+        }
+    }
+
+    class p1 {
+        constructor(x,y,c,vx=0,vy=0){
+            this.x = x;
+            this.y = y;
+            this.c = c;
+            this.vx = vx;
+            this.vy = vy;
+            this.heat = 0;
+            this.vh = 0;
+        }
+    }
+    class p2 {
+        constructor(x,y,h=0,vx=0,vy=0,c="#f39c"){
+            this.x = x;
+            this.y = y;
+            this.vx = vx;
+            this.vy = vy;
+
+            this.c = c;
+            this.s = 5;
+
+            this.heat = h;
+            this.vh = 0;
+
+            this.hue = 210;
+            this.sat = 100;
+            this.lum = 50;
+            this.alp = .5;
+
+            this.getColor();
+        }
+        getColor(){
+            /* Heat can be from -100 to 100. */
+            /* If heat is 0, then show white. */
+            /* If heat is -100, then show blue. */
+            /* If heat is 100, then show red. */
+            this.hue = 240 - (this.heat * 2.4);
+            this.lum = 100 - Math.abs(this.heat-50);
+            this.c = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            return this.c;
+        }
+    }
+    
+    class p3 {
+        constructor(id=-1,type="none",x,y){
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.vx = 0;
+            this.vy = 0;
+            this.z = 0;
+            this.vz = 0;
+
+            
+            this.size = 5;
+            this.heat = 0;
+            this.vh = 0;
+            
+            this.hue = 210;
+            this.sat = 100;
+            this.lum = 50;
+            this.alp = .5;
+            this.c = "#f39c";
+            
+            this.getColor();
+            // this.getHeatColor();
+        }
+        getColor(){
+            this.c = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            return this.c;
+        }
+        getHeatColor(){
+            this.hue = 240 - (this.heat * 2.4);
+            this.lum = 100 - Math.abs(this.heat-50);
+            this.c = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            return this.c;
+        }
+    }
+
+    function randomXY2(){
+        let x = Math.random()*s.w;
+        let y = Math.random()*s.h;
+        return {'x':x, 'y':y};
+    }
+    function randomX(){return Math.random()*s.w;}
+    function randomY(){return Math.random()*s.h;}
+    function random(n,a){return Math.random()*n+a;}
+    function randomXY(){
+        let x = Math.random()*(s.canvas.w)+s.canvas.left;
+        let y = Math.random()*(s.canvas.h)+s.canvas.top;
+        return {'x':x, 'y':y};
+    }
+
+    function createRandomXY(n,type,color){
+        for(let i = 0; i < n; i++){
+            let xy = randomXY2();
+            let np = new p(particles.length,type,xy.x,xy.y,0,color);
+            pg[type].push(np);
+            particles.push(np);
+        }
+    }
+    function create_p(type,x,y,vx,vy){
+        let np = new pa(particles.length,type,x,y,vx,vy);
+        pg[type].push(np);
+        particles.push(np);
+    }
+
+
+    function create3XYH(n,x,y,h){
+        let group = [];
+        for(let i = 0; i < n; i++){
+            let np = new p3(particles.length,"heat",x,y);
+            np.heat = h;
+            group.push(np);
+            particles.push(np);
+        }
+        return group;
+    }
+    function create3H(n,h){
+        let group = [];
+        for(let i = 0; i < n; i++){
+            let xy = randomXY();
+            let np = new p3(particles.length,"heat",xy.x,xy.y);
+            np.heat = h;
+            group.push(np);
+            particles.push(np);
+            // particles.push(group[i]);
+        }
+        return group;
+    }
+    function create3(n,type="none"){
+        let group = [];
+        for(let i = 0; i < n; i++){
+            let xy = randomXY();
+            group.push(new p3(particles.length,type,xy.x,xy.y));
+            particles.push(group[i]);
+        }
+        return group;
+    }
+
+    function createOrbit2(n,h=0,a=-1,r=100){
+        let group = [];
+        for(let i = 0; i < n; i++){
+            // let a = Math.random()*360;
+            let angle = a;
+            if(a < 0){angle = Math.floor(Math.random()*360);}
+            let xy = AngleToXY(Math.floor(Math.random()*360));
+            let x = xy.x * r + s.canvas.left + s.canvas.w/2;
+            let y = xy.y * r + s.canvas.top + s.canvas.h/2;
+            let vxy = AngleToXY(angle);
+            let vx = vxy.x * .7;
+            let vy = vxy.y * .7;
+            group.push(new p2(x,y,h,vx,vy));
+            particles.push(group[i]);
+        }
+        return group;
+    }
+    function createXYOrbit(n,x,y,h=0,a = -1){
+        let group = [];
+        for(let i = 0; i < n; i++){
+            // let a = Math.random()*360;
+            let angle = a;
+            if(a < 0){angle = Math.floor(Math.random()*360);}
+            let xy = AngleToXY(angle);
+            let vx = xy.x * .5;
+            let vy = xy.y * .5;
+            group.push(new p2(x,y,h,vx,vy));
+            particles.push(group[i]);
+        }
+        return group;
+    }
+    function createXY2(n,x,y,h){
+        let group = [];
+        for(let i = 0; i < n; i++){
+            // group.push(particle(x,y,c));
+            group.push(new p2(x,y,h));
+            particles.push(group[i]);
+        }
+        return group;
+    }
+    function createH(n,h){
+        let group = [];
+        for(let i = 0; i < n; i++){
+            let xy = randomXY();
+            group.push(new p2(xy.x,xy.y,h));
+            particles.push(group[i]);
+        }
+        return group;
+    }
+    
+    const scale = {
+        "g": .75,
+        "v": .125,
+    }
+    const pr = {}
+    pr["gravity"] = function (list1, list2, g = 0){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > b.size/2){
+                    let force = g * a.mass * b.mass / (d*d);
+                    // let force = g * 1 / (d*d);
+                    fx += (force * dx) / a.mass;
+                    fy += (force * dy) / a.mass;
+                }
+            }
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+            a.x += a.vx;
+            a.y += a.vy;
+
+            // /* ─pushes back from border─ */
+            // if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
+            // if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
+        }
+    }
+    pr["orbit"] = function (list1, list2, g = 0){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > b.size/2){
+                    let force = g * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                }
+            }
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+            a.x += a.vx;
+            a.y += a.vy;
+        }
+    }
+    pr["rule"] = function (list1, list2, g = 0, r = 100){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > 0 && d < r){
+                    let force = scale.g * g * 1/d;
+                    // let force = g * 1/(d*d);
+                    // let force = .01 * g * 1/d;
+                    // let force = .01 * g * 1/(d*d);
+                    fx += (force * dx);
+                    fy += (force * dy);
+                }
+            }
+            a.vx = (a.vx + fx) * .5;
+            a.vy = (a.vy + fy) * .5;
+            a.x += a.vx * scale.v;
+            a.y += a.vy * scale.v;
+
+            if(a.x < 0 || a.x > s.w){a.vx *= -1;}
+            if(a.y < 0 || a.y > s.h){a.vy *= -1;}
+
+            let margin = -5;
+            let cr = 100;
+            if(a.x < (0-margin) || a.x > (s.w+margin)){a.x = s.canvas.w2 + (Math.random() * (cr*2) - cr);}
+            if(a.y < (0-margin) || a.y > (s.h+margin)){a.y = s.canvas.h2 + (Math.random() * (cr*2) - cr);}
+        }
+    }
+    /* This function affects the particles in list1. */
+    function rule2(list1, list2, g = 0, r = 100){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                // let d = (dx*dx + dy*dy);
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > 0 && d < r){
+                    let force = g * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                }
+            }
+            a.vx = (a.vx + fx) * .5;
+            a.vy = (a.vy + fy) * .5;
+            a.x += a.vx;
+            a.y += a.vy;
+
+            /* ─pushes back from border─ */
+            if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
+            if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
+        }
+    }
+    function orbit(list1, list2, g = 0, r = 100){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > 0 && d < r){
+                    let force = g * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                }
+            }
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+            a.x += a.vx;
+            a.y += a.vy;
+
+            /* ─pushes back from border─ */
+            if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
+            if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
+        }
+    }
+    function rule_safe(list){
+        for (let i = 0; i < list.length; i++) {
+            const a = list[i];
+            // if(a.heat > 0) {a.heat -= 1 + a.heat/25;}
+            // if(a.heat > 100){a.heat = 100;}
+            // if(a.heat < 0){a.heat = 0;}
+    
+            /* ─pushes back from border─ */
+            if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
+            if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
+    
+            let margin = 1;
+            if(a.x < (s.canvas.left-margin) || a.x > (s.canvas.left+s.canvas.w+margin)){a.x = s.canvas.left + 50 + (Math.random()*(s.canvas.w - 100));}
+            if(a.y < (s.canvas.top-margin) || a.y > (s.canvas.top+s.canvas.h+margin)){a.y = s.canvas.top + 1;}
+        }
+    }
+
+    const pg = {}
+    const gs = {
+        "G": "#9f39",
+        "R": "#f339",
+        "W": "#fff9",
+        "B": "#3ff9"
+    };
+    function start(){
+        let keys = Object.keys(gs);
+        keys.forEach(k=>{
+            pg[k] = [];
+            createRandomXY(200,k,gs[k]);
+        });
+    }
+    // start();
+    
+    // currentRule = "parts";
+    // var currentRule = "ab";
+    // var currentRule = "unk";
+    var currentRule = "cell-a";
+    // var currentRule = "rs-2";
+    const rules1 = {
+        "ab": [
+            {"a": "G", "b": "G", "g": 0.5, "r": 50},
+            {"a": "R", "b": "R", "g": 0.5, "r": 50},
+            {"a": "W", "b": "W", "g": 0.5, "r": 50},
+            {"a": "B", "b": "B", "g": 0.5, "r": 50},
+        ],
+        "base": [
+            {"a": "G", "b": "G", "g": 0.25, "r": 25},
+            {"a": "G", "b": "R", "g": 0.25, "r": 25},
+            {"a": "G", "b": "W", "g": 0.25, "r": 25},
+            {"a": "G", "b": "B", "g": 0.25, "r": 25},
+            {"a": "R", "b": "R", "g": 0.25, "r": 25},
+            {"a": "R", "b": "G", "g": 0.25, "r": 25},
+            {"a": "R", "b": "W", "g": 0.25, "r": 25},
+            {"a": "R", "b": "B", "g": 0.25, "r": 25},
+            {"a": "W", "b": "W", "g": 0.25, "r": 25},
+            {"a": "W", "b": "R", "g": 0.25, "r": 25},
+            {"a": "W", "b": "G", "g": 0.25, "r": 25},
+            {"a": "W", "b": "B", "g": 0.25, "r": 25},
+            {"a": "B", "b": "B", "g": 0.25, "r": 25},
+            {"a": "B", "b": "W", "g": 0.25, "r": 25},
+            {"a": "B", "b": "R", "g": 0.25, "r": 25},
+            {"a": "B", "b": "G", "g": 0.25, "r": 25},
+        ],
+        "romba": [
+            {a: 'G', b: 'G', g: -9.11, r: 2.56},
+            {a: 'G', b: 'R', g: -7.82, r: 11.67},
+            {a: 'G', b: 'W', g: -7.13, r: 221.38},
+            {a: 'G', b: 'B', g: -4.5, r: 166.07},
+            {a: 'R', b: 'G', g: 2.26, r: 205.91},
+            {a: 'R', b: 'R', g: -7.16, r: 18.06},
+            {a: 'R', b: 'W', g: 1.68, r: 113.75},
+            {a: 'R', b: 'B', g: -4.82, r: 149.51},
+            {a: 'W', b: 'G', g: 5.65, r: 193.86},
+            {a: 'W', b: 'R', g: 5.36, r: 64.09},
+            {a: 'W', b: 'W', g: -0.96, r: 201.99},
+            {a: 'W', b: 'B', g: -1.38, r: 122.01},
+            {a: 'B', b: 'G', g: -4.19, r: 199.54},
+            {a: 'B', b: 'R', g: 8.15, r: 23.39},
+            {a: 'B', b: 'W', g: -7.27, r: 150.95},
+            {a: 'B', b: 'B', g: 5.63, r: 48.18}
+        ],
+        "parts": [
+            {"a":"G","b":"R","g":3.26,"r":70.61},
+            {"a":"G","b":"W","g":-7.56,"r":0.09},
+            {"a":"G","b":"B","g":-9.32,"r":20.98},
+            {"a":"R","b":"G","g":6.81,"r":84.66},
+            {"a":"R","b":"W","g":-0.2,"r":10.31},
+            {"a":"R","b":"B","g":-6.51,"r":30.01},
+            {"a":"W","b":"G","g":0.23,"r":71.04},
+            {"a":"W","b":"R","g":-3.37,"r":164.78},
+            {"a":"W","b":"B","g":5.5,"r":191.04},
+            {"a":"B","b":"G","g":-0.55,"r":85.21},
+            {"a":"B","b":"R","g":9.97,"r":22.72},
+            {"a":"B","b":"W","g":-3.11,"r":3.74},
+            {"a":"G","b":"G","g":15.12,"r":12.39},
+            {"a":"G","b":"G","g":-19.13,"r":25.06},
+            {"a":"R","b":"R","g":18.9,"r":5.77},
+            {"a":"R","b":"R","g":-10.14,"r":11.19},
+            {"a":"W","b":"W","g":13.2,"r":0.01},
+            {"a":"W","b":"W","g":-13.11,"r":0.49},
+            {"a":"B","b":"B","g":19.01,"r":50.39},
+            {"a":"B","b":"B","g":-13.93,"r":0}
+        ],
+        "single-cell": [
+            {"a":"G","b":"R","g":-1.52,"r":18.02},
+            {"a":"G","b":"W","g":-8.81,"r":37.38},
+            {"a":"G","b":"B","g":-3.53,"r":142.25},
+            {"a":"R","b":"G","g":-3.88,"r":72.43},
+            {"a":"R","b":"W","g":9.97,"r":55.25},
+            {"a":"R","b":"B","g":-7.02,"r":50.96},
+            {"a":"W","b":"G","g":9.62,"r":213},
+            {"a":"W","b":"R","g":0.41,"r":57.04},
+            {"a":"W","b":"B","g":-5.84,"r":118.33},
+            {"a":"B","b":"G","g":-8.36,"r":41.13},
+            {"a":"B","b":"R","g":2.09,"r":157.62},
+            {"a":"B","b":"W","g":1.52,"r":66.01},
+            {"a":"G","b":"G","g":7.29,"r":82.57},
+            {"a":"G","b":"G","g":-5.82,"r":187.77},
+            {"a":"R","b":"R","g":4.48,"r":91.38},
+            {"a":"R","b":"R","g":-8.44,"r":225.26},
+            {"a":"W","b":"W","g":0.41,"r":132.66},
+            {"a":"W","b":"W","g":-7.96,"r":1.32},
+            {"a":"B","b":"B","g":9.08,"r":120.97},
+            {"a":"B","b":"B","g":-2.39,"r":0}
+        ],
+        "cell-pattern-01": [
+            {"a":"G","b":"G","g":7.95,"r":177.63},
+            {"a":"G","b":"R","g":5.06,"r":99.22},
+            {"a":"G","b":"W","g":3.73,"r":5.67},
+            {"a":"G","b":"B","g":-9.81,"r":115.32},
+            {"a":"R","b":"G","g":6.77,"r":61.39},
+            {"a":"R","b":"R","g":-6.64,"r":52.5},
+            {"a":"R","b":"W","g":7.95,"r":81.25},
+            {"a":"R","b":"B","g":5.7,"r":157.9},
+            {"a":"W","b":"G","g":4.98,"r":9.66},
+            {"a":"W","b":"R","g":-0.14,"r":46.72},
+            {"a":"W","b":"W","g":-2.41,"r":82.57},
+            {"a":"W","b":"B","g":-8.2,"r":242.27},
+            {"a":"B","b":"G","g":-0.73,"r":182.02},
+            {"a":"B","b":"R","g":-1.96,"r":165.18},
+            {"a":"B","b":"W","g":4.06,"r":149},
+            {"a":"B","b":"B","g":2.87,"r":129}
+        ],
+        "sing": [
+            {"a":"G","b":"R","g":0.29,"r":197.55},
+            {"a":"G","b":"W","g":1.22,"r":28.43},
+            {"a":"G","b":"B","g":4.96,"r":18.53},
+            {"a":"R","b":"G","g":-1.68,"r":229.9},
+            {"a":"R","b":"W","g":4.52,"r":192.82},
+            {"a":"R","b":"B","g":-1.91,"r":37.46},
+            {"a":"W","b":"G","g":-7.34,"r":253.5},
+            {"a":"W","b":"R","g":-4.51,"r":59.73},
+            {"a":"W","b":"B","g":-6.83,"r":23.9},
+            {"a":"B","b":"G","g":6.98,"r":5.94},
+            {"a":"B","b":"R","g":-2.44,"r":5.38},
+            {"a":"B","b":"W","g":3.05,"r":249.8},
+            {"a":"G","b":"G","g":9.01,"r":0},
+            {"a":"G","b":"G","g":-0.23,"r":244.81},
+            {"a":"R","b":"R","g":8.16,"r":59.85},
+            {"a":"R","b":"R","g":-3.54,"r":170.14},
+            {"a":"W","b":"W","g":3.51,"r":11.73},
+            {"a":"W","b":"W","g":-3.13,"r":28.54},
+            {"a":"B","b":"B","g":8.78,"r":0.78},
+            {"a":"B","b":"B","g":-5.53,"r":7.15}
+        ],
+    };
+    const rules = {
+        "ab": [
+            {"a": "G", "b": "G", "g": 0.5, "r": 50},
+            {"a": "R", "b": "R", "g": 0.5, "r": 50},
+            {"a": "W", "b": "W", "g": 0.5, "r": 50},
+            {"a": "B", "b": "B", "g": 0.5, "r": 50},
+        ],
+        "unk": [
+            {"a":"G","b":"R","g":-0.0987,"r":222.41},
+            {"a":"G","b":"W","g":-0.9262,"r":239.07},
+            {"a":"G","b":"B","g":-1.695,"r":45.86},
+            {"a":"R","b":"G","g":0.5013,"r":177.47},
+            {"a":"R","b":"W","g":1.6466,"r":4.18},
+            {"a":"R","b":"B","g":-1.1045,"r":208.68},
+            {"a":"W","b":"G","g":1.4261,"r":0.06},
+            {"a":"W","b":"R","g":-0.5582,"r":213.44},
+            {"a":"W","b":"B","g":-0.8087,"r":124.13},
+            {"a":"B","b":"G","g":-1.6997,"r":257.94},
+            {"a":"B","b":"R","g":-1.4564,"r":187.14},
+            {"a":"B","b":"W","g":-1.3942,"r":8.02},
+            {"a":"G","b":"G","g":0.6041,"r":69.21},
+            {"a":"G","b":"G","g":-1.3987,"r":0.01},
+            {"a":"R","b":"R","g":0.3912,"r":249.34},
+            {"a":"R","b":"R","g":-1.4921,"r":256.92},
+            {"a":"W","b":"W","g":0.2256,"r":15.1},
+            {"a":"W","b":"W","g":-0.202,"r":9.87},
+            {"a":"B","b":"B","g":0.3471,"r":24.28},
+            {"a":"B","b":"B","g":-1.4704,"r":242.42}
+        ],
+        "cell-a": [
+            {"a":"G","b":"R","g":-0.0987,"r":222.41},
+            {"a":"G","b":"W","g":-0.9262,"r":239.07},
+            {"a":"G","b":"B","g":-1.695,"r":45.86},
+            {"a":"R","b":"G","g":0.5013,"r":177.47},
+            {"a":"R","b":"W","g":1.6466,"r":4.18},
+            {"a":"R","b":"B","g":-1.1045,"r":208.68},
+            {"a":"W","b":"G","g":1.4261,"r":0.06},
+            {"a":"W","b":"R","g":-0.5582,"r":213.44},
+            {"a":"W","b":"B","g":-0.8087,"r":124.13},
+            {"a":"B","b":"G","g":-1.9175,"r":0.41},
+            {"a":"B","b":"R","g":-1.4564,"r":187.14},
+            {"a":"B","b":"W","g":-1.3942,"r":8.02},
+            {"a":"G","b":"G","g":0.6041,"r":69.21},
+            {"a":"G","b":"G","g":-1.3987,"r":0.01},
+            {"a":"R","b":"R","g":-0.5138,"r":14.29},
+            {"a":"R","b":"R","g":0.555,"r":7.72},
+            {"a":"W","b":"W","g":0.2256,"r":15.1},
+            {"a":"W","b":"W","g":1.5517,"r":151.17},
+            {"a":"B","b":"B","g":0.3471,"r":24.28},
+            {"a":"B","b":"B","g":-1.4704,"r":242.42}
+        ],
+        "cell-b": [
+            {"a":"G","b":"R","g":-0.0987,"r":222.41},
+            {"a":"G","b":"W","g":-0.9262,"r":239.07},
+            {"a":"G","b":"B","g":-1.6423,"r":217.95},
+            {"a":"R","b":"G","g":-1.4789,"r":48.18},
+            {"a":"R","b":"W","g":1.6466,"r":4.18},
+            {"a":"R","b":"B","g":-1.8941,"r":35.27},
+            {"a":"W","b":"G","g":-1.5194,"r":58.12},
+            {"a":"W","b":"R","g":-0.5582,"r":213.44},
+            {"a":"W","b":"B","g":-0.8087,"r":124.13},
+            {"a":"B","b":"G","g":-1.0789,"r":137.71},
+            {"a":"B","b":"R","g":-1.4564,"r":187.14},
+            {"a":"B","b":"W","g":-1.3942,"r":8.02},
+            {"a":"G","b":"G","g":-0.6666,"r":65.24},
+            {"a":"G","b":"G","g":-1.3987,"r":0.01},
+            {"a":"R","b":"R","g":-0.5138,"r":14.29},
+            {"a":"R","b":"R","g":0.555,"r":7.72},
+            {"a":"W","b":"W","g":0.2256,"r":15.1},
+            {"a":"W","b":"W","g":1.5517,"r":151.17},
+            {"a":"B","b":"B","g":1.9296,"r":13.85},
+            {"a":"B","b":"B","g":0.2924,"r":204.14}
+        ],
+        "cell-c": [
+            {"a":"G","b":"R","g":-0.0987,"r":222.41},
+            {"a":"G","b":"W","g":-0.9262,"r":239.07},
+            {"a":"G","b":"B","g":-1.6423,"r":217.95},
+            {"a":"R","b":"G","g":-1.4789,"r":48.18},
+            {"a":"R","b":"W","g":1.9819,"r":199.98},
+            {"a":"R","b":"B","g":0.6891,"r":20.43},
+            {"a":"W","b":"G","g":-1.5194,"r":58.12},
+            {"a":"W","b":"R","g":-0.5582,"r":213.44},
+            {"a":"W","b":"B","g":-0.8087,"r":124.13},
+            {"a":"B","b":"G","g":-1.0789,"r":137.71},
+            {"a":"B","b":"R","g":-1.4564,"r":187.14},
+            {"a":"B","b":"W","g":-1.3942,"r":8.02},
+            {"a":"G","b":"G","g":-0.2039,"r":165.45},
+            {"a":"G","b":"G","g":-0.2358,"r":1.07},
+            {"a":"R","b":"R","g":-1.5998,"r":179.68},
+            {"a":"R","b":"R","g":0.555,"r":7.72},
+            {"a":"W","b":"W","g":0.2256,"r":15.1},
+            {"a":"W","b":"W","g":1.5517,"r":151.17},
+            {"a":"B","b":"B","g":1.9296,"r":13.85},
+            {"a":"B","b":"B","g":0.2924,"r":204.14}
+        ],
+        "rs-1": [
+            {"a":"G","b":"R","g":-0.895,"r":20.52},
+            {"a":"G","b":"W","g":0.3018,"r":6.31},
+            {"a":"G","b":"B","g":0.3409,"r":178.09},
+            {"a":"R","b":"G","g":-0.8017,"r":14.98},
+            {"a":"R","b":"W","g":0.3074,"r":221.72},
+            {"a":"R","b":"B","g":0.0962,"r":47.28},
+            {"a":"W","b":"G","g":0.4038,"r":0.59},
+            {"a":"W","b":"R","g":-0.802,"r":61.28},
+            {"a":"W","b":"B","g":-0.0879,"r":0.06},
+            {"a":"B","b":"G","g":-0.0693,"r":36.87},
+            {"a":"B","b":"R","g":-0.4186,"r":58.47},
+            {"a":"B","b":"W","g":-0.6108,"r":11.88},
+            {"a":"G","b":"G","g":0.5479,"r":13.24},
+            {"a":"G","b":"G","g":-0.7763,"r":68.61},
+            {"a":"R","b":"R","g":0.7168,"r":12.17},
+            {"a":"R","b":"R","g":-0.2563,"r":212.93},
+            {"a":"W","b":"W","g":0.4199,"r":171.89},
+            {"a":"W","b":"W","g":-0.7727,"r":176.38},
+            {"a":"B","b":"B","g":0.2403,"r":0.15},
+            {"a":"B","b":"B","g":-0.3926,"r":153.91}
+        ],
+        "rs-2": [
+            {"a":"G","b":"R","g":0.5585,"r":233.72},
+            {"a":"G","b":"W","g":0.3366,"r":77.19},
+            {"a":"G","b":"B","g":0.5005,"r":20.72},
+            {"a":"R","b":"G","g":-0.8023,"r":93.98},
+            {"a":"R","b":"W","g":0.5592,"r":6.73},
+            {"a":"R","b":"B","g":-0.1227,"r":20.05},
+            {"a":"W","b":"G","g":0.7582,"r":16.1},
+            {"a":"W","b":"R","g":0.4964,"r":72.13},
+            {"a":"W","b":"B","g":0.008,"r":252.7},
+            {"a":"B","b":"G","g":0.3784,"r":24.05},
+            {"a":"B","b":"R","g":0.8785,"r":40.15},
+            {"a":"B","b":"W","g":-0.0536,"r":240.3},
+            {"a":"G","b":"G","g":0.3978,"r":56.2},
+            {"a":"G","b":"G","g":-0.1227,"r":122.22},
+            {"a":"R","b":"R","g":0.5952,"r":54.13},
+            {"a":"R","b":"R","g":-0.7753,"r":118.28},
+            {"a":"W","b":"W","g":0.9688,"r":10.99},
+            {"a":"W","b":"W","g":-0.7347,"r":184.59},
+            {"a":"B","b":"B","g":0.8414,"r":126.08},
+            {"a":"B","b":"B","g":-0.3102,"r":210.03}
+        ],
+    };
+    function update(){
+        if(!s.q && !s.pause){
+            rules[currentRule].forEach(e => {
+                pr["rule"](pg[e.a], pg[e.b], e.g, e.r);
+            });
+            
+            // rule_safe(pg["p"]);
+            /* ─Rest of Update()─ */
+            clearCanvas();
+            for(let i = 0; i<particles.length; i++){
+                draw_e(ctx,particles[i]);
+            }
+        }
+        setTimeout(() => {
+            requestAnimationFrame(update);
+        }, s.timeOut)
+    }
+
+    function clearCanvas(){
+        ctx.clearRect(0,0,s.w,s.h);
+        drawSquare(ctx,0,0,"#000",s.w,s.h);
+        // drawSquare(ctx,0,0,"#00000004",s.w,s.h);
+        // drawSquare(ctx,0,0,"#00000020",s.w,s.h);
+        // drawSquare(ctx,0,0,"#00000008",s.w,s.h);
+        // ctx.clearRect(s.canvas.left,s.canvas.top,s.canvas.w,s.canvas.h);
+        // drawSquare(ctx,s.canvas.left,s.canvas.top,"black",s.canvas.w,s.canvas.h);
+        // ctx.clearRect(s.canvas.left,s.canvas.top,s.canvas.w,s.canvas.h);
+        // drawSquare(ctx,s.canvas.left,s.canvas.top,"#00000020",s.canvas.w,s.canvas.h);
+    }
+
+
+    function RandomRules(){
+        let rule_id = `rule-${Object.keys(rules).length}`;
+        let keys = Object.keys(gs);
+
+        let rule_set = [];
+        for (let i = 0; i < keys.length; i++) {
+            const a = keys[i];
+            for (let j = 0; j < keys.length; j++) {
+                const b = keys[j];
+                let g = parseFloat((Math.random() * 20 - 10).toFixed(2));
+                let r1 = Math.random() * Math.sqrt(s.dim/4);
+                let r = parseFloat((r1*r1).toFixed(2));
+                let ru = {"a": a, "b": b, "g": g, "r": r};
+                rule_set.push(ru);
+            }
+        }
+        rules[rule_id] = rule_set;
+        currentRule = rule_id;
+    }
+    function RandomRules2(){
+        let rule_id = `rule-${Object.keys(rules).length}`;
+        let keys = Object.keys(gs);
+
+        let rule_set = [];
+        for (let i = 0; i < keys.length; i++) {
+            const a = keys[i];
+            for (let j = 0; j < keys.length; j++) {
+                const b = keys[j];
+                if(a!=b){
+                    let g = parseFloat((Math.random() * 2 - 1).toFixed(4));
+                    let r1 = Math.random() * Math.sqrt(s.dim/4);
+                    let r = parseFloat((r1*r1).toFixed(2));
+                    let ru = {"a": a, "b": b, "g": g, "r": r};
+                    rule_set.push(ru);
+                }
+            }
+        }
+        for (let k = 0; k < keys.length; k++) {
+            const ab = keys[k];
+            let g1 = parseFloat((Math.random() * 1).toFixed(4));
+            let g2 = parseFloat((Math.random() * -1).toFixed(4));
+            
+            let rr = Math.sqrt(s.dim/4);
+            let rr1 = Math.random() * rr;
+            let rr2 = Math.random() * rr;
+            let r1 = parseFloat((rr1*rr1).toFixed(2));
+            let r2 = parseFloat((rr2*rr2).toFixed(2));
+
+            let ru1 = {"a": ab, "b": ab, "g": g1, "r": r1};
+            let ru2 = {"a": ab, "b": ab, "g": g2, "r": r2};
+            rule_set.push(ru1);
+            rule_set.push(ru2);
+        }
+        
+        rules[rule_id] = rule_set;
+        currentRule = rule_id;
+    }
+
+    function RandomRule(){
+        let rule_row = Math.floor(Math.random() * rules[currentRule].length);
+        let g = parseFloat((Math.random() * 4 - 2).toFixed(4));
+        let r1 = Math.random() * Math.sqrt(s.dim/4);
+        let r = parseFloat((r1*r1).toFixed(2));
+        rules[currentRule][rule_row].g = g;
+        rules[currentRule][rule_row].r = r;
+    }
+
+    function PrintRule(rule_id){
+        let rule_set = rules[rule_id];
+        let rule_string = JSON.stringify(rule_set);
+        let rule_ready = rule_string.split('},{').join('},\n{');
+        console.log(`"${rule_id}": ${rule_ready},`);
+    }
+    /* ─── Events ─── */
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+        if(s.h < s.canvas.h) {s.canvas.h = s.h;}
+        if(s.w < s.canvas.w) {s.canvas.w = s.w;}
+        s.canvas.top = (s.h - s.canvas.h)/2;
+        s.canvas.left = (s.w - s.canvas.w)/2;
+        s.canvas.h2 = s.canvas.top + (s.canvas.h / 2);
+        s.canvas.w2 = s.canvas.left + (s.canvas.w / 2);
+        canvas.width = s.w;
+        canvas.height = s.h;
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+    }
+    window.addEventListener('resize', () =>{
+        updateSettings()
+    });
+    
+    window.addEventListener('click', (ev) => {
+        // if(!s.pause && particles.length < 200){
+        //     // make new particle.
+        //     let x = ev.pageX;
+        //     let y = ev.pageY;
+        //     // console.log(`x: ${x}, y: ${y}`);
+        //     let pnew = new p3(particles.length,s.canvas.brush,x,y);
+        //     if(!Object.keys(pg).includes(s.canvas.brush)){pg[s.canvas.brush] = [];}
+        //     pg[s.canvas.brush].push(pnew);
+        //     particles.push(pnew);
+        // }
+    });
+
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        s.timeOut = 10;
+        updateSettings();
+        start();
+        update();
+    });
+</script>
+</body>
+</html>

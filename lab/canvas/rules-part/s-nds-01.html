@@ -208,7 +208,7 @@
         // ctx.fillStyle = e.getColor();
         // if(e.type == "heat"){ctx.fillStyle = e.getHeatColor();}
         // if(e.hue < 0) {console.log(`id:${e.id}, hue: ${e.hue};`)}
-        ctx.fillStyle = e.getHeatColor();
+        ctx.fillStyle = e.getColor();
         ctx.beginPath();
         ctx.arc(e.x, e.y, e.size/2, 0, Math.PI * 2);
         ctx.fill();
@@ -233,6 +233,90 @@
 
     const particles = [];
     class p {
+        constructor(id,type="p",x,y,z=0,s={}){
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.vx = 0;
+            this.vy = 0;
+            this.vz = 0;
+
+            this.size = 5;
+
+            this.hue = 210;
+            this.sat = 100;
+            this.lum = 50;
+            this.alp = .5;
+            this.c = "hsla(0,0%,50%,.5)";
+            this.heat = 0;
+            this.vh = 0;
+
+            this.s = {};
+            this.sets(s);
+        }
+        sets(s){
+            this.s = {};
+            Object.keys(s).forEach(i=>{
+                this.s[i] = s[i];
+            });
+        }
+        getColor(){
+            if(this.type == "heat"){
+                return this.getHeatColor();
+            } else {
+                this.hue = Math.round(XYtoAngle(this.vx,this.vy));
+                this.c = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            }
+        }
+        getHeatColor(){
+            this.hue = 240 - (this.heat * 2.4);
+            this.lum = 100 - Math.abs(this.heat-50);
+            this.c = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            return this.c;
+        }
+
+    }
+    class pa {
+        constructor(id,type="p",x,y,vx,vy){
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.vx = vx;
+            this.vy = vy;
+            // this.z = 0;
+            // this.vz = 0;
+
+            this.size = 5;
+
+            this.hue = 210;
+            this.sat = 100;
+            this.lum = 50;
+            this.alp = .5;
+            this.c = "hsla(0,0%,50%,.5)";
+            this.heat = 0;
+            this.vh = 0;
+        }
+        getColor(){
+            if(this.type == "heat"){
+                return this.getHeatColor();
+            } else {
+                this.hue = Math.round(XYtoAngle(this.vx,this.vy));
+                this.c = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                return this.c;
+            }
+        }
+        getHeatColor(){
+            this.hue = 240 - (this.heat * 2.4);
+            this.lum = 100 - Math.abs(this.heat-50);
+            this.c = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            return this.c;
+        }
+    }
+
+    class p1 {
         constructor(x,y,c,vx=0,vy=0){
             this.x = x;
             this.y = y;
@@ -314,19 +398,21 @@
 
     function random(n,a){return Math.random()*n+a;}
     function randomXY(){
-        // let x = Math.random()*(s.w - s.canvas.padding*2)+s.canvas.padding;
-        // let y = Math.random()*(s.h - s.canvas.padding*2)+s.canvas.padding;
         let x = Math.random()*(s.canvas.w)+s.canvas.left;
         let y = Math.random()*(s.canvas.h)+s.canvas.top;
         return {'x':x, 'y':y};
     }
 
+    function create_p(type,x,y,vx,vy){
+        let np = new pa(particles.length,type,x,y,vx,vy);
+        pg[type].push(np);
+        particles.push(np);
+    }
+
+
     function create3XYH(n,x,y,h){
         let group = [];
         for(let i = 0; i < n; i++){
-            // group.push(particle(x,y,c));
-            // group.push(new p2(x,y,h));
-            // particles.push(group[i]);
             let np = new p3(particles.length,"heat",x,y);
             np.heat = h;
             group.push(np);
@@ -406,6 +492,34 @@
         return group;
     }
     
+    const pr = {}
+    pr["gravity"] = (list1, list2, g = 0)=>{
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > 0){
+                    let force = g * a.m * b.m / (d*d);
+                    fx += (force * dx);
+                    fy += (force * dy);
+                }
+            }
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+            a.x += a.vx;
+            a.y += a.vy;
+
+            /* ─pushes back from border─ */
+            if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
+            if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
+        }
+    }
+
     /* This function affects the particles in list1. */
     function rule2(list1, list2, g = 0, r = 100){
         for (let i = 0; i < list1.length; i++) {
@@ -651,39 +765,53 @@
             if(a.y < (s.canvas.top-margin) || a.y > (s.canvas.top+s.canvas.h+margin)){a.y = s.canvas.top + 1;}
         }
     }
+
     const pg = {}
     function start(){
-        pg["sun"] = create3XYH(1, s.canvas.w2, s.canvas.h2, 100);
-        pg["e"] = create3H(1, 0);
+        // pg["sun"] = create3XYH(1, s.canvas.w2, s.canvas.h2, 100);
+        // pg["e"] = create3H(1, 0);
+
+        pg["sun"] = [];
+        create_p("sun",s.canvas.w2, s.canvas.h2,0,0);
+        pg["p"] = [];
+        for (let i = 1; i < 10; i++) {
+            let y = s.canvas.top + (i*50);
+            create_p('p',s.canvas.left+10,y,.5,0);
+        }
     }
     // start();
 
     function update(){
         if(!s.q && !s.pause){
-            heat6(pg["e"], pg["sun"], -.009, 700);
-            heat6(pg["e"], pg["e"], .05, 10);
+            // heat6(pg["e"], pg["sun"], -.009, 700);
+            // heat6(pg["e"], pg["e"], .05, 10);
             
+            // pr["gravity"](pg["p"], pg["sun"], -.009);
+            orbit(pg["p"], pg["sun"], -.009, 700);
 
             // rule_safe(pg["e"]);
             // rule_safe(pg["sun"]);
+            
             /* ─Rest of Update()─ */
-            drawSquare(ctx,0,0,"#00000020",s.w,s.h);
-            // drawSquare(ctx,0,0,"#00000008",s.w,s.h);
-            // ctx.clearRect(s.canvas.left,s.canvas.top,s.canvas.w,s.canvas.h);
-            // drawSquare(ctx,s.canvas.left,s.canvas.top,"black",s.canvas.w,s.canvas.h);
-            // ctx.clearRect(s.canvas.left,s.canvas.top,s.canvas.w,s.canvas.h);
-            // drawSquare(ctx,s.canvas.left,s.canvas.top,"#00000020",s.canvas.w,s.canvas.h);
-
+            clearCanvas();
             for(let i = 0; i<particles.length; i++){
-                // draw(ctx,particles[i].x,particles[i].y,particles[i].c,5);
-                // draw2(ctx,particles[i],particles[i].x,particles[i].y,5);
-                // draw2(ctx,particles[i],particles[i].x,particles[i].y);
                 draw_e(ctx,particles[i]);
             }
         }
         requestAnimationFrame(update);
     }
 
+    function clearCanvas(){
+        drawSquare(ctx,0,0,"#00000020",s.w,s.h);
+        // drawSquare(ctx,0,0,"#00000008",s.w,s.h);
+        // ctx.clearRect(s.canvas.left,s.canvas.top,s.canvas.w,s.canvas.h);
+        // drawSquare(ctx,s.canvas.left,s.canvas.top,"black",s.canvas.w,s.canvas.h);
+        // ctx.clearRect(s.canvas.left,s.canvas.top,s.canvas.w,s.canvas.h);
+        // drawSquare(ctx,s.canvas.left,s.canvas.top,"#00000020",s.canvas.w,s.canvas.h);
+
+    }
+
+    /* ─── Events ─── */
 
     function updateSettings(){
         s.h = window.innerHeight;
@@ -703,30 +831,18 @@
     });
     
 
-    window.addEventListener('click', (ev) => {
-        if(!s.pause && particles.length < 200){
-            // make new particle.
-            let x = ev.pageX;
-            let y = ev.pageY;
-            // console.log(`x: ${x}, y: ${y}`);
-            let pnew = new p3(particles.length,s.canvas.brush,x,y);
-            if(!Object.keys(pg).includes(s.canvas.brush)){pg[s.canvas.brush] = [];}
-            pg[s.canvas.brush].push(pnew);
-            particles.push(pnew);
-        }
-    });
-    window.addEventListener('mousemove', (ev) => {
-        if(!s.pause && particles.length < 200){
-            // make new particle.
-            let x = ev.pageX;
-            let y = ev.pageY;
-            // console.log(`x: ${x}, y: ${y}`);
-            let pnew = new p3(particles.length,s.canvas.brush,x,y);
-            if(!Object.keys(pg).includes(s.canvas.brush)){pg[s.canvas.brush] = [];}
-            pg[s.canvas.brush].push(pnew);
-            particles.push(pnew);
-        }
-    });
+    // window.addEventListener('click', (ev) => {
+    //     if(!s.pause && particles.length < 200){
+    //         // make new particle.
+    //         let x = ev.pageX;
+    //         let y = ev.pageY;
+    //         // console.log(`x: ${x}, y: ${y}`);
+    //         let pnew = new p3(particles.length,s.canvas.brush,x,y);
+    //         if(!Object.keys(pg).includes(s.canvas.brush)){pg[s.canvas.brush] = [];}
+    //         pg[s.canvas.brush].push(pnew);
+    //         particles.push(pnew);
+    //     }
+    // });
     window.addEventListener('load', (ev) => {
         console.log(`Welcome to my Lab!`);
         updateSettings();
