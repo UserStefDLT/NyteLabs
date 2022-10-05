@@ -802,7 +802,7 @@
     const scale2 = {
         "g": .75,
         "v": 1,
-        "e": .89,
+        "e": .85,
     }
     pr["rule2"] = function (list1, list2, g = 0, r = 100){
         for (let i = 0; i < list1.length; i++) {
@@ -816,21 +816,32 @@
                 let d = Math.sqrt(dx*dx + dy*dy);
                 if(d > 0 && d < r){
                     let force = scale2.g * g * 1/d;
-                    // let force = scale2.g * g * 1/(d*d);
+                    // let force = g * 1/(d*d);
+                    // let force = .01 * g * 1/d;
+                    // let force = .01 * g * 1/(d*d);
                     fx += (force * dx);
                     fy += (force * dy);
                 }
             }
+            // a.vx = (a.vx + fx) * scale.e;
+            // a.vy = (a.vy + fy) * scale.e;
+            // a.x += a.vx * scale.v;
+            // a.y += a.vy * scale.v;
+            // a.vx = (a.vx) + (fx * scale.e);
+            // a.vy = (a.vy) + (fy * scale.e);
             if(fx != 0){
                 a.vx = (a.vx + fx) * scale2.e;
                 a.x += a.vx * scale2.v;
             }
             if(fy != 0){
-                a.vy = (a.vy + fy) * scale2.e;
-                a.y += a.vy * scale2.v;
+                a.vy = (a.vy + fy) * scale.e;
+                a.y += a.vy * scale.v;
             }
 
-            let margin = 20;
+            // if(a.x < 0 || a.x > s.w){a.vx *= -1;}
+            // if(a.y < 0 || a.y > s.h){a.vy *= -1;}
+
+            let margin = 50;
             let cr = 100;
             // if(a.x < (0-margin) || a.x > (s.w+margin)){a.x = s.canvas.w2 + (Math.random() * (cr*2) - cr);}
             // if(a.y < (0-margin) || a.y > (s.h+margin)){a.y = s.canvas.h2 + (Math.random() * (cr*2) - cr);}
@@ -975,7 +986,7 @@
         // createTailsXYr(3,s.canvas.w2,s.canvas.h2,50,"#fff",[.95,.89,.84]);
         // createTailXYr(3,s.canvas.w2,s.canvas.h2,50,"#fff",.89);
         // createTailsXYr(3,s.canvas.w2,s.canvas.h2,50,"#0000",[.92,.89,.87]);
-        createTail(1,s.canvas.w2,s.canvas.h2,"#0000",.89);
+        createTail(1,s.canvas.w2,s.canvas.h2,"#fff",.89);
         // createTailsXYr(3,s.canvas.w2,s.canvas.h2,50,"#ffff",[.89,.85,.81]);
 
         let keys = Object.keys(gs);
@@ -999,7 +1010,7 @@
     var currentRule = "ab";
     // var currentRule = "unk";
     // var currentRule = "cell-a";
-    // var currentRule = "rs-7";
+    // var currentRule = "rs-3";
     const rules1 = {
         "ab": [
             {"a": "G", "b": "G", "g": 0.5, "r": 50},
@@ -1211,35 +1222,13 @@
             {"a":"W","b":"W","g":-0.3848,"r":87.47},
             {"a":"B","b":"B","g":0.897,"r":9.37},
             {"a":"B","b":"B","g":-0.5211,"r":100.88}],
-        "rule-13": [
-            {"a":"G","b":"R","g":-0.425,"r":251.64},
-            {"a":"G","b":"W","g":0.353,"r":51.01},
-            {"a":"G","b":"B","g":-0.0603,"r":48.5},
-            {"a":"R","b":"G","g":0.6258,"r":238.11},
-            {"a":"R","b":"W","g":-0.7125,"r":0.01},
-            {"a":"R","b":"B","g":-0.4967,"r":19.92},
-            {"a":"W","b":"G","g":0.4929,"r":28.12},
-            {"a":"W","b":"R","g":-0.5866,"r":0.6},
-            {"a":"W","b":"B","g":0.8018,"r":43.47},
-            {"a":"B","b":"G","g":-0.1966,"r":210.22},
-            {"a":"B","b":"R","g":-0.0644,"r":0.03},
-            {"a":"B","b":"W","g":0.0811,"r":224.12},
-            {"a":"G","b":"G","g":0.7616,"r":53.39},
-            {"a":"G","b":"G","g":-0.5537,"r":135.64},
-            {"a":"R","b":"R","g":0.4574,"r":25.85},
-            {"a":"R","b":"R","g":-0.1046,"r":41.57},
-            {"a":"W","b":"W","g":0.0653,"r":8.85},
-            {"a":"W","b":"W","g":-0.5361,"r":104.43},
-            {"a":"B","b":"B","g":0.514,"r":67.68},
-            {"a":"B","b":"B","g":-0.076,"r":63.55}
-        ],
     }
     const rules = {
         "ab": [
-            {"a": "G", "b": "G", "g": 0.05, "r": 30},
-            {"a": "R", "b": "R", "g": 0.05, "r": 30},
-            {"a": "W", "b": "W", "g": 0.05, "r": 30},
-            {"a": "B", "b": "B", "g": 0.05, "r": 30},
+            {"a": "G", "b": "G", "g": 0.15, "r": 30},
+            {"a": "R", "b": "R", "g": 0.15, "r": 30},
+            {"a": "W", "b": "W", "g": 0.15, "r": 30},
+            {"a": "B", "b": "B", "g": 0.15, "r": 30},
         ],
         "unk": [
             {"a":"G","b":"R","g":-0.0987,"r":222.41},
@@ -1459,28 +1448,6 @@
             {"a":"W","b":"W","g":-0.3848,"r":87.47},
             {"a":"B","b":"B","g":0.897,"r":9.37},
             {"a":"B","b":"B","g":-0.5211,"r":100.88}],
-        "rs-7": [
-            {"a":"G","b":"R","g":-0.425,"r":251.64},
-            {"a":"G","b":"W","g":0.353,"r":51.01},
-            {"a":"G","b":"B","g":-0.0603,"r":48.5},
-            {"a":"R","b":"G","g":0.6258,"r":238.11},
-            {"a":"R","b":"W","g":-0.7125,"r":0.01},
-            {"a":"R","b":"B","g":-0.4967,"r":19.92},
-            {"a":"W","b":"G","g":0.4929,"r":28.12},
-            {"a":"W","b":"R","g":-0.5866,"r":0.6},
-            {"a":"W","b":"B","g":0.8018,"r":43.47},
-            {"a":"B","b":"G","g":-0.1966,"r":210.22},
-            {"a":"B","b":"R","g":-0.0644,"r":0.03},
-            {"a":"B","b":"W","g":0.0811,"r":224.12},
-            {"a":"G","b":"G","g":0.7616,"r":53.39},
-            {"a":"G","b":"G","g":-0.5537,"r":135.64},
-            {"a":"R","b":"R","g":0.4574,"r":25.85},
-            {"a":"R","b":"R","g":-0.1046,"r":41.57},
-            {"a":"W","b":"W","g":0.0653,"r":8.85},
-            {"a":"W","b":"W","g":-0.5361,"r":104.43},
-            {"a":"B","b":"B","g":0.514,"r":67.68},
-            {"a":"B","b":"B","g":-0.076,"r":63.55}
-        ],
     };
     const rules0 = {
         "ab": [
@@ -1496,16 +1463,29 @@
             //     pr["rule"](pg[e.a], pg[e.b], e.g, e.r);
             // });
 
+            /* wind-nds-03 */
+            // // pr["rule"](particles, particles, .15, 30);
+            // pr["rule"](particles, particles, .05, 10);
+            // pr["walls"](particles, .25, 10);
+            // // pr["mouse"](particles, .75, 75);
+            // // pr["space"](particles, .25, 5);
+
+            // // pr["rule"](particles, tail, 0.75, 75);
+            // // pr["force"](particles, tail, 0.5, 75);
+            // pr["wind"](particles, tail, 2, 150);
+            // pr["mouse"](tail, -.65, 700);
+            // // pr["mouse"](tail, -.9, 10);
+            // pr["force"](tail, tail, 0.75, 9);
             
-            // /* wind-nds-05 */
+            /* wind-nds-04 */
+
             pr["rule2"](particles, particles, .05, 10);
-            pr["walls"](particles, .5, 5);
             pr["walls"](particles, .25, 10);
-            pr["walls"](particles, .125, 20);
 
             pr["wind"](particles, tail, 2, 150);
-            pr["mouse"](tail, -1, 700);
+            pr["mouse"](tail, -.9, 700);
             pr["mouse-slow"](tail, -.5, 20);
+            // pr["force"](tail, tail, 0.75, 9);
 
 
             // rule_safe(pg["p"]);
@@ -1514,9 +1494,9 @@
             for(let i = 0; i<particles.length; i++){
                 draw_e(ctx,particles[i]);
             }
-            // for(let i = 0; i<tail.length; i++){
-            //     draw_e(ctx,tail[i]);
-            // }
+            for(let i = 0; i<tail.length; i++){
+                draw_e(ctx,tail[i]);
+            }
         }
         setTimeout(() => {
             requestAnimationFrame(update);

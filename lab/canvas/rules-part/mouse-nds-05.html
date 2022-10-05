@@ -1496,16 +1496,39 @@
             //     pr["rule"](pg[e.a], pg[e.b], e.g, e.r);
             // });
 
+            /* wind-nds-02,03 */
+            // // pr["rule"](particles, particles, .15, 30);
+            // pr["rule"](particles, particles, .05, 10);
+            // pr["walls"](particles, .25, 10);
+            // // pr["mouse"](particles, .75, 75);
+            // // pr["space"](particles, .25, 5);
+
+            // // pr["rule"](particles, tail, 0.75, 75);
+            // // pr["force"](particles, tail, 0.5, 75);
+            // pr["wind"](particles, tail, 2, 150);
+            // pr["mouse"](tail, -.65, 700);
+            // // pr["mouse"](tail, -.9, 10);
+            // pr["force"](tail, tail, 0.75, 9);
             
-            // /* wind-nds-05 */
+            /* wind-nds-04 */
+            // pr["rule2"](particles, particles, .05, 10);
+            // pr["walls"](particles, .25, 10);
+
+            // pr["wind"](particles, tail, 2, 150);
+            // pr["mouse"](tail, -.9, 700);
+            // pr["mouse-slow"](tail, -.5, 20);
+            // // pr["force"](tail, tail, 0.75, 9);
+
+            /* wind-nds-05 */
             pr["rule2"](particles, particles, .05, 10);
             pr["walls"](particles, .5, 5);
             pr["walls"](particles, .25, 10);
             pr["walls"](particles, .125, 20);
 
             pr["wind"](particles, tail, 2, 150);
-            pr["mouse"](tail, -1, 700);
+            pr["mouse"](tail, -2, 700);
             pr["mouse-slow"](tail, -.5, 20);
+            // pr["force"](tail, tail, 0.75, 9);
 
 
             // rule_safe(pg["p"]);
@@ -1514,9 +1537,9 @@
             for(let i = 0; i<particles.length; i++){
                 draw_e(ctx,particles[i]);
             }
-            // for(let i = 0; i<tail.length; i++){
-            //     draw_e(ctx,tail[i]);
-            // }
+            for(let i = 0; i<tail.length; i++){
+                draw_e(ctx,tail[i]);
+            }
         }
         setTimeout(() => {
             requestAnimationFrame(update);

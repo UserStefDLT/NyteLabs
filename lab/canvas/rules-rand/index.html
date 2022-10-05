@@ -893,6 +893,40 @@
         rules[currentRule][rule_row].r = r;
     }
 
+    function getg(r,a){
+        // let gg = parseFloat(((Math.random() * 1)/Math.pow(10,Math.floor(Math.random() * 4))).toFixed(4));
+        return parseFloat(((Math.random() * r - a)/Math.pow(10,Math.floor(Math.random() * 4))).toFixed(4));
+    }
+    function RandomRules4(){
+        let rule_id = `rule-${Object.keys(rules).length}`;
+        let keys = Object.keys(gs);
+
+        let rule_set = [];
+        for (let i = 0; i < keys.length; i++) {
+            const a = keys[i];
+            for (let j = 0; j < keys.length; j++) {
+                const b = keys[j];
+
+                let g1 = getg(1,0);
+                let g2 = getg(-1,0);
+                
+                let rr = Math.sqrt(s.dim/5);
+                let rr1 = Math.random() * rr;
+                let rr2 = Math.random() * rr;
+                let r1 = parseFloat((rr1*rr1).toFixed(2));
+                let r2 = parseFloat((rr2*rr2).toFixed(2));
+
+                let ru1 = {"a": a, "b": b, "g": g1, "r": r1};
+                let ru2 = {"a": a, "b": b, "g": g2, "r": r2};
+                rule_set.push(ru1);
+                rule_set.push(ru2);
+            }
+        }
+        rules[rule_id] = rule_set;
+        currentRule = rule_id;
+    }
+
+
     function PrintRule(rule_id){
         let rule_set = rules[rule_id];
         let rule_string = JSON.stringify(rule_set);

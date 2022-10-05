@@ -239,22 +239,6 @@
     }
 
     const tail = [];
-    class pw {
-        constructor(id,type="p",x,y,z=0,color="#8889",ent=.89){
-            this.id = id;
-            this.type = type;
-            this.x = x;
-            this.y = y;
-            this.z = z;
-            this.vx = 0;
-            this.vy = 0;
-            this.vz = 0;
-
-            this.ent = ent;
-            this.size = 9;
-            this.color = color;
-        }
-    }
 
     class pa {
         constructor(id,type="p",x,y,vx,vy){
@@ -394,41 +378,9 @@
         return {'x':x, 'y':y};
     }
 
-    function createTailXYr(n,x,y,r,color="#0000",ent=.89){
+    function createTail(n,x,y,color="#0000"){
         for(let i = 0; i < n; i++){
-            let a = Math.floor(Math.random()*360);
-            let xy = AngleToXY(a);
-            let nx = x + (xy.x*r);
-            let ny = y + (xy.y*r);
-            let np = new pw(tail.length,"mouse",nx,ny,0,color,ent);
-            tail.push(np);
-        }
-    }
-    function createTailsXYr(n,x,y,r,color="#0000",ents=[]){
-        for(let i = 0; i < n; i++){
-            let ent = .89;
-            if(ents.length > i){ent = ents[i];}
-
-            let a = Math.floor(Math.random()*360);
-            let xy = AngleToXY(a);
-            let nx = x + (xy.x*r);
-            let ny = y + (xy.y*r);
-            
-            let np = new pw(tail.length,"mouse",nx,ny,0,color,ent);
-            tail.push(np);
-        }
-    }
-    function createTails(n,x,y,color="#0000",ents=[]){
-        for(let i = 0; i < n; i++){
-            let ent = .89;
-            if(ents.length > i){ent = ents[i];}
-            let np = new pw(tail.length,"mouse",x,y,0,color,ent);
-            tail.push(np);
-        }
-    }
-    function createTail(n,x,y,color="#0000",ent){
-        for(let i = 0; i < n; i++){
-            let np = new pw(tail.length,"mouse",x,y,0,color,ent);
+            let np = new p(tail.length,"mouse",x,y,0,color);
             tail.push(np);
         }
     }
@@ -585,28 +537,6 @@
             a.y += a.vy;
         }
     }
-    pr["force"] = function (list1, list2, g = 0, r = 10){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            let fx = 0;
-            let fy = 0;
-            for (let j = 0; j < list2.length; j++) {
-                const b = list2[j];
-                let dx = a.x - b.x;
-                let dy = a.y - b.y;
-                let d = Math.sqrt(dx*dx + dy*dy);
-                if(d > 0 && d < r){
-                    let force = g * 1/d;
-                    fx += (force * dx);
-                    fy += (force * dy);
-                }
-            }
-            a.vx = (a.vx + fx);
-            a.vy = (a.vy + fy);
-            a.x += a.vx;
-            a.y += a.vy;
-        }
-    }
     pr["rule"] = function (list1, list2, g = 0, r = 100){
         for (let i = 0; i < list1.length; i++) {
             const a = list1[i];
@@ -737,110 +667,15 @@
                 fx += (force * dx);
                 fy += (force * dy);
             }
-            a.vx = (a.vx + fx) * a.ent;
-            a.vy = (a.vy + fy) * a.ent;
-            a.x += a.vx;
-            a.y += a.vy;
-        }
-    }
-    pr["mouse-slow"] = function (list1, g = 0, r = 10){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            let fx = 0;
-            let fy = 0;
-            let dx = (a.x - s.mouse.x);
-            let dy = (a.y - s.mouse.y);
-            let d = Math.sqrt(dx*dx + dy*dy);
-            let ent = 1;
-            if(d > 0 && d < r){
-                let force = scale.g * g * 1/d;
-                // let force = scale.g * g * 1/(d*d);
-                fx += (force * dx);
-                fy += (force * dy);
-                ent = .5;
-            }
-            a.vx = (a.vx + fx) * ent;
-            a.vy = (a.vy + fy) * ent;
-            a.x += a.vx;
-            a.y += a.vy;
-        }
-    }
-    pr["wind"] = function (list1, list2, g = 0, r = 10){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            let fx = 0;
-            let fy = 0;
-            for (let j = 0; j < list2.length; j++) {
-                const b = list2[j];
-                let dx = a.x - b.x;
-                let dy = a.y - b.y;
-                let d = Math.sqrt(dx*dx + dy*dy);
-                if(d > 1 && d < r){
-                    // let force = g;
-                    let force = g * 1/d;
-                    // let force = g * 1/(d*d);
-                    // let force = g * (r - d) / r;
-                    // let force = g * (r-d)/r;
-                    // fx += (force * dx);
-                    // fy += (force * dy);
-                    // fx += force * b.vx * .5;
-                    // fy += force * b.vy * .5;
-                    fx += force * b.vx * .85;
-                    fy += force * b.vy * .85;
-                    
-                    // fx += g * b.vx * .5;
-                    // fy += g * b.vy * .5;
-                }
-            }
-            a.vx = (a.vx + fx);
-            a.vy = (a.vy + fy);
+            a.vx = (a.vx + fx) * .95;
+            a.vy = (a.vy + fy) * .95;
             a.x += a.vx;
             a.y += a.vy;
         }
     }
     
-    const scale2 = {
-        "g": .75,
-        "v": 1,
-        "e": .89,
-    }
-    pr["rule2"] = function (list1, list2, g = 0, r = 100){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            let fx = 0;
-            let fy = 0;
-            for (let j = 0; j < list2.length; j++) {
-                const b = list2[j];
-                let dx = a.x - b.x;
-                let dy = a.y - b.y;
-                let d = Math.sqrt(dx*dx + dy*dy);
-                if(d > 0 && d < r){
-                    let force = scale2.g * g * 1/d;
-                    // let force = scale2.g * g * 1/(d*d);
-                    fx += (force * dx);
-                    fy += (force * dy);
-                }
-            }
-            if(fx != 0){
-                a.vx = (a.vx + fx) * scale2.e;
-                a.x += a.vx * scale2.v;
-            }
-            if(fy != 0){
-                a.vy = (a.vy + fy) * scale2.e;
-                a.y += a.vy * scale2.v;
-            }
-
-            let margin = 20;
-            let cr = 100;
-            // if(a.x < (0-margin) || a.x > (s.w+margin)){a.x = s.canvas.w2 + (Math.random() * (cr*2) - cr);}
-            // if(a.y < (0-margin) || a.y > (s.h+margin)){a.y = s.canvas.h2 + (Math.random() * (cr*2) - cr);}
-            if(a.x < (0-margin) || a.x > (s.w+margin) || a.y < (0-margin) || a.y > (s.h+margin)){
-                a.x = s.canvas.w2 + (Math.random() * (cr*2) - cr);
-                a.y = s.canvas.h2 + (Math.random() * (cr*2) - cr);
-            }
-        }
-    }
-
+    
+    
     pr["mouse1"] = function (list1, g = 0, r = 10){
         for (let i = 0; i < list1.length; i++) {
             const a = list1[i];
@@ -969,15 +804,7 @@
         "B": "#0ff9"
     };
     function start(){
-        
-        // createTails(3,s.canvas.w2,s.canvas.h2,"#fff",[.89,.81,.72]);
-        // createTail(3,s.canvas.w2,s.canvas.h2,"#fff",.89);
-        // createTailsXYr(3,s.canvas.w2,s.canvas.h2,50,"#fff",[.95,.89,.84]);
-        // createTailXYr(3,s.canvas.w2,s.canvas.h2,50,"#fff",.89);
-        // createTailsXYr(3,s.canvas.w2,s.canvas.h2,50,"#0000",[.92,.89,.87]);
-        createTail(1,s.canvas.w2,s.canvas.h2,"#0000",.89);
-        // createTailsXYr(3,s.canvas.w2,s.canvas.h2,50,"#ffff",[.89,.85,.81]);
-
+        // createTail(1,s.canvas.w2,s.canvas.h2,"#fff");
         let keys = Object.keys(gs);
         keys.forEach(k=>{
             pg[k] = [];
@@ -999,7 +826,7 @@
     var currentRule = "ab";
     // var currentRule = "unk";
     // var currentRule = "cell-a";
-    // var currentRule = "rs-7";
+    // var currentRule = "rs-3";
     const rules1 = {
         "ab": [
             {"a": "G", "b": "G", "g": 0.5, "r": 50},
@@ -1211,35 +1038,13 @@
             {"a":"W","b":"W","g":-0.3848,"r":87.47},
             {"a":"B","b":"B","g":0.897,"r":9.37},
             {"a":"B","b":"B","g":-0.5211,"r":100.88}],
-        "rule-13": [
-            {"a":"G","b":"R","g":-0.425,"r":251.64},
-            {"a":"G","b":"W","g":0.353,"r":51.01},
-            {"a":"G","b":"B","g":-0.0603,"r":48.5},
-            {"a":"R","b":"G","g":0.6258,"r":238.11},
-            {"a":"R","b":"W","g":-0.7125,"r":0.01},
-            {"a":"R","b":"B","g":-0.4967,"r":19.92},
-            {"a":"W","b":"G","g":0.4929,"r":28.12},
-            {"a":"W","b":"R","g":-0.5866,"r":0.6},
-            {"a":"W","b":"B","g":0.8018,"r":43.47},
-            {"a":"B","b":"G","g":-0.1966,"r":210.22},
-            {"a":"B","b":"R","g":-0.0644,"r":0.03},
-            {"a":"B","b":"W","g":0.0811,"r":224.12},
-            {"a":"G","b":"G","g":0.7616,"r":53.39},
-            {"a":"G","b":"G","g":-0.5537,"r":135.64},
-            {"a":"R","b":"R","g":0.4574,"r":25.85},
-            {"a":"R","b":"R","g":-0.1046,"r":41.57},
-            {"a":"W","b":"W","g":0.0653,"r":8.85},
-            {"a":"W","b":"W","g":-0.5361,"r":104.43},
-            {"a":"B","b":"B","g":0.514,"r":67.68},
-            {"a":"B","b":"B","g":-0.076,"r":63.55}
-        ],
     }
     const rules = {
         "ab": [
-            {"a": "G", "b": "G", "g": 0.05, "r": 30},
-            {"a": "R", "b": "R", "g": 0.05, "r": 30},
-            {"a": "W", "b": "W", "g": 0.05, "r": 30},
-            {"a": "B", "b": "B", "g": 0.05, "r": 30},
+            {"a": "G", "b": "G", "g": 0.15, "r": 30},
+            {"a": "R", "b": "R", "g": 0.15, "r": 30},
+            {"a": "W", "b": "W", "g": 0.15, "r": 30},
+            {"a": "B", "b": "B", "g": 0.15, "r": 30},
         ],
         "unk": [
             {"a":"G","b":"R","g":-0.0987,"r":222.41},
@@ -1459,28 +1264,6 @@
             {"a":"W","b":"W","g":-0.3848,"r":87.47},
             {"a":"B","b":"B","g":0.897,"r":9.37},
             {"a":"B","b":"B","g":-0.5211,"r":100.88}],
-        "rs-7": [
-            {"a":"G","b":"R","g":-0.425,"r":251.64},
-            {"a":"G","b":"W","g":0.353,"r":51.01},
-            {"a":"G","b":"B","g":-0.0603,"r":48.5},
-            {"a":"R","b":"G","g":0.6258,"r":238.11},
-            {"a":"R","b":"W","g":-0.7125,"r":0.01},
-            {"a":"R","b":"B","g":-0.4967,"r":19.92},
-            {"a":"W","b":"G","g":0.4929,"r":28.12},
-            {"a":"W","b":"R","g":-0.5866,"r":0.6},
-            {"a":"W","b":"B","g":0.8018,"r":43.47},
-            {"a":"B","b":"G","g":-0.1966,"r":210.22},
-            {"a":"B","b":"R","g":-0.0644,"r":0.03},
-            {"a":"B","b":"W","g":0.0811,"r":224.12},
-            {"a":"G","b":"G","g":0.7616,"r":53.39},
-            {"a":"G","b":"G","g":-0.5537,"r":135.64},
-            {"a":"R","b":"R","g":0.4574,"r":25.85},
-            {"a":"R","b":"R","g":-0.1046,"r":41.57},
-            {"a":"W","b":"W","g":0.0653,"r":8.85},
-            {"a":"W","b":"W","g":-0.5361,"r":104.43},
-            {"a":"B","b":"B","g":0.514,"r":67.68},
-            {"a":"B","b":"B","g":-0.076,"r":63.55}
-        ],
     };
     const rules0 = {
         "ab": [
@@ -1492,22 +1275,18 @@
     }
     function update(){
         if(!s.q && !s.pause){
-            // rules[currentRule].forEach(e => {
-            //     pr["rule"](pg[e.a], pg[e.b], e.g, e.r);
-            // });
+            rules[currentRule].forEach(e => {
+                pr["rule"](pg[e.a], pg[e.b], e.g, e.r);
+            });
 
-            
-            // /* wind-nds-05 */
-            pr["rule2"](particles, particles, .05, 10);
-            pr["walls"](particles, .5, 5);
+            // pr["rule"](particles, particles, .15, 20);
             pr["walls"](particles, .25, 10);
-            pr["walls"](particles, .125, 20);
+            pr["mouse"](particles, .75, 75);
+            // pr["space"](particles, .25, 5);
 
-            pr["wind"](particles, tail, 2, 150);
-            pr["mouse"](tail, -1, 700);
-            pr["mouse-slow"](tail, -.5, 20);
-
-
+            // pr["rule"](particles, tail, 0.25, 50);
+            // pr["mouse"](tail, -.75, 700);
+            
             // rule_safe(pg["p"]);
             /* ─Rest of Update()─ */
             clearCanvas();
@@ -1515,7 +1294,7 @@
                 draw_e(ctx,particles[i]);
             }
             // for(let i = 0; i<tail.length; i++){
-            //     draw_e(ctx,tail[i]);
+            //     draw_e(ctx,particles[i]);
             // }
         }
         setTimeout(() => {
