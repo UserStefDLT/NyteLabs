@@ -124,7 +124,9 @@ header > .subtitle {
     transition: 
     transform 200ms ease-in-out 2000s,
     box-shadow 500ms ease-in-out 2200s; 
+    user-select: none;
 }
+
 
 a:link { color: white; text-decoration: none;}
 a:hover { text-decoration: underline; }
