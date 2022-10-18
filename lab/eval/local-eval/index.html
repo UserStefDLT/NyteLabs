@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Grid Eval | NyteLabs</title>
+    <title>Local Eval | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     
@@ -180,7 +180,7 @@
 <header>
     <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
     <div class="title">Nytelabs</div>
-    <div class="subtitle">Grid Eval</div>
+    <div class="subtitle">Local Eval</div>
 </header>
 
 <input type="radio" name="input-tab" id="html-tab" checked>
@@ -252,7 +252,8 @@
 <div class="name-end">by St&eacute;fano.</div>
 <!-- <script src="main.js"></script> -->
 <script>
-    // var sample = `<button style="\nbackground-color: hsla(210,100%,60%,1); \ncolor: white;\n" class="btn">Sample</button>`;
+
+// var sample = `<button style="\nbackground-color: hsla(210,100%,60%,1); \ncolor: white;\n" class="btn">Sample</button>`;
 //     var sample = `<style>
 // .btn {background-color: hsla(calc(var(--i) * 60), 100%, 60%, 1);}
 // </style>
@@ -409,13 +410,75 @@ ${htmlInput.value}
     // });
     window.addEventListener('load', (ev) => {
         console.log(`Welcome to my Lab!`);
+        Load_All_LocalStorage();
     });
     /* Version-log:
-    [index-nds-01]: works.
-    [index-nds-02]: main flex direction row.
-    [index-nds-03]: fix the grid dimension inputs to tell the user what they are.
-                    allow for hiding buttons and options.
+    [index-nds-00]: copy from grid-eval.
+    [index-nds-01]: 
+    [index-nds-02]: 
+    [index-nds-03]: 
     */
+
+var slotKeys = [];
+const sloc = {
+    keys: ["preferences", "saves"],
+    preferences: {},
+    saves: {},
+
+};
+function Load_All_LocalStorage() {
+    let keys = sloc.keys;
+    sloc.keys.forEach(key => {
+        if(localStorage.getItem(key)){
+            sloc[key] = JSON.parse(localStorage.getItem(key));
+        }
+    });
+}
+function Update_All_LocalStorage() {
+    let keys = sloc.keys;
+    sloc.keys.forEach(key => {
+        if(sloc[key]){
+            localStorage.setItem(key, JSON.stringify(sloc[key]));
+        }
+    });
+}
+
+function Load_All_SlotKeys() {
+    // let key = "saves";
+    // if(localStorage.getItem('saves')){
+    //     slotKeys = Object.keys(JSON.parse(localStorage.getItem('saves')));
+    // }
+    
+    slotKeys = Object.keys(sloc.saves);
+    console.log(slotKeys);
+}
+
+function SaveToLocalStorage(slot) {
+    let keys = sloc.keys;
+    sloc.keys.forEach(key => {
+        if(sloc[key]){
+            localStorage.setItem(key, JSON.stringify(sloc[key]));
+        }
+    });
+}
+function SaveCurrent(name=""){
+    // let allInput = document.getElementById('all-input');
+    let htmlInput = document.getElementById('html-input');
+    let cssInput = document.getElementById('css-input');
+    
+    let saveName = name;
+    if(name==""){
+        saveName = `slot-${Object.keys(sloc.saves).length}`;
+    }
+    // sloc.saves[saveName] = {html: '', css: ''};
+    // sloc.saves[saveName]['html'] = htmlInput.value;
+    // sloc.saves[saveName]['css'] = cssInput.value;
+
+}
+
+
+
+
 </script>
 </body>
 </html>

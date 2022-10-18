@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Graph Curve | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <link rel="stylesheet" href="../../../stylesheets/canvas.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        /* :root {} */
+        header {backdrop-filter: initial;}
+        #canvas-grid {background-color: #000;}
+        #canvas-draw {background-color: #0000;}
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/settings2.css">
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">NyteLabs</h1>
+        <div class="subtitle">Graph Curve</div>
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+
+<main>
+    <!-- <div class="shelf">
+        <h3 class="shelf-title">experiment</h3>
+        <div id="display"></div>
+        <div class="x"></div>
+    </div> -->
+    <canvas id="canvas-grid"></canvas>
+    <canvas id="canvas-draw"></canvas>
+</main>
+
+<!-- <div class="options">
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        touch: {
+            x: 0,
+            y: 0,
+            z: 0,
+            paths: {},
+            path_len: 20,
+            tracking: false
+        },
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            path: [],
+            path_len: 20,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            sz: 20,
+            sz2: 10,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            padding: 0,
+            brush: "p",
+        },
+        box: {
+            x: 500,
+            y: 500,
+            z: 500,
+            x2: 250,
+            y2: 250,
+            z2: 250,
+            d: 1000,
+            p: 1000,
+        },
+
+        timeOut: 10,
+        player: false,
+        
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+    const particles = [];
+    const pg = {}
+
+</script>
+<script src="../../../scripts/settings.js"></script>
+<script>
+    const layers = ["canvas-grid", "canvas-draw"];
+    const canvas = {};
+    const ctx = {};
+    layers.forEach(key => {
+        canvas[key] = document.getElementById(key);
+        ctx[key] = canvas[key].getContext('2d');
+        canvas[key].width = window.innerWidth;
+        canvas[key].height = window.innerHeight;
+    });
+    // const canvas = document.getElementById('canvas');
+    // const ctx = canvas.getContext('2d');
+    // canvas.width = window.innerWidth;
+    // canvas.height = window.innerHeight;
+
+    function DrawXY(ctx, space = 100){
+        for (let y = (s.canvas.y2 % space); y < s.canvas.y; y+=space) {
+            // let ys = y - s.canvas.y2;
+            // let ys = ((y - s.canvas.y2) / 100).toFixed(1);
+            let ys = Math.round((y - s.canvas.y2) / 100);
+            DrawText(ctx,ys,{'x': s.canvas.x2, 'y': y})
+        }
+        for (let x = (s.canvas.x2 % space); x < s.canvas.x; x+=space) {
+            let xs = Math.round((x - s.canvas.x2) / 100);
+            DrawText(ctx,xs,{'x': x, 'y': s.canvas.y2})
+        }
+    }
+    function DrawText(ctx, text, xy = {'x':0,'y':0}, fontSize = 16, color = '#fff3'){        
+        ctx.font = `${fontSize}px serif`;
+        // ctx.textBaseline = "middle";
+        // ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+        ctx.textAlign = "right";
+
+        let padding = 2;
+        let x = xy.x + padding * -1;
+        let y = xy.y + padding;
+
+        ctx.fillStyle = color;
+        ctx.fillText(text, x, y);
+    }
+    function DrawGridPlane(ctx, space = 100){
+        // draw grid lines
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#222';
+
+        ctx.beginPath();
+        for (let y = (s.canvas.y2 % space); y < s.canvas.y; y+=space) {
+            ctx.moveTo(0, y);
+            ctx.lineTo(s.w, y);
+        }
+        for (let x = (s.canvas.x2 % space); x < s.canvas.x; x+=space) {
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, s.h);
+        }
+        ctx.stroke();
+
+        // draw grid center lines
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#999';
+        ctx.beginPath();
+        ctx.moveTo(0, s.canvas.y2);
+        ctx.lineTo(s.w, s.canvas.y2);
+        ctx.moveTo(s.canvas.x2, 0);
+        ctx.lineTo(s.canvas.x2, s.h);
+        ctx.stroke();
+
+
+    }
+    function DrawPlane(ctx, space = 100){
+        let colCount = s.canvas.w / space;
+        let rowCount = s.canvas.h / space;
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#222';
+        ctx.beginPath();
+        for (let y = 0; y < s.canvas.y2; y+=space) {
+            let y1 = s.canvas.y2 + y * -1;
+            ctx.moveTo(0, y1);
+            ctx.lineTo(s.w, y1);
+            let y2 = s.canvas.y2 + y;
+            ctx.moveTo(0, y2);
+            ctx.lineTo(s.w, y2);
+        }
+        for (let x = 0; x < s.canvas.x2; x+=space) {
+            let x1 = s.canvas.x2 + x * -1;
+            ctx.moveTo(x1, 0);
+            ctx.lineTo(x1, s.h);
+            let x2 = s.canvas.x2 + x;
+            ctx.moveTo(x2, 0);
+            ctx.lineTo(x2, s.h);
+        }
+        ctx.stroke();
+
+        for (let y = 0; y < rowCount; y++) {
+            for (let x = 0; x < colCount; x++) {
+                // let ys = (y*space)+47.5;
+                // let xs = (x*space)+50;
+                let ys = (y*space) + 57.5;
+                let xs = (x*space) + 24;
+                let xt = x - Math.round(colCount/2)
+                let yt = y - Math.round(rowCount/2)
+                let text = `(${xt},${yt})`;
+                DrawTileText(ctx, text, {'x':xs,'y':ys}, hsla = {}, fontSize = 16, color = '#fff9', size = 1, fill = true)
+            }
+        }
+        // for (let y = 0; y < s.canvas.y2; y+=space) {
+        //     for (let x = 0; x < s.canvas.x2; x+=space) {
+        //         let mm = space/2;
+        //         let ys = Math.floor(y / space);
+        //         let xs = Math.floor(x / space);
+        //         let yid = y + mm;
+        //         let xid = x + mm;
+        //         let text = `(${xs},${ys})`;
+        //         DrawTileText(ctx, text, {'x':xid,'y':yid}, hsla = {}, fontSize = 16, color = '#fff9', size = 1, fill = true)
+
+        //         let text1 = `(${xs*-1},${ys*-1})`;
+        //         DrawTileText(ctx, text1, {'x':xid1,'y':yid1}, hsla = {}, fontSize = 16, color = '#fff9', size = 1, fill = true)
+        //     }
+        // }
+        // for (let y = (s.canvas.y2*-1); y < s.canvas.y2; y+=space) {
+        //     for (let x = (s.canvas.x2*-1); x < s.canvas.x2; x+=space) {
+
+        //         let mm = space/2;
+        //         let ys = y + mm + s.canvas.y2;
+        //         let xs = x + mm + s.canvas.x2;
+        //         let text = `(${x},${y})`;
+        //         DrawTileText(ctx, text, {'x':xs,'y':ys}, hsla = {}, fontSize = 16, color = '#fff9', size = 1, fill = true)
+
+        //         // let y2 = s.canvas.y2 + mm + (y * -1);
+        //         // let x2 = s.canvas.x2 + mm + (x * -1);
+        //         // let text2 = `(${x*-1},${y*-1})`;
+        //         // DrawTileText(ctx, text2, {'x':x2,'y':y2}, hsla = {}, fontSize = 16, color = '#fff9', size = 1, fill = true)
+        //     }
+        // }
+    }
+    function DrawGrid(ctx, space = 100){
+        let colCount = s.canvas.w / space;
+        let rowCount = s.canvas.h / space;
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#222';
+        ctx.beginPath();
+        for (let y = 0; y < rowCount; y++) {
+            let ys = y*space;
+
+            ctx.moveTo(0, ys);
+            ctx.lineTo(s.w, ys);
+        }
+        for (let x = 0; x < colCount; x++) {
+            let xs = x*space;
+
+            ctx.moveTo(xs, 0);
+            ctx.lineTo(xs, s.h);
+        }
+        ctx.stroke();
+
+        for (let y = 0; y < rowCount; y++) {
+            for (let x = 0; x < colCount; x++) {
+                let ys = (y*space)+50;
+                let xs = (x*space)+50;
+                let text = `(${x},${y})`;
+                DrawTileText(ctx, text, {'x':xs,'y':ys}, hsla = {}, fontSize = 16, color = '#fff9', size = 1, fill = true)
+            }
+        }
+    }
+    function DrawTileText(ctx, text, yx = {'x':0,'y':0}, hsla = {}, fontSize = 16, color = '', size = 1, fill = true){
+        let colorStyle = '#0000';
+        let colorStyle_stroke = '#ffff';
+        let colorStyle_fill = '#fff3';
+
+        if(Object.keys(hsla).length > 0){
+            colorStyle = `hsla(${hsla.h}, ${hsla.s}%, ${hsla.l}%, ${hsla.a})`;
+            colorStyle_stroke = `hsla(${hsla.h}, ${hsla.s}%, ${hsla.l}%, 1)`;
+            colorStyle_fill = `hsla(${hsla.h}, ${hsla.s}%, 10%, 1)`;
+        }
+        if(color != '') {
+            colorStyle = color;
+            colorStyle_stroke = color;
+            colorStyle_fill = color;
+        }
+        
+        ctx.font = `${fontSize}px serif`;
+        ctx.textBaseline = "middle";
+        ctx.textAlign = "center";
+
+        let padding = 2;
+        let x = yx.x + padding;
+        let y = yx.y + padding;
+
+        if(fill){
+            ctx.fillStyle = colorStyle_stroke;
+            ctx.fillText(text, x, y);
+        } else {
+            ctx.strokeStyle = colorStyle_stroke;
+            ctx.strokeText(text, x, y);
+        }
+        // console.log(` ─────────────── `);
+    }
+
+    const apaths = [];
+    const apath = [];
+    function fun(y, x){
+        return Math.cos(Math.PI * x / 200) * y;
+    }
+    function DrawCos(ctx){
+        let path = [];
+        let step = 5;
+        for(let x = 0; x < s.w; x+=step){
+            let y = fun(100, x) + s.canvas.y2;
+            let hue = x%360;
+            path.push({"x": x, "y": y, "color": `hsla(${hue}, 100%, 60%, .75)`, "size": 10});
+        }
+        // draw_path(ctx,path,"#fff",5);
+        draw_path(ctx,path,"#fff9",1);
+        draw_path3(ctx,path);
+    }
+    function DrawCos1(ctx,xs=0,ys=0){
+        let path = [];
+        let step = 5;
+        for(let x = 0; x < s.w; x+=step){
+            let y = fun(100, x + xs) + s.canvas.y2 + ys;
+            let hue = x%360;
+            path.push({"x": x, "y": y, "color": `hsla(${hue}, 100%, 60%, .75)`, "size": 10});
+        }
+        draw_path(ctx,path,"#fff9",1);
+    }
+    function DrawCos2(ctx,xs=0,ys=0,amp=100){
+        let path = [];
+        let step = 5;
+        for(let x = 0; x < s.w; x+=step){
+            let y = fun(amp, x + xs) + s.canvas.y2 + ys;
+            let hue = x%360;
+            // let lum = (y/s.h) * 50 + 20;
+            let lum = 70 - (y/s.h) * 50;
+            let color = `hsla(${hue}, 100%, ${lum}%, .75)`;
+            path.push({"x": x, "y": y, "color": color, "size": 10});
+        }
+        draw_path(ctx,path,"#fff9",1);
+    }
+    function DefCos(ctx,xs=0,ys=0,amp=100){
+        let path = [];
+        let step = 5;
+        for(let x = 0; x < s.w; x+=step){
+            // let y = fun(amp, x + xs) + s.canvas.y2 + ys;
+            let y = fun(amp, x + xs) + ys;
+            let hue = x%360;
+            // let lum = (y/s.h) * 50 + 20;
+            // let lum = 70 - (y/s.h) * 50;
+            // let color = `hsla(${hue}, 100%, ${lum}%, .75)`;
+            let color = `hsla(${hue}, 100%, 60%, .75)`;
+            path.push({"x": x, "y": y, "color": color, "size": 10});
+        }
+        apaths.push(path);
+    }
+    function DrawApath(ctx,color=""){
+        let path = [];
+        apaths.forEach(pv => {
+            for (let i = 0; i < pv.length; i++) {
+                const dot = pv[i];
+                if(path.length < i+1) {path.push({"x":dot.x, "y":0, "size": 10})};
+                if(apath.length < i+1) {apath.push({"x":dot.x, "y":0, "size": 10})};
+                // path[i].x += dot.x;
+                path[i].y += dot.y;
+                apath[i].y += dot.y;
+            }
+        });
+
+        if(color==""){color = "#fffc";}
+        draw_wave(ctx,path,color,1);
+        // draw_wave(ctx,path,"#3f9c",1);
+        // draw_wave(ctx,path,"#fff",1);
+        // draw_path(ctx,path,"#fff",3);
+        // draw_path(ctx,path,"#fff9",1);
+        // draw_path3(ctx,path);
+        // draw_path4(ctx,apath);
+    }
+
+    function DrawDefWave(ctx,xs=0,ys=0,amp=100,color=""){
+        let path = [];
+        let step = 5;
+        for(let x = 0; x < s.w; x+=step){
+            // let y = fun(amp, x + xs) + s.canvas.y2 + ys;
+            let y = fun(amp, x + xs) + ys;
+            if(color == ''){
+                let hue = x%360;
+                color = `hsla(${hue}, 100%, 60%, .75)`;
+                // let lum = (y/s.h) * 50 + 20;
+                // let lum = 70 - (y/s.h) * 50;
+                // let color = `hsla(${hue}, 100%, ${lum}%, .75)`;
+            }
+            path.push({"x": x, "y": y, "color": color, "size": 10});
+        }
+        // draw_wave(ctx,path,"#fff9",1);
+        draw_wave(ctx,path,color,1);
+        apaths.push(path);
+    }
+
+    /* ─── Drawing (view) ─── */
+    function draw_wave(ctx,path,color,size){
+        if(path.length > 0){
+            ctx.strokeStyle = color;
+            ctx.lineWidth = size;
+            ctx.lineJoin = "round";
+            ctx.beginPath();
+            ctx.moveTo(path[0].x, path[0].y+s.canvas.y2);
+            for (let i = 1; i < path.length; i++) {
+                ctx.lineTo(path[i].x, path[i].y+s.canvas.y2);
+            }
+            ctx.stroke();
+        }
+    }
+    function draw_path4(ctx,path){
+        if(path.length > 0){
+            for (let i = 1; i < path.length; i++) {
+                const e = path[i];
+                let y = e.y + s.canvas.y2;
+                let hue = e.x%360;
+                // let lum = (y/s.h) * 50 + 20;
+                let lum = 70 - (y/s.h) * 50;
+                let color = `hsla(${hue}, 100%, ${lum}%, .5)`;
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(e.x, y, e.size/2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+    }
+    function draw_path3(ctx,path){
+        if(path.length > 0){
+            // ctx.moveTo(path[0].x, path[0].y);
+            for (let i = 1; i < path.length; i++) {
+                const e = path[i];
+                ctx.fillStyle = e.color;
+                ctx.beginPath();
+                ctx.arc(e.x, e.y, e.size/2, 0, Math.PI * 2);
+                ctx.fill();
+                // const e1 = path[i-1];
+                // ctx.lineJoin = "round";
+                // ctx.beginPath();
+                // ctx.moveTo(e1.x, e1.y);
+                // ctx.strokeStyle = e.color;
+                // ctx.lineWidth = e.size;
+                // ctx.lineTo(e.x, e.y);
+                // ctx.stroke();
+            }
+        }
+    }
+    function draw_path2(ctx,path){
+        if(path.length > 0){
+            // ctx.moveTo(path[0].x, path[0].y);
+            for (let i = 1; i < path.length; i++) {
+                const e1 = path[i-1];
+                const e = path[i];
+                ctx.lineJoin = "round";
+                ctx.beginPath();
+                ctx.moveTo(e1.x, e1.y);
+                ctx.strokeStyle = e.color;
+                ctx.lineWidth = e.size;
+                ctx.lineTo(e.x, e.y);
+                ctx.stroke();
+            }
+        }
+    }
+    function draw_path(ctx,path,color,size){
+        if(path.length > 0){
+            ctx.strokeStyle = color;
+            ctx.lineWidth = size;
+            ctx.lineJoin = "round";
+            ctx.beginPath();
+            ctx.moveTo(path[0].x, path[0].y);
+            for (let i = 1; i < path.length; i++) {
+                ctx.lineTo(path[i].x, path[i].y);
+            }
+            ctx.stroke();
+        }
+    }
+
+    /* ─── Particle (model) ─── */
+    class p {
+        constructor(ctx, id=-1,type="p",x=0,y=0,z=0,color="#8889"){
+            this.ctx = ctx;
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.vx = 0;
+            this.vy = 0;
+            this.vz = 0;
+
+            this.size = 5;
+            this.color = color;
+        }
+        draw(){
+            this.ctx.fillStyle = this.color;
+            this.ctx.beginPath();
+            this.ctx.arc(this.x, this.y, this.size/2, 0, Math.PI * 2);
+            this.ctx.fill();
+        }
+    }
+    
+    /* ─── Create (model) ─── */
+    function create(n,type="none",color="#8889"){
+        for(let i = 0; i < n; i++){
+            let xy = randomXY();
+            let np = new p(particles.length,type,xy.x,xy.y,0,color);
+            pg[type].push(np);
+            particles.push(np);
+        }
+    }
+
+    /* ─── Rules (control) ─── */
+    const pr = {}
+
+    /* ─── Start and Update ─── */
+    function start(){
+
+        // Code goes here.
+        clearCanvas();
+        DrawGridPlane(ctx["canvas-grid"]);
+        DrawCos(ctx["canvas-draw"]);
+
+    }
+    function update(){
+        if(!s.q && !s.pause){
+
+            // Code goes here.
+
+        }
+        setTimeout(() => {
+            requestAnimationFrame(update);
+        }, s.timeOut)
+    }
+    function clearCanvas(ctx, bg="#0000"){
+        ctx.clearRect(0,0,s.w,s.h);
+        ctx.fillStyle = bg;
+        ctx.fillRect(0,0,s.w,s.h);
+    }
+    function reset(){
+
+        // Code goes here.
+        clearCanvas(ctx["canvas-grid"],"#000");
+        DrawGridPlane(ctx["canvas-grid"]);
+        DrawXY(ctx["canvas-grid"]);
+
+        clearCanvas(ctx["canvas-draw"]);
+        // DrawCos(ctx["canvas-draw"]);
+        // DrawCos1(ctx["canvas-draw"],0,0);
+        // DrawCos1(ctx["canvas-draw"],50,0);
+
+        // // DrawCos2(ctx["canvas-draw"],0,0,100);
+        // DrawCos2(ctx["canvas-draw"],50,0,50);
+        // DrawCos2(ctx["canvas-draw"],100,0,-50);
+
+        // // DefCos(ctx["canvas-draw"],0,0,100);
+        // DefCos(ctx["canvas-draw"],50,0,50);
+        // DefCos(ctx["canvas-draw"],100,0,-50);
+        // DrawApath(ctx["canvas-draw"]);
+        
+        DrawDefWave(ctx["canvas-draw"],0,0,100,'hsla(0,100%,50%,.32)');
+        DrawDefWave(ctx["canvas-draw"],50,0,50,'hsla(30,100%,50%,.32)');
+        DrawDefWave(ctx["canvas-draw"],-50,0,50,'hsla(60,100%,50%,.32)');
+        // DrawDefWave(ctx["canvas-draw"],200,0,100,'hsla(90,100%,50%,.32)');
+        DrawApath(ctx["canvas-draw"]);
+    }
+
+
+    /* ─── Events ─── */
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        s.canvas.z = (s.h + s.w)/2;
+
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
+
+        /* ─ Box ─ */
+        /* resize box for mobile */
+        if(s.h < s.box.y) {s.box.y = s.h;}
+        if(s.w < s.box.x) {s.box.x = s.w;}
+        s.box.z = (s.box.y + s.box.x)/2;
+
+        /* center box */
+        s.box.top = (s.h - s.box.y)/2;
+        s.box.left = (s.w - s.box.x)/2;
+
+        /* determine center */
+        s.box.x2 = s.box.left + (s.box.x / 2);
+        s.box.y2 = s.box.top + (s.box.y / 2);
+        s.box.z2 = (s.box.z / 2);
+
+        /* ─ Grid ─ */
+        s.grid.cols = Math.floor(s.w / s.tile.w);
+        s.grid.rows = Math.floor(s.h / s.tile.h);
+
+        /* ─ Canvas Update ─ */
+        // canvas.width = s.canvas.x;
+        // canvas.height = s.canvas.y;
+        // ctx.clearRect(0,0,canvas.width, canvas.height);
+        layers.forEach(key => {
+            canvas[key].width = window.innerWidth;
+            canvas[key].height = window.innerHeight;
+            ctx[key].clearRect(0,0,canvas[key].width, canvas[key].height);
+        });
+        // // DrawPlane(ctx["canvas-grid"]);
+        // DrawGridPlane(ctx["canvas-grid"]);
+        // DrawCos(ctx["canvas-draw"]);
+        reset();
+    }
+    window.addEventListener('resize', () =>{
+        updateSettings();
+    });
+    
+    // window.addEventListener('click', (ev) => {
+    //     let px = ev.pageX;
+    //     let py = ev.pageY;
+    //     let x = Math.floor(px / s.tile.w);
+    //     let y = Math.floor(py / s.tile.h);
+    //     console.log(`(${px},${py}) → tile-x: ${x}, tile-y: ${y}`);
+    // });
+    // window.addEventListener('mousemove', (ev) =>{
+    //     if(s.mouse.tracking){
+    //         if(!s.q && !s.pause){
+    //             s.mouse.x = ev.clientX;
+    //             s.mouse.y = ev.clientY;
+    //         }
+    //     }
+    // });
+
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        updateSettings();
+
+        // DrawGrid(ctx["canvas-grid"]);
+        // DrawPlane(ctx["canvas-grid"]);
+        // DrawGridPlane(ctx["canvas-grid"]);
+        // DrawCos(ctx["canvas-draw"]);
+        // start();
+        // update();
+    });
+    /* Version Log:
+    [index-nds-00]: Default Canvas Template.
+    [index-nds-01]: 
+    [index-nds-02]: 
+    [index-nds-03]: 
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
+    [index-nds-07]: 
+    [index-nds-08]: 
+    [index-nds-09]: 
+    [index-nds-10]: 
+    [index-nds-11]: 
+    [index-nds-12]: 
+    
+    */
+    function CSSAngleToXY(angle){
+        angle = (angle+270)%360;
+        let rad = angle * Math.PI / 180;
+        let xy = {"x":0,"y":0};
+        if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+        if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+        return xy;
+    }
+    function XYtoCSSAngle(x,y){
+        let angle = 90;
+        if(x == 0){
+            if(y > 0) {return 180;}
+            if(y < 0) {return 0;}
+        }
+        if(x < 0) { angle += 180; }
+        if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
+        return angle;
+    }
+
+    function randomXYZ(){
+        let x = Math.random()*s.canvas.x;
+        let y = Math.random()*s.canvas.y;
+        let z = Math.random()*s.canvas.z;
+        return {'x':x, 'y':y, 'z':z};
+    }
+    function randomXY(){
+        let x = Math.random()*s.canvas.x;
+        let y = Math.random()*s.canvas.y;
+        return {'x':x, 'y':y};
+    }
+
+</script>
+</body>
+</html>

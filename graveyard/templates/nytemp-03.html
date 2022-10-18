@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Canvas_Template | NyteLabs</title>
+    <title>NyteLabs_Template | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/canvas.css">
@@ -15,7 +15,7 @@
             top: 50%; left: 50%;
             transform: translateX(-50%) translateY(-50%);
         } */
-        :root {}
+        /* :root {} */
     </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
     <link rel="stylesheet" href="../../../stylesheets/end.css">
@@ -24,7 +24,7 @@
     <header>
         <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
         <h1 class="title">NyteLabs</h1>
-        <!-- <div class="subtitle">Canvas Template</div> -->
+        <!-- <div class="subtitle">NyteLabs_Template</div> -->
     </header>
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
@@ -36,7 +36,7 @@
         <div id="display"></div>
         <div class="x"></div>
     </div> -->
-    <canvas id="canvas"></canvas>
+    <!-- <canvas id="canvas"></canvas> -->
 </main>
 
 <!-- <div class="options">
@@ -59,16 +59,27 @@
         h: window.innerHeight,
         w: window.innerWidth,
 
+        touch: {
+            x: 0,
+            y: 0,
+            z: 0,
+            paths: {},
+            path_len: 20,
+            tracking: false
+        },
         mouse: {
             x: 0,
             y: 0,
             z: 0,
             path: [],
+            path_len: 20,
             tracking: false
         },
         tile: {
             h: 20,
             w: 20,
+            sz: 20,
+            sz2: 10,
             margin: 16,
             fill: 0
         },
@@ -82,19 +93,23 @@
         canvas: {
             h: window.innerHeight,
             w: window.innerWidth,
+            padding: 0,
+            brush: "p",
         },
         box: {
             x: 500,
             y: 500,
             z: 500,
+            x2: 250,
+            y2: 250,
             z2: 250,
             d: 1000,
+            p: 1000,
         },
-        
+
         timeOut: 10,
-
         player: false,
-
+        
         s: false,
         steps: false,
         tags: false,
@@ -105,14 +120,19 @@
     }
     const particles = [];
     const pg = {}
+
 </script>
 <script src="../../../scripts/settings.js"></script>
 <script>
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // const canvas = document.getElementById('canvas');
+    // const ctx = canvas.getContext('2d');
+    // canvas.width = window.innerWidth;
+    // canvas.height = window.innerHeight;
 
+    /* ─── Drawing (view) ─── */
+
+
+    /* ─── Particle (model) ─── */
     class p {
         constructor(id=-1,type="p",x=0,y=0,z=0,color="#8889"){
             this.id = id;
@@ -134,6 +154,8 @@
             ctx.fill();
         }
     }
+    
+    /* ─── Create (model) ─── */
     function create(n,type="none",color="#8889"){
         for(let i = 0; i < n; i++){
             let xy = randomXY();
@@ -142,23 +164,21 @@
             particles.push(np);
         }
     }
-    
+
+    /* ─── Rules (control) ─── */
+    const pr = {}
+
+    /* ─── Start and Update ─── */
     function start(){
-        create(10,"p","#fff");
+
+        // Code goes here.
+
     }
     function update(){
         if(!s.q && !s.pause){
-            /* ─ Calculate Part ─ */
-            // rules[currentRule].forEach(e => {
-            //     pr[currentFunction](pg[e.a], pg[e.b], e.g, e.r);
-            // });
 
+            // Code goes here.
 
-            /* ─ Draw Part ─ */
-            // clearCanvas();
-            // for(let i = 0; i<particles.length; i++){
-            //     draw_z(ctx,particles[i]);
-            // }
         }
         setTimeout(() => {
             requestAnimationFrame(update);
@@ -166,42 +186,55 @@
     }
 
 
-    function clearCanvas(){
-        ctx.clearRect(0,0,s.w,s.h);
-        ctx.fillStyle = "#000";
-        ctx.fillRect(0,0,s.w,s.h);
-    }
-
     /* ─── Events ─── */
     function updateSettings(){
         s.h = window.innerHeight;
         s.w = window.innerWidth;
-        
-        s.box.x = window.innerWidth;
-        s.box.y = window.innerHeight;
-        s.box.z = (s.h + s.w)/2;
-        // s.box.z = (s.h + s.w)/4;
-        s.box.x2 = s.w/2;
-        s.box.y2 = s.h/2;
-        s.box.z2 = s.box.z/2;
-
         s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
 
-        if(s.h < s.canvas.h) {s.canvas.h = s.h;}
-        if(s.w < s.canvas.w) {s.canvas.w = s.w;}
-        s.canvas.top = (s.h - s.canvas.h)/2;
-        s.canvas.left = (s.w - s.canvas.w)/2;
-        s.canvas.h2 = s.canvas.top + (s.canvas.h / 2);
-        s.canvas.w2 = s.canvas.left + (s.canvas.w / 2);
-        canvas.width = s.w;
-        canvas.height = s.h;
-        ctx.clearRect(0,0,canvas.width, canvas.height);
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        s.canvas.z = (s.h + s.w)/2;
+
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
+
+        /* ─ Box ─ */
+        /* resize box for mobile */
+        if(s.h < s.box.y) {s.box.y = s.h;}
+        if(s.w < s.box.x) {s.box.x = s.w;}
+        s.box.z = (s.box.y + s.box.x)/2;
+
+        /* center box */
+        s.box.top = (s.h - s.box.y)/2;
+        s.box.left = (s.w - s.box.x)/2;
+
+        /* determine center */
+        s.box.x2 = s.box.left + (s.box.x / 2);
+        s.box.y2 = s.box.top + (s.box.y / 2);
+        s.box.z2 = (s.box.z / 2);
+
+        /* ─ Grid ─ */
+        s.grid.cols = Math.floor(s.w / s.tile.w);
+        s.grid.rows = Math.floor(s.h / s.tile.h);
+
+        /* ─ Canvas Update ─ */
+        // canvas.width = s.canvas.x;
+        // canvas.height = s.canvas.y;
+        // ctx.clearRect(0,0,canvas.width, canvas.height);
     }
     window.addEventListener('resize', () =>{
         updateSettings();
     });
     
     // window.addEventListener('click', (ev) => {
+    //     let px = ev.pageX;
+    //     let py = ev.pageY;
+    //     let x = Math.floor(px / s.tile.w);
+    //     let y = Math.floor(py / s.tile.h);
+    //     console.log(`(${px},${py}) → tile-x: ${x}, tile-y: ${y}`);
     // });
     // window.addEventListener('mousemove', (ev) =>{
     //     if(s.mouse.tracking){
@@ -251,6 +284,18 @@
         if(x < 0) { angle += 180; }
         if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
         return angle;
+    }
+
+    function randomXYZ(){
+        let x = Math.random()*s.canvas.x;
+        let y = Math.random()*s.canvas.y;
+        let z = Math.random()*s.canvas.z;
+        return {'x':x, 'y':y, 'z':z};
+    }
+    function randomXY(){
+        let x = Math.random()*s.canvas.x;
+        let y = Math.random()*s.canvas.y;
+        return {'x':x, 'y':y};
     }
 
 </script>

@@ -1,0 +1,114 @@
+/* 
+ color
+█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
+ ▐▀▀▀▌       ▐            
+ ▐     ▐▀▀▀▌ ▐  ▐▀▀▀▌ ▐■▀ 
+ ▐▄▄▄▌ ▐▄▄▄▌ ▐▄ ▐▄▄▄▌ ▐   
+█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█
+*/
+:root {
+    --c030: #f93; --c030s: #420;
+    --c090: #9f3; --c090s: #240;
+    --c150: #3f9; --c150s: #042;
+    --c210: #39f; --c210s: #024;
+    --c270: #93f; --c270s: #204;
+    --c330: #f39; --c330s: #402;
+}
+
+:root {
+/* [bw] Black and White */
+
+    /* --bwt: transparent; */
+    --bwt: #0000;
+    --bw0: #000;
+    --bw1: #111;
+    --bw2: #222;
+    --bw3: #333;
+    --bw4: #444;
+    --bw5: #555;
+    --bw6: #666;
+    --bw7: #777;
+    --bw8: #888;
+    --bw9: #999;
+    --bwa: #aaa;
+    --bwb: #bbb;
+    --bwc: #ccc;
+    --bwd: #ddd;
+    --bwe: #eee;
+    --bwf: #fff;
+    
+    --bw1c: #111c;
+    --bwf9: #fff9;
+    --bw9: #999;
+    --bw99: #9999;
+    --clr-t: transparent;
+
+
+    /* Color Scheme: */
+    --hue-1: 30;
+    --hue-2: 90;
+    --hue-3: 150;
+    --hue-4: 210;
+    --hue-5: 270;
+    --hue-6: 330;
+
+    --clr-1: #f93; --clr-1-mid: #963; --clr-1-dark: #630; --bgs-1: #9633;
+    --clr-2: #9f3; --clr-2-mid: #693; --clr-2-dark: #360; --bgs-2: #6933;
+    --clr-3: #3f9; --clr-3-mid: #396; --clr-3-dark: #063; --bgs-3: #3963;
+    --clr-4: #39f; --clr-4-mid: #369; --clr-4-dark: #036; --bgs-4: #3693;
+    --clr-5: #93f; --clr-5-mid: #639; --clr-5-dark: #306; --bgs-5: #6393;
+    --clr-6: #f39; --clr-6-mid: #936; --clr-6-dark: #603; --bgs-6: #9363;
+    --bgi-lg-1: linear-gradient(135deg, #f93, #630);
+    --bgi-lg-2: linear-gradient(135deg, #9f3, #360);
+    --bgi-lg-3: linear-gradient(135deg, #3f9, #063);
+    --bgi-lg-4: linear-gradient(135deg, #39f, #036);
+    --bgi-lg-5: linear-gradient(135deg, #93f, #306);
+    --bgi-lg-6: linear-gradient(135deg, #f39, #603);
+
+    --bgs-1-lowest: #9631;
+    --bgs-2-lowest: #6931;
+    --bgs-3-lowest: #3961;
+    --bgs-4-lowest: #3691;
+    --bgs-5-lowest: #6391;
+    --bgs-6-lowest: #9361;
+    
+    --clr-6-high: #f6c; --clr-6-high: hsl(320, 100%, 70%);
+    --clr-6: #f39;      --clr-6: hsl(330, 100%, 60%);
+    --clr-6-high: #c06; --clr-6-high: hsl(330, 100%, 40%);
+    --clr-6-mid: #936;  --clr-6-mid: hsl(330, 50%, 40%); 
+    --clr-6-dark: #603; --clr-6-dark: hsl(330, 100%, 20%);
+    --clr-6-dark: #513; --clr-6-dark: hsl(330, 67%, 20%);
+    --bgs-6-shw: #9363; --bgs-6-shw: hsla(330, 50%, 40%, 0.2);
+
+}
+
+
+/* Keyboard Key Design */
+.kbd,
+kbd {
+    min-height: 1rem;
+    margin: .25rem;
+    padding: 4px 6px;
+    border-radius: 4px;
+    
+    background-color: var(--bwf);
+    background: linear-gradient(180deg, var(--bwe), var(--bwd));
+
+    border: 0px solid var(--bwd);
+    border-bottom: 2px solid var(--bwa);
+    
+    font-family: consolas,"Liberation Mono",courier,monospace;
+    font-size: .9rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--bw1);
+    white-space: nowrap;
+
+    user-select: none;
+}
+.kbd-disable {
+    background: linear-gradient(180deg, var(--bw7), var(--bw5));
+    color: var(--bw3);
+    border: 0px solid transparent;
+    border-bottom: 2px solid #444;
+}

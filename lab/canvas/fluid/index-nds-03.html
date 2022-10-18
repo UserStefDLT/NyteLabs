@@ -678,41 +678,8 @@
             }
         }
     }
-    class pu {
-        constructor(id,type="pu",x,y,z=0,color="#8889",time=10){
-            this.id = id;
-            this.type = type;
-            this.x = x;
-            this.y = y;
-            this.z = z;
-            this.vx = 0;
-            this.vy = 0;
-            this.vz = 0;
-
-            this.time = time;
-
-            this.size = 5;
-            this.color = color;
-        }
-        draw(){
-            ctx.fillStyle = this.color;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size/2, 0, Math.PI * 2);
-            ctx.fill();
-        }
-    }
 
     /* ─── Create ─── */
-    function create_pu(x,y,time){
-        // create_pu(type="pu",x,y,color,time)
-        // let np = new pu(particles.length,type,x,y,0,color,time);
-        // let np = new pu(particles.length,"pu",x,y,0,color,time);
-        let np = new pu(pg['pu'].length,"pu",x,y,0,"#8889",time);
-        pg["pu"].push(np);
-        // pg[type].push(np);
-        // particles.push(np);
-    }
-
     function create_pv_xyz(type="angle",x,y,z,vx,vy,vz){
         let np = new pvz(particles.length,type,x,y,z,vx,vy,vz);
         pg[type].push(np);
@@ -1001,79 +968,6 @@
         }
     }
 
-    pr["particle-pulse"] = function (list1, list2, g = 0, r = 10){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            let fx = 0;
-            let fy = 0;
-            for (let j = 0; j < list2.length; j++) {
-                const b = list2[j];
-                let dx = a.x - b.x;
-                let dy = a.y - b.y;
-                let d = Math.sqrt(dx*dx + dy*dy);
-                if(d > 0 && d < r){
-                    let force = g * 1/d;
-                    fx += (force * dx);
-                    fy += (force * dy);
-                }
-            }
-            a.vx = (a.vx + fx);
-            a.vy = (a.vy + fy);
-            a.x += a.vx;
-            a.y += a.vy;
-        }
-    }
-    pr["grid-pulse"] = function (grid, pulses, g = 0, r = 10){
-        if(pulses.length > 0){
-            for (let y = 0; y < grid.length; y++) {
-                let ay = y * s.tile.h;
-                for (let x = 0; x < grid[y].length; x++) {
-                    const a = grid[y][x];
-                    let fx = 0;
-                    let fy = 0;
-                    let ax = x * s.tile.w;
-                    let ent = .89;
-                    for (let i = 0; i < pulses.length; i++) {
-                        const b = pulses[i];
-                        if(b.time > 0){
-                            let dx = ax - b.x;
-                            let dy = ay - b.y;
-                            let d = Math.sqrt(dx*dx + dy*dy);
-                            if(d > 0 && d < r){
-                                let force = g * 1/d;
-                                fx += (force * dx);
-                                fy += (force * dy);
-                                ent = .7;
-                            }
-                        }
-                    }
-                    a.vx = (a.vx + fx) * ent;
-                    a.vy = (a.vy + fy) * ent;
-                    a.x = a.vx;
-                    a.y = a.vy;
-                }
-            }
-            for (let i = 0; i < pulses.length; i++) {
-                const b = pulses[i];
-                b.time--;
-                if(b.time < 1) {
-                    console.log(`pulse #${b.id} time out.`);
-                    pulses.splice(i,1);
-                }
-            }
-        }
-    }
-    pr["grid-entropy"] = function (grid, ent = .89){
-        for (let y = 0; y < grid.length; y++) {
-            // let ay = y * s.tile.h;
-            for (let x = 0; x < grid[y].length; x++) {
-                const a = grid[y][x];
-                if(Math.abs(a.x) > 0.001) {a.x *= ent;} else {a.x = 0;}
-                if(Math.abs(a.y) > 0.001) {a.y *= ent;} else {a.y = 0;}
-            }
-        }
-    }
-
     const pg = {}
     const gs = {
         "1": {count: 200, clr:"hsla(30, 100%, 50%, .75)"},
@@ -1088,9 +982,7 @@
         canvas.addEventListener("touchend", handleEnd, false);
         canvas.addEventListener("touchcancel", handleCancel, false);
         canvas.addEventListener("touchmove", handleMove, false);
-        // canvas.addEventListener("mousemove", cMouseMove);
-
-        pg["pu"] = [];
+        canvas.addEventListener("mousemove", cMouseMove);
 
         let keys = Object.keys(gs);
         keys.forEach(k=>{
@@ -1200,9 +1092,6 @@
             pr["walls"](particles, .25, 15);
             pr["wind"](particles, .25);
 
-            pr["grid-pulse"](grid, pg["pu"], 1, 100);
-            pr["grid-entropy"](grid,.89);
-
             /* ─Rest of Update()─ */
             clearCanvas();
             // draw_path(ctx,s.mouse.path,"#fff2",2);
@@ -1212,14 +1101,11 @@
             //     draw_path(ctx,s.touch.paths[Object.keys(s.touch.paths)[i]],clr,2);
             //     // draw_path(ctx,s.touch.paths[Object.keys(s.touch.paths)[i]],"#fff3",2);
             // }
-            drawGrid(ctx, s.grid.cols, s.grid.rows);
-            for(let i = 0; i < particles.length; i++){
-                draw_e(ctx, particles[i]);
+            // drawGrid(ctx,s.grid.cols,s.grid.rows);
+            for(let i = 0; i<particles.length; i++){
+                draw_e(ctx,particles[i]);
                 // draw_c(ctx,particles[i]);
                 // draw_z(ctx,particles[i]);
-            }
-            for(let i = 0; i < pg["pu"].length; i++){
-                draw_e(ctx, pg["pu"][i]);
             }
         }
         setTimeout(() => {
@@ -1288,12 +1174,8 @@
 
         // if(currentRule == "ab"){currentRule = "part";} else {currentRule = "ab";}
 
-        // pr["particle-pulse"](particles, [{"x":px,"y":py}], 1, 100);
-        // pr["grid-pulse"](particles, pg["pu"], 1, 100);
+        
 
-        create_pu(px,py,100);
-        console.log(`pg["pu"].length → ${pg["pu"].length}`);
-        // console.log(pg["pu"][pg["pu"].length-1]);
     });
 
     /* ─── Event Handlers ─── */

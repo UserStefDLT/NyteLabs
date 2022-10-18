@@ -1,0 +1,26 @@
+let eq = `
+
+        y = 3*cos(x*y)
+        x = 3sin(y) + (pi/y)
+
+        y = 4*cos(x) + 3*sin(x)
+        y = 5*cos(x*y)
+        x = 3sin(y) + (pi/x)
+
+        a = 6.6; b = 5.1; d = b/10;
+        y = b * cos(x) + a * sin(y)
+        y = 5.1 * cos(x) + 6.6 * sin(y)
+        x = cos(x + dy) + cos(y - .1x)
+        y = cos(y + dx) + sin(x - .1y)
+
+        
+        y = b * cos(x) + a * sin(y)
+        x = cos(x+y)+tan(y^2 - .5x)
+
+
+        y = a * cos(xb) + a * cos(y)
+        y = a * cos(xb) * cos(y)
+        y = cos(x) * cos(y) - sin(yx) * tan(y)
+        y = cos(9x) * cos(9y) - sin(2x/y) * tan(9y/x)
+
+    `;
