@@ -610,6 +610,27 @@
         }
     }
 
+    function GridAddPoints(grid, ripples = []){
+        // let path = [];
+        for(let y = 0; y < s.h; y+=qs.tile){
+            for(let x = 0; x < s.w; x+=qs.tile){
+                let xn = x / qs.tile;
+                let yn = y / qs.tile;
+
+                let hue = 0;
+                if(ripples.length > 0){
+                    let x2 = x - ripples.x;
+                    let y2 = y - ripples.y;
+                    // let val = fs[current_fs](x2, y2, ripples.amp);
+                    let val = fs["sw"](x2, y2, ripples.amp);
+                    hue += val%360;
+                }
+
+                grid[yn][xn] += hue%360;
+            }
+        }
+    }
+
 
     var main_grid = {};
     function BuildGrid(w = qs.w, h = qs.h, fill = 0){
@@ -1098,13 +1119,68 @@
         updateSettings();
     });
     
+    // var tapitaps = [];
     // window.addEventListener('click', (ev) => {
     //     let px = ev.pageX;
     //     let py = ev.pageY;
     //     let x = Math.floor(px / s.tile.w);
     //     let y = Math.floor(py / s.tile.h);
     //     console.log(`(${px},${py}) → tile-x: ${x}, tile-y: ${y}`);
+
+
+    //     if(tapitaps.length > 1){
+    //         main_grid = [];
+    //         main_grid = BuildGrid(qs.w,qs.h,0);
+    //         tapitaps = [];
+    //     }
+    //     tapitaps.push({"x":px, "y":py});
+
+    //     tapitaps.forEach(tap => {
+    //         AddGrid(main_grid, tap.x, tap.y, 100);
+    //     });
+    //     DrawGrid(ctx['canvas-draw'], main_grid);
     // });
+
+    window.addEventListener('click', (ev) => {
+        let px = ev.pageX;
+        let py = ev.pageY;
+        // let x = Math.floor(px / s.tile.w);
+        // let y = Math.floor(py / s.tile.h);
+        // console.log(`(${px},${py}) → tile-x: ${x}, tile-y: ${y}`);
+        console.log(`(${px},${py})`);
+
+        // main_grid = [];
+        main_grid = BuildGrid(qs.w,qs.h,0);
+
+        let xy1 = randomXY();
+        let xy2 = randomXY();
+        let amp = Math.floor(Math.random()*40 + 40);
+        // let xy3 = randomXY();
+        AddGrid(main_grid, xy1.x, xy1.y, amp);
+        AddGrid(main_grid, xy2.x, xy2.y, amp);
+        // AddGrid(main_grid, xy3.x, xy3.y, 100);
+        DrawGrid(ctx['canvas-draw'], main_grid);
+        
+        // GridAddPoints(grid, ripples = []);
+    });
+    window.addEventListener('touchend', (ev) => {
+        // main_grid = [];
+        main_grid = BuildGrid(qs.w,qs.h,0);
+
+        let xy1 = randomXY();
+        let xy2 = randomXY();
+        let amp = Math.floor(Math.random()*40 + 40);
+        // let xy3 = randomXY();
+        AddGrid(main_grid, xy1.x, xy1.y, amp);
+        AddGrid(main_grid, xy2.x, xy2.y, amp);
+        // AddGrid(main_grid, xy3.x, xy3.y, 100);
+        DrawGrid(ctx['canvas-draw'], main_grid);
+        
+        // GridAddPoints(grid, ripples = []);
+    });
+
+
+
     // window.addEventListener('mousemove', (ev) =>{
     //     if(s.mouse.tracking){
     //         if(!s.q && !s.pause){

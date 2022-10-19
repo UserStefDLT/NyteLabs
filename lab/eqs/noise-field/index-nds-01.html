@@ -981,47 +981,6 @@
         }, 2000);
         console.log('---');
     }
-    function reset4(){
-        console.log('---');
-        main_grid = BuildGrid(qs.w,qs.h,0);
-
-        console.time("Nds_Control_fs");
-        UpdateGrid(main_grid, 100);
-        DrawGrid(ctx['canvas-draw'], main_grid);
-        console.timeEnd("Nds_Control_fs");
-        
-        setTimeout(() => {
-            console.time("Nds_Control_r360a");
-            AddGridNoise(main_grid, fst["rand-360"]);
-            DrawGrid(ctx['canvas-draw'], main_grid);
-            console.timeEnd("Nds_Control_r360a");
-        }, 200);
-
-        setTimeout(() => {
-            console.log('---');
-            console.time("Nds_Control_s1");
-            HandleNoise(main_grid, fup3["smooth"]);
-            DrawGrid(ctx['canvas-draw'], main_grid);
-            console.timeEnd("Nds_Control_s1");
-        }, 400);
-
-        setTimeout(() => {
-            console.time("Nds_Control_s2");
-            HandleNoise(main_grid, fup3["smooth-1"]);
-            DrawGrid(ctx['canvas-draw'], main_grid);
-            console.timeEnd("Nds_Control_s2");
-        }, 600);
-
-        setTimeout(() => {
-            console.time("Nds_Control_s3");
-            HandleNoise(main_grid, fup3["smooth-2"]);
-            HandleNoise(main_grid, fup3["smooth-2"]);
-            HandleNoise(main_grid, fup3["smooth-2"]);
-            DrawGrid(ctx['canvas-draw'], main_grid);
-            console.timeEnd("Nds_Control_s3");
-        }, 800);
-        console.log('---');
-    }
 
 
     /* ─── Events ─── */
@@ -1081,18 +1040,6 @@
         updateSettings();
     });
     
-    window.addEventListener('click', (ev) => {
-        let px = ev.pageX;
-        let py = ev.pageY;
-        RandomFS2();
-        reset4();
-    });
-    window.addEventListener('touchend', (ev) => {
-        let px = ev.pageX;
-        let py = ev.pageY;
-        RandomFS2();
-        reset4();
-    });
     // window.addEventListener('click', (ev) => {
     //     let px = ev.pageX;
     //     let py = ev.pageY;
