@@ -272,20 +272,23 @@
         DrawPath_ClrXY(ctx,path);
     }
 
+    // const qs = {
+    //     sc: 200,
+    //     amp: 100,
+    //     tile: 5,
+    //     m: {},
+    // };
     const qs = {
         sc: 200,
+        sc2: 20,
+        amp: 1,
         tile: 5,
+        m: {},
     };
     // var current_fs = "cos";
-    var current_fs = "sw";
+    var current_fs = "so";
     var current_fsi = 0;
     const fs = {};
-    // fs["cos1"] = function (x, amp){
-    //     return Math.cos(Math.PI * x / 200) * amp;
-    // }
-    // fs["sin1"] = function (x, amp){
-    //     return Math.sin(Math.PI * x / 200) * amp;
-    // }
 
     fs["cos"] = function (x, y, amp){
         let xs = Math.cos(Math.PI * x / 200) * amp;
@@ -303,6 +306,18 @@
         let xs = Math.cos(Math.PI * x / 200) * amp;
         let ys = Math.sin(Math.PI * y / 200) * amp;
         let val = xs + ys;
+        return val;
+    }
+    fs["cosXsin"] = function (x, y, amp){
+        let xs = Math.cos(Math.PI * x / 200) * amp;
+        let ys = Math.sin(Math.PI * y / 200) * amp;
+        let val = xs * ys;
+        return val;
+    }
+    fs["coSin"] = function (x, y, amp){
+        let xs = Math.cos(Math.PI * x / 200);
+        let ys = Math.sin(Math.PI * y / 200);
+        let val = (xs + ys) * amp;
         return val;
     }
     
@@ -361,26 +376,6 @@
         let yy = (y * y);
         let hh = Math.sqrt(xx + yy);
         let hs = Math.cos(hh / qs.sc) * amp;
-        
-        let val = hs;
-        return val;
-    }
-    fs["s7b"] = function (x, y, amp){
-        /* circle. */
-        /* just red */
-        // let xx = (x * x / qs.sc);
-        // let yy = (y * y / qs.sc);
-        // let hh = Math.sqrt(xx + yy);
-        // let hs = Math.cos(hh / qs.sc);
-
-        let xs = (x / qs.sc);
-        let ys = (y / qs.sc);
-        let h = (xs + ys);
-        let xx = (xs * xs);
-        let yy = (ys * ys);
-        let hh = Math.sqrt(xx + yy);
-        let hs = Math.cos(hh) * amp;
-
         
         let val = hs;
         return val;
@@ -475,6 +470,33 @@
         return val;
     }
 
+    fs["so"] = function (x, y, sc1 = 200, amp1 = 100){
+        /* ─unk─ */
+        let xs = (x / qs.sc2);
+        let ys = (y / qs.sc2);
+        let h = (xs + ys);
+        let xx = (xs * xs);
+        let yy = (ys * ys);
+        let hh = Math.sqrt(xx + yy);
+        let hs = Math.cos(hh);
+        let h100hh4 = 100 * hs / (hh / 4 + 1);
+        let val = h100hh4 * qs.amp;
+        return val;
+    }
+    fs["so2"] = function (x, y, sc = 20, amp = 1){
+        /* ─unk─ */
+        let xs = (x / sc);
+        let ys = (y / sc);
+        let h = (xs + ys);
+        let xx = (xs * xs);
+        let yy = (ys * ys);
+        let hh = Math.sqrt(xx + yy);
+        let hs = Math.cos(hh);
+        let h100hh4 = 100 * hs / (hh / 4 + 1);
+        let val = h100hh4 * amp;
+        return val;
+    }
+
 
     fs["sw"] = function (x, y, amp){
         /* circle. */
@@ -490,15 +512,7 @@
         let val = hs;
         return val;
     }
-    // fs["sw1"] = function (x, amp){
-    //     let xo = x / s.w;
-    //     let ra = (amp) * (1 - xo);
-    //     // let xs = Math.sin(Math.PI * x / 200) * amp;
-    //     let xs = Math.sin(Math.PI * x / 100) * ra;
 
-    //     let hue = xs;
-    //     return hue;
-    // }
     let eq = `
 
         y = 3*cos(x*y)
@@ -556,17 +570,15 @@
         apaths.push(path);
     }
 
+
+    var grid = {};
     function DefGrid(ctx, amp = 100){
-        // let path = [];
+        let path = [];
         let step = 5;
         for(let y = 0; y < s.h; y+=step){
             for(let x = 0; x < s.w; x+=step){
-
                 let x2 = x - s.canvas.x2;
                 let y2 = y - s.canvas.y2;
-                // let xs = fs[current_fs](x2, amp);
-                // let ys = fs[current_fs](y2, amp);
-                // let val = xs+ys;
                 
                 let val = fs[current_fs](x2, y2, amp);
 
@@ -577,190 +589,39 @@
             }
         }
     }
-    function UpdateGrid(grid, amp = 100){
-        // let path = [];
+    function DrawGrid(ctx, sc = 20, amp = 1){
         for(let y = 0; y < s.h; y+=qs.tile){
             for(let x = 0; x < s.w; x+=qs.tile){
                 let x2 = x - s.canvas.x2;
                 let y2 = y - s.canvas.y2;
-
-                let val = fs[current_fs](x2, y2, amp);
-
-                let hue = val%360;
-                let xn = x / qs.tile;
-                let yn = y / qs.tile;
-                grid[yn][xn] = hue;
-            }
-        }
-    }
-    function AddGrid(grid, xc=s.canvas.x2, yc=s.canvas.y2, amp = 100){
-        // let path = [];
-        for(let y = 0; y < s.h; y+=qs.tile){
-            for(let x = 0; x < s.w; x+=qs.tile){
-                let x2 = x - xc;
-                let y2 = y - yc;
-
-                let val = fs[current_fs](x2, y2, amp);
+                
+                // let val = fs[current_fs](x2, y2, amp);
+                let val = fs["so2"](x2, y2, sc, amp);
 
                 let hue = val%360;
-                let xn = x / qs.tile;
-                let yn = y / qs.tile;
-                grid[yn][xn] += hue;
+                let bg = `hsla(${hue}, 100%, 60%, 1)`;
+                ctx.fillStyle = bg;
+                ctx.fillRect(x,y,qs.tile,qs.tile);
+
+                // let xn = x / qs.tile;
+                // let yn = y / qs.tile;
+                // grid[yn][xn] += val;
             }
         }
     }
-
-    function GridAddPoints(grid, ripples = []){
-        // let path = [];
-        for(let y = 0; y < s.h; y+=qs.tile){
-            for(let x = 0; x < s.w; x+=qs.tile){
-                let xn = x / qs.tile;
-                let yn = y / qs.tile;
-
-                let hue = 0;
-                if(ripples.length > 0){
-                    let x2 = x - ripples.x;
-                    let y2 = y - ripples.y;
-                    // let val = fs[current_fs](x2, y2, ripples.amp);
-                    let val = fs["sw"](x2, y2, ripples.amp);
-                    hue += val%360;
-                }
-
-                grid[yn][xn] += hue%360;
-            }
-        }
-    }
-
-
-    var main_grid = {};
-    function BuildGrid(w = qs.w, h = qs.h, fill = 0){
+    function ResetGrid(){
         let g = [];
+        let h = s.h / qs.tile;
+        let w = s.w / qs.tile;
         for(let y = 0; y < h; y++){
             g.push([]);
             for(let x = 0; x < w; x++){
-                g[y].push(fill);
+                g[y].push(0);
             }
         }
-        return g;
-    }
-    function GridNoise(grid, fun=(a,b)=>{return a+b;}){
-        for(let y = 0; y < grid.length; y++){
-            for(let x = 0; x < grid[y].length; x++){
-                grid[y][x] = fun(x,y);
-            }
-        }
-    }
-    function AddGridNoise(grid, fun=(a,b)=>{return a+b;}){
-        for(let y = 0; y < grid.length; y++){
-            for(let x = 0; x < grid[y].length; x++){
-                grid[y][x] += fun(x,y);
-            }
-        }
-    }
-    function HandleNoise(grid, fun=(g1,a,b)=>{return a+b;}){
-        let g2 = [];
-        for(let y = 0; y < grid.length; y++){
-            g2.push([]);
-            for(let x = 0; x < grid[y].length; x++){
-                let val = fun(grid,x,y);
-                g2[y].push(val);
-                // grid[y][x] = fun(x,y);
-            }
-        }
-        for(let y = 0; y < grid.length; y++){
-            for(let x = 0; x < grid[y].length; x++){
-                grid[y][x] = g2[y][x];
-            }
-        }
-    }
-    const fst = {
-        "rand": ()=>{return Math.random();},
-        "rand-01": ()=>{return Math.floor(Math.random()*2);},
-        "rand-360": ()=>{return Math.floor(Math.random()*360);},
-        "a+b": (a,b)=>{return a+b;},
-    }
-    const fup3 = {
-        "smooth": (g,x,y)=>{
-            let sum = 0;
-            let count = 0;
-            for (let i = -1; i < 2; i++) {
-                for (let j = -1; j < 2; j++) {
-                    let nx = x + j;
-                    let ny = y + i;
-                    if(isInMap(nx,ny)){
-                        sum += g[ny][nx];
-                        count++;
-                    }
-                }
-            }
-            let avg = sum/count;
-            // let res = (avg - g[y][x]) * .25 + g[y][x];
-            // console.log(`s0(${x},${y}) → avg: ${avg}`);
-            let res = Math.round((avg - g[y][x]) * .25 + g[y][x]);
-            return res;
-        },
-        "smooth-1": (g,x,y)=>{
-            let sum = 0;
-            let count = 0;
-            for (let i = -1; i < 2; i++) {
-                for (let j = -1; j < 2; j++) {
-                    let nx = x + j;
-                    let ny = y + i;
-                    if(isInMap(nx,ny)){
-                        sum += g[ny][nx];
-                        count++;
-                    }
-                }
-            }
-            let avg = sum/count;
-            let dif = avg - g[y][x];
-            // console.log(`s1(${x},${y}) → avg: ${avg} | dif: ${dif}`);
-            let res = g[y][x];
-            if(-15 < dif || dif < 15){
-                res = Math.round((avg - g[y][x]) * .5 + g[y][x]);
-            }
-            return res;
-        },
-        "smooth-2": (g,x,y)=>{
-            let sum = 0;
-            let count = 0;
-            let radius = 2;
-            for (let i = radius*-1; i <= radius; i++) {
-                for (let j = radius*-1; j <= radius; j++) {
-                    let nx = x + j - 1;
-                    let ny = y + i - 1;
-                    if(isInMap(nx,ny)){
-                        sum += g[ny][nx];
-                        count++;
-                    }
-                }
-            }
-            let avg = sum/count;
-            let dif = avg - g[y][x];
-            // console.log(`s2(${x},${y}) → avg: ${avg} | dif: ${dif}`);
-            let res = g[y][x];
-            if(-30 < dif || dif < 30){
-                res = Math.round((avg - g[y][x]) * .5 + g[y][x]);
-            }
-            return res;
-        },
-    }
-    function DrawGrid(ctx, grid){
-        for(let y = 0; y < grid.length; y++){
-            for(let x = 0; x < grid[y].length; x++){
-                const e = grid[y][x];
-                let xn = x * qs.tile;
-                let yn = y * qs.tile;
-
-                let hue = e%360;
-                let bg = `hsla(${hue}, 100%, 60%, 1)`;
-                ctx.fillStyle = bg;
-                ctx.fillRect(xn,yn,qs.tile,qs.tile);
-            }
-        }
+        grid = g;
     }
 
-    
     
     /* ─── Drawing (view) ─── */
     function getColorXY(x,y){
@@ -909,16 +770,25 @@
     function start(){
 
         // Code goes here.
-        clearCanvas();
-        DrawGridPlane(ctx["canvas-grid"]);
-        DrawCos(ctx["canvas-draw"]);
+        // clearCanvas(ctx["canvas-grid"]);
+        DrawGridLines(ctx["canvas-grid"]);
+        // DrawCos(ctx["canvas-draw"]);
+        
+        // clearCanvas(ctx["canvas-draw"]);
+        // qs.amp = 1;
+        // qs.sc = 20;
+        // DrawGrid(ctx["canvas-draw"], qs.sc, qs.amp);
 
     }
     function update(){
         if(!s.q && !s.pause){
 
             // Code goes here.
+            // qs.amp = 1;
+            // qs.sc = 20;
 
+            // clearCanvas(ctx["canvas-draw"]);
+            // DrawGrid(ctx["canvas-draw"], qs.sc, qs.amp);
         }
         setTimeout(() => {
             requestAnimationFrame(update);
@@ -932,133 +802,16 @@
     function reset(){
         // apaths = [];
         // apath = [];
+        // ResetGrid();
 
         // Code goes here.
         // clearCanvas(ctx["canvas-grid"],"#000");
         // DrawGridLines(ctx["canvas-grid"]);
         // DrawXY(ctx["canvas-grid"]);
 
-        // clearCanvas(ctx["canvas-draw"]);
-        // DrawDefWave(ctx["canvas-draw"],0,0,100,{hue: 0, alp: .25});
-        // DrawDefWave(ctx["canvas-draw"],50,0,50,{hue: 30, alp: .25});
-        // DrawDefWave(ctx["canvas-draw"],-50,0,50,{hue: 60, alp: .25});
-        // // DrawDefWave(ctx["canvas-draw"],200,0,100,'hsla(90,100%,50%,.32)');
-        // DrawApath(ctx["canvas-draw"]);
-
-        // DefGrid(ctx["canvas-draw"]);
-
-        // clearCanvas(ctx["canvas-grid"]);
-        // DefGrid(ctx["canvas-grid"]);
-    }
-    function reset2(){
-        console.log('---');
-
-        main_grid = [];
-        main_grid = BuildGrid(qs.w,qs.h,0);
-        
-        console.time("Nds_Control_r360");
-            GridNoise(main_grid, fst["rand-360"]);
-            DrawGrid(ctx['canvas-draw'], main_grid);
-        console.timeEnd("Nds_Control_r360");
-        
-        setTimeout(() => {
-            console.time("Nds_Control_fs");
-            // RandomFS2();
-            UpdateGrid(main_grid, 100);
-            DrawGrid(ctx['canvas-draw'], main_grid);
-            console.timeEnd("Nds_Control_fs");
-        }, 1000);
-        
-        setTimeout(() => {
-            console.time("Nds_Control_r360a");
-            AddGridNoise(main_grid, fst["rand-360"]);
-            DrawGrid(ctx['canvas-draw'], main_grid);
-            console.timeEnd("Nds_Control_r360a");
-        }, 2000);
-
-        setTimeout(() => {
-            console.log('---');
-            console.time("Nds_Control_s1");
-            HandleNoise(main_grid, fup3["smooth"]);
-            DrawGrid(ctx['canvas-draw'], main_grid);
-            console.timeEnd("Nds_Control_s1");
-        }, 4000);
-
-        setTimeout(() => {
-            console.time("Nds_Control_s2");
-            HandleNoise(main_grid, fup3["smooth-1"]);
-            DrawGrid(ctx['canvas-draw'], main_grid);
-            console.timeEnd("Nds_Control_s2");
-        }, 6000);
-
-        setTimeout(() => {
-            console.time("Nds_Control_s3");
-            HandleNoise(main_grid, fup3["smooth-2"]);
-            HandleNoise(main_grid, fup3["smooth-2"]);
-            // HandleNoise(main_grid, fup3["smooth-2"]);
-            DrawGrid(ctx['canvas-draw'], main_grid);
-            console.timeEnd("Nds_Control_s3");
-        }, 8000);
-        console.log('---');
-    }
-    function reset3(){
-        console.log('---');
-        main_grid = BuildGrid(qs.w,qs.h,0);
-
-        console.time("Nds_Control_fs");
-        // NextFS2();
-        UpdateGrid(main_grid, 100);
-        DrawGrid(ctx['canvas-draw'], main_grid);
-        console.timeEnd("Nds_Control_fs");
-        
-        setTimeout(() => {
-            console.time("Nds_Control_r360a");
-            AddGridNoise(main_grid, fst["rand-360"]);
-            DrawGrid(ctx['canvas-draw'], main_grid);
-            console.timeEnd("Nds_Control_r360a");
-        }, 500);
-
-        setTimeout(() => {
-            console.log('---');
-            console.time("Nds_Control_s1");
-            HandleNoise(main_grid, fup3["smooth"]);
-            DrawGrid(ctx['canvas-draw'], main_grid);
-            console.timeEnd("Nds_Control_s1");
-        }, 1000);
-
-        setTimeout(() => {
-            console.time("Nds_Control_s2");
-            HandleNoise(main_grid, fup3["smooth-1"]);
-            DrawGrid(ctx['canvas-draw'], main_grid);
-            console.timeEnd("Nds_Control_s2");
-        }, 1500);
-
-        setTimeout(() => {
-            console.time("Nds_Control_s3");
-            HandleNoise(main_grid, fup3["smooth-2"]);
-            HandleNoise(main_grid, fup3["smooth-2"]);
-            HandleNoise(main_grid, fup3["smooth-2"]);
-            DrawGrid(ctx['canvas-draw'], main_grid);
-            console.timeEnd("Nds_Control_s3");
-        }, 2000);
-        console.log('---');
-    }
-    function reset4(){
-        console.log('---');
-        console.time("BuildGrid");
-        main_grid = BuildGrid(qs.w,qs.h,0);
-        console.timeEnd("BuildGrid");
-
-        console.time("Nds_Control_fs");
-        // UpdateGrid(main_grid, 100);
-        // AddGrid(main_grid, s.canvas.x2, s.canvas.y2, 100);
-        // AddGrid(main_grid, 100, s.canvas.y2-150, 80);
-        // AddGrid(main_grid, 100, s.canvas.y2+150, 120);
-        AddGrid(main_grid, 100, s.canvas.y2-150, 100);
-        AddGrid(main_grid, 100, s.canvas.y2+150, 100);
-        // AddGrid(main_grid, s.canvas.x2, 100, 100);
-        DrawGrid(ctx['canvas-draw'], main_grid);
-        console.timeEnd("Nds_Control_fs");
+        clearCanvas(ctx["canvas-draw"]);
+        DefGrid(ctx["canvas-grid"]);
+        // DrawGrid(ctx["canvas-draw"], qs.sc, qs.amp);
     }
 
 
@@ -1096,9 +849,6 @@
         s.grid.cols = Math.floor(s.w / s.tile.w);
         s.grid.rows = Math.floor(s.h / s.tile.h);
 
-        qs.w = s.w / qs.tile;
-        qs.h = s.h / qs.tile;
-
         /* ─ Canvas Update ─ */
         // canvas.width = s.canvas.x;
         // canvas.height = s.canvas.y;
@@ -1111,110 +861,23 @@
         // // DrawPlane(ctx["canvas-grid"]);
         // DrawGridPlane(ctx["canvas-grid"]);
         // DrawCos(ctx["canvas-draw"]);
-        // reset();
-        // reset2();
-        // reset4();
+        reset();
     }
     window.addEventListener('resize', () =>{
         updateSettings();
     });
     
-    // var tapitaps = [];
+    window.addEventListener('click', (ev) => {
+        NextFS();
+    });
     // window.addEventListener('click', (ev) => {
     //     let px = ev.pageX;
     //     let py = ev.pageY;
     //     let x = Math.floor(px / s.tile.w);
     //     let y = Math.floor(py / s.tile.h);
     //     console.log(`(${px},${py}) → tile-x: ${x}, tile-y: ${y}`);
-
-
-    //     if(tapitaps.length > 1){
-    //         main_grid = [];
-    //         main_grid = BuildGrid(qs.w,qs.h,0);
-    //         tapitaps = [];
-    //     }
-    //     tapitaps.push({"x":px, "y":py});
-
-    //     tapitaps.forEach(tap => {
-    //         AddGrid(main_grid, tap.x, tap.y, 100);
-    //     });
-    //     DrawGrid(ctx['canvas-draw'], main_grid);
     // });
-
-    window.addEventListener('click', (ev) => {
-        let px = ev.pageX;
-        let py = ev.pageY;
-        // let x = Math.floor(px / s.tile.w);
-        // let y = Math.floor(py / s.tile.h);
-        // console.log(`(${px},${py}) → tile-x: ${x}, tile-y: ${y}`);
-        console.log(`(${px},${py})`);
-
-        // main_grid = [];
-        main_grid = BuildGrid(qs.w,qs.h,0);
-
-        let xy1 = randomXY();
-        let xy2 = randomXY();
-        let amp = Math.floor(Math.random()*40 + 40);
-        // let xy3 = randomXY();
-        AddGrid(main_grid, xy1.x, xy1.y, amp);
-        AddGrid(main_grid, xy2.x, xy2.y, amp);
-        // AddGrid(main_grid, xy3.x, xy3.y, 100);
-        DrawGrid(ctx['canvas-draw'], main_grid);
-        
-        // GridAddPoints(grid, ripples = []);
-    });
-    window.addEventListener('touchend', (ev) => {
-        // main_grid = [];
-        main_grid = BuildGrid(qs.w,qs.h,0);
-
-        let xy1 = randomXY();
-        let xy2 = randomXY();
-        let amp = Math.floor(Math.random()*40 + 40);
-        // let xy3 = randomXY();
-        AddGrid(main_grid, xy1.x, xy1.y, amp);
-        AddGrid(main_grid, xy2.x, xy2.y, amp);
-        // AddGrid(main_grid, xy3.x, xy3.y, 100);
-        DrawGrid(ctx['canvas-draw'], main_grid);
-        
-        // GridAddPoints(grid, ripples = []);
-    });
-
-
-
-    // window.addEventListener('mousemove', (ev) =>{
-    //     if(s.mouse.tracking){
-    //         if(!s.q && !s.pause){
-    //             s.mouse.x = ev.clientX;
-    //             s.mouse.y = ev.clientY;
-    //         }
-    //     }
-    // });
-
-    function RandomFS2(){
-        let fs_keys = Object.keys(fs);
-        let fsid = Math.floor(Math.random()*fs_keys.length);
-        
-        current_fs = fs_keys[fsid];
-        current_fsi = fsid;
-
-        console.log(`%ccurrent_fsi: %c${current_fsi}%c | current_fs: %c${current_fs}`, "color: #fff9", "color: #06c", "color: #fff9", "color: #06c");
-    }
-    function SwitchFS(fsid){
-        let fs_keys = Object.keys(fs);
-        
-        current_fsi = fs_keys.indexOf(fsid);
-        current_fs = fsid;
-
-        console.log(`%ccurrent_fsi: %c${current_fsi}%c | current_fs: %c${current_fs}`, "color: #fff9", "color: #06c", "color: #fff9", "color: #06c");
-    }
-    function NextFS2(){
-        let fs_keys = Object.keys(fs);
-        current_fsi++;
-        if(current_fsi >= fs_keys.length) {current_fsi = 0;}
-        current_fs = fs_keys[current_fsi];
-        console.log(`%ccurrent_fsi: %c${current_fsi}%c | current_fs: %c${current_fs}`, "color: #fff9", "color: #06c", "color: #fff9", "color: #06c");
-    }
-
+    
     function RandomFS(){
         let fs_keys = Object.keys(fs);
         let fsid = Math.floor(Math.random()*fs_keys.length);
@@ -1255,37 +918,25 @@
 
     window.addEventListener('load', (ev) => {
         console.log(`Welcome to my Lab!`);
-        // updateSettings();
-
-        console.time("updateSettings");
         updateSettings();
-        console.timeEnd("updateSettings");
-
-        console.time("reset4");
-        reset4();
-        console.timeEnd("reset4");
-
 
         // RandomFS();
         // setTimeout(() => {
         //     RandomFS();
         // }, 3000);
 
-        // DrawGrid(ctx["canvas-grid"]);
-        // DrawPlane(ctx["canvas-grid"]);
-        // DrawGridPlane(ctx["canvas-grid"]);
-        // DrawCos(ctx["canvas-draw"]);
         // start();
         // update();
+
     });
     /* Version Log:
-    [index-nds-00]: Copy from `eqs/graph-curve/index-nds-04.html`;
-    [index-nds-01]: Solved for `DefGrid(ctx)`;
-    [index-nds-02]: --Unknown designs.
+    [index-nds-00]: Copy from `eqs/wave-field/index-nds-02.html`;
+    [index-nds-01]: 
+    [index-nds-02]: 
     [index-nds-03]: 
-    [index-nds-04]: --unclear.
-    [index-nds-05]: Done! surface wave addition.
-    [index-nds-06]: Click adds 2 random ripples.
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
     [index-nds-07]: 
     [index-nds-08]: 
     [index-nds-09]: 
@@ -1325,20 +976,6 @@
         return {'x':x, 'y':y};
     }
 
-    function isInMap(x,y){
-        if(x < 0 || y < 0 || x >= qs.w || y >= qs.h){
-            return false;
-        } else {
-            return true;
-        }
-    }
-    function isInGrid(x,y){
-        if(x < 0 || y < 0 || x >= s.grid.cols || y >= s.grid.rows){
-            return false;
-        } else {
-            return true;
-        }
-    }
 
 </script>
 </body>

@@ -414,6 +414,17 @@
         let hue = xs;
         return hue;
     }
+    fs["sw2"] = function (x, amp){
+        // ratio of x: start = 1, end = 0.
+        let xo = x / s.w;
+        // ratio to amp.
+        let ra = (amp) * (1 - xo);
+        
+        let xs = Math.cos(Math.PI * x / 100) * ra;
+
+        let hue = xs;
+        return hue;
+    }
     function DrawDefWave(ctx,xs=0,ys=0,amp=100,clr={}){
         let path = [];
         let step = 5;
@@ -430,7 +441,8 @@
         let path_color = `hsla(${hue}, ${sat}%, ${lum}%, ${alp})`;
         for(let x = 0; x < s.w; x+=step){
             // let y = fs["cos"](x + xs, amp) + ys;
-            let y = fs["sw"](x + xs, amp) + ys;
+            // let y = fs["sw"](x + xs, amp) + ys;
+            let y = fs["sw2"](x + xs, amp) + ys;
 
             if(!Object.keys(clr).includes("hue")){hue = x%360;}
             // let lum = (yi/s.h) * 50 + 20;

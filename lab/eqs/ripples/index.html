@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Wave Field | NyteLabs</title>
+    <title>Ripples | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/canvas.css">
@@ -29,7 +29,7 @@
     <header>
         <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
         <h1 class="title">NyteLabs</h1>
-        <div class="subtitle">Wave Field</div>
+        <div class="subtitle">Ripples</div>
     </header>
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
@@ -277,7 +277,8 @@
         tile: 5,
     };
     // var current_fs = "cos";
-    var current_fs = "sw";
+    // var current_fs = "sw";
+    var current_fs = "sw2";
     var current_fsi = 0;
     const fs = {};
     // fs["cos1"] = function (x, amp){
@@ -305,48 +306,9 @@
         let val = xs + ys;
         return val;
     }
-    
-    fs["s1"] = function (x, y, amp){
-        /* base gradient to bottom right. */
-        let val = x + y;
-        return val;
-    }
-    fs["s2"] = function (x, y, amp){
-        let xs = (Math.PI * x / qs.sc) * amp;
-        let ys = (Math.PI * y / qs.sc) * amp;
-        let val = xs + ys;
-        return val;
-    }
-    fs["s3"] = function (x, y, amp){
-        /* looks like rhomboid (♦) */
-        let xs = Math.abs(Math.PI * x / qs.sc) * amp;
-        let ys = Math.abs(Math.PI * y / qs.sc) * amp;
-        let val = xs + ys;
-        return val;
-    }
-    fs["s4"] = function (x, y, amp){
-        /* good gradient to bottom right. */
-        let xs = (x / qs.sc) * amp;
-        let ys = (y / qs.sc) * amp;
-        let val = xs + ys;
-        return val;
-    }
-    fs["s5"] = function (x, y, amp){
-        /* from purple to green with magenta y red borders. */
-        let xs = (Math.PI * x / qs.sc);
-        let ys = (Math.PI * y / qs.sc);
-        let xys = Math.cos(xs + ys) * amp;
-        
-        let val = xys;
-        return val;
-    }
-    
-    fs["s6"] = function (x, y, amp){
-        /* ─unk─ */
-        // let xs = (Math.PI * x / qs.sc);
-        // let ys = (Math.PI * y / qs.sc);
 
-        /* circle. */
+    fs["ripple"] = function (x, y, amp){
+        /* [s6] ripple. */
         let xx = (x * x);
         let yy = (y * y);
         let hh = Math.sqrt(xx + yy);
@@ -355,8 +317,8 @@
         let val = hs;
         return val;
     }
-    fs["s7"] = function (x, y, amp){
-        /* larger circle. */
+    fs["circle"] = function (x, y, amp){
+        /* [s7] larger circle. */
         let xx = (x * x);
         let yy = (y * y);
         let hh = Math.sqrt(xx + yy);
@@ -365,56 +327,8 @@
         let val = hs;
         return val;
     }
-    fs["s7b"] = function (x, y, amp){
-        /* circle. */
-        /* just red */
-        // let xx = (x * x / qs.sc);
-        // let yy = (y * y / qs.sc);
-        // let hh = Math.sqrt(xx + yy);
-        // let hs = Math.cos(hh / qs.sc);
-
-        let xs = (x / qs.sc);
-        let ys = (y / qs.sc);
-        let h = (xs + ys);
-        let xx = (xs * xs);
-        let yy = (ys * ys);
-        let hh = Math.sqrt(xx + yy);
-        let hs = Math.cos(hh) * amp;
-
-        
-        let val = hs;
-        return val;
-    }
-
-    fs["s8s"] = function (x, y, amp){
-        /* ─unk─ */
-        /* Some weird universe of colors with some patterns on the sides. */
-        let h = (x + y);
-        let xx = (x * x / qs.sc);
-        let yy = (y * y / qs.sc);
-        let hh = Math.sqrt(xx + yy);
-        let hs = Math.cos(hh);
-        // `--h100hh4: calc(100 * var(--h) / ( var(--hh) / 4 + 1) );`
-        let h100hh4 = 100 * h / (hh / 4 + 1);
-        let val = h100hh4 * amp;
-        return val;
-    }
-    fs["s8"] = function (x, y, amp){
-        /* ─unk─ */
-        /* Some weird universe of colors with some patterns on the sides. */
-        let h = (x + y);
-        let xx = (x * x / qs.sc);
-        let yy = (y * y / qs.sc);
-        let hh = Math.sqrt(xx + yy);
-        let hs = Math.cos(hh);
-        let h100hh4 = 100 * h / (hh / 4 + 1);
-        
-        let val = h100hh4;
-        return val;
-    }
-
-    fs["s9"] = function (x, y, amp){
-        /* pinch */
+    fs["pinch"] = function (x, y, amp){
+        /* [s9] pinch */
         let xs = (x / 20);
         let ys = (y / 20);
         let h = (xs + ys);
@@ -427,23 +341,9 @@
         let val = h100hh4;
         return val;
     }
-    fs["s9a"] = function (x, y, amp){
-        /* pinch */
-        let xs = (x / 10);
-        let ys = (y / 10);
-        let h = (xs + ys);
-        let xx = (xs * xs);
-        let yy = (ys * ys);
-        let hh = Math.sqrt(xx + yy);
-        let h100hh4 = 100 * h / (hh / 4 + 1);
-        
-        // let val = h100hh4 * amp;
-        let val = h100hh4;
-        return val;
-    }
-    fs["s10"] = function (x, y, amp){
-        /* ─unk─ */
 
+    fs["rs2"] = function (x, y, amp){
+        /* [s10] ─unk─ */
         let xs = (x / 20);
         let ys = (y / 20);
         let h = (xs + ys);
@@ -457,10 +357,8 @@
         let val = h100hh4;
         return val;
     }
-    
     fs["s"] = function (x, y, amp){
         /* ─unk─ */
-
         let xs = (x / qs.sc);
         let ys = (y / qs.sc);
         let h = (xs + ys);
@@ -471,10 +369,8 @@
         let h100hh4 = 100 * hs / (hh / 4 + 1);
         
         let val = h100hh4 * amp;
-        // let val = h100hh4;
         return val;
     }
-
 
     fs["sw"] = function (x, y, amp){
         /* circle. */
@@ -490,6 +386,84 @@
         let val = hs;
         return val;
     }
+
+    fs["so2"] = function (x, y, sc = 20, amp = 1){
+        /* ─unk─ */
+        let xs = (x / sc);
+        let ys = (y / sc);
+        let h = (xs + ys);
+        let xx = (xs * xs);
+        let yy = (ys * ys);
+        let hh = Math.sqrt(xx + yy);
+        let hs = Math.cos(hh);
+        let h100hh4 = 100 * hs / (hh / 4 + 1);
+        let val = h100hh4 * amp;
+        return val;
+    }
+    fs["sw2"] = function (x, y, sc){
+        /* circle. */
+        let xs = (x / (sc/10));
+        let ys = (y / (sc/10));
+        let h = (xs + ys);
+        let xx = (xs * xs);
+        let yy = (ys * ys);
+        let hh = Math.sqrt(xx + yy);
+
+        // let hs = Math.cos(Math.PI * hh / qs.sc) * amp;
+
+        // let xo = hh / (s.w+s.h);
+        // let ra = (89) * (1 - xo);
+        // let hs = Math.cos(Math.PI * hh / 100) * ra;
+
+        let hs = Math.cos(hh);
+        let h100hh4 = 100 * hs / (hh / 4 + 1);
+        
+        let val = h100hh4;
+        return val;
+    }
+    fs["rip-sin"] = function (x, y, sc){
+        /* circle. */
+        let xs = (x / (sc/10));
+        let ys = (y / (sc/10));
+        let h = (xs + ys);
+        let xx = (xs * xs);
+        let yy = (ys * ys);
+        let hh = Math.sqrt(xx + yy);
+
+        // let hs = Math.cos(Math.PI * hh / qs.sc) * amp;
+
+        // let xo = hh / (s.w+s.h);
+        // let ra = (89) * (1 - xo);
+        // let hs = Math.cos(Math.PI * hh / 100) * ra;
+
+        let hs = Math.sin(hh);
+        let h100hh4 = 100 * hs / (hh / 4 + 1);
+        
+        let val = h100hh4;
+        return val;
+    }
+    fs["rip-cos"] = function (x, y, sc){
+        /* circle. */
+        let xs = (x / (sc/10));
+        let ys = (y / (sc/10));
+        let h = (xs + ys);
+        let xx = (xs * xs);
+        let yy = (ys * ys);
+        let hh = Math.sqrt(xx + yy);
+
+        // let hs = Math.cos(Math.PI * hh / qs.sc) * amp;
+
+        // let xo = hh / (s.w+s.h);
+        // let ra = (89) * (1 - xo);
+        // let hs = Math.cos(Math.PI * hh / 100) * ra;
+
+        let hs = Math.cos(hh);
+        let h100hh4 = 100 * hs / (hh / 4 + 1);
+        
+        let val = h100hh4;
+        return val;
+    }
+
     // fs["sw1"] = function (x, amp){
     //     let xo = x / s.w;
     //     let ra = (amp) * (1 - xo);
@@ -601,6 +575,22 @@
                 let y2 = y - yc;
 
                 let val = fs[current_fs](x2, y2, amp);
+
+                let hue = val%360;
+                let xn = x / qs.tile;
+                let yn = y / qs.tile;
+                grid[yn][xn] += hue;
+            }
+        }
+    }
+    function AddGridF(grid, fun="sw", xc=s.canvas.x2, yc=s.canvas.y2, amp = 100){
+        // let path = [];
+        for(let y = 0; y < s.h; y+=qs.tile){
+            for(let x = 0; x < s.w; x+=qs.tile){
+                let x2 = x - xc;
+                let y2 = y - yc;
+
+                let val = fs[fun](x2, y2, amp);
 
                 let hue = val%360;
                 let xn = x / qs.tile;
@@ -745,7 +735,7 @@
             return res;
         },
     }
-    function DrawGrid(ctx, grid){
+    function DrawGrid1(ctx, grid){
         for(let y = 0; y < grid.length; y++){
             for(let x = 0; x < grid[y].length; x++){
                 const e = grid[y][x];
@@ -754,11 +744,135 @@
 
                 let hue = e%360;
                 let bg = `hsla(${hue}, 100%, 60%, 1)`;
+
+                // let eq = (e%360)/360;
+
+                // let hue = 180 + (60 * eq);
+                // let sat = 100 - (40 * eq);
+                // let lum = 40 + (20 * eq);
+                // let bg = `hsla(${hue}, ${sat}%, ${lum}%, 1)`;
                 ctx.fillStyle = bg;
                 ctx.fillRect(xn,yn,qs.tile,qs.tile);
             }
         }
     }
+    function DrawGrid2(ctx, grid){
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                const e = grid[y][x];
+                let xn = x * qs.tile;
+                let yn = y * qs.tile;
+
+                // let hue = e%360;
+                // let bg = `hsla(${hue}, 100%, 60%, 1)`;
+
+                let eq = (e%360)/360;
+
+                let hue = 180 + (60 * eq);
+                let sat = 100 - (40 * eq);
+                let lum = 30 + (60 * eq);
+                let bg = `hsla(${hue}, ${sat}%, ${lum}%, 1)`;
+                ctx.fillStyle = bg;
+                ctx.fillRect(xn,yn,qs.tile,qs.tile);
+            }
+        }
+    }
+    function DrawGrid(ctx, grid){
+        let updn = getHighestValue(main_grid);
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                const e = grid[y][x];
+                let xn = x * qs.tile;
+                let yn = y * qs.tile;
+
+                // let hue = e%360;
+                // let bg = `hsla(${hue}, 100%, 60%, 1)`;
+                let e8 = 0;
+                // let e2 = 0;
+                if(isInGrid(grid,x,y-1)){e8 = grid[y-1][x];}
+                // if(e8 == 0 && isInGrid(grid,x,y+1)){e2 = grid[y+1][x];}
+                // let up = (e8 - e) > 0;
+                // let dn = (e8 - e) < 0;
+                let light = 0;
+                // if(up){
+                //     // light = 10;
+                //     light = -20 * (e8%360)/360;
+                //     light = e - e8;
+                // }
+                // if(dn){
+                //     // light = -10;
+                //     light = 20 * (e8%360)/360;
+                // }
+
+                let eq8 = (e8%360)/updn.up;
+                let eq = (e%360)/updn.up;
+
+                if(e8 != 0 && e8 - e != 0){
+                    // light = eq - eq8;
+                    light = e - e8;
+                }
+
+                // let hue = 180 + (60 * eq);
+                // let hue = 210 - (30 * eq);
+                let hue = 225 - (30 * eq);
+                // let sat = 80 - (20 * eq);
+                let sat = 70 - (15 * eq);
+                // let sat = 100
+                // let lum = 40 + (20 * eq) + light;
+                // let lum = 50 + (light%45);
+                let lum = 50 + (light/2);
+                let bg = `hsla(${hue}, ${sat}%, ${lum}%, 1)`;
+                ctx.fillStyle = bg;
+                ctx.fillRect(xn,yn,qs.tile,qs.tile);
+            }
+        }
+    }
+    function ValuesAround(grid,x,y){
+        let gar = [[0,0,0],[0,0,0],[0,0,0]];
+        for (let yi = -1; yi < 2; yi++) {
+            for (let xi = -1; xi < 2; xi++) {
+                let xn = x + xi;
+                let yn = y + yi;
+                if(isInGrid(grid,xn,yn)){
+                    let ea = grid[yn][xn];
+                    let e = grid[y][x];
+                    gar[yi][xi] = ea-e;
+                }
+            }
+        }
+        return gar;
+    }
+    function getHighestValue(grid){
+        let up = 0;
+        let dn = 360;
+        for (let y = 0; y < grid.length; y++) {
+            const gy = grid[y];
+            for (let x = 0; x < gy.length; x++) {
+                const e = gy[x];
+                if(e > up){up = e;}
+                if(e < dn){dn = e;}
+            }
+        }
+        return {"up": up, "dn": dn}
+    }
+    function getHighestDif(grid){
+        let up = 0;
+        let dn = 360;
+        for (let y = 0; y < grid.length; y++) {
+            const gy = grid[y];
+            for (let x = 0; x < gy.length; x++) {
+                const e = gy[x];
+                let e8 = 0;
+                if(isInGrid(grid,x,y-1)){e8 = grid[y-1][x];}
+                let a = Math.abs(e8 - e);
+                let b = e8 - e;
+                if(a > up){up = b;}
+                if(a < dn){dn = b;}
+            }
+        }
+        return {"up": up, "dn": dn}
+    }
+    // getHighestValue(main_grid)
 
     
     
@@ -1152,28 +1266,19 @@
         // main_grid = [];
         main_grid = BuildGrid(qs.w,qs.h,0);
 
+        let amp = Math.floor(Math.random()*40 + 100);
         let xy1 = randomXY();
-        let xy2 = randomXY();
-        let amp = Math.floor(Math.random()*40 + 40);
+        // let xy2 = randomXY();
+        // let amp = Math.floor(Math.random()*40 + 40);
         // let xy3 = randomXY();
         AddGrid(main_grid, xy1.x, xy1.y, amp);
-        AddGrid(main_grid, xy2.x, xy2.y, amp);
+        // AddGrid(main_grid, xy2.x, xy2.y, amp);
         // AddGrid(main_grid, xy3.x, xy3.y, 100);
-        DrawGrid(ctx['canvas-draw'], main_grid);
-        
-        // GridAddPoints(grid, ripples = []);
-    });
-    window.addEventListener('touchend', (ev) => {
-        // main_grid = [];
-        main_grid = BuildGrid(qs.w,qs.h,0);
+        AddGrid(main_grid, px, py, amp);
 
-        let xy1 = randomXY();
-        let xy2 = randomXY();
-        let amp = Math.floor(Math.random()*40 + 40);
-        // let xy3 = randomXY();
-        AddGrid(main_grid, xy1.x, xy1.y, amp);
-        AddGrid(main_grid, xy2.x, xy2.y, amp);
-        // AddGrid(main_grid, xy3.x, xy3.y, 100);
+        // AddGridF(main_grid,"rip-sin", xy1.x, xy1.y, amp);
+        // AddGridF(main_grid,"rip-cos", px, py, amp);
+
         DrawGrid(ctx['canvas-draw'], main_grid);
         
         // GridAddPoints(grid, ripples = []);
@@ -1279,13 +1384,13 @@
         // update();
     });
     /* Version Log:
-    [index-nds-00]: Copy from `eqs/graph-curve/index-nds-04.html`;
-    [index-nds-01]: Solved for `DefGrid(ctx)`;
-    [index-nds-02]: --Unknown designs.
+    [index-nds-00]: Copy from `eqs/wave-field/index-nds-06.html`;
+    [index-nds-01]: 
+    [index-nds-02]: 
     [index-nds-03]: 
-    [index-nds-04]: --unclear.
-    [index-nds-05]: Done! surface wave addition.
-    [index-nds-06]: Click adds 2 random ripples.
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
     [index-nds-07]: 
     [index-nds-08]: 
     [index-nds-09]: 
@@ -1332,8 +1437,15 @@
             return true;
         }
     }
-    function isInGrid(x,y){
+    function isInGrid0(x,y){
         if(x < 0 || y < 0 || x >= s.grid.cols || y >= s.grid.rows){
+            return false;
+        } else {
+            return true;
+        }
+    }
+    function isInGrid(grid,x,y){
+        if(x < 0 || y < 0 || x >= grid[0].length || y >= grid.length){
             return false;
         } else {
             return true;
