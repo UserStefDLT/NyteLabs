@@ -336,13 +336,11 @@
     }
     
     
-    function CalcDropplets1(g){
+    function CalcDropplets(g){
         for(let y = 0; y < g.length; y++){
             for(let x = 0; x < g[y].length; x++){
                 // const e = g[y][x];
                 if(g[y][x]>0){g[y][x]--;}
-                // if(g[y][x]>0){g[y][x] *= .75;}
-                // if(g[y][x]>0){g[y][x] /= 2; g[y][x]--;}
                 dropplets.forEach(drop => {
                     let nx = drop.x - x;
                     let ny = drop.y - y;
@@ -357,79 +355,6 @@
                         // g[y][x] += drop.a;
                         // g[y][x] += drop.a / (drop.r / 2);
                         // g[y][x] += 2 * drop.a / nh;
-                        // let angle = XYtoCSSAngle(nx,ny);
-                        // let xy = CSSAngleToXY(angle);
-                        // let nxa = xy.x * nhrr;
-                        // let nya = xy.y * nhrr;
-                        // // fs["rip-cos"](nxa, nya, 10, 20);
-                        // g[y][x] += fs["cos"](nxa, nya, 200, 20);
-                    }
-                });
-            }
-        }
-    }
-    function CalcDropplets2(g){
-        for(let y = 0; y < g.length; y++){
-            for(let x = 0; x < g[y].length; x++){
-                // const e = g[y][x];
-                if(g[y][x]>0){g[y][x]--;}
-                if(g[y][x]>0){g[y][x] *= .75;}
-                // if(g[y][x]>0){g[y][x] /= 2; g[y][x]--;}
-                dropplets.forEach(drop => {
-                    let nx = drop.x - x;
-                    let ny = drop.y - y;
-                    let nh = Math.sqrt(nx*nx+ny*ny);
-                    let nhr = Math.round(Math.sqrt(nx*nx+ny*ny));
-                    // if(nh == drop.r){
-                    //     g[y][x] += drop.a;
-                    // }
-                    let nhrr = Math.abs(nh - drop.r);
-                    if(nh > 0 && nhrr < 2){
-                        // g[y][x] += 5;
-                        // g[y][x] += drop.a;
-                        // g[y][x] += drop.a / (drop.r / 2);
-                        // g[y][x] += 2 * drop.a / nh;
-                        let angle = XYtoCSSAngle(nx,ny);
-                        let xy = CSSAngleToXY(angle);
-                        let nxa = xy.x * nhrr;
-                        let nya = xy.y * nhrr;
-                        // fs["rip-cos"](nxa, nya, 10, 20);
-                        g[y][x] += fs["cos"](nxa, nya, 200, 20);
-                    }
-                });
-            }
-        }
-    }
-    function CalcDropplets(g){
-        for(let y = 0; y < g.length; y++){
-            for(let x = 0; x < g[y].length; x++){
-                // const e = g[y][x];
-                if(g[y][x]>0){g[y][x]--;}
-                if(g[y][x]<0){g[y][x]++;}
-                // if(g[y][x]>0){g[y][x] *= .75;}
-                if(Math.abs(g[y][x])>0){g[y][x] *= .75;}
-                // if(g[y][x]>0){g[y][x] /= 2; g[y][x]--;}
-                dropplets.forEach(drop => {
-                    let nx = drop.x - x;
-                    let ny = drop.y - y;
-                    let nh = Math.sqrt(nx*nx+ny*ny);
-                    let nhr = Math.round(Math.sqrt(nx*nx+ny*ny));
-                    // if(nh == drop.r){
-                    //     g[y][x] += drop.a;
-                    // }
-                    let nhrr = Math.abs(nh - drop.r);
-                    if(nh > 0 && nhrr < 10){
-                        // g[y][x] += 5;
-                        // g[y][x] += drop.a;
-                        // g[y][x] += drop.a / (drop.r / 2);
-                        // g[y][x] += 2 * drop.a / nh;
-                        let angle = XYtoCSSAngle(nx,ny);
-                        let xy = CSSAngleToXY(angle);
-                        let nxa = xy.x * nhrr;
-                        let nya = xy.y * nhrr;
-                        // fs["rip-cos"](nxa, nya, 10, 20);
-                        // g[y][x] = fs["cos"](nxa, nya, 200, 100);
-                        g[y][x] += fs["rip-cos"](nxa, nya, 5, 5);
                     }
                 });
             }
