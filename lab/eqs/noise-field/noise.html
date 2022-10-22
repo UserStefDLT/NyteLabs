@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Noise | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <link rel="stylesheet" href="../../../stylesheets/canvas.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        /* :root {} */
+        header {backdrop-filter: initial;}
+        header > .title {color: var(--bwf); text-shadow: 1px 1px 2px var(--bw3);}
+        #canvas-grid {background-color: #000;}
+        #canvas-draw {background-color: #0000;}
+        [id|="layer"] {background-color: #0000;}
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/settings2.css">
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">NyteLabs</h1>
+        <div class="subtitle">Noise</div>
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+
+<main>
+    <!-- <div class="shelf">
+        <h3 class="shelf-title">experiment</h3>
+        <div id="display"></div>
+        <div class="x"></div>
+    </div> -->
+    <canvas id="canvas-grid"></canvas>
+    <canvas id="canvas-draw"></canvas>
+</main>
+
+<!-- <div class="options">
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        touch: {
+            x: 0,
+            y: 0,
+            z: 0,
+            paths: {},
+            path_len: 20,
+            tracking: false
+        },
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            path: [],
+            path_len: 20,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            sz: 20,
+            sz2: 10,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            padding: 0,
+            brush: "p",
+        },
+        box: {
+            x: 500,
+            y: 500,
+            z: 500,
+            x2: 250,
+            y2: 250,
+            z2: 250,
+            d: 1000,
+            p: 1000,
+        },
+        cube: {
+            xlen: 10,
+            ylen: 10,
+            zlen: 10,
+            sz: 10,
+        },
+
+        timeOut: 10,
+        player: false,
+        
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+    const particles = [];
+    const pg = {}
+
+</script>
+<script src="../../../scripts/settings.js"></script>
+<script>
+    const layers = ["canvas-grid", "canvas-draw"];
+    const canvas = {};
+    const ctx = {};
+    layers.forEach(key => {
+        canvas[key] = document.getElementById(key);
+        ctx[key] = canvas[key].getContext('2d');
+        canvas[key].width = window.innerWidth;
+        canvas[key].height = window.innerHeight;
+    });
+    /* ─── Particle (model) ─── */
+    class p {
+        constructor(id=-1,type="p",x=0,y=0,z=0,color="#8889"){
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.vx = 0;
+            this.vy = 0;
+            this.vz = 0;
+
+            this.size = 5;
+            this.color = color;
+        }
+        draw(){
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size/2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+    
+    /* ─── Create (model) ─── */
+    function create(n,type="none",color="#8889"){
+        for(let i = 0; i < n; i++){
+            let xy = randomXY();
+            let np = new p(particles.length,type,xy.x,xy.y,0,color);
+            pg[type].push(np);
+            particles.push(np);
+        }
+    }
+
+    /* ─── Build Grid (model) ─── */
+    function BuildGrid(w = s.cube.xlen, h = s.cube.ylen, fill = 0){
+        let g = [];
+        for(let y = 0; y < h; y++){
+            g.push([]);
+            for(let x = 0; x < w; x++){
+                g[y].push(fill);
+            }
+        }
+        return g;
+    }
+    function BuildGridHSL(w = s.cube.xlen, h = s.cube.ylen, hsl = {"h":0, "s":0, "l":0}){
+        let g = [];
+        for(let y = 0; y < h; y++){
+            g.push([]);
+            for(let x = 0; x < w; x++){
+                // g[y].push(fill);
+                g[y].push({"h":hsl.h, "s":hsl.s, "l":hsl.l});
+            }
+        }
+        return g;
+    }
+
+    function AddGridNoise(grid, f=(a,b)=>{return a+b;}){
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                grid[y][x] += f(x,y);
+            }
+        }
+    }
+    function AddGridNoiseHSL(grid, f=(a,b,c,d)=>{return a+b+c+d;}, r = {"h":0, "s":0, "l":0}, a = {"h":0, "s":0, "l":0}){
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                grid[y][x].h += f(r.h,a.h);
+                grid[y][x].s += f(r.s,a.s);
+                grid[y][x].l += f(r.l,a.l);
+            }
+        }
+    }
+    function HandleNoiseHSL(grid, f=(g1,a,b)=>{return a+b;},radius=1,tolerance=10,ent=.5){
+        let g2 = [];
+        for(let y = 0; y < grid.length; y++){
+            g2.push([]);
+            for(let x = 0; x < grid[y].length; x++){
+                g2[y].push(f(grid,x,y,radius,tolerance,ent));
+                // let val = f(grid,x,y,radius,tolerance,ent);
+                // let hue = f(grid,x,y,radius,tolerance,ent);
+                // let sat = f(grid,x,y,radius,tolerance,ent);
+                // let lum = f(grid,x,y,radius,tolerance,ent);
+                // g2[y].push({"h":0, "s":0, "l":0});
+                // g2[y][x].h = hue;
+                // g2[y][x].s = sat;
+                // g2[y][x].l = lum;
+                // // grid[y][x] = fun(x,y);
+            }
+        }
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                grid[y][x].h = g2[y][x].h;
+                grid[y][x].s = g2[y][x].s;
+                grid[y][x].l = g2[y][x].l;
+            }
+        }
+    }
+    const fup3 = {
+        "smooth-hsl-d": (g,x,y,radius=1,tolerance=10,ent=.5)=>{
+            let sum = {"h":0, "s":0, "l":0};
+            let count = 0;
+            for (let i = radius*-1; i <= radius; i++) {
+                for (let j = radius*-1; j <= radius; j++) {
+                    let nx = x + j;
+                    let ny = y + i;
+                    if(isInGrid(g,nx,ny)){
+                        sum.h += g[ny][nx].h;
+                        sum.s += g[ny][nx].s;
+                        sum.l += g[ny][nx].l;
+                        count++;
+                    }
+                }
+            }
+            console.log("sum");
+            console.log(sum);
+
+            let avg = {"h":0, "s":0, "l":0};
+            avg.h += sum.h/count;
+            avg.s += sum.s/count;
+            avg.l += sum.l/count;
+            console.log("avg");
+            console.log(avg);
+            
+            let dif = {"h":0, "s":0, "l":0};
+            dif.h += avg.h - g[y][x].h;
+            dif.s += avg.s - g[y][x].s;
+            dif.l += avg.l - g[y][x].l;
+            console.log("dif");
+            console.log(dif);
+            
+            let res = {"h":0, "s":0, "l":0};
+            res.h = g[y][x].h;
+            res.s = g[y][x].s;
+            res.l = g[y][x].l;
+            console.log("res");
+            console.log(res);
+
+            if(Math.abs(dif.h) > tolerance){res.h = Math.round(g[y][x].h + (dif.h) * ent);}
+            if(Math.abs(dif.s) > tolerance){res.s = Math.round(g[y][x].s + (dif.s) * ent);}
+            if(Math.abs(dif.l) > tolerance){res.l = Math.round(g[y][x].l + (dif.l) * ent);}
+
+            return res;
+        },
+        "smooth-hsl": (g,x,y,radius=1,tolerance=10,ent=.5)=>{
+            let sum = {"h":0, "s":0, "l":0};
+            let count = 0;
+            for (let i = radius*-1; i <= radius; i++) {
+                for (let j = radius*-1; j <= radius; j++) {
+                    let nx = x + j;
+                    let ny = y + i;
+                    if(isInGrid(g,nx,ny)){
+                        sum.h += g[ny][nx].h;
+                        sum.s += g[ny][nx].s;
+                        sum.l += g[ny][nx].l;
+                        count++;
+                    }
+                }
+            }
+            let avg = {"h":0, "s":0, "l":0};
+            // let avg = sum/count;
+            avg.h += sum.h/count;
+            avg.s += sum.s/count;
+            avg.l += sum.l/count;
+            
+            let dif = {"h":0, "s":0, "l":0};
+            dif.h += avg.h - g[y][x].h;
+            dif.s += avg.s - g[y][x].s;
+            dif.l += avg.l - g[y][x].l;
+
+            let res = {"h":0, "s":0, "l":0};
+            res.h = g[y][x].h;
+            res.s = g[y][x].s;
+            res.l = g[y][x].l;
+
+            if(Math.abs(dif.h) > tolerance){res.h = Math.round(g[y][x].h + (dif.h) * ent);}
+            if(Math.abs(dif.s) > tolerance){res.s = Math.round(g[y][x].s + (dif.s) * ent);}
+            if(Math.abs(dif.l) > tolerance){res.l = Math.round(g[y][x].l + (dif.l) * ent);}
+
+            return res;
+        },
+        "smooth-s": (g,x,y,radius=1,tolerance=10,ent=.5)=>{
+            let sum = 0;
+            let count = 0;
+            for (let i = radius*-1; i <= radius; i++) {
+                for (let j = radius*-1; j <= radius; j++) {
+                    let nx = x + j;
+                    let ny = y + i;
+                    if(isInGrid(g,nx,ny)){
+                        sum += g[ny][nx];
+                        count++;
+                    }
+                }
+            }
+            let avg = sum/count;
+            let dif = avg - g[y][x];
+            let res = g[y][x];
+            if(Math.abs(dif) < tolerance){
+                res = Math.round((avg - g[y][x]) * ent + g[y][x]);
+            }
+            return res;
+        },
+        "smooth": (g,x,y)=>{
+            let sum = 0;
+            let count = 0;
+            for (let i = -1; i < 2; i++) {
+                for (let j = -1; j < 2; j++) {
+                    let nx = x + j;
+                    let ny = y + i;
+                    if(isInMap(nx,ny)){
+                        sum += g[ny][nx];
+                        count++;
+                    }
+                }
+            }
+            let avg = sum/count;
+            // let res = (avg - g[y][x]) * .25 + g[y][x];
+            // console.log(`s0(${x},${y}) → avg: ${avg}`);
+            let res = Math.round((avg - g[y][x]) * .25 + g[y][x]);
+            return res;
+        },
+        "smooth-1": (g,x,y)=>{
+            let sum = 0;
+            let count = 0;
+            for (let i = -1; i < 2; i++) {
+                for (let j = -1; j < 2; j++) {
+                    let nx = x + j;
+                    let ny = y + i;
+                    if(isInMap(nx,ny)){
+                        sum += g[ny][nx];
+                        count++;
+                    }
+                }
+            }
+            let avg = sum/count;
+            let dif = avg - g[y][x];
+            // console.log(`s1(${x},${y}) → avg: ${avg} | dif: ${dif}`);
+            let res = g[y][x];
+            if(-15 < dif || dif < 15){
+                res = Math.round((avg - g[y][x]) * .5 + g[y][x]);
+            }
+            return res;
+        },
+        "smooth-2": (g,x,y)=>{
+            let sum = 0;
+            let count = 0;
+            let radius = 2;
+            for (let i = radius*-1; i <= radius; i++) {
+                for (let j = radius*-1; j <= radius; j++) {
+                    let nx = x + j - 1;
+                    let ny = y + i - 1;
+                    if(isInMap(nx,ny)){
+                        sum += g[ny][nx];
+                        count++;
+                    }
+                }
+            }
+            let avg = sum/count;
+            let dif = avg - g[y][x];
+            // console.log(`s2(${x},${y}) → avg: ${avg} | dif: ${dif}`);
+            let res = g[y][x];
+            if(-30 < dif || dif < 30){
+                res = Math.round((avg - g[y][x]) * .5 + g[y][x]);
+            }
+            return res;
+        },
+    }
+
+    /* ─── Drawing (view) ─── */
+
+    function DrawGridHSL(ctx, grid){
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                const e = grid[y][x];
+                let xn = x * s.cube.sz;
+                let yn = y * s.cube.sz;
+
+                let hue = e.h%360;
+                let sat = e.s%100;
+                let lum = e.l%100;
+                let bg = `hsla(${hue}, ${sat}%, ${lum}%, 1)`;
+                ctx.fillStyle = bg;
+                ctx.fillRect(xn,yn,s.cube.sz,s.cube.sz);
+            }
+        }
+    }
+
+    
+
+    /* ─── Rules (control) ─── */
+    const pr = {}
+
+    /* ─── Start and Update ─── */
+    var my_grid = [];
+    function start(){
+
+        // Code goes here.
+
+    }
+    function update(){
+        if(!s.q && !s.pause){
+
+            // Code goes here.
+
+        }
+        setTimeout(() => {
+            requestAnimationFrame(update);
+        }, s.timeOut)
+    }
+    function clearCanvas(ctx, bg="#0000"){
+        ctx.clearRect(0,0,s.w,s.h);
+        ctx.fillStyle = bg;
+        ctx.fillRect(0,0,s.w,s.h);
+    }
+    function reset(){
+        clearCanvas(ctx["canvas-grid"],"#000");
+        // DrawGridLines(ctx["canvas-grid"]);
+        // DrawXY(ctx["canvas-grid"]);
+
+        clearCanvas(ctx["canvas-draw"]);
+        my_grid = BuildGridHSL(s.cube.xlen, s.cube.ylen, {"h":0, "s":0, "l":0});
+        AddGridNoiseHSL(my_grid, fst["rand-ra"], {"h":360, "s":50, "l":50}, {"h":0, "s":50, "l":20});
+        HandleNoiseHSL(my_grid, fup3["smooth-hsl"], 1, 10, .5);
+        HandleNoiseHSL(my_grid, fup3["smooth-hsl"], 2, 15, .75);
+        DrawGridHSL(ctx['canvas-draw'], my_grid);
+
+    }
+
+
+    /* ─── Events ─── */
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+
+        s.z = s.w;
+        // s.z = Math.min(s.w,s.h);
+        s.x2 = s.w/2;
+        s.y2 = s.h/2;
+        s.z2 = s.z/2;
+
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        // s.canvas.z = (s.h + s.w)/2;
+        s.canvas.z = s.w;
+        // s.canvas.z = Math.min(s.w,s.h);
+
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
+
+        /* ─ Box ─ */
+        /* resize box for mobile */
+        if(s.h < s.box.y) {s.box.y = s.h;}
+        if(s.w < s.box.x) {s.box.x = s.w;}
+        s.box.z = (s.box.y + s.box.x)/2;
+
+        /* position box */
+        s.box.top = (s.h - s.box.y)/2;
+        s.box.left = (s.w - s.box.x)/2;
+
+        /* determine center */
+        s.box.x2 = s.box.left + (s.box.x / 2);
+        s.box.y2 = s.box.top + (s.box.y / 2);
+        s.box.z2 = (s.box.z / 2);
+
+        /* ─ Cube ─ */
+        s.cube.xlen = window.innerWidth / s.cube.sz;
+        s.cube.ylen = window.innerHeight / s.cube.sz;
+        // s.cube.zlen = s.dim / s.cube.sz;
+        s.cube.zlen = s.cube.xlen;
+        // s.cube.zlen = Math.min(s.cube.xlen, s.cube.ylen);
+
+        /* ─ Grid ─ */
+        s.grid.cols = Math.floor(s.w / s.tile.w);
+        s.grid.rows = Math.floor(s.h / s.tile.h);
+
+        
+        /* ─ Log ─ */
+        // console.log(`s.w: ${s.w}, s.h: ${s.h}`);
+    //     console.log(`
+    // [window]
+    //     s.w: ${s.w}, 
+    //     s.h: ${s.h},
+    //     s.dim: ${s.dim.toFixed(2)},
+
+    // [canvas]
+    //     s.canvas.x: ${s.canvas.x},
+    //     s.canvas.y: ${s.canvas.y},
+    //     s.canvas.z: ${s.canvas.z},
+
+    //     s.canvas.x2: ${s.canvas.x2},
+    //     s.canvas.y2: ${s.canvas.y2},
+    //     s.canvas.z2: ${s.canvas.z2},
+
+    // [box]
+    //     s.box.x: ${s.box.x},
+    //     s.box.y: ${s.box.y},
+    //     s.box.z: ${s.box.z},
+
+    //     s.box.x2: ${s.box.x2},
+    //     s.box.y2: ${s.box.y2},
+    //     s.box.z2: ${s.box.z2},
+
+    // [cube]
+    //     s.cube.xlen: ${s.cube.xlen},
+    //     s.cube.ylen: ${s.cube.ylen},
+    //     s.cube.zlen: ${s.cube.zlen},
+    //     `);
+
+        /* ─ Canvas Update ─ */
+        // canvas.width = s.canvas.x;
+        // canvas.height = s.canvas.y;
+        // ctx.clearRect(0,0,canvas.width, canvas.height);
+
+        reset();
+    }
+    window.addEventListener('resize', () =>{
+        updateSettings();
+    });
+    
+    function oEvents(){
+        // window.addEventListener('click', (ev) => {
+        //     if(s.pause){
+        //         let x = ev.pageX;
+        //         let y = ev.pageY;
+        //         console.log(`(${x},${y})`);
+        //     }
+        // });
+        // window.addEventListener('mousemove', (ev) =>{
+        //     if(s.q){
+        //         let x = ev.clientX;
+        //         let y = ev.clientY;
+        //         console.log(`(${x},${y})`);
+        //     }
+        // });
+    }
+
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        console.log(`w: ${window.innerWidth}, h:${window.innerHeight}`);
+
+        updateSettings();
+        // start();
+        // update();
+    });
+    /* Version Log:
+    [index-nds-00]: Default Canvas Template. (cube version)
+    [index-nds-01]: 
+    [index-nds-02]: 
+    [index-nds-03]: 
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
+    [index-nds-07]: 
+    [index-nds-08]: 
+    [index-nds-09]: 
+    [index-nds-10]: 
+    [index-nds-11]: 
+    [index-nds-12]: 
+    
+    */
+    function CSSAngleToXY(angle){
+        angle = (angle+270)%360;
+        let rad = angle * Math.PI / 180;
+        let xy = {"x":0,"y":0};
+        if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+        if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+        return xy;
+    }
+    function XYtoCSSAngle(x,y){
+        let angle = 90;
+        if(x == 0){
+            if(y > 0) {return 180;}
+            if(y < 0) {return 0;}
+        }
+        if(x < 0) { angle += 180; }
+        if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
+        return angle;
+    }
+
+    function randomXYZ(){
+        let x = Math.random()*s.canvas.x;
+        let y = Math.random()*s.canvas.y;
+        let z = Math.random()*s.canvas.z;
+        return {'x':x, 'y':y, 'z':z};
+    }
+    function randomXY(){
+        let x = Math.random()*s.canvas.x;
+        let y = Math.random()*s.canvas.y;
+        return {'x':x, 'y':y};
+    }
+
+    const fst = {
+        "rand": ()=>{return Math.random();},
+        "rand-r": (r)=>{return Math.random()*r;},
+        "rand-ra": (r,a)=>{return Math.random()*r+a;},
+        "rand-01": ()=>{return Math.floor(Math.random()*2);},
+        "rand-360": ()=>{return Math.floor(Math.random()*360);},
+        "a+b": (a,b)=>{return a+b;},
+    }
+
+    function isInScreen(x,y){
+        if(x < 0 || y < 0 || x >= s.w || y >= s.h){
+            return false;
+        } else {
+            return true;
+        }
+    }
+    function isInMap(x,y){
+        if(x < 0 || y < 0 || x >= s.cube.xlen || y >= s.cube.ylen){
+            return false;
+        } else {
+            return true;
+        }
+    }
+    function isInGrid(g,x,y){
+        if(x < 0 || y < 0 || x >= g[0].length || y >= g.length){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+</script>
+</body>
+</html>

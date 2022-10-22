@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Canvas_Template | NyteLabs</title>
+    <title>Gravity | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/canvas.css">
@@ -16,15 +16,16 @@
             transform: translateX(-50%) translateY(-50%);
         } */
         /* :root {} */
+        .subtitle{user-select: none;}
     </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
     <header>
-        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
         <h1 class="title">NyteLabs</h1>
-        <!-- <div class="subtitle">Canvas_Template</div> -->
+        <!-- <div class="subtitle">Gravity</div> -->
     </header>
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
@@ -153,7 +154,7 @@
         }
     }
     function draw_z(ctx,e){
-        if(e.x > 0 && e.x < (s.w) && e.y > 0 && e.y < (s.h)){
+        if(e.x > 0 && e.x < (s.canvas.x) && e.y > 0 && e.y < (s.canvas.y)){
             e.getSize();
             ctx.fillStyle = e.getColor();
             ctx.beginPath();
@@ -265,28 +266,37 @@
             this.vz = 0;
 
             this.mass = 1;
-            this.size = 4;
-            this.size_z = 5;
+            this.size = 5;
+            this.size_z = this.size;
             this.range = 6;
 
             this.hue = 210;
             this.sat = 100;
             this.lum = 50;
             this.alp = 1;
+            // console.log(`id: ${this.id}`);
+            // console.log(clr);
+            // console.log(`(1) → hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`);
             if(Object.keys(clr).includes("hue")){this.hue = clr.hue;}
             if(Object.keys(clr).includes("sat")){this.sat = clr.sat;}
             if(Object.keys(clr).includes("lum")){this.lum = clr.lum;}
             if(Object.keys(clr).includes("alp")){this.alp = clr.alp;}
+            // console.log(`(2) → hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`);
             this.color = "hsla(0,0%,50%,.5)";
             // this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
             this.zdp = .5;
+            this.getSize();
+            this.getColor();
+            this.path = [];
+            // console.log(`color→ ${this.color}`);
         }
         getSize(){
             /* this.zdp will vary from 0 to 1. close and far, respectively. */
             let box_z = (s.w + s.h)/2;
             this.zdp = 1 - this.z/box_z;
             let zadd = parseFloat((this.zdp * this.range).toFixed(2));
-            this.size_z = this.size + (this.range/2) - zadd;
+            // this.size_z = this.size + (this.range/2) - zadd;
+            this.size_z = this.size + (this.range) - zadd;
         }
         getColor(){
             // this.calcColor();
@@ -312,10 +322,40 @@
                     break;
             }
         }
+        updatePath(){
+            if(this.path.length > 20){this.path.shift();}
+            // this.path.push({"x": this.x, "y": this.y, "z": this.z});
+            // this.path.push({"x": this.x, "y": this.y, "z": this.z, "zdp": this.zdp});
+            this.path.push({"x": this.x, "y": this.y, "z": this.z, "size": this.size_z, "color": this.color});
+        }
     }
 
 
     /* ─── Create ─── */
+    function create_xyzv(type="none",x,y,z,color={sat:0,alp:.5}){
+        let np = new pz(particles.length,type,x,y,z,color);
+        let v = randomXYZa(1);
+        np.vx = v.x;
+        np.vy = v.y;
+        np.vz = v.z;
+        pg[type].push(np);
+        particles.push(np);
+    }
+    function create_rxyz(n,type="none",color={sat:0,alp:.5}){
+        for(let i = 0; i < n; i++){
+            let xyz = randomXYZ();
+            let np = new pz(particles.length,type,xyz.x,xyz.y,xyz.z,color);
+            pg[type].push(np);
+            particles.push(np);
+        }
+    }
+    function create_xyz(type="none",x,y,z,color={sat:0,alp:.5}){
+        // console.log(`type: ${type}, x: ${x}, y: ${y}, z: ${z}`);
+        // console.log(color);
+        let np = new pz(particles.length,type,x,y,z,color);
+        pg[type].push(np);
+        particles.push(np);
+    }
     function create(n,type="none",color="#8889"){
         for(let i = 0; i < n; i++){
             let xy = randomXY();
@@ -512,6 +552,94 @@
     }
     
 
+    pr["or"] = function (list1, list2, g = 0, r1 = 0, r2 = 100, ent = 1){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fz = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let dz = a.z - b.z;
+                let d = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                if(d > r1 && d < r2){
+                    let force = g * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                    fz += (force * dz);
+                }
+            }
+            a.vx = (a.vx + fx) * ent;
+            a.vy = (a.vy + fy) * ent;
+            a.vz = (a.vz + fz) * ent;
+            a.x += a.vx;
+            a.y += a.vy;
+            a.z += a.vz;
+        }
+    }
+    pr["gr"] = function (list1, list2, g = 0, r1 = 0, r2 = 100, ent = 1){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fz = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let dz = a.z - b.z;
+                let d = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                if(d > r1 && d < r2){
+                    let force = g * 1/(d*d);
+                    fx += (force * dx);
+                    fy += (force * dy);
+                    fz += (force * dz);
+                }
+            }
+            a.vx = (a.vx + fx) * ent;
+            a.vy = (a.vy + fy) * ent;
+            a.vz = (a.vz + fz) * ent;
+            a.x += a.vx;
+            a.y += a.vy;
+            a.z += a.vz;
+        }
+    }
+    pr["walls3d"] = function (list1, g = 0, r = 10){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fz = 0;
+
+            let dx = Math.abs(a.x - s.canvas.w);
+            let dy = Math.abs(a.y - s.canvas.h);
+            let dz = Math.abs(a.z - s.canvas.z);
+            if(a.x > 0 && a.x < r){fx += g;}
+            if(a.y > 0 && a.y < r){fy += g;}
+            if(a.z > 0 && a.z < r){fz += g;}
+            if(dx > 0 && dx < r){fx -= g;}
+            if(dy > 0 && dy < r){fy -= g;}
+            if(dz > 0 && dz < r){fz -= g;}
+
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+            a.vz = (a.vz + fz);
+            a.x += a.vx;
+            a.y += a.vy;
+            a.z += a.vz;
+
+            let margin = -5;
+            let cr = 10;
+            if(a.x < (0-margin) || a.x > (s.canvas.x+margin) || a.y < (0-margin) || a.y > (s.canvas.y+margin) || a.z < (0-margin) || a.z> (s.canvas.z+margin)){
+                a.x = s.canvas.x2 + (Math.random() * (cr*2) - cr);
+                a.y = s.canvas.y2 + (Math.random() * (cr*2) - cr);
+                a.z = s.canvas.z2 + (Math.random() * (cr*2) - cr);
+            }
+        }
+    }
+
     /* ─── Start and Update ─── */
     const gs = {
         "1": {count: 200, clr:"hsla(30, 100%, 50%, .75)"},
@@ -521,18 +649,53 @@
         // "5": {count: 50, clr:"hsla(0, 100%, 50%, .5)"},
         // "6": {count: 50, clr:"hsla(270, 100%, 50%, .5)"},
     };
+    const gsz = {
+        // "1": {count: 1, clr:{hue:30, sat:100, lum:60, alp:1}},
+        "2": {count: 5, clr:{hue:0, sat:100, lum:60, alp:1}},
+        "3": {count: 5, clr:{hue:210}},
+        "4": {count: 5, clr:{hue:150, alp:.5}},
+        "5": {count: 5, clr:{hue:330, alp:.5}},
+        // "5": {count: 50, clr:"hsla(0, 100%, 50%, .5)"},
+        // "6": {count: 50, clr:"hsla(270, 100%, 50%, .5)"},
+    };
     function start(){
         // create(10,"p","#fff");
 
-        let keys = Object.keys(gs);
-        keys.forEach(k=>{
-            pg[k] = [];
-            create(gs[k].count,k,gs[k].clr);
-        });
+        pg["0"] = [];
+        create_xyz("0",s.canvas.x2,s.canvas.y2,s.canvas.z2,{hue:30, sat:100, alp:1});
+
+        pg["3"] = [];
+        create_xyz("3",s.canvas.x2+150,s.canvas.y2,s.canvas.z2,{hue:210});
+        pg["3"][0].vx = 0;
+        pg["3"][0].vy = .2;
+        pg["3"][0].vz = 1;
+        
+        pg["4"] = [];
+        create_xyz("4",s.canvas.x2+150,s.canvas.y2+20,s.canvas.z2-4,{hue:150, alp:.5});
+        create_xyz("4",s.canvas.x2+150,s.canvas.y2-20,s.canvas.z2+4,{hue:330, alp:.5});
+        // create_xyz("4",s.canvas.x2+170,s.canvas.y2,s.canvas.z2+4,{hue:150, alp:.5});
+        // create_xyz("4",s.canvas.x2+130,s.canvas.y2,s.canvas.z2-4,{hue:330, alp:.5});
+        // pg["5"] = [];
+        // create_xyz("5",s.canvas.x2+170,s.canvas.y2,s.canvas.z2+4,{hue:0, alp:.5});
+        // create_xyz("5",s.canvas.x2+130,s.canvas.y2,s.canvas.z2-4,{hue:0, alp:.5});
+
+
+        // let keys = Object.keys(gs);
+        // keys.forEach(k=>{
+        //     pg[k] = [];
+        //     create(gs[k].count,k,gs[k].clr);
+        // });
+        // let keys = Object.keys(gsz);
+        // keys.forEach(k=>{
+        //     pg[k] = [];
+        //     // create(gs[k].count,k,gs[k].clr);
+        //     create_rxyz(gsz[k].count,k,gsz[k].clr);
+        //     // create_xyz("4",s.canvas.x2+150,s.canvas.y2-20,s.canvas.z2+4,{hue:330, alp:.5});
+        // });
     }
 
     var currentFunction = "rule";
-    var currentRule = "ab";
+    var currentRule = "ors3";
     const rules = {
         "ab": [
             {"a": "1", "b": "1", "g": 0.05, "r": 30},
@@ -551,32 +714,113 @@
             {a: "4", b: "4", g: -0.15, r: 150},
         ],
     }
+    const ringrules = {
+        "ors2": [
+            {f: "or", a: "2", b: "0", g: -.12, r1: 200, r2: 600, ent: 1},
+            {f: "or", a: "2", b: "0", g: 0.12, r1: 0, r2: 150, ent: 1},
+            // {f: "or", a: "3", b: "0", g: -.12, r1: 120, r2: 600, ent: 1},
+            // {f: "or", a: "3", b: "0", g: .12, r1: 0, r2: 80, ent: 1},
+            {f: "or", a: "3", b: "0", g: -.05, r1: 0, r2: 600, ent: 1},
+            
+            {f: "or", a: "2", b: "2", g: 0.9, r1: 0, r2: 5, ent: 1},
+            // {f: "or", a: "3", b: "3", g: 0.9, r1: 0, r2: 5, ent: 1},
+
+            {f: "or", a: "3", b: "3", g: 0.12, r1: 0, r2: 2, ent: 1},
+            /* {f: "gr", a: "4", b: "3", g: -12, r1: 0, r2: 900, ent: 1}, */
+            /* {f: "or", a: "4", b: "3", g: -.29, r1: 0, r2: 900, ent: 1}, */
+            {f: "gr", a: "4", b: "3", g: -6, r1: 0, r2: 900, ent: 1},
+            {f: "or", a: "4", b: "3", g: -.12, r1: 0, r2: 900, ent: 1},
+            // {f: "gr", a: "4", b: "3", g: -2.9, r1: 0, r2: 300, ent: 1},
+            // {f: "or", a: "4", b: "3", g: -0.05, r1: 50, r2: 500, ent: 1},
+            // {f: "gr", a: "4", b: "3", g: -2.9, r1: 30, r2: 80, ent: 1},
+            // {f: "gr", a: "4", b: "3", g: -2.1, r1: 80, r2: 500, ent: 1},
+            // {f: "gr", a: "4", b: "4", g: 0.05, r1: 0, r2: 40, ent: 1},
+
+            {f: "or", a: "2", b: "2", g: 0.3, r1: 0, r2: 40, ent: .96},
+
+            {f: "or", a: "2", b: "2", g: -0.0001, r1: 100, r2: 250, ent: 1},
+            {f: "or", a: "3", b: "3", g: -0.0001, r1: 100, r2: 250, ent: 1},
+
+            // {f: "or", a: "2", b: "3", g: -0.02, r1: 0, r2: 600, ent: 1},
+            // {f: "or", a: "3", b: "2", g: 0.02, r1: 0, r2: 400, ent: 1},
+        ],
+        "ors3": [
+            {f: "or", a: "3", b: "0", g: -.05, r1: 0, r2: 600, ent: 1},
+            {f: "or", a: "3", b: "3", g: 0.12, r1: 0, r2: 2, ent: 1},
+
+            {f: "gr", a: "4", b: "3", g: -6, r1: 0, r2: 900, ent: 1},
+            {f: "or", a: "4", b: "3", g: -.12, r1: 0, r2: 900, ent: 1},
+            // {f: "gr", a: "5", b: "3", g: -6, r1: 0, r2: 900, ent: 1},
+            // {f: "or", a: "5", b: "3", g: -.12, r1: 0, r2: 900, ent: 1},
+
+            {f: "or", a: "3", b: "3", g: -0.0001, r1: 100, r2: 250, ent: 1},
+        ],
+        "ors4": [
+            {f: "or", a: "3", b: "0", g: -.05, r1: 0, r2: 600, ent: 1},
+            {f: "or", a: "2", b: "0", g: -.02, r1: 0, r2: 600, ent: 1},
+
+
+            {f: "or", a: "2", b: "2", g: 0.12, r1: 0, r2: 2, ent: .987},
+            {f: "or", a: "3", b: "3", g: 0.12, r1: 0, r2: 2, ent: .987},
+            {f: "or", a: "4", b: "4", g: 0.12, r1: 0, r2: 2, ent: .987},
+            {f: "or", a: "5", b: "5", g: 0.12, r1: 0, r2: 2, ent: .987},
+
+            {f: "gr", a: "4", b: "3", g: -6, r1: 0, r2: 900, ent: 1},
+            {f: "or", a: "4", b: "3", g: -.12, r1: 0, r2: 900, ent: 1},
+            {f: "gr", a: "5", b: "3", g: -6, r1: 0, r2: 900, ent: 1},
+            {f: "or", a: "5", b: "3", g: -.12, r1: 0, r2: 900, ent: 1},
+
+            {f: "or", a: "3", b: "3", g: -0.0001, r1: 100, r2: 250, ent: 1},
+        ],
+    }
     function update(){
         if(!s.q && !s.pause){
             /* ─ Calculate Part ─ */
-            rules[currentRule].forEach(e => {
-                pr[currentFunction](pg[e.a], pg[e.b], e.g, e.r);
+            // rules[currentRule].forEach(e => {
+            //     pr[currentFunction](pg[e.a], pg[e.b], e.g, e.r);
+            // });
+            ringrules[currentRule].forEach(e => {
+                pr[e.f](pg[e.a], pg[e.b], e.g, e.r1, e.r2, e.ent);
             });
 
-            pr["walls"](particles, 1, 0);
-            pr["walls"](particles, .25, 15);
+            // pr["walls"](particles, 1, 0);
+            // pr["walls"](particles, .25, 15);
+
+            pr["walls3d"](particles, 1, 0);
+            pr["walls3d"](particles, .25, 15);
+
+
+            particles.sort((a,b) => a.z - b.z);
 
             /* ─ Draw Part ─ */
-            clearCanvas();
+            clearCanvas(ctx);
             for(let i = 0; i<particles.length; i++){
-                draw_e(ctx,particles[i]);
-                // draw_z(ctx,particles[i]);
+                const e = particles[i];
+                if(e.type == "4"){
+                    e.updatePath();
+                    draw_path(ctx,e.path,e.color,e.size);
+                }
+                // e.updatePath();
+                // draw_path(ctx,e.path,e.color,e.size);
+                draw_z(ctx,e);
             }
+            // for(let i = 0; i<particles.length; i++){
+            //     draw_e(ctx,particles[i]);
+            //     // draw_z(ctx,particles[i]);
+            // }
         }
         setTimeout(() => {
             requestAnimationFrame(update);
         }, s.timeOut)
     }
 
-    function clearCanvas(){
-        ctx.clearRect(0,0,s.w,s.h);
-        ctx.fillStyle = "#000";
-        ctx.fillRect(0,0,s.w,s.h);
+    function clearCanvas(ctx){
+        // ctx.clearRect(0,0,s.w,s.h);
+        // ctx.fillStyle = "#000";
+        // ctx.fillStyle = "#00000020";
+        // ctx.fillRect(0,0,s.w,s.h);
+
+        drawSquare(ctx,0,0,"#00000020",s.w,s.h);
     }
 
     /* ─── Events ─── */
@@ -641,12 +885,12 @@
     window.addEventListener('load', (ev) => {
         console.log(`Welcome to my Lab!`);
         updateSettings();
-        // start();
-        // update();
+        start();
+        update();
     });
     /* Version Log:
     [index-nds-00]: Default Canvas Template.
-    [index-nds-01]: 
+    [index-nds-01]: Mimic of `/particle-rules/spell-target/index-spell.html`
     [index-nds-02]: 
     [index-nds-03]: 
     [index-nds-04]: 
@@ -679,6 +923,13 @@
         return angle;
     }
 
+
+    function randomXYZs(scale={'x':1, 'y':1, 'z':1}){
+        let x = Math.random() * scale.x;
+        let y = Math.random() * scale.y;
+        let z = Math.random() * scale.z;
+        return {'x':x, 'y':y, 'z':z};
+    }
     function randomXYZ(){
         let x = Math.random()*s.canvas.x;
         let y = Math.random()*s.canvas.y;
@@ -690,6 +941,7 @@
         let y = Math.random()*s.canvas.y;
         return {'x':x, 'y':y};
     }
+    function random(n,a){return Math.random()*n+a;}
 
 </script>
 </body>

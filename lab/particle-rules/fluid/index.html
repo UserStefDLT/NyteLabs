@@ -16,37 +16,16 @@
             transform: translateX(-50%) translateY(-50%);
         } */
         /* :root {} */
-        /* .subtitle{user-select: none;} */
+        .subtitle{user-select: none;}
+        [id*="canvas"] {
+            /* position: absolute;
+            inset: 0;
+            top: 0; left: 0; */
+            background-color: #0000;
+            /* height: 100%; width: 100%;
+            height: 100vh; width: 100vw; */
+        }
     </style>
-<style>
-    .box {
-        position: absolute;
-        top: 50%; left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-        max-height: 500px;
-        max-width: 500px;
-        height: 95vh;
-        width: 95vw;
-        min-height: 100px;
-        min-width: 100px;
-        /* outline: 1px dashed var(--bwf9); */
-        z-index: 5;
-    }
-    :root {
-        --clr-sun: #f93;
-        --clr-sun-glow: #f939;
-        --clr-sun-zero: #f930;
-    }
-    .sun {
-        position: absolute;
-        top: 50%; left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-        height: 100px; width: 100px;
-        border: 1px solid var(--clr-sun-glow);
-        border-radius: 50%;
-        z-index: 8;
-    }
-</style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
@@ -63,7 +42,8 @@
     <input type="checkbox" name="toggle" id="toggleLights">
 
 <main>
-    <canvas id="canvas"></canvas>
+    <canvas id="canvas-grid"></canvas>
+    <canvas id="canvas-draw"></canvas>
     <!-- <div class="box"></div> -->
     <!-- <div class="sun"></div> -->
 </main>
@@ -84,7 +64,7 @@
 <!-- <script src="main.js"></script> -->
 <script>
     /* Constant Variables */
-    const s = {
+    const s1 = {
         h: window.innerHeight,
         w: window.innerWidth,
 
@@ -156,17 +136,100 @@
         q: false
     }
 
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        touch: {
+            x: 0,
+            y: 0,
+            z: 0,
+            paths: {},
+            path_len: 20,
+            tracking: false
+        },
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            path: [],
+            path_len: 20,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            sz: 20,
+            sz2: 10,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            padding: 0,
+            brush: "p",
+        },
+        box: {
+            x: 500,
+            y: 500,
+            z: 500,
+            x2: 250,
+            y2: 250,
+            z2: 250,
+            d: 1000,
+            p: 1000,
+        },
+        cube: {
+            xlen: 10,
+            ylen: 10,
+            zlen: 10,
+            sz: 10,
+        },
+
+        timeOut: 40,
+        player: false,
+        
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+
+    const particles = [];
+    const pg = {}
+
 </script>
 <script src="../../../scripts/settings.js"></script>
 <script>
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // const canvas = document.getElementById('canvas');
+    // const ctx = canvas.getContext('2d');
+    // canvas.width = window.innerWidth;
+    // canvas.height = window.innerHeight;
+
+    const layers = ["canvas-grid", "canvas-draw"];
+    const canvas = {};
+    const ctx = {};
+    layers.forEach(key => {
+        canvas[key] = document.getElementById(key);
+        ctx[key] = canvas[key].getContext('2d');
+        canvas[key].width = window.innerWidth;
+        canvas[key].height = window.innerHeight;
+    });
 
     /* ─── Grid: Wind ─── */
-    const pile = [];
-    const grid = [];
+    var pile = [];
+    var grid = [];
     function startGrid(w,h){
         for (let y = 0; y <= h; y++) {
             grid.push([]);
@@ -369,7 +432,7 @@
     }
 
     /* ─── Particle ─── */
-    const particles = [];
+    // const particles = [];
     class p {
         constructor(id,type="p",x,y,z=0,color="#8889"){
             this.id = id;
@@ -1124,7 +1187,7 @@
         }
     }
 
-    const pg = {}
+    // const pg = {}
     const gs1 = {
         "1": {count: 200, clr:"hsla(30, 100%, 50%, .75)"},
         "2": {count: 200, clr:"hsla(150, 100%, 50%, .75)"},
@@ -1142,19 +1205,19 @@
         // "6": {count: 50, clr:"hsla(270, 100%, 50%, .5)"},
     };
     function start(){
-        canvas.addEventListener("touchstart", handleStart, false);
-        canvas.addEventListener("touchend", handleEnd, false);
-        canvas.addEventListener("touchcancel", handleCancel, false);
-        canvas.addEventListener("touchmove", handleMove, false);
+        canvas["canvas-draw"].addEventListener("touchstart", handleStart, false);
+        canvas["canvas-draw"].addEventListener("touchend", handleEnd, false);
+        canvas["canvas-draw"].addEventListener("touchcancel", handleCancel, false);
+        canvas["canvas-draw"].addEventListener("touchmove", handleMove, false);
         // canvas.addEventListener("mousemove", cMouseMove);
 
         pg["pu"] = [];
 
-        let keys = Object.keys(gs);
-        keys.forEach(k=>{
-            pg[k] = [];
-            create(gs[k].count,k,gs[k].clr);
-        });
+        // let keys = Object.keys(gs);
+        // keys.forEach(k=>{
+        //     pg[k] = [];
+        //     create(gs[k].count,k,gs[k].clr);
+        // });
     }
     // start();
 
@@ -1250,19 +1313,19 @@
     };
     function update(){
         if(!s.q && !s.pause){
-            rules[currentRule].forEach(e => {
-                pr[currentFunction](pg[e.a], pg[e.b], e.g, e.r);
-            });
+            // rules[currentRule].forEach(e => {
+            //     pr[currentFunction](pg[e.a], pg[e.b], e.g, e.r);
+            // });
             
-            pr["walls"](particles, 1, 0);
-            pr["walls"](particles, .25, 15);
-            pr["wind"](particles, .25);
+            // pr["walls"](particles, 1, 0);
+            // pr["walls"](particles, .25, 15);
+            // pr["wind"](particles, .25);
 
             pr["grid-pulse"](grid, pg["pu"], 1, 100);
             pr["grid-entropy"](grid,.89);
 
             /* ─Rest of Update()─ */
-            clearCanvas();
+            clearCanvas(ctx["canvas-grid"]);
             // draw_path(ctx,s.mouse.path,"#fff2",2);
             // for(let i = 0; i < Object.keys(s.touch.paths).length; i++){
             //     let hue = i * 60 + 30;
@@ -1270,22 +1333,22 @@
             //     draw_path(ctx,s.touch.paths[Object.keys(s.touch.paths)[i]],clr,2);
             //     // draw_path(ctx,s.touch.paths[Object.keys(s.touch.paths)[i]],"#fff3",2);
             // }
-            // drawGrid(ctx, s.grid.cols, s.grid.rows);
-            for(let i = 0; i < particles.length; i++){
-                draw_e(ctx, particles[i]);
-                // draw_c(ctx,particles[i]);
-                // draw_z(ctx,particles[i]);
-            }
-            // for(let i = 0; i < pg["pu"].length; i++){
-            //     draw_e(ctx, pg["pu"][i]);
+            drawGrid(ctx["canvas-grid"], s.grid.cols, s.grid.rows);
+            // for(let i = 0; i < particles.length; i++){
+            //     draw_e(ctx, particles[i]);
+            //     // draw_c(ctx,particles[i]);
+            //     // draw_z(ctx,particles[i]);
             // }
+            // // for(let i = 0; i < pg["pu"].length; i++){
+            // //     draw_e(ctx, pg["pu"][i]);
+            // // }
         }
         setTimeout(() => {
             requestAnimationFrame(update);
         }, s.timeOut)
     }
 
-    function clearCanvas(){
+    function clearCanvas(ctx){
         ctx.clearRect(0,0,s.w,s.h);
         ctx.fillStyle = "#00000004";
         ctx.fillRect(0,0,s.w,s.h);
@@ -1293,9 +1356,24 @@
         // drawSquare(ctx,0,0,"#00000020",s.w,s.h);
         // drawSquare(ctx,0,0,"#00000008",s.w,s.h);
     }
+    function reset(){
+        // apaths = [];
+        // apath = [];
+
+        pile = [];
+        grid = [];
+
+        // Code goes here.
+        clearCanvas(ctx["canvas-grid"],"#000");
+        // DrawGridPlane(ctx["canvas-grid"]);
+        // DrawXY(ctx["canvas-grid"]);
+
+        clearCanvas(ctx["canvas-draw"]);
+        
+    }
 
     /* ─── Events ─── */
-    function updateSettings(){
+    function updateSettings1(){
         s.h = window.innerHeight;
         s.w = window.innerWidth;
         s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
@@ -1333,28 +1411,147 @@
         canvas.height = s.canvas.y;
         ctx.clearRect(0,0,canvas.width, canvas.height);
     }
+    function updateSettings2(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+        
+        s.z = s.w;
+        s.x2 = s.w/2;
+        s.y2 = s.h/2;
+        s.z2 = s.z/2;
+
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        // s.canvas.z = (s.h + s.w)/2;
+        s.canvas.z = s.w;
+
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
+
+        /* ─ Box ─ */
+        /* resize box for mobile */
+        if(s.h < s.box.y) {s.box.y = s.h;}
+        if(s.w < s.box.x) {s.box.x = s.w;}
+        s.box.z = (s.box.y + s.box.x)/2;
+
+        /* center box */
+        s.box.top = (s.h - s.box.y)/2;
+        s.box.left = (s.w - s.box.x)/2;
+
+        /* determine center */
+        s.box.x2 = s.box.left + (s.box.x / 2);
+        s.box.y2 = s.box.top + (s.box.y / 2);
+        s.box.z2 = (s.box.z / 2);
+
+        /* ─ Cube ─ */
+        s.cube.xlen = window.innerWidth / s.cube.sz;
+        s.cube.ylen = window.innerHeight / s.cube.sz;
+        s.cube.zlen = s.cube.xlen;
+
+        /* ─ Grid ─ */
+        s.grid.cols = Math.floor(s.w / s.tile.w);
+        s.grid.rows = Math.floor(s.h / s.tile.h);
+
+        /* ─ Canvas Update ─ */
+        // canvas.width = s.canvas.x;
+        // canvas.height = s.canvas.y;
+        // ctx.clearRect(0,0,canvas.width, canvas.height);
+        layers.forEach(key => {
+            canvas[key].width = window.innerWidth;
+            canvas[key].height = window.innerHeight;
+            ctx[key].clearRect(0,0,canvas[key].width, canvas[key].height);
+        });
+        // // DrawPlane(ctx["canvas-grid"]);
+        // DrawGridPlane(ctx["canvas-grid"]);
+        // DrawCos(ctx["canvas-draw"]);
+        reset();
+        // reset2();
+        // reset4();
+    }
+
+
+    function pulseAt(x,y){
+        let xtile = Math.floor(x / s.cube.sz);
+        let ytile = Math.floor(y / s.cube.sz);
+        console.log(`(${x},${y}) → tile-x: ${xtile}, tile-y: ${ytile}`);
+
+        create_pu(x,y,100);
+        console.log(`pg["pu"].length → ${pg["pu"].length}`);
+    }
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+
+        s.z = s.w;
+        // s.z = Math.min(s.w,s.h);
+        s.x2 = s.w/2;
+        s.y2 = s.h/2;
+        s.z2 = s.z/2;
+
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        // s.canvas.z = (s.h + s.w)/2;
+        s.canvas.z = s.w;
+        // s.canvas.z = Math.min(s.w,s.h);
+
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
+
+        /* ─ Box ─ */
+        /* resize box for mobile */
+        if(s.h < s.box.y) {s.box.y = s.h;}
+        if(s.w < s.box.x) {s.box.x = s.w;}
+        s.box.z = (s.box.y + s.box.x)/2;
+
+        /* position box */
+        s.box.top = (s.h - s.box.y)/2;
+        s.box.left = (s.w - s.box.x)/2;
+
+        /* determine center */
+        s.box.x2 = s.box.left + (s.box.x / 2);
+        s.box.y2 = s.box.top + (s.box.y / 2);
+        s.box.z2 = (s.box.z / 2);
+
+        /* ─ Cube ─ */
+        s.cube.xlen = window.innerWidth / s.cube.sz;
+        s.cube.ylen = window.innerHeight / s.cube.sz;
+        // s.cube.zlen = s.dim / s.cube.sz;
+        s.cube.zlen = s.cube.xlen;
+        // s.cube.zlen = Math.min(s.cube.xlen, s.cube.ylen);
+
+        /* ─ Grid ─ */
+        s.grid.cols = Math.floor(s.w / s.tile.w);
+        s.grid.rows = Math.floor(s.h / s.tile.h);
+
+        /* ─ Canvas Update ─ */
+        // canvas.width = s.canvas.x;
+        // canvas.height = s.canvas.y;
+        // ctx.clearRect(0,0,canvas.width, canvas.height);
+        layers.forEach(key => {
+            canvas[key].width = window.innerWidth;
+            canvas[key].height = window.innerHeight;
+            ctx[key].clearRect(0,0,canvas[key].width, canvas[key].height);
+        });
+
+        reset();
+    }
     window.addEventListener('resize', () =>{
         updateSettings();
     });
-    window.addEventListener('click', (ev) => {
-        // [click bomb] is when clicked it pushes around.
-        let px = ev.pageX;
-        let py = ev.pageY;
-        let x = Math.floor(px / s.tile.w);
-        let y = Math.floor(py / s.tile.h);
-        console.log(`(${px},${py}) → tile-x: ${x}, tile-y: ${y}`);
-
-        // if(currentRule == "ab"){currentRule = "part";} else {currentRule = "ab";}
-
-        // pr["particle-pulse"](particles, [{"x":px,"y":py}], 1, 100);
-        // pr["grid-pulse"](particles, pg["pu"], 1, 100);
-
-        create_pu(px,py,100);
-        console.log(`pg["pu"].length → ${pg["pu"].length}`);
-        // console.log(pg["pu"][pg["pu"].length-1]);
-    });
+    // window.addEventListener('click', (ev) => {
+    //     let x = ev.pageX;
+    //     let y = ev.pageY;
+    //     pulseAt(x,y);
+    // });
 
     /* ─── Event Handlers ─── */
+    var previousTouchEvent = '';
     var ongoingTouches = [];
     function copyTouch({ identifier, pageX, pageY }) {
         return { identifier, pageX, pageY };
@@ -1380,6 +1577,7 @@
     }
     function handleStart(ev) {
         console.log("touchstart.");
+        previousTouchEvent = "touchstart"
         ev.preventDefault();
         var touches = ev.changedTouches;
         for (var i = 0; i < touches.length; i++) {
@@ -1388,6 +1586,7 @@
     }
     function handleMove(ev) {
         console.log("touchmove.");
+        previousTouchEvent = "touchmove";
         ev.preventDefault();
         var touches = ev.changedTouches;
         // console.log(touches);
@@ -1411,6 +1610,7 @@
                     /* (End of) Adding the touches to the paths list. */
 
                     updateGrid(s.touch.paths[idx],s.grid.cols,s.grid.rows);
+                    // updateGrid(wind_grid,s.touch.paths[idx]);
                 }
 
                 ongoingTouches.splice(idx, 1, copyTouch(touches[i])); // swap in the new touch record
@@ -1423,6 +1623,19 @@
         console.log("touchend.");
         ev.preventDefault();
         var touches = ev.changedTouches;
+        if(previousTouchEvent == "touchstart") {
+            for (var i = 0; i < touches.length; i++) {
+                var idx = ongoingTouchIndexById(touches[i].identifier);
+                if (idx >= 0) {
+                    x = ongoingTouches[idx].pageX;
+                    y = ongoingTouches[idx].pageY;
+                    pulseAt(x,y);
+                } else {
+                    console.log("can't figure out which touch to end");
+                }
+            }
+        }
+        previousTouchEvent = "touchend"
         for (var i = 0; i < touches.length; i++) {
             var idx = ongoingTouchIndexById(touches[i].identifier);
             if (idx >= 0) {

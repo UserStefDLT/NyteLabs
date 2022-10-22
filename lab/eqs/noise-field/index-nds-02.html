@@ -691,14 +691,14 @@
                 let yn = y * qs.tile;
 
                 let hue = e%360;
-                // let bg = `hsla(${hue}, 100%, 60%, 1)`;
-                // let bg = `hsla(${hue}, 40%, 40%, .75)`;
-                let bg = `hsla(${hue}, 80%, 40%, 1)`;
+                let bg = `hsla(${hue}, 100%, 60%, 1)`;
                 ctx.fillStyle = bg;
                 ctx.fillRect(xn,yn,qs.tile,qs.tile);
             }
         }
     }
+
+    
     
     /* ─── Drawing (view) ─── */
     function getColorXY(x,y){
@@ -847,9 +847,9 @@
     function start(){
 
         // Code goes here.
-        // clearCanvas();
+        clearCanvas();
         DrawGridPlane(ctx["canvas-grid"]);
-        // DrawCos(ctx["canvas-draw"]);
+        DrawCos(ctx["canvas-draw"]);
 
     }
     function update(){
@@ -868,17 +868,6 @@
         ctx.fillRect(0,0,s.w,s.h);
     }
     function reset(){
-        clearCanvas(ctx["canvas-grid"],"#000");
-        // DrawGridLines(ctx["canvas-grid"]);
-        // DrawXY(ctx["canvas-grid"]);
-
-        clearCanvas(ctx["canvas-draw"]);
-        main_grid = BuildGrid(qs.w,qs.h,0);
-        // NoiseAndSmooth(main_grid);
-        NoiseAndSmoothDrawing(200);
-    }
-
-    function reset1(){
         // apaths = [];
         // apath = [];
 
@@ -1034,70 +1023,6 @@
         console.log('---');
     }
 
-    /*
-        Build Grid.
-        Add noise. (possibility: select range.) 
-        Smooth noise handling.
-    */
-
-    function NoiseAndSmooth(grid){
-        AddGridNoise(grid, fst["rand-360"]);
-        HandleNoise(grid, fup3["smooth"]);
-        HandleNoise(grid, fup3["smooth-1"]);
-        HandleNoise(grid, fup3["smooth-2"]);
-        HandleNoise(grid, fup3["smooth-2"]);
-        HandleNoise(grid, fup3["smooth-2"]);
-        DrawGrid(ctx['canvas-draw'], grid);
-    }
-
-    function NoiseAndSmoothDrawing(tdelay = 100){
-        setTimeout(() => {
-            AddGridNoise(main_grid, fst["rand-360"]);
-            DrawGrid(ctx['canvas-draw'], main_grid);
-        }, tdelay);
-
-        setTimeout(() => {
-            HandleNoise(main_grid, fup3["smooth"]);
-            DrawGrid(ctx['canvas-draw'], main_grid);
-        }, tdelay*2);
-
-        setTimeout(() => {
-            HandleNoise(main_grid, fup3["smooth-1"]);
-            DrawGrid(ctx['canvas-draw'], main_grid);
-        }, tdelay*3);
-
-        setTimeout(() => {
-            HandleNoise(main_grid, fup3["smooth-2"]);
-            DrawGrid(ctx['canvas-draw'], main_grid);
-        }, tdelay*4);
-    }
-
-    
-    function RandomFS2(){
-        let fs_keys = Object.keys(fs);
-        let fsid = Math.floor(Math.random()*fs_keys.length);
-        
-        current_fs = fs_keys[fsid];
-        current_fsi = fsid;
-
-        console.log(`%ccurrent_fsi: %c${current_fsi}%c | current_fs: %c${current_fs}`, "color: #fff9", "color: #06c", "color: #fff9", "color: #06c");
-    }
-    function SwitchFS(fsid){
-        let fs_keys = Object.keys(fs);
-        
-        current_fsi = fs_keys.indexOf(fsid);
-        current_fs = fsid;
-
-        console.log(`%ccurrent_fsi: %c${current_fsi}%c | current_fs: %c${current_fs}`, "color: #fff9", "color: #06c", "color: #fff9", "color: #06c");
-    }
-    function NextFS2(){
-        let fs_keys = Object.keys(fs);
-        current_fsi++;
-        if(current_fsi >= fs_keys.length) {current_fsi = 0;}
-        current_fs = fs_keys[current_fsi];
-        console.log(`%ccurrent_fsi: %c${current_fsi}%c | current_fs: %c${current_fs}`, "color: #fff9", "color: #06c", "color: #fff9", "color: #06c");
-    }
-
 
     /* ─── Events ─── */
     function updateSettings(){
@@ -1150,8 +1075,7 @@
         // DrawCos(ctx["canvas-draw"]);
         // reset();
         // reset2();
-        // reset3();
-        reset();
+        reset3();
     }
     window.addEventListener('resize', () =>{
         updateSettings();
@@ -1160,16 +1084,15 @@
     window.addEventListener('click', (ev) => {
         let px = ev.pageX;
         let py = ev.pageY;
-        // RandomFS2();
-        // reset4();
-        reset();
+        RandomFS2();
+        reset4();
     });
-    // window.addEventListener('touchend', (ev) => {
-    //     let px = ev.pageX;
-    //     let py = ev.pageY;
-    //     // RandomFS2();
-    //     // reset4();
-    // });
+    window.addEventListener('touchend', (ev) => {
+        let px = ev.pageX;
+        let py = ev.pageY;
+        RandomFS2();
+        reset4();
+    });
     // window.addEventListener('click', (ev) => {
     //     let px = ev.pageX;
     //     let py = ev.pageY;
@@ -1185,6 +1108,69 @@
     //         }
     //     }
     // });
+
+    function RandomFS2(){
+        let fs_keys = Object.keys(fs);
+        let fsid = Math.floor(Math.random()*fs_keys.length);
+        
+        current_fs = fs_keys[fsid];
+        current_fsi = fsid;
+
+        console.log(`%ccurrent_fsi: %c${current_fsi}%c | current_fs: %c${current_fs}`, "color: #fff9", "color: #06c", "color: #fff9", "color: #06c");
+    }
+    function SwitchFS(fsid){
+        let fs_keys = Object.keys(fs);
+        
+        current_fsi = fs_keys.indexOf(fsid);
+        current_fs = fsid;
+
+        console.log(`%ccurrent_fsi: %c${current_fsi}%c | current_fs: %c${current_fs}`, "color: #fff9", "color: #06c", "color: #fff9", "color: #06c");
+    }
+    function NextFS2(){
+        let fs_keys = Object.keys(fs);
+        current_fsi++;
+        if(current_fsi >= fs_keys.length) {current_fsi = 0;}
+        current_fs = fs_keys[current_fsi];
+        console.log(`%ccurrent_fsi: %c${current_fsi}%c | current_fs: %c${current_fs}`, "color: #fff9", "color: #06c", "color: #fff9", "color: #06c");
+    }
+
+    function RandomFS(){
+        let fs_keys = Object.keys(fs);
+        let fsid = Math.floor(Math.random()*fs_keys.length);
+        
+        current_fs = fs_keys[fsid];
+        current_fsi = fsid;
+
+        console.log(`%ccurrent_fsi: %c${current_fsi}%c | current_fs: %c${current_fs}`, "color: #fff9", "color: #06c", "color: #fff9", "color: #06c");
+
+        reset();
+    }
+    function SwitchToFS(fsid){
+        let fs_keys = Object.keys(fs);
+        
+        current_fsi = fs_keys.indexOf(fsid);
+        current_fs = fsid;
+
+        console.log(`%ccurrent_fsi: %c${current_fsi}%c | current_fs: %c${current_fs}`, "color: #fff9", "color: #06c", "color: #fff9", "color: #06c");
+
+        reset();
+    }
+    function NextFS(){
+        let fs_keys = Object.keys(fs);
+        // if(current_fsi < fs_keys.length){current_fsi++;}
+        // else {current_fsi = 0;}
+
+        current_fsi++;
+        if(current_fsi >= fs_keys.length) {
+            current_fsi = 0;
+        }
+
+        current_fs = fs_keys[current_fsi];
+
+        console.log(`%ccurrent_fsi: %c${current_fsi}%c | current_fs: %c${current_fs}`, "color: #fff9", "color: #06c", "color: #fff9", "color: #06c");
+
+        reset();
+    }
 
     window.addEventListener('load', (ev) => {
         console.log(`Welcome to my Lab!`);
@@ -1206,8 +1192,8 @@
     [index-nds-00]: Copy from `eqs/wave-field/index-nds-03.html`;
     [index-nds-01]: Copy from `eqs/wave-field/index-nds-04.html`;
     [index-nds-02]: It displays a pattern and then adds noise.
-    [index-nds-03]: Attempt to only noise, it works, but it doesn't look that good.
-    [index-nds-04]: Attempt to handle all hsl or rgb values.
+    [index-nds-03]: 
+    [index-nds-04]: 
     [index-nds-05]: 
     [index-nds-06]: 
     [index-nds-07]: 

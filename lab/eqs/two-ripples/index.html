@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Experiment | NyteLabs</title>
+    <title>Two Ripples | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/canvas.css">
@@ -29,7 +29,7 @@
     <header>
         <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
         <h1 class="title">NyteLabs</h1>
-        <div class="subtitle">Experiment</div>
+        <div class="subtitle">Two Ripples</div>
     </header>
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
@@ -301,10 +301,6 @@
     
 
     
-    // function CalcRipples(){
-
-    // }
-
     /* ─── [Grid] (view) ─── */
     var main_grid = {};
     function ResetColorGrid(g){
@@ -400,52 +396,6 @@
             }
         }
     }
-    function CalcDropplets345(g){
-        for(let y = 0; y < g.length; y++){
-            for(let x = 0; x < g[y].length; x++){
-                // const e = g[y][x];
-                if(g[y][x]>0){g[y][x]--;}
-                if(g[y][x]<0){g[y][x]++;}
-                // if(g[y][x]>0){g[y][x] *= .75;}
-                if(Math.abs(g[y][x])>0){g[y][x] *= .75;}
-                // if(g[y][x]>0){g[y][x] /= 2; g[y][x]--;}
-                dropplets.forEach(drop => {
-                    let nx = drop.x - x;
-                    let ny = drop.y - y;
-                    let nh = Math.sqrt(nx*nx+ny*ny);
-                    let nhr = Math.round(Math.sqrt(nx*nx+ny*ny));
-                    // if(nh == drop.r){
-                    //     g[y][x] += drop.a;
-                    // }
-                    let nhrr = Math.abs(nh - drop.r);
-                    if(nh > 0 && nhrr < drop.t){
-                    // if(nh > 0 && nhrr < 50){
-                    // if(nh > 0){
-                        // g[y][x] += 5;
-                        // g[y][x] += drop.a;
-                        // g[y][x] += drop.a / (drop.r / 2);
-                        // g[y][x] += 2 * drop.a / nh;
-                        let angle = XYtoCSSAngle(nx,ny);
-                        let xy = CSSAngleToXY(angle);
-                        let nxa = xy.x * nhrr;
-                        let nya = xy.y * nhrr;
-                        // fs["rip-cos"](nxa, nya, 10, 20);
-                        // g[y][x] = fs["cos"](nxa, nya, 200, 100);
-                        // g[y][x] += fs["rip-cos"](nxa, nya, 20, 5);
-                        // g[y][x] = fs["cos"](nxa, nya, 20, 5);
-                        // g[y][x] = fs["pinch"](nxa, nya, 20, 5);
-                        // g[y][x] = fs["sw"](nxa, nya, 20, 5);
-                        // g[y][x] += fs["sw2"](nxa, nya, 5, 10);
-                        // g[y][x] += fs["sw2"](nxa, nya, 10, 30);
-                        // let sc2 = Math.floor(Math.random()*drop.a + 5);
-                        // let amp2 = Math.floor(Math.random()*drop.a * 2 + 10);
-                        // g[y][x] += fs["sw2"](nxa, nya, sc2, amp2);
-                        g[y][x] += fs["sw2"](nxa, nya, drop.sc, drop.amp);
-                    }
-                });
-            }
-        }
-    }
     function CalcDropplets(g){
         for(let y = 0; y < g.length; y++){
             for(let x = 0; x < g[y].length; x++){
@@ -464,8 +414,7 @@
                     //     g[y][x] += drop.a;
                     // }
                     let nhrr = Math.abs(nh - drop.r);
-                    if(nh > 0 && nhrr < drop.t){
-                    // if(nh > 0 && nhrr < 50){
+                    if(nh > 0 && nhrr < 50){
                     // if(nh > 0){
                         // g[y][x] += 5;
                         // g[y][x] += drop.a;
@@ -477,16 +426,11 @@
                         let nya = xy.y * nhrr;
                         // fs["rip-cos"](nxa, nya, 10, 20);
                         // g[y][x] = fs["cos"](nxa, nya, 200, 100);
-                        // g[y][x] += fs["rip-cos"](nxa, nya, 20, 5);
-                        // g[y][x] = fs["cos"](nxa, nya, 20, 5);
+                        g[y][x] += fs["rip-cos"](nxa, nya, 10, 5);
+                        // g[y][x] += fs["cir"](nxa, nya, 20, 3);
+                        // g[y][x] += fs["circle"](nxa, nya, 20, 10);
+                        // g[y][x] += fs["cos"](nxa, nya, 20, 1);
                         // g[y][x] = fs["pinch"](nxa, nya, 20, 5);
-                        // g[y][x] = fs["sw"](nxa, nya, 20, 5);
-                        // g[y][x] += fs["sw2"](nxa, nya, 5, 10);
-                        // g[y][x] += fs["sw2"](nxa, nya, 10, 30);
-                        // let sc2 = Math.floor(Math.random()*drop.a + 5);
-                        // let amp2 = Math.floor(Math.random()*drop.a * 2 + 10);
-                        // g[y][x] += fs["sw2"](nxa, nya, sc2, amp2);
-                        g[y][x] += fs["sw2"](nxa, nya, drop.sc, drop.amp);
                     }
                 });
             }
@@ -542,7 +486,7 @@
             }
         }
     }
-    function DrawGrid2(ctx, grid){
+    function DrawGrid(ctx, grid){
         let updn = getHighestValue(grid);
         for(let y = 0; y < grid.length; y++){
             for(let x = 0; x < grid[y].length; x++){
@@ -558,30 +502,6 @@
                 // let bg = `hsla(${hue}, 100%, 60%, ${alp})`;
                 // let bg = `hsla(${hue}, 100%, 60%, .5)`;
                 let bg = `hsla(${hue}, 100%, ${lum}%, .5)`;
-                ctx.fillStyle = bg;
-                ctx.fillRect(xn,yn,s.cube.sz,s.cube.sz);
-            }
-        }
-    }
-    function DrawGrid(ctx, grid){
-        // let updn = getHighestValue(main_grid);
-        // let updn = getHighestValue(grid);
-        for(let y = 0; y < grid.length; y++){
-            for(let x = 0; x < grid[y].length; x++){
-                const e = grid[y][x];
-                let xn = x * s.cube.sz;
-                let yn = y * s.cube.sz;
-
-                // let eq = (e%(updn.high + 1)) / (updn.high + 1);
-                // let eq = e%360 / 360;
-                // let hue = 210 + (30 * eq);
-                // let lum = 40 - (30 * eq);
-                // let alp = e%10 / 10;
-                // let bg = `hsla(${hue}, 100%, 60%, ${alp})`;
-                // let bg = `hsla(${hue}, 100%, ${lum}%, .5)`;
-                // let hue = e + -30;
-                let hue = e%360;
-                let bg = `hsla(${hue}, 100%, 60%, .75)`;
                 ctx.fillStyle = bg;
                 ctx.fillRect(xn,yn,s.cube.sz,s.cube.sz);
             }
@@ -858,23 +778,6 @@
         let val = hs;
         return val;
     }
-    fs["sw2"] = function (x, y, scale, amp){
-        /* circle. */
-        let xx = (x * x);
-        let yy = (y * y);
-        let hh = Math.sqrt(xx + yy);
-        // let hs = Math.cos(Math.PI * hh / scale) * amp;
-
-        let xo = hh / (s.w+s.h);
-        // let xo = hh / scale;
-        let ra = (amp) * (1 - xo);
-        // let hs = Math.cos(Math.PI * hh / 100) * ra;
-        // let hs = Math.cos(scale * hh / 100) * ra;
-        let hs = Math.cos(Math.PI * hh / scale) * ra;
-        
-        let val = hs;
-        return val;
-    }
     fs["rip-cos"] = function (x, y, sc, amp){
         /* circle. */
         let xs = (x / (sc/10));
@@ -982,9 +885,7 @@
             // Code goes here.
             for (let i = 0; i < dropplets.length; i++) {
                 // const drop = dropplets[i];
-                // dropplets[i].r++;
-                // dropplets[i].r--;
-                dropplets[i].r += dropplets[i].ra;
+                dropplets[i].r++;
                 dropplets[i].t--;
                 if(dropplets[i].t < 1){
                     // dropOut.push(i);
@@ -1154,66 +1055,17 @@
         let xp = x / s.cube.sz;
         let yp = y / s.cube.sz;
 
-        let sc = Math.floor(Math.random()*10 + 5);
-        let amp = Math.floor(Math.random()*25 + 5);
-        let di = Math.floor(Math.random()*2);
-        let r = 1;
-        let ra = 1;
-        if(di == 0) {
-            r = 300;
-            ra = -1;
-        }
-        console.log(`sc: ${sc}, amp: ${amp}, di: ${di}, r: ${r}, ra: ${ra}`);
-
         dropplets.push({
             "x": xp,
             "y": yp,
             "a": 10,
-            "r": r,
-            "ra": ra,
+            "r": 1,
             "t": 300,
-            "sc": sc,
-            "amp": amp,
-        })
-        // dropplets.push({
-        //     "x": xp,
-        //     "y": yp,
-        //     "a": 10,
-        //     "r": 1,
-        //     "t": 300,
-        //     "sc": sc,
-        //     "amp": amp,
-        // })
-    });
-    function dropRandom(n){
-        for (let i = 0; i < n; i++) {
-            let xy = randomXY();
-            let xp = xy.x / s.cube.sz;
-            let yp = xy.y / s.cube.sz;
-    
-            let sc = Math.floor(Math.random()*10 + 5);
-            let amp = Math.floor(Math.random()*25 + 5);
-            let di = Math.floor(Math.random()*2);
-            let r = 1;
-            let ra = 1;
-            if(di == 0) {
-                r = 300;
-                ra = -1;
-            }
-            console.log(`(x:${xy.x}, y:${xy.y})`);
-            console.log(`sc: ${sc}, amp: ${amp}, di: ${di}, r: ${r}, ra: ${ra}`);
-            dropplets.push({
-                "x": xp,
-                "y": yp,
-                "a": 10,
-                "r": r,
-                "ra": ra,
-                "t": 300,
-                "sc": sc,
-                "amp": amp,
-            });
+        });
+        if(dropplets.length > 2) {
+            dropplets.shift();
         }
-    }
+    });
     // window.addEventListener('touchend', (ev) => {
     //     let x = ev.pageX;
     //     let y = ev.pageY;
@@ -1268,13 +1120,13 @@
         update();
     });
     /* Version Log:
-    [index-nds-00]: Copy from `eqs/wave-field/index-nds-06.html`;
-    [index-nds-01]: Dropplets calculated to simple circles.
-    [index-nds-02]: Dropplets calculated look like ripples, and show interference as ripples.
-    [index-nds-03]: Wider ripples and a blue tint.
-    [index-nds-04]: Strange, but works well.
-    [index-nds-05]: Random `sc` and `amp`.
-    [index-nds-06]: Random ripple direction, outward or inward.
+    [index-nds-00]: Copy from `eqs/exp/index-nds-03.html`;
+    [index-nds-01]: 
+    [index-nds-02]: 
+    [index-nds-03]: 
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
     [index-nds-07]: 
     [index-nds-08]: 
     [index-nds-09]: 
