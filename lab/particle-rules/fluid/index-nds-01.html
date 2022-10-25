@@ -19,10 +19,6 @@
             --clr: hsl(184, 29%, 40%);
             --clr: hsl(168, 14%, 25%);
         } */
-        header {
-            box-shadow: none;
-            backdrop-filter: initial;
-        }
         .subtitle{user-select: none;}
         [id*="canvas"] {
             /* position: absolute;
@@ -32,10 +28,9 @@
             /* height: 100%; width: 100%;
             height: 100vh; width: 100vw; */
         }
-        #canvas-bg {
-            background-color: #39f0;
-            /* background-image: radial-gradient(circle at 50% 50%, hsl(184, 29%, 40%), hsl(168, 14%, 25%)); */
-        }
+        /* #canvas-bg {
+            background-image: radial-gradient(circle at 50% 50%, hsl(184, 29%, 40%), hsl(168, 14%, 25%));
+        } */
     </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
     <link rel="stylesheet" href="../../../stylesheets/end.css">
@@ -286,8 +281,7 @@
             for (let x = 0; x <= w; x++) {
                 let dx = 0;
                 let dy = 0;
-                // let ent = .89;
-                let ent = 1;
+                let ent = .89;
                 if(pile[y][x].length > 0){
                     for (let i = 0; i < pile[y][x].length; i++) {
                         const e = pile[y][x][i];
@@ -315,7 +309,6 @@
             }
         }
     }
-    // function CalcGrid(){♦}
 
     /* ─── Drawing ─── */
     function drawGrid(ctx,w,h){
@@ -380,8 +373,8 @@
         if(e.x > 0 && e.x < (s.w) && e.y > 0 && e.y < (s.h)){
             ctx.fillStyle = e.color;
             ctx.beginPath();
-            ctx.arc(e.x, e.y, e.size/2, 0, Math.PI * 2);
-            // ctx.arc(e.x, e.y, 1, 0, Math.PI * 2);
+            // ctx.arc(e.x, e.y, e.size/2, 0, Math.PI * 2);
+            ctx.arc(e.x, e.y, 1, 0, Math.PI * 2);
             ctx.fill();
         } 
     }
@@ -879,14 +872,6 @@
         particles.push(np);
     }
 
-    function createXY(n,type="none",x,y,color="#8889"){
-        for(let i = 0; i < n; i++){
-            // let xy = randomXY();
-            let np = new p(particles.length,type,x,y,0,color);
-            pg[type].push(np);
-            particles.push(np);
-        }
-    }
     function create(n,type="none",color="#8889"){
         for(let i = 0; i < n; i++){
             let xy = randomXY();
@@ -1248,16 +1233,11 @@
         // "4": {count: 200, clr:"hsla(330, 100%, 100%, .75)"},
         // "5": {count: 50, clr:"hsla(0, 100%, 50%, .5)"},
         // "6": {count: 50, clr:"hsla(270, 100%, 50%, .5)"},
-        
+
         // "6": {count: 20, clr:"hsla(50, 100%, 80%, 1)"},
-        // "7": {count: 100, clr:"hsla(180, 29%, 40%, .5)"},
-        // "8": {count: 200, clr:"hsla(120, 8%, 35%, .5)"},
-        // "9": {count: 50, clr:"hsla(30, 20%, 32%, .5)"},
-        // "0": {count: 1, clr:"hsla(0, 100%, 100%, .5)"},
-        // "6": {count: 20, clr:"hsla(50, 100%, 80%, 1)"},
-        // "7": {count: 100, clr:"hsla(180, 89%, 40%, 1)"},
-        // "8": {count: 200, clr:"hsla(120, 80%, 35%, 1)"},
-        // "9": {count: 50, clr:"hsla(30, 82%, 32%, 1)"},
+        // "7": {count: 100, clr:"hsla(180, 29%, 40%, 1)"},
+        // "8": {count: 200, clr:"hsla(120, 8%, 35%, 1)"},
+        // "9": {count: 50, clr:"hsla(30, 20%, 32%, 1)"},
     };
     function start(){
         canvas["canvas-draw"].addEventListener("touchstart", handleStart, false);
@@ -1267,14 +1247,12 @@
         // canvas.addEventListener("mousemove", cMouseMove);
 
         pg["pu"] = [];
-        // pg["0"] = [];
-        // createXY(1,"0",s.canvas.x2,s.canvas.y2,"hsla(0, 100%, 100%, 1)");
 
-        // let keys = Object.keys(gs);
-        // keys.forEach(k=>{
-        //     pg[k] = [];
-        //     create(gs[k].count,k,gs[k].clr);
-        // });
+        let keys = Object.keys(gs);
+        keys.forEach(k=>{
+            pg[k] = [];
+            create(gs[k].count,k,gs[k].clr);
+        });
     }
     // start();
 
@@ -1291,19 +1269,18 @@
             {f: "gr", a: "0", b: "0", g: -0.15, r1: 10, r2: 500, ent:1},
         ],
         "space": [
-            {f: "gr", a: "6", b: "0", g: -2.9, r1: 5, r2: 300, ent:1},
-            {f: "gr", a: "6", b: "6", g: 0.05, r1: 0.1, r2: 2, ent:.89},
-            {f: "gr", a: "6", b: "6", g: -0.29, r1: 2, r2: 600, ent:1},
+            {f: "gr", a: "6", b: "6", g: 0.5, r1: 0, r2: 5, ent:.89},
+            {f: "gr", a: "6", b: "6", g: -0.29, r1: 0, r2: 600, ent:1},
             {f: "gr", a: "7", b: "6", g: -0.29, r1: 0, r2: 600, ent:1},
             {f: "gr", a: "8", b: "6", g: -0.29, r1: 0, r2: 600, ent:1},
             {f: "gr", a: "9", b: "6", g: -0.29, r1: 0, r2: 600, ent:1},
 
-            {f: "gr", a: "7", b: "7", g: 0.10, r1: 0, r2: 2, ent:.89},
-            {f: "gr", a: "8", b: "8", g: 0.25, r1: 0, r2: 30, ent:.89},
-            {f: "gr", a: "9", b: "9", g: 0.25, r1: 0, r2: 5, ent:.89},
+            {f: "gr", a: "7", b: "7", g: 1.0, r1: 0, r2: 2, ent:.89},
+            {f: "gr", a: "8", b: "8", g: 0.5, r1: 0, r2: 90, ent:.89},
+            {f: "gr", a: "9", b: "9", g: 0.5, r1: 0, r2: 30, ent:.89},
 
-            {f: "gr", a: "8", b: "8", g: 0.5, r1: 0, r2: 1, ent: 1},
-            {f: "gr", a: "9", b: "9", g: 0.5, r1: 0, r2: 1, ent: 1},
+            {f: "gr", a: "8", b: "8", g: 5, r1: 0, r2: 1, ent: 1},
+            {f: "gr", a: "9", b: "9", g: 5, r1: 0, r2: 1, ent: 1},
         ],
         "ab": [
             {"a": "1", "b": "1", "g": 0.05, "r": 10},
@@ -1392,21 +1369,20 @@
     };
     function update(){
         if(!s.q && !s.pause){
-            // rules[currentRule].forEach(e => {
-            //     // pr[currentFunction](pg[e.a], pg[e.b], e.g, e.r);
-            //     pr[e.f](pg[e.a], pg[e.b], e.g, e.r1, e.r2, e.ent);
-            // });
+            rules[currentRule].forEach(e => {
+                pr[currentFunction](pg[e.a], pg[e.b], e.g, e.r);
+            });
             
-            // pr["walls"](particles, 1, 0);
-            // pr["walls"](particles, .25, 15);
-            // pr["wind"](particles, .25);
+            pr["walls"](particles, 1, 0);
+            pr["walls"](particles, .25, 15);
+            pr["wind"](particles, .25);
 
             pr["grid-pulse"](grid, pg["pu"], 1, 100);
-            // pr["grid-entropy"](grid,.89);
+            pr["grid-entropy"](grid,.89);
 
             /* ─Rest of Update()─ */
             clearCanvas(ctx["canvas-grid"]);
-            // clearCanvas(ctx["canvas-draw"]);
+            clearCanvas(ctx["canvas-draw"]);
             // draw_path(ctx,s.mouse.path,"#fff2",2);
             // for(let i = 0; i < Object.keys(s.touch.paths).length; i++){
             //     let hue = i * 60 + 30;
@@ -1415,14 +1391,14 @@
             //     // draw_path(ctx,s.touch.paths[Object.keys(s.touch.paths)[i]],"#fff3",2);
             // }
             drawGrid(ctx["canvas-grid"], s.grid.cols, s.grid.rows);
-            // for(let i = 0; i < particles.length; i++){
-            //     draw_e(ctx["canvas-draw"], particles[i]);
-            //     // draw_c(ctx,particles[i]);
-            //     // draw_z(ctx,particles[i]);
+            for(let i = 0; i < particles.length; i++){
+                draw_e(ctx["canvas-draw"], particles[i]);
+                // draw_c(ctx,particles[i]);
+                // draw_z(ctx,particles[i]);
+            }
+            // for(let i = 0; i < pg["pu"].length; i++){
+            //     draw_e(ctx, pg["pu"][i]);
             // }
-            // // for(let i = 0; i < pg["pu"].length; i++){
-            // //     draw_e(ctx, pg["pu"][i]);
-            // // }
         }
         setTimeout(() => {
             requestAnimationFrame(update);
@@ -1739,7 +1715,7 @@
     window.addEventListener('load', (ev) => {
         console.log(`Welcome to my Lab!`);
         updateSettings();
-        // startGrid(s.grid.cols,s.grid.rows);
+        startGrid(s.grid.cols,s.grid.rows);
         start();
         update();
     });

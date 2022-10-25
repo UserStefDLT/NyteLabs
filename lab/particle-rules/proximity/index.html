@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Proximity | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <link rel="stylesheet" href="../../../stylesheets/canvas.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        /* :root {} */
+        header {backdrop-filter: initial;}
+        header > .title {color: var(--bwf); text-shadow: 1px 1px 2px var(--bw3);}
+        #canvas-grid {background-color: #0000;}
+        #canvas-draw {background-color: #0000;}
+        [id|="layer"] {background-color: #0000;}
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/settings2.css">
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">NyteLabs</h1>
+        <div class="subtitle">Proximity</div>
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+
+<main>
+    <!-- <div class="shelf">
+        <h3 class="shelf-title">experiment</h3>
+        <div id="display"></div>
+        <div class="x"></div>
+    </div> -->
+    <canvas id="canvas-grid"></canvas>
+    <canvas id="canvas-draw"></canvas>
+</main>
+
+<!-- <div class="options">
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        touch: {
+            x: 0,
+            y: 0,
+            z: 0,
+            paths: {},
+            path_len: 20,
+            tracking: false
+        },
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            path: [],
+            path_len: 20,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            sz: 20,
+            sz2: 10,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            padding: 0,
+            brush: "p",
+        },
+        box: {
+            x: 500,
+            y: 500,
+            z: 500,
+            x2: 250,
+            y2: 250,
+            z2: 250,
+            d: 1000,
+            p: 1000,
+        },
+        cube: {
+            xlen: 10,
+            ylen: 10,
+            zlen: 10,
+            sz: 10,
+            szr: 5,
+        },
+
+        timeOut: 40,
+        player: false,
+        
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+    const particles = [];
+    const pg = {}
+    // const layers = ["canvas-bg", "canvas-grid", "canvas-draw"];
+    const layers = ["canvas-grid", "canvas-draw"];
+    const canvas = {};
+    const ctx = {};
+
+    const flow = {
+        grid: [],
+        pile: [],
+    };
+
+</script>
+<script src="../../../scripts/settings.js"></script>
+<script>
+    layers.forEach(key => {
+        canvas[key] = document.getElementById(key);
+        ctx[key] = canvas[key].getContext('2d');
+        canvas[key].width = window.innerWidth;
+        canvas[key].height = window.innerHeight;
+    });
+
+    /* ─── UnOrganized (unk) ─── */
+    var pile = [];
+    var grid = [];
+    function BuildGridFlow(w = s.cube.xlen, h = s.cube.ylen){
+        let g = [];
+        for(let y = 0; y < h; y++){
+            g.push([]);
+            for(let x = 0; x < w; x++){
+                // g[y].push(fill);
+                // g[y].push({x:0,y:0,vx:0,vy:0,a:0,d:0});
+                g[y].push(new pf(x,y));
+            }
+        }
+        return g;
+    }
+    function BuildGridArr(w = s.cube.xlen, h = s.cube.ylen, fill = []){
+        let g = [];
+        for(let y = 0; y < h; y++){
+            g.push([]);
+            for(let x = 0; x < w; x++){
+                g[y].push([...fill]);
+            }
+        }
+        return g;
+    }
+    function BuildGrid(w = s.cube.xlen, h = s.cube.ylen, fill = 0){
+        let g = [];
+        for(let y = 0; y < h; y++){
+            g.push([]);
+            for(let x = 0; x < w; x++){
+                g[y].push(fill);
+            }
+        }
+        return g;
+    }
+    function updateGridFlow(path,pile,grid){
+        for (let i = 1; i < path.length; i++) {
+            const a = path[i-1];
+            const b = path[i];
+            let dx = b.x - a.x;
+            let dy = b.y - a.y;
+            let x = Math.floor(b.x / s.tile.w);
+            let y = Math.floor(b.y / s.tile.h);
+            try {
+                if(x > 0 && y > 0 && x < s.grid.cols && y < s.grid.rows){
+                    pile[y][x].push({"x":dx,"y":dy});
+                }
+            } catch (error) {
+                console.error(error);
+                console.error(`"x":${x},"y":${y}`);
+            }
+        }
+        for (let y = 0; y <= h; y++) {
+            for (let x = 0; x <= w; x++) {
+                let dx = 0;
+                let dy = 0;
+                // let ent = .89;
+                let ent = 1;
+                if(pile[y][x].length > 0){
+                    for (let i = 0; i < pile[y][x].length; i++) {
+                        const e = pile[y][x][i];
+                        dx += e.x; 
+                        dy += e.y; 
+                    }
+                    ent = .7;
+                }
+                grid[y][x].vx = (grid[y][x].vx + dx) * ent;
+                grid[y][x].vy = (grid[y][x].vy + dy) * ent;
+                if(Math.abs(grid[y][x].vx) < .01 && Math.abs(grid[y][x].vy) < .01) {
+                    grid[y][x].vx = 0;
+                    grid[y][x].vy = 0;
+                }
+                grid[y][x].x = grid[y][x].vx;
+                grid[y][x].y = grid[y][x].vy;
+            }
+        }
+        for (let i = 1; i < path.length; i++) {
+            const b = path[i];
+            let x = Math.floor(b.x / s.tile.w);
+            let y = Math.floor(b.y / s.tile.h);
+            if(x > 0 && y > 0 && x < s.grid.cols && y < s.grid.rows){
+                pile[y][x].shift();
+            }
+        }
+    }
+    // function CalcGrid(){♦}
+
+    // ctx["canvas-draw"]
+    // drawLine(ctx["canvas-draw"],e1,e2);
+    function drawLine(ctx,e1,e2){
+        ctx.beginPath();
+        ctx.lineJoin = "round";
+        ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 1;
+        ctx.moveTo(e1.x, e1.y);
+        ctx.lineTo(e2.x, e2.y);
+        ctx.stroke();
+    }
+    function drawPartOfLine(ctx,e1,e2){
+        // ctx.strokeStyle = "#fff";
+        ctx.beginPath();
+        ctx.strokeStyle = "#f93";
+        ctx.lineWidth = 1;
+        console.log(`e1: (${e1.x.toFixed(2)},${e1.y.toFixed(2)}) | e2: (${e2.x.toFixed(2)},${e2.y.toFixed(2)})`);
+        let dx = e2.x - e1.x;
+        let dy = e2.y - e1.y;
+        let dx1 = e1.x + (dx)/2;
+        let dy1 = e1.y + (dy)/2;
+        ctx.moveTo(e1.x, e1.y);
+        ctx.lineTo(dx1, dy1);
+        ctx.stroke();
+        
+        ctx.beginPath();
+        ctx.strokeStyle = "#3f9";
+        let dxr = Math.random()*(dx/2);
+        let dyr = Math.random()*(dy/2);
+        let dx2 = e1.x + (dxr);
+        let dy2 = e1.y + (dyr);
+        // console.log(`e1: (${e1.x},${e1.y}), e2: (${e2.x},${e2.y}), d: (${dx},${dy})`);
+        console.log(`d: (${dx.toFixed(2)},${dy.toFixed(2)}) | d2: (${dx2.toFixed(2)},${dy2.toFixed(2)})`);
+        ctx.moveTo(e1.x, e1.y);
+        ctx.lineTo(dx2, dy2);
+        ctx.stroke();
+    }
+    function drawPlath0(ctx,e1,e2){
+        // ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 1;
+        console.log(`e1: (${e1.x.toFixed(2)}, ${e1.y.toFixed(2)}) | e2: (${e2.x.toFixed(2)}, ${e2.y.toFixed(2)})`);
+
+        ctx.beginPath();
+        ctx.strokeStyle = "#3f9";
+        ctx.moveTo(e1.x, e1.y);
+        ctx.lineTo(e2.x, e2.y);
+        ctx.stroke();
+        
+        
+        let dx = e2.x - e1.x;
+        let dy = e2.y - e1.y;
+        let dh = Math.sqrt(dx*dx+dy*dy);
+        console.log(`d: (${dx.toFixed(2)}, ${dy.toFixed(2)})`);
+        
+        ctx.beginPath();
+        // ctx.lineJoin = "round";
+        ctx.strokeStyle = "#f93";
+        ctx.moveTo(e1.x, e1.y);
+
+        let dx1 = e1.x;
+        let dy1 = e1.y;
+
+        let steps = 5;
+        for (let i = 0; i < steps; i++) {
+            let dx0 = e2.x - dx1;
+            let dy0 = e2.y - dy1;
+            let dh0 = Math.sqrt(dx0*dx0+dy0*dy0);
+            let ndx = Math.random()*(dx/2);
+            let ndy = Math.random()*(dy/2);
+            // let dhs = dh/steps;
+            // let ndx = Math.random()*(dhs) - (dhs/2);
+            // let ndy = Math.random()*(dhs) - (dhs/2);
+            // let ndx = Math.random()*(dx0/steps);
+            // let ndy = Math.random()*(dy0/steps);
+            // let ndh = Math.sqrt(ndx*ndx+ndy*ndy);
+            if(dh0 < (dh/steps) || i == steps-1){
+                // console.log(`ndh: ${ndh.toFixed(2)} / ${dh.toFixed(2)} | dif: (ndh=${ndh.toFixed(2)} < dh/steps=${(dh/steps).toFixed(2)})`);
+                console.log(`dh0: ${dh0.toFixed(2)} / ${dh.toFixed(2)} | dif: (dh0=${dh0.toFixed(2)} < dh/steps=${(dh/steps).toFixed(2)})`);
+                ctx.lineTo(e2.x, e2.y);
+            } else {
+                let dx2 = dx1 + (ndx);
+                let dy2 = dy1 + (ndy);
+                console.log(`d1: (${dx1.toFixed(2)}, ${dy1.toFixed(2)}) | d2: (${dx2.toFixed(2)}, ${dy2.toFixed(2)})`);
+                ctx.lineTo(dx2, dy2);
+                dx1 = dx2;
+                dy1 = dy2;
+            }
+        }
+        ctx.stroke();
+        
+        // let dx1 = e1.x + (dx)/2;
+        // let dy1 = e1.y + (dy)/2;
+        // let dxr = Math.random()*(dx/2);
+        // let dyr = Math.random()*(dy/2);
+        // let dx2 = e1.x + (dxr);
+        // let dy2 = e1.y + (dyr);
+        // // console.log(`e1: (${e1.x},${e1.y}), e2: (${e2.x},${e2.y}), d: (${dx},${dy})`);
+        // console.log(`d: (${dx.toFixed(2)},${dy.toFixed(2)}) | d2: (${dx2.toFixed(2)},${dy2.toFixed(2)})`);
+
+        // ctx.beginPath();
+        // ctx.strokeStyle = "#f93";
+        // ctx.moveTo(e1.x, e1.y);
+        // ctx.lineTo(dx2, dy2);
+        // ctx.stroke();
+    }
+    // drawLine(ctx["canvas-draw"],particles[0],particles[1]);
+    // drawPartOfLine(ctx["canvas-draw"],particles[0],particles[1]);
+    // Object.keys(gs).forEach(k=>{ DrawFuse(ctx["canvas-draw"],pg[k]); });
+    // drawPlath(ctx["canvas-draw"],particles[0],particles[1]);
+    // drawPlathZ(ctx["canvas-draw"],particles[0],particles[1],5);
+    
+    
+    /* ─── Drawing (view) ─── */
+    function getZ(z, size=5, range=6){
+        let zdp = 1 - z / s.canvas.z;
+        let zadd = parseFloat((zdp * range).toFixed(2));
+        let size_z = size + (range) - zadd;
+        let lum = (80 - (zdp * 60)).toFixed(0);
+        return {"lum": lum, "size": size_z};
+    }
+    function drawPlathZ(ctx,e1,e2,steps = 5){
+        // let zval = getZ(e1.z, e1.size, e1.range);
+        // ctx.lineWidth = zval.size;
+        // ctx.strokeStyle = `hsla(${e1.hue}, ${e1.sat}%, ${zval.lum}%, ${e1.alp})`;
+
+        // ctx.lineJoin = "round";
+        // ctx.strokeStyle = "#f93";
+        // ctx.beginPath();
+        // ctx.lineWidth = 1;
+        // ctx.strokeStyle = e1.color;
+        // ctx.moveTo(e1.x, e1.y);
+        
+        ctx.lineWidth = 1;
+        let dx = e2.x - e1.x;
+        let dy = e2.y - e1.y;
+        let dz = e2.z - e1.z;
+        let dh = Math.sqrt(dx*dx+dy*dy+dz*dz);
+        let dx1 = e1.x;
+        let dy1 = e1.y;
+        let dz1 = e1.z;
+
+        // let steps = 5;
+        for (let i = 0; i < steps; i++) {
+            let dx0 = e2.x - dx1;
+            let dy0 = e2.y - dy1;
+            let dz0 = e2.z - dz1;
+            let dh0 = Math.sqrt(dx0*dx0+dy0*dy0+dz0*dz0);
+            let ndx = Math.random()*(dx/(steps/2));
+            let ndy = Math.random()*(dy/(steps/2));
+            let ndz = Math.random()*(dz/(steps/2));
+            let dz12 = dz1 + (ndz/2);
+            if(dh0 < (dh/steps) || i == steps-1){
+                // console.log(`dh0: ${dh0.toFixed(2)} / ${dh.toFixed(2)} | dif: (dh0=${dh0.toFixed(2)} < dh/steps=${(dh/steps).toFixed(2)})`);
+                ctx.beginPath();
+                ctx.moveTo(dx1, dy1);
+                // let zval = getZ(dz1, e1.size, e1.range);
+                let zval = getZ(dz12, e1.size, e1.range);
+                // ctx.lineWidth = zval.size;
+                ctx.strokeStyle = `hsla(${e1.hue}, ${e1.sat}%, ${zval.lum}%, ${e1.alp})`;
+                ctx.lineTo(e2.x, e2.y);
+                ctx.stroke();
+            } else {
+                ctx.beginPath();
+                ctx.moveTo(dx1, dy1);
+                let zval = getZ(dz12, e1.size, e1.range);
+                // ctx.lineWidth = zval.size;
+                ctx.strokeStyle = `hsla(${e1.hue}, ${e1.sat}%, ${zval.lum}%, ${e1.alp})`;
+                let dx2 = dx1 + (ndx);
+                let dy2 = dy1 + (ndy);
+                let dz2 = dz1 + (ndz);
+                ctx.lineTo(dx2, dy2);
+                ctx.stroke();
+                dx1 = dx2;
+                dy1 = dy2;
+                dz1 = dz2;
+            }
+        }
+        // ctx.stroke();
+    }
+    function drawPlath(ctx,e1,e2,steps = 5){
+        // let zval = getZ(e1.z, e1.size, e1.range);
+        // ctx.lineWidth = zval.size;
+        // ctx.strokeStyle = `hsla(${e1.hue}, ${e1.sat}%, ${zval.lum}%, ${e1.alp})`;
+
+        // ctx.lineJoin = "round";
+        // ctx.strokeStyle = "#f93";
+        ctx.beginPath();
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = e1.color;
+        ctx.moveTo(e1.x, e1.y);
+        
+        let dx = e2.x - e1.x;
+        let dy = e2.y - e1.y;
+        let dh = Math.sqrt(dx*dx+dy*dy);
+        let dx1 = e1.x;
+        let dy1 = e1.y;
+
+        // let steps = 5;
+        for (let i = 0; i < steps; i++) {
+            let dx0 = e2.x - dx1;
+            let dy0 = e2.y - dy1;
+            let dh0 = Math.sqrt(dx0*dx0+dy0*dy0);
+            let ndx = Math.random()*(dx/(steps/2));
+            let ndy = Math.random()*(dy/(steps/2));
+            if(dh0 < (dh/steps)){
+                // console.log(`dh0: ${dh0.toFixed(2)} / ${dh.toFixed(2)} | dif: (dh0=${dh0.toFixed(2)} < dh/steps=${(dh/steps).toFixed(2)})`);
+                ctx.lineTo(e2.x, e2.y);
+            } else if(i == steps-1){
+                // console.log(`i: ${i} | dh0: ${dh0.toFixed(2)}`);
+                ctx.lineTo(e2.x, e2.y);
+            } else {
+                let dx2 = dx1 + (ndx);
+                let dy2 = dy1 + (ndy);
+                ctx.lineTo(dx2, dy2);
+                dx1 = dx2;
+                dy1 = dy2;
+            }
+        }
+        ctx.stroke();
+    }
+    function DrawFuseLine(ctx, list, range = 100){
+        ctx.fillStyle = `#fff0`;
+        // ctx.strokeStyle = `hsla(210, 100%, 100%, ${alp/2})`;
+        ctx.lineWidth = 1;
+        for (let i = 0; i < list.length; i++) {
+            const e1 = list[i];
+            e1.getSize();
+            ctx.strokeStyle = e1.getColor();
+            ctx.beginPath();
+            // ctx.arc(e1.x, e1.y, 4, 0, Math.PI * 2);
+            ctx.arc(e1.x, e1.y, e1.size_z, 0, Math.PI * 2);
+
+            let ss = {'id': -1, 'h2': 999};
+            for (let j = 0; j < list.length; j++) {
+                if(j != i){
+                    const e2 = list[j];
+                    let x2 = e1.x - e2.x;
+                    let y2 = e1.y - e2.y;
+                    let h2 = Math.sqrt(x2 * x2 + y2 * y2);
+                    if(ss.h2 > h2){
+                        ss.id = j;
+                        ss.h2 = h2;
+                    }
+                }
+            }
+            
+            let ns = list[ss.id];
+            ctx.moveTo(e1.x, e1.y);
+            ctx.lineTo(ns.x, ns.y);
+            ctx.stroke();
+        }
+    }
+    function DrawFuseFail(ctx, list){
+        ctx.fillStyle = `#fff0`;
+        ctx.lineWidth = 1;
+
+        for (let i = 0; i < list.length; i++) {
+            const e1 = list[i];
+            ctx.strokeStyle = e1.color;
+            ctx.beginPath();
+            ctx.arc(e1.x, e1.y, e1.size_z, 0, Math.PI * 2);
+            
+            let se2 = {'id': -1, 'h2': 999, 'x2': 0, 'y2': 0};
+            for (let j = 0; j < list.length; j++) {
+                if(j != i){
+                    const e2n = list[j];
+                    // let x2 = e1.x - e2n.x;
+                    // let y2 = e1.y - e2n.y;
+                    let x2 = e2n.x - e1.x;
+                    let y2 = e2n.y - e1.y;
+                    let h2 = Math.sqrt(x2 * x2 + y2 * y2);
+                    if(se2.h2 > h2){
+                        se2.id = j;
+                        se2.h2 = h2;
+                        se2.x2 = x2;
+                        se2.y2 = y2;
+                    }
+                }
+            }
+            // ctx.lineJoin = "round";
+            // ctx.moveTo(e1.x, e1.y);
+
+            // let e2 = list[se2.id];
+            // let dx = e2.x - e1.x;
+            // let dy = e2.y - e1.y;
+
+            // // let stepDist = Math.round(se2.h2/3);
+            // // let nodeCount = Math.round(se2.h2/3);
+            // // let nodeStep = {'x': 0, 'y': 0};
+            // let ns = {'x': e1.x, 'y': e1.y};
+            // for (let i = 0; i < 3; i++) {
+            //     // const element = [3];
+            //     // let ev = randomXYZa(stepDist);
+            //     // let x = (ev.x/2) + se2.x2 + e1.x;
+            //     // let y = (ev.y/2) + se2.y2 + e1.y;
+            //     // let ev = randomXYZa(stepDist);
+            //     // ns.x += ev.x + (se2.x2 * .75);
+            //     // ns.y += ev.y + (se2.y2 * .75);
+            //     // ns.x += Math.random*(dx/3)+(dx/6);
+            //     // ns.y += Math.random*(dy/3)+(dy/6);
+            //     ns.x += Math.random*(dx/3);
+            //     ns.y += Math.random*(dy/3);
+            //     ctx.lineTo(ns.x, ns.y);
+            //     ctx.moveTo(ns.x, ns.y);
+            // }
+
+            // ctx.lineTo(e2.x, e2.y);
+            ctx.stroke();
+
+// ctx["canvas-draw"].beginPath();
+// ctx["canvas-draw"].lineJoin = "round";
+// ctx["canvas-draw"].strokeStyle = "#fff";
+// ctx["canvas-draw"].lineWidth = 1;
+// ctx["canvas-draw"].moveTo(particles[0].x, particles[0].y);
+// ctx["canvas-draw"].lineTo(particles[1].x, particles[1].y);
+// ctx["canvas-draw"].stroke();
+
+            // ctx.moveTo(e1.x, e1.y);
+            // ctx.lineTo(ns.x, ns.y);
+            // ctx.stroke();
+        }
+    }
+    function DrawFuse(ctx, list, range = 100){
+        ctx.fillStyle = `#fff0`;
+        ctx.lineWidth = 1;
+
+        for (let i = 0; i < list.length; i++) {
+            const e1 = list[i];
+            ctx.strokeStyle = e1.color;
+            ctx.beginPath();
+            ctx.arc(e1.x, e1.y, e1.size_z, 0, Math.PI * 2);
+            
+            let se2 = {'id': -1, 'h2': 999, 'x2': 0, 'y2': 0};
+            for (let j = 0; j < list.length; j++) {
+                if(j != i){
+                    const e2n = list[j];
+                    // let x2 = e1.x - e2n.x;
+                    // let y2 = e1.y - e2n.y;
+                    let x2 = e2n.x - e1.x;
+                    let y2 = e2n.y - e1.y;
+                    let h2 = Math.sqrt(x2 * x2 + y2 * y2);
+                    if(se2.h2 > h2){
+                        se2.id = j;
+                        se2.h2 = h2;
+                        se2.x2 = x2;
+                        se2.y2 = y2;
+                    }
+                }
+            }
+            ctx.stroke();
+            if(se2.h2 < range){
+                let e2 = list[se2.id];
+                drawPlath(ctx,e1,e2,5);
+                // drawPlath(ctx,e1,e2,10);
+            }
+        }
+    }
+    function DrawFuseZ(ctx, list, range = 200){
+        ctx.fillStyle = `#fff0`;
+        ctx.lineWidth = 1;
+
+        for (let i = 0; i < list.length; i++) {
+            const e1 = list[i];
+            ctx.strokeStyle = e1.color;
+            ctx.beginPath();
+            ctx.arc(e1.x, e1.y, e1.size_z, 0, Math.PI * 2);
+            
+            // let se2 = {'id': -1, 'h2': 999, 'x2': 0, 'y2': 0};
+            let se2 = {'id': -1, 'h2': 999};
+            for (let j = 0; j < list.length; j++) {
+                if(j != i){
+                    const e2n = list[j];
+                    // let x2 = e1.x - e2n.x;
+                    // let y2 = e1.y - e2n.y;
+                    let x2 = e2n.x - e1.x;
+                    let y2 = e2n.y - e1.y;
+                    let z2 = e2n.z - e1.z;
+                    // let h2 = Math.sqrt(x2 * x2 + y2 * y2);
+                    let h2 = Math.sqrt(x2 * x2 + y2 * y2 + z2 * z2);
+                    if(se2.h2 > h2){
+                        se2.id = j;
+                        se2.h2 = h2;
+                        // se2.x2 = x2;
+                        // se2.y2 = y2;
+                        // se2.z2 = z2;
+                    }
+                }
+            }
+            ctx.stroke();
+            if(se2.h2 < range){
+                let e2 = list[se2.id];
+                drawPlathZ(ctx,e1,e2,5);
+                // drawPlathZ(ctx,e1,e2,25);
+            }
+        }
+    }
+    function DrawParticleLine(ctx, list, range = 100){
+        for (let i = 0; i < list.length; i++) {
+            const e1 = list[i];
+            const e2 = {"id":-1, "h2":9999, "x":0, "y":0};
+            for (let j = 0; j < list.length; j++) {
+                const e2a = list[j];
+                let x2 = e1.x - e2a.x;
+                let y2 = e1.y - e2a.y;
+                let h2 = Math.sqrt(x2 * x2 + y2 * y2);
+                if(0 < h2 && h2 < range){
+                    if(e2.h2 > h2){
+                        e2.id = j;
+                        e2.h2 = h2;
+                        e2.x = e2a.x;
+                        e2.y = e2a.y;
+                    }
+                }
+            }
+            if(e2.id != -1){
+                ctx.fillStyle = `#fff0`;
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = e1.color;
+                ctx.beginPath();
+                ctx.arc(e1.x, e1.y, e1.size, 0, Math.PI * 2);
+                ctx.moveTo(e1.x, e1.y);
+                ctx.lineTo(e2.x, e2.y);
+                ctx.stroke();
+            }
+        }
+    }
+    function DrawParticleLines(ctx, list, range = 100){
+        ctx.fillStyle = `#fff0`;
+        ctx.lineWidth = 1;
+        for (let i = 0; i < list.length; i++) {
+            const e1 = list[i];
+            let lineCount = 0;
+            ctx.strokeStyle = e1.color;
+            ctx.beginPath();
+            for (let j = i+1; j < list.length; j++) {
+                const e2 = list[j];
+                let x2 = e1.x - e2.x;
+                let y2 = e1.y - e2.y;
+                let h2 = Math.sqrt(x2 * x2 + y2 * y2);
+                if(0 < h2 && h2 < range){
+                    ctx.moveTo(e1.x, e1.y);
+                    ctx.lineTo(e2.x, e2.y);
+                    lineCount++;
+                }
+            }
+            ctx.stroke();
+            if(lineCount > 0){
+                ctx.beginPath();
+                ctx.arc(e1.x, e1.y, e1.size, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            // ctx.stroke();
+        }
+    }
+    function DrawParticlesLines(ctx, list1, list2, range = 100){
+        ctx.fillStyle = `#fff0`;
+        ctx.lineWidth = 1;
+        for (let i = 0; i < list1.length; i++) {
+            const e1 = list[i];
+            let lineCount = 0;
+            ctx.strokeStyle = e1.color;
+            ctx.beginPath();
+            let ss = {'id': -1, 'h2': 999};
+            for (let j = 0; j < list2.length; j++) {
+                const e2 = list[j];
+                let x2 = e1.x - e2.x;
+                let y2 = e1.y - e2.y;
+                let h2 = Math.sqrt(x2 * x2 + y2 * y2);
+                if(0 < h2 && h2 < range){
+                    ctx.moveTo(e1.x, e1.y);
+                    ctx.lineTo(e2.x, e2.y);
+                    lineCount++;
+                }
+            }
+            ctx.stroke();
+
+            if(lineCount > 0){
+                ctx.beginPath();
+                ctx.arc(e1.x, e1.y, e1.size, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+        }
+    }
+
+    function drawGridFlow1(ctx,g){
+        for (let y = 0; y <= g.length; y++) {
+            for (let x = 0; x <= g[y].length; x++) {
+                // grid[y].push({x:0,y:0,a:0,d:0});
+                let xx = Math.abs(grid[y][x].x);
+                let yy = Math.abs(grid[y][x].y);
+                if(xx > .001 || yy > .001){
+                    grid[y][x].a = XYtoCSSAngle(grid[y][x].x,grid[y][x].y);
+                    let xy = CSSAngleToXY(grid[y][x].a);
+
+                    grid[y][x].d = Math.sqrt(grid[y][x].x*grid[y][x].x+grid[y][x].y*grid[y][x].y);
+                    // let d = Math.sqrt(grid[y][x].x*grid[y][x].x+grid[y][x].y*grid[y][x].y);
+                    let dd = (Math.log10(grid[y][x].d)) * 3;
+                    
+                    let x1 = x * s.tile.w;
+                    let y1 = y * s.tile.h;
+                    let x2 = x1 + xy.x * (s.tile.sz2 + dd);
+                    let y2 = y1 + xy.y * (s.tile.sz2 + dd);
+
+                    let hue = grid[y][x].d%360;
+                    let clr = `hsla(${hue}, 100%, 40%, .5)`;
+                    draw_line(ctx, x1, y1, x2, y2, clr, 2);
+                }
+            }
+        }
+    }
+    function drawGridFlow(ctx,g){
+        for (let y = 0; y <= g.length; y++) {
+            for (let x = 0; x <= g[y].length; x++) {
+                const e = grid[y][x];
+                // grid[y].push({x:0,y:0,a:0,d:0});
+                let xx = Math.abs(e.x);
+                let yy = Math.abs(e.y);
+                if(xx > .001 || yy > .001){
+                    e.a = XYtoCSSAngle(e.x,e.y);
+                    let xy = CSSAngleToXY(e.a);
+
+                    e.d = Math.sqrt(e.x*e.x+e.y*e.y);
+                    // let d = Math.sqrt(grid[y][x].x*grid[y][x].x+grid[y][x].y*grid[y][x].y);
+                    let dd = (Math.log10(e.d)) * 3;
+                    
+                    // let x1 = x * s.tile.w;
+                    // let y1 = y * s.tile.h;
+                    // let x2 = x1 + xy.x * (s.tile.sz2 + dd);
+                    // let y2 = y1 + xy.y * (s.tile.sz2 + dd);
+                    let x1 = x * s.cube.sz;
+                    let y1 = y * s.cube.sz;
+                    let x2 = x1 + xy.x * (s.cube.szr + dd);
+                    let y2 = y1 + xy.y * (s.cube.szr + dd);
+
+                    let hue = e.d%360;
+                    let clr = `hsla(${hue}, 100%, 40%, .5)`;
+                    draw_line(ctx, x1, y1, x2, y2, clr, 2);
+                }
+            }
+        }
+    }
+    function draw_path(ctx,path,color,size){
+        if(path.length > 0){
+            ctx.strokeStyle = color;
+            ctx.lineWidth = size;
+            ctx.lineJoin = "round";
+            ctx.beginPath();
+            ctx.moveTo(path[0].x, path[0].y);
+            for (let i = 1; i < path.length; i++) {
+                ctx.lineTo(path[i].x, path[i].y);
+            }
+            ctx.stroke();
+        }
+    }
+    function draw_z1(ctx,e){
+        if(e.x > 0 && e.x < (s.canvas.x) && e.y > 0 && e.y < (s.canvas.y)){
+            e.getSize();
+            ctx.fillStyle = e.getColor();
+            ctx.beginPath();
+            ctx.arc(e.x, e.y, e.size_z/2, 0, Math.PI * 2);
+            ctx.fill();
+        } 
+    }
+    function draw_z(ctx,e){
+        if(e.x > 0 && e.x < (s.canvas.x) && e.y > 0 && e.y < (s.canvas.y)){
+            ctx.fillStyle = e.color;
+            ctx.beginPath();
+            ctx.arc(e.x, e.y, e.size_z/2, 0, Math.PI * 2);
+            ctx.fill();
+        } 
+    }
+    function draw_e(ctx,e){
+        if(e.x > 0 && e.x < (s.canvas.x) && e.y > 0 && e.y < (s.canvas.y)){
+            ctx.fillStyle = e.color;
+            ctx.beginPath();
+            ctx.arc(e.x, e.y, e.size/2, 0, Math.PI * 2);
+            ctx.fill();
+        } 
+    }
+    function drawSquare(ctx,left,top,c,w,h){
+        ctx.fillStyle = c;
+        ctx.fillRect(left,top,w,h);
+    }
+
+    /* ─── Particle (model) ─── */
+    class p {
+        constructor(id=-1,type="p",x=0,y=0,z=0,color="#8889"){
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.vx = 0;
+            this.vy = 0;
+            this.vz = 0;
+
+            this.size = 5;
+            this.color = color;
+        }
+        draw(){
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size/2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+    class pz {
+        constructor(id,type="p",x,y,z,clr={}){
+            this.id = id;
+            // console.log(`id: ${this.id}`);
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.vx = 0;
+            this.vy = 0;
+            this.z = z;
+            this.vz = 0;
+
+            this.mass = 1;
+            this.heat = 0;
+            this.size = 5;
+            this.size_z = this.size;
+            this.range = 6;
+
+            this.hue = 210;
+            this.sat = 100;
+            this.lum = 50;
+            this.alp = 1;
+            // console.log(`(1) → hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`);
+            if(Object.keys(clr).includes("hue")){this.hue = clr.hue;}
+            if(Object.keys(clr).includes("sat")){this.sat = clr.sat;}
+            if(Object.keys(clr).includes("lum")){this.lum = clr.lum;}
+            if(Object.keys(clr).includes("alp")){this.alp = clr.alp;}
+            // console.log(`(2) → hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`);
+            this.color = "hsla(0,0%,50%,.5)";
+            this.zdp = .5;
+            // this.getSize();
+            // this.getColor();
+
+            this.path = [];
+            this.proximity = {};
+            this.pa = {};
+        }
+        update(){
+            this.getSize();
+            this.getColor();
+            this.updatePath();
+        }
+        getSize(){
+            /* this.zdp will vary from 0 to 1. close and far, respectively. */
+            this.zdp = 1 - this.z/s.canvas.z;
+            let zadd = parseFloat((this.zdp * this.range).toFixed(2));
+            this.size_z = this.size + (this.range) - zadd;
+        }
+        getColor(){
+            // this.calcColor();
+            /* Color for z-axis: */
+            // this.lum = (80 - (this.zdp * 60)).toFixed(0);
+
+
+            /* particles around, proximity value. (papv) */
+            let papv = 0;
+            Object.keys(this.proximity).forEach(k => {
+                papv += this.proximity[k]/(parseInt(k)+1);
+            });
+            let proximityValue = (papv / pg[this.type].length);
+            // this.hue = 360 * proximityValue;
+            this.lum = 20 + 40 * proximityValue;
+
+            // this.heat = 100 * (papv / pg[this.type].length);
+            // this.hue = 240 - (this.heat * 2.4);
+            // this.lum = 100 - Math.abs(this.heat - 50);
+
+            // let lum_step = 50 / (this.typeCount * .5);
+            // this.lum = (20 + this.paVal * lum_step).toFixed(0);
+            
+            this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            return this.color;
+        }
+        calcColor(){
+            switch(this.type){
+                case 'angle':
+                    this.hue = Math.round(XYtoAngle(this.vx,this.vy));
+                    break;
+                case 'id':
+                    this.hue = Math.round(this.id * 360/particles.length);
+                    break;
+                case 'heat':
+                    this.hue = 240 - (this.heat * 2.4);
+                    this.lum = 100 - Math.abs(this.heat-50);
+                    break;
+                case 'proximity-heat':
+                    let papv = 0;
+                    Object.keys(this.proximity).forEach(k => {
+                        papv += this.proximity[k]/(parseInt(k)+1);
+                    });
+                    this.heat = 100 * (papv / pg[this.type].length);
+                    this.hue = 240 - (this.heat * 2.4);
+                    this.lum = 100 - Math.abs(this.heat - 50);
+                    break;
+                default: 
+                    // this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                    break;
+            }
+        }
+        updatePath(){
+            if(this.path.length > 20){this.path.shift();}
+            // this.path.push({"x": this.x, "y": this.y, "z": this.z});
+            // this.path.push({"x": this.x, "y": this.y, "z": this.z, "zdp": this.zdp});
+            this.path.push({"x": this.x, "y": this.y, "z": this.z, "size": this.size_z, "color": this.color});
+        }
+    }
+    
+    class pu {
+        /* Particle -- Pulse */
+        constructor(id,type="pulse",x,y,z=0,time=10){
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.vx = 0;
+            this.vy = 0;
+            this.vz = 0;
+            this.time = time;
+            this.size = 5;
+        }
+    }
+    class pf {
+        /* Particle -- for Grid Flow */
+        constructor(xid,yid){
+            // {x:0,y:0,vx:0,vy:0,a:0,d:0}
+            this.xid = xid;
+            this.yid = yid;
+            this.type = "flow";
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
+            this.vx = 0;
+            this.vy = 0;
+            this.vz = 0;
+
+            this.a = 0;
+            this.d = 0;
+
+            this.s = {};
+        }
+    }
+
+    /* ─── Create (model) ─── */
+    function create_pulse(x,y,time){
+        let np = new pu(pg['pulse'].length,"pu",x,y,0,"#8889",time);
+        pg["pulse"].push(np);
+    }
+
+    function create_rxyz(n,type="none",color={sat:0,alp:.5}){
+        for(let i = 0; i < n; i++){
+            let xyz = randomXYZ();
+            let np = new pz(particles.length,type,xyz.x,xyz.y,xyz.z,color);
+            pg[type].push(np);
+            particles.push(np);
+        }
+    }
+    function create_xyz(type="none",x,y,z,color={sat:0,alp:.5}){
+        let np = new pz(particles.length,type,x,y,z,color);
+        pg[type].push(np);
+        particles.push(np);
+    }
+    function create(n,type="none",color="#8889"){
+        for(let i = 0; i < n; i++){
+            let xy = randomXY();
+            let np = new p(particles.length,type,xy.x,xy.y,0,color);
+            pg[type].push(np);
+            particles.push(np);
+        }
+    }
+
+    /* ─── Rules (control) ─── */
+    /* `pr` = particle rule. */
+    const pr = {}
+    pr["gr2"] = function (list1, list2, g = 0, r1 = 0, r2 = 100, ent = .5){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > r1 && d < r2){
+                    let force = g * 1/(d*d);
+                    fx += (force * dx);
+                    fy += (force * dy);
+                }
+            }
+            a.vx = (a.vx + fx) * ent;
+            a.vy = (a.vy + fy) * ent;
+            a.x += a.vx;
+            a.y += a.vy;
+        }
+    }
+    pr["or2"] = function (list1, list2, g = 0, r1 = 0, r2 = 100, ent = .5){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > r1 && d < r2){
+                    let force = g * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                }
+            }
+            a.vx = (a.vx + fx) * ent;
+            a.vy = (a.vy + fy) * ent;
+            a.x += a.vx;
+            a.y += a.vy;
+        }
+    }
+    pr["walls"] = function (list1, g = 0, r = 10){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+
+            let dx = Math.abs(a.x - s.canvas.x);
+            let dy = Math.abs(a.y - s.canvas.y);
+            if(a.x > 0 && a.x < r){fx += g;}
+            if(a.y > 0 && a.y < r){fy += g;}
+            if(dx > 0 && dx < r){fx -= g;}
+            if(dy > 0 && dy < r){fy -= g;}
+
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+            a.x += a.vx;
+            a.y += a.vy;
+
+            let margin = -5;
+            let cr = 10;
+            if(a.x < (0-margin) || a.x > (s.canvas.x+margin) || a.y < (0-margin) || a.y > (s.canvas.y+margin)){
+                a.x = s.canvas.x2 + (Math.random() * (cr*2) - cr);
+                a.y = s.canvas.y2 + (Math.random() * (cr*2) - cr);
+                // a.z = s.canvas.z2 + (Math.random() * (cr*2) - cr);
+            }
+        }
+    }
+
+    pr["or3"] = function (list1, list2, g = 0, r1 = 0, r2 = 100, ent = 1){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fz = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let dz = a.z - b.z;
+                let d = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                if(d > r1 && d < r2){
+                    let force = g * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                    fz += (force * dz);
+                }
+            }
+            a.vx = (a.vx + fx) * ent;
+            a.vy = (a.vy + fy) * ent;
+            a.vz = (a.vz + fz) * ent;
+            a.x += a.vx;
+            a.y += a.vy;
+            a.z += a.vz;
+        }
+    }
+    pr["gr3"] = function (list1, list2, g = 0, r1 = 0, r2 = 100, ent = 1){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fz = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let dz = a.z - b.z;
+                let d = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                if(d > r1 && d < r2){
+                    let force = g * 1/(d*d);
+                    fx += (force * dx);
+                    fy += (force * dy);
+                    fz += (force * dz);
+                }
+            }
+            a.vx = (a.vx + fx) * ent;
+            a.vy = (a.vy + fy) * ent;
+            a.vz = (a.vz + fz) * ent;
+            a.x += a.vx;
+            a.y += a.vy;
+            a.z += a.vz;
+        }
+    }
+    pr["walls3d"] = function (list1, g = 0, r = 10){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fz = 0;
+
+            let dx = Math.abs(a.x - s.canvas.x);
+            let dy = Math.abs(a.y - s.canvas.y);
+            let dz = Math.abs(a.z - s.canvas.z);
+            if(a.x > 0 && a.x < r){fx += g;}
+            if(a.y > 0 && a.y < r){fy += g;}
+            if(a.z > 0 && a.z < r){fz += g;}
+            if(dx > 0 && dx < r){fx -= g;}
+            if(dy > 0 && dy < r){fy -= g;}
+            if(dz > 0 && dz < r){fz -= g;}
+
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+            a.vz = (a.vz + fz);
+            a.x += a.vx;
+            a.y += a.vy;
+            a.z += a.vz;
+
+            let margin = -5;
+            let cr = 10;
+            if(a.x < (0-margin) || a.x > (s.canvas.x+margin) || a.y < (0-margin) || a.y > (s.canvas.y+margin) || a.z < (0-margin) || a.z> (s.canvas.z+margin)){
+                a.x = s.canvas.x2 + (Math.random() * (cr*2) - cr);
+                a.y = s.canvas.y2 + (Math.random() * (cr*2) - cr);
+                a.z = s.canvas.z2 + (Math.random() * (cr*2) - cr);
+            }
+        }
+    }
+
+    pr["wind"] = function (list1, g = 0){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let x = Math.floor(a.x / s.tile.w);
+            let y = Math.floor(a.y / s.tile.h);
+            let fx = 0;
+            let fy = 0;
+            let ent = 1;
+            let xx = Math.abs(grid[y][x].x);
+            let yy = Math.abs(grid[y][x].y);
+            if(xx > .001 || yy > .001){
+                fx += grid[y][x].x * g;
+                fy += grid[y][x].y * g;
+                ent = .5;
+            }
+            a.vx = (a.vx + fx) * ent;
+            a.vy = (a.vy + fy) * ent;
+            a.x += a.vx;
+            a.y += a.vy;
+        }
+    }
+    pr["grid-pulse"] = function (grid, pulses, g = 0, r = 10){
+        if(pulses.length > 0){
+            for (let y = 0; y < grid.length; y++) {
+                let ay = y * s.tile.h;
+                for (let x = 0; x < grid[y].length; x++) {
+                    const a = grid[y][x];
+                    let fx = 0;
+                    let fy = 0;
+                    let ax = x * s.tile.w;
+                    let ent = .89;
+                    for (let i = 0; i < pulses.length; i++) {
+                        const b = pulses[i];
+                        if(b.time > 0){
+                            let dx = ax - b.x;
+                            let dy = ay - b.y;
+                            let d = Math.sqrt(dx*dx + dy*dy);
+                            if(d > 0 && d < r){
+                                let force = g * 1/d;
+                                fx += (force * dx);
+                                fy += (force * dy);
+                                ent = .7;
+                            }
+                        }
+                    }
+                    a.vx = (a.vx + fx) * ent;
+                    a.vy = (a.vy + fy) * ent;
+                    a.x = a.vx;
+                    a.y = a.vy;
+                }
+            }
+            for (let i = 0; i < pulses.length; i++) {
+                const b = pulses[i];
+                b.time--;
+                if(b.time < 1) {
+                    console.log(`pulse #${b.id} time out.`);
+                    pulses.splice(i,1);
+                }
+            }
+        }
+    }
+    pr["grid-entropy"] = function (grid, ent = .89){
+        for (let y = 0; y < grid.length; y++) {
+            // let ay = y * s.tile.h;
+            for (let x = 0; x < grid[y].length; x++) {
+                const a = grid[y][x];
+                if(Math.abs(a.x) > 0.001) {a.x *= ent;} else {a.x = 0;}
+                if(Math.abs(a.y) > 0.001) {a.y *= ent;} else {a.y = 0;}
+            }
+        }
+    }
+
+    pr["px2"] = function (list1, list2, r1 = 0, r2 = 500){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            Object.keys(a.proximity).forEach(k => {a.proximity[k] = 0;});
+            a.typeCount = list1.length;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                // particle around key
+                // let pak = Math.ceil(d/100);
+                // a.pa[pak] += 1;
+                if(r1 < d && d < r2){
+                    let pak = Math.floor(d/100);
+                    if(!Object.keys(a.proximity).includes(`${pak}`)){a.proximity[pak] = 0;}
+                    a.proximity[pak] += 1;
+                }
+            }
+        }
+    }
+
+    /* ─── Start and Update ─── */
+    const gs = {
+        // "0": {count: 100, clr:{hue:0, sat:0, lum:100, alp:1}},
+        // "1": {count: 200, clr:{hue:30}},
+        // "2": {count: 200, clr:{hue:150}},
+        "3": {count: 20, clr:{hue:210}},
+        "4": {count: 20, clr:{hue:330}},
+        // "5": {count: 50, clr:{hue:270}},
+        // "6": {count: 50, clr:{hue:60}},
+    };
+    function start(){
+        // canvas["canvas-draw"].addEventListener("touchstart", handleStart, false);
+        // canvas["canvas-draw"].addEventListener("touchend", handleEnd, false);
+        // canvas["canvas-draw"].addEventListener("touchcancel", handleCancel, false);
+        // canvas["canvas-draw"].addEventListener("touchmove", handleMove, false);
+
+        // pile = BuildGridArr(s.cube.xlen,s.cube.ylen);
+        // grid = BuildGridFlow(s.cube.xlen,s.cube.ylen);
+
+        // clearCanvas(ctx["canvas-grid"],"#000");
+        // DrawGridPlane(ctx["canvas-grid"]);
+        // DrawXY(ctx["canvas-grid"]);
+
+        // pg["pulse"] = [];
+
+        // Code goes here.
+        let keys = Object.keys(gs);
+        keys.forEach(k=>{
+            pg[k] = [];
+            create_rxyz(gs[k].count,k,gs[k].clr);
+        });
+    }
+    // var currentRule = "s0";
+    var currentRule = "r2";
+    const rules = {
+        "s0": [
+            {f: "gr2", a: "0", b: "0", g: 0.29, r1: 0, r2: 5, ent:.95},
+        ],
+        "r1": [
+            {f: "gr2", a: "0", b: "0", g: 0.29, r1: 0, r2: 5, ent:.95},
+            {f: "gr2", a: "3", b: "3", g: 0.29, r1: 0, r2: 5, ent:.95},
+            {f: "gr2", a: "4", b: "4", g: 0.29, r1: 0, r2: 5, ent:.95},
+
+            {f: "gr2", a: "0", b: "0", g: -0.29, r1: 10, r2: 20, ent: 1},
+            {f: "gr2", a: "3", b: "3", g: -0.29, r1: 10, r2: 20, ent: 1},
+            {f: "gr2", a: "4", b: "4", g: -0.29, r1: 10, r2: 20, ent: 1},
+        ],
+        "r2a": [
+            {f: "gr2", a: "3", b: "3", g: 0.29, r1: 0, r2: 150, ent:.95},
+            {f: "gr2", a: "4", b: "4", g: 0.29, r1: 0, r2: 150, ent:.95},
+
+            {f: "gr2", a: "3", b: "3", g: -0.29, r1: 100, r2: 1200, ent: 1},
+            {f: "gr2", a: "4", b: "4", g: -0.29, r1: 100, r2: 1200, ent: 1},
+        ],
+        "r2": [
+            {f: "gr2", a: "3", b: "3", g: 0.54, r1: 0, r2: 20, ent:.95},
+            {f: "gr2", a: "4", b: "4", g: 0.54, r1: 0, r2: 100, ent:.95},
+
+            {f: "gr2", a: "3", b: "3", g: -0.29, r1: 30, r2: 1200, ent: 1},
+            {f: "gr2", a: "4", b: "4", g: -0.29, r1: 200, r2: 1200, ent: 1},
+        ],
+    }
+    function update(){
+        if(!s.q && !s.pause){
+            // Code goes here.
+            rules[currentRule].forEach(e => {
+                pr[e.f](pg[e.a], pg[e.b], e.g, e.r1, e.r2, e.ent);
+            });
+            pr["walls"](particles, 1, 0);
+            pr["walls"](particles, .25, 15);
+            // pr["wind"](particles, .25);
+            // pr["px2"](particles, particles);
+
+            Object.keys(gs).forEach(k=>{
+                pr["px2"](pg[k], pg[k]);
+            });
+
+            // pr["grid-pulse"](grid, pg["pu"], 1, 100);
+            // pr["grid-entropy"](grid,.89);
+
+            /* ─Rest of Update()─ */
+            // particles.sort((a,b) => a.z - b.z);
+            
+            /* ─ Draw Part ─ */
+            // clearCanvas(ctx["canvas-grid"]);
+            clearCanvas(ctx["canvas-draw"]);
+            for(let i = 0; i < particles.length; i++){particles[i].update();}
+            
+            Object.keys(gs).forEach(k=>{
+                // DrawFuseLine(ctx["canvas-draw"],pg[k]);
+                // DrawFuse(ctx["canvas-draw"],pg[k],500);
+                // DrawFuseZ(ctx["canvas-draw"],pg[k],1200);
+                // DrawFuseZ(ctx["canvas-draw"],pg[k],500);
+                DrawParticleLine(ctx["canvas-draw"],pg[k],200);
+            });
+
+            // drawGrid(ctx["canvas-grid"], s.grid.cols, s.grid.rows);
+            // draw_path(ctx,s.mouse.path,"#fff2",2);
+
+            // for(let i = 0; i < Object.keys(s.touch.paths).length; i++){
+            //     let hue = i * 60 + 30;
+            //     let clr = `hsla(${hue}, 100%, 20%, .15)`;
+            //     draw_path(ctx,s.touch.paths[Object.keys(s.touch.paths)[i]],clr,2);
+            // }
+
+            for(let i = 0; i < particles.length; i++){
+                const e = particles[i];
+                // if(e.type == "4"){
+                //     e.updatePath();
+                //     draw_path(ctx,e.path,e.color,e.size);
+                // }
+                // e.updatePath();
+                // draw_path(ctx,e.path,e.color,e.size);
+                // draw_z(ctx["canvas-draw"],e);
+                draw_e(ctx["canvas-draw"],e);
+            }
+        }
+        setTimeout(() => {
+            requestAnimationFrame(update);
+        }, s.timeOut)
+    }
+    function clearCanvas(ctx, bg="#0000"){
+        ctx.clearRect(0,0,s.w,s.h);
+        ctx.fillStyle = bg;
+        ctx.fillRect(0,0,s.w,s.h);
+    }
+    function reset(){
+        // pile = BuildGridArr(s.cube.xlen,s.cube.ylen);
+        // grid = BuildGridFlow(s.cube.xlen,s.cube.ylen);
+
+        // Code goes here.
+        // clearCanvas(ctx["canvas-grid"],"#000");
+        // DrawGridPlane(ctx["canvas-grid"]);
+        // DrawXY(ctx["canvas-grid"]);
+        
+        clearCanvas(ctx["canvas-grid"]);
+        clearCanvas(ctx["canvas-draw"]);
+    }
+
+
+    /* ─── Events ─── */
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+
+        s.z = s.w;
+        // s.z = Math.min(s.w,s.h);
+        s.x2 = s.w/2;
+        s.y2 = s.h/2;
+        s.z2 = s.z/2;
+
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        // s.canvas.z = (s.h + s.w)/2;
+        s.canvas.z = s.w;
+        // s.canvas.z = Math.min(s.w,s.h);
+
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
+
+        /* ─ Box ─ */
+        /* resize box for mobile */
+        if(s.h < s.box.y) {s.box.y = s.h;}
+        if(s.w < s.box.x) {s.box.x = s.w;}
+        s.box.z = (s.box.y + s.box.x)/2;
+
+        /* position box */
+        s.box.top = (s.h - s.box.y)/2;
+        s.box.left = (s.w - s.box.x)/2;
+
+        /* determine center */
+        s.box.x2 = s.box.left + (s.box.x / 2);
+        s.box.y2 = s.box.top + (s.box.y / 2);
+        s.box.z2 = (s.box.z / 2);
+
+        /* ─ Cube ─ */
+        s.cube.xlen = window.innerWidth / s.cube.sz;
+        s.cube.ylen = window.innerHeight / s.cube.sz;
+        // s.cube.zlen = s.dim / s.cube.sz;
+        s.cube.zlen = s.cube.xlen;
+        // s.cube.zlen = Math.min(s.cube.xlen, s.cube.ylen);
+
+        /* ─ Grid ─ */
+        s.grid.cols = Math.floor(s.w / s.tile.w);
+        s.grid.rows = Math.floor(s.h / s.tile.h);
+
+        /* ─ Log ─ */
+        // console.log(`s.w: ${s.w}, s.h: ${s.h}`);
+    //     console.log(`
+    // [window]
+    //     s.w: ${s.w}, 
+    //     s.h: ${s.h},
+    //     s.dim: ${s.dim.toFixed(2)},
+
+    // [canvas]
+    //     s.canvas.x: ${s.canvas.x},
+    //     s.canvas.y: ${s.canvas.y},
+    //     s.canvas.z: ${s.canvas.z},
+
+    //     s.canvas.x2: ${s.canvas.x2},
+    //     s.canvas.y2: ${s.canvas.y2},
+    //     s.canvas.z2: ${s.canvas.z2},
+
+    // [box]
+    //     s.box.x: ${s.box.x},
+    //     s.box.y: ${s.box.y},
+    //     s.box.z: ${s.box.z},
+
+    //     s.box.x2: ${s.box.x2},
+    //     s.box.y2: ${s.box.y2},
+    //     s.box.z2: ${s.box.z2},
+
+    // [cube]
+    //     s.cube.xlen: ${s.cube.xlen},
+    //     s.cube.ylen: ${s.cube.ylen},
+    //     s.cube.zlen: ${s.cube.zlen},
+    //     `);
+
+        /* ─ Canvas Update ─ */
+        layers.forEach(key => {
+            canvas[key].width = window.innerWidth;
+            canvas[key].height = window.innerHeight;
+            ctx[key].clearRect(0,0,canvas[key].width, canvas[key].height);
+        });
+
+        reset();
+    }
+    window.addEventListener('resize', () =>{
+        updateSettings();
+    });
+    window.addEventListener('click', (ev) => {
+        let x = ev.pageX;
+        let y = ev.pageY;
+        let xtile = Math.floor(x / s.cube.sz);
+        let ytile = Math.floor(y / s.cube.sz);
+        console.log(`(${x},${y}) → tile-x: ${xtile}, tile-y: ${ytile}`);
+        // pulseAt(x,y);
+    });
+    /* ─── Event Handlers ─── */
+    var previousTouchEvent = '';
+    var ongoingTouches = [];
+    function copyTouch({ identifier, pageX, pageY }) {
+        return { identifier, pageX, pageY };
+    }
+    function ongoingTouchIndexById(idToFind) {
+        for (var i = 0; i < ongoingTouches.length; i++) {
+            var id = ongoingTouches[i].identifier;
+            if (id == idToFind) {
+                return i;
+            }
+        }
+        return -1;  // not found
+    }
+    function handleStart(ev) {
+        // console.log("touchstart.");
+        previousTouchEvent = "touchstart"
+        ev.preventDefault();
+        var touches = ev.changedTouches;
+        for (var i = 0; i < touches.length; i++) {
+            ongoingTouches.push(copyTouch(touches[i]));
+        }
+    }
+    function handleMove(ev) {
+        // console.log("touchmove.");
+        previousTouchEvent = "touchmove";
+        ev.preventDefault();
+        var touches = ev.changedTouches;
+        // console.log(touches);
+        let x = {};
+        let y = {};
+        for (var i = 0; i < touches.length; i++) {
+            var idx = ongoingTouchIndexById(touches[i].identifier);
+            if (idx >= 0) {
+
+                /* up to 6 fingers. */
+                // if(i < 6){
+                //     // console.log(`i:${i}, idx:${idx}`);
+                //     /* Adding the touches to the paths list. */
+                //     if(!Object.keys(s.touch.paths).includes(`${idx}`)){s.touch.paths[idx] = [];}
+                //     x[idx] = ongoingTouches[idx].pageX;
+                //     y[idx] = ongoingTouches[idx].pageY;
+                //     // console.log(`x:${x[idx]}, y:${y[idx]}`);
+                //     // console.log(`s.touch.paths[${idx}].length: ${s.touch.paths[idx].length};`);
+                //     if(s.touch.paths[idx].length > s.touch.path_len){s.touch.paths[idx].shift();}
+                //     s.touch.paths[idx].push({"x": x[idx], "y": y[idx]});
+                //     /* (End of) Adding the touches to the paths list. */
+
+                //     updateGrid(s.touch.paths[idx],s.grid.cols,s.grid.rows);
+                //     // updateGrid(wind_grid,s.touch.paths[idx]);
+                //     updateGridFlow(s.touch.paths[idx],flow.pile,flow.grid);
+                // }
+
+                ongoingTouches.splice(idx, 1, copyTouch(touches[i])); // swap in the new touch record
+            } else {
+                console.log("can't figure out which touch to continue");
+            }
+        }
+    }
+    function handleEnd(ev) {
+        // console.log("touchend.");
+        ev.preventDefault();
+        var touches = ev.changedTouches;
+        if(previousTouchEvent == "touchstart") {
+            for (var i = 0; i < touches.length; i++) {
+                var idx = ongoingTouchIndexById(touches[i].identifier);
+                if (idx >= 0) {
+                    x = ongoingTouches[idx].pageX;
+                    y = ongoingTouches[idx].pageY;
+                    // pulseAt(x,y);
+                } else {
+                    console.log("can't figure out which touch to end");
+                }
+            }
+        }
+        previousTouchEvent = "touchend"
+        for (var i = 0; i < touches.length; i++) {
+            var idx = ongoingTouchIndexById(touches[i].identifier);
+            if (idx >= 0) {
+                ongoingTouches.splice(idx, 1);  // remove it; we're done
+            } else {
+                console.log("can't figure out which touch to end");
+            }
+        }
+    }
+    function handleCancel(ev) {
+        console.log("touchcancel.");
+        ev.preventDefault();
+        var touches = ev.changedTouches;
+        for (var i = 0; i < touches.length; i++) {
+            var idx = ongoingTouchIndexById(touches[i].identifier);
+            ongoingTouches.splice(idx, 1);  // remove it; we're done
+        }
+    }
+
+
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        console.log(`w: ${window.innerWidth}, h:${window.innerHeight}`);
+
+        updateSettings();
+        start();
+        update();
+    });
+    /* Version Log:
+    [index-nds-00]: Default Canvas Cube Template.
+    [index-nds-01]: First Step looks good. The particles display a lighting effect to the closest particle of their type.
+    [index-nds-02]: 
+    [index-nds-03]: 
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
+    [index-nds-07]: 
+    [index-nds-08]: 
+    [index-nds-09]: 
+    [index-nds-10]: 
+    [index-nds-11]: 
+    [index-nds-12]: 
+    
+    */
+    function CSSAngleToXY(angle){
+        angle = (angle+270)%360;
+        let rad = angle * Math.PI / 180;
+        let xy = {"x":0,"y":0};
+        if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+        if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+        return xy;
+    }
+    function XYtoCSSAngle(x,y){
+        let angle = 90;
+        if(x == 0){
+            if(y > 0) {return 180;}
+            if(y < 0) {return 0;}
+        }
+        if(x < 0) { angle += 180; }
+        if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
+        return angle;
+    }
+
+    function randomXYZs1(scale=1){
+        let x = Math.random() * scale;
+        let y = Math.random() * scale;
+        let z = Math.random() * scale;
+        return {'x':x, 'y':y, 'z':z};
+    }
+    function randomXYZs(scale={'x':1, 'y':1, 'z':1}){
+        let x = Math.random() * scale.x;
+        let y = Math.random() * scale.y;
+        let z = Math.random() * scale.z;
+        return {'x':x, 'y':y, 'z':z};
+    }
+    function randomXYZ(){
+        let x = Math.random()*s.canvas.x;
+        let y = Math.random()*s.canvas.y;
+        let z = Math.random()*s.canvas.z;
+        return {'x':x, 'y':y, 'z':z};
+    }
+    function randomXY(){
+        let x = Math.random()*s.canvas.x;
+        let y = Math.random()*s.canvas.y;
+        return {'x':x, 'y':y};
+    }
+    function random(n,a){return Math.random()*n+a;}
+    function randomA(radius){return Math.random()*(radius*2)-radius;}
+
+
+    /*
+    Debug:
+
+particles.forEach(p => { console.log(p.paVal); });
+
+let t0 = {"sum":0, "min":999, "max":0};
+particles.forEach(p => { 
+    t0["sum"] += p.paVal;
+    if(t0["max"] < p.paVal){ t0["max"] = p.paVal; }
+    if(t0["min"] > p.paVal){ t0["min"] = p.paVal; }
+});
+
+particles.forEach(p => {
+    console.log(`id: ${p.id}, type: ${p.type}, a: ${p.paVal.toFixed(0)}`);
+});
+
+pg["4"].forEach(p => {
+    console.log(`id: ${p.id}, a: ${p.paVal.toFixed(0)}`);
+    console.log(Object.keys(p.pa));
+});
+
+pg["4"].forEach(p => {
+    console.log(p.pa);
+});
+
+pg["3"].forEach(p => {
+    console.log(`id: ${p.id}, a: ${p.paVal.toFixed(1)} / typeCount: ${p.typeCount} = heat: ${p.heat.toFixed(1)}`);
+});
+
+    */
+
+</script>
+</body>
+</html>

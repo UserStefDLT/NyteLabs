@@ -15,7 +15,10 @@
             top: 50%; left: 50%;
             transform: translateX(-50%) translateY(-50%);
         } */
-        /* :root {} */
+        /* :root {
+            --clr: hsl(184, 29%, 40%);
+            --clr: hsl(168, 14%, 25%);
+        } */
         .subtitle{user-select: none;}
     </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
@@ -924,6 +927,12 @@
     }
 
 
+    function randomXYZa(scale=1){
+        let x = Math.random() * scale;
+        let y = Math.random() * scale;
+        let z = Math.random() * scale;
+        return {'x':x, 'y':y, 'z':z};
+    }
     function randomXYZs(scale={'x':1, 'y':1, 'z':1}){
         let x = Math.random() * scale.x;
         let y = Math.random() * scale.y;
