@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Draw Eq | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <link rel="stylesheet" href="../../../stylesheets/canvas.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        /* :root {} */
+        header {backdrop-filter: initial;}
+        header > .title {color: var(--bwf); text-shadow: 1px 1px 2px var(--bw3);}
+        #canvas-grid {background-color: #000;}
+        #canvas-draw {background-color: #0000;}
+        [id|="layer"] {background-color: #0000;}
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/settings2.css">
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">NyteLabs</h1>
+        <div class="subtitle">Draw Eq</div>
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+
+<main>
+    <!-- <div class="shelf">
+        <h3 class="shelf-title">experiment</h3>
+        <div id="display"></div>
+        <div class="x"></div>
+    </div> -->
+    <canvas id="canvas-grid"></canvas>
+    <canvas id="canvas-draw"></canvas>
+</main>
+
+<!-- <div class="options">
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        touch: {
+            x: 0,
+            y: 0,
+            z: 0,
+            paths: {},
+            path_len: 20,
+            tracking: false
+        },
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            path: [],
+            path_len: 20,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            sz: 20,
+            sz2: 10,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            padding: 0,
+            brush: "p",
+        },
+        box: {
+            x: 500,
+            y: 500,
+            z: 500,
+            x2: 250,
+            y2: 250,
+            z2: 250,
+            d: 1000,
+            p: 1000,
+        },
+        cube: {
+            xlen: 10,
+            ylen: 10,
+            zlen: 10,
+            sz: 20,
+        },
+
+        timeOut: 10,
+        player: false,
+        
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+    const particles = [];
+    const pg = {}
+
+</script>
+<script src="../../../scripts/settings.js"></script>
+<script>
+    const layers = ["canvas-grid", "canvas-draw"];
+    const canvas = {};
+    const ctx = {};
+    layers.forEach(key => {
+        canvas[key] = document.getElementById(key);
+        ctx[key] = canvas[key].getContext('2d');
+        canvas[key].width = window.innerWidth;
+        canvas[key].height = window.innerHeight;
+    });
+
+    /* ─── [Model] ─── */
+    /* ─── Build Grid (model) ─── */
+    function BuildGrid(w = s.cube.xlen, h = s.cube.ylen, fill = 0){
+        let g = [];
+        for(let y = 0; y < h; y++){
+            g.push([]);
+            for(let x = 0; x < w; x++){
+                g[y].push(fill);
+            }
+        }
+        return g;
+    }
+    function BuildGridObj(w = s.cube.xlen, h = s.cube.ylen, fill = {}){
+        let g = [];
+        for(let y = 0; y < h; y++){
+            g.push([]);
+            for(let x = 0; x < w; x++){
+                // g[y].push(fill);
+                g[y].push({});
+                if(Object.keys(fill).length > 0){
+                    Object.keys(fill).forEach(k=>{
+                        g[y][x][k] = fill[k];
+                    });
+                }
+            }
+        }
+        return g;
+    }
+    function BuildGridHSL(w = s.cube.xlen, h = s.cube.ylen, hsl = {"h":0, "s":0, "l":0}){
+        let g = [];
+        for(let y = 0; y < h; y++){
+            g.push([]);
+            for(let x = 0; x < w; x++){
+                // g[y].push(fill);
+                g[y].push({"h":hsl.h, "s":hsl.s, "l":hsl.l});
+            }
+        }
+        return g;
+    }
+
+    function AddGridNoise(grid, f=(a,b)=>{return a+b;}){
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                grid[y][x] += f(x,y);
+            }
+        }
+    }
+    function AddGridNoiseHSL(grid, f=(a,b,c,d)=>{return a+b+c+d;}, r = {"h":0, "s":0, "l":0}, a = {"h":0, "s":0, "l":0}){
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                grid[y][x].h += f(r.h,a.h);
+                grid[y][x].s += f(r.s,a.s);
+                grid[y][x].l += f(r.l,a.l);
+            }
+        }
+    }
+    function HandleNoiseHSL(grid, f=(g1,a,b)=>{return a+b;},radius=1,tolerance=10,ent=.5){
+        let g2 = [];
+        for(let y = 0; y < grid.length; y++){
+            g2.push([]);
+            for(let x = 0; x < grid[y].length; x++){
+                g2[y].push(f(grid,x,y,radius,tolerance,ent));
+                // let val = f(grid,x,y,radius,tolerance,ent);
+                // let hue = f(grid,x,y,radius,tolerance,ent);
+                // let sat = f(grid,x,y,radius,tolerance,ent);
+                // let lum = f(grid,x,y,radius,tolerance,ent);
+                // g2[y].push({"h":0, "s":0, "l":0});
+                // g2[y][x].h = hue;
+                // g2[y][x].s = sat;
+                // g2[y][x].l = lum;
+                // // grid[y][x] = fun(x,y);
+            }
+        }
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                grid[y][x].h = g2[y][x].h;
+                grid[y][x].s = g2[y][x].s;
+                grid[y][x].l = g2[y][x].l;
+            }
+        }
+    }
+    const fup3 = {
+        "smooth-hsl-d": (g,x,y,radius=1,tolerance=10,ent=.5)=>{
+            let sum = {"h":0, "s":0, "l":0};
+            let count = 0;
+            for (let i = radius*-1; i <= radius; i++) {
+                for (let j = radius*-1; j <= radius; j++) {
+                    let nx = x + j;
+                    let ny = y + i;
+                    if(isInGrid(g,nx,ny)){
+                        sum.h += g[ny][nx].h;
+                        sum.s += g[ny][nx].s;
+                        sum.l += g[ny][nx].l;
+                        count++;
+                    }
+                }
+            }
+            console.log("sum");
+            console.log(sum);
+
+            let avg = {"h":0, "s":0, "l":0};
+            avg.h += sum.h/count;
+            avg.s += sum.s/count;
+            avg.l += sum.l/count;
+            console.log("avg");
+            console.log(avg);
+            
+            let dif = {"h":0, "s":0, "l":0};
+            dif.h += avg.h - g[y][x].h;
+            dif.s += avg.s - g[y][x].s;
+            dif.l += avg.l - g[y][x].l;
+            console.log("dif");
+            console.log(dif);
+            
+            let res = {"h":0, "s":0, "l":0};
+            res.h = g[y][x].h;
+            res.s = g[y][x].s;
+            res.l = g[y][x].l;
+            console.log("res");
+            console.log(res);
+
+            if(Math.abs(dif.h) > tolerance){res.h = Math.round(g[y][x].h + (dif.h) * ent);}
+            if(Math.abs(dif.s) > tolerance){res.s = Math.round(g[y][x].s + (dif.s) * ent);}
+            if(Math.abs(dif.l) > tolerance){res.l = Math.round(g[y][x].l + (dif.l) * ent);}
+
+            return res;
+        },
+        "smooth-hsl": (g,x,y,radius=1,tolerance=10,ent=.5)=>{
+            let sum = {"h":0, "s":0, "l":0};
+            let count = 0;
+            for (let i = radius*-1; i <= radius; i++) {
+                for (let j = radius*-1; j <= radius; j++) {
+                    let nx = x + j;
+                    let ny = y + i;
+                    if(isInGrid(g,nx,ny)){
+                        sum.h += g[ny][nx].h;
+                        sum.s += g[ny][nx].s;
+                        sum.l += g[ny][nx].l;
+                        count++;
+                    }
+                }
+            }
+            let avg = {"h":0, "s":0, "l":0};
+            // let avg = sum/count;
+            avg.h += sum.h/count;
+            avg.s += sum.s/count;
+            avg.l += sum.l/count;
+            
+            let dif = {"h":0, "s":0, "l":0};
+            dif.h += avg.h - g[y][x].h;
+            dif.s += avg.s - g[y][x].s;
+            dif.l += avg.l - g[y][x].l;
+
+            let res = {"h":0, "s":0, "l":0};
+            res.h = g[y][x].h;
+            res.s = g[y][x].s;
+            res.l = g[y][x].l;
+
+            if(Math.abs(dif.h) > tolerance){res.h = Math.round(g[y][x].h + (dif.h) * ent);}
+            if(Math.abs(dif.s) > tolerance){res.s = Math.round(g[y][x].s + (dif.s) * ent);}
+            if(Math.abs(dif.l) > tolerance){res.l = Math.round(g[y][x].l + (dif.l) * ent);}
+
+            return res;
+        },
+        "smooth-s": (g,x,y,radius=1,tolerance=10,ent=.5)=>{
+            let sum = 0;
+            let count = 0;
+            for (let i = radius*-1; i <= radius; i++) {
+                for (let j = radius*-1; j <= radius; j++) {
+                    let nx = x + j;
+                    let ny = y + i;
+                    if(isInGrid(g,nx,ny)){
+                        sum += g[ny][nx];
+                        count++;
+                    }
+                }
+            }
+            let avg = sum/count;
+            let dif = avg - g[y][x];
+            let res = g[y][x];
+            if(Math.abs(dif) < tolerance){
+                res = Math.round((avg - g[y][x]) * ent + g[y][x]);
+            }
+            return res;
+        },
+        "smooth": (g,x,y)=>{
+            let sum = 0;
+            let count = 0;
+            for (let i = -1; i < 2; i++) {
+                for (let j = -1; j < 2; j++) {
+                    let nx = x + j;
+                    let ny = y + i;
+                    if(isInMap(nx,ny)){
+                        sum += g[ny][nx];
+                        count++;
+                    }
+                }
+            }
+            let avg = sum/count;
+            // let res = (avg - g[y][x]) * .25 + g[y][x];
+            // console.log(`s0(${x},${y}) → avg: ${avg}`);
+            let res = Math.round((avg - g[y][x]) * .25 + g[y][x]);
+            return res;
+        },
+        "smooth-1": (g,x,y)=>{
+            let sum = 0;
+            let count = 0;
+            for (let i = -1; i < 2; i++) {
+                for (let j = -1; j < 2; j++) {
+                    let nx = x + j;
+                    let ny = y + i;
+                    if(isInMap(nx,ny)){
+                        sum += g[ny][nx];
+                        count++;
+                    }
+                }
+            }
+            let avg = sum/count;
+            let dif = avg - g[y][x];
+            // console.log(`s1(${x},${y}) → avg: ${avg} | dif: ${dif}`);
+            let res = g[y][x];
+            if(-15 < dif || dif < 15){
+                res = Math.round((avg - g[y][x]) * .5 + g[y][x]);
+            }
+            return res;
+        },
+        "smooth-2": (g,x,y)=>{
+            let sum = 0;
+            let count = 0;
+            let radius = 2;
+            for (let i = radius*-1; i <= radius; i++) {
+                for (let j = radius*-1; j <= radius; j++) {
+                    let nx = x + j - 1;
+                    let ny = y + i - 1;
+                    if(isInMap(nx,ny)){
+                        sum += g[ny][nx];
+                        count++;
+                    }
+                }
+            }
+            let avg = sum/count;
+            let dif = avg - g[y][x];
+            // console.log(`s2(${x},${y}) → avg: ${avg} | dif: ${dif}`);
+            let res = g[y][x];
+            if(-30 < dif || dif < 30){
+                res = Math.round((avg - g[y][x]) * .5 + g[y][x]);
+            }
+            return res;
+        },
+    }
+
+    
+    /* ─── [View] ─── */
+    /* ─── Drawing (view) ─── */
+    function DrawGridHSL(ctx, grid){
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                const e = grid[y][x];
+                let xn = x * s.cube.sz;
+                let yn = y * s.cube.sz;
+
+                let hue = e.h%360;
+                let sat = e.s%100;
+                let lum = e.l%100;
+                let bg = `hsla(${hue}, ${sat}%, ${lum}%, 1)`;
+                ctx.fillStyle = bg;
+                ctx.fillRect(xn,yn,s.cube.sz,s.cube.sz);
+            }
+        }
+    }
+    function DrawGridFXY(ctx, grid){
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                const e = grid[y][x];
+                let x1 = x * s.cube.sz;
+                let y1 = y * s.cube.sz;
+                // let x2 = e.x * s.cube.sz;
+                // let y2 = e.y * s.cube.sz;
+                let x2 = e.x;
+                let y2 = e.y;
+                let hue = e.hue%360;
+                let sat = 100;
+                let lum = 50;
+
+                // let hue = e.h%360;
+                // let sat = e.s%100;
+                // let lum = e.l%100;
+                // let bg = `hsla(${hue}, ${sat}%, ${lum}%, 1)`;
+                // ctx.fillStyle = bg;
+                // ctx.fillRect(xn,yn,s.cube.sz,s.cube.sz);
+
+
+                ctx.strokeStyle = `hsla(${hue}, ${sat}%, ${lum}%, 1)`;
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+            }
+        }
+    }
+
+    
+    function DrawGridFXY2(ctx, grid){
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                const e = grid[y][x];
+                let x1 = x * s.cube.sz;
+                let y1 = y * s.cube.sz;
+                let x0 = (x * s.cube.sz) - s.canvas.x2;
+                let y0 = (y * s.cube.sz) - s.canvas.y2;
+
+                let sz = s.cube.sz/2;
+                let vx = fs["eqX"](x0, 200, sz);
+                let vy = fs["eqY"](y0, 200, sz);
+                // let vy = 0;
+                // let vh = fs["cosXY"](x0, y0, 200, 180);
+                let vh = (vx + vy) * (180/sz);
+
+                let x2 = x1 + vx;
+                let y2 = y1 + vy;
+
+                // let x2 = e.x * s.cube.sz;
+                // let y2 = e.y * s.cube.sz;
+                // let x2 = e.x;
+                // let y2 = e.y;
+                let hue = vh%360;
+                let sat = 100;
+                let lum = 50;
+
+                // let hue = e.h%360;
+                // let sat = e.s%100;
+                // let lum = e.l%100;
+                // let bg = `hsla(${hue}, ${sat}%, ${lum}%, 1)`;
+                // ctx.fillStyle = bg;
+                // ctx.fillRect(xn,yn,s.cube.sz,s.cube.sz);
+
+
+                ctx.beginPath();
+                ctx.strokeStyle = `hsla(${hue}, ${sat}%, ${lum}%, .5)`;
+                ctx.lineWidth = 1;
+                ctx.arc(x1, y1, sz, 0, Math.PI * 2);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.strokeStyle = `hsla(${hue}, ${sat}%, ${lum}%, 1)`;
+                ctx.lineWidth = 1;
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+            }
+        }
+    }
+    function DrawGridFXY3(ctx, grid){
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                const e = grid[y][x];
+                let x1 = x * s.cube.sz;
+                let y1 = y * s.cube.sz;
+                let x0 = (x * s.cube.sz) - s.canvas.x2;
+                let y0 = (y * s.cube.sz) - s.canvas.y2;
+
+                let sz = s.cube.sz/2;
+                let vx = fs["eqX"](x0, y0, 200, sz);
+                let vy = fs["eqY"](x0, y0, 200, sz);
+                
+                let x2 = x1 + vx;
+                let y2 = y1 + vy;
+                
+                let vh = (vx + vy) * (180/sz);
+                let hue = vh%360;
+                // let sat = 100;
+                // let lum = 50;
+                // ctx.strokeStyle = `hsla(${hue}, ${sat}%, ${lum}%, .5)`;
+
+                ctx.beginPath();
+                ctx.strokeStyle = `hsla(${hue}, 100%, 50%, .5)`;
+                ctx.lineWidth = 1;
+                ctx.arc(x1, y1, sz, 0, Math.PI * 2);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.strokeStyle = `hsla(${hue}, 100%, 50%, 1)`;
+                ctx.lineWidth = 2;
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+            }
+        }
+    }
+    function DrawGridFXY4(ctx, grid){
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                const e = grid[y][x];
+                let x1 = x * s.cube.sz;
+                let y1 = y * s.cube.sz;
+                let x0 = (x * s.cube.sz) - s.canvas.x2;
+                let y0 = (y * s.cube.sz) - s.canvas.y2;
+
+                let sz = s.cube.sz/2;
+                // let vx = fs["eqX"](x0, y0, 200, sz);
+                // let vy = fs["eqY"](x0, y0, 200, sz);
+                
+                let val = fs[my_fs](x0, y0, 200, sz);
+                let vx = val.vx;
+                let vy = val.vy;
+                
+                let x2 = x1 + vx;
+                let y2 = y1 + vy;
+                
+                let xx = vx*vx;
+                let yy = vy*vy;
+                let vh = Math.sqrt(xx + yy) * (180/sz);
+                // let vh = (xx + xy) * (180/sz);
+                let hue = vh%360;
+                // let sat = 100;
+                // let lum = 50;
+                // ctx.strokeStyle = `hsla(${hue}, ${sat}%, ${lum}%, .5)`;
+
+                ctx.beginPath();
+                ctx.strokeStyle = `hsla(${hue}, 100%, 50%, .5)`;
+                ctx.lineWidth = 1;
+                ctx.arc(x1, y1, sz, 0, Math.PI * 2);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.strokeStyle = `hsla(${hue}, 100%, 50%, 1)`;
+                ctx.lineWidth = 2;
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+            }
+        }
+    }
+
+    /* ─── [Control] ─── */
+    /* ─── Update (control) ─── */
+    function DefGridFXY(grid, scale = 100, amp = 100){
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                // const e = grid[y][x];
+                let x1 = (x * s.cube.sz) - s.canvas.x2;
+                let y1 = (y * s.cube.sz) - s.canvas.y2;
+
+                let vx = fs["cosV"](x1, scale, amp);
+                let vy = fs["cosV"](y1, scale, amp);
+                let vh = fs["cosXY"](x1, y1, scale, 100);
+
+                grid[y][x].x = x1 + vx;
+                grid[y][x].y = y1 + vy;
+                grid[y][x].hue = vh;
+            }
+        }
+    }
+    function DefGrid2(ctx, g, scale = 100, amp = 100){
+        // let path = [];
+        for(let y = 0; y < s.canvas.y; y+=s.cube.sz){
+            for(let x = 0; x < s.canvas.x; x+=s.cube.sz){
+                let x2 = x - s.canvas.x2;
+                let y2 = y - s.canvas.y2;
+
+                let xi = x / s.cube.sz;
+                let yi = y / s.cube.sz;
+                
+                // let val = fs[current_fs](x2, y2, amp);
+                let val = fs["cos"](x2, y2, scale, amp);
+
+
+                let hue = val%360;
+                let bg = `hsla(${hue}, 100%, 60%, 1)`;
+                ctx.fillStyle = bg;
+                ctx.fillRect(x,y,step,step);
+            }
+        }
+    }
+
+
+    /* ─── [Other] ─── */
+
+    function DrawXY(ctx, space = 100){
+        for (let y = (s.canvas.y2 % space); y < s.canvas.y; y+=space) {
+            // let ys = y - s.canvas.y2;
+            // let ys = ((y - s.canvas.y2) / 100).toFixed(1);
+            let ys = Math.round((y - s.canvas.y2) / 100);
+            DrawText(ctx,ys,{'x': s.canvas.x2, 'y': y})
+        }
+        for (let x = (s.canvas.x2 % space); x < s.canvas.x; x+=space) {
+            let xs = Math.round((x - s.canvas.x2) / 100);
+            DrawText(ctx,xs,{'x': x, 'y': s.canvas.y2})
+        }
+    }
+    function DrawText(ctx, text, xy = {'x':0,'y':0}, fontSize = 16, color = '#fff3'){        
+        ctx.font = `${fontSize}px serif`;
+        // ctx.textBaseline = "middle";
+        // ctx.textAlign = "center";
+        ctx.textBaseline = "top";
+        ctx.textAlign = "right";
+
+        let padding = 2;
+        let x = xy.x + padding * -1;
+        let y = xy.y + padding;
+
+        ctx.fillStyle = color;
+        ctx.fillText(text, x, y);
+    }
+    function DrawGridLines(ctx, space = 100){
+        // draw grid lines
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#222';
+
+        ctx.beginPath();
+        for (let y = (s.canvas.y2 % space); y < s.canvas.y; y+=space) {
+            ctx.moveTo(0, y);
+            ctx.lineTo(s.w, y);
+        }
+        for (let x = (s.canvas.x2 % space); x < s.canvas.x; x+=space) {
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, s.h);
+        }
+        ctx.stroke();
+
+        // draw grid center lines
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#999';
+        ctx.beginPath();
+        ctx.moveTo(0, s.canvas.y2);
+        ctx.lineTo(s.w, s.canvas.y2);
+        ctx.moveTo(s.canvas.x2, 0);
+        ctx.lineTo(s.canvas.x2, s.h);
+        ctx.stroke();
+
+
+    }
+    
+    var apaths = [];
+    var apath = [];
+    function fun(y, x){
+        return Math.cos(Math.PI * x / 200) * y;
+    }
+    function DrawCos(ctx){
+        let path = [];
+        let step = 5;
+        for(let x = 0; x < s.w; x+=step){
+            let y = fun(100, x) + s.canvas.y2;
+            let hue = x%360;
+            path.push({"x": x, "y": y, "color": `hsla(${hue}, 100%, 60%, .75)`, "size": 10});
+        }
+        // draw_path(ctx,path,"#fff",5);
+        draw_path(ctx,path,"#fff9",1);
+        draw_path3(ctx,path);
+    }
+    function DrawCos1(ctx,xs=0,ys=0){
+        let path = [];
+        let step = 5;
+        for(let x = 0; x < s.w; x+=step){
+            let y = fun(100, x + xs) + s.canvas.y2 + ys;
+            let hue = x%360;
+            path.push({"x": x, "y": y, "color": `hsla(${hue}, 100%, 60%, .75)`, "size": 10});
+        }
+        draw_path(ctx,path,"#fff9",1);
+    }
+    function DrawCos2(ctx,xs=0,ys=0,amp=100){
+        let path = [];
+        let step = 5;
+        for(let x = 0; x < s.w; x+=step){
+            let y = fun(amp, x + xs) + s.canvas.y2 + ys;
+            let hue = x%360;
+            // let lum = (y/s.h) * 50 + 20;
+            let lum = 70 - (y/s.h) * 50;
+            let color = `hsla(${hue}, 100%, ${lum}%, .75)`;
+            path.push({"x": x, "y": y, "color": color, "size": 10});
+        }
+        draw_path(ctx,path,"#fff9",1);
+    }
+    function DefCos(ctx,xs=0,ys=0,amp=100){
+        let path = [];
+        let step = 5;
+        for(let x = 0; x < s.w; x+=step){
+            // let y = fun(amp, x + xs) + s.canvas.y2 + ys;
+            let y = fun(amp, x + xs) + ys;
+            let hue = x%360;
+            // let lum = (y/s.h) * 50 + 20;
+            // let lum = 70 - (y/s.h) * 50;
+            // let color = `hsla(${hue}, 100%, ${lum}%, .75)`;
+            let color = `hsla(${hue}, 100%, 60%, .75)`;
+            path.push({"x": x, "y": y, "color": color, "size": 10});
+        }
+        apaths.push(path);
+    }
+    function DrawApath(ctx,color=""){
+        let path = [];
+        apaths.forEach(pv => {
+            for (let i = 0; i < pv.length; i++) {
+                const dot = pv[i];
+                if(path.length < i+1) {path.push({"x":dot.x, "y":0, "size": 10})};
+                if(apath.length < i+1) {apath.push({"x":dot.x, "y":0, "size": 10})};
+                // path[i].x += dot.x;
+                path[i].y += dot.y;
+                apath[i].y += dot.y;
+            }
+        });
+
+        if(color==""){color = "#fffc";}
+        draw_wave(ctx,path,color,1);
+        DrawPath_ClrXY(ctx,path);
+    }
+
+    // const qs = {
+    //     sc: 200,
+    //     amp: 100,
+    //     tile: 5,
+    //     m: {},
+    // };
+    const qs = {
+        sc: 200,
+        sc2: 20,
+        amp: 1,
+        tile: 5,
+        m: {},
+    };
+    // var current_fs = "cos";
+    var current_fs = "so";
+    var current_fsi = 0;
+    var my_fs = "eqXY-04";
+    const fs = {};
+
+    fs["cosV"] = function (v, scale, amp){
+        let val = Math.cos(Math.PI * v / scale) * amp;
+        return val;
+    }
+    fs["cosXY"] = function (x, y, scale, amp){
+        let xs = Math.cos(Math.PI * x / scale) * amp;
+        let ys = Math.cos(Math.PI * y / scale) * amp;
+        let val = xs + ys;
+        return val;
+    }
+    fs["eqV"] = function (v, scale, amp){
+        let val = Math.cos(Math.PI * v / scale) * amp;
+        return val;
+    }
+    fs["eqXY-01"] = function (xs, ys, scale, amp){
+        let x = xs / scale;
+        let y = ys / scale;
+
+        // let xy1 = x + y;
+        let xy = x * y;
+        
+        let vx = x * (1 - x) - (22*xy)/(x+y);
+        let vy = -1.5 * y + (2*xy)/(x+y);
+
+        let val = {"vx": vx, "vy": vy};
+
+        // let val = Math.cos(Math.PI * v / scale) * amp;
+        // let val = amp;
+        return val;
+    }
+    fs["eqXY-02"] = function (xs, ys, scale, amp){
+        // let x = xs / scale;
+        // let y = ys / scale;
+
+        // let xy1 = x + y;
+        // let xy = x * y;
+
+        let a = XYtoCSSAngle(xs,ys);
+        let xy = CSSAngleToXY(a*2);
+        
+        let vx = xy.x * amp;
+        let vy = xy.y * amp;
+        // let vy = Math.sin(Math.PI * y) - y/2;
+
+        let val = {"vx": vx, "vy": vy};
+
+
+        // let val = Math.cos(Math.PI * v / scale) * amp;
+        // let val = amp;
+        return val;
+    }
+    fs["eqXY-03"] = function (xs, ys, scale, amp){
+        // let x = xs / scale;
+        // let y = ys / scale;
+        let x = xs / 100;
+        let y = ys / 100;
+
+        // let xcos = Math.cos(Math.PI * xs / scale) * amp;
+        // let xcos = Math.cos(Math.PI * xs / scale);
+
+        // let xy1 = x + y;
+        // let xy = x * y;
+
+        let a = XYtoCSSAngle(xs,ys);
+        // let b = x + y;
+        let b = Math.abs(x) + Math.abs(y);
+        let c = a + 15*b;
+        let xy = CSSAngleToXY(c);
+        
+        let vx = xy.x * amp;
+        let vy = xy.y * amp;
+        // let vy = Math.sin(Math.PI * y) - y/2;
+
+        let val = {"vx": vx, "vy": vy};
+
+
+        // let val = Math.cos(Math.PI * v / scale) * amp;
+        // let val = amp;
+        return val;
+    }
+    fs["eqXY-04"] = function (xs, ys, scale, amp){
+        // let x = xs / scale;
+        // let y = ys / scale;
+        let x = xs / 50;
+        let y = ys / 50;
+
+        // let xcos = Math.cos(Math.PI * xs / scale) * amp;
+        let xcos = Math.cos(Math.PI * xs / scale) * amp;
+        let ysin = Math.sin(Math.PI * ys / scale) * amp;
+
+        // let xy1 = x + y;
+        // let xy = x * y;
+
+        let a = XYtoCSSAngle(xs,ys);
+        // let b = x + y;
+        let b = Math.abs(x) + Math.abs(y);
+        let c = a + 15*b;
+        let xy = CSSAngleToXY(c);
+        
+        let vx = xy.x * amp + xcos;
+        let vy = xy.y * amp + ysin;
+        // let vy = Math.sin(Math.PI * y) - y/2;
+
+        let val = {"vx": vx, "vy": vy};
+
+
+        // let val = Math.cos(Math.PI * v / scale) * amp;
+        // let val = amp;
+        return val;
+    }
+    fs["eqX"] = function (x, y, scale, amp){
+        let val = Math.cos(Math.PI * v / scale) * amp;
+        return val;
+    }
+    fs["eqY"] = function (xs, ys, scale, amp){
+        let x = xs / scale;
+        let y = ys / scale;
+        
+        let vy = y;
+        
+        let val = vy * amp;
+        // let val = Math.cos(Math.PI * v / scale) * amp;
+        return val;
+    }
+
+
+
+    fs["cos"] = function (x, y, amp){
+        let xs = Math.cos(Math.PI * x / 200) * amp;
+        let ys = Math.cos(Math.PI * y / 200) * amp;
+        let val = xs + ys;
+        return val;
+    }
+    fs["sin"] = function (x, y, amp){
+        let xs = Math.sin(Math.PI * x / 200) * amp;
+        let ys = Math.sin(Math.PI * y / 200) * amp;
+        let val = xs + ys;
+        return val;
+    }
+    fs["cos-sin"] = function (x, y, amp){
+        let xs = Math.cos(Math.PI * x / 200) * amp;
+        let ys = Math.sin(Math.PI * y / 200) * amp;
+        let val = xs + ys;
+        return val;
+    }
+    fs["cosXsin"] = function (x, y, amp){
+        let xs = Math.cos(Math.PI * x / 200) * amp;
+        let ys = Math.sin(Math.PI * y / 200) * amp;
+        let val = xs * ys;
+        return val;
+    }
+    fs["coSin"] = function (x, y, amp){
+        let xs = Math.cos(Math.PI * x / 200);
+        let ys = Math.sin(Math.PI * y / 200);
+        let val = (xs + ys) * amp;
+        return val;
+    }
+    
+    fs["s1"] = function (x, y, amp){
+        /* base gradient to bottom right. */
+        let val = x + y;
+        return val;
+    }
+    fs["s2"] = function (x, y, amp){
+        let xs = (Math.PI * x / qs.sc) * amp;
+        let ys = (Math.PI * y / qs.sc) * amp;
+        let val = xs + ys;
+        return val;
+    }
+    fs["s3"] = function (x, y, amp){
+        /* looks like rhomboid (♦) */
+        let xs = Math.abs(Math.PI * x / qs.sc) * amp;
+        let ys = Math.abs(Math.PI * y / qs.sc) * amp;
+        let val = xs + ys;
+        return val;
+    }
+    fs["s4"] = function (x, y, amp){
+        /* good gradient to bottom right. */
+        let xs = (x / qs.sc) * amp;
+        let ys = (y / qs.sc) * amp;
+        let val = xs + ys;
+        return val;
+    }
+    fs["s5"] = function (x, y, amp){
+        /* from purple to green with magenta y red borders. */
+        let xs = (Math.PI * x / qs.sc);
+        let ys = (Math.PI * y / qs.sc);
+        let xys = Math.cos(xs + ys) * amp;
+        
+        let val = xys;
+        return val;
+    }
+    
+    fs["s6"] = function (x, y, amp){
+        /* ─unk─ */
+        // let xs = (Math.PI * x / qs.sc);
+        // let ys = (Math.PI * y / qs.sc);
+
+        /* circle. */
+        let xx = (x * x);
+        let yy = (y * y);
+        let hh = Math.sqrt(xx + yy);
+        let hs = Math.cos(Math.PI * hh / qs.sc) * amp;
+        
+        let val = hs;
+        return val;
+    }
+    fs["s7"] = function (x, y, amp){
+        /* larger circle. */
+        let xx = (x * x);
+        let yy = (y * y);
+        let hh = Math.sqrt(xx + yy);
+        let hs = Math.cos(hh / qs.sc) * amp;
+        
+        let val = hs;
+        return val;
+    }
+
+    fs["s8s"] = function (x, y, amp){
+        /* ─unk─ */
+        /* Some weird universe of colors with some patterns on the sides. */
+        let h = (x + y);
+        let xx = (x * x / qs.sc);
+        let yy = (y * y / qs.sc);
+        let hh = Math.sqrt(xx + yy);
+        let hs = Math.cos(hh);
+        // `--h100hh4: calc(100 * var(--h) / ( var(--hh) / 4 + 1) );`
+        let h100hh4 = 100 * h / (hh / 4 + 1);
+        let val = h100hh4 * amp;
+        return val;
+    }
+    fs["s8"] = function (x, y, amp){
+        /* ─unk─ */
+        /* Some weird universe of colors with some patterns on the sides. */
+        let h = (x + y);
+        let xx = (x * x / qs.sc);
+        let yy = (y * y / qs.sc);
+        let hh = Math.sqrt(xx + yy);
+        let hs = Math.cos(hh);
+        let h100hh4 = 100 * h / (hh / 4 + 1);
+        
+        let val = h100hh4;
+        return val;
+    }
+
+    fs["s9"] = function (x, y, amp){
+        /* pinch */
+        let xs = (x / 20);
+        let ys = (y / 20);
+        let h = (xs + ys);
+        let xx = (xs * xs);
+        let yy = (ys * ys);
+        let hh = Math.sqrt(xx + yy);
+        let h100hh4 = 100 * h / (hh / 4 + 1);
+        
+        // let val = h100hh4 * amp;
+        let val = h100hh4;
+        return val;
+    }
+    fs["s9a"] = function (x, y, amp){
+        /* pinch */
+        let xs = (x / 10);
+        let ys = (y / 10);
+        let h = (xs + ys);
+        let xx = (xs * xs);
+        let yy = (ys * ys);
+        let hh = Math.sqrt(xx + yy);
+        let h100hh4 = 100 * h / (hh / 4 + 1);
+        
+        // let val = h100hh4 * amp;
+        let val = h100hh4;
+        return val;
+    }
+    fs["s10"] = function (x, y, amp){
+        /* ─unk─ */
+
+        let xs = (x / 20);
+        let ys = (y / 20);
+        let h = (xs + ys);
+        let xx = (xs * xs);
+        let yy = (ys * ys);
+        let hh = Math.sqrt(xx + yy);
+        let hs = Math.cos(hh);
+        let h100hh4 = 100 * hs / (hh / 4 + 1);
+        
+        // let val = h100hh4 * amp;
+        let val = h100hh4;
+        return val;
+    }
+    
+    fs["s"] = function (x, y, amp){
+        /* ─unk─ */
+
+        let xs = (x / qs.sc);
+        let ys = (y / qs.sc);
+        let h = (xs + ys);
+        let xx = (xs * xs);
+        let yy = (ys * ys);
+        let hh = Math.sqrt(xx + yy);
+        let hs = Math.cos(hh);
+        let h100hh4 = 100 * hs / (hh / 4 + 1);
+        
+        let val = h100hh4 * amp;
+        // let val = h100hh4;
+        return val;
+    }
+
+    fs["so"] = function (x, y, sc1 = 200, amp1 = 100){
+        /* ─unk─ */
+        let xs = (x / qs.sc2);
+        let ys = (y / qs.sc2);
+        let h = (xs + ys);
+        let xx = (xs * xs);
+        let yy = (ys * ys);
+        let hh = Math.sqrt(xx + yy);
+        let hs = Math.cos(hh);
+        let h100hh4 = 100 * hs / (hh / 4 + 1);
+        let val = h100hh4 * qs.amp;
+        return val;
+    }
+    fs["so2"] = function (x, y, sc = 20, amp = 1){
+        /* ─unk─ */
+        let xs = (x / sc);
+        let ys = (y / sc);
+        let h = (xs + ys);
+        let xx = (xs * xs);
+        let yy = (ys * ys);
+        let hh = Math.sqrt(xx + yy);
+        let hs = Math.cos(hh);
+        let h100hh4 = 100 * hs / (hh / 4 + 1);
+        let val = h100hh4 * amp;
+        return val;
+    }
+
+
+    fs["sw"] = function (x, y, amp){
+        /* circle. */
+        let xx = (x * x);
+        let yy = (y * y);
+        let hh = Math.sqrt(xx + yy);
+        // let hs = Math.cos(Math.PI * hh / qs.sc) * amp;
+
+        let xo = hh / (s.w+s.h);
+        let ra = (amp) * (1 - xo);
+        let hs = Math.cos(Math.PI * hh / 100) * ra;
+        
+        let val = hs;
+        return val;
+    }
+
+    let eq = `
+
+        y = 3*cos(x*y)
+        x = 3sin(y) + (pi/y)
+
+        y = 4*cos(x) + 3*sin(x)
+        y = 5*cos(x*y)
+        x = 3sin(y) + (pi/x)
+
+        a = 6.6; b = 5.1; d = b/10;
+        y = b * cos(x) + a * sin(y)
+        y = 5.1 * cos(x) + 6.6 * sin(y)
+        x = cos(x + dy) + cos(y - .1x)
+        y = cos(y + dx) + sin(x - .1y)
+
+        
+        y = b * cos(x) + a * sin(y)
+        x = cos(x+y)+tan(y^2 - .5x)
+
+
+        y = a * cos(xb) + a * cos(y)
+        y = a * cos(xb) * cos(y)
+        y = cos(x) * cos(y) - sin(yx) * tan(y)
+        y = cos(9x) * cos(9y) - sin(2x/y) * tan(9y/x)
+
+    `;
+
+    function DrawDefWave(ctx,xs=0,ys=0,amp=100,clr={}){
+        let path = [];
+        let step = 5;
+
+        let hue = 210;
+        let sat = 100;
+        let lum = 50;
+        let alp = .5;
+        if(Object.keys(clr).includes("hue")){hue = clr.hue;}
+        if(Object.keys(clr).includes("sat")){sat = clr.sat;}
+        if(Object.keys(clr).includes("lum")){lum = clr.lum;}
+        if(Object.keys(clr).includes("alp")){alp = clr.alp;}
+
+        let path_color = `hsla(${hue}, ${sat}%, ${lum}%, ${alp})`;
+        for(let x = 0; x < s.w; x+=step){
+            let y = fs["cos"](x + xs, amp) + ys;
+
+            if(!Object.keys(clr).includes("hue")){hue = x%360;}
+            // let lum = (yi/s.h) * 50 + 20;
+            // let lum = 70 - (yi/s.h) * 50;
+            if(!Object.keys(clr).includes("lum")){lum = 70 - (y/s.h) * 50}
+            let color = `hsla(${hue}, ${sat}%, ${lum}%, ${alp})`;
+            
+            path.push({"x": x, "y": y, "color": color, "size": 5});
+        }
+        draw_wave(ctx,path,path_color,1);
+        DrawPath_eClr(ctx,path);
+        apaths.push(path);
+    }
+
+
+    var grid = {};
+    function DefGrid(ctx, amp = 100){
+        let path = [];
+        let step = 5;
+        for(let y = 0; y < s.h; y+=step){
+            for(let x = 0; x < s.w; x+=step){
+                let x2 = x - s.canvas.x2;
+                let y2 = y - s.canvas.y2;
+                
+                let val = fs[current_fs](x2, y2, amp);
+
+                let hue = val%360;
+                let bg = `hsla(${hue}, 100%, 60%, 1)`;
+                ctx.fillStyle = bg;
+                ctx.fillRect(x,y,step,step);
+            }
+        }
+    }
+    function DrawGrid(ctx, sc = 20, amp = 1){
+        for(let y = 0; y < s.h; y+=qs.tile){
+            for(let x = 0; x < s.w; x+=qs.tile){
+                let x2 = x - s.canvas.x2;
+                let y2 = y - s.canvas.y2;
+                
+                // let val = fs[current_fs](x2, y2, amp);
+                let val = fs["so2"](x2, y2, sc, amp);
+
+                let hue = val%360;
+                let bg = `hsla(${hue}, 100%, 60%, 1)`;
+                ctx.fillStyle = bg;
+                ctx.fillRect(x,y,qs.tile,qs.tile);
+
+                // let xn = x / qs.tile;
+                // let yn = y / qs.tile;
+                // grid[yn][xn] += val;
+            }
+        }
+    }
+    function ResetGrid(){
+        let g = [];
+        let h = s.h / qs.tile;
+        let w = s.w / qs.tile;
+        for(let y = 0; y < h; y++){
+            g.push([]);
+            for(let x = 0; x < w; x++){
+                g[y].push(0);
+            }
+        }
+        grid = g;
+    }
+
+    
+    /* ─── Drawing (view) ─── */
+    function getColorXY(x,y){
+        let hue = x % 360;
+        let sat = 100;
+        // let lum = (y/s.h) * 50 + 20;
+        // let lum = 70 - (y/s.h) * 50;
+        let lum = 90 - (y/s.h) * 85;
+        let alp = 1;
+
+        let color = `hsla(${hue}, ${sat}%, ${lum}%, ${alp})`;
+        return color;
+    }
+    function draw_wave(ctx,path,color,size){
+        if(path.length > 0){
+            ctx.strokeStyle = color;
+            ctx.lineWidth = size;
+            ctx.lineJoin = "round";
+            ctx.beginPath();
+            ctx.moveTo(path[0].x, path[0].y+s.canvas.y2);
+            for (let i = 1; i < path.length; i++) {
+                ctx.lineTo(path[i].x, path[i].y+s.canvas.y2);
+            }
+            ctx.stroke();
+        }
+    }
+    
+    function DrawPath_eClr(ctx,path){
+        if(path.length > 0){
+            for (let i = 1; i < path.length; i++) {
+                const e = path[i];
+
+                // let y = e.y + s.canvas.y2;
+
+                ctx.fillStyle = e.color;
+                ctx.beginPath();
+                // ctx.arc(e.x, e.y, e.size/2, 0, Math.PI * 2);
+                // ctx.arc(e.x, y, e.size/2, 0, Math.PI * 2);
+                ctx.arc(e.x, e.y + s.canvas.y2, e.size/2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+    }
+    function DrawPath_ClrXY(ctx,path){
+        if(path.length > 0){
+            for (let i = 1; i < path.length; i++) {
+                const e = path[i];
+                let y = e.y + s.canvas.y2;
+
+                let color = getColorXY(e.x,y);
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(e.x, y, e.size/2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+    }
+    function draw_path3(ctx,path){
+        if(path.length > 0){
+            // ctx.moveTo(path[0].x, path[0].y);
+            for (let i = 1; i < path.length; i++) {
+                const e = path[i];
+                ctx.fillStyle = e.color;
+                ctx.beginPath();
+                ctx.arc(e.x, e.y, e.size/2, 0, Math.PI * 2);
+                ctx.fill();
+                // const e1 = path[i-1];
+                // ctx.lineJoin = "round";
+                // ctx.beginPath();
+                // ctx.moveTo(e1.x, e1.y);
+                // ctx.strokeStyle = e.color;
+                // ctx.lineWidth = e.size;
+                // ctx.lineTo(e.x, e.y);
+                // ctx.stroke();
+            }
+        }
+    }
+    function draw_path2(ctx,path){
+        if(path.length > 0){
+            // ctx.moveTo(path[0].x, path[0].y);
+            for (let i = 1; i < path.length; i++) {
+                const e1 = path[i-1];
+                const e = path[i];
+                ctx.lineJoin = "round";
+                ctx.beginPath();
+                ctx.moveTo(e1.x, e1.y);
+                ctx.strokeStyle = e.color;
+                ctx.lineWidth = e.size;
+                ctx.lineTo(e.x, e.y);
+                ctx.stroke();
+            }
+        }
+    }
+    function draw_path(ctx,path,color,size){
+        if(path.length > 0){
+            ctx.strokeStyle = color;
+            ctx.lineWidth = size;
+            ctx.lineJoin = "round";
+            ctx.beginPath();
+            ctx.moveTo(path[0].x, path[0].y);
+            for (let i = 1; i < path.length; i++) {
+                ctx.lineTo(path[i].x, path[i].y);
+            }
+            ctx.stroke();
+        }
+    }
+
+    /* ─── Particle (model) ─── */
+    class p {
+        constructor(ctx, id=-1,type="p",x=0,y=0,z=0,color="#8889"){
+            this.ctx = ctx;
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.vx = 0;
+            this.vy = 0;
+            this.vz = 0;
+
+            this.size = 5;
+            this.color = color;
+        }
+        draw(){
+            this.ctx.fillStyle = this.color;
+            this.ctx.beginPath();
+            this.ctx.arc(this.x, this.y, this.size/2, 0, Math.PI * 2);
+            this.ctx.fill();
+        }
+    }
+    
+    /* ─── Create (model) ─── */
+    function create(n,type="none",color="#8889"){
+        for(let i = 0; i < n; i++){
+            let xy = randomXY();
+            let np = new p(particles.length,type,xy.x,xy.y,0,color);
+            pg[type].push(np);
+            particles.push(np);
+        }
+    }
+
+    /* ─── Rules (control) ─── */
+    const pr = {}
+
+    /* ─── Start and Update ─── */
+    var my_grid = [];
+    function start(){
+
+        // Code goes here.
+        // clearCanvas(ctx["canvas-grid"]);
+        DrawGridLines(ctx["canvas-grid"]);
+        // DrawCos(ctx["canvas-draw"]);
+        
+        // clearCanvas(ctx["canvas-draw"]);
+        // qs.amp = 1;
+        // qs.sc = 20;
+        // DrawGrid(ctx["canvas-draw"], qs.sc, qs.amp);
+
+    }
+    function update(){
+        if(!s.q && !s.pause){
+
+            // Code goes here.
+            // qs.amp = 1;
+            // qs.sc = 20;
+
+            // clearCanvas(ctx["canvas-draw"]);
+            // DrawGrid(ctx["canvas-draw"], qs.sc, qs.amp);
+        }
+        setTimeout(() => {
+            requestAnimationFrame(update);
+        }, s.timeOut)
+    }
+    function clearCanvas(ctx, bg="#0000"){
+        ctx.clearRect(0,0,s.w,s.h);
+        ctx.fillStyle = bg;
+        ctx.fillRect(0,0,s.w,s.h);
+    }
+    function reset(){
+        // clearCanvas(ctx["canvas-grid"],"#0000");
+        // clearCanvas(ctx["canvas-draw"]);
+        // // apaths = [];
+        // // apath = [];
+        // // ResetGrid();
+
+        // Code goes here.
+        clearCanvas(ctx["canvas-grid"],"#000");
+        DrawGridLines(ctx["canvas-grid"]);
+        DrawXY(ctx["canvas-grid"]);
+
+        // clearCanvas(ctx["canvas-draw"]);
+        // DefGrid(ctx["canvas-grid"]);
+        // // DrawGrid(ctx["canvas-draw"], qs.sc, qs.amp);
+
+        // my_grid = BuildGridHSL(s.cube.xlen, s.cube.ylen, {"h":0, "s":0, "l":0});
+        // AddGridNoiseHSL(my_grid, fst["rand-ra"], {"h":360, "s":50, "l":50}, {"h":0, "s":50, "l":20});
+        // HandleNoiseHSL(my_grid, fup3["smooth-hsl"], 1, 10, .5);
+        // HandleNoiseHSL(my_grid, fup3["smooth-hsl"], 2, 15, .75);
+        // DrawGridHSL(ctx['canvas-draw'], my_grid);
+
+
+        clearCanvas(ctx["canvas-draw"]);
+        // my_grid = BuildGridObj(s.cube.xlen, s.cube.ylen, {"x":0, "y":0, "vx":0, "vy":0, "hue":0});
+        my_grid = BuildGridObj(s.cube.xlen, s.cube.ylen, {"x":0, "y":0, "hue":0});
+        // // DefGridFXY(my_grid, 100, s.cube.sz);
+        // DefGridFXY(my_grid, 100, 5);
+        // DrawGridFXY(ctx['canvas-draw'], my_grid);
+
+        // DrawGridFXY2(ctx['canvas-draw'], my_grid);
+        DrawGridFXY4(ctx['canvas-draw'], my_grid);
+    }
+
+
+    /* ─── Events ─── */
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+
+        s.z = s.w;
+        // s.z = Math.min(s.w,s.h);
+        s.x2 = s.w/2;
+        s.y2 = s.h/2;
+        s.z2 = s.z/2;
+
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        // s.canvas.z = (s.h + s.w)/2;
+        s.canvas.z = s.w;
+        // s.canvas.z = Math.min(s.w,s.h);
+
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
+
+        /* ─ Box ─ */
+        /* resize box for mobile */
+        if(s.h < s.box.y) {s.box.y = s.h;}
+        if(s.w < s.box.x) {s.box.x = s.w;}
+        s.box.z = (s.box.y + s.box.x)/2;
+
+        /* position box */
+        s.box.top = (s.h - s.box.y)/2;
+        s.box.left = (s.w - s.box.x)/2;
+
+        /* determine center */
+        s.box.x2 = s.box.left + (s.box.x / 2);
+        s.box.y2 = s.box.top + (s.box.y / 2);
+        s.box.z2 = (s.box.z / 2);
+
+        /* ─ Cube ─ */
+        s.cube.xlen = window.innerWidth / s.cube.sz;
+        s.cube.ylen = window.innerHeight / s.cube.sz;
+        // s.cube.zlen = s.dim / s.cube.sz;
+        s.cube.zlen = s.cube.xlen;
+        // s.cube.zlen = Math.min(s.cube.xlen, s.cube.ylen);
+
+        /* ─ Grid ─ */
+        s.grid.cols = Math.floor(s.w / s.tile.w);
+        s.grid.rows = Math.floor(s.h / s.tile.h);
+
+        /* ─ Canvas Update ─ */
+        // canvas.width = s.canvas.x;
+        // canvas.height = s.canvas.y;
+        // ctx.clearRect(0,0,canvas.width, canvas.height);
+
+        layers.forEach(key => {
+            canvas[key].width = window.innerWidth;
+            canvas[key].height = window.innerHeight;
+            ctx[key].clearRect(0,0,canvas[key].width, canvas[key].height);
+        });
+        reset();
+    }
+    window.addEventListener('resize', () =>{
+        updateSettings();
+    });
+    
+    // window.addEventListener('click', (ev) => {
+    //     NextFS();
+    // });
+    // window.addEventListener('click', (ev) => {
+    //     let px = ev.pageX;
+    //     let py = ev.pageY;
+    //     let x = Math.floor(px / s.tile.w);
+    //     let y = Math.floor(py / s.tile.h);
+    //     console.log(`(${px},${py}) → tile-x: ${x}, tile-y: ${y}`);
+    // });
+    
+    function RandomFS(){
+        let fs_keys = Object.keys(fs);
+        let fsid = Math.floor(Math.random()*fs_keys.length);
+        
+        current_fs = fs_keys[fsid];
+        current_fsi = fsid;
+
+        console.log(`%ccurrent_fsi: %c${current_fsi}%c | current_fs: %c${current_fs}`, "color: #fff9", "color: #06c", "color: #fff9", "color: #06c");
+
+        reset();
+    }
+    function SwitchToFS(fsid){
+        let fs_keys = Object.keys(fs);
+        
+        current_fsi = fs_keys.indexOf(fsid);
+        current_fs = fsid;
+
+        console.log(`%ccurrent_fsi: %c${current_fsi}%c | current_fs: %c${current_fs}`, "color: #fff9", "color: #06c", "color: #fff9", "color: #06c");
+
+        reset();
+    }
+    function NextFS(){
+        let fs_keys = Object.keys(fs);
+        // if(current_fsi < fs_keys.length){current_fsi++;}
+        // else {current_fsi = 0;}
+
+        current_fsi++;
+        if(current_fsi >= fs_keys.length) {
+            current_fsi = 0;
+        }
+
+        current_fs = fs_keys[current_fsi];
+
+        console.log(`%ccurrent_fsi: %c${current_fsi}%c | current_fs: %c${current_fs}`, "color: #fff9", "color: #06c", "color: #fff9", "color: #06c");
+
+        reset();
+    }
+
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        updateSettings();
+
+        // RandomFS();
+        // setTimeout(() => {
+        //     RandomFS();
+        // }, 3000);
+
+        // start();
+        // update();
+
+    });
+    /* Version Log:
+    [index-nds-00]: Copy from `eqs/ripples/eq-patterns.html`;
+    [index-nds-01]: 
+    [index-nds-02]: 
+    [index-nds-03]: 
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
+    [index-nds-07]: 
+    [index-nds-08]: 
+    [index-nds-09]: 
+    [index-nds-10]: 
+    [index-nds-11]: 
+    [index-nds-12]: 
+    
+    */
+    function CSSAngleToXY(angle){
+        angle = (angle+270)%360;
+        let rad = angle * Math.PI / 180;
+        let xy = {"x":0,"y":0};
+        if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+        if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+        return xy;
+    }
+    function XYtoCSSAngle(x,y){
+        let angle = 90;
+        if(x == 0){
+            if(y > 0) {return 180;}
+            if(y < 0) {return 0;}
+        }
+        if(x < 0) { angle += 180; }
+        if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
+        return angle;
+    }
+
+    function randomXYZ(){
+        let x = Math.random()*s.canvas.x;
+        let y = Math.random()*s.canvas.y;
+        let z = Math.random()*s.canvas.z;
+        return {'x':x, 'y':y, 'z':z};
+    }
+    function randomXY(){
+        let x = Math.random()*s.canvas.x;
+        let y = Math.random()*s.canvas.y;
+        return {'x':x, 'y':y};
+    }
+
+    const fst = {
+        "rand": ()=>{return Math.random();},
+        "rand-r": (r)=>{return Math.random()*r;},
+        "rand-ra": (r,a)=>{return Math.random()*r+a;},
+        "rand-01": ()=>{return Math.floor(Math.random()*2);},
+        "rand-360": ()=>{return Math.floor(Math.random()*360);},
+        "a+b": (a,b)=>{return a+b;},
+    }
+
+    function isInScreen(x,y){
+        if(x < 0 || y < 0 || x >= s.w || y >= s.h){
+            return false;
+        } else {
+            return true;
+        }
+    }
+    function isInMap(x,y){
+        if(x < 0 || y < 0 || x >= s.cube.xlen || y >= s.cube.ylen){
+            return false;
+        } else {
+            return true;
+        }
+    }
+    function isInGrid(g,x,y){
+        if(x < 0 || y < 0 || x >= g[0].length || y >= g.length){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+</script>
+</body>
+</html>

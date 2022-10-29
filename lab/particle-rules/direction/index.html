@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Proximity | NyteLabs</title>
+    <title>Direction | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/canvas.css">
@@ -29,7 +29,7 @@
     <header>
         <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
         <h1 class="title">NyteLabs</h1>
-        <div class="subtitle">Proximity</div>
+        <div class="subtitle">Direction</div>
     </header>
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
@@ -1014,6 +1014,7 @@
 
             this.mass = 1;
             this.heat = 0;
+            this.vheat = 0;
             // this.size = 5;
             // this.size_z = this.size;
             // this.range = 6;
@@ -1059,13 +1060,14 @@
 
 
             /* particles around, proximity value. (papv) */
-            // let papv = 0;
-            // Object.keys(this.proximity).forEach(k => {
-            //     papv += this.proximity[k]/(parseInt(k)+1);
-            // });
-            // let proximityValue = (papv / pg[this.type].length);
+            let papv = 0;
+            Object.keys(this.proximity).forEach(k => {
+                papv += this.proximity[k]/(parseInt(k)+1);
+            });
+            let proximityValue = (papv / pg[this.type].length);
             // this.sat = 40 + 60 * proximityValue;
-            // // this.hue = 360 * proximityValue;
+            // this.hue = 360 * proximityValue;
+            this.hue = 240 - (240 * proximityValue);
             // // this.lum = 20 + 40 * proximityValue;
 
             // this.heat = 100 * (papv / pg[this.type].length);
@@ -1148,6 +1150,128 @@
         }
     }
 
+    class pd {
+        /* Particle with Details. */
+        constructor(id,type="p",x,y,z,clr={}, s={}){
+            this.id = id;
+            // console.log(`id: ${this.id}`);
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.vx = 0;
+            this.vy = 0;
+            this.z = z;
+            this.vz = 0;
+
+            this.mass = 1;
+            this.heat = 0;
+            this.vheat = 0;
+            // this.size = 5;
+            // this.size_z = this.size;
+            // this.range = 6;
+            this.size = 4;
+            this.size_z = this.size;
+            this.range = 4;
+
+            this.hue = 210;
+            this.sat = 100;
+            this.lum = 50;
+            this.alp = 1;
+            // console.log(`(1) → hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`);
+            if(Object.keys(clr).includes("hue")){this.hue = clr.hue;}
+            if(Object.keys(clr).includes("sat")){this.sat = clr.sat;}
+            if(Object.keys(clr).includes("lum")){this.lum = clr.lum;}
+            if(Object.keys(clr).includes("alp")){this.alp = clr.alp;}
+            // console.log(`(2) → hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`);
+            this.color = "hsla(0,0%,50%,.5)";
+            this.zdp = .5;
+            // this.getSize();
+            // this.getColor();
+
+            this.path = [];
+            this.proximity = {};
+            this.pa = {};
+
+            this.s = {};
+            this.loadS(s);
+        }
+        loadS(s){
+            Object.keys(s).forEach(k=>{
+                this.s[k] = s[k];
+            });
+        }
+        update(){
+            this.getSize();
+            this.getColor();
+            // this.updatePath();
+        }
+        getSize(){
+            /* this.zdp will vary from 0 to 1. close and far, respectively. */
+            this.zdp = 1 - this.z/s.canvas.z;
+            let zadd = parseFloat((this.zdp * this.range).toFixed(2));
+            this.size_z = this.size + (this.range) - zadd;
+        }
+        getColor(){
+            // this.calcColor();
+            /* Color for z-axis: */
+            // this.lum = (80 - (this.zdp * 60)).toFixed(0);
+            this.lum = (70 - (this.zdp * 60)).toFixed(0);
+
+
+            /* particles around, proximity value. (papv) */
+            // let papv = 0;
+            // Object.keys(this.proximity).forEach(k => {
+            //     papv += this.proximity[k]/(parseInt(k)+1);
+            // });
+            // let proximityValue = (papv / pg[this.type].length);
+            // this.sat = 40 + 60 * proximityValue;
+            // // this.hue = 360 * proximityValue;
+            // // this.lum = 20 + 40 * proximityValue;
+
+            // this.heat = 100 * (papv / pg[this.type].length);
+            // this.hue = 240 - (this.heat * 2.4);
+            // this.lum = 100 - Math.abs(this.heat - 50);
+
+            // let lum_step = 50 / (this.typeCount * .5);
+            // this.lum = (20 + this.paVal * lum_step).toFixed(0);
+            
+            this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            return this.color;
+        }
+        calcColor(){
+            switch(this.type){
+                case 'angle':
+                    this.hue = Math.round(XYtoAngle(this.vx,this.vy));
+                    break;
+                case 'id':
+                    this.hue = Math.round(this.id * 360/particles.length);
+                    break;
+                case 'heat':
+                    this.hue = 240 - (this.heat * 2.4);
+                    this.lum = 100 - Math.abs(this.heat-50);
+                    break;
+                case 'proximity-heat':
+                    let papv = 0;
+                    Object.keys(this.proximity).forEach(k => {
+                        papv += this.proximity[k]/(parseInt(k)+1);
+                    });
+                    this.heat = 100 * (papv / pg[this.type].length);
+                    this.hue = 240 - (this.heat * 2.4);
+                    this.lum = 100 - Math.abs(this.heat - 50);
+                    break;
+                default: 
+                    // this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                    break;
+            }
+        }
+        updatePath(){
+            if(this.path.length > 20){this.path.shift();}
+            // this.path.push({"x": this.x, "y": this.y, "z": this.z});
+            // this.path.push({"x": this.x, "y": this.y, "z": this.z, "zdp": this.zdp});
+            this.path.push({"x": this.x, "y": this.y, "z": this.z, "size": this.size_z, "color": this.color});
+        }
+    }
+
     /* ─── Create (model) ─── */
     function create_pulse(x,y,time){
         let np = new pu(pg['pulse'].length,"pu",x,y,0,"#8889",time);
@@ -1223,34 +1347,7 @@
             a.y += a.vy;
         }
     }
-    pr["walls"] = function (list1, g = 0, r = 10){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            let fx = 0;
-            let fy = 0;
-
-            let dx = Math.abs(a.x - s.canvas.x);
-            let dy = Math.abs(a.y - s.canvas.y);
-            if(a.x > 0 && a.x < r){fx += g;}
-            if(a.y > 0 && a.y < r){fy += g;}
-            if(dx > 0 && dx < r){fx -= g;}
-            if(dy > 0 && dy < r){fy -= g;}
-
-            a.vx = (a.vx + fx);
-            a.vy = (a.vy + fy);
-            a.x += a.vx;
-            a.y += a.vy;
-
-            let margin = -5;
-            let cr = 10;
-            if(a.x < (0-margin) || a.x > (s.canvas.x+margin) || a.y < (0-margin) || a.y > (s.canvas.y+margin)){
-                a.x = s.canvas.x2 + (Math.random() * (cr*2) - cr);
-                a.y = s.canvas.y2 + (Math.random() * (cr*2) - cr);
-                // a.z = s.canvas.z2 + (Math.random() * (cr*2) - cr);
-            }
-        }
-    }
-
+    
     pr["or3"] = function (list1, list2, g = 0, r1 = 0, r2 = 100, ent = 1){
         for (let i = 0; i < list1.length; i++) {
             const a = list1[i];
@@ -1305,6 +1402,107 @@
             a.z += a.vz;
         }
     }
+    
+    pr["px2"] = function (list1, list2, r1 = 0, r2 = 500){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            Object.keys(a.proximity).forEach(k => {a.proximity[k] = 0;});
+            a.typeCount = list1.length;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                // particle around key
+                // let pak = Math.ceil(d/100);
+                // a.pa[pak] += 1;
+                if(r1 < d && d < r2){
+                    let pak = Math.floor(d/100);
+                    if(!Object.keys(a.proximity).includes(`${pak}`)){a.proximity[pak] = 0;}
+                    a.proximity[pak] += 1;
+                }
+            }
+        }
+    }
+    pr["px3"] = function (list1, list2, r1 = 0, r2 = 500){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            Object.keys(a.proximity).forEach(k => {a.proximity[k] = 0;});
+            a.typeCount = list1.length;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let dz = a.z - b.z;
+                let d = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                // particle around key
+                if(r1 < d && d < r2){
+                    let pak = Math.floor(d/100);
+                    if(!Object.keys(a.proximity).includes(`${pak}`)){a.proximity[pak] = 0;}
+                    a.proximity[pak] += 1;
+                }
+            }
+        }
+    }
+
+
+    pr["dp"] = function (list1, list2, g = 0, r1 = 0, r2 = 100, ent = 1){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fz = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let dz = a.z - b.z;
+                let d = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                if(d > r1 && d < r2){
+                    let force = g * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                    fz += (force * dz);
+                }
+            }
+            a.vx = (a.vx + fx) * ent;
+            a.vy = (a.vy + fy) * ent;
+            a.vz = (a.vz + fz) * ent;
+            a.x += a.vx;
+            a.y += a.vy;
+            a.z += a.vz;
+        }
+    }
+    
+
+    // const pr = {}
+    pr["walls"] = function (list1, g = 0, r = 10){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+
+            let dx = Math.abs(a.x - s.canvas.x);
+            let dy = Math.abs(a.y - s.canvas.y);
+            if(a.x > 0 && a.x < r){fx += g;}
+            if(a.y > 0 && a.y < r){fy += g;}
+            if(dx > 0 && dx < r){fx -= g;}
+            if(dy > 0 && dy < r){fy -= g;}
+
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+            a.x += a.vx;
+            a.y += a.vy;
+
+            let margin = -5;
+            let cr = 10;
+            if(a.x < (0-margin) || a.x > (s.canvas.x+margin) || a.y < (0-margin) || a.y > (s.canvas.y+margin)){
+                a.x = s.canvas.x2 + (Math.random() * (cr*2) - cr);
+                a.y = s.canvas.y2 + (Math.random() * (cr*2) - cr);
+                // a.z = s.canvas.z2 + (Math.random() * (cr*2) - cr);
+            }
+        }
+    }
     pr["walls3d"] = function (list1, g = 0, r = 10){
         for (let i = 0; i < list1.length; i++) {
             const a = list1[i];
@@ -1338,7 +1536,6 @@
             }
         }
     }
-
     pr["wind"] = function (list1, g = 0){
         for (let i = 0; i < list1.length; i++) {
             const a = list1[i];
@@ -1360,6 +1557,150 @@
             a.y += a.vy;
         }
     }
+    pr["d8"] = function (list, g = -.1){
+        for (let i = 0; i < list.length; i++) {
+            const a = list[i];
+            if(a.y > a.size){
+                // a.vy += g;
+                // a.vy += g / 2;
+                a.vy = (a.vy + g) * .9;
+                a.y += a.vy;
+            }
+        }
+    }
+    pr["d8h"] = function (list, g = -.1, r = 100){
+
+        let pcount = 0;
+        let force = 0;
+        let heat = 0;
+        for (let i = 0; i < list.length; i++) {
+            const a = list[i];
+            if(a.heat > 0) {a.heat = (a.heat / .89) - 1;}
+            if(a.heat > 100) {a.heat = 100;}
+            for (let j = 0; j < list.length; j++) {
+                const b = list[j];
+                if(i != j){
+                    let dx = a.x - b.x;
+                    let dy = a.y - b.y;
+                    let dz = a.z - b.z;
+                    let d = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                    if(.1 < d && d < r){
+                        // let force = g * 1/d;
+                        force += 1/d;
+                        // heat += b.heat * 1/d;
+                        heat += (b.heat + 1) * 1/d;
+                        pcount++;
+                    }
+                }
+            }
+            a.vheat = (a.vheat + heat) * .5;
+            a.heat += a.vheat;
+        }
+
+
+        for (let i = 0; i < list.length; i++) {
+            const a = list[i];
+            if(a.y > a.size){
+                // a.vy = (a.vy + g) * .9;
+                let ent = a.heat / 100;
+                a.vy = (a.vy + g) * ent;
+                a.y += a.vy;
+            }
+        }
+    }
+    pr["d2h"] = function (list, g = .1, r = 100){
+        // let pcount = 0;
+        // let force = 0;
+        // let heat = 0;
+        // for (let i = 0; i < list.length; i++) {
+        //     const a = list[i];
+        //     if(a.heat > 0) {a.heat = (a.heat / .89) - 1;}
+        //     if(a.heat > 100) {a.heat = 100;}
+        //     for (let j = 0; j < list.length; j++) {
+        //         const b = list[j];
+        //         if(i != j){
+        //             let dx = a.x - b.x;
+        //             let dy = a.y - b.y;
+        //             let dz = a.z - b.z;
+        //             let d = Math.sqrt(dx*dx + dy*dy + dz*dz);
+        //             if(0 < d && d < r){
+        //                 // let force = g * 1/d;
+        //                 force += 1/d;
+        //                 // heat += b.heat * 1/d;
+        //                 heat += (b.heat + 1) * 1/d;
+        //                 pcount++;
+        //             }
+        //         }
+        //     }
+        //     a.vheat = (a.vheat + heat) * .5;
+        //     a.heat += a.vheat;
+        // }
+
+
+        for (let i = 0; i < list.length; i++) {
+            const a = list[i];
+            if(a.y > a.size){
+                // a.vy = (a.vy + g) * .9;
+                let ent = a.heat / 100;
+                a.vy = (a.vy + g) * ent;
+                a.y += a.vy;
+            }
+        }
+    }
+
+    pr["heat-bar"] = function (list, g = .05, r = 100){
+        for (let i = 0; i < list.length; i++) {
+            const a = list[i];
+            let y = s.canvas.y - a.y;
+            if(y > r){
+                // a.vy += g;
+                // a.vy += g / 2;
+                a.vheat = (a.vheat + g) / y;
+                a.heat += a.vheat;
+            }
+        }
+    }
+
+
+
+    pr["heat"] = function (list1, list2, g = 0, r1 = 0, r2 = 100, ent = 1){
+        /*
+        The heat energy lost per second (Q/t) is equal to the thermal conductivity of Styrofoam (k), multiplied by the surface area of the cooler (A), multiplied by the difference in temperature between the cooler and the outside (T2 - T1), divided by the thickness of the Styrofoam.
+        (Q/t) = (kA(T2-T1))/d;
+        k: conductivity;
+        a: area of contact; (this case can be size and range)
+        t2-t1: difference en temperature;
+        d: thickness of the material; (just size or area or volume)
+        */
+
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fz = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let dz = a.z - b.z;
+                let d = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                if(d > r1 && d < r2){
+                    let force = g * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                    fz += (force * dz);
+                }
+            }
+            a.vx = (a.vx + fx) * ent;
+            a.vy = (a.vy + fy) * ent;
+            a.vz = (a.vz + fz) * ent;
+            a.x += a.vx;
+            a.y += a.vy;
+            a.z += a.vz;
+        }
+    }
+
+        
     pr["grid-pulse"] = function (grid, pulses, g = 0, r = 10){
         if(pulses.length > 0){
             for (let y = 0; y < grid.length; y++) {
@@ -1411,47 +1752,6 @@
         }
     }
 
-    pr["px2"] = function (list1, list2, r1 = 0, r2 = 500){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            Object.keys(a.proximity).forEach(k => {a.proximity[k] = 0;});
-            a.typeCount = list1.length;
-            for (let j = 0; j < list2.length; j++) {
-                const b = list2[j];
-                let dx = a.x - b.x;
-                let dy = a.y - b.y;
-                let d = Math.sqrt(dx*dx + dy*dy);
-                // particle around key
-                // let pak = Math.ceil(d/100);
-                // a.pa[pak] += 1;
-                if(r1 < d && d < r2){
-                    let pak = Math.floor(d/100);
-                    if(!Object.keys(a.proximity).includes(`${pak}`)){a.proximity[pak] = 0;}
-                    a.proximity[pak] += 1;
-                }
-            }
-        }
-    }
-    pr["px3"] = function (list1, list2, r1 = 0, r2 = 500){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            Object.keys(a.proximity).forEach(k => {a.proximity[k] = 0;});
-            a.typeCount = list1.length;
-            for (let j = 0; j < list2.length; j++) {
-                const b = list2[j];
-                let dx = a.x - b.x;
-                let dy = a.y - b.y;
-                let dz = a.z - b.z;
-                let d = Math.sqrt(dx*dx + dy*dy + dz*dz);
-                // particle around key
-                if(r1 < d && d < r2){
-                    let pak = Math.floor(d/100);
-                    if(!Object.keys(a.proximity).includes(`${pak}`)){a.proximity[pak] = 0;}
-                    a.proximity[pak] += 1;
-                }
-            }
-        }
-    }
 
     /* ─── Start and Update ─── */
     // const gs = {
@@ -1464,10 +1764,10 @@
     //     // "6": {count: 50, clr:{hue:60}},
     // };
     const gs = {
-        "1": {count: 250, clr:{hue:30}},
-        "2": {count: 250, clr:{hue:150}},
-        "3": {count: 250, clr:{hue:210}},
-        "4": {count: 250, clr:{hue:330}},
+        "1": {count: 500, clr:{hue:30}},
+        // "2": {count: 200, clr:{hue:150}},
+        // "3": {count: 200, clr:{hue:210}},
+        // "4": {count: 200, clr:{hue:330}},
         // "5": {count: 50, clr:{hue:0}},
         // "6": {count: 50, clr:{hue:270}},
     };
@@ -1499,10 +1799,22 @@
     // var currentRule = "s0";
     // var currentRule = "r2";
     // var currentRule = "r5";
-    var currentRule = "rule-6";
+    // var currentRule = "rule-6";
+    var currentRule = "s1";
     const rules = {
         "s0": [
             {f: "gr2", a: "0", b: "0", g: 0.29, r1: 0, r2: 5, ent:.95},
+        ],
+        "s1": [
+            // {f: "gr2", a: "1", b: "1", g: 0.54, r1: 0, r2: 50, ent:.95},
+            {f: "gr2", a: "1", b: "1", g: 1.54, r1: 0, r2: 50, ent:.95},
+            {f: "gr2", a: "1", b: "1", g: -0.029, r1: 50, r2: 400, ent:1},
+        ],
+        "s2": [
+            {f: "gr2", a: "1", b: "1", g: 0.29, r1: 0, r2: 50, ent:.95},
+            {f: "gr2", a: "2", b: "2", g: 0.29, r1: 0, r2: 50, ent:.95},
+            {f: "gr2", a: "3", b: "3", g: 0.29, r1: 0, r2: 50, ent:.95},
+            {f: "gr2", a: "4", b: "4", g: 0.29, r1: 0, r2: 50, ent:.95},
         ],
         "r1": [
             {f: "gr2", a: "0", b: "0", g: 0.29, r1: 0, r2: 5, ent:.95},
@@ -1618,11 +1930,16 @@
             
             pr["walls3d"](particles, 1, 0);
             pr["walls3d"](particles, .25, 15);
+            
+            pr["d8"](particles, -0.015);
+            // pr["d8h"](particles, -0.015, 100);
+            // pr["d2"](particles, -0.015);
+            pr["heat-bar"](particles, 0.05, 100);
 
-            // Object.keys(gs).forEach(k=>{
-            //     // pr["px2"](pg[k], pg[k]);
-            //     pr["px3"](pg[k], pg[k]);
-            // });
+            Object.keys(gs).forEach(k=>{
+                // pr["px2"](pg[k], pg[k]);
+                pr["px3"](pg[k], pg[k]);
+            });
 
             // pr["grid-pulse"](grid, pg["pu"], 1, 100);
             // pr["grid-entropy"](grid,.89);
@@ -1667,7 +1984,8 @@
                 // DrawParticleLineZ(ctx["canvas-draw"],e,pg[e.type],300);
                 // DrawParticleFuseZ(ctx["canvas-draw"],e,pg[e.type],100);
                 if(e.type == "3" || e.type == "4"){
-                    DrawParticleLineZ(ctx["canvas-draw"],e,pg[e.type],100);
+                    // DrawParticleFuseZ(ctx["canvas-draw"],e,pg[e.type],100);
+                    // DrawParticleLineZ(ctx["canvas-draw"],e,pg[e.type],100);
                 }
             }
 
@@ -1793,14 +2111,14 @@
     window.addEventListener('resize', () =>{
         updateSettings();
     });
-    window.addEventListener('click', (ev) => {
-        let x = ev.pageX;
-        let y = ev.pageY;
-        let xtile = Math.floor(x / s.cube.sz);
-        let ytile = Math.floor(y / s.cube.sz);
-        console.log(`(${x},${y}) → tile-x: ${xtile}, tile-y: ${ytile}`);
-        // pulseAt(x,y);
-    });
+    // window.addEventListener('click', (ev) => {
+    //     let x = ev.pageX;
+    //     let y = ev.pageY;
+    //     let xtile = Math.floor(x / s.cube.sz);
+    //     let ytile = Math.floor(y / s.cube.sz);
+    //     console.log(`(${x},${y}) → tile-x: ${xtile}, tile-y: ${ytile}`);
+    //     // pulseAt(x,y);
+    // });
     /* ─── Event Handlers ─── */
     var previousTouchEvent = '';
     var ongoingTouches = [];
@@ -1995,6 +2313,10 @@ pg["4"].forEach(p => {
 
 pg["3"].forEach(p => {
     console.log(`id: ${p.id}, a: ${p.paVal.toFixed(1)} / typeCount: ${p.typeCount} = heat: ${p.heat.toFixed(1)}`);
+});
+
+particles.forEach(p => {
+    console.log(`id: ${p.id}, type: ${p.type}, heat: ${p.heat.toFixed(4)}`);
 });
 
     */
