@@ -326,7 +326,7 @@
             }
         }
         updatePath(){
-            if(this.path.length > 120){this.path.shift();}
+            if(this.path.length > 20){this.path.shift();}
             // this.path.push({"x": this.x, "y": this.y, "z": this.z});
             // this.path.push({"x": this.x, "y": this.y, "z": this.z, "zdp": this.zdp});
             this.path.push({"x": this.x, "y": this.y, "z": this.z, "size": this.size_z, "color": this.color});
@@ -793,7 +793,7 @@
             pr["walls3d"](particles, .25, 15);
 
 
-            // particles.sort((a,b) => a.z - b.z);
+            particles.sort((a,b) => a.z - b.z);
 
             /* ─ Draw Part ─ */
             clearCanvas(ctx);
