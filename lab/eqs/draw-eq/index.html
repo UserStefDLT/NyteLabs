@@ -580,6 +580,147 @@
             }
         }
     }
+    function DrawGridFXY5(ctx, grid){
+        let glum = [];
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                const e = grid[y][x];
+                let x1 = x * s.cube.sz + (s.cube.sz/2);
+                let y1 = y * s.cube.sz + (s.cube.sz/2);
+                let x0 = (x * s.cube.sz) - s.canvas.x2;
+                let y0 = (y * s.cube.sz) - s.canvas.y2;
+
+                let sz = s.cube.sz/2;
+                // let vx = fs["eqX"](x0, y0, 200, sz);
+                // let vy = fs["eqY"](x0, y0, 200, sz);
+                
+                let val = fs[my_fs](x0, y0, 200, sz);
+                // let val = fs[my_fs](x0, y0, 200, 10);
+                let vx = val.vx;
+                let vy = val.vy;
+                
+                let x2 = x1 + vx;
+                let y2 = y1 + vy;
+                
+                // let xx = vx*vx;
+                // let yy = vy*vy;
+                // let vh = Math.sqrt(xx + yy) * (180/sz);
+                // // let vh = (xx + xy) * (180/sz);
+                // let vh = XYtoCSSAngle(vx,vy);
+                let vh = (vx+vy) * 10;
+                let hue = vh%360;
+                // let sat = 100;
+                // let lum = 50;
+                // ctx.strokeStyle = `hsla(${hue}, ${sat}%, ${lum}%, .5)`;
+
+                ctx.beginPath();
+                ctx.strokeStyle = `hsla(${hue}, 100%, 50%, .5)`;
+                ctx.lineWidth = 1;
+                ctx.arc(x1, y1, sz, 0, Math.PI * 2);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.strokeStyle = `hsla(${hue}, 100%, 50%, 1)`;
+                ctx.lineWidth = 2;
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+            }
+        }
+    }
+    function DrawGridFXY6(ctx, grid){
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                const e = grid[y][x];
+                let x1 = x * s.cube.sz + (s.cube.sz/2);
+                let y1 = y * s.cube.sz + (s.cube.sz/2);
+                let x0 = (x * s.cube.sz) - s.canvas.x2;
+                let y0 = (y * s.cube.sz) - s.canvas.y2;
+
+                let sz = s.cube.sz/2;
+                // let vx = fs["eqX"](x0, y0, 200, sz);
+                // let vy = fs["eqY"](x0, y0, 200, sz);
+                
+                let val = fs[my_fs](x0, y0, 200, sz);
+                // let val = fs[my_fs](x0, y0, 200, 10);
+                let vx = val.vx;
+                let vy = val.vy;
+                
+                let x2 = x1 + vx;
+                let y2 = y1 + vy;
+                
+                // let xx = vx*vx;
+                // let yy = vy*vy;
+                // let vh = Math.sqrt(xx + yy) * (180/sz);
+                // // let vh = (xx + xy) * (180/sz);
+                // let vh = XYtoCSSAngle(vx,vy);
+                let vh = (vx+vy) * 10;
+                let hue = vh%360;
+
+                grid[y][x].hue = hue;
+                grid[y][x].x1 = x1;
+                grid[y][x].y1 = y1;
+                grid[y][x].x2 = x2;
+                grid[y][x].y2 = y2;
+
+                // let sat = 100;
+                // let lum = 50;
+                // ctx.strokeStyle = `hsla(${hue}, ${sat}%, ${lum}%, .5)`;
+
+                // ctx.beginPath();
+                // ctx.strokeStyle = `hsla(${hue}, 100%, 50%, .5)`;
+                // ctx.lineWidth = 1;
+                // ctx.arc(x1, y1, sz, 0, Math.PI * 2);
+                // ctx.stroke();
+
+                // ctx.beginPath();
+                // ctx.strokeStyle = `hsla(${hue}, 100%, 50%, 1)`;
+                // ctx.lineWidth = 2;
+                // ctx.moveTo(x1, y1);
+                // ctx.lineTo(x2, y2);
+                // ctx.stroke();
+            }
+        }
+        for(let y = 1; y < grid.length; y++){
+            for(let x = 1; x < grid[y].length; x++){
+                const e = grid[y][x];
+                const ex = grid[y][x-1];
+                const ey = grid[y-1][x];
+                // let nx = ex.x - e.x;
+                // let ny = ey.y - e.y;
+                // let nx = Math.round((ex.x - e.x)/s.cube.sz);
+                // let ny = Math.round((ey.y - e.y)/s.cube.sz);
+                // let nx = Math.round((ex.hue - e.hue)/1);
+                // let ny = Math.round((ey.hue - e.hue)/1);
+                let nx = Math.round(ex.hue - e.hue);
+                let ny = Math.round(ey.hue - e.hue);
+                if(isInGrid(glum,nx,ny)){
+                    glum[ny][nx]++;
+                }
+            }
+        }
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
+                const e = grid[y][x];
+                let lum = glum[y][x] * 5;
+                // let hue = e.hue;
+                let sz = s.cube.sz/2;
+
+                ctx.beginPath();
+                ctx.strokeStyle = `hsla(${e.hue}, 100%, ${lum}%, .5)`;
+                ctx.lineWidth = 1;
+                ctx.arc(e.x1, e.y1, sz, 0, Math.PI * 2);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.strokeStyle = `hsla(${e.hue}, 100%, ${lum}%, 1)`;
+                ctx.lineWidth = 2;
+                ctx.moveTo(e.x1, e.y1);
+                ctx.lineTo(e.x2, e.y2);
+                ctx.stroke();
+            }
+        }
+    }
 
     /* ─── [Control] ─── */
     /* ─── Update (control) ─── */
@@ -770,6 +911,7 @@
     var current_fs = "so";
     var current_fsi = 0;
     var my_fs = "eqXY-05";
+    // var my_fs = "eq-cosXY";
     const fs = {};
 
     fs["cosV"] = function (v, scale, amp){
@@ -929,6 +1071,13 @@
         return val;
     }
 
+    fs["eq-cosXY"] = function (x, y, scale, amp){
+        let xs = Math.cos(Math.PI * x / scale) * amp;
+        let ys = Math.cos(Math.PI * y / scale) * amp;
+        // let val = xs + ys;
+        let val = {"vx": xs, "vy": ys};
+        return val;
+    }
 
 
     fs["cos"] = function (x, y, amp){
@@ -1409,6 +1558,7 @@
 
     /* ─── Start and Update ─── */
     var my_grid = [];
+    var glum = [];
     function start(){
 
         // Code goes here.
@@ -1473,6 +1623,9 @@
 
         // DrawGridFXY2(ctx['canvas-draw'], my_grid);
         DrawGridFXY4(ctx['canvas-draw'], my_grid);
+        // DrawGridFXY5(ctx['canvas-draw'], my_grid);
+        // glum = BuildGrid(s.cube.xlen, s.cube.ylen,0);
+        // DrawGridFXY6(ctx['canvas-draw'], my_grid);
     }
 
 
