@@ -111,7 +111,7 @@
             xlen: 10,
             ylen: 10,
             zlen: 10,
-            sz: 3,
+            sz: 10,
         },
 
         timeOut: 40,
@@ -400,7 +400,7 @@
             }
         }
     }
-    function CalcDropplets3(g){
+    function CalcDropplets(g){
         for(let y = 0; y < g.length; y++){
             for(let x = 0; x < g[y].length; x++){
                 // const e = g[y][x];
@@ -421,52 +421,6 @@
                     if(nh > 0 && nhrr < drop.t){
                     // if(nh > 0 && nhrr < 50){
                     // if(nh > 0){
-                        // g[y][x] += 5;
-                        // g[y][x] += drop.a;
-                        // g[y][x] += drop.a / (drop.r / 2);
-                        // g[y][x] += 2 * drop.a / nh;
-                        let angle = XYtoCSSAngle(nx,ny);
-                        let xy = CSSAngleToXY(angle);
-                        let nxa = xy.x * nhrr;
-                        let nya = xy.y * nhrr;
-                        // fs["rip-cos"](nxa, nya, 10, 20);
-                        // g[y][x] = fs["cos"](nxa, nya, 200, 100);
-                        // g[y][x] += fs["rip-cos"](nxa, nya, 20, 5);
-                        // g[y][x] = fs["cos"](nxa, nya, 20, 5);
-                        // g[y][x] = fs["pinch"](nxa, nya, 20, 5);
-                        // g[y][x] = fs["sw"](nxa, nya, 20, 5);
-                        // g[y][x] += fs["sw2"](nxa, nya, 5, 10);
-                        // g[y][x] += fs["sw2"](nxa, nya, 10, 30);
-                        // let sc2 = Math.floor(Math.random()*drop.a + 5);
-                        // let amp2 = Math.floor(Math.random()*drop.a * 2 + 10);
-                        // g[y][x] += fs["sw2"](nxa, nya, sc2, amp2);
-                        g[y][x] += fs["sw2"](nxa, nya, drop.sc, drop.amp);
-                    }
-                });
-            }
-        }
-    }
-    function CalcDropplets(g){
-        for(let y = 0; y < g.length; y++){
-            for(let x = 0; x < g[y].length; x++){
-                // const e = g[y][x];
-                if(g[y][x]>0){g[y][x]--;}
-                if(g[y][x]<0){g[y][x]++;}
-                // if(g[y][x]>0){g[y][x] *= .75;}
-                if(Math.abs(g[y][x])>0){g[y][x] *= .75;}
-                // if(g[y][x]>0){g[y][x] /= 2; g[y][x]--;}
-                dropplets.forEach(drop => {
-                    let nx = drop.x - x;
-                    let ny = drop.y - y;
-                    let nh = Math.sqrt(nx*nx+ny*ny);
-                    let nhr = Math.round(Math.sqrt(nx*nx+ny*ny));
-                    // if(nh == drop.r){
-                    //     g[y][x] += drop.a;
-                    // }
-                    let nhrr = Math.abs(nh - drop.r);
-                    // if(nh > 0 && nhrr < drop.t){
-                    // if(nh > 0 && nhrr < 50){
-                    if(nh > 0){
                         // g[y][x] += 5;
                         // g[y][x] += drop.a;
                         // g[y][x] += drop.a / (drop.r / 2);
@@ -851,14 +805,34 @@
                 }
             }
         }
+
+        // for(let y = 0; y < ylen; y++){
+        //     for(let x = 0; x < xlen; x++){
+        //         const e = grid[y][x];
+        //         let lum = glum[y][x] * 5;
+        //         // let hue = e.hue;
+        //         let sz = s.cube.sz/2;
+        //         ctx.beginPath();
+        //         ctx.strokeStyle = `hsla(${e.hue}, 100%, ${lum}%, .5)`;
+        //         ctx.lineWidth = 1;
+        //         ctx.arc(e.x1, e.y1, sz, 0, Math.PI * 2);
+        //         ctx.stroke();
+        //         ctx.beginPath();
+        //         ctx.strokeStyle = `hsla(${e.hue}, 100%, ${lum}%, 1)`;
+        //         ctx.lineWidth = 2;
+        //         ctx.moveTo(e.x1, e.y1);
+        //         ctx.lineTo(e.x2, e.y2);
+        //         ctx.stroke();
+        //     }
+        // }
+
         // HandleNoise(glum, fup3["smooth"]);
         // HandleNoise(glum, fup3["smooth-float"]);
         // HandleNoise(glum, fup3["smooth-float-2"]);
         // HandleNoise(glum, fup3["smooth-2-float-2"]);
         // HandleNoise(glum, fup3["smooth-2-float-2"]);
-        // HandleNoise(glum, fup3["smooth-float"]);
-        // HandleNoise(glum, fup3["smooth-3-float"]);
-        HandleNoise(glum, fup3["smooth-4-float"]);
+        HandleNoise(glum, fup3["smooth-float"]);
+        HandleNoise(glum, fup3["smooth-3-float"]);
         let gls = GridHighAndLow(glum);
         for(let y = 0; y < ylen; y++){
             for(let x = 0; x < xlen; x++){
@@ -1171,30 +1145,6 @@
         "a+b": (a,b)=>{return a+b;},
     }
     const fup3 = {
-        "smooth-4-float": (g,x,y)=>{
-            let sum = 0;
-            let count = 0;
-            let radius = 3;
-            for (let i = radius*-1; i <= radius; i++) {
-                for (let j = radius*-1; j <= radius; j++) {
-                    let nx = x + j - 1;
-                    let ny = y + i - 1;
-                    if(isInGrid(g,nx,ny)){
-                        sum += g[ny][nx];
-                        count++;
-                    }
-                }
-            }
-            let avg = sum/count;
-            // let dif = avg - g[y][x];
-            // console.log(`s2(${x},${y}) → avg: ${avg} | dif: ${dif}`);
-            let res = g[y][x];
-            // res = ((avg - g[y][x]) * .25 + g[y][x]);
-            // res = ((avg - g[y][x]) * .5 + g[y][x]);
-            res = ((avg - g[y][x]) * .35 + g[y][x]);
-            
-            return res;
-        },
         "smooth-3-float": (g,x,y)=>{
             let sum = 0;
             let count = 0;
@@ -1213,10 +1163,7 @@
             let dif = avg - g[y][x];
             // console.log(`s2(${x},${y}) → avg: ${avg} | dif: ${dif}`);
             let res = g[y][x];
-            // res = ((avg - g[y][x]) * .25 + g[y][x]);
-            res = ((avg - g[y][x]) * .5 + g[y][x]);
-            // res = ((avg - g[y][x]) * .35 + g[y][x]);
-            
+            res = ((avg - g[y][x]) * .25 + g[y][x]);
             // if(-30 < dif || dif < 30){
             //     // res = Math.round((avg - g[y][x]) * .5 + g[y][x]);
             //     res = Math.round(((avg - g[y][x]) * .25 + g[y][x]) * 100) / 100;
@@ -1354,37 +1301,6 @@
         },
     }
 
-    function droppletUpdate1(){
-        for (let i = 0; i < dropplets.length; i++) {
-            // const drop = dropplets[i];
-            dropplets[i].r++;
-            dropplets[i].t--;
-            if(dropplets[i].t < 1){
-                // dropOut.push(i);
-                // dropplets.splice(i,1);
-                dropplets.shift();
-                i--;
-            }
-        }
-    }
-    function droppletUpdate(){
-        if(dropplets.length < 2){
-            dropRandom(Math.floor(Math.random() * 3 + 2));
-        }
-        for (let i = 0; i < dropplets.length; i++) {
-            // const drop = dropplets[i];
-            // dropplets[i].r++;
-            // dropplets[i].r--;
-            dropplets[i].r += dropplets[i].ra;
-            dropplets[i].t--;
-            if(dropplets[i].t < 1){
-                // dropOut.push(i);
-                // dropplets.splice(i,1);
-                dropplets.shift();
-                i--;
-            }
-        }
-    }
 
     /* ─── Start and Update ─── */
     function start(){
@@ -1401,18 +1317,17 @@
         if(!s.q && !s.pause){
 
             // Code goes here.
-            droppletUpdate();
-            // for (let i = 0; i < dropplets.length; i++) {
-            //     // const drop = dropplets[i];
-            //     dropplets[i].r++;
-            //     dropplets[i].t--;
-            //     if(dropplets[i].t < 1){
-            //         // dropOut.push(i);
-            //         // dropplets.splice(i,1);
-            //         dropplets.shift();
-            //         i--;
-            //     }
-            // }
+            for (let i = 0; i < dropplets.length; i++) {
+                // const drop = dropplets[i];
+                dropplets[i].r++;
+                dropplets[i].t--;
+                if(dropplets[i].t < 1){
+                    // dropOut.push(i);
+                    // dropplets.splice(i,1);
+                    dropplets.shift();
+                    i--;
+                }
+            }
             // dropplets.forEach(drop => {
             //     const e = g[drop.y][drop.x];
             //     // e.a;
@@ -1440,7 +1355,7 @@
         }
         setTimeout(() => {
             requestAnimationFrame(update);
-        }, s.timeOut);
+        }, s.timeOut)
     }
     function clearCanvas(ctx, bg="#0000"){
         ctx.clearRect(0,0,s.w,s.h);
@@ -1568,34 +1483,6 @@
         // AddGrid(main_grid, xy3.x, xy3.y, 100);
         DrawGrid(ctx['canvas-draw'], main_grid);
     }
-    // window.addEventListener('click', (ev) => {
-    //     let x = ev.pageX;
-    //     let y = ev.pageY;
-    //     // let x = Math.floor(px / s.tile.w);
-    //     // let y = Math.floor(py / s.tile.h);
-    //     // console.log(`(${px},${py}) → tile-x: ${x}, tile-y: ${y}`);
-    //     console.log(`(${x},${y})`);
-
-    //     // drop2();
-    //     let xp = x / s.cube.sz;
-    //     let yp = y / s.cube.sz;
-
-    //     let sc = Math.floor(Math.random()*10 + 5);
-    //     let amp = Math.floor(Math.random()*25 + 5);
-
-    //     dropplets.push({
-    //         "x": xp,
-    //         "y": yp,
-    //         "a": 10,
-    //         "r": 1,
-    //         "t": 300,
-    //         "sc": sc,
-    //         "amp": amp,
-    //     });
-    //     setTimeout(() => {
-    //         gsettings = GridSides(main_grid);
-    //     }, 100);
-    // });
     window.addEventListener('click', (ev) => {
         let x = ev.pageX;
         let y = ev.pageY;
@@ -1610,136 +1497,20 @@
 
         let sc = Math.floor(Math.random()*10 + 5);
         let amp = Math.floor(Math.random()*25 + 5);
-        let di = Math.floor(Math.random()*2);
-        let r = 1;
-        let ra = 1;
-        if(di == 0) {
-            r = 300;
-            ra = -1;
-        }
-        console.log(`sc: ${sc}, amp: ${amp}, di: ${di}, r: ${r}, ra: ${ra}`);
 
         dropplets.push({
             "x": xp,
             "y": yp,
             "a": 10,
-            "r": r,
-            "ra": ra,
+            "r": 1,
             "t": 300,
             "sc": sc,
             "amp": amp,
-        })
+        });
         setTimeout(() => {
             gsettings = GridSides(main_grid);
         }, 100);
     });
-    function dropRandom(n){
-        for (let i = 0; i < n; i++) {
-            let xy = randomXY();
-            let xp = Math.floor(xy.x / s.cube.sz);
-            let yp = Math.floor(xy.y / s.cube.sz);
-    
-            let sc = Math.floor(Math.random()*10 + 5);
-            let amp = Math.floor(Math.random()*25 + 5);
-            let di = Math.floor(Math.random()*2);
-            let r = 1;
-            let ra = 1;
-            if(di == 0) {
-                r = 300;
-                ra = -1;
-            }
-            console.log(`(x:${xy.x}, y:${xy.y})`);
-            console.log(`sc: ${sc}, amp: ${amp}, di: ${di}, r: ${r}, ra: ${ra}`);
-            dropplets.push({
-                "x": xp,
-                "y": yp,
-                "a": 10,
-                "r": r,
-                "ra": ra,
-                "t": 300,
-                "sc": sc,
-                "amp": amp,
-            });
-        }
-        setTimeout(() => {
-            gsettings = GridSides(main_grid);
-        }, 100);
-    }
-    /*
-    (index) x       y       a   r       ra  t       sc  amp
-    0	    {x:41.4, y:21.1, a:10, r:195, ra:1, t:106, sc:5, amp:16},
-    1	    {x:15.4, y:51.6, a:10, r:132, ra:-1, t:132, sc:7, amp:6},
-    2	    {x:62.8, y:54.3, a:10, r:147, ra:1, t:154, sc:6, amp:27},
-    3	    {x:40.8, y:40.1, a:10, r:178, ra:-1, t:178, sc:10, amp:6},
-    4	    {x:40.4, y:59.9, a:10, r:208, ra:-1, t:208, sc:11, amp:13},
-    5	    {x:34.5, y:59.3, a:10, r:226, ra:-1, t:226, sc:14, amp:13},
-    6	    {x:65.2, y:14, a:10, r:257, ra:-1, t:257, sc:7, amp:16},
-    7	    {x:18.3, y:26.4, a:10, r:22, ra:1, t:279, sc:8, amp:26},
-
-    (index) x       y       a   r       ra  t       sc  amp
-    0	40.952653089310154	59.226439634296035	10	107	1	194	7	27
-    1	71.02097234908616	65.93383169331727	10	194	-1	194	5	16
-    2	50.7	24.5	10	295	-1	295	5	14
-    */
-    // dropplets = dropList["list-01"];
-    // dropplets = dropList["list-03"];
-    const dropList = {
-        "list-00": [
-            {x:0, y:0, a:0, r:0, ra:0, t:0, sc:0, amp:0},
-        ],
-        "list-01": [
-            {x:41.4, y:21.1, a:10, r:195, ra:1, t:500, sc:5, amp:16},
-            {x:15.4, y:51.6, a:10, r:132, ra:-1, t:500, sc:7, amp:6},
-            {x:62.8, y:54.3, a:10, r:147, ra:1, t:500, sc:6, amp:27},
-            {x:40.8, y:40.1, a:10, r:178, ra:-1, t:500, sc:10, amp:6},
-            {x:40.4, y:59.9, a:10, r:208, ra:-1, t:500, sc:11, amp:13},
-            {x:34.5, y:59.3, a:10, r:226, ra:-1, t:500, sc:14, amp:13},
-            {x:65.2, y:14, a:10, r:257, ra:-1, t:500, sc:7, amp:16},
-            {x:18.3, y:26.4, a:10, r:22, ra:1, t:500, sc:8, amp:26}
-        ],
-        "list-02a": [
-            {"x":40.952653089310154,"y":59.226439634296035,"a":10,"r":107,"ra":1,"t":400,"sc":7,"amp":27},
-            {"x":71.02097234908616,"y":65.93383169331727,"a":10,"r":194,"ra":-1,"t":400,"sc":5,"amp":16},
-            // {"x":50.7,"y":24.5,"a":10,"r":295,"ra":-1,"t":295,"sc":5,"amp":14}
-        ],
-        "list-02": [
-            {"x":40.953,"y":59.23,"a":10,"r":201,"ra":1,"t":400,"sc":7,"amp":27},
-            {"x":71.021,"y":65.93,"a":10,"r":100,"ra":-1,"t":400,"sc":5,"amp":16},
-        ],
-        "list-03": [
-            {"x":40.953,"y":59.23,"a":10,"r":272,"ra":1,"t":300,"sc":7,"amp":27},
-            {"x":71.021,"y":65.93,"a":10,"r":29,"ra":-1,"t":300,"sc":5,"amp":16},
-            {"x":50.7,"y":24.5,"a":10,"r":130,"ra":-1,"t":300,"sc":5,"amp":14},
-            {"x":53.9,"y":17.5,"a":10,"r":7,"ra":1,"t":300,"sc":13,"amp":10}
-        ],
-        "list-04": [
-            {"x":40.953,"y":59.23,"a":10,"r":201,"ra":1,"t":306,"sc":7,"amp":27},
-            {"x":71.021,"y":65.93,"a":10,"r":100,"ra":-1,"t":306,"sc":5,"amp":16},
-            {"x":45.4,"y":17.8,"a":10,"r":71,"ra":1,"t":230,"sc":12,"amp":7}
-        ],
-        "list-05": [
-            {"x":17.138323344908244,"y":31.912855152322276,"a":10,"r":189,"ra":-1,"t":189,"sc":9,"amp":21},
-            {"x":13.607261741961807,"y":59.66435584324057,"a":10,"r":189,"ra":-1,"t":189,"sc":13,"amp":26}
-        ],
-        "list-06": [
-            {"x":57.31340814816656,"y":15.885531248033406,"a":10,"r":237,"ra":-1,"t":237,"sc":13,"amp":19},
-            {"x":16.1390546373209,"y":22.406693004058926,"a":10,"r":237,"ra":-1,"t":237,"sc":10,"amp":13},
-            {"x":38.92365538693273,"y":12.700862434012564,"a":10,"r":64,"ra":1,"t":237,"sc":10,"amp":22}
-        ],
-    }
-
-    function PrintObjectList(list){
-        // let rule_set = rules[rule_id];
-        let rule_string = JSON.stringify(list);
-
-        let rule_string2 = rule_string.replace('[', '[\n');
-        rule_string2 = rule_string2.replace(']', '\n]');
-        let rule_ready = rule_string2.split('},{').join('},\n{');
-
-        // console.log(`"${rule_id}": ${rule_ready},`);
-        console.log(`"list": ${rule_ready},`);
-    }
-
     // window.addEventListener('touchend', (ev) => {
     //     let x = ev.pageX;
     //     let y = ev.pageY;
@@ -1805,7 +1576,7 @@
     [index-nds-01]: Get the data with `GridSides(main_grid)` into `gsettings`;
     [index-nds-02]: Close enough.
     [index-nds-03]: 195 hue and smoothenth version.
-    [index-nds-04]: Adding random start and continue random set.
+    [index-nds-04]: 
     [index-nds-05]: 
     [index-nds-06]: 
     [index-nds-07]: 

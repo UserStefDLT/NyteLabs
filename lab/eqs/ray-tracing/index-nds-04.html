@@ -111,7 +111,7 @@
             xlen: 10,
             ylen: 10,
             zlen: 10,
-            sz: 3,
+            sz: 10,
         },
 
         timeOut: 40,
@@ -400,7 +400,7 @@
             }
         }
     }
-    function CalcDropplets3(g){
+    function CalcDropplets(g){
         for(let y = 0; y < g.length; y++){
             for(let x = 0; x < g[y].length; x++){
                 // const e = g[y][x];
@@ -421,52 +421,6 @@
                     if(nh > 0 && nhrr < drop.t){
                     // if(nh > 0 && nhrr < 50){
                     // if(nh > 0){
-                        // g[y][x] += 5;
-                        // g[y][x] += drop.a;
-                        // g[y][x] += drop.a / (drop.r / 2);
-                        // g[y][x] += 2 * drop.a / nh;
-                        let angle = XYtoCSSAngle(nx,ny);
-                        let xy = CSSAngleToXY(angle);
-                        let nxa = xy.x * nhrr;
-                        let nya = xy.y * nhrr;
-                        // fs["rip-cos"](nxa, nya, 10, 20);
-                        // g[y][x] = fs["cos"](nxa, nya, 200, 100);
-                        // g[y][x] += fs["rip-cos"](nxa, nya, 20, 5);
-                        // g[y][x] = fs["cos"](nxa, nya, 20, 5);
-                        // g[y][x] = fs["pinch"](nxa, nya, 20, 5);
-                        // g[y][x] = fs["sw"](nxa, nya, 20, 5);
-                        // g[y][x] += fs["sw2"](nxa, nya, 5, 10);
-                        // g[y][x] += fs["sw2"](nxa, nya, 10, 30);
-                        // let sc2 = Math.floor(Math.random()*drop.a + 5);
-                        // let amp2 = Math.floor(Math.random()*drop.a * 2 + 10);
-                        // g[y][x] += fs["sw2"](nxa, nya, sc2, amp2);
-                        g[y][x] += fs["sw2"](nxa, nya, drop.sc, drop.amp);
-                    }
-                });
-            }
-        }
-    }
-    function CalcDropplets(g){
-        for(let y = 0; y < g.length; y++){
-            for(let x = 0; x < g[y].length; x++){
-                // const e = g[y][x];
-                if(g[y][x]>0){g[y][x]--;}
-                if(g[y][x]<0){g[y][x]++;}
-                // if(g[y][x]>0){g[y][x] *= .75;}
-                if(Math.abs(g[y][x])>0){g[y][x] *= .75;}
-                // if(g[y][x]>0){g[y][x] /= 2; g[y][x]--;}
-                dropplets.forEach(drop => {
-                    let nx = drop.x - x;
-                    let ny = drop.y - y;
-                    let nh = Math.sqrt(nx*nx+ny*ny);
-                    let nhr = Math.round(Math.sqrt(nx*nx+ny*ny));
-                    // if(nh == drop.r){
-                    //     g[y][x] += drop.a;
-                    // }
-                    let nhrr = Math.abs(nh - drop.r);
-                    // if(nh > 0 && nhrr < drop.t){
-                    // if(nh > 0 && nhrr < 50){
-                    if(nh > 0){
                         // g[y][x] += 5;
                         // g[y][x] += drop.a;
                         // g[y][x] += drop.a / (drop.r / 2);
@@ -851,14 +805,34 @@
                 }
             }
         }
+
+        // for(let y = 0; y < ylen; y++){
+        //     for(let x = 0; x < xlen; x++){
+        //         const e = grid[y][x];
+        //         let lum = glum[y][x] * 5;
+        //         // let hue = e.hue;
+        //         let sz = s.cube.sz/2;
+        //         ctx.beginPath();
+        //         ctx.strokeStyle = `hsla(${e.hue}, 100%, ${lum}%, .5)`;
+        //         ctx.lineWidth = 1;
+        //         ctx.arc(e.x1, e.y1, sz, 0, Math.PI * 2);
+        //         ctx.stroke();
+        //         ctx.beginPath();
+        //         ctx.strokeStyle = `hsla(${e.hue}, 100%, ${lum}%, 1)`;
+        //         ctx.lineWidth = 2;
+        //         ctx.moveTo(e.x1, e.y1);
+        //         ctx.lineTo(e.x2, e.y2);
+        //         ctx.stroke();
+        //     }
+        // }
+
         // HandleNoise(glum, fup3["smooth"]);
         // HandleNoise(glum, fup3["smooth-float"]);
         // HandleNoise(glum, fup3["smooth-float-2"]);
         // HandleNoise(glum, fup3["smooth-2-float-2"]);
         // HandleNoise(glum, fup3["smooth-2-float-2"]);
-        // HandleNoise(glum, fup3["smooth-float"]);
-        // HandleNoise(glum, fup3["smooth-3-float"]);
-        HandleNoise(glum, fup3["smooth-4-float"]);
+        HandleNoise(glum, fup3["smooth-float"]);
+        HandleNoise(glum, fup3["smooth-3-float"]);
         let gls = GridHighAndLow(glum);
         for(let y = 0; y < ylen; y++){
             for(let x = 0; x < xlen; x++){
@@ -1171,30 +1145,6 @@
         "a+b": (a,b)=>{return a+b;},
     }
     const fup3 = {
-        "smooth-4-float": (g,x,y)=>{
-            let sum = 0;
-            let count = 0;
-            let radius = 3;
-            for (let i = radius*-1; i <= radius; i++) {
-                for (let j = radius*-1; j <= radius; j++) {
-                    let nx = x + j - 1;
-                    let ny = y + i - 1;
-                    if(isInGrid(g,nx,ny)){
-                        sum += g[ny][nx];
-                        count++;
-                    }
-                }
-            }
-            let avg = sum/count;
-            // let dif = avg - g[y][x];
-            // console.log(`s2(${x},${y}) → avg: ${avg} | dif: ${dif}`);
-            let res = g[y][x];
-            // res = ((avg - g[y][x]) * .25 + g[y][x]);
-            // res = ((avg - g[y][x]) * .5 + g[y][x]);
-            res = ((avg - g[y][x]) * .35 + g[y][x]);
-            
-            return res;
-        },
         "smooth-3-float": (g,x,y)=>{
             let sum = 0;
             let count = 0;
