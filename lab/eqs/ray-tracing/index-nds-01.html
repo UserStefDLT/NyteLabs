@@ -665,120 +665,43 @@
 
     var glum = [];
     function DrawGridXY(ctx, grid){
-        let xlen = s.cube.xlen;
-        let ylen = s.cube.ylen;
-        glum = BuildGrid(xlen,ylen,0);
-
-        for(let y = 1; y < ylen; y++){
-            for(let x = 1; x < xlen; x++){
+        for(let y = 1; y < grid.length; y++){
+            for(let x = 1; x < grid[y].length; x++){
                 const e = grid[y][x];
                 const ex = grid[y][x-1];
                 const ey = grid[y-1][x];
-
-                let nx = -1;
-                let ny = -1;
-                if(gsettings.xup > 0){nx = Math.round(((ex - e) / gsettings.xup) * 5) + x;}
-                if(gsettings.yup > 0){ny = Math.round(((ey - e) / gsettings.yup) * 5) + y;}
-                // if(y==3){
-                //     console.log(`e:${e} | ex:${ex} | ey:${ey}`);
-                //     // let nx = Math.round(((ex - e) / gsettings.xup) * 5) + x;
-                //     // let ny = Math.round(((ey - e) / gsettings.yup) * 5) + y;
-                //     // console.log(`x:${x}, y:${y} | nx:${nx}, ny:${ny}`);
-                // }
+                // let nx = ex.x - e.x;
+                // let ny = ey.y - e.y;
+                // let nx = Math.round((ex.x - e.x)/s.cube.sz);
+                // let ny = Math.round((ey.y - e.y)/s.cube.sz);
+                // let nx = Math.round((ex.hue - e.hue)/1);
+                // let ny = Math.round((ey.hue - e.hue)/1);
+                let nx = Math.round(ex.hue - e.hue);
+                let ny = Math.round(ey.hue - e.hue);
                 if(isInGrid(glum,nx,ny)){
-                    try {
-                        glum[ny][nx] += 1;
-                    } catch(error) {
-                        console.log(`nx:${nx}, ny:${ny}`);
-                    }
+                    glum[ny][nx]++;
                 }
             }
         }
-        // for(let y = 1; y < ylen; y++){
-        //     for(let x = 1; x < xlen; x++){
-        //         const e = grid[y][x];
-        //         const ex = grid[y][x-1];
-        //         const ey = grid[y-1][x];
-        //         // let nx = ex.x - e.x;
-        //         // let ny = ey.y - e.y;
-        //         // let nx = Math.round((ex.x - e.x)/s.cube.sz);
-        //         // let ny = Math.round((ey.y - e.y)/s.cube.sz);
-        //         // let nx = Math.round((ex.hue - e.hue)/1);
-        //         // let ny = Math.round((ey.hue - e.hue)/1);
-
-        //         // let nx1 = Math.round(ex - e);
-        //         // let nxp = nx1 / gsettings.xup;
-
-        //         // let nxp = (Math.round(ex - e) / gsettings.xup) * 5;
-        //         // let nyp = (Math.round(ey - e) / gsettings.yup) * 5;
-
-        //         // let nx = Math.round(((ex - e) / gsettings.xup) * 5);
-        //         // let ny = Math.round(((ey - e) / gsettings.yup) * 5);
-
-        //         // let angle = XYtoCSSAngle(nxp,nyp);
-
-        //         // glum[y][x] = Math.round(angle);
-        //         // glum[y][x] = Math.round(nxp);
-        //         // glum[y][x] = nxp.toFixed(4);
-        //         // glum[y][x] = nyp.toFixed(4);
-                
-        //         // CSSAngleToXY(angle)
-                
-        //         // let nx = Math.round(ex - e);
-        //         // let ny = Math.round(ey - e);
-                
-        //         // glum[y][x] = `nx:${nx}, ny:${ny}`;
-
-        //         if(y==1){
-        //             console.log(`e:${e} | ex:${ex} | ey:${ey}`);
-        //             // let nx = Math.round(((ex - e) / gsettings.xup) * 5) + x;
-        //             // let ny = Math.round(((ey - e) / gsettings.yup) * 5) + y;
-        //             // console.log(`x:${x}, y:${y} | nx:${nx}, ny:${ny}`);
-        //         }
-        //         // if(isInGrid(glum,nx,ny)){
-        //         //     try {
-        //         //         glum[ny][nx] += 1;
-        //         //     } catch(error) {
-        //         //         console.log(`nx:${nx}, ny:${ny}`);
-        //         //     }
-        //         // }
-        //     }
-        // }
-
-        // for(let y = 0; y < ylen; y++){
-        //     for(let x = 0; x < xlen; x++){
-        //         const e = grid[y][x];
-        //         let lum = glum[y][x] * 5;
-        //         // let hue = e.hue;
-        //         let sz = s.cube.sz/2;
-        //         ctx.beginPath();
-        //         ctx.strokeStyle = `hsla(${e.hue}, 100%, ${lum}%, .5)`;
-        //         ctx.lineWidth = 1;
-        //         ctx.arc(e.x1, e.y1, sz, 0, Math.PI * 2);
-        //         ctx.stroke();
-        //         ctx.beginPath();
-        //         ctx.strokeStyle = `hsla(${e.hue}, 100%, ${lum}%, 1)`;
-        //         ctx.lineWidth = 2;
-        //         ctx.moveTo(e.x1, e.y1);
-        //         ctx.lineTo(e.x2, e.y2);
-        //         ctx.stroke();
-        //     }
-        // }
-
-        let gls = GridHighAndLow(glum);
-        for(let y = 0; y < ylen; y++){
-            for(let x = 0; x < xlen; x++){
+        for(let y = 0; y < grid.length; y++){
+            for(let x = 0; x < grid[y].length; x++){
                 const e = grid[y][x];
-                let xn = x * s.cube.sz;
-                let yn = y * s.cube.sz;
-                let lum = glum[y][x] * (90 / gls.up) + 10;
-                // let lum = glum[y][x] * 5;
+                let lum = glum[y][x] * 5;
+                // let hue = e.hue;
+                let sz = s.cube.sz/2;
 
-                let hue = e%360;
-                // let bg = `hsla(${hue}, 100%, 60%, .75)`;
-                let bg = `hsla(${hue}, 100%, ${lum}%, .75)`;
-                ctx.fillStyle = bg;
-                ctx.fillRect(xn,yn,s.cube.sz,s.cube.sz);
+                ctx.beginPath();
+                ctx.strokeStyle = `hsla(${e.hue}, 100%, ${lum}%, .5)`;
+                ctx.lineWidth = 1;
+                ctx.arc(e.x1, e.y1, sz, 0, Math.PI * 2);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.strokeStyle = `hsla(${e.hue}, 100%, ${lum}%, 1)`;
+                ctx.lineWidth = 2;
+                ctx.moveTo(e.x1, e.y1);
+                ctx.lineTo(e.x2, e.y2);
+                ctx.stroke();
             }
         }
     }
@@ -1161,10 +1084,7 @@
             CalcDropplets(main_grid);
             // draw...
             clearCanvas(ctx["canvas-draw"]);
-            // DrawGrid(ctx["canvas-draw"], main_grid);
-
-            // ray tracing step.
-            DrawGridXY(ctx["canvas-draw"], main_grid);
+            DrawGrid(ctx["canvas-draw"], main_grid);
         }
         setTimeout(() => {
             requestAnimationFrame(update);
@@ -1179,9 +1099,6 @@
         console.log('---');
         // console.time("BuildGrid");
         main_grid = BuildGrid(s.cube.xlen,s.cube.ylen,0);
-        glum = BuildGrid(s.cube.xlen,s.cube.ylen,0);
-        gsettings = GridSides(main_grid);
-        console.log(gsettings);
         // console.timeEnd("BuildGrid");
 
         // console.time("Nds_Control_fs");
@@ -1387,7 +1304,7 @@
 
     [index-nds-00]: Copy from `eqs/exp/index-nds-05.html`;
     [index-nds-01]: Get the data with `GridSides(main_grid)` into `gsettings`;
-    [index-nds-02]: Close enough.
+    [index-nds-02]: 
     [index-nds-03]: 
     [index-nds-04]: 
     [index-nds-05]: 
