@@ -495,42 +495,7 @@ xAvg: ${xAvg.toFixed(2)}, yAvg: ${yAvg.toFixed(2)}`);
                     grid[y][x].d = Math.sqrt(grid[y][x].x*grid[y][x].x+grid[y][x].y*grid[y][x].y);
                     // let d = Math.sqrt(grid[y][x].x*grid[y][x].x+grid[y][x].y*grid[y][x].y);
                     // let dd = (Math.log10(grid[y][x].d)) * 3;
-                    let dd = (Math.log10(grid[y][x].d)) * 8;
-                    
-                    let x1 = x * s.tile.w;
-                    let y1 = y * s.tile.h;
-                    let x2 = x1 + xy.x * (s.tile.sz2 + dd);
-                    let y2 = y1 + xy.y * (s.tile.sz2 + dd);
-
-                    // let hue = grid[y][x].d%360;
-                    // let hue = grid[y][x].d%180 * 2;
-                    // let hue = 240 + (grid[y][x].d%180 * 2);
-                    // let hue = 180 + (grid[y][x].d%180 * 2);
-                    let hue = 240 - (grid[y][x].d%180 * 2);
-                    let clr = `hsla(${hue}, 100%, 40%, 1)`;
-                    // draw_line(ctx, x1, y1, x2, y2, clr, 2);
-                    
-                    // let sz = 2 + hue/100;
-                    let sz = 5 + (grid[y][x].d%360)/15;
-                    draw_line(ctx, x1, y1, x2, y2, clr, sz);
-                }
-            }
-        }
-    }
-    function drawGrid1(ctx,w,h){
-        for (let y = 0; y <= h; y++) {
-            for (let x = 0; x <= w; x++) {
-                // grid[y].push({x:0,y:0,a:0,d:0});
-                let xx = Math.abs(grid[y][x].x);
-                let yy = Math.abs(grid[y][x].y);
-                if(xx > .001 || yy > .001){
-                    grid[y][x].a = XYtoCSSAngle(grid[y][x].x,grid[y][x].y);
-                    let xy = CSSAngleToXY(grid[y][x].a);
-
-                    grid[y][x].d = Math.sqrt(grid[y][x].x*grid[y][x].x+grid[y][x].y*grid[y][x].y);
-                    // let d = Math.sqrt(grid[y][x].x*grid[y][x].x+grid[y][x].y*grid[y][x].y);
-                    let dd = (Math.log10(grid[y][x].d)) * 3;
-                    // let dd = (Math.log10(grid[y][x].d)) * 6;
+                    let dd = (Math.log10(grid[y][x].d)) * 5;
                     
                     let x1 = x * s.tile.w;
                     let y1 = y * s.tile.h;
@@ -538,9 +503,12 @@ xAvg: ${xAvg.toFixed(2)}, yAvg: ${yAvg.toFixed(2)}`);
                     let y2 = y1 + xy.y * (s.tile.sz2 + dd);
 
                     let hue = grid[y][x].d%360;
-                    // let hue = grid[y][x].d%180 * 2;
                     let clr = `hsla(${hue}, 100%, 40%, 1)`;
-                    draw_line(ctx, x1, y1, x2, y2, clr, 2);
+                    // draw_line(ctx, x1, y1, x2, y2, clr, 2);
+                    
+                    // let sz = 2 + hue/100;
+                    let sz = 5 + hue/30;
+                    draw_line(ctx, x1, y1, x2, y2, clr, sz);
                 }
             }
         }

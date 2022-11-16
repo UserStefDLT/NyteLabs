@@ -1,39 +1,11 @@
-# Updates
-
-## Working on:
-
-* lab/particle-rules/fluid-grid/
-* lab/eqs/ray-tracing/
-* lab/particle-rules/axis-rotation/
-* lab/
-* lab/
 
 
-## Queue to Work on:
+## All Updates (commits):
 
-* lab/exp/flow-arrows/
-* lab/color/color-palette/
-* lab/building/tile-wf/
-* dev/
-
-
-## Ready:
-
-* lab/
-* lab/
-* lab/
-* lab/
-* lab/
-
-
-
-## Previous Updates:
-
-* 
 [nov 15]    〰Ray Tracing Ripples⛲ and 🎛Fluid Grid🌬
 
 [nov 04]     ⛲ Ripples 🌊 and 🌀 Rotations 🔄
-[nov 04]     〰Ray Tracing for Waves✨
+[nov 03]     〰Ray Tracing for Waves✨
 
 [nov 02]	Ray Tracing another start
 [nov 01]	Ray Tracing (failed and pushed back)
@@ -212,8 +184,4 @@
 [jan 29]	Update
 [jan 29]	LabStart
 [jan 29]	Initial commit
-
-
-
-
 
