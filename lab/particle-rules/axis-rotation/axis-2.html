@@ -36,6 +36,7 @@
         <div id="display"></div>
         <div class="x"></div>
     </div> -->
+    <!-- <canvas id="canvas-draw"></canvas> -->
     <canvas id="canvas"></canvas>
 </main>
 
@@ -109,6 +110,12 @@
         rotate: {
             degs: 5,
         },
+        view: {
+            idx: -1,
+            x: -1,
+            y: -1,
+        },
+        
 
         timeOut: 40,
         player: false,
@@ -539,6 +546,14 @@
         });
     }
     function start(){
+        // canvas["canvas-draw"].addEventListener("touchstart", handleStart, false);
+        // canvas["canvas-draw"].addEventListener("touchend", handleEnd, false);
+        // canvas["canvas-draw"].addEventListener("touchcancel", handleCancel, false);
+        // canvas["canvas-draw"].addEventListener("touchmove", handleMove, false);
+        canvas.addEventListener("touchstart", handleStart, false);
+        canvas.addEventListener("touchend", handleEnd, false);
+        canvas.addEventListener("touchcancel", handleCancel, false);
+        canvas.addEventListener("touchmove", handleMove, false);
         // create(10,"p","#fff");
         // let keys = Object.keys(gs);
         // keys.forEach(k=>{
@@ -746,11 +761,33 @@
             // if(event.key == '4') {rotateY(-45);}
             // if(event.key == '9') {rotateZ(45);}
             // if(event.key == '7') {rotateZ(-45);}
+            /*
+            key: 8 = keyCode: '104';
+            key: 2 = keyCode: '98';
+            key: 6 = keyCode: '102';
+            key: 4 = keyCode: '100';
+            key: 9 = keyCode: '105';
+            key: 7 = keyCode: '103';
+            
+            key: 0 = keyCode: '96';
+            key: 1 = keyCode: '97';
+            key: 3 = keyCode: '99';
+            key: 5 = keyCode: '101';
 
-            if(event.keyCode == '104') {rotateX(1 * s.rotate.degs);}
-            if(event.keyCode == '98') {rotateX(-1 * s.rotate.degs);}
-            if(event.keyCode == '102') {rotateY(1 * s.rotate.degs);}
-            if(event.keyCode == '100') {rotateY(-1 * s.rotate.degs);}
+            key: + = keyCode: '109';
+            key: - = keyCode: '107';
+            */
+
+            // if(event.keyCode == '104') {rotateX(1 * s.rotate.degs);}
+            // if(event.keyCode == '98') {rotateX(-1 * s.rotate.degs);}
+            // if(event.keyCode == '102') {rotateY(1 * s.rotate.degs);}
+            // if(event.keyCode == '100') {rotateY(-1 * s.rotate.degs);}
+            // if(event.keyCode == '105') {rotateZ(1 * s.rotate.degs);}
+            // if(event.keyCode == '103') {rotateZ(-1 * s.rotate.degs);}
+            if(event.keyCode == '104') {rotateX(-1 * s.rotate.degs);}
+            if(event.keyCode == '98') {rotateX(1 * s.rotate.degs);}
+            if(event.keyCode == '102') {rotateY(-1 * s.rotate.degs);}
+            if(event.keyCode == '100') {rotateY(1 * s.rotate.degs);}
             if(event.keyCode == '105') {rotateZ(1 * s.rotate.degs);}
             if(event.keyCode == '103') {rotateZ(-1 * s.rotate.degs);}
 
@@ -768,6 +805,178 @@
             }
         }
     });
+
+    /* ─── Event Handlers ─── */
+    var previousTouchEvent = '';
+    var ongoingTouches = [];
+    function copyTouch({ identifier, pageX, pageY }) {
+        return { identifier, pageX, pageY };
+    }
+    function ongoingTouchIndexById(idToFind) {
+        for (var i = 0; i < ongoingTouches.length; i++) {
+            var id = ongoingTouches[i].identifier;
+            if (id == idToFind) {
+                return i;
+            }
+        }
+        return -1;  // not found
+    }
+    function handleStart(ev) {
+        // console.log("touchstart.");
+        previousTouchEvent = "touchstart"
+        ev.preventDefault();
+        var touches = ev.changedTouches;
+        for (var i = 0; i < touches.length; i++) {
+            ongoingTouches.push(copyTouch(touches[i]));
+            
+            var idx = ongoingTouchIndexById(touches[i].identifier);
+            // rotationStart(idx,ongoingTouches[idx].pageX,ongoingTouches[idx].pageY);
+            if(s.view.idx == -1){s.view.idx = idx;}
+            if(s.view.idx == idx){
+                rotationStart(ongoingTouches[idx].pageX,ongoingTouches[idx].pageY);
+            }
+        }
+    }
+    function handleMove(ev) {
+        // console.log("touchmove.");
+        previousTouchEvent = "touchmove";
+        ev.preventDefault();
+        var touches = ev.changedTouches;
+        // console.log(touches);
+        let x = {};
+        let y = {};
+        for (var i = 0; i < touches.length; i++) {
+            var idx = ongoingTouchIndexById(touches[i].identifier);
+            if (idx >= 0) {
+
+                rotationMove(idx,ongoingTouches[idx].pageX,ongoingTouches[idx].pageY);
+
+                /* up to 6 fingers. */
+                // if(i < 6){
+                //     // console.log(`i:${i}, idx:${idx}`);
+                //     /* Adding the touches to the paths list. */
+                //     if(!Object.keys(s.touch.paths).includes(`${idx}`)){s.touch.paths[idx] = [];}
+                //     x[idx] = ongoingTouches[idx].pageX;
+                //     y[idx] = ongoingTouches[idx].pageY;
+                //     // console.log(`x:${x[idx]}, y:${y[idx]}`);
+                //     // console.log(`s.touch.paths[${idx}].length: ${s.touch.paths[idx].length};`);
+                //     if(s.touch.paths[idx].length > s.touch.path_len){s.touch.paths[idx].shift();}
+                //     s.touch.paths[idx].push({"x": x[idx], "y": y[idx]});
+                //     /* (End of) Adding the touches to the paths list. */
+
+                //     updateGrid(s.touch.paths[idx],s.grid.cols,s.grid.rows);
+                //     // updateGrid(wind_grid,s.touch.paths[idx]);
+                //     updateGridFlow(s.touch.paths[idx],flow.pile,flow.grid);
+                // }
+
+                ongoingTouches.splice(idx, 1, copyTouch(touches[i])); // swap in the new touch record
+            } else {
+                console.log("can't figure out which touch to continue");
+            }
+        }
+    }
+    function handleEnd(ev) {
+        // console.log("touchend.");
+        ev.preventDefault();
+        var touches = ev.changedTouches;
+        if(previousTouchEvent == "touchstart") {
+            for (var i = 0; i < touches.length; i++) {
+                var idx = ongoingTouchIndexById(touches[i].identifier);
+                if (idx >= 0) {
+                    x = ongoingTouches[idx].pageX;
+                    y = ongoingTouches[idx].pageY;
+                    // pulseAt(x,y);
+                } else {
+                    console.log("can't figure out which touch to end");
+                }
+            }
+        }
+        previousTouchEvent = "touchend";
+        for (var i = 0; i < touches.length; i++) {
+            var idx = ongoingTouchIndexById(touches[i].identifier);
+            if (idx >= 0) {
+                ongoingTouches.splice(idx, 1);  // remove it; we're done
+                if(Object.keys(s.touch.paths).includes(idx)){
+                    s.touch.paths[idx] = [];
+                }
+                rotationEnd(idx);
+            } else {
+                console.log("can't figure out which touch to end");
+            }
+        }
+    }
+    function handleCancel(ev) {
+        console.log("touchcancel.");
+        ev.preventDefault();
+        var touches = ev.changedTouches;
+        for (var i = 0; i < touches.length; i++) {
+            var idx = ongoingTouchIndexById(touches[i].identifier);
+            ongoingTouches.splice(idx, 1);  // remove it; we're done
+        }
+    }
+    
+    function rotationStart(idx,x,y){
+        if(s.view.idx == -1){s.view.idx = idx;}
+        if(s.view.idx == idx){
+            s.view.x = x;
+            s.view.y = y;
+        }
+    }
+    function rotationMove(idx,x,y){
+        if(s.view.idx == idx){
+            let dx = x - s.view.x;
+            let dy = y - s.view.y;
+            
+            // let r = s.z2;
+            // let rx = Math.round(dx % 360);
+            // let ry = Math.round(dy % 360);
+            
+            // rotateX(ry);
+            // rotateY(rx * -1);
+
+            rotateX(dy);
+            rotateY(dx * -1);
+
+            s.view.x += dx;
+            s.view.y += dy;
+        }
+    }
+    function rotationEnd(idx){
+        if(s.view.idx == idx){
+            s.view.idx = -1;
+            s.view.x = -1;
+            s.view.y = -1;
+        }
+    }
+
+    /*
+    // function rotationStart(x,y){}
+    // function rotationMove(x,y){}
+    // function rotationEnd(){}
+    rotating with touch.
+    start by saving the start location of where the touch starts.
+    save the idx for that touch, so it only follows that finger.
+
+    then, 
+    when moved, 
+        subtract the difference,
+        and add the rotation.
+
+    then, 
+    when touch ends,
+        refresh the touches idx and the location to -1.
+
+    (♦) if two fingers, 
+    then create a center between them. (this is the location.)
+    then save the location of the fingers 
+        (respective to the center) 
+        and their distance.
+
+    
+
+
+    */
+
 
     window.addEventListener('load', (ev) => {
         console.log(`Welcome to my Lab!`);

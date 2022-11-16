@@ -30,6 +30,8 @@
 ## Previous Updates:
 
 * 
+[nov 17]    
+[nov 16]    🎛Fluid Grid🌬
 [nov 15]    〰Ray Tracing Ripples⛲ and 🎛Fluid Grid🌬
 
 [nov 04]     ⛲ Ripples 🌊 and 🌀 Rotations 🔄

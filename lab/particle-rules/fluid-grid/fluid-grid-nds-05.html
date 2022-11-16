@@ -482,41 +482,6 @@ xAvg: ${xAvg.toFixed(2)}, yAvg: ${yAvg.toFixed(2)}`);
 
 
     /* ─── Drawing ─── */
-    function draw_lollipop(ctx,x0,y0,x1,y1,color="#fff9",size=2){
-        // ctx.fillStyle = "#0000";
-        ctx.strokeStyle = color;
-        ctx.lineWidth = size;
-        ctx.lineJoin = "round";
-        ctx.beginPath();
-        ctx.moveTo(x0,y0);
-        ctx.lineTo(x1,y1);
-        ctx.stroke();
-
-        ctx.fillStyle = color;
-        ctx.beginPath();
-        ctx.arc(x0, y0, size, 0, Math.PI * 2);
-        // ctx.arc(x1, y1, size, 0, Math.PI * 2);
-        // ctx.arc(x1, x1, size, 0, Math.PI * .5);
-        ctx.fill();
-    }
-    function draw_arrow(ctx,x0,y0,x1,y1,color="#fff9",size=2){
-        /* not working yet. it is missing the start of the arrow tip. */
-        // ctx.fillStyle = "#0000";
-        ctx.strokeStyle = color;
-        ctx.lineWidth = size;
-        ctx.lineJoin = "round";
-        ctx.beginPath();
-        ctx.moveTo(x0,y0);
-        ctx.lineTo(x1,y1);
-        ctx.stroke();
-
-        ctx.fillStyle = color;
-        ctx.beginPath();
-        ctx.arc(x1, y1, size, 0, Math.PI * 2);
-        /* The start of the arrow tip says 0 now, but it should be 45deg from where it lines up. */
-        // ctx.arc(x1, x1, size, 0, Math.PI * .5);
-        ctx.fill();
-    }
     function drawGrid(ctx,w,h){
         for (let y = 0; y <= h; y++) {
             for (let x = 0; x <= w; x++) {
@@ -530,50 +495,7 @@ xAvg: ${xAvg.toFixed(2)}, yAvg: ${yAvg.toFixed(2)}`);
                     grid[y][x].d = Math.sqrt(grid[y][x].x*grid[y][x].x+grid[y][x].y*grid[y][x].y);
                     // let d = Math.sqrt(grid[y][x].x*grid[y][x].x+grid[y][x].y*grid[y][x].y);
                     // let dd = (Math.log10(grid[y][x].d)) * 3;
-                    // let dd = (Math.log10(grid[y][x].d)) * 8;
-                    let dd = (Math.log10(grid[y][x].d)) * 4;
-                    
-                    let x1 = x * s.tile.w + s.tile.sz2;
-                    let y1 = y * s.tile.h + s.tile.sz2;
-                    let x2 = x1 + xy.x * (s.tile.sz2 + dd);
-                    let y2 = y1 + xy.y * (s.tile.sz2 + dd);
-
-                    // let hue = grid[y][x].d%360;
-                    // let hue = grid[y][x].d%180 * 2;
-                    // let hue = 240 + (grid[y][x].d%180 * 2);
-                    // let hue = 180 + (grid[y][x].d%180 * 2);
-                    // let hue = 240 - (grid[y][x].d%180 * 2);
-                    // let hue = 240 - (grid[y][x].d%120 * 3);
-                    let hue = 240 - (grid[y][x].d*2)%360;
-                    let clr = `hsla(${hue}, 100%, 40%, 1)`;
-                    // draw_line(ctx, x1, y1, x2, y2, clr, 2);
-                    
-                    // let sz = 2 + hue/100;
-                    // let sz = 5 + (grid[y][x].d%360)/15;
-                    // let sz = 2 + (grid[y][x].d%360)/100;
-                    let sz = 2 + (grid[y][x].d)/100;
-                    // draw_line(ctx, x1, y1, x2, y2, clr, sz);
-                    // draw_arrow(ctx, x1, y1, x2, y2, clr, sz);
-                    draw_lollipop(ctx, x1, y1, x2, y2, clr, sz);
-                }
-            }
-        }
-    }
-    function drawGrid2(ctx,w,h){
-        for (let y = 0; y <= h; y++) {
-            for (let x = 0; x <= w; x++) {
-                // grid[y].push({x:0,y:0,a:0,d:0});
-                let xx = Math.abs(grid[y][x].x);
-                let yy = Math.abs(grid[y][x].y);
-                if(xx > .001 || yy > .001){
-                    grid[y][x].a = XYtoCSSAngle(grid[y][x].x,grid[y][x].y);
-                    let xy = CSSAngleToXY(grid[y][x].a);
-
-                    grid[y][x].d = Math.sqrt(grid[y][x].x*grid[y][x].x+grid[y][x].y*grid[y][x].y);
-                    // let d = Math.sqrt(grid[y][x].x*grid[y][x].x+grid[y][x].y*grid[y][x].y);
-                    // let dd = (Math.log10(grid[y][x].d)) * 3;
-                    // let dd = (Math.log10(grid[y][x].d)) * 8;
-                    let dd = (Math.log10(grid[y][x].d)) * 4;
+                    let dd = (Math.log10(grid[y][x].d)) * 8;
                     
                     let x1 = x * s.tile.w;
                     let y1 = y * s.tile.h;
@@ -589,8 +511,7 @@ xAvg: ${xAvg.toFixed(2)}, yAvg: ${yAvg.toFixed(2)}`);
                     // draw_line(ctx, x1, y1, x2, y2, clr, 2);
                     
                     // let sz = 2 + hue/100;
-                    // let sz = 5 + (grid[y][x].d%360)/15;
-                    let sz = 2 + (grid[y][x].d%360)/30;
+                    let sz = 5 + (grid[y][x].d%360)/15;
                     draw_line(ctx, x1, y1, x2, y2, clr, sz);
                 }
             }
