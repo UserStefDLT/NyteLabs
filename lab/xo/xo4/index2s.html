@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>xo4 | xo | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    
+    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
+    <link rel="stylesheet" href="../../../stylesheets/deck.css">
+    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+    </style>
+    <style>
+        :root {
+            --clr-0: #06c;
+            --clr-1: #c00;
+
+            --turn-0: 'x';
+            --turn-1: 'o';
+
+            --shadow-turn-0: #06c6;
+            --shadow-turn-1: #c006;
+
+            
+            --clr-0: #f6c;
+            --clr-1: #c00;
+            --shadow-turn-0: #f6c6;
+            --shadow-turn-1: #c306;
+        }
+        main {
+            --turn: '';
+            --turn-clr: #fff9;
+            --turn-shadow: #9993;
+        }
+        main[data-turn='0'] {
+            --turn: var(--turn-0);
+            --turn-clr: var(--clr-0);
+            --turn-shadow: var(--shadow-turn-0);
+        }
+        main[data-turn='1'] {
+            --turn: var(--turn-1);
+            --turn-clr: var(--clr-1);
+            --turn-shadow: var(--shadow-turn-1);
+        }
+        .grid {
+            --tiles-per-col: 3; 
+            --tiles-per-row: 3;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            align-items: center;
+            justify-content: center;
+            outline: 2px dashed var(--turn-clr);
+            outline-offset: 6px;
+            border-radius: 0rem;
+
+            transform-style: preserve-3d;
+        }
+        .grid-row,
+        .row {
+            display: grid;
+            grid-template-columns: repeat(var(--tiles-per-row), 1fr);
+
+            align-items: center;
+            justify-content: center;
+        }
+        .tile {
+            position: relative;
+            min-width: 1rem;
+            min-height: 1rem;
+
+            width: 2rem; height: 2rem;
+            width: 1.5rem; height: 1.5rem;
+
+            background-color: #eee;
+            /* box-shadow: inset 0 0 1rem -.5rem #3339; */
+            /* margin: 1px; */
+            border: 1px solid #333;
+            box-sizing: border-box;
+            font-size: 20px;
+            font-size: 16px;
+
+            outline: 1px dashed #1110;
+            outline-offset: -2px;
+            user-select: none;
+        }
+        /* .tile:hover {
+            outline: 1px dashed #1119;
+            outline: 1px dashed var(--turn-shadow);
+            outline-offset: -2px;
+        } */
+
+        .tile[data-tile='o'] {--clr: #c00;}
+        .tile[data-tile='x'] {--clr: #06c;}
+        .tile[data-tile='o']::after {content: 'o'; --clr: #c00;}
+        .tile[data-tile='x']::after {content: 'x'; --clr: #06c;}
+
+        .tile[data-tile='x']::after,
+        .tile[data-tile='o']::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            color: var(--clr);
+            font-weight: bold;
+            /* text-shadow: 1px 1px 2px #1116;
+            text-shadow: 1px 1px 2px #1113, 0px 0px 0px var(--clr); */
+            transition: text-shadow 200ms ease-in-out;
+        }
+        /* .tile[data-tile='x']:hover::after,
+        .tile[data-tile='o']:hover::after {
+            text-shadow: 0px 0px 4px var(--clr);
+            text-shadow: 1px 1px 1px #1119;
+            text-shadow: 1px 1px 2px #1116, 0px 0px 4px var(--clr);
+            text-shadow: 1px 1px 1px #1116, 0px 0px 1px var(--clr);
+        } */
+
+        .tile[data-tile='empty']:hover {
+            cursor: pointer;
+        }
+        .tile[data-tile='x']:hover,
+        .tile[data-tile='o']:hover {
+            /* outline: 1px dashed var(--clr); */
+            /* outline-offset: -2px; */
+            cursor: none;
+            cursor: auto;
+            cursor: not-allowed;
+        }
+
+        /* main[data-turn='0'] .tile::before {content: 'x'; color: #0000;}
+        main[data-turn='1'] .tile::before {content: 'o'; color: #0000;} */
+        /* main[data-turn='0'] .tile:hover::before {content: 'x'; color: #0000;}
+        main[data-turn='1'] .tile:hover::before {content: 'o'; color: #0000;} */
+
+        main[data-turn='0'] .tile:not([data-tile='o'],[data-tile='x']):hover::before {content: 'x';}
+        main[data-turn='1'] .tile:not([data-tile='o'],[data-tile='x']):hover::before {content: 'o';}
+
+        main[data-turn='0'] .tile:hover::before,
+        main[data-turn='1'] .tile:hover::before {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            color: var(--turn-shadow);
+            font-weight: bold;
+            /* text-shadow: 1px 1px 1px #1113; */
+            transition: text-shadow 200ms ease-in-out;
+            /* transition: color 200ms ease-in-out, text-shadow 200ms ease-in-out; */
+        }
+
+        .xoBtn {
+            position: absolute;
+            top: -4px; left: 100%;
+            margin: -.25rem .5rem;
+            padding: .25rem .5rem;
+            border-radius: .25rem;
+            /* background-color: var(--shadow-clr); */
+            background-color: var(--turn-shadow);
+            color: #fff;
+            /* text-shadow: 1px 1px 1px #1119; */
+            border: 1px outset var(--turn-clr);
+            cursor: pointer;
+            /* box-shadow: 0 0 0rem 0rem var(--turn-shadow);
+            box-shadow: 0 0 .25rem 0rem var(--turn-clr); */
+            transition: box-shadow 200ms ease-in-out;
+            user-select: none;
+        }
+        /* .xoBtn:hover {
+            box-shadow: 0 0 .25rem .25rem var(--turn-shadow);
+            box-shadow: 0 0 .5rem .125rem var(--turn-clr);
+        } */
+
+        .game-result {
+            --rotateY: 180deg;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            height: 60%; width: 60%;
+            height: 40%; width: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+
+            border: 1px outset #fff;
+            background-color: #ddd0;
+            background-color: #ddd9;
+            box-shadow: .25rem .25rem .25rem .25rem #1119;
+            box-shadow: 0.5rem 0.5rem 0.75rem -0.25rem #1119;
+            color: var(--turn-clr);
+            text-shadow: 1px 1px 1px #1113;
+            text-shadow: 1px 1px 1px #111;
+            
+            transform-style: preserve-3d;
+            transform-origin: 50% 50%;
+            transform: translateX(-50%) translateY(-50%) perspective(3000px) rotate3d(0,1,0,var(--rotateY)) translateZ(300px);
+
+            user-select: none;
+            transition: transform 900ms ease-out;
+        }
+        .game-result::before,
+        .game-result::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            height: 100%; width: 100%;
+            background-color: #ddd2;
+            backface-visibility: hidden;
+        }
+        .game-result::before {
+            transform: translateX(-50%) translateY(-50%) perspective(3000px) translateZ(-1px);
+            backdrop-filter: blur(2px);
+        }
+        .game-result::after {
+            transform: translateX(-50%) translateY(-50%) perspective(3000px) rotate3d(0,1,0,180deg) translateZ(2px);
+        }
+
+        #gResTurn {
+            position: relative;
+            box-sizing: border-box;
+            min-height: 1rem; min-width: 1rem;
+            height: max-content;
+            width: max-content;
+
+            margin: 0.25rem 0.5rem;
+            /* padding: 0.125rem 0.5rem; */
+            /* border: 4px ridge var(--turn-clr);
+            font-weight: bold;
+            text-shadow: 1px 1px 0px #111c;
+            transition: border 50ms ease-in-out; */
+        }
+        #gResTurn::after {
+            /* position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            min-height: 100%; min-width: 100%; */
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* margin: 0.25rem 0.5rem; */
+            /* padding: 0.125rem 0.5rem; */
+            padding: 0.5rem;
+            border: 4px ridge var(--turn-clr);
+            text-shadow: 1px 1px 0px #111c;
+            transition: border 50ms ease-in-out;
+        }
+
+    </style>
+    <style>
+        :root {
+            --turn-0: 'x';
+            --turn-1: 'o';
+
+            --clr-0: #06c;
+            --clr-1: #c00;
+            --shadow-turn-0: #06c6;
+            --shadow-turn-1: #c006;
+        }
+        #gResTurn[data-res='x']::after,
+        .tile[data-tile='x']::after, 
+        main[data-turn='0'] .tile:not([data-tile='o'],[data-tile='x']):hover::before {content: 'X';}
+        #gResTurn[data-res='o']::after,
+        .tile[data-tile='o']::after,
+        main[data-turn='1'] .tile:not([data-tile='o'],[data-tile='x']):hover::before {content: 'O';}
+        /* #gResTurn::after {padding: 0.125rem 0.5rem;} */
+        #gResTurn::after {padding: 0.125rem 0.75rem;}
+
+        /* :root {
+            --clr-0: #f6c;
+            --clr-1: #c00;
+            --shadow-turn-0: #f6c6;
+            --shadow-turn-1: #c306;
+        }
+        #gResTurn[data-res='x']::after,
+        .tile[data-tile='x']::after,
+        main[data-turn='0'] .tile:not([data-tile='o'],[data-tile='x']):hover::before {content: '🧠';}
+        #gResTurn[data-res='o']::after,
+        .tile[data-tile='o']::after,
+        main[data-turn='1'] .tile:not([data-tile='o'],[data-tile='x']):hover::before {content: '🧡';}
+        #gResTurn::after {padding: 0.5rem;} */
+        
+
+        /* :root {
+            --clr-0: #c6c;
+            --clr-1: #cc3;
+            --shadow-turn-0: #c6c6;
+            --shadow-turn-1: #cc36;
+        }
+        #gResTurn[data-res='x']::after,
+        .tile[data-tile='x']::after,
+        main[data-turn='0'] .tile:not([data-tile='o'],[data-tile='x']):hover::before {content: '🎆';}
+        #gResTurn[data-res='o']::after,
+        .tile[data-tile='o']::after,
+        main[data-turn='1'] .tile:not([data-tile='o'],[data-tile='x']):hover::before {content: '🎇';}
+        #gResTurn::after {padding: 0.5rem;} */
+        
+
+
+        .tile[data-tile='x'],
+        .tile[data-tile='x']::after {--clr: var(--clr-0);}
+        .tile[data-tile='o'],
+        .tile[data-tile='o']::after {--clr: var(--clr-1);}
+    </style>
+    <style>
+        @media (max-width: 540px){
+            .tile {
+                width: 1.5rem;
+                height: 1.5rem;
+            }
+            header > .title {
+                min-width: 50px;
+            }
+        }
+        @media (max-width: 420px){
+            :root {
+                font-size: 12px;
+            }
+            /* .tile:hover {
+                outline: 0px dashed #0000;
+                outline-offset: 0px;
+            }
+            .xoBtn:hover {
+                box-shadow: 0 0 0rem 0rem transparent;
+            }
+            .tile[data-tile='x']:hover::after,
+            .tile[data-tile='o']:hover::after {
+                text-shadow: 1px 1px 1px #1113, 0px 0px 0px var(--clr);
+            }
+            main[data-turn='0'] .tile:not([data-tile='o'],[data-tile='x']):hover::before {display: none;}
+            main[data-turn='1'] .tile:not([data-tile='o'],[data-tile='x']):hover::before {display: none;} */
+        }
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <div class="title">xo4</div>
+        <!-- <div class="subtitle">subtitle</div> -->
+        <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div>
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+
+<main>
+    <div class="shelf">
+        <div class="shelf-title">5 in a row <button id='reset' class="xoBtn">Reset</button></div>
+        <div id="display"></div>
+    </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        const s = {
+            'player': ['x','o'],
+            'w': 12,
+            'h': 16,
+            'z': 0
+        }
+        const ss = {
+            'x': 0,
+            'y': 0,
+            'turn': 0,
+            'ActiveGame': true
+        }
+        const tokens = {
+            0:  ['x','o'],
+            1:  ['🥗','🍩'],
+            2:  ['🧠','🧡'],
+            3:  ['🧛','🧝'],
+            4:  ['🦄','🐲'],
+            5:  ['🤖','👽'],
+            6:  ['🥓','🍟'],
+            7:  ['🍎','🍏'],
+            8:  ['🍓','🍌'],
+            9:  ['🍉','🍍'],
+            10:  ['🎆','🎇']
+        }
+        // const map  = [];
+
+        class xoMap {
+            constructor(xlen, ylen, val='.'){
+                this.map = [];
+                this.xlen = xlen;
+                this.ylen = ylen;
+                this.val = val;
+
+                this.buildMap(this.val);
+            }
+            buildMap(val = this.val){
+                for(let y = 0; y < this.ylen; y++) {
+                    this.map.push([]);
+                    for(let x = 0; x < this.xlen; x++) {
+                        this.map[y].push(val);
+                    }
+                }
+            }
+            inMap(x,y){
+                if(x >= this.xlen || y >= this.ylen || x < 0 || y < 0){
+                    return false;
+                } else { return true; }
+            }
+            getXY(x,y){
+                if(this.inMap(x,y)){
+                    return this.map[y][x];
+                } else {
+                    return -1;
+                }
+            }
+            setXY(x,y,val){
+                if(this.inMap(x,y)){
+                    this.map[y][x] = val;
+                }
+            }
+            reset(xlen = this.xlen, ylen = this.ylen, val = this.val){
+                this.map = [];
+                this.xlen = xlen;
+                this.ylen = ylen;
+                this.val = val;
+                this.buildMap();
+            }
+            print(){
+                console.table(this.map);
+            }
+        }
+        var map = new xoMap(s.w,s.h);
+
+        function MakeGridOf(h,w,val = 0){
+            let grid = [];
+            for(let y = 0; y < h; y++) {
+                grid.push([]);
+                for(let x = 0; x < w; x++) {
+                    // grid[y].push([]);
+                    // grid[y][x] = val;
+                    grid[y].push(val);
+                }
+            }
+            return grid;
+        }
+
+        function VictoryCheck(x,y,turn){
+            // console.log(`VictoryCheck(x:${x},y:${y},turn:${turn})`);
+            let victory = false;
+            let lines = {
+                82: [], 46: [],
+                73: [], 91: []
+            }
+            let ny = y-4;
+            let nx = x-4;
+            let nx2 = x+4;
+            for(let i=0;i<9;i++){
+                lines[46].push(map.getXY(nx+i,y));
+                lines[82].push(map.getXY(x,ny+i));
+                lines[73].push(map.getXY(nx+i,ny+i));
+                lines[91].push(map.getXY(nx2-i,ny+i));
+            }
+            let regex = new RegExp(`${turn}{5}`, 'g');
+            Object.keys(lines).forEach(key => {
+                if(!victory){
+                    let line = lines[key].join('');
+                    // console.log(`\tline: '${line}'`);
+                    let victoryCheck = regex.test(line);
+                    // console.log(`victory: ${victoryCheck}.`);
+                    if(victoryCheck) {
+                        victory = victoryCheck;
+                    }
+                }
+            });
+            return victory;
+        }
+
+        function UpdateTurn(){
+            // ss.turn ? ss.turn = 0 : ss.turn = 1;
+            // let main = document.getElementById('main');
+            let main = document.getElementsByTagName('main')[0];
+            main.dataset.turn = ss.turn;
+        }
+        function ResetDisplay(){
+            let xMarks = document.querySelectorAll(`[data-tile='x']`);
+            for (let x = 0; x < xMarks.length; x++) {
+                const element = xMarks[x];
+                element.dataset.tile = 'empty';
+            }
+            let oMarks = document.querySelectorAll(`[data-tile='o']`);
+            for (let o = 0; o < oMarks.length; o++) {
+                const element = oMarks[o];
+                element.dataset.tile = 'empty';
+            }
+            let gRes = document.getElementById('gRes');
+            gRes.style = `--rotateY: 180deg;`;
+        }
+        function PlayerMove(ev){
+            let elem = ev.target;
+            if(ss.ActiveGame){
+                // console.log(`${s.player[ss.turn]} → (${elem.dataset.x},${elem.dataset.y})`);
+                if(elem.dataset.tile == 'empty'){
+                    ss.x = parseInt(elem.dataset.x);
+                    ss.y = parseInt(elem.dataset.y);
+                    let turn = s.player[ss.turn];
+                    map.setXY(ss.x,ss.y,turn);
+                    elem.dataset.tile = turn;
+
+                    if(VictoryCheck(ss.x,ss.y,turn)){
+                        console.log(`player '${turn}' won!`);
+                        let gResTurn = document.getElementById('gResTurn');
+                        // gResTurn.innerText = turn;
+                        gResTurn.dataset.res = turn;
+
+                        let gRes = document.getElementById('gRes');
+                        gRes.style = `--rotateY: 0deg;`;
+
+                        ss.ActiveGame = false;
+                    } else {
+                        ss.turn ? ss.turn = 0 : ss.turn = 1;
+                        UpdateTurn();
+                    }
+                    // console.log(`─────────────────────────────`);
+                }
+            }
+        }
+
+        function tileClick(ev){
+            // console.log(ev.target);
+            // console.log(`(${ev.target.dataset.x},${ev.target.dataset.y})`);
+        }
+
+        function BuildGrid(w=3,h=3){
+            let grid = document.createElement('div');
+            grid.classList.add('grid');
+            grid.id="GridMap";
+            grid.style = `--tiles-per-col: ${h}; --tiles-per-row: ${w};`;
+            
+            for (let y = 0; y < h; y++) {
+                let row = document.createElement('div');
+                row.classList.add('grid-row');
+                for (let x = 0; x < w; x++) {
+                    let tile = document.createElement('div');
+                    tile.classList.add('tile');
+                    tile.id = `y${y},x${x}`;
+                    tile.dataset.yx = `${y},${x}`;
+                    // tile.dataset.yx = `${y}-${x}`;
+
+                    tile.dataset.y = `${y}`;
+                    tile.dataset.x = `${x}`;
+                    tile.dataset.tile = `empty`;
+
+                    // tile.addEventListener('click', tileClick);
+                    tile.addEventListener('click', PlayerMove);
+                    row.appendChild(tile);
+                }
+                grid.appendChild(row);
+            }
+
+            let gRes = document.createElement('div');
+            gRes.id = 'gRes';
+            gRes.classList.add('game-result');
+            gRes.innerHTML = `Player <span id='gResTurn'></span> Won!`;
+            // gRes.innerHTML = `<p>Player <span id='gResTurn'></span></p> <p>Won!</p>`;
+            // gRes.innerHTML = `<div>Player <span id='gResTurn'></span></div> <div>Won!</div>`;
+            grid.appendChild(gRes);
+            return grid;
+        }
+
+
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            // map = MakeGridOf(s.w,s.h,'');
+            // map = new xoMap(s.w,s.h);
+            // map.reset();
+            // map.print();
+            let displayElem = document.getElementById('display');
+            displayElem.appendChild(BuildGrid(s.w,s.h));
+
+            UpdateTurn();
+            let resetBtn = document.getElementById('reset');
+            resetBtn.addEventListener('click', (ev) => {
+                ss.turn = 0;
+                map.reset();
+                ResetDisplay();
+                UpdateTurn();
+                ss.ActiveGame = true;
+            });
+        });
+
+        // var possibleTokens = `
+        // 🥗🍩
+        // 🧠🧡
+        // 🧛🧝
+        // 🦄🐲
+        // 🤖👽
+        // 🥓🍟
+
+        // 🍎🍏
+        // 🍓🍌
+        // 🍉🍍
+        
+        // 🍒🍇
+        // 🍐🍊
+
+        // ──
+
+        // 🛸🤖👽👻🚀
+
+        // 🥗🍩
+        // 🍪🍫🍬🍭
+
+        // 🥔🥚
+        // 🥓🍟
+        // 🥧🎂🍰
+        // 🍔🍕🌭🌮🌯
+
+        // 🍍🍎🍏🍇🍓🍐🍑🍊
+        // 🍒🍉🍌
+        // 🥑🌽
+        // 🍄
+
+        // 🦄🐲
+        // 🦈🦑
+        // 🦖
+        // 🦏🦌
+        // 🦉🦔
+        // 🦕🐳
+        // 🐢🐊
+        // 🐞🦋
+        // 🐙🐇
+        // 🐈🐱🐶🐕
+        // 🐧
+        // 🐡
+        // 🐒🐓🐖
+        // 🐛🐜
+        // 🐸🐼🐘
+        // 🐺🦁
+
+        // 🧙🧚🧛🧜🧝🧞🧟
+
+        // 🧠🧡
+        // 🔥🔱🔮
+        // 👾💀
+        // 🏰🏹
+        // 🎨🎸
+        // 🎲🎮
+        // 🎃🎄
+
+        // 🎆🎇
+        // 🎈🎁
+
+        // 🌟🌠
+        // 🌞🌚
+        // 🌙🌑
+
+        // 🌈🌊
+        // 🌌🌀
+
+        // 🅰🅱🅾
+        // ⭐⚡✨
+        // ⭕❌
+
+        // ⛄🍂
+        
+        // 🥦🥩
+        // `;
+
+    </script>
+</body>
+</html>

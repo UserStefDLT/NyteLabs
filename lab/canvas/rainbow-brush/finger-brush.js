@@ -202,6 +202,13 @@ function handleStart(evt) {
     var touches = evt.changedTouches;
     for (var i = 0; i < touches.length; i++) {
         ongoingTouches.push(copyTouch(touches[i]));
+
+        var idx = ongoingTouchIndexById(touches[i].identifier);
+        if(!Object.keys(touchLog).includes(`${idx}`)) {
+            console.log(` ♦•♦ index: ${idx+1} is out of limit.`);
+            touchLog[idx] = [];
+            console.log(` ♦└♦ adding new finger #${idx+1}, you monster!`);
+        }
     }
 }
 function handleMove(evt) {
@@ -210,11 +217,11 @@ function handleMove(evt) {
     // console.log(touches);
     for (var i = 0; i < touches.length; i++) {
         var idx = ongoingTouchIndexById(touches[i].identifier);
-        if(!Object.keys(touchLog).includes(`${idx}`)) {
-            console.log(` ♦•♦ index: ${idx+1} is out of limit.`);
-            touchLog[idx] = [];
-            console.log(` ♦└♦ adding new finger #${idx+1}, you monster!`);
-        }
+        // if(!Object.keys(touchLog).includes(`${idx}`)) {
+        //     console.log(` ♦•♦ index: ${idx+1} is out of limit.`);
+        //     touchLog[idx] = [];
+        //     console.log(` ♦└♦ adding new finger #${idx+1}, you monster!`);
+        // }
         if(touchLog[idx].length > 50) touchLog[idx].shift();
         touchLog[idx].push([touches[i].pageX,touches[i].pageY]);
         paintBrush3(touches[i].pageX,touches[i].pageY,idx);
