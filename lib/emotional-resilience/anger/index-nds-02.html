@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Underlying Emotions and Feelings | Anger</title>
+    <link rel="stylesheet" href="../../../stylesheets/i.css">
+    <style>
+        :root {
+            --bwt: #0000;
+            --bw0: #000;
+            --bw1: #111;
+            --bw2: #222;
+            --bw3: #333;
+            --bw4: #444;
+            --bw5: #555;
+            --bw6: #666;
+            --bw7: #777;
+            --bw8: #888;
+            --bw9: #999;
+            --bwa: #aaa;
+            --bwb: #bbb;
+            --bwc: #ccc;
+            --bwd: #ddd;
+            --bwe: #eee;
+            --bwf: #fff;
+            
+            --bw1c: #111c;
+            --bwf9: #fff9;
+            --bw9: #999;
+            --bw99: #9999;
+            --clr-t: transparent;
+        }
+        body {
+            background-color: #111;
+            color: #eee;
+            margin: 0;
+        }
+        main {}
+        main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        main {
+            position: relative;
+            min-height: 10vmin;
+            border-radius: 5px;
+            width: 95vw;
+            margin: 3vmin auto;
+
+            flex-direction: column;
+            justify-content: flex-start;
+            /* overflow: scroll; */
+        }
+    </style>
+    <style>
+        .list {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        .uef-title {
+            /* font-weight: bold; */
+            font-size: 20px;
+            background: #39f0;
+            padding: 4px 8px;
+        }
+
+        .uef-group {
+            /* --ghue: calc(var(--i) * 50);
+            --bg: hsla(50,60%,60%,1);
+            --bg: hsla(50,60%,10%,1);
+            --bg: hsla(210,60%,15%,1);
+            --bg: hsla(210,30%,15%,1);
+            --bg: hsla(210,30%,20%,1);
+            --bg: hsla(210,40%,35%,1);
+            --bg: hsla(210,60%,60%,1);
+            --bg: hsla(210,100%,60%,1);
+            --clr: hsla(var(--ghue),60%,60%,1);
+            --bg: hsla(var(--ghue),30%,20%,1);
+            --bg-2: hsla(var(--ghue),40%,35%,1); */
+            /* --clr-s: hsla(var(--ghue),60%,40%,1); */
+            
+            --ghue: calc(var(--i) * 45);
+            --clr: hsla(var(--ghue),60%,60%,1);
+            --bg: hsla(var(--ghue),30%,15%,1);
+            --bg-2: hsla(var(--ghue),40%,30%,1);
+
+            --clr-s: hsla(var(--ghue),60%,60%,.5);
+        }
+        
+        .uef-group {
+            min-width: 200px;
+            height: max-content;
+            width: max-content;
+            background: #39f3;
+            background-color: var(--bg);
+            color: var(--clr);
+            /* border-top: 2px solid #39fc;
+            border-bottom: 2px solid #39fc; */
+            box-shadow: 0 0 2px 1px;
+            box-shadow: 0 -1px 2px 1px, 0 1px 2px 1px;
+            box-shadow: 0 0 1px 1px;
+            margin: .5rem;
+
+            transition: box-shadow 100ms ease-in-out;
+        }
+        .uef-group:hover {
+            box-shadow: 0 0 2px 2px;
+        }
+        .uef-group-title {
+            font-weight: bold;
+            font-size: 18px;
+            background: #39f6;
+            background-color: hsla(var(--ghue),40%,35%,1);
+            background-color: var(--bg-2);
+            color: #fff;
+            padding: 4px 8px;
+        }
+        /* .row {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            flex-wrap: wrap;
+            padding: 4px 8px;
+        } */
+        .row {
+            position: relative;
+            display: grid;
+            /* grid-template-columns: 18px 1fr 18px; */
+            /* grid-template-columns: 1fr 2fr 1fr; */
+            grid-template-columns: 1fr minmax(80px, 150px) 1fr;
+            /* grid-template-columns: 1fr min-content 1fr; */
+            /* display: flex; */
+            /* align-items: center; */
+            /* justify-content: center; */
+            /* flex-direction: row; */
+            padding: 4px 8px;
+        }
+        .uef-label {
+            /* margin-left: 6px; */
+            user-select: none;
+        }
+        .description {display:none;}
+        /* label:hover ~ .description, */
+        .info:hover ~ .description {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 120px;
+            max-width: 100%;
+            width: 100%;
+            box-sizing: border-box;
+            top: 100%; left: 0%;
+            background-color: #39f9;
+            background-color: #111c;
+            background-color: #111;
+            color: hsla(50,60%,60%,1);
+            color: hsla(var(--ghue),60%,60%,1);
+            /* border: 2px solid var(--clr);
+            border-left: 1px solid var(--clr);
+            border-right: 1px solid var(--clr); */
+            padding: .25rem;
+
+            box-shadow: 
+            inset 0 -1px 1px var(--clr),
+            inset 0 1px 1px var(--clr);
+            z-index: 5;
+        }
+
+        :root {
+            --clr-0: #0000;
+            --clr-1: #00f6;
+            --clr-1: #ff0f;
+            --clr-2: #fff0;
+            --bgi-x: 
+            linear-gradient(90deg, var(--clr-0) 40%, var(--clr-1) 40%, var(--clr-1) 45%, var(--clr-2) 45%, var(--clr-2) 55%, var(--clr-1) 55%, var(--clr-1) 60%, var(--clr-0) 60%),
+            conic-gradient(
+                #3f9 0deg 90deg, 
+                #f93 90deg 180deg, 
+                #39f 180deg 270deg, 
+                #f39 270deg 360deg
+            );
+        }
+        
+        .info {
+            position: relative;
+            /* font-size: 16px; */
+            height: 1em; 
+            width: 1em;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid hsla(var(--ghue),60%,60%,.5);
+            color: hsla(var(--ghue),60%,60%,.5);
+            /* border: 1px solid var(--bw0); */
+            /* border: .0625em solid var(--bw0); */
+            /* color: var(--bw0); */
+            /* background-image: var(--bgi-x); */
+
+            border-radius: 50%;
+            margin: 0rem .25rem;
+            transition: color 200ms ease-in-out, border 200ms ease-in-out, box-shadow 200ms ease-in-out;
+
+            cursor: help;
+            user-select: none;
+        }
+        .info:hover {
+            border: 1px solid hsla(var(--ghue),60%,60%,.85);
+            color: hsla(var(--ghue),60%,60%,.85);
+            box-shadow: 0 0 2px 1px hsla(var(--ghue),70%,60%,.5);
+        }
+        /* .info > span {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            color: #000;
+            height: 100%; width: 100%;
+            z-index: 2;
+        } */
+
+
+        .info2 {
+            position: relative;
+            height: 1rem; 
+            width: 1rem;
+            /* padding: .125rem .4rem; */
+            /* height: max-content;  */
+            /* width: max-content; */
+            /* padding: 0px 7px; */
+            /* transform: scale(3); */
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid;
+            color: hsla(var(--ghue),60%,60%,.5);
+            border-radius: 50%;
+            margin: 0rem .25rem;
+            transition: color 100ms ease-in-out;
+            cursor: help;
+            user-select: none;
+            text-align: center;
+            background: transparent;
+
+            /* background-image: linear-gradient(#000 50%, #fff 50%); */
+            /* background-image: linear-gradient(#f00 50%, #fff 50%); */
+            /* background-image: linear-gradient(90deg, #f00 48%, #fff 48%, #fff 52%, #f00 52%); */
+            /* background-image: linear-gradient(90deg, #f00 46%, #fff 46%, #fff 54%, #f00 54%); */
+            /* background-image: linear-gradient(90deg, #f00 45%, #fff 45%, #fff 55%, #f00 55%); */
+            /* background-image: 
+            linear-gradient(90deg, #0000 40%, #0006 40%, #0006 45%, #fff9 45%, #fff9 55%, #0006 55%, #0006 60%, #0000 60%),
+            conic-gradient(
+                #f93 0deg 90deg, 
+                #3f9 90deg 180deg, 
+                #39f 180deg 270deg, 
+                #f39 270deg 360deg
+            ),
+            linear-gradient(90deg, #f00 45%, #fff 45%, #fff 55%, #f00 55%);
+            --clr-0: #0000;
+            --clr-1: #00f6;
+            --clr-1: #ff0f;
+            --clr-2: #fff9;
+            background-image: 
+            linear-gradient(90deg, var(--clr-0) 40%, var(--clr-1) 40%, var(--clr-1) 45%, var(--clr-2) 45%, var(--clr-2) 55%, var(--clr-1) 55%, var(--clr-1) 60%, var(--clr-0) 60%),
+            conic-gradient(
+                #f93 0deg 90deg, 
+                #3f9 90deg 180deg, 
+                #39f 180deg 270deg, 
+                #f39 270deg 360deg
+            );
+            background-image: 
+            linear-gradient(90deg, var(--clr-0) 40%, var(--clr-1) 40%, var(--clr-1) 45%, var(--clr-2) 45%, var(--clr-2) 55%, var(--clr-1) 55%, var(--clr-1) 60%, var(--clr-0) 60%),
+            conic-gradient(
+                #3f9 0deg 90deg, 
+                #f93 90deg 180deg, 
+                #39f 180deg 270deg, 
+                #f39 270deg 360deg
+            ); */
+
+            border: 1px solid hsla(var(--ghue),60%,60%,.5);
+            border: 1px solid #000;
+            color: #0000;
+        }
+        .info2:hover {
+            /* --clr-s: hsla(var(--ghue),60%,60%,.85); */
+            color: hsla(var(--ghue),60%,60%,.85);
+        }
+        .info2::before {
+            content: 'i';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            color: #000;
+            height: 100%; width: 100%;
+            z-index: 2;
+        }
+        .info2::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            color: #000;
+            height: 100%; width: 100%;
+
+            --clr-0: #0000;
+            --clr-1: #00f6;
+            --clr-1: #ff0f;
+            --clr-2: #fff0;
+            background-image: 
+            linear-gradient(90deg, var(--clr-0) 40%, var(--clr-1) 40%, var(--clr-1) 45%, var(--clr-2) 45%, var(--clr-2) 55%, var(--clr-1) 55%, var(--clr-1) 60%, var(--clr-0) 60%),
+            conic-gradient(
+                #3f9 0deg 90deg, 
+                #f93 90deg 180deg, 
+                #39f 180deg 270deg, 
+                #f39 270deg 360deg
+            );
+        }
+        
+        header {
+            padding: 0rem 1rem;
+        }
+        
+    </style>
+        
+</head>
+<body>
+    <header>
+        <h1>Emotional Resilience</h1>
+        <h2>Anger: Underlying Emotions and Feelings</h2>
+        <!-- <h2>Anger</h2>
+        <h3>Underlying Emotions and Feelings</h3> -->
+    </header>
+
+    <!-- <div class="uef-row">
+        <input type="checkbox" class="" id="uef-hunger"/>
+        <label for="uef-hunger">Hunger</label>
+        <div class="description">
+        
+        </div>
+    </div> -->
+
+    <!-- <main>
+        <div id="display"></div>
+    </main> -->
+    <main id="display">
+    </main>
+
+    <!-- <div class="list">
+        <div class="uef-group">
+            <div class="uef-group-title">Physical</div>
+            <div class="row">
+                <input type="checkbox" class="uef-check" id="uef-hunger"/>
+                <label class="uef-label" for="uef-hunger">Hunger</label>
+            </div>
+            <div class="row">
+                <input type="checkbox" class="uef-check" id="uef-fatigue"/>
+                <label class="uef-label" for="uef-fatigue">Fatigue</label>
+            </div>
+        </div>
+        
+        <div class="uef-group">
+            <div class="uef-group-title">Future</div>
+            <div class="row">
+                <input type="checkbox" class="uef-check" id="uef-afraid"/>
+                <label class="uef-label" for="uef-afraid">Afraid</label>
+            </div>
+            <div class="row">
+                <input type="checkbox" class="uef-check" id="uef-anxious"/>
+                <label class="uef-label" for="uef-anxious">Anxious</label>
+                <div class="description">experiencing worry, unease, or nervousness, typically about an imminent event or something with an uncertain outcome.</div>
+            </div>
+            <div class="row">
+                <input type="checkbox" class="uef-check" id="uef-worried"/>
+                <label class="uef-label" for="uef-worried">Worried</label>
+            </div>
+        </div>
+        
+    </div> -->
+
+
+<script>
+    const uef = {
+        Physical: {
+            "Hunger":"",
+            "Fatigue":"Feeling overtired, with low energy and a strong desire to sleep that interferes with normal daily activities.",
+        },
+        Future: {
+            "Afraid":"",
+            "Anxious":"experiencing worry, unease, or nervousness, typically about an imminent event or something with an uncertain outcome.",
+            "Nervous":"easily agitated or alarmed; tending to be anxious; highly strung.",
+            "Worried":"anxious or troubled about actual or potential problems.",
+            "Threatened":"",
+            "Hopeless":"feeling or causing despair about something.",
+        },
+        Past: {
+            "Disappointed":"",
+            "Unmet expectations":"",
+            "Frustrated":"",
+        },
+        Present: {
+            "Grief":"",
+            "Overwhelmed":"",
+        },
+        Interactions: {
+            "Rejected":"dismiss as inadequate, inappropriate, or not to one's taste.",
+            "Offended":"",
+            "Victimized":"",
+        },
+        Self: {
+            "Ashamed":"embarrassed or guilty because of one's actions, characteristics, or associations.",
+            "Guilty":"culpable of or responsible for a specified wrongdoing.",
+            "Embarrassed":"a feeling of self-consciousness, shame, or awkwardness.",
+            "Inferior":"",
+        },
+        Lingering:{
+            "Resentful":"feeling or expressing bitterness or indignation at having been treated unfairly.",
+            "Heartbroken":"(of a person) suffering from overwhelming distress; very upset.",
+            "Hurt":"",
+            "Lonely":"",
+        },
+        Other: {
+            "Insensitive":"",
+            "Entitled":"believing oneself to be inherently deserving of privileges or special treatment.",
+            "Injustice":"",
+        }
+    }
+    function BuildUndef(uef){
+        // let gkeys = Object.keys(uef);
+
+        let uefList = document.createElement('div');
+        uefList.classList.add('list');
+        Object.keys(uef).forEach(group => {
+            let uefg = document.createElement('div');
+            uefg.classList.add('uef-group');
+            let uefgt = document.createElement('div');
+            uefgt.classList.add('uef-group-title');
+            uefgt.innerText = group;
+            uefg.appendChild(uefgt);
+
+// `<div class="uef-group">
+//     <div class="uef-group-title">${group}</div>`
+            let uefgList = [];
+            // uef[key].forEach(ef=>{
+            Object.keys(uef[group]).forEach(ef => {
+                let desc = uef[group][ef];
+                if(uef[group][ef] == ''){
+                    // desc = '🚧 Under Construction 🚧';
+                    desc = '🚧';
+                }
+//                 uefgList.push(`<div class="row">
+//     <input type="checkbox" class="uef-check" id="uef-${ef.toLocaleLowerCase()}"/>
+//     <label class="uef-label" for="uef-${ef.toLocaleLowerCase()}">${ef}</label>
+//     <div class="description">${desc}</div>
+// </div>`);
+                uefgList.push(`<div class="row">
+    <input type="checkbox" class="uef-check" id="uef-${ef.toLocaleLowerCase()}"/>
+    <label class="uef-label" for="uef-${ef.toLocaleLowerCase()}">${ef}</label>
+    <div class="info">i</div><div class="description">${desc}</div>
+</div>`);
+//                 uefgList.push(`<div class="row">
+//     <input type="checkbox" class="uef-check" id="uef-${ef.toLocaleLowerCase()}"/>
+//     <label class="uef-label" for="uef-${ef.toLocaleLowerCase()}">${ef}</label>
+//     <div class="info"><span>i</span></div><div class="description">${desc}</div>
+// </div>`);
+            });
+            uefg.innerHTML += uefgList.join('');
+            uefList.appendChild(uefg);
+        });
+        return uefList;
+    }
+
+    // BuildUndef(uef);
+    window.addEventListener('load', (ev) => {
+        let display = document.getElementById('display');
+        display.appendChild(BuildUndef(uef));
+    });
+
+
+    /*
+[Physical]
+ • Hunger
+ • Fatigue
+
+[Future]
+ • Afraid
+ • Anxious
+ • Hopeless
+ • Nervous
+ • Worried
+ • Threatened
+
+[Past]
+ • Disappointed
+ • Unmet expectations
+ • Frustrated
+
+[Present]
+ • Grief
+ • Overwhelmed
+
+[Based on Interactions with Others]
+ • Rejected
+ • Offended
+ • Victimized
+
+[Negative Perception of Self]
+ • Ashamed
+ • Guilty
+ • Embarrassed
+ • Inferior
+
+[Lingering Feelings]
+ • Resentful
+ • Heartbroken
+ • Hurt
+ • Lonely
+
+[Unclear]
+ • Insensitive
+ • Entitled
+ • Injustice
+    */
+</script>
+        
+    
+</body>
+</html>

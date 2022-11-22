@@ -148,80 +148,6 @@
     }
     
     /* ─── Drawing (view) ─── */
-    function DrawPtoPrevLine(ctx, e1) {
-        if(e1.id != 0){
-            let e2 = e1.previous;
-
-            ctx.fillStyle = `#0000`;
-            // ctx.lineWidth = 1;
-            ctx.lineWidth = 3;
-            let zl1 = getZLum(e1.z);
-            ctx.strokeStyle = `hsla(${e1.hue}, ${e1.sat}%, ${zl1}%, .5)`;
-            ctx.beginPath();
-            ctx.arc(e1.x, e1.y, e1.size_z, 0, Math.PI * 2);
-            ctx.stroke();
-    
-            // ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(e1.x, e1.y);
-            let e2x = lerp(.5, e1.x, e2.x);
-            let e2y = lerp(.5, e1.y, e2.y);
-            ctx.lineTo(e2x, e2y);
-            ctx.stroke();
-            
-            let zl2 = getZLum(e2.z);
-            ctx.strokeStyle = `hsla(${e1.hue}, ${e1.sat}%, ${zl2}%, .5)`;
-            ctx.beginPath();
-            ctx.moveTo(e2x, e2y);
-            ctx.lineTo(e2.x, e2.y);
-            ctx.stroke();
-        }
-    }
-    function DrawPtoPLine(ctx, e1, e2) {
-        ctx.fillStyle = `#0000`;
-        // ctx.lineWidth = 1;
-        ctx.lineWidth = 3;
-        let zl1 = getZLum(e1.z);
-        ctx.strokeStyle = `hsla(${e1.hue}, ${e1.sat}%, ${zl1}%, .2)`;
-        ctx.beginPath();
-        ctx.arc(e1.x, e1.y, e1.size_z, 0, Math.PI * 2);
-        ctx.stroke();
-
-        // ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(e1.x, e1.y);
-        let e2x = lerp(.5, e1.x, e2.x);
-        let e2y = lerp(.5, e1.y, e2.y);
-        ctx.lineTo(e2x, e2y);
-        ctx.stroke();
-        
-        let zl2 = getZLum(e2.z);
-        ctx.strokeStyle = `hsla(${e1.hue}, ${e1.sat}%, ${zl2}%, .2)`;
-        ctx.beginPath();
-        ctx.moveTo(e2x, e2y);
-        ctx.lineTo(e2.x, e2.y);
-        ctx.stroke();
-    }
-    function FindClosestParticle(ctx, e1, list, range = 100) {
-        const e2 = {"id":-1, "h2":range, "x":0, "y":0, "z":0};
-        for (let j = 0; j < list.length; j++) {
-            const e2a = list[j];
-            let x2 = e1.x - e2a.x;
-            let y2 = e1.y - e2a.y;
-            let z2 = e1.z - e2a.z;
-            let h2 = Math.sqrt(x2 * x2 + y2 * y2 + z2 * z2);
-            if(0 < h2 && h2 < range){
-                if(e2.h2 > h2){
-                    e2.id = j;
-                    e2.h2 = h2;
-                    e2.x = e2a.x;
-                    e2.y = e2a.y;
-                    e2.z = e2a.z;
-                }
-            }
-        }
-    }
-
     function getZLum(z){
         let zdp = 1 - z / s.canvas.z;
         let lum = (80 - (zdp * 60)).toFixed(0);
@@ -495,13 +421,7 @@
     }
     class pz2 {
         constructor(id,type="p",x,y,z,clr={}){
-            if(id > 0){
-                this.previous = particles[id-1];
-            } else {
-                this.previous = particles[id];
-            }
             // this.ctx = ctx;
-
             this.id = id;
             this.type = type;
             this.x = x;
@@ -1007,8 +927,8 @@
                 // draw_e(ctx,particles[i]);
                 // draw_z(ctx,particles[i]);
                 e.drawZ(ctx);
-                // DrawParticleLineZ(ctx,e,pg[e.type],100);
-                DrawPtoPrevLine(ctx, e);
+
+                DrawParticleLineZ(ctx,e,pg[e.type],100);
             }
         }
         setTimeout(() => {

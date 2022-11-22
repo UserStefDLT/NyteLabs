@@ -67,7 +67,6 @@
             background-color: #ddd;
             --clr-a: #ddd;
             --clr-b: #222;
-            --clr-b: #777;
             --clr-c: var(--bwt);
             background-image: linear-gradient(0deg, var(--bwt) 4px, #ddd 4px, #ddd 44px, var(--bwt) 44px),
             linear-gradient(90deg, var(--bwt) 4px, #ddd 4px, #ddd 44px, var(--bwt) 44px);
@@ -77,41 +76,56 @@
             background-image: 
             linear-gradient(0deg, var(--clr-b) var(--sz-b), var(--clr-c) var(--sz-b), var(--clr-c) var(--sz-a), var(--clr-b) var(--sz-a)),
             linear-gradient(90deg, var(--clr-b) var(--sz-b), var(--clr-c) var(--sz-b), var(--clr-c) var(--sz-a), var(--clr-b) var(--sz-a));
-            
             cursor: pointer;
         }
         .tile[data-tile="void"] {
             background: #0000;
         }
         .tile[data-tile="path"] {
-            /* --clr-a: #ddd;
+            --clr-a: #ddd;
             --clr-b: #222;
-            --clr-c: var(--bwt); */
+            --clr-c: var(--bwt);
             background-image: 
             linear-gradient(0deg, var(--clr-b) var(--sz-b), var(--clr-c) var(--sz-b), var(--clr-c) var(--sz-a), var(--clr-b) var(--sz-a)),
             linear-gradient(90deg, var(--clr-b) var(--sz-b), var(--clr-c) var(--sz-b), var(--clr-c) var(--sz-a), var(--clr-b) var(--sz-a));
         }
         .tile[data-tile="water"] {
             /* --tsz: var(--sz-tile); */
-            --tsz-30: calc(var(--scale) * 3);
-
-            /* --tsz--10: calc(var(--scale) * -1);
+            --tsz--10: calc(var(--scale) * -1);
             --tsz-10: var(--scale);
             --tsz--15: calc(var(--scale) * -1.5);
             --tsz-15: calc(var(--scale) * 1.5);
             --tsz--20: calc(var(--scale) * -2);
             --tsz-20: calc(var(--scale) * 2);
+            --tsz-30: calc(var(--scale) * 3);
 
             --tsz-04: calc(var(--scale) / 8);
-            --tsz-02: calc(var(--scale) / 16); */
+            --tsz-02: calc(var(--scale) / 16);
             
+
+            --waves: 
+            radial-gradient(6rem 6rem at left, #0696, #39f9, #0696, #39f9, #0696, transparent), 
+            radial-gradient(6rem 6rem at bottom, #0696, #39f9, #0696, #39f9, #0696, transparent), 
+            #0369;
             --waves: 
             radial-gradient(var(--tsz-30) var(--tsz-30) at left, #0696, #39f9, #0696, #39f9, #0696, transparent), 
             radial-gradient(var(--tsz-30) var(--tsz-30) at bottom, #0696, #39f9, #0696, #39f9, #0696, transparent), 
             #0369;
             background: var(--waves);
+
+
+            /* box-shadow: inset 0 0 1rem 0.125rem #012f, 
+            inset 1.5rem 1.5rem 1.5rem -1.5rem #0243, 
+            inset -1rem -1rem 1rem -1rem #0693;
+            box-shadow: inset 0 0 var(--tsz-10) var(--tsz-04) #012f, 
+            inset var(--tsz-15) var(--tsz-15) var(--tsz-15) var(--tsz--15) #0243, 
+            inset var(--tsz--10) var(--tsz--10) var(--tsz-10) var(--tsz--10) #0693;
+
+            box-shadow: inset 0 0 var(--tsz-10) var(--tsz-02) #012f, 
+            inset var(--tsz-15) var(--tsz-15) var(--tsz-15) var(--tsz--20) #0246, 
+            inset var(--tsz--10) var(--tsz--10) var(--tsz-15) var(--tsz--15) #0696; */
         }
-        /* .tile[data-tile="water"] {
+        .tile[data-tile="water"] {
             box-shadow: inset 0 0 var(--tsz-10) var(--tsz-04) #012f, 
             inset var(--tsz-15) var(--tsz-15) var(--tsz-15) var(--tsz--15) #0243, 
             inset var(--tsz--10) var(--tsz--10) var(--tsz-10) var(--tsz--10) #0693;
@@ -120,6 +134,16 @@
             box-shadow: inset 0 0 var(--tsz-10) var(--tsz-02) #012f, 
             inset var(--tsz-15) var(--tsz-15) var(--tsz-15) var(--tsz--20) #0246, 
             inset var(--tsz--10) var(--tsz--10) var(--tsz-15) var(--tsz--15) #0696;
+        }
+        /* .tile[data-tile="water"] {
+            box-shadow: inset 0 0 2rem 0.25rem #012f, 
+            inset 3rem 3rem 3rem -3rem #0243, 
+            inset -2rem -2rem 2rem -2rem #0693;
+        }
+        .tile[data-tile="water"]:hover {
+            box-shadow: inset 0 0 2rem -0.125rem #012f, 
+            inset 3rem 3rem 3rem -4rem #0246, 
+            inset -2rem -2rem 3rem -3rem #0696;
         } */
 
 
@@ -462,7 +486,7 @@
         
         // g.player["element"] = document.getElementById('player');
         g.map = BuildGrid(w,h);
-        // RandomGrid();
+        RandomGrid();
 
         // let player = BuildPlayer();
         BuildPlayer();

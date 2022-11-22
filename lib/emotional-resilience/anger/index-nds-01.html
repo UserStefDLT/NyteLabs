@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Underlying Emotions and Feelings | Anger</title>
+    <link rel="stylesheet" href="../../../stylesheets/i.css">
+    <style>
+        body {
+            background-color: #111;
+            color: #eee;
+            margin: 0;
+        }
+        main {}
+        main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        main {
+            position: relative;
+            min-height: 10vmin;
+            border-radius: 5px;
+            width: 95vw;
+            margin: 3vmin auto;
+
+            flex-direction: column;
+            justify-content: flex-start;
+            /* overflow: scroll; */
+        }
+    </style>
+    <style>
+        .list {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        .uef-title {
+            /* font-weight: bold; */
+            font-size: 20px;
+            background: #39f0;
+            padding: 4px 8px;
+        }
+
+        .uef-group {
+            /* --ghue: calc(var(--i) * 50);
+            --bg: hsla(50,60%,60%,1);
+            --bg: hsla(50,60%,10%,1);
+            --bg: hsla(210,60%,15%,1);
+            --bg: hsla(210,30%,15%,1);
+            --bg: hsla(210,30%,20%,1);
+            --bg: hsla(210,40%,35%,1);
+            --bg: hsla(210,60%,60%,1);
+            --bg: hsla(210,100%,60%,1);
+            --clr: hsla(var(--ghue),60%,60%,1);
+            --bg: hsla(var(--ghue),30%,20%,1);
+            --bg-2: hsla(var(--ghue),40%,35%,1); */
+            
+            --ghue: calc(var(--i) * 45);
+            --clr: hsla(var(--ghue),60%,60%,1);
+            --bg: hsla(var(--ghue),30%,15%,1);
+            --bg-2: hsla(var(--ghue),40%,30%,1);
+        }
+        
+        .uef-group {
+            min-width: 200px;
+            height: max-content;
+            width: max-content;
+            background: #39f3;
+            background-color: var(--bg);
+            color: var(--clr);
+            /* border-top: 2px solid #39fc;
+            border-bottom: 2px solid #39fc; */
+            box-shadow: 0 0 2px 1px;
+            box-shadow: 0 -1px 2px 1px, 0 1px 2px 1px;
+            box-shadow: 0 0 1px 1px;
+            margin: .5rem;
+
+            transition: box-shadow 100ms ease-in-out;
+        }
+        .uef-group:hover {
+            box-shadow: 0 0 2px 2px;
+        }
+        .uef-group-title {
+            font-weight: bold;
+            font-size: 18px;
+            background: #39f6;
+            background-color: hsla(var(--ghue),40%,35%,1);
+            background-color: var(--bg-2);
+            color: #fff;
+            padding: 4px 8px;
+        }
+        .row {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            flex-wrap: wrap;
+            padding: 4px 8px;
+        }
+        .uef-label {
+            margin-left: 6px;
+        }
+        .description {display:none;}
+        label:hover ~ .description {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 120px;
+            max-width: 100%;
+            width: 100%;
+            box-sizing: border-box;
+            top: 100%; left: 0%;
+            background-color: #39f9;
+            background-color: #111c;
+            background-color: #111;
+            color: hsla(50,60%,60%,1);
+            color: hsla(var(--ghue),60%,60%,1);
+            /* border: 2px solid var(--clr);
+            border-left: 1px solid var(--clr);
+            border-right: 1px solid var(--clr); */
+            padding: .25rem;
+
+            box-shadow: 
+            inset 0 -1px 1px var(--clr),
+            inset 0 1px 1px var(--clr);
+            z-index: 5;
+        }
+        
+        header {
+            padding: 0rem 1rem;
+        }
+        
+    </style>
+        
+</head>
+<body>
+    <header>
+        <h1>Emotional Resilience</h1>
+        <h2>Anger: Underlying Emotions and Feelings</h2>
+        <!-- <h2>Anger</h2>
+        <h3>Underlying Emotions and Feelings</h3> -->
+    </header>
+
+    <!-- <div class="uef-row">
+        <input type="checkbox" class="" id="uef-hunger"/>
+        <label for="uef-hunger">Hunger</label>
+        <div class="description">
+        
+        </div>
+    </div> -->
+
+    <!-- <main>
+        <div id="display"></div>
+    </main> -->
+    <main id="display">
+    </main>
+
+    <!-- <div class="list">
+        <div class="uef-group">
+            <div class="uef-group-title">Physical</div>
+            <div class="row">
+                <input type="checkbox" class="uef-check" id="uef-hunger"/>
+                <label class="uef-label" for="uef-hunger">Hunger</label>
+            </div>
+            <div class="row">
+                <input type="checkbox" class="uef-check" id="uef-fatigue"/>
+                <label class="uef-label" for="uef-fatigue">Fatigue</label>
+            </div>
+        </div>
+        
+        <div class="uef-group">
+            <div class="uef-group-title">Future</div>
+            <div class="row">
+                <input type="checkbox" class="uef-check" id="uef-afraid"/>
+                <label class="uef-label" for="uef-afraid">Afraid</label>
+            </div>
+            <div class="row">
+                <input type="checkbox" class="uef-check" id="uef-anxious"/>
+                <label class="uef-label" for="uef-anxious">Anxious</label>
+                <div class="description">experiencing worry, unease, or nervousness, typically about an imminent event or something with an uncertain outcome.</div>
+            </div>
+            <div class="row">
+                <input type="checkbox" class="uef-check" id="uef-worried"/>
+                <label class="uef-label" for="uef-worried">Worried</label>
+            </div>
+        </div>
+        
+    </div> -->
+
+
+<script>
+    const uef = {
+        Physical: {
+            "Hunger":"",
+            "Fatigue":"Feeling overtired, with low energy and a strong desire to sleep that interferes with normal daily activities.",
+        },
+        Future: {
+            "Afraid":"",
+            "Anxious":"experiencing worry, unease, or nervousness, typically about an imminent event or something with an uncertain outcome.",
+            "Nervous":"easily agitated or alarmed; tending to be anxious; highly strung.",
+            "Worried":"anxious or troubled about actual or potential problems.",
+            "Threatened":"",
+            "Hopeless":"feeling or causing despair about something.",
+        },
+        Past: {
+            "Disappointed":"",
+            "Unmet expectations":"",
+            "Frustrated":"",
+        },
+        Present: {
+            "Grief":"",
+            "Overwhelmed":"",
+        },
+        Interactions: {
+            "Rejected":"dismiss as inadequate, inappropriate, or not to one's taste.",
+            "Offended":"",
+            "Victimized":"",
+        },
+        Self: {
+            "Ashamed":"embarrassed or guilty because of one's actions, characteristics, or associations.",
+            "Guilty":"culpable of or responsible for a specified wrongdoing.",
+            "Embarrassed":"a feeling of self-consciousness, shame, or awkwardness.",
+            "Inferior":"",
+        },
+        Lingering:{
+            "Resentful":"feeling or expressing bitterness or indignation at having been treated unfairly.",
+            "Heartbroken":"(of a person) suffering from overwhelming distress; very upset.",
+            "Hurt":"",
+            "Lonely":"",
+        },
+        Other: {
+            "Insensitive":"",
+            "Entitled":"believing oneself to be inherently deserving of privileges or special treatment.",
+            "Injustice":"",
+        }
+    }
+    function BuildUndef(uef){
+        // let gkeys = Object.keys(uef);
+
+        let uefList = document.createElement('div');
+        uefList.classList.add('list');
+        Object.keys(uef).forEach(group => {
+            let uefg = document.createElement('div');
+            uefg.classList.add('uef-group');
+            let uefgt = document.createElement('div');
+            uefgt.classList.add('uef-group-title');
+            uefgt.innerText = group;
+            uefg.appendChild(uefgt);
+
+// `<div class="uef-group">
+//     <div class="uef-group-title">${group}</div>`
+            let uefgList = [];
+            // uef[key].forEach(ef=>{
+            Object.keys(uef[group]).forEach(ef => {
+                let desc = uef[group][ef];
+                if(uef[group][ef] == ''){
+                    // desc = '🚧 Under Construction 🚧';
+                    desc = '🚧';
+                }
+                uefgList.push(`<div class="row">
+    <input type="checkbox" class="uef-check" id="uef-${ef.toLocaleLowerCase()}"/>
+    <label class="uef-label" for="uef-${ef.toLocaleLowerCase()}">${ef}</label>
+    <div class="description">${desc}</div>
+</div>`);
+            });
+            uefg.innerHTML += uefgList.join('');
+            uefList.appendChild(uefg);
+        });
+        return uefList;
+    }
+
+    // BuildUndef(uef);
+    window.addEventListener('load', (ev) => {
+        let display = document.getElementById('display');
+        display.appendChild(BuildUndef(uef));
+    });
+
+
+    /*
+[Physical]
+ • Hunger
+ • Fatigue
+
+[Future]
+ • Afraid
+ • Anxious
+ • Hopeless
+ • Nervous
+ • Worried
+ • Threatened
+
+[Past]
+ • Disappointed
+ • Unmet expectations
+ • Frustrated
+
+[Present]
+ • Grief
+ • Overwhelmed
+
+[Based on Interactions with Others]
+ • Rejected
+ • Offended
+ • Victimized
+
+[Negative Perception of Self]
+ • Ashamed
+ • Guilty
+ • Embarrassed
+ • Inferior
+
+[Lingering Feelings]
+ • Resentful
+ • Heartbroken
+ • Hurt
+ • Lonely
+
+[Unclear]
+ • Insensitive
+ • Entitled
+ • Injustice
+    */
+</script>
+        
+    
+</body>
+</html>

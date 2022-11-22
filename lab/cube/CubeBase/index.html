@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>CubeBase | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <link rel="stylesheet" href="../../../stylesheets/canvas.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        /* :root {} */
+        /* header {background-color: #000;}
+        .bg-stars {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            height: 100vh; width: 100vw;
+            background-image: 
+                radial-gradient(farthest-corner at 100% 100%, #456, #7890),
+                radial-gradient(farthest-corner at 100% 100%, #123, #123);
+            z-index: -1;
+            background-attachment: fixed;
+            overflow: hidden;
+        }
+        .my-name {
+            box-sizing: border-box;
+            width: 100%;
+            background-color: #000;
+        } */
+    </style>
+    <style>
+        :root {
+            /* --h: 80vh; --w: 80vh; */
+            --h: 500; --w: 500;
+            /* --vh: calc(var(--h) * 1px); --vw: calc(var(--w) * 1px); */
+        }
+        .shelf {
+            /* height: 80vh; width: 80vh; */
+            /* height: var(--h); width: var(--w); */
+            --vh: calc(var(--h) * 1px); --vw: calc(var(--w) * 1px);
+            height: var(--vh); width: var(--vw);
+            padding: 0;
+        }
+        .view {
+            /* height: 80vh; width: 80vh; */
+            /* height: var(--h); width: var(--w); */
+            --vh: calc(var(--h) * 1px); --vw: calc(var(--w) * 1px);
+            height: var(--vh); width: var(--vw);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-top: 1.5em;
+
+            box-shadow: 
+            inset 0 -1px 1px #39f,
+            inset 0 1px 1px #39f;
+        }
+        .box {
+            height: 100px;
+            width: 100px;
+            background-color: #39f;
+        }
+    </style>
+    
+    <link rel="stylesheet" href="../../../stylesheets/settings2.css">
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">NyteLabs</h1>
+        <!-- <div class="subtitle">CubeBase</div> -->
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+
+    <!-- <div class="bg-stars">
+        <canvas id="canvas-stars"></canvas>
+    </div> -->
+
+<main>
+    <!-- <div class="view">
+        <div class="box"></div>
+    </div> -->
+    <!-- <div class="shelf">
+        <h3 class="shelf-title">experiment</h3>
+        <div id="display" class="box"></div>
+    </div> -->
+    <!-- <div class="shelf">
+        <h3 class="shelf-title">experiment</h3>
+        <div id="display"></div>
+        <div class="x"></div>
+        <div class="box"></div>
+    </div> -->
+    <!-- <canvas id="canvas"></canvas> -->
+    <canvas id="canvas-grid"></canvas>
+    <canvas id="canvas-draw"></canvas>
+</main>
+
+<!-- <div class="options">
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        touch: {
+            x: 0,
+            y: 0,
+            z: 0,
+            paths: {},
+            path_len: 20,
+            tracking: false
+        },
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            path: [],
+            path_len: 20,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            sz: 20,
+            sz2: 10,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            padding: 0,
+            brush: "p",
+        },
+        box: {
+            x: 500,
+            y: 500,
+            z: 500,
+            x2: 250,
+            y2: 250,
+            z2: 250,
+            d: 1000,
+            p: 1000,
+        },
+        cube: {
+            xlen: 10,
+            ylen: 10,
+            zlen: 10,
+            sz: 20,
+            szr: 10,
+        },
+        view: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+        },
+
+        timeOut: 40,
+        player: false,
+        
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+    const particles = [];
+    const pg = {}
+
+    const layers = ["canvas-grid", "canvas-draw"];
+    const canvas = {};
+    const ctx = {};
+
+    const g = {
+        set: {
+            xlen: 16,
+            ylen: 12,
+        },
+        grid: {
+            map: [],
+        },
+        map: [],
+        player: {
+            x: 0,
+            y: 0,
+        }
+    }
+    const characters = {
+        "player": 's ',
+        "floor": '_ ',
+    };
+
+</script>
+<script src="../../../scripts/settings.js"></script>
+<script>
+    layers.forEach(key => {
+        canvas[key] = document.getElementById(key);
+        ctx[key] = canvas[key].getContext('2d');
+        canvas[key].width = window.innerWidth;
+        canvas[key].height = window.innerHeight;
+    });
+
+
+    /* ─── Drawing (view) ─── */
+    function DrawGrid(ctx, g){
+        for (let y = 0; y < g.length; y++) {
+            const row = g[y];
+            for (let x = 0; x < g[y].length; x++) {
+                const e = g[y][x];
+
+                let nx = x * s.cube.sz;
+                let ny = y * s.cube.sz;
+
+                // ctx.fillStyle = g[y][x];
+                ctx.fillStyle = `hsla(0, 0%, 70%, 1)`;
+                ctx.fillRect(nx, ny, s.cube.sz, s.cube.sz);
+            }
+        }
+    }
+    function DrawPlayer(ctx,e){
+        let nx = e.x * s.cube.sz + s.cube.szr;
+        let ny = e.y * s.cube.sz + s.cube.szr;
+        ctx.fillStyle = `hsla(210, 100%, 60%, 1)`;
+        // ctx.fillRect(nx, ny, s.cube.sz, s.cube.sz);
+
+        ctx.beginPath();
+        ctx.arc(nx, ny, s.cube.szr, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    /* ─── Particle (model) ─── */
+    class p {
+        constructor(id=-1,type="p",x=0,y=0,z=0,color="#8889"){
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.vx = 0;
+            this.vy = 0;
+            this.vz = 0;
+
+            this.size = 5;
+            this.color = color;
+        }
+        draw(){
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size/2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+    
+    /* ─── Create (model) ─── */
+    function BuildGrid(w, h, fill = 0){
+        let g = [];
+        for(let y = 0; y < h; y++){
+            g.push([]);
+            for(let x = 0; x < w; x++){
+                g[y].push(fill);
+            }
+        }
+        return g;
+    }
+    function create(n,type="none",color="#8889"){
+        for(let i = 0; i < n; i++){
+            let xy = randomXY();
+            let np = new p(particles.length,type,xy.x,xy.y,0,color);
+            pg[type].push(np);
+            particles.push(np);
+        }
+    }
+
+    /* ─── Rules (control) ─── */
+    const pr = {}
+
+    /* ─── Start and Update ─── */
+    function start(){
+        // Code goes here.
+        // g.grid.map = BuildGrid(g.set.xlen, g.set.ylen);
+        // g.map = BuildGrid(g.set.xlen, g.set.ylen);
+        g.map = BuildGrid(s.cube.xlen, s.cube.ylen);
+        DrawGrid(ctx["canvas-grid"], g);
+    }
+    function update(){
+        if(!s.q && !s.pause){
+            // Code goes here.
+
+            clearCanvas(ctx["canvas-draw"]);
+            // DrawGrid(ctx["canvas-grid"], g);
+            DrawPlayer(ctx["canvas-draw"],g.player);
+        }
+        setTimeout(() => {
+            requestAnimationFrame(update);
+        }, s.timeOut)
+    }
+    function clearCanvas(ctx, bg="#0000"){
+        ctx.clearRect(0,0,s.w,s.h);
+        ctx.fillStyle = bg;
+        ctx.fillRect(0,0,s.w,s.h);
+    }
+
+    function updateView(){
+        let main = document.querySelector('main');
+        // console.log(main);
+        // console.log(`[main] → '--h: ${s.view.h}; --w: ${s.view.w};'`);
+        main.style = `--h: ${s.view.h}; --w: ${s.view.w};`;
+    }
+
+    /* ─── Events ─── */
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+
+        /* ─ Open Space ─ */
+        let h = s.h * .94 - 108;
+        let w = s.w * .95;
+        console.log(`%cinnerWidth: %c${s.w}%c, innerHeight: %c${s.h}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+        console.log(`%cw: %c${w}%c, h: %c${h}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+        s.view.h = h;
+        s.view.w = w;
+
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        s.canvas.z = (s.h + s.w)/2;
+
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
+
+        /* ─ Box ─ */
+        /* resize box for mobile */
+        if(s.h < s.box.y) {s.box.y = s.h;}
+        if(s.w < s.box.x) {s.box.x = s.w;}
+        s.box.z = (s.box.y + s.box.x)/2;
+
+        /* center box */
+        s.box.top = (s.h - s.box.y)/2;
+        s.box.left = (s.w - s.box.x)/2;
+
+        /* determine center */
+        s.box.x2 = s.box.left + (s.box.x / 2);
+        s.box.y2 = s.box.top + (s.box.y / 2);
+        s.box.z2 = (s.box.z / 2);
+        
+        /* ─ Cube ─ */
+        s.cube.xlen = window.innerWidth / s.cube.sz;
+        s.cube.ylen = window.innerHeight / s.cube.sz;
+        s.cube.zlen = s.cube.xlen;
+
+        /* ─ Grid ─ */
+        s.grid.cols = Math.floor(s.w / s.tile.w);
+        s.grid.rows = Math.floor(s.h / s.tile.h);
+
+        /* ─ Canvas Update ─ */
+        // canvas.width = s.canvas.x;
+        // canvas.height = s.canvas.y;
+        // ctx.clearRect(0,0,canvas.width, canvas.height);
+
+        layers.forEach(key => {
+            canvas[key].width = window.innerWidth;
+            canvas[key].height = window.innerHeight;
+            ctx[key].clearRect(0,0,canvas[key].width, canvas[key].height);
+        });
+    }
+    window.addEventListener('resize', () =>{
+        updateSettings();
+        // updateView();
+    });
+    
+    // window.addEventListener('click', (ev) => {
+    //     let px = ev.pageX;
+    //     let py = ev.pageY;
+    //     let x = Math.floor(px / s.tile.w);
+    //     let y = Math.floor(py / s.tile.h);
+    //     console.log(`(${px},${py}) → tile-x: ${x}, tile-y: ${y}`);
+    // });
+    // window.addEventListener('mousemove', (ev) =>{
+    //     if(s.mouse.tracking){
+    //         if(!s.q && !s.pause){
+    //             s.mouse.x = ev.clientX;
+    //             s.mouse.y = ev.clientY;
+    //         }
+    //     }
+    // });
+
+    // function updatePlayerLocation(){
+    //     // g.player.element.dataset.x = g.player.x;
+    //     // g.player.element.dataset.y = g.player.y;
+    //     // g.player.element.style = `--x: ${g.player.x}; --y: ${g.player.y};`;
+    // }
+    function check(x,y){
+        let isClear = (g.map[y][x] == 0);
+        return isClear;
+    }
+    function move(d){
+        let nx = g.player.x;
+        let ny = g.player.y;
+        // console.log(`d: ${d}, nx: ${nx}, ny: ${ny}`);
+        switch(d) {
+            case 'w':
+                ny--;
+                break;
+            case 'a':
+                nx--;
+                break;
+            case 's':
+                ny++;
+                break;
+            case 'd':
+                nx++;
+                break;
+            default:
+                console.log(`The direction ${d} was not found.`);
+        }
+        // console.log(`└─> nx: ${nx}, ny: ${ny}`);
+        if(isInGrid(g.map, nx, ny) && check(nx,ny)){
+            // check(nx,ny);
+    
+            g.player.x = nx;
+            g.player.y = ny;
+
+            // updatePlayerLocation();
+        }
+    }
+    window.addEventListener("keydown", function (event) {
+        // if(event.key == 'Escape') {q();}
+        // if(s.q){console.log(`→ %ckey: %c${event.key}%c | keyCode: %c${event.keyCode}`, logSty.c, logSty.keyStyle, logSty.c, logSty.keyCodeStyle);}
+        if(!s.q){
+            // if(event.key == ' ' || event.key == 'Enter') {pause();}
+            // if(event.key == '`') {openS();}
+            // // if(event.key == 'CapsLock') {lockKeys();}
+            // if(event.key == 'CapsLock') {s.lockKeys = !s.lockKeys;}
+            // if(!s.lockKeys){
+            //     if(event.key == 'l' || event.key == 'L') {toggleLog();}
+            //     // if(event.key == 'i' || event.key == 'I') {toggleTags();}
+            //     // if(event.key == 'w' || event.key == 'W') {openW();}
+            // }
+
+            if(event.key == 'w' || event.key == 'W') {move('w');}
+            if(event.key == 'a' || event.key == 'A') {move('a');}
+            if(event.key == 's' || event.key == 'S') {move('s');}
+            if(event.key == 'd' || event.key == 'D') {move('d');}
+
+            // if(event.key == '8') {rotateX(45);}
+            // if(event.key == '2') {rotateX(-45);}
+            // if(event.key == '6') {rotateY(45);}
+            // if(event.key == '4') {rotateY(-45);}
+            // if(event.key == '9') {rotateZ(45);}
+            // if(event.key == '7') {rotateZ(-45);}
+            /*
+            key: 8 = keyCode: '104';
+            key: 2 = keyCode: '98';
+            key: 6 = keyCode: '102';
+            key: 4 = keyCode: '100';
+            key: 9 = keyCode: '105';
+            key: 7 = keyCode: '103';
+            
+            key: 0 = keyCode: '96';
+            key: 1 = keyCode: '97';
+            key: 3 = keyCode: '99';
+            key: 5 = keyCode: '101';
+
+            key: + = keyCode: '109';
+            key: - = keyCode: '107';
+            */
+        }
+    });
+
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        updateSettings();
+        // updateView();
+        start();
+        update();
+    });
+    /* Version Log:
+    [index-nds-00]: Default Canvas Template.
+    [index-nds-01]: 
+    [index-nds-02]: 
+    [index-nds-03]: 
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
+    [index-nds-07]: 
+    [index-nds-08]: 
+    [index-nds-09]: 
+    [index-nds-10]: 
+    [index-nds-11]: 
+    [index-nds-12]: 
+    
+    */
+    function CSSAngleToXY(angle){
+        angle = (angle+270)%360;
+        let rad = angle * Math.PI / 180;
+        let xy = {"x":0,"y":0};
+        if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+        if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+        return xy;
+    }
+    function XYtoCSSAngle(x,y){
+        let angle = 90;
+        if(x == 0){
+            if(y > 0) {return 180;}
+            if(y < 0) {return 0;}
+        }
+        if(x < 0) { angle += 180; }
+        if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
+        return angle;
+    }
+
+    function randomXYZ(){
+        let x = Math.random()*s.canvas.x;
+        let y = Math.random()*s.canvas.y;
+        let z = Math.random()*s.canvas.z;
+        return {'x':x, 'y':y, 'z':z};
+    }
+    function randomXY(){
+        let x = Math.random()*s.canvas.x;
+        let y = Math.random()*s.canvas.y;
+        return {'x':x, 'y':y};
+    }
+
+    function isInGrid(grid,x,y){
+        if(x < 0 || y < 0 || x >= grid[0].length || y >= grid.length){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+</script>
+</body>
+</html>
