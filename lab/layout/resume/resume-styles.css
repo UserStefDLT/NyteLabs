@@ -1,0 +1,66 @@
+:root {
+    --clr: #0000;
+
+    --chalk-board: #001b12;
+    --chalk-board: #042419;
+    --chalk-board: #023025;
+    --chalk-board: #073221;
+    --chalk-board: #004f37;
+    --chalk-board: #126c53;
+
+    --chalk-board: hsl(160, 100%, 5%);
+    --chalk-board: hsl(159, 80%, 8%);
+    --chalk-board: hsl(166, 92%, 10%);
+    --chalk-board: hsl(156, 75%, 11%);
+    --chalk-board: hsl(162, 100%, 15%);
+    --chalk-board: hsl(163, 71%, 25%);
+
+    /*
+    Hue: 160 (156-166)
+    Sat: 85% (71%-100%)
+    Lum: 5%, 10%, 15%, 25%
+
+    hsl(160, 75%, 15%)
+    hsl(160, 85%, 10%)
+    hsl(160, 100%, 5%)
+    */
+    /* background-image: radial-gradient(hsl(160, 75%, 15%), hsl(160, 85%, 10%), hsl(160, 100%, 5%)); */
+
+
+    --clr: #0000;
+    --starship: #f3f5f5;
+    --starship: #b6c0c2;
+    --starship: #92adc0;
+    --starship: #285177;
+    --starship: #223752;
+    --starship: #152023;
+    --sand-root: #e3d4a3;
+    --sand-wall: #655038;
+    --sand-sand: #d4b080;
+    --sand-reflextion: #eacbaa;
+    --sky-reflextion: #4f9ab8;
+    --window: #3487b2;
+
+
+    --sand-root: #e3d4a3;
+    --sand-wall: #655038;
+    --starship: #92adc0;
+    --sky-refx: #4f9ab8;
+    --starship: #285177;
+    --starship: #223752;
+
+    --sand-root: hsl(46, 53%, 76%);
+    --sand-wall: hsl(32, 29%, 31%);
+    --starship: hsl(205, 27%, 66%);
+    --sky-refx: hsl(197, 43%, 52%);
+    --starship: hsl(209, 50%, 31%);
+    --starship: hsl(214, 41%, 23%);
+}
+
+.SandAndGlass {
+    background-image: 
+    radial-gradient(circle at 50% 0%, hsla(210, 30%, 60%, 1), hsla(210, 30%, 60%, .5) 30%, hsla(210, 30%, 60%, 0) 60%),
+    linear-gradient(hsl(210, 50%, 30%), hsl(210, 40%, 20%));
+    color: hsl(45, 50%, 75%);
+    text-shadow: 1px 1px 2px hsl(30, 30%, 30%);
+}

@@ -333,7 +333,12 @@
         }
         
     </style>
-        
+    <style>
+        .hidden{
+            display: none!important; 
+            user-select: none;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -455,19 +460,26 @@
             // uef[key].forEach(ef=>{
             Object.keys(uef[group]).forEach(ef => {
                 let desc = uef[group][ef];
+                let display = '';
                 if(uef[group][ef] == ''){
                     // desc = '🚧 Under Construction 🚧';
                     desc = '🚧';
+                    display = ' hidden';
                 }
 //                 uefgList.push(`<div class="row">
 //     <input type="checkbox" class="uef-check" id="uef-${ef.toLocaleLowerCase()}"/>
 //     <label class="uef-label" for="uef-${ef.toLocaleLowerCase()}">${ef}</label>
 //     <div class="description">${desc}</div>
 // </div>`);
+//                 uefgList.push(`<div class="row">
+//     <input type="checkbox" class="uef-check" id="uef-${ef.toLocaleLowerCase()}"/>
+//     <label class="uef-label" for="uef-${ef.toLocaleLowerCase()}">${ef}</label>
+//     <div class="info">i</div><div class="description">${desc}</div>
+// </div>`);
                 uefgList.push(`<div class="row">
     <input type="checkbox" class="uef-check" id="uef-${ef.toLocaleLowerCase()}"/>
     <label class="uef-label" for="uef-${ef.toLocaleLowerCase()}">${ef}</label>
-    <div class="info">i</div><div class="description">${desc}</div>
+    <div class="info${display}">i</div><div class="description${display}">${desc}</div>
 </div>`);
 //                 uefgList.push(`<div class="row">
 //     <input type="checkbox" class="uef-check" id="uef-${ef.toLocaleLowerCase()}"/>
@@ -487,7 +499,7 @@
         display.appendChild(BuildUndef(uef));
     });
 
-    
+
 
 
     /*
@@ -534,6 +546,12 @@
  • Entitled
  • Injustice
     */
+
+
+/*
+Next:
+--Load and Save to Local Storage.
+*/
 </script>
         
     

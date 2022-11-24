@@ -1,0 +1,52 @@
+/* family=Alegreya&family=Coda&family=Lalezar&family=Mirza&family=Raleway+Dots&family=Satisfy&family=Stardos+Stencil&family=Ubuntu&family=Lobster&family=Lobster+Two&family=Playball&family=Yatra+One&family=Cinzel+Decorative&family=Poiret+One&family=Monoton&family=Flow+Circular&family=Flow+Rounded&family=Flow+Block&family=Megrim&family=Yeseva+One&family=Fredoka+One&family=Press+Start+2P&family=Bungee&family=Carter+One&family=Fugaz+One&family=Arima+Madurai&family=Creepster&family=Audiowide&family=Pompiere&family=Expletus+Sans&family=Love+Ya+Like+A+Sister&family=UnifrakturMaguntia&family=Forum&family=Fredericka+the+Great&family=Pirata+One&family=Grenze+Gotisch&family=Ceviche+One */
+@import url('https://fonts.googleapis.com/css2?family=Alegreya&family=Coda&family=Lalezar&family=Mirza&family=Raleway+Dots&family=Satisfy&family=Stardos+Stencil&family=Ubuntu&family=Lobster&family=Lobster+Two&family=Playball&family=Yatra+One&family=Cinzel+Decorative&family=Poiret+One&family=Monoton&family=Flow+Circular&family=Flow+Rounded&family=Flow+Block&family=Megrim&family=Yeseva+One&family=Fredoka+One&family=Press+Start+2P&family=Bungee&family=Carter+One&family=Fugaz+One&family=Arima+Madurai&family=Creepster&family=Audiowide&family=Pompiere&family=Expletus+Sans&family=Love+Ya+Like+A+Sister&family=UnifrakturMaguntia&family=Forum&family=Fredericka+the+Great&family=Pirata+One&family=Grenze+Gotisch&family=Ceviche+One&display=swap');
+
+/* @import url('https://fonts.googleapis.com/css2?family=Alegreya&family=Coda&family=Lalezar&family=Mirza&family=Raleway+Dots&family=Satisfy&family=Stardos+Stencil&family=Ubuntu&display=swap'); */
+
+.font-Alegreya { font-family: 'Alegreya', serif; }
+.font-Ubuntu { font-family: 'Ubuntu', sans-serif; }
+.font-Satisfy { font-family: 'Satisfy', cursive; }
+
+.font-Coda { font-family: 'Coda', cursive; }
+.font-Lalezar { font-family: 'Lalezar', cursive; }
+.font-Mirza { font-family: 'Mirza', cursive; }
+.font-Raleway_Dots { font-family: 'Raleway Dots', cursive; }
+.font-Stardos_Stencil { font-family: 'Stardos Stencil', cursive; }
+
+/* @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Lobster+Two&family=Playball&family=Yatra+One&family=Cinzel+Decorative&family=Poiret+One&family=Monoton&family=Flow+Circular&family=Flow+Rounded&family=Flow+Block&family=Megrim&display=swap'); */
+
+.font-Lobster { font-family: 'Lobster', cursive; }
+.font-Lobster_Two { font-family: 'Lobster Two', cursive; }
+
+.font-Playball { font-family: 'Playball', cursive; }
+.font-Yatra_One { font-family: 'Yatra One', cursive; }
+.font-Cinzel_Decorative { font-family: 'Cinzel Decorative', cursive; }
+
+.font-Poiret_One { font-family: 'Poiret One', cursive; }
+.font-Monoton { font-family: 'Monoton', cursive; }
+.font-Flow_Circular { font-family: 'Flow Circular', cursive; }
+.font-Flow_Rounded { font-family: 'Flow Rounded', cursive; }
+.font-Flow_Block { font-family: 'Flow Block', cursive; }
+.font-Megrim { font-family: 'Megrim', cursive; }
+
+/* @import url('https://fonts.googleapis.com/css2?family=Yeseva+One&family=Fredoka+One&display=swap'); */
+.font-Yeseva_One { font-family: 'Yeseva One', cursive; }
+.font-Fredoka_One { font-family: 'Fredoka One', cursive; }
+
+/* @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Bungee&family=Carter+One&family=Fugaz+One&family=Arima+Madurai&family=Creepster&family=Audiowide&family=Pompiere&family=Expletus+Sans&family=Love+Ya+Like+A+Sister&family=UnifrakturMaguntia&family=Forum&family=Fredericka+the+Great&family=Pirata+One&family=Grenze+Gotisch&family=Ceviche+One&display=swap'); */
+.font-Press_Start_2P { font-family: 'Press Start 2P', cursive; }
+.font-Bungee { font-family: 'Bungee', cursive; }
+.font-Carter_One { font-family: 'Carter One', cursive; }
+.font-Fugaz_One { font-family: 'Fugaz One', cursive; }
+.font-Arima_Madurai { font-family: 'Arima Madurai', cursive; }
+.font-Creepster { font-family: 'Creepster', cursive; }
+.font-Audiowide { font-family: 'Audiowide', cursive; }
+.font-Pompiere { font-family: 'Pompiere', cursive; }
+.font-Expletus_Sans { font-family: 'Expletus Sans', cursive; }
+.font-Love_Ya_Like_A_Sister { font-family: 'Love Ya Like A Sister', cursive; }
+.font-UnifrakturMaguntia { font-family: 'UnifrakturMaguntia', cursive; }
+.font-Forum { font-family: 'Forum', cursive; }
+.font-Fredericka_the_Great { font-family: 'Fredericka the Great', cursive; }
+.font-Pirata_One { font-family: 'Pirata One', cursive; }
+.font-Grenze_Gotisch { font-family: 'Grenze Gotisch', cursive; }
+.font-Ceviche_One { font-family: 'Ceviche One', cursive; }

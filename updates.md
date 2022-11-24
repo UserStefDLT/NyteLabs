@@ -26,11 +26,42 @@
 * lab/
 
 
-
 ## Previous Updates:
 
-* 
-[nov 17]    
+* https://github.com/UserStefDLT/NyteLabs
+* https://github.com/UserStefDLT/NyteLabs/commits/main
+
+─End─
+
+[jan 19]    
+[jan 18]    
+[jan 17]    
+
+[jan 13]    
+[jan 12]    
+[jan 11]    
+[jan 10]    
+[jan 09]    
+
+[dec 30]    
+[dec 23]    
+
+[dec 16]    
+[dec 15]    
+[dec 14]    
+[dec 13]    
+[dec 12]    
+
+[dec 02]    
+[dec 01]    
+[nov 29]    
+
+[nov 23]    
+[nov 21]    🗂Stacked Update📤
+
+[nov 19]    💠Grid Context🔷 and 🎨Canvas Updates🔧
+[nov 18]    〰Learning about Bezier Curves🖊
+[nov 17]    🌬Fluid Grid🍭and 🌐AxisRotation💫
 [nov 16]    🎛Fluid Grid🌬
 [nov 15]    〰Ray Tracing Ripples⛲ and 🎛Fluid Grid🌬
 
@@ -214,6 +245,8 @@
 [jan 29]	Update
 [jan 29]	LabStart
 [jan 29]	Initial commit
+
+---
 
 
 

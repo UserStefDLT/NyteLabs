@@ -19,7 +19,7 @@
     </style>
     <style>
         /* family=Alegreya&family=Coda&family=Lalezar&family=Mirza&family=Raleway+Dots&family=Satisfy&family=Stardos+Stencil&family=Ubuntu&family=Lobster&family=Lobster+Two&family=Playball&family=Yatra+One&family=Cinzel+Decorative&family=Poiret+One&family=Monoton&family=Flow+Circular&family=Flow+Rounded&family=Flow+Block&family=Megrim&family=Yeseva+One&family=Fredoka+One&family=Press+Start+2P&family=Bungee&family=Carter+One&family=Fugaz+One&family=Arima+Madurai&family=Creepster&family=Audiowide&family=Pompiere&family=Expletus+Sans&family=Love+Ya+Like+A+Sister&family=UnifrakturMaguntia&family=Forum&family=Fredericka+the+Great&family=Pirata+One&family=Grenze+Gotisch&family=Ceviche+One */
-        @import url('https://fonts.googleapis.com/css2?family=Alegreya&family=Coda&family=Lalezar&family=Mirza&family=Raleway+Dots&family=Satisfy&family=Stardos+Stencil&family=Ubuntu&family=Lobster&family=Lobster+Two&family=Playball&family=Yatra+One&family=Cinzel+Decorative&family=Poiret+One&family=Monoton&family=Flow+Circular&family=Flow+Rounded&family=Flow+Block&family=Megrim&family=Yeseva+One&family=Fredoka+One&family=Press+Start+2P&family=Bungee&family=Carter+One&family=Fugaz+One&family=Arima+Madurai&family=Creepster&family=Audiowide&family=Pompiere&family=Expletus+Sans&family=Love+Ya+Like+A+Sister&family=UnifrakturMaguntia&family=Forum&family=Fredericka+the+Great&family=Pirata+One&family=Grenze+Gotisch&family=Ceviche+One&family=Rubik+Glitch&family=Permanent+Marker&family=Nanum+Myeongjo&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Alegreya&family=Coda&family=Lalezar&family=Mirza&family=Raleway+Dots&family=Satisfy&family=Stardos+Stencil&family=Ubuntu&family=Lobster&family=Lobster+Two&family=Playball&family=Yatra+One&family=Cinzel+Decorative&family=Poiret+One&family=Monoton&family=Flow+Circular&family=Flow+Rounded&family=Flow+Block&family=Megrim&family=Yeseva+One&family=Fredoka+One&family=Press+Start+2P&family=Bungee&family=Carter+One&family=Fugaz+One&family=Arima+Madurai&family=Creepster&family=Audiowide&family=Pompiere&family=Expletus+Sans&family=Love+Ya+Like+A+Sister&family=UnifrakturMaguntia&family=Forum&family=Fredericka+the+Great&family=Pirata+One&family=Grenze+Gotisch&family=Ceviche+One&display=swap');
 
         /* @import url('https://fonts.googleapis.com/css2?family=Alegreya&family=Coda&family=Lalezar&family=Mirza&family=Raleway+Dots&family=Satisfy&family=Stardos+Stencil&family=Ubuntu&display=swap'); */
 
@@ -71,14 +71,9 @@
         .font-Grenze_Gotisch { font-family: 'Grenze Gotisch', cursive; }
         .font-Ceviche_One { font-family: 'Ceviche One', cursive; }
 
-        
-        .font-Rubik_Glitch { font-family: 'Rubik Glitch', cursive; }
-        .font-Permanent_Marker { font-family: 'Permanent Marker', cursive; }
-        .font-Nanum_Myeongjo { font-family: 'Nanum Myeongjo', serif; }
-
 </style>
 <style>
-        .sample {
+        /* .sample {
             font-family: 'Alegreya', serif;
             font-family: 'Coda', cursive;
             font-family: 'Lalezar', cursive;
@@ -94,7 +89,7 @@
         }
         .font-samples > [class|="font"] {
             font-size: 3rem;
-        }
+        } */
 
         .font-wComment {
             display: flex;
@@ -170,18 +165,21 @@
     <input type="checkbox" name="toggle" id="toggleLights">
 
 <main>
-    <div class="shelf">
+    <div class="shelf hidden">
         <h3 class="shelf-title">Input</h3>
         <!-- <div id="input"></div> -->
         <!-- <textarea id="input" name="input" rows="5" cols="30">Welcome to my Labst.</textarea> -->
-        <textarea id="input" name="input" rows="5" cols="30">Nytelabs</textarea>
+        <!-- <textarea id="input" name="input" rows="5" cols="30">Nytelabs</textarea> -->
+        <!-- <textarea id="input" name="input" rows="5" cols="30">Stef</textarea> -->
+        <textarea id="input" name="input" rows="5" cols="30">Stéfano De La Torre</textarea>
     </div>
     <div class="shelf">
         <h3 class="shelf-title">Display</h3>
         <div id="display">
-
         </div>
     </div>
+
+    
 </main>
 
 <!-- <div class="options">
@@ -291,9 +289,13 @@ function Build_FontOptions(){
 //     <div class="font-name">${fontName}</div>
 //     <div class="font-sample font-${font}">Welcome to my Labst.</div>
 // </div>`);
+//             groupList.push(`<div class="font-card">
+//     <div class="font-name">${fontName}</div>
+//     <div class="font-sample font-${font}">Nytelabs</div>
+// </div>`);
             groupList.push(`<div class="font-card">
     <div class="font-name">${fontName}</div>
-    <div class="font-sample font-${font}">Nytelabs</div>
+    <div class="font-sample font-${font}">Stéfano De La Torre</div>
 </div>`);
         }); 
         elementGroup.innerHTML += groupList.join('');
@@ -375,29 +377,19 @@ function Build_FontOptions(){
         updateSettings();
         // start();
         // update();
-        let display = document.getElementById('display');
-        display.appendChild(Build_FontOptions());
-        let inputTxt = document.getElementById('input');
-        inputTxt.addEventListener('input', (ev) => {
-            console.log(ev.target.value);
-            UpdateText(ev.target.value);
-        });
+        // let display = document.getElementById('display');
+        // display.appendChild(Build_FontOptions());
+        
+        // let inputTxt = document.getElementById('input');
+        // inputTxt.addEventListener('input', (ev) => {
+        //     console.log(ev.target.value);
+        //     UpdateText(ev.target.value);
+        // });
     });
     /* Version Log:
     [index-nds-00]: Default Template.
     [index-nds-01]: 
     [index-nds-02]: 
-    [index-nds-03]: 
-    [index-nds-04]: 
-    [index-nds-05]: 
-    [index-nds-06]: 
-    [index-nds-07]: 
-    [index-nds-08]: 
-    [index-nds-09]: 
-    [index-nds-10]: 
-    [index-nds-11]: 
-    [index-nds-12]: 
-    
     */
     function CSSAngleToXY(angle){
         angle = (angle+270)%360;
@@ -438,11 +430,8 @@ function Build_FontOptions(){
             "Satisfy",
         ],
         "Main": [
-            "Coda",
             "Lalezar",
             "Mirza",
-            "Raleway_Dots",
-            "Stardos_Stencil",
         ],
         "Design": [
             "Lobster",
@@ -450,39 +439,14 @@ function Build_FontOptions(){
             "Playball",
             "Yatra_One",
             "Cinzel_Decorative",
-            "Poiret_One",
-            "Monoton",
-            // "Flow_Circular",
-            // "Flow_Rounded",
-            // "Flow_Block",
-            "Megrim",
-        ],
-        "Education": [
-            "Yeseva_One",
-            "Fredoka_One",
         ],
         "Fantasy": [
-            "Press_Start_2P",
             "Bungee",
             "Carter_One",
-            "Fugaz_One",
-            "Arima_Madurai",
-            "Creepster",
-            "Audiowide",
-            "Pompiere",
             "Expletus_Sans",
-            "Love_Ya_Like_A_Sister",
-            "UnifrakturMaguntia",
             "Forum",
             "Fredericka_the_Great",
             "Pirata_One",
-            "Grenze_Gotisch",
-            "Ceviche_One",
-        ],
-        "New": [
-            "Rubik_Glitch",
-            "Permanent_Marker",
-            "Nanum_Myeongjo",
         ],
     }
     const AllFonts = {
@@ -533,159 +497,21 @@ function Build_FontOptions(){
             "Grenze_Gotisch",
             "Ceviche_One",
         ],
-        "New": [
-            "Rubik_Glitch",
-            "Permanent_Marker",
-            "Nanum_Myeongjo",
-        ],
     }
-
-
-/*
-const selectedFonts = {
-    "current": [
-        "Alegreya",
-        "Ubuntu",
-        "Satisfy",
-    ],
-    "main": [
-        "Coda",
-        "Lalezar",
-        "Mirza",
-        "Raleway_Dots",
-        "Stardos_Stencil",
-    ],
-    "design": [
-        "Lobster",
-        "Lobster_Two",
-        "Playball",
-        "Yatra_One",
-        "Cinzel_Decorative",
-        "Poiret_One",
-        "Monoton",
-        "Flow_Circular",
-        "Flow_Rounded",
-        "Flow_Block",
-        "Megrim",
-    ],
-    "education": [
-        "Yeseva_One",
-        "Fredoka_One",
-    ],
-    "fantasy": [
-        "Press_Start_2P",
-        "Bungee",
-        "Carter_One",
-        "Fugaz_One",
-        "Arima_Madurai",
-        "Creepster",
-        "Audiowide",
-        "Pompiere",
-        "Expletus_Sans",
-        "Love_Ya_Like_A_Sister",
-        "UnifrakturMaguntia",
-        "Forum",
-        "Fredericka_the_Great",
-        "Pirata_One",
-        "Grenze_Gotisch",
-        "Ceviche_One",
-    ],
-}
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Bungee&family=Carter+One&family=Fugaz+One&family=Arima+Madurai&family=Creepster&family=Audiowide&family=Pompiere&family=Expletus+Sans&family=Love+Ya+Like+A+Sister&family=UnifrakturMaguntia&family=Forum&family=Fredericka+the+Great&family=Pirata+One&family=Grenze+Gotisch&family=Ceviche+One&display=swap');
-.font-Press_Start_2P { font-family: 'Press Start 2P', cursive; }
-.font-Bungee { font-family: 'Bungee', cursive; }
-.font-Carter_One { font-family: 'Carter One', cursive; }
-.font-Fugaz_One { font-family: 'Fugaz One', cursive; }
-.font-Arima_Madurai { font-family: 'Arima Madurai', cursive; }
-.font-Creepster { font-family: 'Creepster', cursive; }
-.font-Audiowide { font-family: 'Audiowide', cursive; }
-.font-Pompiere { font-family: 'Pompiere', cursive; }
-.font-Expletus_Sans { font-family: 'Expletus Sans', cursive; }
-.font-Love_Ya_Like_A_Sister { font-family: 'Love Ya Like A Sister', cursive; }
-.font-UnifrakturMaguntia { font-family: 'UnifrakturMaguntia', cursive; }
-.font-Forum { font-family: 'Forum', cursive; }
-.font-Fredericka_the_Great { font-family: 'Fredericka the Great', cursive; }
-.font-Pirata_One { font-family: 'Pirata One', cursive; }
-.font-Grenze_Gotisch { font-family: 'Grenze Gotisch', cursive; }
-.font-Ceviche_One { font-family: 'Ceviche One', cursive; }
-
-const fonts = {
-"current": {
-    "Alegreya":"serif",
-    "Ubuntu":"sans-serif",
-    "Satisfy":"cursive",
-},
-"main": [
-    "Coda":"cursive",
-    "Lalezar":"cursive",
-    "Mirza":"cursive",
-    "Raleway_Dots":"cursive",
-    "Stardos_Stencil":"cursive",
-],
-"design": [
-    
-],
-"education": [
-    
-],
-"fantasy": [
-    
-],
-}
-
-@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Lobster+Two&family=Playball&family=Yatra+One&family=Cinzel+Decorative&family=Poiret+One&family=Monoton&family=Flow+Circular&family=Flow+Rounded&family=Flow+Block&family=Megrim&display=swap');
-
-.font-Lobster { font-family: 'Lobster', cursive; }
-.font-Lobster_Two { font-family: 'Lobster Two', cursive; }
-
-.font-Playball { font-family: 'Playball', cursive; }
-.font-Yatra_One { font-family: 'Yatra One', cursive; }
-.font-Cinzel_Decorative { font-family: 'Cinzel Decorative', cursive; }
-
-.font-Poiret_One { font-family: 'Poiret One', cursive; }
-.font-Monoton { font-family: 'Monoton', cursive; }
-.font-Flow_Circular { font-family: 'Flow Circular', cursive; }
-.font-Flow_Rounded { font-family: 'Flow Rounded', cursive; }
-.font-Flow_Block { font-family: 'Flow Block', cursive; }
-.font-Megrim { font-family: 'Megrim', cursive; }
-
-@import url('https://fonts.googleapis.com/css2?family=Yeseva+One&family=Fredoka+One&display=swap');
-.font-Yeseva_One { font-family: 'Yeseva One', cursive; }
-.font-Fredoka_One { font-family: 'Fredoka One', cursive; }
-
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Bungee&family=Carter+One&family=Fugaz+One&family=Arima+Madurai&family=Creepster&family=Audiowide&family=Pompiere&family=Expletus+Sans&family=Love+Ya+Like+A+Sister&family=UnifrakturMaguntia&family=Forum&family=Fredericka+the+Great&family=Pirata+One&family=Grenze+Gotisch&family=Ceviche+One&display=swap');
-.font-Press_Start_2P { font-family: 'Press Start 2P', cursive; }
-.font-Bungee { font-family: 'Bungee', cursive; }
-.font-Carter_One { font-family: 'Carter One', cursive; }
-.font-Fugaz_One { font-family: 'Fugaz One', cursive; }
-.font-Arima_Madurai { font-family: 'Arima Madurai', cursive; }
-.font-Creepster { font-family: 'Creepster', cursive; }
-.font-Audiowide { font-family: 'Audiowide', cursive; }
-.font-Pompiere { font-family: 'Pompiere', cursive; }
-.font-Expletus_Sans { font-family: 'Expletus Sans', cursive; }
-.font-Love_Ya_Like_A_Sister { font-family: 'Love Ya Like A Sister', cursive; }
-.font-UnifrakturMaguntia { font-family: 'UnifrakturMaguntia', cursive; }
-.font-Forum { font-family: 'Forum', cursive; }
-.font-Fredericka_the_Great { font-family: 'Fredericka the Great', cursive; }
-.font-Pirata_One { font-family: 'Pirata One', cursive; }
-.font-Grenze_Gotisch { font-family: 'Grenze Gotisch', cursive; }
-.font-Ceviche_One { font-family: 'Ceviche One', cursive; }
-
-*/
 
 /*
 ───[✓, ✗, ⋯]───
+
+
+───[✓]───
 [Current]: [
 [✓] → [Alegreya]
 [✓] → [Ubuntu]
 [✓] → [Satisfy]
 ],
 [Main]: [
-[_] → [Coda]
 [✓] → [Lalezar]
 [✓] → [Mirza]
-[_] → [Raleway_Dots]
-[_] → [Stardos_Stencil]
 ],
 [Design]: [
 [✓] → [Lobster]
@@ -693,7 +519,33 @@ const fonts = {
 [✓] → [Playball]
 [✓] → [Yatra_One]
 [✓] → [Cinzel_Decorative]
+],
+[Fantasy]: [
+[✓] → [Bungee]
+[✓] → [Carter_One]
+[✓] → [Expletus_Sans]
+[✓] → [Forum]
+[✓] → [Fredericka_the_Great]
+[✓] → [Pirata_One]
+],
+
+───[⋯]───
+[Design]: [
 [⋯] → [Poiret_One]
+],
+[Fantasy]: [
+[⋯] → [Press_Start_2P]
+[⋯] → [Love_Ya_Like_A_Sister]
+],
+
+
+───[✗]───
+[Main]: [
+[_] → [Coda]
+[_] → [Raleway_Dots]
+[_] → [Stardos_Stencil]
+],
+[Design]: [
 [_] → [Monoton]
 [_] → [Megrim]
 ],
@@ -701,22 +553,13 @@ const fonts = {
 [_] → [Yeseva_One]
 [_] → [Fredoka_One]
 ],
-
 [Fantasy]: [
-[⋯] → [Press_Start_2P]
-[✓] → [Bungee]
-[✓] → [Carter_One]
 [_] → [Fugaz_One]
 [_] → [Arima_Madurai]
 [_] → [Creepster]
 [_] → [Audiowide]
 [_] → [Pompiere]
-[✓] → [Expletus_Sans]
-[⋯] → [Love_Ya_Like_A_Sister]
 [_] → [UnifrakturMaguntia]
-[✓] → [Forum]
-[✓] → [Fredericka_the_Great]
-[✓] → [Pirata_One]
 [_] → [Grenze_Gotisch]
 [✗] → [Ceviche_One]
 ],

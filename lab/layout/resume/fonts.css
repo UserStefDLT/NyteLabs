@@ -1,0 +1,358 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya&family=Satisfy&family=Ubuntu&family=Lalezar&family=Mirza&family=Lobster&family=Lobster+Two&family=Playball&family=Yatra+One&family=Cinzel+Decorative&family=Bungee&family=Carter+One&family=Expletus+Sans&family=Forum&family=Fredericka+the+Great&family=Pirata+One&display=swap');
+
+.font-Alegreya { font-family: 'Alegreya', serif; }
+.font-Ubuntu { font-family: 'Ubuntu', sans-serif; }
+.font-Satisfy { font-family: 'Satisfy', cursive; }
+
+.font-Lalezar { font-family: 'Lalezar', cursive; }
+.font-Mirza { font-family: 'Mirza', cursive; }
+
+.font-Lobster { font-family: 'Lobster', cursive; }
+.font-Lobster_Two { font-family: 'Lobster Two', cursive; }
+.font-Playball { font-family: 'Playball', cursive; }
+.font-Yatra_One { font-family: 'Yatra One', cursive; }
+.font-Cinzel_Decorative { font-family: 'Cinzel Decorative', cursive; }
+
+.font-Bungee { font-family: 'Bungee', cursive; }
+.font-Carter_One { font-family: 'Carter One', cursive; }
+.font-Expletus_Sans { font-family: 'Expletus Sans', cursive; }
+.font-Forum { font-family: 'Forum', cursive; }
+.font-Fredericka_the_Great { font-family: 'Fredericka the Great', cursive; }
+.font-Pirata_One { font-family: 'Pirata One', cursive; }
+
+
+
+/* 
+───[✓]───
+@import url('https://fonts.googleapis.com/css2?family=Alegreya&family=Satisfy&family=Ubuntu&family=Lalezar&family=Mirza&family=Lobster&family=Lobster+Two&family=Playball&family=Yatra+One&family=Cinzel+Decorative&family=Bungee&family=Carter+One&family=Expletus+Sans&family=Forum&family=Fredericka+the+Great&family=Pirata+One&display=swap');
+
+───[✓]───
+@import url('https://fonts.googleapis.com/css2?
+family=Alegreya
+&family=Satisfy
+&family=Ubuntu
+
+&family=Lalezar
+&family=Mirza
+
+&family=Lobster
+&family=Lobster+Two
+&family=Playball
+&family=Yatra+One
+&family=Cinzel+Decorative
+
+
+&family=Bungee
+&family=Carter+One
+&family=Expletus+Sans
+&family=Forum
+&family=Fredericka+the+Great
+&family=Pirata+One
+&display=swap'); 
+*/
+
+
+/*
+───[✓, ✗, ⋯]───
+@import url('https://fonts.googleapis.com/css2?family=Alegreya&family=Coda&family=Lalezar&family=Mirza&family=Raleway+Dots&family=Satisfy&family=Stardos+Stencil&family=Ubuntu&family=Lobster&family=Lobster+Two&family=Playball&family=Yatra+One&family=Cinzel+Decorative&family=Poiret+One&family=Monoton&family=Flow+Circular&family=Flow+Rounded&family=Flow+Block&family=Megrim&family=Yeseva+One&family=Fredoka+One&family=Press+Start+2P&family=Bungee&family=Carter+One&family=Fugaz+One&family=Arima+Madurai&family=Creepster&family=Audiowide&family=Pompiere&family=Expletus+Sans&family=Love+Ya+Like+A+Sister&family=UnifrakturMaguntia&family=Forum&family=Fredericka+the+Great&family=Pirata+One&family=Grenze+Gotisch&family=Ceviche+One&display=swap');
+
+───[✓]───
+@import url('https://fonts.googleapis.com/css2?
+family=Alegreya&family=Satisfy&family=Ubuntu
+&family=Lalezar&family=Mirza
+&family=Lobster&family=Lobster+Two&family=Playball&family=Yatra+One&family=Cinzel+Decorative
+&family=Bungee&family=Carter+One&family=Expletus+Sans&family=Forum&family=Fredericka+the+Great&family=Pirata+One
+&display=swap'); 
+
+───[⋯]───
+@import url('https://fonts.googleapis.com/css2?
+&family=Poiret+One
+&family=Press+Start+2P
+&family=Love+Ya+Like+A+Sister
+&display=swap'); 
+
+───[✗]───
+@import url('https://fonts.googleapis.com/css2?
+&family=Coda&family=Raleway+Dots&family=Stardos+Stencil
+&family=Monoton&family=Flow+Circular&family=Flow+Rounded&family=Flow+Block&family=Megrim
+&family=Yeseva+One&family=Fredoka+One
+&family=Fugaz+One&family=Arima+Madurai&family=Creepster&family=Audiowide&family=Pompiere&family=UnifrakturMaguntia&family=Grenze+Gotisch&family=Ceviche+One
+&display=swap'); 
+
+───[✗, ⋯]───
+@import url('https://fonts.googleapis.com/css2?
+&family=Coda&family=Raleway+Dots&family=Stardos+Stencil
+&family=Poiret+One&family=Monoton&family=Flow+Circular&family=Flow+Rounded&family=Flow+Block&family=Megrim
+&family=Yeseva+One&family=Fredoka+One
+&family=Press+Start+2P&family=Fugaz+One&family=Arima+Madurai&family=Creepster&family=Audiowide&family=Pompiere&family=Love+Ya+Like+A+Sister&family=UnifrakturMaguntia&family=Grenze+Gotisch&family=Ceviche+One
+&display=swap'); 
+
+*/
+
+
+/* ─────────────── */
+/* All */
+/* @import url('https://fonts.googleapis.com/css2?family=Alegreya&family=Coda&family=Lalezar&family=Mirza&family=Raleway+Dots&family=Satisfy&family=Stardos+Stencil&family=Ubuntu&family=Lobster&family=Lobster+Two&family=Playball&family=Yatra+One&family=Cinzel+Decorative&family=Poiret+One&family=Monoton&family=Flow+Circular&family=Flow+Rounded&family=Flow+Block&family=Megrim&family=Yeseva+One&family=Fredoka+One&family=Press+Start+2P&family=Bungee&family=Carter+One&family=Fugaz+One&family=Arima+Madurai&family=Creepster&family=Audiowide&family=Pompiere&family=Expletus+Sans&family=Love+Ya+Like+A+Sister&family=UnifrakturMaguntia&family=Forum&family=Fredericka+the+Great&family=Pirata+One&family=Grenze+Gotisch&family=Ceviche+One&display=swap'); */
+/* Main */
+/* @import url('https://fonts.googleapis.com/css2?family=Alegreya&family=Coda&family=Lalezar&family=Mirza&family=Raleway+Dots&family=Satisfy&family=Stardos+Stencil&family=Ubuntu&display=swap'); */
+/* Design */
+/* @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Lobster+Two&family=Playball&family=Yatra+One&family=Cinzel+Decorative&family=Poiret+One&family=Monoton&family=Flow+Circular&family=Flow+Rounded&family=Flow+Block&family=Megrim&display=swap'); */
+/* Education */
+/* @import url('https://fonts.googleapis.com/css2?family=Yeseva+One&family=Fredoka+One&display=swap'); */
+/* Fantasy */
+/* @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Bungee&family=Carter+One&family=Fugaz+One&family=Arima+Madurai&family=Creepster&family=Audiowide&family=Pompiere&family=Expletus+Sans&family=Love+Ya+Like+A+Sister&family=UnifrakturMaguntia&family=Forum&family=Fredericka+the+Great&family=Pirata+One&family=Grenze+Gotisch&family=Ceviche+One&display=swap'); */
+
+/* Main */
+/* .font-Coda { font-family: 'Coda', cursive; }
+.font-Raleway_Dots { font-family: 'Raleway Dots', cursive; }
+.font-Stardos_Stencil { font-family: 'Stardos Stencil', cursive; } */
+
+/* Design */
+/* .font-Poiret_One { font-family: 'Poiret One', cursive; }
+.font-Monoton { font-family: 'Monoton', cursive; }
+.font-Flow_Circular { font-family: 'Flow Circular', cursive; }
+.font-Flow_Rounded { font-family: 'Flow Rounded', cursive; }
+.font-Flow_Block { font-family: 'Flow Block', cursive; }
+.font-Megrim { font-family: 'Megrim', cursive; } */
+
+/* Education */
+/* .font-Yeseva_One { font-family: 'Yeseva One', cursive; }
+.font-Fredoka_One { font-family: 'Fredoka One', cursive; } */
+
+/* Fantasy */
+/* .font-Press_Start_2P { font-family: 'Press Start 2P', cursive; }
+.font-Fugaz_One { font-family: 'Fugaz One', cursive; }
+.font-Arima_Madurai { font-family: 'Arima Madurai', cursive; }
+.font-Creepster { font-family: 'Creepster', cursive; }
+.font-Audiowide { font-family: 'Audiowide', cursive; }
+.font-Pompiere { font-family: 'Pompiere', cursive; }
+.font-Love_Ya_Like_A_Sister { font-family: 'Love Ya Like A Sister', cursive; }
+.font-UnifrakturMaguntia { font-family: 'UnifrakturMaguntia', cursive; }
+.font-Grenze_Gotisch { font-family: 'Grenze Gotisch', cursive; }
+.font-Ceviche_One { font-family: 'Ceviche One', cursive; } */
+
+
+/* 
+───[✓ downloading.]───
+[Current]: [
+[✓] → [Alegreya],
+[✓] → [Ubuntu],
+[✓] → [Satisfy],
+],
+[Main]: [
+[✓] → [Lalezar],
+[✓] → [Mirza],
+],
+[Design]: [
+[✓] → [Lobster],
+[✓] → [Lobster_Two],
+[✓] → [Playball],
+[✓] → [Yatra_One],
+[✓] → [Cinzel_Decorative],
+],
+[Fantasy]: [
+[6] → [Bungee],
+[✓] → [Carter_One],
+[✓] → [Expletus_Sans],
+[✓] → [Forum],
+[✓] → [Fredericka_the_Great],
+[✓] → [Pirata_One],
+],
+
+───[✓, ✗, ⋯]───
+[Current]: [
+[_] → [Alegreya]
+[_] → [Ubuntu]
+[_] → [Satisfy]
+],
+[Main]: [
+[_] → [Coda]
+[_] → [Lalezar]
+[_] → [Mirza]
+[_] → [Raleway_Dots]
+[_] → [Stardos_Stencil]
+],
+[Design]: [
+[_] → [Lobster]
+[_] → [Lobster_Two]
+[_] → [Playball]
+[_] → [Yatra_One]
+[_] → [Cinzel_Decorative]
+[_] → [Poiret_One]
+[_] → [Monoton]
+[_] → [Megrim]
+],
+[Education]: [
+[_] → [Yeseva_One]
+[_] → [Fredoka_One]
+],
+[Fantasy]: [
+[_] → [Press_Start_2P]
+[_] → [Bungee]
+[_] → [Carter_One]
+[_] → [Fugaz_One]
+[_] → [Arima_Madurai]
+[_] → [Creepster]
+[_] → [Audiowide]
+[_] → [Pompiere]
+[_] → [Expletus_Sans]
+[_] → [Love_Ya_Like_A_Sister]
+[_] → [UnifrakturMaguntia]
+[_] → [Forum]
+[_] → [Fredericka_the_Great]
+[_] → [Pirata_One]
+[_] → [Grenze_Gotisch]
+[_] → [Ceviche_One]
+],
+*/
+
+
+/*
+───[✓]───
+[Current]: [
+[✓] → [Alegreya]: "",
+[✓] → [Ubuntu]: "",
+[✓] → [Satisfy]: "",
+],
+[Main]: [
+[✓] → [Lalezar]: "Clear and solid text, for buiolding a Tower.",
+[✓] → [Mirza]: "I like the 'f'. It can be a little intimidating.",
+],
+[Design]: [
+[✓] → [Lobster]: "Cheerful and Elegant, a classic use for Design. Like a 50s Ice Cream shop.",
+[✓] → [Lobster_Two]: "Same as above, but a little more formal.",
+[✓] → [Playball]: "Like the name of someone in a well written letter.",
+[✓] → [Yatra_One]: "I'm not sure, but It can look like engraved in sandstone. (White board)",
+[✓] → [Cinzel_Decorative]: "Like the text in a very elegant spaceship. (The Naboo Royal Starship.)",
+],
+[Fantasy]: [
+[✓] → [Bungee]: "Clear and solid font for a playful persona, like a game designer.",
+[✓] → [Carter_One]: "Well design. Looks like for a good graphic designer.",
+[✓] → [Expletus_Sans]: "Interesting, I don't know what to make of it yet.",
+[✓] → [Forum]: "Clear and simple, but well put together. Like for a name in a letter book in Arcanum.",
+[✓] → [Fredericka_the_Great]: "Chalkboard.",
+[✓] → [Pirata_One]: "Like vampire text.",
+],
+
+───[✗, ⋯]───
+[Main]: [
+[Coda]: "Plain design, not much I can do with it.",
+[Raleway_Dots]: "It is just dotted.",
+[Stardos_Stencil]: "Looks like the print on a wodden box.",
+],
+[Design]: [
+[Poiret_One]: "It looks elegant, but I don't know how can I use it for a resume.",
+[Monoton]: "Looks like multiple lines engraving. (Too much to handle for me.)",
+[Megrim]: "Looks interesting like for the instructions in a puzzle.",
+],
+[Education]: [
+[Yeseva_One]: "Simple one, I can't optimaly use this font.",
+[Fredoka_One]: "Rounded like the text in a bubbly video game with candy.",
+],
+[Fantasy]: [
+[Press_Start_2P]: "Looks like an old pixelated video game.",
+[Fugaz_One]: "The letter 'f' makes a strange shape. It has a very simple design.",
+[Arima_Madurai]: "A little to round on the 'a', 'f', 'r'. It is not me.",
+[Creepster]: "Like the text in an old horror movie.",
+[Audiowide]: "Like the text for a cheap electronic.",
+[Pompiere]: "Good for the text in a story or book, but not for my name in a resume.",
+[Love_Ya_Like_A_Sister]: "Looks like if it was written by a 5 years old kid.",
+[UnifrakturMaguntia]: "Like vampire text, but the 'S' looks like 'G' which I can't handle that well.",
+[Grenze_Gotisch]: "Like an old metal printer. The 'S' looks like '§'",
+[Ceviche_One]: "Like for a Fruit Ninja game.",
+],
+*/
+
+/*
+[Other Fonts]
+
+&family=Rubik+Glitch&family=Permanent+Marker&family=Nanum+Myeongjo
+.font-Rubik_Glitch { font-family: 'Rubik Glitch', cursive; }
+.font-Permanent_Marker { font-family: 'Permanent Marker', cursive; }
+.font-Nanum_Myeongjo { font-family: 'Nanum Myeongjo', serif; }
+
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap');
+[&family=Rubik+Glitch]
+.font-Rubik_Glitch { font-family: 'Rubik Glitch', cursive; }
+
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+[&family=Permanent+Marker]
+.font-Permanent_Marker { font-family: 'Permanent Marker', cursive; }
+
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap');
+[&family=Nanum+Myeongjo]
+.font-Nanum_Myeongjo { font-family: 'Nanum Myeongjo', serif; }
+
+
+[&]
+.font- {  }
+
+*/
+
+
+
+/*
+
+const fontList = {
+    ['Alegreya', 'serif'],
+    ['Ubuntu', 'sans-serif'],
+    ['Satisfy', 'cursive'],
+    ['Lalezar', 'cursive'],
+    ['Mirza', 'cursive'],
+    ['Lobster', 'cursive'],
+    ['Lobster Two', 'cursive'],
+    ['Playball', 'cursive'],
+    ['Yatra One', 'cursive'],
+    ['Cinzel Decorative', 'cursive'],
+    ['Bungee', 'cursive'],
+    ['Carter One', 'cursive'],
+    ['Expletus Sans', 'cursive'],
+    ['Forum', 'cursive'],
+    ['Fredericka the Great', 'cursive'],
+    ['Pirata One', 'cursive'],
+    ['Montserrat', 'sans-serif'],
+    ['Noto Sans Mende Kikakui', 'sans-serif'],
+    ['Noto Serif Oriya', 'serif'],
+    ['Playfair Display', 'serif'],
+    ['Josefin Sans', 'sans-serif'],
+    ['PT Serif', 'serif'],
+    ['Dosis', 'sans-serif'],
+    ['Libre Baskerville', 'serif'],
+    ['Noto Serif', 'serif'],
+    ['Oxygen', 'sans-serif'],
+    ['PT Sans Narrow', 'sans-serif'],
+    ['Secular One', 'sans-serif'],
+}
+
+font-family: 'Alegreya', serif;
+font-family: 'Ubuntu', sans-serif;
+font-family: 'Satisfy', cursive;
+font-family: 'Lalezar', cursive;
+font-family: 'Mirza', cursive;
+font-family: 'Lobster', cursive;
+font-family: 'Lobster Two', cursive;
+font-family: 'Playball', cursive;
+font-family: 'Yatra One', cursive;
+font-family: 'Cinzel Decorative', cursive;
+font-family: 'Bungee', cursive;
+font-family: 'Carter One', cursive;
+font-family: 'Expletus Sans', cursive;
+font-family: 'Forum', cursive;
+font-family: 'Fredericka the Great', cursive;
+font-family: 'Pirata One', cursive;
+font-family: 'Montserrat', sans-serif;
+font-family: 'Noto Sans Mende Kikakui', sans-serif;
+font-family: 'Noto Serif Oriya', serif;
+font-family: 'Playfair Display', serif;
+font-family: 'Josefin Sans', sans-serif;
+font-family: 'PT Serif', serif;
+font-family: 'Dosis', sans-serif;
+font-family: 'Libre Baskerville', serif;
+font-family: 'Noto Serif', serif;
+font-family: 'Oxygen', sans-serif;
+font-family: 'PT Sans Narrow', sans-serif;
+font-family: 'Secular One', sans-serif;
+
+*/
+

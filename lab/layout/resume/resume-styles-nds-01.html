@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume</title>
+    <link rel="stylesheet" href="../../../stylesheets/i.css">
+    <style>
+        :root {
+            --bwt: #0000;
+            --bw0: #000;
+            --bw1: #111;
+            --bw2: #222;
+            --bw3: #333;
+            --bw4: #444;
+            --bw5: #555;
+            --bw6: #666;
+            --bw7: #777;
+            --bw8: #888;
+            --bw9: #999;
+            --bwa: #aaa;
+            --bwb: #bbb;
+            --bwc: #ccc;
+            --bwd: #ddd;
+            --bwe: #eee;
+            --bwf: #fff;
+            
+            --bw1c: #111c;
+            --bwf9: #fff9;
+            --bw9: #999;
+            --bw99: #9999;
+            --clr-t: transparent;
+        }
+        body {
+            background-color: #111;
+            color: #eee;
+            margin: 0;
+        }
+        main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        main {
+            position: relative;
+            min-height: 10vmin;
+            border-radius: 5px;
+            width: 95vw;
+            margin: 3vmin auto;
+
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+    </style>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Alegreya&family=Satisfy&family=Ubuntu&family=Lalezar&family=Mirza&family=Lobster&family=Lobster+Two&family=Playball&family=Yatra+One&family=Cinzel+Decorative&family=Bungee&family=Carter+One&family=Expletus+Sans&family=Forum&family=Fredericka+the+Great&family=Pirata+One&display=swap');
+        .font-Alegreya { font-family: 'Alegreya', serif; }
+        .font-Ubuntu { font-family: 'Ubuntu', sans-serif; }
+        .font-Satisfy { font-family: 'Satisfy', cursive; }
+
+        .font-Lalezar { font-family: 'Lalezar', cursive; }
+        .font-Mirza { font-family: 'Mirza', cursive; }
+
+        .font-Lobster { font-family: 'Lobster', cursive; }
+        .font-Lobster_Two { font-family: 'Lobster Two', cursive; }
+        .font-Playball { font-family: 'Playball', cursive; }
+        .font-Yatra_One { font-family: 'Yatra One', cursive; }
+        .font-Cinzel_Decorative { font-family: 'Cinzel Decorative', cursive; }
+
+        .font-Bungee { font-family: 'Bungee', cursive; }
+        .font-Carter_One { font-family: 'Carter One', cursive; }
+        .font-Expletus_Sans { font-family: 'Expletus Sans', cursive; }
+        .font-Forum { font-family: 'Forum', cursive; }
+        .font-Fredericka_the_Great { font-family: 'Fredericka the Great', cursive; }
+        .font-Pirata_One { font-family: 'Pirata One', cursive; }
+    </style>
+    <style>
+        /* header {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 1rem;
+            background-image: radial-gradient(hsl(160, 75%, 15%), hsl(160, 85%, 10%), hsl(160, 100%, 5%));
+            color: #eee;
+            text-align: center;
+        }
+        h1 {
+            font-weight: normal;
+            font-size: 3rem;
+        } */
+    </style>
+    <style>
+        [class|="style"] {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 1rem;
+            text-align: center;
+            cursor: default;
+        }
+        .title {
+            font-weight: normal;
+            font-size: 3rem;
+            margin: 0.5em;
+        }
+
+        .style-none {
+            background: #eee;
+            color: #222;
+        }
+        /* .style-none .title { font-family: 'Fredericka the Great', cursive; } */
+
+        .style-School {
+            background-image: radial-gradient(hsl(160, 75%, 15%), hsl(160, 85%, 10%), hsl(160, 100%, 5%));
+            color: #eee;
+        }
+        .style-School .title { font-family: 'Fredericka the Great', cursive; }
+    
+
+        .style-SandAndGlass {
+            /* background-image: 
+            radial-gradient(circle at 50% 0%, hsla(210, 30%, 60%, 1), hsla(210, 30%, 60%, .5) 30%, hsla(210, 30%, 60%, 0) 60%),
+            linear-gradient(hsl(210, 50%, 30%), hsl(210, 40%, 20%)); */
+            /* background-image: 
+            radial-gradient(farthest-side at 50% 0%, hsla(210, 30%, 60%, 1), hsla(210, 30%, 60%, .5) 30%, hsla(210, 30%, 60%, 0) 60%),
+            linear-gradient(hsl(210, 50%, 30%), hsl(210, 40%, 20%)); */
+
+            /* --light: radial-gradient(farthest-side at 50% -50%, hsla(210, 30%, 60%, 1), hsla(210, 30%, 60%, .25) 30%, hsla(210, 30%, 60%, 0) 90%); */
+            /* --light: radial-gradient(farthest-corner at 50% -50%, hsla(210, 30%, 60%, 1), hsla(210, 30%, 60%, .25) 30%, hsla(210, 30%, 60%, 0) 90%); */
+            --light: radial-gradient(farthest-side at 50% -50%, hsla(210, 30%, 60%, 1), hsla(210, 30%, 60%, .25) 30%, hsla(210, 30%, 60%, 0) 90%);
+            --bg: linear-gradient(hsl(210, 50%, 30%), hsl(210, 40%, 20%));
+            background-image: 
+            var(--light),
+            var(--bg);
+            color: hsl(45, 50%, 75%);
+            text-shadow: 1px 1px 2px hsl(30, 30%, 30%);
+
+            /* background-position-y: -50%, 50%; */
+            background-size: 100% 200%, 100%, 100%;
+            background-position: 50% 100%, 50% 50%;
+            transition: background-position 300ms ease-in-out;
+        }
+        /* .style-SandAndGlass:hover {background-position-y: 0%, 50%;} */
+        .style-SandAndGlass:hover {background-position: 50% 0%, 50% 50%;}
+        .style-SandAndGlass .title { font-family: 'Cinzel Decorative', cursive; }
+    
+        .style-Vamp {
+            background: linear-gradient(#210, #f339), var(--bw2);
+            background: linear-gradient(#210, #c009), var(--bw2);
+            background-size: 100% 200%;
+            background-position: 50% 0%;
+            color: var(--bwf);
+            text-shadow: 1px 1px 2px var(--bw0), 1px 1px 3px #f339,  2px 2px 4px var(--bw0);
+        }
+        .style-Vamp .title { font-family: 'Pirata One', cursive; }
+    
+        .style-Normal {
+            background-image: linear-gradient(0deg, #123, #789);
+            background-image: 
+                radial-gradient(farthest-corner at 100% 100%, #456, #7890),
+                radial-gradient(farthest-corner at 100% 100%, #123, #123);
+            color: var(--bwf);
+            text-shadow: 1px 1px 2px var(--bw0);
+        }
+        .style-Normal .title { font-family: 'Forum', cursive; }
+    
+    </style>
+</head>
+<body>
+    <!-- <header>
+        <h1>Stefano De La Torre</h1>
+    </header> -->
+
+    <div class="style-none">
+        <div class="title">Stefano De La Torre</div>
+    </div>
+
+    <!-- .style-School>.title{Stefano De La Torre} -->
+    <div class="style-School">
+        <div class="title">Stefano De La Torre</div>
+    </div>
+
+    <div class="style-SandAndGlass">
+        <div class="title">Stefano De La Torre</div>
+    </div>
+
+    <div class="style-Vamp">
+        <div class="title">Stefano De La Torre</div>
+    </div>
+
+    
+    <div class="style-Normal">
+        <div class="title">Stefano De La Torre</div>
+    </div>
+</body>
+</html>
