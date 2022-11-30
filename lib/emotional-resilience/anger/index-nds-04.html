@@ -360,13 +360,70 @@
 <body>
     <header>
         <h1>Emotional Resilience</h1>
+        <!-- <h1 class="font-Playfair_Display">Emotional Resilience</h1>
+        <h1 class="font-Josefin_Sans">Emotional Resilience</h1>
+        <h1 class="font-Libre_Baskerville">Emotional Resilience</h1>
+        <h1 class="font-Noto_Serif">Emotional Resilience</h1>
+        <h1 class="font-Secular_One">Emotional Resilience</h1> -->
+
         <h2>Anger: Underlying Emotions and Feelings</h2>
+
+        <!-- <h2 class="font-Playfair_Display" style="font-weight: normal;">Anger: Underlying Emotions and Feelings</h2>
+        <h2 class="font-Josefin_Sans" style="font-weight: normal;">Anger: Underlying Emotions and Feelings</h2>
+        <h2 class="font-Libre_Baskerville" style="font-weight: normal;">Anger: Underlying Emotions and Feelings</h2>
+        <h2 class="font-Noto_Serif" style="font-weight: normal;">Anger: Underlying Emotions and Feelings</h2>
+        <h2 class="font-Secular_One" style="font-weight: normal;">Anger: Underlying Emotions and Feelings</h2> -->
+        <!-- <h2>Anger</h2>
+        <h3>Underlying Emotions and Feelings</h3> -->
     </header>
 
+    <!-- <div class="uef-row">
+        <input type="checkbox" class="" id="uef-hunger"/>
+        <label for="uef-hunger">Hunger</label>
+        <div class="description">
+        
+        </div>
+    </div> -->
+
+    <!-- <main>
+        <div id="display"></div>
+    </main> -->
     <main id="display">
     </main>
 
-    
+    <!-- <div class="list">
+        <div class="uef-group">
+            <div class="uef-group-title">Physical</div>
+            <div class="row">
+                <input type="checkbox" class="uef-check" id="uef-hunger"/>
+                <label class="uef-label" for="uef-hunger">Hunger</label>
+            </div>
+            <div class="row">
+                <input type="checkbox" class="uef-check" id="uef-fatigue"/>
+                <label class="uef-label" for="uef-fatigue">Fatigue</label>
+            </div>
+        </div>
+        
+        <div class="uef-group">
+            <div class="uef-group-title">Future</div>
+            <div class="row">
+                <input type="checkbox" class="uef-check" id="uef-afraid"/>
+                <label class="uef-label" for="uef-afraid">Afraid</label>
+            </div>
+            <div class="row">
+                <input type="checkbox" class="uef-check" id="uef-anxious"/>
+                <label class="uef-label" for="uef-anxious">Anxious</label>
+                <div class="description">experiencing worry, unease, or nervousness, typically about an imminent event or something with an uncertain outcome.</div>
+            </div>
+            <div class="row">
+                <input type="checkbox" class="uef-check" id="uef-worried"/>
+                <label class="uef-label" for="uef-worried">Worried</label>
+            </div>
+        </div>
+        
+    </div> -->
+
+
 <script>
     var uef1 = {
         "Hunger":false,
@@ -443,6 +500,8 @@
         }
     }
     function BuildUndef(uef){
+        // let gkeys = Object.keys(uef);
+
         let uefList = document.createElement('div');
         uefList.classList.add('list');
         Object.keys(uef).forEach(group => {
@@ -482,13 +541,21 @@
         checks.forEach(e => {
             e.addEventListener('click', (ev) => {
                 let ef = ev.target.id.split('-')[1];
+                // console.log(ef);
                 ef = ef.slice(0,1).toLocaleUpperCase() + ef.slice(1);
+                // console.log(ef);
                 uef1[ef] = ev.target.checked;
+                // console.log(`ev.target.checked: ${ev.target.checked}`);
+                // console.log(ev.target.checked);
+                // console.log(`uef1[ef]:`);
+                // console.log(uef1[ef]);
                 SaveToLocalStorage();
             });
         });
     }
 
+
+    // BuildUndef(uef);
     window.addEventListener('load', (ev) => {
         LoadFromLocalStorage();
         let display = document.getElementById('display');

@@ -7,14 +7,6 @@
     <title>Underlying Emotions and Feelings | Anger</title>
     <link rel="stylesheet" href="../../../stylesheets/i.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&family=Josefin+Sans&family=Libre+Baskerville&family=Noto+Serif&family=Secular+One&display=swap');
-        /* 
-        .font-Playfair_Display { font-family: 'Playfair Display', serif; }
-        .font-Josefin_Sans { font-family: 'Josefin Sans', sans-serif; }
-        .font-Libre_Baskerville { font-family: 'Libre Baskerville', serif; }
-        .font-Noto_Serif { font-family: 'Noto Serif', serif; }
-        .font-Secular_One { font-family: 'Secular One', sans-serif; }
-        */
         :root {
             --bwt: #0000;
             --bw0: #000;
@@ -44,13 +36,8 @@
             background-color: #111;
             color: #eee;
             margin: 0;
-            font-family: 'Josefin Sans', sans-serif;
         }
-        /* h1 {font-family: 'Secular One', sans-serif;} */
-        /* h2 {font-family: 'Noto Serif', serif;} */
-        /* h1, h2 {font-family: 'Josefin Sans', sans-serif;} */
-        h1 {margin-bottom: 0.25rem;}
-        h2 {margin: 0; font-weight: normal;}
+        main {}
         main {
             display: flex;
             align-items: center;
@@ -134,10 +121,6 @@
             background-color: var(--bg-2);
             color: #fff;
             padding: 4px 8px;
-
-            font-family: 'Josefin Sans', sans-serif;
-            font-weight: normal;
-            font-family: 'Libre Baskerville', serif;
         }
         /* .row {
             position: relative;
@@ -361,12 +344,57 @@
     <header>
         <h1>Emotional Resilience</h1>
         <h2>Anger: Underlying Emotions and Feelings</h2>
+        <!-- <h2>Anger</h2>
+        <h3>Underlying Emotions and Feelings</h3> -->
     </header>
 
+    <!-- <div class="uef-row">
+        <input type="checkbox" class="" id="uef-hunger"/>
+        <label for="uef-hunger">Hunger</label>
+        <div class="description">
+        
+        </div>
+    </div> -->
+
+    <!-- <main>
+        <div id="display"></div>
+    </main> -->
     <main id="display">
     </main>
 
-    
+    <!-- <div class="list">
+        <div class="uef-group">
+            <div class="uef-group-title">Physical</div>
+            <div class="row">
+                <input type="checkbox" class="uef-check" id="uef-hunger"/>
+                <label class="uef-label" for="uef-hunger">Hunger</label>
+            </div>
+            <div class="row">
+                <input type="checkbox" class="uef-check" id="uef-fatigue"/>
+                <label class="uef-label" for="uef-fatigue">Fatigue</label>
+            </div>
+        </div>
+        
+        <div class="uef-group">
+            <div class="uef-group-title">Future</div>
+            <div class="row">
+                <input type="checkbox" class="uef-check" id="uef-afraid"/>
+                <label class="uef-label" for="uef-afraid">Afraid</label>
+            </div>
+            <div class="row">
+                <input type="checkbox" class="uef-check" id="uef-anxious"/>
+                <label class="uef-label" for="uef-anxious">Anxious</label>
+                <div class="description">experiencing worry, unease, or nervousness, typically about an imminent event or something with an uncertain outcome.</div>
+            </div>
+            <div class="row">
+                <input type="checkbox" class="uef-check" id="uef-worried"/>
+                <label class="uef-label" for="uef-worried">Worried</label>
+            </div>
+        </div>
+        
+    </div> -->
+
+
 <script>
     var uef1 = {
         "Hunger":false,
@@ -443,6 +471,8 @@
         }
     }
     function BuildUndef(uef){
+        // let gkeys = Object.keys(uef);
+
         let uefList = document.createElement('div');
         uefList.classList.add('list');
         Object.keys(uef).forEach(group => {
@@ -453,23 +483,38 @@
             uefgt.innerText = group;
             uefg.appendChild(uefgt);
 
+// `<div class="uef-group">
+//     <div class="uef-group-title">${group}</div>`
             let uefgList = [];
             // uef[key].forEach(ef=>{
             Object.keys(uef[group]).forEach(ef => {
                 let desc = uef[group][ef];
                 let display = '';
-                let checked = '';
                 if(uef[group][ef] == ''){
                     // desc = '🚧 Under Construction 🚧';
                     desc = '🚧';
                     display = ' hidden';
                 }
-                if(uef1[ef]){checked = ' checked';}
+//                 uefgList.push(`<div class="row">
+//     <input type="checkbox" class="uef-check" id="uef-${ef.toLocaleLowerCase()}"/>
+//     <label class="uef-label" for="uef-${ef.toLocaleLowerCase()}">${ef}</label>
+//     <div class="description">${desc}</div>
+// </div>`);
+//                 uefgList.push(`<div class="row">
+//     <input type="checkbox" class="uef-check" id="uef-${ef.toLocaleLowerCase()}"/>
+//     <label class="uef-label" for="uef-${ef.toLocaleLowerCase()}">${ef}</label>
+//     <div class="info">i</div><div class="description">${desc}</div>
+// </div>`);
                 uefgList.push(`<div class="row">
-    <input type="checkbox" class="uef-check" id="uef-${ef.toLocaleLowerCase()}"${checked}/>
+    <input type="checkbox" class="uef-check" id="uef-${ef.toLocaleLowerCase()}"/>
     <label class="uef-label" for="uef-${ef.toLocaleLowerCase()}">${ef}</label>
     <div class="info${display}">i</div><div class="description${display}">${desc}</div>
 </div>`);
+//                 uefgList.push(`<div class="row">
+//     <input type="checkbox" class="uef-check" id="uef-${ef.toLocaleLowerCase()}"/>
+//     <label class="uef-label" for="uef-${ef.toLocaleLowerCase()}">${ef}</label>
+//     <div class="info"><span>i</span></div><div class="description">${desc}</div>
+// </div>`);
             });
             uefg.innerHTML += uefgList.join('');
             uefList.appendChild(uefg);
@@ -477,38 +522,26 @@
         return uefList;
     }
 
-    function addEvents(){
-        let checks = document.querySelectorAll('.uef-check');
-        checks.forEach(e => {
-            e.addEventListener('click', (ev) => {
-                let ef = ev.target.id.split('-')[1];
-                ef = ef.slice(0,1).toLocaleUpperCase() + ef.slice(1);
-                uef1[ef] = ev.target.checked;
-                SaveToLocalStorage();
-            });
-        });
-    }
 
+    // BuildUndef(uef);
     window.addEventListener('load', (ev) => {
-        LoadFromLocalStorage();
         let display = document.getElementById('display');
         display.appendChild(BuildUndef(uef));
-        addEvents();
     });
 
 
-    function SaveToLocalStorage(){
-        localStorage.setItem("uef1", JSON.stringify(uef1));
-        // console.log(`'uef1' has been saved.`);
-    }
-    function LoadFromLocalStorage(){
-        if (localStorage.getItem('uef1')){
-            uef1 = JSON.parse(localStorage.getItem('uef1'));
-            // console.log(uef1);
-        } else {
-            SaveToLocalStorage();
-        }
-    }
+    // function SaveToLocalStorage(){
+    //     localStorage.setItem("uef1", JSON.stringify(uef1));
+    //     console.log(`'uef1' has been saved.`);
+    // }
+    // function LoadFromLocalStorage(){
+    //     if (localStorage.getItem('uef1')){
+    //         uef1 = JSON.parse(localStorage.getItem('uef1'));
+    //         console.log(uef1);
+    //     } else {
+    //         SaveToLocalStorage();
+    //     }
+    // }
 
 
     /*
