@@ -1,0 +1,111 @@
+.pipe-0::before {content: ' '}
+.pipe-1::before {content: '╚'}
+.pipe-2::before {content: '╩'}
+.pipe-3::before {content: '╝'}
+.pipe-4::before {content: '╠'}
+.pipe-5::before {content: '╬'}
+.pipe-6::before {content: '╣'}
+.pipe-7::before {content: '╔'}
+.pipe-8::before {content: '╦'}
+.pipe-9::before {content: '╗'}
+.pipe-10::before {content: ' '}
+.pipe-11::before {content: '║'}
+.pipe-12::before {content: '═'}
+.quid-0::after {content: ' '}
+.quid-1::after {content: '└'}
+.quid-2::after {content: '┴'}
+.quid-3::after {content: '┘'}
+.quid-4::after {content: '├'}
+.quid-5::after {content: '┼'}
+.quid-6::after {content: '┤'}
+.quid-7::after {content: '┌'}
+.quid-8::after {content: '┬'}
+.quid-9::after {content: '┐'}
+.quid-10::after {content: ' '}
+.quid-11::after {content: '│'}
+.quid-12::after {content: '─'}
+
+[data-pipe="0"]::before {content: ' '}
+[data-pipe="1"]::before {content: '╚'}
+[data-pipe="2"]::before {content: '╩'}
+[data-pipe="3"]::before {content: '╝'}
+[data-pipe="4"]::before {content: '╠'}
+[data-pipe="5"]::before {content: '╬'}
+[data-pipe="6"]::before {content: '╣'}
+[data-pipe="7"]::before {content: '╔'}
+[data-pipe="8"]::before {content: '╦'}
+[data-pipe="9"]::before {content: '╗'}
+[data-pipe="10"]::before {content: ' '}
+[data-pipe="11"]::before {content: '║'}
+[data-pipe="12"]::before {content: '═'}
+[data-quid="0"]::after {content: ' '}
+[data-quid="1"]::after {content: '└'}
+[data-quid="2"]::after {content: '┴'}
+[data-quid="3"]::after {content: '┘'}
+[data-quid="4"]::after {content: '├'}
+[data-quid="5"]::after {content: '┼'}
+[data-quid="6"]::after {content: '┤'}
+[data-quid="7"]::after {content: '┌'}
+[data-quid="8"]::after {content: '┬'}
+[data-quid="9"]::after {content: '┐'}
+[data-quid="10"]::after {content: ' '}
+[data-quid="11"]::after {content: '│'}
+[data-quid="12"]::after {content: '─'}
+
+[data-pipe]::before {--hue: 150;}
+[data-quid]::after {--hue: 210;}
+
+[data-pipe]::before,
+[data-quid]::after {
+    position: absolute;
+    top: 50%; left: 50%;
+    height: var(--tile-sz); width: var(--tile-sz);
+    transform: translateX(-50%) translateY(-50%);
+    display: flex; align-items: center; justify-content: center;
+    --clr: hsla(var(--hue), 100%, 60%, 1);
+    color: var(--clr);
+    z-index: 2;
+}
+
+
+[data-char="0"]::before {content: ' '}
+[data-char="1"]::before {content: '╚'}
+[data-char="2"]::before {content: '╩'}
+[data-char="3"]::before {content: '╝'}
+[data-char="4"]::before {content: '╠'}
+[data-char="5"]::before {content: '╬'}
+[data-char="6"]::before {content: '╣'}
+[data-char="7"]::before {content: '╔'}
+[data-char="8"]::before {content: '╦'}
+[data-char="9"]::before {content: '╗'}
+[data-char="10"]::before {content: ' '}
+[data-char="11"]::before {content: '║'}
+[data-char="12"]::before {content: '═'}
+
+[data-char="0"]::after {content: ' '}
+[data-char="1"]::after {content: '└'}
+[data-char="2"]::after {content: '┴'}
+[data-char="3"]::after {content: '┘'}
+[data-char="4"]::after {content: '├'}
+[data-char="5"]::after {content: '┼'}
+[data-char="6"]::after {content: '┤'}
+[data-char="7"]::after {content: '┌'}
+[data-char="8"]::after {content: '┬'}
+[data-char="9"]::after {content: '┐'}
+[data-char="10"]::after {content: ' '}
+[data-char="11"]::after {content: '│'}
+[data-char="12"]::after {content: '─'}
+
+[data-char]::before {--hue: 150;}
+[data-char]::after {--hue: 210;}
+[data-char]::before,
+[data-char]::after {
+    position: absolute;
+    top: 50%; left: 50%;
+    height: var(--tile-sz); width: var(--tile-sz);
+    transform: translateX(-50%) translateY(-50%);
+    display: flex; align-items: center; justify-content: center;
+    --clr: hsla(var(--hue), 100%, 60%, 1);
+    color: var(--clr);
+    z-index: 2;
+}

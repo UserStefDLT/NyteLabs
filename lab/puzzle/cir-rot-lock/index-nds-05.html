@@ -26,7 +26,6 @@
         --center: calc(var(--scl) * 50px);
         
         --sz: calc(var(--scl) * 24px);
-        --sz: calc(var(--scl) * 32px);
         --side: calc(var(--scl) * 16px);
         --center: calc(var(--scl) * 16px);
         --tile-grid: calc(var(--scl) * 48px);
@@ -152,8 +151,8 @@
         gap: 1px;
         gap: 0px;
 
-        --hue: calc(var(--i) * 90);
         --hue: 180;
+        --hue: calc(var(--i) * 90);
         background-color: #0003;
         background-color: #9996;
         --bg: hsla(var(--hue), 100%, 60%, .1);
@@ -211,7 +210,6 @@
         background: #fff3;
         margin: 0px;
         z-index: 1;
-        overflow: hidden;
     }
     .pipe {
         /* --tile-sz: var(--side); */
@@ -257,18 +255,12 @@
     [data-pipe="11"]::after {content: '│'}
     [data-pipe="12"]::after {content: '─'}
 
-    /* [data-pipe]::before {--hue: 150;} */
-    /* [data-pipe]::after {--hue: 210;} */
+    [data-pipe]::before {--hue: 150;}
+    [data-pipe]::after {--hue: 210;}
 
-    [data-pipe]::before {
-        --hue: 150;
-        --sat: 100%;
-        --lum: 0%;
-        --alp: 1;
-    }
-    [data-pipe]::after { --hue: 210; --alp: 0; --lum: 40%; }
+    [data-pipe]::before { --hue: 150; --alp: 1; }
+    [data-pipe]::after { --hue: 210; --alp: 0; }
     [data-pipe][data-quid="1"]::after {--alp: 1;}
-    [data-pipe][data-liquid="1"]::after {--alp: 1;}
 
     [data-pipe]::before,
     [data-pipe]::after {
@@ -284,12 +276,8 @@
         /* --clr: hsla(120, 90%, 70%, var(--alp)); */
         /* --clr: hsla(120, 100%, 100%, var(--alp)); */
         --clr: hsla(120, 100%, 0%, var(--alp));
-        --clr: hsla(var(--hue), 100%, var(--lum), var(--alp));
         color: var(--clr);
         z-index: 2;
-
-        font-family: monospace;
-        overflow: hidden;
     }
 </style>
 
@@ -494,11 +482,6 @@
         [' ','╚','═','╗',' ','╔','═'],
         [' ',' ',' ','╚','═','╝',' ']
     ];
-    var fill = [
-        [0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0]
-    ];
     // const pipeChars = [`│─└┴┘├┼┤┌┬┐ ║═╚╩╝╠╬╣╔╦╗`];
     const quids = [' ', '└', '┴', '┘', '├', '┼', '┤', '┌', '┬', '┐', ' ', '│', '─'];
     const pipes = [' ', '╚', '╩', '╝', '╠', '╬', '╣', '╔', '╦', '╗', ' ', '║', '═'];
@@ -517,7 +500,7 @@
         '║': 11, 
         '═': 12
     };
-    const PipePaths0 = {
+    const PipePaths = {
         '║':{"8":[2],"2":[8]},
         '═':{"4":[6],"6":[4]},
         '╚':{"8":[6],"6":[8]},
@@ -571,13 +554,13 @@
         for(let y = 0; y < g.length; y++){
             let row = document.createElement('div');
             row.classList.add('row');
-            // row.dataset.row = `${y}`;
+            row.dataset.row = `${y}`;
             for(let x = 0; x < g[0].length; x++){
                 let tile = document.createElement('div');
                 tile.classList.add('tile');
                 tile.id = `tile,${x},${y}`;
                 tile.dataset.xy = `${x},${y}`;
-                // tile.dataset.col = `${x}`;
+                tile.dataset.col = `${x}`;
                 tile.dataset.pipe = pipeId[g[y][x]];
                 row.appendChild(tile);
             }
@@ -624,8 +607,8 @@
                 if(side.x == 0 && side.y == 0){
                     pipe.classList.add('centerTile');
                     pipe.addEventListener('click', (ev) => {
-                        // console.log(ev.target);
-                        // console.log(ev.target.dataset.xy);
+                        console.log(ev.target);
+                        console.log(ev.target.dataset.xy);
                         if(ev.target.dataset.xy != null){
                             rotate(ev.target.dataset.xy);
                         }
@@ -686,17 +669,6 @@
             // let tile = document.getElementById(k);
             // tile.innerText = grid[ny][nx];
         });
-
-        let fillingPipes = CheckPipe2(grid,{"x":0,"y":0},{"x":6,"y":2});
-        console.log(fillingPipes.join('\n'));
-        FillPipes(fillingPipes);
-        fill = fillingPipes;
-        
-        // let fixed = CheckPipe(grid,fill,{"x":0,"y":0},{"x":6,"y":2});
-        // if(fixed) {
-        //     console.log(fill.join('\n'));
-        //     FillPipes(fill);
-        // }
     }
 
     function addRotatingEvents(){
@@ -755,6 +727,22 @@
     window.addEventListener('resize', () =>{
         updateSettings();
     });
+    
+    // window.addEventListener('click', (ev) => {
+    //     let px = ev.pageX;
+    //     let py = ev.pageY;
+    //     let x = Math.floor(px / s.tile.w);
+    //     let y = Math.floor(py / s.tile.h);
+    //     console.log(`(${px},${py}) → tile-x: ${x}, tile-y: ${y}`);
+    // });
+    // window.addEventListener('mousemove', (ev) =>{
+    //     if(s.mouse.tracking){
+    //         if(!s.q && !s.pause){
+    //             s.mouse.x = ev.clientX;
+    //             s.mouse.y = ev.clientY;
+    //         }
+    //     }
+    // });
 
     window.addEventListener('load', (ev) => {
         console.log(`Welcome to my Lab!`);
@@ -788,9 +776,9 @@
         setTimeout(() => {
             console.time("SetPuzzle");
             FillGrid(grid);
-            SetPuzzle(3);
+            SetPuzzle();
             console.timeEnd("SetPuzzle");
-        }, 1000);
+        }, 5000);
     });
     /* Version Log:
     [index-nds-00]: Default Template.
@@ -799,7 +787,7 @@
     [index-nds-03]: Rotation works.
     [index-nds-04]: (1) 'z-index' ready; and (2) working on programmatically generate the grid and gtiles.
     [index-nds-05]: (1) It builds and it randomizes; (2) Next is the filling and check if it ends.
-    [index-nds-06]: (1) Works. (2) It needs an ending and a reset. Then maybe a bigger puzzle.
+    [index-nds-06]: 
     [index-nds-07]: 
     [index-nds-08]: 
     [index-nds-09]: 
@@ -857,264 +845,86 @@
 
     /* ────────────────────  ────────────────────  ──────────────────── */
 
-    const PipePaths1 = {
-        '║':{"8":[2]},
-        '═':{"4":[6],"6":[4]},
-        '╚':{"8":[6]},
-        '╩':{"8":[6,4],"4":[6],"6":[4]},
-        '╝':{"8":[4]},
-        '╠':{"8":[2,6],"6":[2]},
-        '╬':{"8":[2,6,4],"4":[2,6],"6":[2,4]},
-        '╣':{"8":[2,4],"4":[2]},
-        '╔':{"6":[2]},
-        '╦':{"4":[2,6],"6":[4,2]},
-        '╗':{"4":[2]},
-        ' ':{},
-    }
-    const PipePaths = {
-        '║':{"8":[2,8],"2":[8,2]},
-        '═':{"4":[6,4],"6":[4,6]},
-        '╚':{"8":[6,8],"6":[8,6]},
-        '╩':{"8":[6,4,8],"4":[6,4,8],"6":[4,6,8]},
-        '╝':{"8":[4,8],"4":[8,4]},
-        '╠':{"8":[2,6,8],"6":[2,6,8],"2":[6,8,2]},
-        '╬':{"8":[2,6,4,8],"4":[2,6,4,8],"6":[2,4,6,8],"2":[6,4,8,2]},
-        '╣':{"8":[2,4,8],"4":[2,8,4],"4":[2,8,4]},
-        '╔':{"6":[2,6],"2":[6,2]},
-        '╦':{"4":[2,6,4],"6":[4,2,6],"2":[6,4,2]},
-        '╗':{"4":[2,4],"2":[4,2]},
-        ' ':{"0":[0]},
-    }
-    const dixy = [
-        [0,0],
-        [-1,1],
-        [0,1],
-        [1,1],
-        [-1,0],
-        [0,0],
-        [1,0],
-        [-1,-1],
-        [0,-1],
-        [1,-1],
-    ];
-    const oppd = [0,9,8,7,6,5,4,3,2,1];
-    var t0 = [
-        ['═','╗',' ',' ',' ',' ',' '],
-        [' ','╚','═','╗',' ','╔','═'],
-        [' ',' ',' ','╚','═','╝',' ']
-    ];
-    var t1 = [
-        [0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0]
-    ];
-    function IsInGrid(g,x,y){
-        if (x < 0 || y < 0 || x >= g[0].length || y >= g.length) {
-            return false;
-        }
-        return true;
-    }
-    function fillPipe(g,fill,step={x:0,y:0},end={x:0,y:0}){
-        console.log(`🚏 step.x:${step.x}, step.y:${step.y};`);
-
-        // if end, then return 1;
-        if(step.y == end.y && step.x == end.x){
-            console.log('✅ You found the end! 🚿');
-            fill[step.y][step.x] = 1;
-            return 1;
-        }
-
-        // if is in the grid.
-        if(!IsInGrid(g,step.x,step.y)){
-            console.log(`❌ That's not the way!`);
-            return 0;
-        } 
-        // else {
-        //     // console.log(`🔣 g[${step.y}][${step.x}]: '${g[step.y][step.x]}'; \n💧 fill[${step.y}][${step.x}]: '${fill[step.y][step.x]}';`);
-        //     console.log(`🔣 g[${step.y}][${step.x}]: '${g[step.y][step.x]}'; | 💧 fill[${step.y}][${step.x}]: '${fill[step.y][step.x]}';`);
-        // }
-        
-        let res = 0;
-        // if not filled, then fill and move;
-        if(fill[step.y][step.x] == 0){
-            fill[step.y][step.x] = 1;
-            let pipe = g[step.y][step.x];
-            //console.log(`🛁 pipe: ${pipe};`);
-            let paths = PipePaths[pipe];
-            //console.log(`🔢 paths: ;`);
-            //console.log(paths);
-            let keys = Object.keys(paths);
-            // Object.keys(PipePaths['═']); → ['4', '6'];
-            //console.log(`🔑 keys: ${keys.join(',')};`);
-            for(let i = 0; i < keys.length; i++){
-                // PipePaths['═']['4']; → [6];
-                let path = paths[keys[i]];
-                //console.log(`🔢 path: ${path.join(',')};`);
-                for(let j = 0; j < path.length; j++){
-                    let nxy = dixy[path[j]];
-                    // console.log(`💠 nxy[0]: ${nxy[0]}, nxy[1]: ${nxy[1]};`);
-                    // let nx = step.x + nxy.x;
-                    // let ny = step.y + nxy.y;
-                    let nx = step.x + nxy[0];
-                    let ny = step.y + nxy[1];
-                    if(IsInGrid(g,nx,ny)){
-                        let openPaths = Object.keys(PipePaths[g[ny][nx]]);
-                        // direction that can receive → ['4', '6'];
-                        if(openPaths.includes(`${oppd[path[j]]}`)){
-                            let ends = fillPipe(g,fill,{"x":nx,"y":ny},end);
-                            if(!res){
-                                res = ends;
-                            }
-                        }
-                    }
-
-                    // let ends = fillPipe(g,fill,{"x":nx,"y":ny},end);
-                    // if(!res){
-                    //     res = ends;
-                    // }
-                }
-            }
-        }
-        return res;
-    }
-    function CheckPipe(g,fill,start,end){
-        fill = [
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0]
-        ];
-        let ends = fillPipe(g,fill,start,end);
-        console.log(!!ends);
-        return !!ends;
-    }
-    function CheckPipe2(g,start,end){
-        let myfill = [
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0]
-        ];
-        let ends = fillPipe(g,myfill,start,end);
-        console.log(`Fixed: ${!!ends}`);
-        return myfill;
-    }
-    // t1 = [
+    // const PipePaths = {
+    //     '║':{"8":[2]},
+    //     '═':{"4":[6],"6":[4]},
+    //     '╚':{"8":[6]},
+    //     '╩':{"8":[6,4],"4":[6],"6":[4]},
+    //     '╝':{"8":[4]},
+    //     '╠':{"8":[2,6],"6":[2]},
+    //     '╬':{"8":[2,6,4],"4":[2,6],"6":[2,4]},
+    //     '╣':{"8":[2,4],"4":[2]},
+    //     '╔':{"6":[2]},
+    //     '╦':{"4":[2,6],"6":[4,2]},
+    //     '╗':{"4":[2]},
+    //     ' ':{},
+    // }
+    // const dixy = [
+    //     [0,0],
+    //     [-1,1],
+    //     [0,1],
+    //     [1,1],
+    //     [-1,0],
+    //     [0,0],
+    //     [1,0],
+    //     [-1,-1],
+    //     [0,-1],
+    //     [1,-1],
+    // ];
+    // var t0 = [
+    //     ['═','╗',' ',' ',' ',' ',' '],
+    //     [' ','╚','═','╗',' ','╔','═'],
+    //     [' ',' ',' ','╚','═','╝',' ']
+    // ];
+    // var t1 = [
     //     [0,0,0,0,0,0,0],
     //     [0,0,0,0,0,0,0],
     //     [0,0,0,0,0,0,0]
     // ];
-    // CheckPipe(t0,t1,{x:0,y:0},{x:6,y:2});
-    // console.log(t1.join('\n'));
-    // FillPipes(t1);
-    
-    // CheckPipe(grid,fill,{x:0,y:0},{x:6,y:2});
-    // console.log(fill.join('\n'));
-    // FillPipes(fill);
+    // function IsInGrid(g, x, y) {
+    //     if (x < 0 || y < 0 || x >= g[0].length || y >= g.length) {
+    //         return false;
+    //     }
+    //     return true;
+    // }
+    // function fillPipe(g,fill,step={x:0,y:0},end={x:0,y:0}){
+    //     // if is in the grid.
+    //     if(!IsInGrid(g, step.x, step.y)){
+    //         console.log(`❌ That's not the way!`);
+    //         return 0;
+    //     }
+    //     // if end, then return 1;
+    //     if(step.y == end.y && step.x == end.x){
+    //         console.log('✅ You found the end!');
+    //         return 1;
+    //     }
+    //     let res = 0;
+    //     // if not filled, then fill and move;
+    //     if(fill[step.y][step.x] == 0){
+    //         fill[step.y][step.x] = 1;
+    //         let pipe = g[step.y][step.x];
+    //         let paths = PipePaths[pipe];
+    //         let keys = Object.keys(paths);
+    //         for(let i = 0; i < Object.keys(paths).length; i++){
+    //         let path = paths[keys[i]];
+    //         for(let j = 0; j < path.length; j++){
+    //             let nxy = dixy[path[j]];
+    //             let nx = step.x + nxy.x;
+    //             let ny = step.y + nxy.y;
+    //             let ends = fillPipe(g,fill,{"x":nx,"y":ny},end);
+    //             if(!res){
+    //             res = ends;
+    //             }
+    //         }
+    //         }
+    //     }
+    //     return res;
+    // }
+    // function CheckPipe(g,fill,start,end){
+    //     let ends = fillPipe(g,fill,start,end);
+    //     console.log(!!ends);
+    // }
 
-    function FillPipes(fill){
-        for(let y = 0; y < fill.length; y++){
-            for(let x = 0; x < fill[y].length; x++){
-                let pipes = document.querySelectorAll(`[data-xy="${x},${y}"]`);
-                pipes.forEach(pipe => {
-                    // pipe.dataset.pipe = pipeId[grid[y][x]];
-                    pipe.dataset.liquid = fill[y][x];
-                });
-            }
-        }
-    }
-
-    /* ────────────────────  ────────────────────  ──────────────────── */
-    function fillPipe_log(g,fill,step={x:0,y:0},end={x:0,y:0}){
-        console.log(`🚏 step.x:${step.x}, step.y:${step.y};`);
-        // if is in the grid.
-        if(!IsInGrid(g,step.x,step.y)){
-            console.log(`❌ That's not the way!`);
-            return 0;
-        } else {
-            console.log(`🔣 g[${step.y}][${step.x}]:${g[step.y][step.x]}; \n💧 fill[${step.y}][${step.x}]:${fill[step.y][step.x]}; 🚿`);
-        }
-        // if end, then return 1;
-        if(step.y == end.y && step.x == end.x){
-            console.log('✅ You found the end!');
-            fill[step.y][step.x] = 1;
-            return 1;
-        }
-        let res = 0;
-        // if not filled, then fill and move;
-        if(fill[step.y][step.x] == 0){
-            fill[step.y][step.x] = 1;
-            let pipe = g[step.y][step.x];
-            console.log(`🛁 pipe: ${pipe};`);
-            let paths = PipePaths[pipe];
-            console.log(`🔢 paths: ;`);
-            console.log(paths);
-            let keys = Object.keys(paths);
-            // Object.keys(PipePaths['═']); → ['4', '6'];
-            console.log(`🔑 keys: ${keys.join(',')};`);
-            for(let i = 0; i < keys.length; i++){
-                // PipePaths['═']['4']; → [6];
-                let path = paths[keys[i]];
-                console.log(`🔢 path: ${path.join(',')};`);
-                for(let j = 0; j < path.length; j++){
-                    let nxy = dixy[path[j]];
-                    console.log(`💠 nxy[0]: ${nxy[0]}, nxy[1]: ${nxy[1]};`);
-                    // let nx = step.x + nxy.x;
-                    // let ny = step.y + nxy.y;
-                    let nx = step.x + nxy[0];
-                    let ny = step.y + nxy[1];
-                    let ends = fillPipe(g,fill,{"x":nx,"y":ny},end);
-                    if(!res){
-                    res = ends;
-                    }
-                }
-            }
-        }
-        return res;
-    }
-    function fillPipe0(g,fill,step={x:0,y:0},end={x:0,y:0}){
-        console.log(`🚏 step.x:${step.x}, step.y:${step.y};`);
-        // if is in the grid.
-        if(!IsInGrid(g,step.x,step.y)){
-            console.log(`❌ That's not the way!`);
-            return 0;
-        } else {
-            console.log(`🔣 g[${step.y}][${step.x}]: '${g[step.y][step.x]}'; \n💧 fill[${step.y}][${step.x}]: '${fill[step.y][step.x]}';`);
-        }
-        // if end, then return 1;
-        if(step.y == end.y && step.x == end.x){
-            console.log('✅ You found the end! 🚿');
-            fill[step.y][step.x] = 1;
-            return 1;
-        }
-        let res = 0;
-        // if not filled, then fill and move;
-        if(fill[step.y][step.x] == 0){
-            fill[step.y][step.x] = 1;
-            let pipe = g[step.y][step.x];
-            // console.log(`🛁 pipe: ${pipe};`);
-            let paths = PipePaths[pipe];
-            // console.log(`🔢 paths: ;`);
-            // console.log(paths);
-            let keys = Object.keys(paths);
-            // Object.keys(PipePaths['═']); → ['4', '6'];
-            // console.log(`🔑 keys: ${keys.join(',')};`);
-            for(let i = 0; i < keys.length; i++){
-                // PipePaths['═']['4']; → [6];
-                let path = paths[keys[i]];
-                // console.log(`🔢 path: ${path.join(',')};`);
-                for(let j = 0; j < path.length; j++){
-                    let nxy = dixy[path[j]];
-                    // console.log(`💠 nxy[0]: ${nxy[0]}, nxy[1]: ${nxy[1]};`);
-                    let nx = step.x + nxy[0];
-                    let ny = step.y + nxy[1];
-                    let ends = fillPipe(g,fill,{"x":nx,"y":ny},end);
-                    if(!res){
-                    res = ends;
-                    }
-                }
-            }
-        }
-        return res;
-    }
     /* ────────────────────  ────────────────────  ──────────────────── */
 
     // function BuildGrid(xlen,ylen){

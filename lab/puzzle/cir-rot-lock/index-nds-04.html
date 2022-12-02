@@ -26,7 +26,6 @@
         --center: calc(var(--scl) * 50px);
         
         --sz: calc(var(--scl) * 24px);
-        --sz: calc(var(--scl) * 32px);
         --side: calc(var(--scl) * 16px);
         --center: calc(var(--scl) * 16px);
         --tile-grid: calc(var(--scl) * 48px);
@@ -117,7 +116,6 @@
 
     .sideTile[data-char]::before,
     .centerTile[data-char]::before,
-    .pipe[data-char]::before,
     .tile[data-char]::before {
         content: attr(data-char);
         position: absolute;
@@ -127,21 +125,22 @@
         display: flex; align-items: center; justify-content: center;
         color: #000c;
     }
-    .pipe[data-char]::before,
     .tile[data-char="_"]::before {
         content: ' ';
     }
 </style>
 <style>
-    /* .rotatingTile.c1 {left: 0px;}
+    .rotatingTile.c1 {left: 0px;}
     .rotatingTile.c2 {left: calc(var(--scl) * 32px);}
-    .rotatingTile.c3 {left: calc(var(--scl) * 64px);} */
-    .gtile,
+    .rotatingTile.c3 {left: calc(var(--scl) * 64px);}
     .rotatingTile {
         position: absolute;
-        /* position: relative; */
+        top: 0px;
+
+        /* position: relative;
         top: calc(var(--scl) * -16px);
-        left: calc(var(--scl) * -16px);
+        left: calc(var(--scl) * -16px); */
+        top: calc(var(--scl) * -16px);
 
         height: var(--tile-grid); width: var(--tile-grid);
         display: grid;
@@ -152,19 +151,17 @@
         gap: 1px;
         gap: 0px;
 
-        --hue: calc(var(--i) * 90);
         --hue: 180;
+        --hue: calc(var(--i) * 90);
         background-color: #0003;
         background-color: #9996;
         --bg: hsla(var(--hue), 100%, 60%, .1);
         --clr: hsla(var(--hue), 100%, 60%, .15);
-        /* --bg: hsla(var(--hue), 100%, 60%, .85); */
-        /* --clr: hsla(var(--hue), 100%, 60%, 1); */
-        /* --bg: hsla(var(--hue), 100%, 60%, 0); */
-        /* --clr: hsla(var(--hue), 100%, 60%, 1); */
-        --bg: hsla(var(--hue), 100%, 60%, .1);
-        --bg: #00000001;
-        --clr: hsla(var(--hue), 100%, 60%, .5);
+        --bg: hsla(var(--hue), 100%, 60%, .85);
+        --clr: hsla(var(--hue), 100%, 60%, 1);
+
+        --bg: hsla(var(--hue), 100%, 60%, 0);
+        --clr: hsla(var(--hue), 100%, 60%, 1);
         background-color: var(--bg);
         outline: 3px solid var(--clr);
         outline: 1px dashed var(--clr);
@@ -173,7 +170,6 @@
         transition: outline 100ms ease-in-out;
         z-index: 3;
     }
-    .gtile:hover,
     .rotatingTile:hover {
         --clr: hsla(var(--hue), 100%, 60%, .5);
         outline: 2px dashed var(--clr);
@@ -202,95 +198,53 @@
         color: #39fc;
         z-index: 2;
     } */
-</style>
-<style>
-    .pipe {
-        position: relative;
-        box-sizing: border-box;
-        height: var(--tile); width: var(--tile);
-        background: #fff3;
-        margin: 0px;
-        z-index: 1;
-        overflow: hidden;
-    }
-    .pipe {
-        /* --tile-sz: var(--side); */
-        /* --tile-sz: var(--tile); */
-        background-color: #ccc3;
-    }
-    .centerTile {
-        /* --tile-sz: var(--center); */
-        z-index: 2;
-    }
-    .centerTile::before {
-        background-color: #0f01;
-        border: 1px dashed #0f03;
-        background-color: #fff1;
-        border: 1px dashed #fff3;
-        z-index: 2;
-    }
+    /* [data-char="0"]::before {content: ' '}
+    [data-char="1"]::before {content: '╚'}
+    [data-char="2"]::before {content: '╩'}
+    [data-char="3"]::before {content: '╝'}
+    [data-char="4"]::before {content: '╠'}
+    [data-char="5"]::before {content: '╬'}
+    [data-char="6"]::before {content: '╣'}
+    [data-char="7"]::before {content: '╔'}
+    [data-char="8"]::before {content: '╦'}
+    [data-char="9"]::before {content: '╗'}
+    [data-char="10"]::before {content: ' '}
+    [data-char="11"]::before {content: '║'}
+    [data-char="12"]::before {content: '═'}
 
-    [data-pipe="0"]::before {content: ' '}
-    [data-pipe="1"]::before {content: '╚'}
-    [data-pipe="2"]::before {content: '╩'}
-    [data-pipe="3"]::before {content: '╝'}
-    [data-pipe="4"]::before {content: '╠'}
-    [data-pipe="5"]::before {content: '╬'}
-    [data-pipe="6"]::before {content: '╣'}
-    [data-pipe="7"]::before {content: '╔'}
-    [data-pipe="8"]::before {content: '╦'}
-    [data-pipe="9"]::before {content: '╗'}
-    [data-pipe="10"]::before {content: ' '}
-    [data-pipe="11"]::before {content: '║'}
-    [data-pipe="12"]::before {content: '═'}
-    [data-pipe="0"]::after {content: ' '}
-    [data-pipe="1"]::after {content: '└'}
-    [data-pipe="2"]::after {content: '┴'}
-    [data-pipe="3"]::after {content: '┘'}
-    [data-pipe="4"]::after {content: '├'}
-    [data-pipe="5"]::after {content: '┼'}
-    [data-pipe="6"]::after {content: '┤'}
-    [data-pipe="7"]::after {content: '┌'}
-    [data-pipe="8"]::after {content: '┬'}
-    [data-pipe="9"]::after {content: '┐'}
-    [data-pipe="10"]::after {content: ' '}
-    [data-pipe="11"]::after {content: '│'}
-    [data-pipe="12"]::after {content: '─'}
+    [data-char="0"]::after {content: ' '}
+    [data-char="1"]::after {content: '└'}
+    [data-char="2"]::after {content: '┴'}
+    [data-char="3"]::after {content: '┘'}
+    [data-char="4"]::after {content: '├'}
+    [data-char="5"]::after {content: '┼'}
+    [data-char="6"]::after {content: '┤'}
+    [data-char="7"]::after {content: '┌'}
+    [data-char="8"]::after {content: '┬'}
+    [data-char="9"]::after {content: '┐'}
+    [data-char="10"]::after {content: ' '}
+    [data-char="11"]::after {content: '│'}
+    [data-char="12"]::after {content: '─'}
 
-    /* [data-pipe]::before {--hue: 150;} */
-    /* [data-pipe]::after {--hue: 210;} */
+    [data-char]::before {--hue: 150;}
+    [data-char]::after {--hue: 210;}
 
-    [data-pipe]::before {
-        --hue: 150;
-        --sat: 100%;
-        --lum: 0%;
-        --alp: 1;
-    }
-    [data-pipe]::after { --hue: 210; --alp: 0; --lum: 40%; }
-    [data-pipe][data-quid="1"]::after {--alp: 1;}
-    [data-pipe][data-liquid="1"]::after {--alp: 1;}
+    [data-char]::before { --hue: 150; --alp: 1; }
+    [data-char]::after { --hue: 210; --alp: 0; }
+    .tile[data-char][data-quid="1"]::after {--alp: 1;}
 
-    [data-pipe]::before,
-    [data-pipe]::after {
+    [data-char]::before,
+    [data-char]::after {
         position: absolute;
         top: 50%; left: 50%;
-        height: var(--tile); width: var(--tile);
+        height: var(--tile-sz); width: var(--tile-sz);
         transform: translateX(-50%) translateY(-50%);
         display: flex; align-items: center; justify-content: center;
-        /* --clr: hsla(var(--hue), 100%, 60%, 1); */
-        /* --clr: hsla(var(--hue), 100%, 60%, var(--alp)); */
-        /* --clr: hsla(var(--hue), 100%, 40%, var(--alp)); */
-        /* --clr: hsla(120, 40%, 40%, var(--alp)); */
-        /* --clr: hsla(120, 90%, 70%, var(--alp)); */
-        /* --clr: hsla(120, 100%, 100%, var(--alp)); */
-        --clr: hsla(120, 100%, 0%, var(--alp));
-        --clr: hsla(var(--hue), 100%, var(--lum), var(--alp));
+        --clr: hsla(var(--hue), 100%, 60%, 1);
+        --clr: hsla(var(--hue), 100%, 60%, var(--alp));
         color: var(--clr);
         z-index: 2;
-
-        font-family: monospace;
-        overflow: hidden;
-    }
+    } */
 </style>
 
 <style>
@@ -313,11 +267,6 @@
     #c1:checked ~ main [for="c1"] {z-index: 5;}
     #c2:checked ~ main [for="c2"] {z-index: 5;}
     #c3:checked ~ main [for="c3"] {z-index: 5;}
-
-    [data-dial] {z-index: 4;}
-    #c1:checked ~ main [data-dial="c1"] {z-index: 5;}
-    #c2:checked ~ main [data-dial="c2"] {z-index: 5;}
-    #c3:checked ~ main [data-dial="c3"] {z-index: 5;}
 </style>
 <link rel="stylesheet" href="../../../stylesheets/settings2.css">
 <link rel="stylesheet" href="../../../stylesheets/end.css">
@@ -340,16 +289,14 @@
     <input type="radio" name="lastMove" id="c3"> -->
 
 <main>
-    <!-- 
-        .grid>.row*3>.tile[data-char]*7
-        .grid>.row*3>[data-char=' '].tile*7
-     -->
-    <div class="shelf">
-        <h3 class="shelf-title">display</h3>
+    <!-- <div class="shelf">
+        <h3 class="shelf-title">experiment</h3>
         <div id="display">
+            .grid>.row*3>.tile[data-char]*7
+            .grid>.row*3>[data-char=' '].tile*7
         </div>
-    </div>
-    <!-- <div class="shelf hidden">
+    </div> -->
+    <div class="shelf">
         <h3 class="shelf-title">cirquit</h3>
         <div class="grid">
             <div class="row">
@@ -370,6 +317,7 @@
                     <div data-char="═" class="tile sideTile d6" data-xy="2,1"></div>
                     <div data-char=" " class="tile sideTile d2" data-xy="1,2"></div>
                 </label>
+                <!-- <div data-char=" " class="tile sideTile"></div> -->
                 <label for="c2" class="tile rotatingTile c2">
                     <div data-char=" " class="tile sideTile d8" data-xy="3,0"></div>
                     <div data-char="═" class="tile sideTile d4" data-xy="2,1"></div>
@@ -377,6 +325,7 @@
                     <div data-char=" " class="tile sideTile d6" data-xy="4,1"></div>
                     <div data-char="╚" class="tile sideTile d2" data-xy="3,2"></div>
                 </label>
+                <!-- <div data-char=" " class="tile sideTile"></div> -->
                 <label for="c3" class="tile rotatingTile c3">
                     <div data-char=" " class="tile sideTile d8" data-xy="5,0"></div>
                     <div data-char=" " class="tile sideTile d4" data-xy="4,1"></div>
@@ -384,6 +333,55 @@
                     <div data-char="═" class="tile sideTile d6" data-xy="6,1"></div>
                     <div data-char="╝" class="tile sideTile d2" data-xy="5,2"></div>
                 </label>
+                <!-- <div data-char=" " class="tile sideTile"></div> -->
+            </div>
+            <div class="row">
+                <div data-char=" " class="tile"></div>
+                <div data-char=" " class="tile sideTile"></div>
+                <div data-char=" " class="tile"></div>
+                <div data-char=" " class="tile sideTile"></div>
+                <div data-char="═" class="tile"></div>
+                <div data-char=" " class="tile sideTile"></div>
+                <div data-char=" " class="tile"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="shelf">
+        <h3 class="shelf-title">cirquit</h3>
+        <div class="grid">
+            <div class="row">
+                <div data-char="═" class="tile"></div>
+                <div data-char=" " class="tile sideTile"></div>
+                <div data-char=" " class="tile"></div>
+                <div data-char=" " class="tile sideTile"></div>
+                <div data-char=" " class="tile"></div>
+                <div data-char=" " class="tile sideTile"></div>
+                <div data-char=" " class="tile"></div>
+            </div>
+            <div class="row">
+                <div data-char=" " class="tile sideTile"></div>
+                <div class="tile rotatingTile c1">
+                    <div data-char="╗" class="tile sideTile d8" data-xy="1,0"></div>
+                    <div data-char=" " class="tile sideTile d4" data-xy="0,1"></div>
+                    <div data-char="╚" class="tile centerTile d5" data-xy="1,1"></div>
+                    <div data-char="═" class="tile sideTile d6" data-xy="2,1"></div>
+                    <div data-char=" " class="tile sideTile d2" data-xy="1,2"></div>
+                </div>
+                <div class="tile rotatingTile c2">
+                    <div data-char=" " class="tile sideTile d8" data-xy="3,0"></div>
+                    <div data-char="═" class="tile sideTile d4" data-xy="2,1"></div>
+                    <div data-char="╗" class="tile centerTile d5" data-xy="3,1"></div>
+                    <div data-char=" " class="tile sideTile d6" data-xy="4,1"></div>
+                    <div data-char="╚" class="tile sideTile d2" data-xy="3,2"></div>
+                </div>
+                <div class="tile rotatingTile c3">
+                    <div data-char=" " class="tile sideTile d8" data-xy="5,0"></div>
+                    <div data-char=" " class="tile sideTile d4" data-xy="4,1"></div>
+                    <div data-char="╔" class="tile centerTile d5" data-xy="5,1"></div>
+                    <div data-char="═" class="tile sideTile d6" data-xy="6,1"></div>
+                    <div data-char="╝" class="tile sideTile d2" data-xy="5,2"></div>
+                </div>
             </div>
             <div class="row">
                 <div data-char=" " class="tile"></div>
@@ -397,6 +395,131 @@
         </div>
     </div> -->
 
+    <!-- <div class="shelf">
+        <h3 class="shelf-title">cirquit</h3>
+        <div class="grid">
+            <div class="row">
+                <div data-char="═" class="tile"></div>
+                <div data-char="╗" class="tile sideTile"></div>
+                <div data-char=" " class="tile"></div>
+                <div data-char=" " class="tile sideTile"></div>
+                <div data-char=" " class="tile"></div>
+                <div data-char=" " class="tile sideTile"></div>
+                <div data-char=" " class="tile"></div>
+            </div>
+            <div class="row">
+                <div data-char=" " class="tile sideTile"></div>
+                <div data-char="╚" class="tile centerTile"></div>
+                <div data-char="═" class="tile sideTile"></div>
+                <div data-char="╗" class="tile centerTile"></div>
+                <div data-char=" " class="tile sideTile"></div>
+                <div data-char="╔" class="tile centerTile"></div>
+                <div data-char="═" class="tile sideTile"></div>
+            </div>
+            <div class="row">
+                <div data-char=" " class="tile"></div>
+                <div data-char=" " class="tile sideTile"></div>
+                <div data-char=" " class="tile"></div>
+                <div data-char="╚" class="tile sideTile"></div>
+                <div data-char="═" class="tile"></div>
+                <div data-char="╝" class="tile sideTile"></div>
+                <div data-char=" " class="tile"></div>
+            </div>
+        </div>
+    </div>
+    <div class="shelf hidden">
+        <h3 class="shelf-title">criptex</h3>
+        <div id="grid-01" class="grid">
+            <div class="row">
+                <div class="tile"></div>
+                <div class="tile" data-char="n"></div>
+                <div class="tile"></div>
+                <div class="tile" data-char="o"></div>
+                <div class="tile"></div>
+                <div class="tile" data-char="u"></div>
+                <div class="tile"></div>
+            </div>
+            <div class="row">
+                <div class="tile" data-char="L"></div>
+                <div class="tile centerTile" data-char="E"></div>
+                <div class="tile" data-char="T"></div>
+                <div class="tile centerTile" data-char="M" ></div>
+                <div class="tile" data-char="E"></div>
+                <div class="tile centerTile" data-char="I"></div>
+                <div class="tile" data-char="N"></div>
+            </div>
+            <div class="row">
+                <div class="tile"></div>
+                <div class="tile" data-char="⋀"></div>
+                <div class="tile"></div>
+                <div class="tile" data-char="•"></div>
+                <div class="tile"></div>
+                <div class="tile" data-char="⋁"></div>
+                <div class="tile"></div>
+            </div>
+        </div>        
+        
+        <div id="grid-02" class="grid">
+            <div class="row">
+                <div class="tile" data-char="═"></div>
+                <div class="tile" data-char="Λ"></div>
+                <div class="tile"></div>
+                <div class="tile" data-char="Ѕ"></div>
+                <div class="tile"></div>
+                <div class="tile" data-char="Ξ"></div>
+                <div class="tile"></div>
+            </div>
+            <div class="row">
+                <div class="tile" data-char="L"></div>
+                <div class="tile centerTile" data-char="Σ"></div>
+                <div class="tile" data-char="Т"></div>
+                <div class="tile centerTile" data-char="M"></div>
+                <div class="tile" data-char="Σ"></div>
+                <div class="tile centerTile" data-char="Ι"></div>
+                <div class="tile" data-char="N"></div>
+            </div>
+            <div class="row">
+                <div class="tile"></div>
+                <div class="tile" data-char="Η"></div>
+                <div class="tile"></div>
+                <div class="tile" data-char="Θ"></div>
+                <div class="tile"></div>
+                <div class="tile" data-char="З"></div>
+                <div class="tile"></div>
+            </div>
+        </div>
+        
+        <div id="grid-03" class="grid hidden">
+            <div class="row">
+                <div class="tile" data-char="═"></div>
+                <div class="tile" data-char="╗"></div>
+                <div class="tile" data-char=" "></div>
+                <div class="tile" data-char=" "></div>
+                <div class="tile" data-char=" "></div>
+                <div class="tile" data-char=" "></div>
+                <div class="tile" data-char=" "></div>
+            </div>
+            <div class="row">
+                <div class="tile" data-char=" "></div>
+                <div class="tile" data-char="╚"></div>
+                <div class="tile" data-char="═"></div>
+                <div class="tile" data-char="╗"></div>
+                <div class="tile" data-char=" "></div>
+                <div class="tile" data-char="╔"></div>
+                <div class="tile" data-char="═"></div>
+            </div>
+            <div class="row">
+                <div class="tile" data-char=" "></div>
+                <div class="tile" data-char=" "></div>
+                <div class="tile" data-char=" "></div>
+                <div class="tile" data-char="╚"></div>
+                <div class="tile" data-char="═"></div>
+                <div class="tile" data-char="╝"></div>
+                <div class="tile" data-char=" "></div>
+            </div>
+        </div>
+    </div> -->
+    <!-- <canvas id="canvas"></canvas> -->
 </main>
 
 <!-- <div class="options">
@@ -484,20 +607,10 @@
 </script>
 <script src="../../../scripts/settings.js"></script>
 <script>
-    // var grid = [
-    //     ['═','╗','_','_','_','_','_'],
-    //     ['_','╚','═','╗','_','╔','═'],
-    //     ['_','_','_','╚','═','╝','_']
-    // ];
     var grid = [
-        ['═','╗',' ',' ',' ',' ',' '],
-        [' ','╚','═','╗',' ','╔','═'],
-        [' ',' ',' ','╚','═','╝',' ']
-    ];
-    var fill = [
-        [0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0]
+        ['═','╗','_','_','_','_','_'],
+        ['_','╚','═','╗','_','╔','═'],
+        ['_','_','_','╚','═','╝','_']
     ];
     // const pipeChars = [`│─└┴┘├┼┤┌┬┐ ║═╚╩╝╠╬╣╔╦╗`];
     const quids = [' ', '└', '┴', '┘', '├', '┼', '┤', '┌', '┬', '┐', ' ', '│', '─'];
@@ -517,7 +630,7 @@
         '║': 11, 
         '═': 12
     };
-    const PipePaths0 = {
+    const PipePaths = {
         '║':{"8":[2],"2":[8]},
         '═':{"4":[6],"6":[4]},
         '╚':{"8":[6],"6":[8]},
@@ -564,24 +677,22 @@
     }
     function BuildBoard1(g,id=""){
         let gid = id;
-        if(id==""){gid = `grid-${Object.keys(gridList).length}`;}
+        if(id==""){gid = `grid-${Object.key(gridList).length}`;}
         let grid = document.createElement('div');
         grid.classList.add('grid');
         grid.id = gid;
         for(let y = 0; y < g.length; y++){
             let row = document.createElement('div');
             row.classList.add('row');
-            // row.dataset.row = `${y}`;
+            row.dataset.row = `${y}`;
             for(let x = 0; x < g[0].length; x++){
                 let tile = document.createElement('div');
                 tile.classList.add('tile');
-                tile.id = `tile,${x},${y}`;
+                tile.id = `${x},${y}`;
                 tile.dataset.xy = `${x},${y}`;
-                // tile.dataset.col = `${x}`;
-                tile.dataset.pipe = pipeId[g[y][x]];
-                row.appendChild(tile);
+                tile.dataset.col = `${x}`;
             }
-            grid.appendChild(row);
+            grid.apendChild(row);
         }
         return grid;
     }
@@ -603,42 +714,23 @@
     };
     function BuildBoard2(g,dials){
         for (let i = 0; i < Object.keys(dials).length; i++) {
-            let dialId = Object.keys(dials)[i];
-            let x = dials[dialId].x;
-            let y = dials[dialId].y;
+            let x = dials[i].x;
+            let y = dials[i].y;
 
-            let tile = document.getElementById(`tile,${x},${y}`);
-            tile.dataset.dial = dialId;
-            // let gTile = document.createElement('div');
-            let gTile = document.createElement('label');
-            gTile.setAttribute('for',dialId);
+            let tile = document.getElementById(`tile-${x},${y}`);
+            let gTile = document.createElement('div');
             gTile.classList.add('tile','gtile','dial');
-            // gTile.id = dialId;
-            for(let j = 0; j < Object.keys(crossAround).length; j++){
-                let side = crossAround[Object.keys(crossAround)[j]];
-                let dclass = Object.keys(crossAround)[j];
+            for(let side = 0; side < crossAround.length; side++){
                 let nx = x + side.x;
                 let ny = y + side.y;
                 let pipe = document.createElement('div');
-                pipe.classList.add('pipe', dclass);
-                if(side.x == 0 && side.y == 0){
-                    pipe.classList.add('centerTile');
-                    pipe.addEventListener('click', (ev) => {
-                        // console.log(ev.target);
-                        // console.log(ev.target.dataset.xy);
-                        if(ev.target.dataset.xy != null){
-                            rotate(ev.target.dataset.xy);
-                        }
-                    });
-                }
-                // pipe.id = `${dialId}-${nx},${ny}`;
+                pipe.classList.add('pipe');
                 pipe.dataset.xy = `${nx},${ny}`;
                 pipe.dataset.liquid = 0;
-                // pipe.dataset.pipe = g[ny][nx];
-                pipe.dataset.pipe = pipeId[g[ny][nx]];
-                gTile.appendChild(pipe);
+                pipe.dataset.pipe = g[ny][nx];
+                gTile.apendChild(pipe);
             }
-            tile.appendChild(gTile);
+            tile.apendChild(gTile);
         }
     }
 
@@ -670,8 +762,6 @@
         grid[y+1][x] = rotateZ[grid[y][x+1]];
         grid[y][x+1] = rotateZ[d8];
 
-        // let rotatingTile = document.getElementById(`[data-xy="${nx},${ny}"]`);
-
         rod.forEach(k => {
             let nx = parseInt(k.split(',')[0]) + x;
             let ny = parseInt(k.split(',')[1]) + y;
@@ -679,24 +769,11 @@
             let tiles = document.querySelectorAll(`[data-xy="${nx},${ny}"]`);
             tiles.forEach(tile => {
                 // tile.innerText = grid[ny][nx];
-                // tile.dataset.char = grid[ny][nx];
-                // tile.dataset.pipe = grid[ny][nx];
-                tile.dataset.pipe = pipeId[grid[ny][nx]];
+                tile.dataset.char = grid[ny][nx];
             });
             // let tile = document.getElementById(k);
             // tile.innerText = grid[ny][nx];
         });
-
-        let fillingPipes = CheckPipe2(grid,{"x":0,"y":0},{"x":6,"y":2});
-        console.log(fillingPipes.join('\n'));
-        FillPipes(fillingPipes);
-        fill = fillingPipes;
-        
-        // let fixed = CheckPipe(grid,fill,{"x":0,"y":0},{"x":6,"y":2});
-        // if(fixed) {
-        //     console.log(fill.join('\n'));
-        //     FillPipes(fill);
-        // }
     }
 
     function addRotatingEvents(){
@@ -755,6 +832,22 @@
     window.addEventListener('resize', () =>{
         updateSettings();
     });
+    
+    // window.addEventListener('click', (ev) => {
+    //     let px = ev.pageX;
+    //     let py = ev.pageY;
+    //     let x = Math.floor(px / s.tile.w);
+    //     let y = Math.floor(py / s.tile.h);
+    //     console.log(`(${px},${py}) → tile-x: ${x}, tile-y: ${y}`);
+    // });
+    // window.addEventListener('mousemove', (ev) =>{
+    //     if(s.mouse.tracking){
+    //         if(!s.q && !s.pause){
+    //             s.mouse.x = ev.clientX;
+    //             s.mouse.y = ev.clientY;
+    //         }
+    //     }
+    // });
 
     window.addEventListener('load', (ev) => {
         console.log(`Welcome to my Lab!`);
@@ -762,7 +855,7 @@
         // start();
         // update();
 
-        // addRotatingEvents();
+        addRotatingEvents();
 
         // addEvents();
         // setTimeout(() => {
@@ -776,21 +869,14 @@
         //     console.timeEnd("SetPuzzle");
         // }, 500);
 
-        let display = document.getElementById(`display`);
+        // let display = document.getElementById(`display`);
 
-        let g = grid;
-        let gBoard = BuildBoard1(g);
-        display.appendChild(gBoard);
-        BuildBoard2(g,DialTileXY);
+        // let g = gridList['g1'];
+        // let gBoard = BuildBoard1(g);
+        // display.appendChild(gBoard);
+        // BuildBoard2(g,DialTileXY);
 
         // addRotatingEvents();
-
-        setTimeout(() => {
-            console.time("SetPuzzle");
-            FillGrid(grid);
-            SetPuzzle(3);
-            console.timeEnd("SetPuzzle");
-        }, 1000);
     });
     /* Version Log:
     [index-nds-00]: Default Template.
@@ -798,8 +884,8 @@
     [index-nds-02]: Organizing Locks. (nor ready.)
     [index-nds-03]: Rotation works.
     [index-nds-04]: (1) 'z-index' ready; and (2) working on programmatically generate the grid and gtiles.
-    [index-nds-05]: (1) It builds and it randomizes; (2) Next is the filling and check if it ends.
-    [index-nds-06]: (1) Works. (2) It needs an ending and a reset. Then maybe a bigger puzzle.
+    [index-nds-05]: 
+    [index-nds-06]: 
     [index-nds-07]: 
     [index-nds-08]: 
     [index-nds-09]: 
@@ -839,282 +925,7 @@
         return {'x':x, 'y':y};
     }
 
-    /* ────────────────────  ────────────────────  ──────────────────── */
 
-    function FillGrid(g){
-        for (let y = 0; y < g.length; y++) {
-            for (let x = 0; x < g[y].length; x++) {
-                if(g[y][x] == " "){
-                    g[y][x] = pipes[Math.floor(Math.random()*pipes.length)];
-                    let tiles = document.querySelectorAll(`[data-xy="${x},${y}"]`);
-                    tiles.forEach(tile => {
-                        tile.dataset.pipe = pipeId[g[y][x]];
-                    });
-                }
-            }
-        }
-    }
-
-    /* ────────────────────  ────────────────────  ──────────────────── */
-
-    const PipePaths1 = {
-        '║':{"8":[2]},
-        '═':{"4":[6],"6":[4]},
-        '╚':{"8":[6]},
-        '╩':{"8":[6,4],"4":[6],"6":[4]},
-        '╝':{"8":[4]},
-        '╠':{"8":[2,6],"6":[2]},
-        '╬':{"8":[2,6,4],"4":[2,6],"6":[2,4]},
-        '╣':{"8":[2,4],"4":[2]},
-        '╔':{"6":[2]},
-        '╦':{"4":[2,6],"6":[4,2]},
-        '╗':{"4":[2]},
-        ' ':{},
-    }
-    const PipePaths = {
-        '║':{"8":[2,8],"2":[8,2]},
-        '═':{"4":[6,4],"6":[4,6]},
-        '╚':{"8":[6,8],"6":[8,6]},
-        '╩':{"8":[6,4,8],"4":[6,4,8],"6":[4,6,8]},
-        '╝':{"8":[4,8],"4":[8,4]},
-        '╠':{"8":[2,6,8],"6":[2,6,8],"2":[6,8,2]},
-        '╬':{"8":[2,6,4,8],"4":[2,6,4,8],"6":[2,4,6,8],"2":[6,4,8,2]},
-        '╣':{"8":[2,4,8],"4":[2,8,4],"4":[2,8,4]},
-        '╔':{"6":[2,6],"2":[6,2]},
-        '╦':{"4":[2,6,4],"6":[4,2,6],"2":[6,4,2]},
-        '╗':{"4":[2,4],"2":[4,2]},
-        ' ':{"0":[0]},
-    }
-    const dixy = [
-        [0,0],
-        [-1,1],
-        [0,1],
-        [1,1],
-        [-1,0],
-        [0,0],
-        [1,0],
-        [-1,-1],
-        [0,-1],
-        [1,-1],
-    ];
-    const oppd = [0,9,8,7,6,5,4,3,2,1];
-    var t0 = [
-        ['═','╗',' ',' ',' ',' ',' '],
-        [' ','╚','═','╗',' ','╔','═'],
-        [' ',' ',' ','╚','═','╝',' ']
-    ];
-    var t1 = [
-        [0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0]
-    ];
-    function IsInGrid(g,x,y){
-        if (x < 0 || y < 0 || x >= g[0].length || y >= g.length) {
-            return false;
-        }
-        return true;
-    }
-    function fillPipe(g,fill,step={x:0,y:0},end={x:0,y:0}){
-        console.log(`🚏 step.x:${step.x}, step.y:${step.y};`);
-
-        // if end, then return 1;
-        if(step.y == end.y && step.x == end.x){
-            console.log('✅ You found the end! 🚿');
-            fill[step.y][step.x] = 1;
-            return 1;
-        }
-
-        // if is in the grid.
-        if(!IsInGrid(g,step.x,step.y)){
-            console.log(`❌ That's not the way!`);
-            return 0;
-        } 
-        // else {
-        //     // console.log(`🔣 g[${step.y}][${step.x}]: '${g[step.y][step.x]}'; \n💧 fill[${step.y}][${step.x}]: '${fill[step.y][step.x]}';`);
-        //     console.log(`🔣 g[${step.y}][${step.x}]: '${g[step.y][step.x]}'; | 💧 fill[${step.y}][${step.x}]: '${fill[step.y][step.x]}';`);
-        // }
-        
-        let res = 0;
-        // if not filled, then fill and move;
-        if(fill[step.y][step.x] == 0){
-            fill[step.y][step.x] = 1;
-            let pipe = g[step.y][step.x];
-            //console.log(`🛁 pipe: ${pipe};`);
-            let paths = PipePaths[pipe];
-            //console.log(`🔢 paths: ;`);
-            //console.log(paths);
-            let keys = Object.keys(paths);
-            // Object.keys(PipePaths['═']); → ['4', '6'];
-            //console.log(`🔑 keys: ${keys.join(',')};`);
-            for(let i = 0; i < keys.length; i++){
-                // PipePaths['═']['4']; → [6];
-                let path = paths[keys[i]];
-                //console.log(`🔢 path: ${path.join(',')};`);
-                for(let j = 0; j < path.length; j++){
-                    let nxy = dixy[path[j]];
-                    // console.log(`💠 nxy[0]: ${nxy[0]}, nxy[1]: ${nxy[1]};`);
-                    // let nx = step.x + nxy.x;
-                    // let ny = step.y + nxy.y;
-                    let nx = step.x + nxy[0];
-                    let ny = step.y + nxy[1];
-                    if(IsInGrid(g,nx,ny)){
-                        let openPaths = Object.keys(PipePaths[g[ny][nx]]);
-                        // direction that can receive → ['4', '6'];
-                        if(openPaths.includes(`${oppd[path[j]]}`)){
-                            let ends = fillPipe(g,fill,{"x":nx,"y":ny},end);
-                            if(!res){
-                                res = ends;
-                            }
-                        }
-                    }
-
-                    // let ends = fillPipe(g,fill,{"x":nx,"y":ny},end);
-                    // if(!res){
-                    //     res = ends;
-                    // }
-                }
-            }
-        }
-        return res;
-    }
-    function CheckPipe(g,fill,start,end){
-        fill = [
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0]
-        ];
-        let ends = fillPipe(g,fill,start,end);
-        console.log(!!ends);
-        return !!ends;
-    }
-    function CheckPipe2(g,start,end){
-        let myfill = [
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0]
-        ];
-        let ends = fillPipe(g,myfill,start,end);
-        console.log(`Fixed: ${!!ends}`);
-        return myfill;
-    }
-    // t1 = [
-    //     [0,0,0,0,0,0,0],
-    //     [0,0,0,0,0,0,0],
-    //     [0,0,0,0,0,0,0]
-    // ];
-    // CheckPipe(t0,t1,{x:0,y:0},{x:6,y:2});
-    // console.log(t1.join('\n'));
-    // FillPipes(t1);
-    
-    // CheckPipe(grid,fill,{x:0,y:0},{x:6,y:2});
-    // console.log(fill.join('\n'));
-    // FillPipes(fill);
-
-    function FillPipes(fill){
-        for(let y = 0; y < fill.length; y++){
-            for(let x = 0; x < fill[y].length; x++){
-                let pipes = document.querySelectorAll(`[data-xy="${x},${y}"]`);
-                pipes.forEach(pipe => {
-                    // pipe.dataset.pipe = pipeId[grid[y][x]];
-                    pipe.dataset.liquid = fill[y][x];
-                });
-            }
-        }
-    }
-
-    /* ────────────────────  ────────────────────  ──────────────────── */
-    function fillPipe_log(g,fill,step={x:0,y:0},end={x:0,y:0}){
-        console.log(`🚏 step.x:${step.x}, step.y:${step.y};`);
-        // if is in the grid.
-        if(!IsInGrid(g,step.x,step.y)){
-            console.log(`❌ That's not the way!`);
-            return 0;
-        } else {
-            console.log(`🔣 g[${step.y}][${step.x}]:${g[step.y][step.x]}; \n💧 fill[${step.y}][${step.x}]:${fill[step.y][step.x]}; 🚿`);
-        }
-        // if end, then return 1;
-        if(step.y == end.y && step.x == end.x){
-            console.log('✅ You found the end!');
-            fill[step.y][step.x] = 1;
-            return 1;
-        }
-        let res = 0;
-        // if not filled, then fill and move;
-        if(fill[step.y][step.x] == 0){
-            fill[step.y][step.x] = 1;
-            let pipe = g[step.y][step.x];
-            console.log(`🛁 pipe: ${pipe};`);
-            let paths = PipePaths[pipe];
-            console.log(`🔢 paths: ;`);
-            console.log(paths);
-            let keys = Object.keys(paths);
-            // Object.keys(PipePaths['═']); → ['4', '6'];
-            console.log(`🔑 keys: ${keys.join(',')};`);
-            for(let i = 0; i < keys.length; i++){
-                // PipePaths['═']['4']; → [6];
-                let path = paths[keys[i]];
-                console.log(`🔢 path: ${path.join(',')};`);
-                for(let j = 0; j < path.length; j++){
-                    let nxy = dixy[path[j]];
-                    console.log(`💠 nxy[0]: ${nxy[0]}, nxy[1]: ${nxy[1]};`);
-                    // let nx = step.x + nxy.x;
-                    // let ny = step.y + nxy.y;
-                    let nx = step.x + nxy[0];
-                    let ny = step.y + nxy[1];
-                    let ends = fillPipe(g,fill,{"x":nx,"y":ny},end);
-                    if(!res){
-                    res = ends;
-                    }
-                }
-            }
-        }
-        return res;
-    }
-    function fillPipe0(g,fill,step={x:0,y:0},end={x:0,y:0}){
-        console.log(`🚏 step.x:${step.x}, step.y:${step.y};`);
-        // if is in the grid.
-        if(!IsInGrid(g,step.x,step.y)){
-            console.log(`❌ That's not the way!`);
-            return 0;
-        } else {
-            console.log(`🔣 g[${step.y}][${step.x}]: '${g[step.y][step.x]}'; \n💧 fill[${step.y}][${step.x}]: '${fill[step.y][step.x]}';`);
-        }
-        // if end, then return 1;
-        if(step.y == end.y && step.x == end.x){
-            console.log('✅ You found the end! 🚿');
-            fill[step.y][step.x] = 1;
-            return 1;
-        }
-        let res = 0;
-        // if not filled, then fill and move;
-        if(fill[step.y][step.x] == 0){
-            fill[step.y][step.x] = 1;
-            let pipe = g[step.y][step.x];
-            // console.log(`🛁 pipe: ${pipe};`);
-            let paths = PipePaths[pipe];
-            // console.log(`🔢 paths: ;`);
-            // console.log(paths);
-            let keys = Object.keys(paths);
-            // Object.keys(PipePaths['═']); → ['4', '6'];
-            // console.log(`🔑 keys: ${keys.join(',')};`);
-            for(let i = 0; i < keys.length; i++){
-                // PipePaths['═']['4']; → [6];
-                let path = paths[keys[i]];
-                // console.log(`🔢 path: ${path.join(',')};`);
-                for(let j = 0; j < path.length; j++){
-                    let nxy = dixy[path[j]];
-                    // console.log(`💠 nxy[0]: ${nxy[0]}, nxy[1]: ${nxy[1]};`);
-                    let nx = step.x + nxy[0];
-                    let ny = step.y + nxy[1];
-                    let ends = fillPipe(g,fill,{"x":nx,"y":ny},end);
-                    if(!res){
-                    res = ends;
-                    }
-                }
-            }
-        }
-        return res;
-    }
     /* ────────────────────  ────────────────────  ──────────────────── */
 
     // function BuildGrid(xlen,ylen){
