@@ -53,10 +53,10 @@
 [dec 12]    
 
 [dec 02]    
-[dec 01]    
-[nov 29]    
+[dec 01]    🔄Rotating Lock🔒
+[nov 29]    uef
 
-[nov 23]    
+[nov 23]    several small updates
 [nov 21]    🗂Stacked Update📤
 
 [nov 19]    💠Grid Context🔷 and 🎨Canvas Updates🔧
