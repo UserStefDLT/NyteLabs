@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Grid | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        /* body {background-color: #fff; color: #000;} */
+        /* :root {--main-bg: hsla(210, 0%, 5%, 100%);} */
+        /*
+        #chess-01 {
+            --sz: 1rem;
+            --h: var(--sz);
+            --w: var(--sz);
+            --bg-grid: #0000;
+            --bg-tile: #0000;
+            --bg-tile-hover: #f936;
+            --outline-tile-hover: 1px dashed #f93c;
+            --outline-off: -2px;
+
+            --bg-tile-01: #eee;
+            --bg-tile-02: #111;
+
+            --border-grid: 0px solid #0000;
+            --border-tile: 0px solid #0000;
+
+            --gap: 1px;
+        }
+        #chess-02 {
+            --sz: 1rem;
+            --h: var(--sz);
+            --w: var(--sz);
+            --bg-grid: hsl(25, 70%, 75%);
+            --bg-grid: hsl(25, 50%, 50%);
+            --bg-grid: hsl(20, 45%, 20%);
+            --bg-grid: hsl(12, 32%, 15%);
+            --bg-grid: hsl(12, 32%, 8%);
+            --bg-grid: hsl(30, 40%, 10%);
+            --bg-grid: hsl(30, 40%, 10%);
+            --bg-tile: #0000;
+            --bg-tile-hover: #39f6;
+            --outline-tile-hover: 1px dashed #39fc;
+            --outline-off: -2px;
+
+            --bg-tile-01: hsl(45, 65%, 65%);
+            --bg-tile-02: hsl(15, 35%, 15%);
+            --bg-tile-01: hsl(35, 65%, 65%);
+            --bg-tile-02: hsl(25, 35%, 15%);
+
+            --border-grid: 0px solid #0000;
+            --border-tile: 0px solid #0000;
+
+            --gap: 1px;
+        }
+        */
+    </style>
+<style>
+    :root {
+        --sz: 1rem;
+        --h: var(--sz);
+        --w: var(--sz);
+        --bg-grid: #0000;
+        --bg-tile: #0000;
+        --bg-tile-hover: #0000;
+
+        --border-grid: 0px solid #0000;
+        --border-tile: 0px solid #0000;
+
+        --gap: 0px;
+    }
+    .container,
+    .grid, .row, .tile {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        /*   gap: 1px; */
+    }
+    .row {flex-direction: row;}
+    .tile {
+        --h: var(--sz);
+        --w: var(--sz);
+        height: var(--h);
+        width: var(--w);
+    }
+    /* #grid-01 {
+        --sz: 1.5rem;
+        --gap: 1px;
+
+        --border-tile: 1px solid #333;
+        --bg-tile: #fff;
+        --bg-tile-hover: #39f;
+        --clr: #333;
+    }
+    .tile {
+        height: var(--sz);
+        width: var(--sz);
+        border: var(--border-tile);
+        background-color: var(--bg-tile);
+        color: var(--clr);
+        margin: 0px;
+        transition: background-color 50ms ease-in-out;
+    }
+    .tile:hover {
+        background-color: var(--bg-tile-hover);
+    } */
+</style>
+<style>
+    .tile {background-color: #0f09;}
+
+    #grid-01 .tile {
+        --sz: 1.5rem;
+        height: var(--sz);
+        width: var(--sz);
+        margin: 0px;
+        border: 1px solid #333;
+        background-color: #fff;
+        color: #333;
+        transition: background-color 50ms ease-in-out;
+    }
+    #grid-01 .tile:hover {
+        background-color: #39f;
+    }
+
+    #grid-02 .tile {
+        --sz: 1.25rem;
+        height: var(--sz);
+        width: var(--sz);
+        margin: 1px;
+        border: 1px solid #3f9;
+        background-color: #3f90;
+        color: #ccc;
+        transition: background-color 50ms ease-in-out;
+    }
+    #grid-02 .tile:hover {
+        background-color: #3f9;
+    }
+
+    #chess-01 {
+        --sz: 1rem;
+        --h: var(--sz);
+        --w: var(--sz);
+        --bg-grid: #0000;
+        --bg-tile: #0000;
+        --bg-tile-hover: #f936;
+        --outline-tile: 1px dashed #f930;
+        --outline-tile-hover: 1px dashed #f93c;
+        --outline-off: 0px;
+        --outline-off-hover: -2px;
+
+        --bg-tile-01: #eee;
+        --bg-tile-02: #111;
+
+        --border-grid: 0px solid #0000;
+        --border-tile: 0px solid #0000;
+
+        --gap: 0px;
+    }
+    #chess-01 .grid {border: var(--border-grid);}
+    #chess-01 .grid::after {
+        content: '';
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        height: 100%; width: 100%;
+        background-image: radial-gradient(#0000, #0007);
+    }    
+    #chess-01 .grid,
+    #chess-01 .row {gap: var(--gap);}
+    #chess-01 .row:nth-child(2n) .tile:nth-child(2n),
+    #chess-01 .row:nth-child(2n+1) .tile:nth-child(2n+1) {
+        background-color: var(--bg-tile-01);
+    }
+    #chess-01 .row:nth-child(2n) .tile:nth-child(2n+1),
+    #chess-01 .row:nth-child(2n+1) .tile:nth-child(2n) {
+        background-color: var(--bg-tile-02);
+    }
+    #chess-01 .tile {
+        border: var(--border-tile);
+        outline: var(--outline-tile);
+        outline-offset: var(--outline-off);
+    }
+    #chess-01 .tile:hover {
+        /* background-color: var(--bg-tile-hover); */
+        outline: var(--outline-tile-hover);
+        outline-offset: var(--outline-off-hover);
+    }
+    
+    #chess-02 {
+        --sz: 1rem;
+        --h: var(--sz);
+        --w: var(--sz);
+
+        --bg-grid: hsl(30, 40%, 10%);
+        --bg-tile: #0000;
+
+        --bg-tile-hover: #39f6;
+        
+        --outline-tile-hover: 1px dashed #39fc;
+        --outline-off-hover: -2px;
+
+        --bg-tile-01: hsl(45, 65%, 65%);
+        --bg-tile-02: hsl(15, 35%, 15%);
+        --bg-tile-01: hsl(35, 65%, 65%);
+        --bg-tile-02: hsl(25, 35%, 15%);
+
+        --gap: 0px;
+    }
+
+</style>
+<style>
+    .container {
+        margin: 1rem;
+        padding: .5rem;
+        padding-top: 1rem;
+        outline: 1px dashed #888;
+    }
+    .container::before {
+        content: attr(id);
+        position: absolute;
+        top: -10px; left: 4px;
+        left: 50%;
+        transform: translateX(-50%) translateY(0%);
+        width: max-content;
+        background-color: #fff;
+        background-color: var(--main-bg);
+        padding: 2px 6px;
+        outline: 1px dashed #888;
+    }
+</style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">NyteLabs</h1>
+        <!-- <div class="subtitle">Grid</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <div class="subtitle"> 🚧 Under Construction 🚧 </div>
+    </header>
+
+<main>
+    <!-- <div class="shelf">
+        <div class="shelf-title">About</div>
+    </div> -->
+    <div id="grid-01" class="container">
+        <div class="grid">
+            <div class="row">
+            <div class="tile"></div>
+            <div class="tile"></div>
+            <div class="tile"></div>
+            </div>
+            <div class="row">
+            <div class="tile"></div>
+            <div class="tile"></div>
+            <div class="tile"></div>
+            </div>
+            <div class="row">
+            <div class="tile"></div>
+            <div class="tile"></div>
+            <div class="tile"></div>
+            </div>
+        </div>
+        </div>
+      <div id="grid-02" class="container"></div>
+      <div id="chess-01" class="container"></div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        const s = {};
+
+        function BuildGrid(w,h){
+            let g = [];
+        }
+        function BuildGridElem1(w,h){
+            let grid = document.createElement('div');
+            grid.classList.add('grid');
+            for (let y = 0; y < h; y++) {
+                let row = document.createElement('div');
+                row.classList.add('row');
+                for (let x = 0; x < w; x++) {
+                    let tile = document.createElement('div');
+                    tile.classList.add('tile');
+                    
+                    row.appendChild(tile);
+                }
+                grid.appendChild(row);
+            }
+            return grid;
+        }
+
+        // var grid2 = document.getElementById('grid-02');
+        function BuildGridElem(w,h){
+            // let grid = document.getElementById('grid-02');
+            let grid = document.createElement('div');
+            grid.classList.add('grid');
+            for (let y = 0; y < h; y++) {
+                let row = document.createElement('div');
+                row.classList.add('row');
+                for (let x = 0; x < w; x++) {
+                    let tile = document.createElement('div');
+                    tile.classList.add('tile');
+                    // tile.innerText = Math.floor(Math.random()*(w*h));
+                    row.appendChild(tile);
+                }
+                grid.appendChild(row);
+            }
+            return grid;
+        }
+        
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            // BuildGridElem(15,5);
+
+            let grid2 = document.getElementById('grid-02');
+            grid2.appendChild(BuildGridElem(4,4));
+
+            let chess1 = document.getElementById('chess-01');
+            chess1.appendChild(BuildGridElem(8,8));
+        });
+    </script>
+</body>
+</html>

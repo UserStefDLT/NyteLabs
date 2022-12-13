@@ -1,0 +1,102 @@
+.list {
+    position: relative;
+    max-width: max(370px, 48vw);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    background-color: #a99fa9;
+    padding: .5rem;
+  }
+  .sample {
+    --hue: calc(var(--i) * 60);
+    background-color: hsla(var(--hue), 100%, 60%, 1);
+    margin: .125rem .25rem;
+    padding: 8px 12px;
+    font-size: 16px;
+    color: black;
+    border-radius: .25rem;
+  }
+  
+  :root {
+  --bg: #a99fa9;
+  --bone: #ece4d0;
+  --highlight: #fff7de;
+  --shadow: #a79c87;
+  
+  --bx-shw-up: inset 1px 1px 2px 0px var(--highlight),
+  1px 1px 2px 0px var(--shadow);
+  
+  --bx-shw-dn: inset 1px 1px 2px 0px var(--shadow),
+  1px 1px 1px 0px var(--highlight);
+  }
+  .list *,
+  .base, .base *, .femur, .femur * {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* flex-direction: row; */
+  flex-direction: column;
+  flex-wrap: wrap;
+  background-color: var(--bone);
+  }
+  .base, .femur {
+  margin: .5rem;
+  padding: .5rem;
+  }
+  
+  .skull {
+  height: 50px; width: 50px;
+  box-shadow: var(--bx-shw-up);
+  border-radius: 50% 50% 15% 15%;
+  flex-direction: row;
+  }
+  
+  .eye {
+  /*top: 15px; left: 15px; */
+  height: 15px; width: 15px;
+  
+  box-shadow: 
+  inset 1px 1px 2px 0px #a79c87,
+  1px 1px 1px 0px #fff7de;
+  box-shadow: var(--bx-shw-dn);
+  margin: .75rem .25rem 0;
+  border-radius: 70% 40% 30% 25%;
+  }
+  .eye:nth-child(1) {border-radius: 70% 40% 30% 25%;}
+  .eye:nth-child(2) {border-radius: 40% 70% 25% 30%;}
+  .nose {
+  height: 10px; width: 10px;
+  box-shadow: var(--bx-shw-dn);
+  margin: 0 .25rem;
+  /* border: 0px solid var(--bone); */
+  border-radius: 100% 50% 100% 100%;
+  transform: rotate(-45deg);
+  }
+  .mandible {
+  height: 15px; width: 40px;
+  box-shadow: var(--bx-shw-up);
+  border-radius: 15% 15% 45% 45%;
+  margin-top: 5px;
+  }
+  
+  .femur {
+  flex-direction: column;
+  }
+  .long {
+  height: 120px; width: 15px;
+  box-shadow: var(--bx-shw-up);
+  border-radius: 0px;
+  }
+  .node {
+  height: 25px; width: 25px;
+  box-shadow: var(--bx-shw-up);
+  margin: -.25rem;
+  border-radius: 50%;
+  z-index: 2;
+  }
+  
+  
+  

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Grid | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        /* body {background-color: #fff; color: #000;} */
+        /* :root {--main-bg: hsla(210, 0%, 5%, 100%);} */
+    </style>
+<style>
+    .container, 
+    .grid, .row, .tile {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        /*   gap: 1px; */
+    }
+    .container {
+        margin: 1rem;
+        padding: .5rem;
+        padding-top: 1rem;
+        outline: 1px dashed #888;
+    }
+    .container::before {
+        content: attr(id);
+        position: absolute;
+        top: -10px; left: 4px;
+        left: 50%;
+        transform: translateX(-50%) translateY(0%);
+        width: max-content;
+        background-color: #fff;
+        background-color: var(--main-bg);
+        padding: 2px 6px;
+        outline: 1px dashed #888;
+    }
+    .row {
+        flex-direction: row;
+    }
+    .tile {
+        --sz: 1.5rem;
+        height: var(--sz);
+        width: var(--sz);
+        margin: 1px;
+        border: 1px solid #333;
+        background-color: #fff;
+        color: #333;
+        transition: background-color 50ms ease-in-out;
+    }
+    .tile:hover {
+        background-color: #39f;
+    }
+</style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">NyteLabs</h1>
+        <!-- <div class="subtitle">Grid</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <div class="subtitle"> 🚧 Under Construction 🚧 </div>
+    </header>
+
+<main>
+    <!-- <div class="shelf">
+        <div class="shelf-title">About</div>
+    </div> -->
+    <div id="grid-01" class="container">
+        <div class="grid">
+            <div class="row">
+            <div class="tile"></div>
+            <div class="tile"></div>
+            <div class="tile"></div>
+            </div>
+            <div class="row">
+            <div class="tile"></div>
+            <div class="tile"></div>
+            <div class="tile"></div>
+            </div>
+            <div class="row">
+            <div class="tile"></div>
+            <div class="tile"></div>
+            <div class="tile"></div>
+            </div>
+        </div>
+    </div>
+      <div id="grid-02" class="container">
+      </div>
+</main>
+
+
+    <footer>
+        <div class="my-name">
+            <a href="#">Back To Top</a>
+            &copy; 2022 | by Stéfano De La Torre 
+        </div>
+    </footer>
+    <div class="name-end">by St&eacute;fano.</div>
+    <!-- <script src="main.js"></script> -->
+    <script>
+        const s = {};
+
+        function BuildGrid(w,h){
+            let g = [];
+        }
+        function BuildGridElem1(w,h){
+            let grid = document.createElement('div');
+            grid.classList.add('grid');
+            for (let y = 0; y < h; y++) {
+                let row = document.createElement('div');
+                row.classList.add('row');
+                for (let x = 0; x < w; x++) {
+                    let tile = document.createElement('div');
+                    tile.classList.add('tile');
+                    
+                    row.appendChild(tile);
+                }
+                grid.appendChild(row);
+            }
+            return grid;
+        }
+
+        // var grid2 = document.getElementById('grid-02');
+        function BuildGridElem(w,h){
+            // let grid = document.getElementById('grid-02');
+            let grid = document.createElement('div');
+            grid.classList.add('grid');
+            for (let y = 0; y < h; y++) {
+                let row = document.createElement('div');
+                row.classList.add('row');
+                for (let x = 0; x < w; x++) {
+                    let tile = document.createElement('div');
+                    tile.classList.add('tile');
+                    // tile.innerText = Math.floor(Math.random()*(w*h));
+
+                    
+                    row.appendChild(tile);
+                }
+                grid.appendChild(row);
+            }
+            return grid;
+        }
+        
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            // BuildGridElem(15,5);
+            // BuildGridElem(4,4);
+            // BuildGridElem(15,15);
+            let grid2 = document.getElementById('grid-02');
+            grid2.appendChild(BuildGridElem(5,5));
+        });
+    </script>
+</body>
+</html>

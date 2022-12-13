@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Rotating Lock | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
+<style>
+    /* *::before, *::after {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+    } */
+    /* :root {} */
+</style>
+<style>
+    :root {
+        --scl: 3;
+        --sz: calc(var(--scl) * 16px);
+        --tile: calc(var(--scl) * 16px);
+        --side: calc(var(--scl) * 25px);
+        --center: calc(var(--scl) * 50px);
+        
+        --sz: calc(var(--scl) * 24px);
+        --sz: calc(var(--scl) * 32px);
+        --side: calc(var(--scl) * 16px);
+        --center: calc(var(--scl) * 16px);
+        --tile-grid: calc(var(--scl) * 48px);
+        /* height: var(--tile); width: var(--tile); */
+        --bgi: linear-gradient(135deg, #39f, #f39);
+    }
+    .grid * {box-sizing: border-box;}
+    .grid, .row, .tile {
+        position: relative;
+        font-size: var(--sz);
+    }
+    .grid {margin: 1rem;}
+    .row {
+        display: flex;
+        flex-direction: row;
+    }
+    .tile {
+        position: relative;
+        box-sizing: border-box;
+        height: 1rem; width: 1rem;
+        background: #fff3;
+        background: #0003;
+        margin: 1px;
+        margin: 0px;
+        z-index: 1;
+        
+        height: var(--tile); width: var(--tile);
+    }
+    /* .row:nth-child(2) .tile:nth-child(2n+1), 
+    .row:nth-child(2n+1) .tile:nth-child(2n), */
+    .sideTile {
+        --tile-sz: var(--side);
+        --tile-sz: var(--tile);
+        background-color: #f003;
+        background-color: #ccc3;
+    }
+    /* .row:nth-child(2) .tile:nth-child(2n+1)::before, 
+    .row:nth-child(2n+1) .tile:nth-child(2n)::before, */
+    .sideTile::before {
+        content: '⇗';
+        position: absolute;
+        top: 50%; left: 50%;
+        height: 25px; width: 25px;
+        height: var(--side); width: var(--side);
+        /* background-image: linear-gradient(180deg, #39f, #f39);
+        background-image: linear-gradient(180deg, #fff 5%, #39f6 5%, #f396);
+        background-image: radial-gradient(#fff 5%, #39f6 5%, #f396); */
+        
+        transform: translateX(-50%) translateY(-50%) rotate(-45deg);
+        border-radius: 100% 0%;
+
+        height: 16px; width: 16px;
+        height: var(--tile); width: var(--tile);
+        display: flex; align-items: center; justify-content: center;
+        transform: translateX(-50%) translateY(-50%) rotate(0deg);
+        border-radius: 50%;
+    }
+    :where([id="grid-01"],[id="grid-02"]) .row:nth-child(2n+1) .tile:nth-child(2n)::before {
+    transform: translateX(-50%) translateY(-50%) rotate(45deg);
+    transform: translateX(-50%) translateY(-50%) rotate(90deg);
+    }
+    :where([id="grid-01"],[id="grid-02"]) .row:nth-child(2n+1) .tile:nth-child(2n)::before {
+    transform: translateX(-50%) translateY(-50%) rotate(135deg);
+    transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+    }
+    /* .row:nth-child(2) .tile:nth-child(2n), */
+    .centerTile {
+        --tile-sz: var(--center);
+        /* border-radius: 50%; */
+        z-index: 2;
+    }
+    /* .row:nth-child(2) .tile:nth-child(2n)::before, */
+    .centerTile::before {
+        content: '';
+        position: absolute;
+        top: 50%; left: 50%;
+        height: 50px; width: 50px;
+        height: var(--center); width: var(--center);
+        transform: translateX(-50%) translateY(-50%);
+        border-radius: 50%;
+        
+        background-color: #0f01;
+        border: 1px dashed #0f03;
+        background-color: #fff1;
+        border: 1px dashed #fff3;
+
+        z-index: 2;
+    }
+
+    .sideTile[data-char]::before,
+    .centerTile[data-char]::before,
+    .pipe[data-char]::before,
+    .tile[data-char]::before {
+        content: attr(data-char);
+        position: absolute;
+        top: 50%; left: 50%;
+        height: var(--tile-sz); width: var(--tile-sz);
+        transform: translateX(-50%) translateY(-50%);
+        display: flex; align-items: center; justify-content: center;
+        color: #000c;
+    }
+    .pipe[data-char]::before,
+    .tile[data-char="_"]::before {
+        content: ' ';
+    }
+</style>
+<style>
+    /* .rotatingTile.c1 {left: 0px;}
+    .rotatingTile.c2 {left: calc(var(--scl) * 32px);}
+    .rotatingTile.c3 {left: calc(var(--scl) * 64px);} */
+    .gtile,
+    .rotatingTile {
+        position: absolute;
+        /* position: relative; */
+        top: calc(var(--scl) * -16px);
+        left: calc(var(--scl) * -16px);
+
+        height: var(--tile-grid); width: var(--tile-grid);
+        display: grid;
+        grid-template-areas: 
+        'd7 d8 d9'
+        'd4 d5 d6'
+        'd1 d2 d3';
+        gap: 1px;
+        gap: 0px;
+
+        --hue: calc(var(--i) * 90);
+        --hue: 180;
+        background-color: #0003;
+        background-color: #9996;
+        --bg: hsla(var(--hue), 100%, 60%, .1);
+        --clr: hsla(var(--hue), 100%, 60%, .15);
+        /* --bg: hsla(var(--hue), 100%, 60%, .85); */
+        /* --clr: hsla(var(--hue), 100%, 60%, 1); */
+        /* --bg: hsla(var(--hue), 100%, 60%, 0); */
+        /* --clr: hsla(var(--hue), 100%, 60%, 1); */
+        --bg: hsla(var(--hue), 100%, 60%, .1);
+        --bg: #00000001;
+        --clr: hsla(var(--hue), 100%, 60%, .5);
+        background-color: var(--bg);
+        outline: 3px solid var(--clr);
+        outline: 1px dashed var(--clr);
+        border-radius: 50%;
+
+        transition: outline 100ms ease-in-out;
+        z-index: 3;
+    }
+    .gtile:hover,
+    .rotatingTile:hover {
+        --clr: hsla(var(--hue), 100%, 60%, .5);
+        outline: 2px dashed var(--clr);
+    }
+    .d1 {grid-area: d1;}
+    .d2 {grid-area: d2;}
+    .d3 {grid-area: d3;}
+    .d4 {grid-area: d4;}
+    .d5 {grid-area: d5;}
+    .d6 {grid-area: d6;}
+    .d7 {grid-area: d7;}
+    .d8 {grid-area: d8;}
+    .d9 {grid-area: d9;}
+
+</style>
+<style>
+    /* water */
+    /* └ */
+    /* [data-xy="1,1"]::after {
+        content: '└';
+        position: absolute;
+        top: 50%; left: 50%;
+        height: var(--tile-sz); width: var(--tile-sz);
+        transform: translateX(-50%) translateY(-50%);
+        display: flex; align-items: center; justify-content: center;
+        color: #39fc;
+        z-index: 2;
+    } */
+</style>
+<style>
+    .pipe {
+        position: relative;
+        box-sizing: border-box;
+        height: var(--tile); width: var(--tile);
+        background: #fff3;
+
+        background: #0003;
+        margin: 0px;
+        z-index: 1;
+        overflow: hidden;
+    }
+    .pipe {
+        /* --tile-sz: var(--side); */
+        /* --tile-sz: var(--tile); */
+        background-color: #ccc3;
+
+        background-color: #0003;
+    }
+    .centerTile {
+        /* --tile-sz: var(--center); */
+        z-index: 2;
+    }
+    .centerTile::before {
+        background-color: #0f01;
+        border: 1px dashed #0f03;
+        background-color: #fff1;
+
+        background-color: #0001;
+        border: 1px dashed #fff3;
+        z-index: 2;
+    }
+
+    [data-pipe="0"]::before {content: ' '}
+    [data-pipe="1"]::before {content: '╚'}
+    [data-pipe="2"]::before {content: '╩'}
+    [data-pipe="3"]::before {content: '╝'}
+    [data-pipe="4"]::before {content: '╠'}
+    [data-pipe="5"]::before {content: '╬'}
+    [data-pipe="6"]::before {content: '╣'}
+    [data-pipe="7"]::before {content: '╔'}
+    [data-pipe="8"]::before {content: '╦'}
+    [data-pipe="9"]::before {content: '╗'}
+    [data-pipe="10"]::before {content: ' '}
+    [data-pipe="11"]::before {content: '║'}
+    [data-pipe="12"]::before {content: '═'}
+    [data-pipe="0"]::after {content: ' '}
+    [data-pipe="1"]::after {content: '└'}
+    [data-pipe="2"]::after {content: '┴'}
+    [data-pipe="3"]::after {content: '┘'}
+    [data-pipe="4"]::after {content: '├'}
+    [data-pipe="5"]::after {content: '┼'}
+    [data-pipe="6"]::after {content: '┤'}
+    [data-pipe="7"]::after {content: '┌'}
+    [data-pipe="8"]::after {content: '┬'}
+    [data-pipe="9"]::after {content: '┐'}
+    [data-pipe="10"]::after {content: ' '}
+    [data-pipe="11"]::after {content: '│'}
+    [data-pipe="12"]::after {content: '─'}
+
+    /* [data-pipe]::before {--hue: 150;} */
+    /* [data-pipe]::after {--hue: 210;} */
+
+    [data-pipe]::before {
+        --hue: 150;
+        --sat: 100%;
+        --lum: 0%;
+        --alp: 1;
+    }
+    [data-pipe]::after { --hue: 210; --alp: 0; --lum: 40%; }
+    [data-pipe][data-quid="1"]::after {--alp: 1;}
+    [data-pipe][data-liquid="1"]::after {--alp: 1;}
+
+
+    [data-pipe]::before {
+        --hue: 150;
+        --sat: 100%; --lum: 0%;
+        --sat: 80%; --lum: 20%;
+        --alp: 1;
+    }
+    [data-pipe]::after {
+        --hue: 210;
+        --sat: 0%;
+        --lum: 40%;
+        --lum: 10%;
+        --alp: 1;
+    }
+    [data-pipe][data-liquid="1"]::after {
+        --hue: 210;
+        --sat: 100%;
+        --lum: 40%;
+        --alp: 1;
+    }
+
+    [data-pipe]::before,
+    [data-pipe]::after {
+        position: absolute;
+        top: 50%; left: 50%;
+        height: var(--tile); width: var(--tile);
+        transform: translateX(-50%) translateY(-50%);
+        display: flex; align-items: center; justify-content: center;
+        /* --clr: hsla(var(--hue), 100%, 60%, 1); */
+        /* --clr: hsla(var(--hue), 100%, 60%, var(--alp)); */
+        /* --clr: hsla(var(--hue), 100%, 40%, var(--alp)); */
+        /* --clr: hsla(120, 40%, 40%, var(--alp)); */
+        /* --clr: hsla(120, 90%, 70%, var(--alp)); */
+        /* --clr: hsla(120, 100%, 100%, var(--alp)); */
+        --clr: hsla(120, 100%, 0%, var(--alp));
+        --clr: hsla(var(--hue), 100%, var(--lum), var(--alp));
+        --clr: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+        color: var(--clr);
+        z-index: 2;
+
+        font-family: monospace;
+        overflow: hidden;
+    }
+</style>
+
+<style>
+    /* [type="radio"] {
+        position: relative;
+        margin-right: 20px;
+    }
+    [type="radio"]::after {
+        content: attr(id);
+        position: absolute;
+        position: relative;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        top: 50%; left: 125%;
+        transform: translateX(0%) translateY(-50%);
+        margin-right: 20px;
+        height: 16px; width: 16px;
+        color: #0f0;
+    } */
+    #c1:checked ~ main [for="c1"] {z-index: 5;}
+    #c2:checked ~ main [for="c2"] {z-index: 5;}
+    #c3:checked ~ main [for="c3"] {z-index: 5;}
+
+    [data-dial] {z-index: 4;}
+    #c1:checked ~ main [data-dial="c1"] {z-index: 5;}
+    #c2:checked ~ main [data-dial="c2"] {z-index: 5;}
+    #c3:checked ~ main [data-dial="c3"] {z-index: 5;}
+    #c4:checked ~ main [data-dial="c4"] {z-index: 5;}
+    #c5:checked ~ main [data-dial="c5"] {z-index: 5;}
+    #c6:checked ~ main [data-dial="c6"] {z-index: 5;}
+    #c7:checked ~ main [data-dial="c7"] {z-index: 5;}
+    #c8:checked ~ main [data-dial="c8"] {z-index: 5;}
+    #c9:checked ~ main [data-dial="c9"] {z-index: 5;}
+    #c10:checked ~ main [data-dial="c10"] {z-index: 5;}
+    #c11:checked ~ main [data-dial="c11"] {z-index: 5;}
+    #c12:checked ~ main [data-dial="c12"] {z-index: 5;}
+</style>
+<link rel="stylesheet" href="../../../stylesheets/settings2.css">
+<link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">NyteLabs</h1>
+        <!-- <div class="subtitle">Rotating Lock</div> -->
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+
+    <!-- <input type="radio" class="hidden" name="lastMove" id="c1">
+    <input type="radio" class="hidden" name="lastMove" id="c2">
+    <input type="radio" class="hidden" name="lastMove" id="c3"> -->
+
+    <!-- input[type="radio" ][class="hidden"][name="lastMove"][id="c$"]*1 -->
+    <input type="radio" class="hidden" name="lastMove" id="c1">
+    <input type="radio" class="hidden" name="lastMove" id="c2">
+    <input type="radio" class="hidden" name="lastMove" id="c3">
+    <input type="radio" class="hidden" name="lastMove" id="c4">
+    <input type="radio" class="hidden" name="lastMove" id="c5">
+    <input type="radio" class="hidden" name="lastMove" id="c6">
+    <input type="radio" class="hidden" name="lastMove" id="c7">
+    <input type="radio" class="hidden" name="lastMove" id="c8">
+    <input type="radio" class="hidden" name="lastMove" id="c9">
+    <input type="radio" class="hidden" name="lastMove" id="c10">
+    <input type="radio" class="hidden" name="lastMove" id="c11">
+    <!-- <input type="radio" name="lastMove" id="c1">
+    <input type="radio" name="lastMove" id="c2">
+    <input type="radio" name="lastMove" id="c3"> -->
+
+<main>
+    <div class="shelf">
+        <h3 class="shelf-title">display</h3>
+        <div id="display">
+        </div>
+    </div>
+</main>
+
+<!-- <div class="options">
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        touch: {
+            x: 0,
+            y: 0,
+            z: 0,
+            paths: {},
+            path_len: 20,
+            tracking: false
+        },
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            path: [],
+            path_len: 20,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            sz: 20,
+            sz2: 10,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            padding: 0,
+            brush: "p",
+        },
+        box: {
+            x: 500,
+            y: 500,
+            z: 500,
+            x2: 250,
+            y2: 250,
+            z2: 250,
+            d: 1000,
+            p: 1000,
+        },
+
+        timeOut: 40,
+        player: false,
+        
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+    const particles = [];
+    const pg = {}
+
+</script>
+<script src="../../../scripts/settings.js"></script>
+<script>
+    // var grid = [
+    //     ['═','╗','_','_','_','_','_'],
+    //     ['_','╚','═','╗','_','╔','═'],
+    //     ['_','_','_','╚','═','╝','_']
+    // ];
+    var grid_0 = [
+        ['═','╗',' ',' ',' ',' ',' '],
+        [' ','╚','═','╗',' ','╔','═'],
+        [' ',' ',' ','╚','═','╝',' ']
+    ];
+    var grid = [
+        [' ',' ','╔','═','═','═','═',' ',' '],
+        [' ','═','╣',' ',' ',' ',' ',' ',' '],
+        [' ',' ','╚','═','╬','═','╗',' ',' '],
+        [' ',' ',' ',' ',' ',' ','╠','═',' '],
+        [' ',' ','═','═','═','═','╝',' ',' ']
+    ];
+    var fill = [];
+    // const pipeChars = [`│─└┴┘├┼┤┌┬┐ ║═╚╩╝╠╬╣╔╦╗`];
+    const quids = [' ', '└', '┴', '┘', '├', '┼', '┤', '┌', '┬', '┐', ' ', '│', '─'];
+    const pipes = [' ', '╚', '╩', '╝', '╠', '╬', '╣', '╔', '╦', '╗', ' ', '║', '═'];
+    const pipeId = {
+        ' ': 0, 
+        '╚': 1, 
+        '╩': 2, 
+        '╝': 3, 
+        '╠': 4, 
+        '╬': 5, 
+        '╣': 6, 
+        '╔': 7, 
+        '╦': 8, 
+        '╗': 9, 
+        ' ': 10, 
+        '║': 11, 
+        '═': 12
+    };
+    const PipePaths0 = {
+        '║':{"8":[2],"2":[8]},
+        '═':{"4":[6],"6":[4]},
+        '╚':{"8":[6],"6":[8]},
+        '╩':{"8":[6,4],"4":[8,6],"6":[8,4]},
+        '╝':{"8":[4],"4":[8]},
+        '╠':{"8":[6,2],"6":[8,2],"2":[8,6]},
+        '╬':{"8":[6,4,2],"4":[8,6,2],"6":[8,4,2],"2":[8,6,4]},
+        '╣':{"8":[4,2],"4":[8,2],"2":[8,4]},
+        '╔':{"6":[2],"2":[6]},
+        '╦':{"4":[6,2],"6":[4,2],"2":[6,4]},
+        '╗':{"4":[2],"2":[4]},
+        ' ':{},
+    }
+    const rotateZ = {
+        '║':'═',
+        '═':'║',
+        '╚':'╔',
+        '╩':'╠',
+        '╝':'╚',
+        '╠':'╦',
+        '╬':'╬',
+        '╣':'╩',
+        '╔':'╗',
+        '╦':'╣',
+        '╗':'╝',
+        ' ':' ',
+        '_':'_',
+    }
+    const centerTile_IDs = ['1,1', '3,1', '5,1'];
+    const gridList = {
+        'g1':[
+            ['═','╗',' ',' ',' ',' ',' '],
+            [' ','╚','═','╗',' ','╔','═'],
+            [' ',' ',' ','╚','═','╝',' ']
+        ],
+        'g2':[
+            ['═','╗',' ',' ',' ','╔','╝'],
+            [' ','╚','╦','╗',' ','║',' '],
+            ['╔','╦','╬','╩','═','╝',' ']
+            ['╚','╩','╩','╗',' ','╔','╗'],
+            [' ',' ',' ','╚','═','╩','╣']
+        ],
+        'g3':[],
+    }
+    function BuildBoard1(g,id=""){
+        let gid = id;
+        if(id==""){gid = `grid-${Object.keys(gridList).length}`;}
+        let grid = document.createElement('div');
+        grid.classList.add('grid');
+        grid.id = gid;
+        for(let y = 0; y < g.length; y++){
+            let row = document.createElement('div');
+            row.classList.add('row');
+            // row.dataset.row = `${y}`;
+            for(let x = 0; x < g[0].length; x++){
+                let tile = document.createElement('div');
+                tile.classList.add('tile');
+                tile.id = `tile,${x},${y}`;
+                tile.dataset.xy = `${x},${y}`;
+                // tile.dataset.col = `${x}`;
+                tile.dataset.pipe = pipeId[g[y][x]];
+                row.appendChild(tile);
+            }
+            grid.appendChild(row);
+        }
+        return grid;
+    }
+
+    //  • ─── • 
+    var pipeFill = [];
+    var pipeGrid = [];
+    var crossAround = {
+        "d2":{x:0,y:1},
+        "d4":{x:-1,y:0},
+        "d5":{x:0,y:0},
+        "d6":{x:1,y:0},
+        "d8":{x:0,y:-1}
+    };
+    var DialTileXY_0 = {
+        "c1":{x:1,y:1},
+        "c2":{x:3,y:1},
+        "c3":{x:5,y:1},
+    };
+    var DialTileXY = {
+        "c1":{x:1,y:1},
+        "c2":{x:3,y:1},
+        "c3":{x:5,y:1},
+        "c4":{x:7,y:1},
+
+        "c5":{x:2,y:2},
+        "c6":{x:4,y:2},
+        "c7":{x:6,y:2},
+
+        "c8":{x:1,y:3},
+        "c9":{x:3,y:3},
+        "c10":{x:5,y:3},
+        "c11":{x:7,y:3},
+    };
+    function BuildBoard2(g,dials){
+        for (let i = 0; i < Object.keys(dials).length; i++) {
+            let dialId = Object.keys(dials)[i];
+            let x = dials[dialId].x;
+            let y = dials[dialId].y;
+
+            let tile = document.getElementById(`tile,${x},${y}`);
+            tile.dataset.dial = dialId;
+            // let gTile = document.createElement('div');
+            let gTile = document.createElement('label');
+            gTile.setAttribute('for',dialId);
+            gTile.classList.add('tile','gtile','dial');
+            // gTile.id = dialId;
+            for(let j = 0; j < Object.keys(crossAround).length; j++){
+                let side = crossAround[Object.keys(crossAround)[j]];
+                let dclass = Object.keys(crossAround)[j];
+                let nx = x + side.x;
+                let ny = y + side.y;
+                let pipe = document.createElement('div');
+                pipe.classList.add('pipe', dclass);
+                if(side.x == 0 && side.y == 0){
+                    pipe.classList.add('centerTile');
+                    pipe.addEventListener('click', (ev) => {
+                        // console.log(ev.target);
+                        // console.log(ev.target.dataset.xy);
+                        if(ev.target.dataset.xy != null){
+                            rotate(ev.target.dataset.xy);
+                        }
+                    });
+                }
+                // pipe.id = `${dialId}-${nx},${ny}`;
+                pipe.dataset.xy = `${nx},${ny}`;
+                pipe.dataset.liquid = 0;
+                // pipe.dataset.pipe = g[ny][nx];
+                pipe.dataset.pipe = pipeId[g[ny][nx]];
+                gTile.appendChild(pipe);
+            }
+            tile.appendChild(gTile);
+        }
+    }
+
+    /* ────────────────────  ────────────────────  ──────────────────── */
+    function SetPuzzle(n=0){
+        let rotationCount = n;
+        if(n==0){
+            rotationCount = Math.floor(Math.random()*centerTile_IDs.length + 2)*2;
+            // let rotationCount = Math.round(Math.random()*centerTile_IDs.length + 2)**2;
+        }
+        for (let i = 0; i < rotationCount; i++) {
+            let roid = Math.floor(Math.random()*centerTile_IDs.length);
+            rotate(centerTile_IDs[roid]);
+        }
+    }
+
+    /* ────────────────────  ────────────────────  ──────────────────── */
+
+    const rod = ['0,-1','1,0','0,0','0,1','-1,0'];
+    function rotate(id){
+        let x = parseInt(id.split(',')[0]);
+        let y = parseInt(id.split(',')[1]);
+        
+        grid[y][x] = rotateZ[grid[y][x]];
+
+        let d8 = grid[y-1][x];
+        grid[y-1][x] = rotateZ[grid[y][x-1]];
+        grid[y][x-1] = rotateZ[grid[y+1][x]];
+        grid[y+1][x] = rotateZ[grid[y][x+1]];
+        grid[y][x+1] = rotateZ[d8];
+
+        // let rotatingTile = document.getElementById(`[data-xy="${nx},${ny}"]`);
+
+        rod.forEach(k => {
+            let nx = parseInt(k.split(',')[0]) + x;
+            let ny = parseInt(k.split(',')[1]) + y;
+            // console.log(`[data-xy="${nx},${ny}"]`);
+            let tiles = document.querySelectorAll(`[data-xy="${nx},${ny}"]`);
+            tiles.forEach(tile => {
+                // tile.innerText = grid[ny][nx];
+                // tile.dataset.char = grid[ny][nx];
+                // tile.dataset.pipe = grid[ny][nx];
+                tile.dataset.pipe = pipeId[grid[ny][nx]];
+            });
+            // let tile = document.getElementById(k);
+            // tile.innerText = grid[ny][nx];
+        });
+
+        let fillingPipes = CheckPipe2(grid,{"x":7,"y":0},{"x":1,"y":4});
+        console.log(fillingPipes.join('\n'));
+        FillPipes(fillingPipes);
+        fill = fillingPipes;
+        
+        // let fixed = CheckPipe(grid,fill,{"x":0,"y":0},{"x":6,"y":2});
+        // if(fixed) {
+        //     console.log(fill.join('\n'));
+        //     FillPipes(fill);
+        // }
+    }
+
+    function addRotatingEvents(){
+        let centerTiles = document.querySelectorAll('.centerTile');
+        centerTiles.forEach(ctile => {
+            ctile.addEventListener('click', (ev) => {
+                // console.log(ev.target);
+                console.log(ev.target.dataset.xy);
+                if(ev.target.dataset.xy != null){
+                    rotate(ev.target.dataset.xy);
+                }
+            });
+        });
+        // console.log(`centerTiles.len = ${centerTiles.length}`);
+    }
+
+    /* ─── Events ─── */
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        s.canvas.z = (s.h + s.w)/2;
+
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
+
+        /* ─ Box ─ */
+        /* resize box for mobile */
+        if(s.h < s.box.y) {s.box.y = s.h;}
+        if(s.w < s.box.x) {s.box.x = s.w;}
+        s.box.z = (s.box.y + s.box.x)/2;
+
+        /* center box */
+        s.box.top = (s.h - s.box.y)/2;
+        s.box.left = (s.w - s.box.x)/2;
+
+        /* determine center */
+        s.box.x2 = s.box.left + (s.box.x / 2);
+        s.box.y2 = s.box.top + (s.box.y / 2);
+        s.box.z2 = (s.box.z / 2);
+
+        /* ─ Grid ─ */
+        s.grid.cols = Math.floor(s.w / s.tile.w);
+        s.grid.rows = Math.floor(s.h / s.tile.h);
+
+        /* ─ Canvas Update ─ */
+        // canvas.width = s.canvas.x;
+        // canvas.height = s.canvas.y;
+        // ctx.clearRect(0,0,canvas.width, canvas.height);
+    }
+    window.addEventListener('resize', () =>{
+        updateSettings();
+    });
+
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        updateSettings();
+        // start();
+        // update();
+
+        // addRotatingEvents();
+
+        // addEvents();
+        // setTimeout(() => {
+        //     console.time("addRotatingEvents");
+        //     addRotatingEvents();
+        //     console.timeEnd("addRotatingEvents");
+        // }, 100);
+        // setTimeout(() => {
+        //     console.time("SetPuzzle");
+        //     SetPuzzle(5);
+        //     console.timeEnd("SetPuzzle");
+        // }, 500);
+
+        let display = document.getElementById(`display`);
+
+        let g = grid;
+        let gBoard = BuildBoard1(g);
+        display.appendChild(gBoard);
+        BuildBoard2(g,DialTileXY);
+
+        // addRotatingEvents();
+
+        setTimeout(() => {
+            console.time("SetPuzzle");
+            FillGrid(grid);
+            SetPuzzle(3);
+            console.timeEnd("SetPuzzle");
+        }, 1000);
+    });
+    /* Version Log:
+    [index-nds-00]: Default Template.
+    [index-nds-01]: Base from Nds 07.
+    [index-nds-02]: Organizing Locks. (nor ready.)
+    [index-nds-03]: Rotation works.
+    [index-nds-04]: (1) 'z-index' ready; and (2) working on programmatically generate the grid and gtiles.
+    [index-nds-05]: (1) It builds and it randomizes; (2) Next is the filling and check if it ends.
+    [index-nds-06]: (1) Works. (2) It needs an ending and a reset. Then maybe a bigger puzzle.
+    [index-nds-07]: (1) Change in style; (2) grid of 9x5.
+    [index-nds-08]: 
+    [index-nds-09]: 
+    [index-nds-10]: 
+    [index-nds-11]: 
+    [index-nds-12]: 
+    
+    */
+    function CSSAngleToXY(angle){
+        angle = (angle+270)%360;
+        let rad = angle * Math.PI / 180;
+        let xy = {"x":0,"y":0};
+        if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+        if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+        return xy;
+    }
+    function XYtoCSSAngle(x,y){
+        let angle = 90;
+        if(x == 0){
+            if(y > 0) {return 180;}
+            if(y < 0) {return 0;}
+        }
+        if(x < 0) { angle += 180; }
+        if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
+        return angle;
+    }
+
+    function randomXYZ(){
+        let x = Math.random()*s.canvas.x;
+        let y = Math.random()*s.canvas.y;
+        let z = Math.random()*s.canvas.z;
+        return {'x':x, 'y':y, 'z':z};
+    }
+    function randomXY(){
+        let x = Math.random()*s.canvas.x;
+        let y = Math.random()*s.canvas.y;
+        return {'x':x, 'y':y};
+    }
+
+    /* ────────────────────  ────────────────────  ──────────────────── */
+
+    function FillGrid(g){
+        for (let y = 0; y < g.length; y++) {
+            for (let x = 0; x < g[y].length; x++) {
+                if(g[y][x] == " "){
+                    g[y][x] = pipes[Math.floor(Math.random()*pipes.length)];
+                    let tiles = document.querySelectorAll(`[data-xy="${x},${y}"]`);
+                    tiles.forEach(tile => {
+                        tile.dataset.pipe = pipeId[g[y][x]];
+                    });
+                }
+            }
+        }
+    }
+
+    /* ────────────────────  ────────────────────  ──────────────────── */
+
+    const PipePaths1 = {
+        '║':{"8":[2]},
+        '═':{"4":[6],"6":[4]},
+        '╚':{"8":[6]},
+        '╩':{"8":[6,4],"4":[6],"6":[4]},
+        '╝':{"8":[4]},
+        '╠':{"8":[2,6],"6":[2]},
+        '╬':{"8":[2,6,4],"4":[2,6],"6":[2,4]},
+        '╣':{"8":[2,4],"4":[2]},
+        '╔':{"6":[2]},
+        '╦':{"4":[2,6],"6":[4,2]},
+        '╗':{"4":[2]},
+        ' ':{},
+    }
+    const PipePaths = {
+        '║':{"8":[2,8],"2":[8,2]},
+        '═':{"4":[6,4],"6":[4,6]},
+        '╚':{"8":[6,8],"6":[8,6]},
+        '╩':{"8":[6,4,8],"4":[6,4,8],"6":[4,6,8]},
+        '╝':{"8":[4,8],"4":[8,4]},
+        '╠':{"8":[2,6,8],"6":[2,6,8],"2":[6,8,2]},
+        '╬':{"8":[2,6,4,8],"4":[2,6,4,8],"6":[2,4,6,8],"2":[6,4,8,2]},
+        '╣':{"8":[2,4,8],"4":[2,8,4],"4":[2,8,4]},
+        '╔':{"6":[2,6],"2":[6,2]},
+        '╦':{"4":[2,6,4],"6":[4,2,6],"2":[6,4,2]},
+        '╗':{"4":[2,4],"2":[4,2]},
+        ' ':{"0":[0]},
+    }
+    const dixy = [
+        [0,0],
+        [-1,1],
+        [0,1],
+        [1,1],
+        [-1,0],
+        [0,0],
+        [1,0],
+        [-1,-1],
+        [0,-1],
+        [1,-1],
+    ];
+    const oppd = [0,9,8,7,6,5,4,3,2,1];
+    var t0 = [
+        ['═','╗',' ',' ',' ',' ',' '],
+        [' ','╚','═','╗',' ','╔','═'],
+        [' ',' ',' ','╚','═','╝',' ']
+    ];
+    var t1 = [
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0]
+    ];
+    function IsInGrid(g,x,y){
+        if (x < 0 || y < 0 || x >= g[0].length || y >= g.length) {
+            return false;
+        }
+        return true;
+    }
+    function fillPipe(g,fill,step={x:0,y:0},end={x:0,y:0}){
+        console.log(`🚏 step.x:${step.x}, step.y:${step.y};`);
+
+        // if end, then return 1;
+        if(step.y == end.y && step.x == end.x){
+            console.log('✅ You found the end! 🚿');
+            fill[step.y][step.x] = 1;
+            return 1;
+        }
+
+        // if is in the grid.
+        if(!IsInGrid(g,step.x,step.y)){
+            console.log(`❌ That's not the way!`);
+            return 0;
+        } 
+        // else {
+        //     // console.log(`🔣 g[${step.y}][${step.x}]: '${g[step.y][step.x]}'; \n💧 fill[${step.y}][${step.x}]: '${fill[step.y][step.x]}';`);
+        //     console.log(`🔣 g[${step.y}][${step.x}]: '${g[step.y][step.x]}'; | 💧 fill[${step.y}][${step.x}]: '${fill[step.y][step.x]}';`);
+        // }
+        
+        let res = 0;
+        // if not filled, then fill and move;
+        if(fill[step.y][step.x] == 0){
+            fill[step.y][step.x] = 1;
+            let pipe = g[step.y][step.x];
+            //console.log(`🛁 pipe: ${pipe};`);
+            let paths = PipePaths[pipe];
+            //console.log(`🔢 paths: ;`);
+            //console.log(paths);
+            let keys = Object.keys(paths);
+            // Object.keys(PipePaths['═']); → ['4', '6'];
+            //console.log(`🔑 keys: ${keys.join(',')};`);
+            for(let i = 0; i < keys.length; i++){
+                // PipePaths['═']['4']; → [6];
+                let path = paths[keys[i]];
+                //console.log(`🔢 path: ${path.join(',')};`);
+                for(let j = 0; j < path.length; j++){
+                    let nxy = dixy[path[j]];
+                    // console.log(`💠 nxy[0]: ${nxy[0]}, nxy[1]: ${nxy[1]};`);
+                    // let nx = step.x + nxy.x;
+                    // let ny = step.y + nxy.y;
+                    let nx = step.x + nxy[0];
+                    let ny = step.y + nxy[1];
+                    if(IsInGrid(g,nx,ny)){
+                        let openPaths = Object.keys(PipePaths[g[ny][nx]]);
+                        // direction that can receive → ['4', '6'];
+                        if(openPaths.includes(`${oppd[path[j]]}`)){
+                            let ends = fillPipe(g,fill,{"x":nx,"y":ny},end);
+                            if(!res){
+                                res = ends;
+                            }
+                        }
+                    }
+
+                    // let ends = fillPipe(g,fill,{"x":nx,"y":ny},end);
+                    // if(!res){
+                    //     res = ends;
+                    // }
+                }
+            }
+        }
+        return res;
+    }
+    function CheckPipe(g,fill,start,end){
+        fill = [
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0]
+        ];
+        let ends = fillPipe(g,fill,start,end);
+        console.log(!!ends);
+        return !!ends;
+    }
+    function CheckPipe2(g,start,end){
+        // let myfill = [
+        //     [0,0,0,0,0,0,0],
+        //     [0,0,0,0,0,0,0],
+        //     [0,0,0,0,0,0,0]
+        // ];
+        let myfill = BuildGrid(g[0].length,g.length);
+        let ends = fillPipe(g,myfill,start,end);
+        console.log(`Fixed: ${!!ends}`);
+        return myfill;
+    }
+    // t1 = [
+    //     [0,0,0,0,0,0,0],
+    //     [0,0,0,0,0,0,0],
+    //     [0,0,0,0,0,0,0]
+    // ];
+    // CheckPipe(t0,t1,{x:0,y:0},{x:6,y:2});
+    // console.log(t1.join('\n'));
+    // FillPipes(t1);
+    
+    // CheckPipe(grid,fill,{x:0,y:0},{x:6,y:2});
+    // console.log(fill.join('\n'));
+    // FillPipes(fill);
+
+    function FillPipes(fill){
+        for(let y = 0; y < fill.length; y++){
+            for(let x = 0; x < fill[y].length; x++){
+                let pipes = document.querySelectorAll(`[data-xy="${x},${y}"]`);
+                pipes.forEach(pipe => {
+                    // pipe.dataset.pipe = pipeId[grid[y][x]];
+                    pipe.dataset.liquid = fill[y][x];
+                });
+            }
+        }
+    }
+
+    /* ────────────────────  ────────────────────  ──────────────────── */
+
+    function BuildGrid(xlen=1,ylen=1,fill=0){
+        let g = [];
+        for(let y = 0; y < ylen; y++){
+            g.push([]);
+            for(let x = 0; x < xlen; x++){
+                g[y].push(fill);
+            }
+        }
+        return g;
+    }
+
+    var PipeCharacters = [' ',
+        '╚', '╩', '╝', 
+        '╠', '╬', '╣', 
+        '╔', '╦', '╗', 
+        ' ', '║', '═'];
+    var grid_t1 = [
+        [' ',' ','╔','═','═','═','═','s',' '],
+        [' ','═','╣',' ',' ',' ',' ',' ',' '],
+        [' ',' ','╚','═','╬','═','╗',' ',' '],
+        [' ',' ',' ',' ',' ',' ','╠','═',' '],
+        [' ','e','═','═','═','═','╝',' ',' ']
+    ];
+    var grid_t = [
+        [' ',' ','╔','═','═','═','═',' ',' '],
+        [' ','═','╣',' ',' ',' ',' ',' ',' '],
+        [' ',' ','╚','═','╬','═','╗',' ',' '],
+        [' ',' ',' ',' ',' ',' ','╠','═',' '],
+        [' ',' ','═','═','═','═','╝',' ',' ']
+    ];
+let gxy = `
+╚╩╝
+╠╬╣
+╔╦╗
+ ║═
+[21x9]
+.....................|
+                     |
+                     |
+                     |
+                     |
+                     |
+                     |
+                     |
+                     |
+                     |
+.....................|
+
+└┴┘├┼┤┌┬┐ │─
+╚╩╝╠╬╣╔╦╗ ║═
+
+├┼┤
+├─┤
+[21x9]
+┌─────────────────────┐
+├┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┤
+├┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┤
+├┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┤
+├┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┤
+├┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┤
+├┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┤
+├┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┤
+├┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┤
+├┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┤
+└─────────────────────┘
+┌─────────────────────┐
+├────────────────────┬┤
+├────────────────────┴┤
+└─────────────────────┘
+
+┌─────────────────────┐
+├─────────────────────┤
+└─────────────────────┘
+|.....................|
+|                     |
+|                     |
+|                     |
+|                     |
+|                     |
+|                     |
+|                     |
+|                     |
+|                     |
+|.....................|
+
+
+
+┌─────────────────────┐
+├┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┬┤
+├┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┤
+├┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┤
+├┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┤
+├┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┤
+├┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┤
+├┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┤
+├┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┼┤
+├┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┴┤
+└─────────────────────┘
+`
+
+
+
+    /* ────────────────────  ────────────────────  ──────────────────── */
+    function fillPipe_log(g,fill,step={x:0,y:0},end={x:0,y:0}){
+        console.log(`🚏 step.x:${step.x}, step.y:${step.y};`);
+        // if is in the grid.
+        if(!IsInGrid(g,step.x,step.y)){
+            console.log(`❌ That's not the way!`);
+            return 0;
+        } else {
+            console.log(`🔣 g[${step.y}][${step.x}]:${g[step.y][step.x]}; \n💧 fill[${step.y}][${step.x}]:${fill[step.y][step.x]}; 🚿`);
+        }
+        // if end, then return 1;
+        if(step.y == end.y && step.x == end.x){
+            console.log('✅ You found the end!');
+            fill[step.y][step.x] = 1;
+            return 1;
+        }
+        let res = 0;
+        // if not filled, then fill and move;
+        if(fill[step.y][step.x] == 0){
+            fill[step.y][step.x] = 1;
+            let pipe = g[step.y][step.x];
+            console.log(`🛁 pipe: ${pipe};`);
+            let paths = PipePaths[pipe];
+            console.log(`🔢 paths: ;`);
+            console.log(paths);
+            let keys = Object.keys(paths);
+            // Object.keys(PipePaths['═']); → ['4', '6'];
+            console.log(`🔑 keys: ${keys.join(',')};`);
+            for(let i = 0; i < keys.length; i++){
+                // PipePaths['═']['4']; → [6];
+                let path = paths[keys[i]];
+                console.log(`🔢 path: ${path.join(',')};`);
+                for(let j = 0; j < path.length; j++){
+                    let nxy = dixy[path[j]];
+                    console.log(`💠 nxy[0]: ${nxy[0]}, nxy[1]: ${nxy[1]};`);
+                    // let nx = step.x + nxy.x;
+                    // let ny = step.y + nxy.y;
+                    let nx = step.x + nxy[0];
+                    let ny = step.y + nxy[1];
+                    let ends = fillPipe(g,fill,{"x":nx,"y":ny},end);
+                    if(!res){
+                    res = ends;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+    function fillPipe0(g,fill,step={x:0,y:0},end={x:0,y:0}){
+        console.log(`🚏 step.x:${step.x}, step.y:${step.y};`);
+        // if is in the grid.
+        if(!IsInGrid(g,step.x,step.y)){
+            console.log(`❌ That's not the way!`);
+            return 0;
+        } else {
+            console.log(`🔣 g[${step.y}][${step.x}]: '${g[step.y][step.x]}'; \n💧 fill[${step.y}][${step.x}]: '${fill[step.y][step.x]}';`);
+        }
+        // if end, then return 1;
+        if(step.y == end.y && step.x == end.x){
+            console.log('✅ You found the end! 🚿');
+            fill[step.y][step.x] = 1;
+            return 1;
+        }
+        let res = 0;
+        // if not filled, then fill and move;
+        if(fill[step.y][step.x] == 0){
+            fill[step.y][step.x] = 1;
+            let pipe = g[step.y][step.x];
+            // console.log(`🛁 pipe: ${pipe};`);
+            let paths = PipePaths[pipe];
+            // console.log(`🔢 paths: ;`);
+            // console.log(paths);
+            let keys = Object.keys(paths);
+            // Object.keys(PipePaths['═']); → ['4', '6'];
+            // console.log(`🔑 keys: ${keys.join(',')};`);
+            for(let i = 0; i < keys.length; i++){
+                // PipePaths['═']['4']; → [6];
+                let path = paths[keys[i]];
+                // console.log(`🔢 path: ${path.join(',')};`);
+                for(let j = 0; j < path.length; j++){
+                    let nxy = dixy[path[j]];
+                    // console.log(`💠 nxy[0]: ${nxy[0]}, nxy[1]: ${nxy[1]};`);
+                    let nx = step.x + nxy[0];
+                    let ny = step.y + nxy[1];
+                    let ends = fillPipe(g,fill,{"x":nx,"y":ny},end);
+                    if(!res){
+                    res = ends;
+                    }
+                }
+            }
+        }
+        return res;
+    }
+    /* ────────────────────  ────────────────────  ──────────────────── */
+
+    // function BuildGrid(xlen,ylen){
+    //     let g = [];
+    //     for (let y = 0; y < ylen; y++) {
+    //         g.push([]);
+    //         for (let x = 0; x < ylen; x++) {
+    //             // g[y].push(' ');
+    //             g[y].push(pipes[Math.floor(Math.random()*pipes.length)]);
+    //         }
+    //     }
+    //     return g;
+    // }
+    // function FillGrid(xlen,ylen){
+    //     for (let y = 0; y < ylen; y++) {
+    //         for (let x = 0; x < ylen; x++) {
+    //             if(grid[y][x] == "_"){
+    //                 grid[y][x] = pipes[Math.floor(Math.random()*pipes.length)];
+    //             }
+    //         }
+    //     }
+    // }
+    // function BuildBoard1(xlen,ylen){
+    //     let grid = document.createElement('div');
+    //     grid.classList.add('grid');
+        
+    //     for (let y = 0; y < ylen; y++) {
+    //         let row = document.createElement('div');
+    //         row.classList.add('row');
+    //         for (let x = 0; x < ylen; x++) {
+    //             let tile = document.createElement('div');
+    //             tile.classList.add('tile');
+    //             tile.id = `${x},${y}`;
+    //             let id = `${x},${y}`;
+    //             if(centerTile_IDs.includes(tile.id)){
+    //                 tile.classList.add('centerTile');
+    //             }
+    //             // tile.id = `${x},${y}`;
+    //             // tile.dataset.char = ` `;
+    //             tile.dataset.char = grid[y][x];
+    //             // tile.dataset.pipe = grid[y][x];
+    //             tile.dataset.quid = 0;
+    //             tile.dataset.xy = `${x},${y}`;
+                
+    //             row.appendChild(tile);
+    //         }
+    //         grid.appendChild(row);
+    //     }
+    // }
+
+</script>
+</body>
+</html>

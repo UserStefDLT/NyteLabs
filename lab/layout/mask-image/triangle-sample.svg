@@ -1,0 +1,21 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle fill="#fffc" cx="15" cy="15" r="10" >
+        <animate
+        attributeName="cx"
+        values="15;85;50;15"
+        dur="3s"
+        repeatCount="indefinite"/>
+        <animate
+        attributeName="cy"
+        values="30;30;85;30"
+        dur="3s"
+        repeatCount="indefinite"/>
+    </circle>
+    <polygon fill="#fff9" points="50,10 80,70 20,70">
+    <!-- <animate
+        attributeName="points"
+        values="160,130 190,190 130,190; 130,190 160,130 190,190; 190,190 130,190 160,130; 160,130 190,190 130,190"
+        dur="5s"
+        repeatCount="indefinite" /> -->
+    </polygon>
+</svg>
