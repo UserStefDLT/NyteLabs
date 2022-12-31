@@ -43,16 +43,16 @@
 [jan 10]    
 [jan 09]    
 
-[dec 30]    
-[dec 23]    
+[dec 30]    🌌Rotating Tiles💠
+[dec 23]    small steps and chars
 
-[dec 16]    
-[dec 15]    
-[dec 14]    
-[dec 13]    
-[dec 12]    
+[dec 16]    🔡 Chars 🔣 and some other work in progress
+[dec 15]    🌐 Axis Cube 📦
+[dec 14]    🛫 Tail Wind 🛬
+[dec 13]    index update
+[dec 12]    many things up
 
-[dec 02]    
+[dec 02]    🔄Rotating⚙ 🎛Lock🔒
 [dec 01]    🔄Rotating Lock🔒
 [nov 29]    uef
 
