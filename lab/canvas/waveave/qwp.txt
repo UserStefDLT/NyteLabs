@@ -1,0 +1,77 @@
+
+class qwp {
+constuctor(x,y,a,r=100){
+this.x = x;
+this.y = y;
+
+this.center = {'x':0, 'y':0};
+this.angle = a;
+this.hue = this.angle;
+this.apperture = 30;
+this.lineLen = 20;
+this.xy = CSSAngleToXY(this.angle);
+this.radius = r;
+
+this.sz = 5;
+this.waves = 4;
+}
+update(){
+// this.xy = CSSAngleToXY(this.angle);
+// this.radius = 100;
+// this.r = this.radius + (this.hue/360 * Math.PI * this.waves);
+this.x = center.x + (this.xy.x * this.radius);
+this.y = center.y + (this.xy.y * this.radius);
+
+}
+draw(){
+
+this.tx.beginPath();
+
+this.ctx.fillStyle = `hsla(${this.hue}, 100%, 60%, 1)`;
+this.ctx.strokeStyle = `hsla(${this.hue}, 100%, 60%, 1)`;
+
+this.ctx.arc(this.x, this.y, this.sz, 0, 2 * Math.PI);
+this.ctx.stroke();
+
+this.ctx.rect(this.x, this.y, this.sz/2, this.sz);
+this.ctx.fill();
+
+}
+draw2(){
+this.a1 = this.angle - this.apperture;
+this.xy1 = CSSAngleToXY(this.a1);
+let x1 = this.x + (this.xy1.x * this.lineLen);
+let y1 = this.y + (this.xy1.y * this.lineLen);
+
+this.a2 = this.angle + this.apperture;
+this.xy2 = CSSAngleToXY(this.a2);
+let x2 = this.x + (this.xy2.x * this.lineLen);
+let y2 = this.y + (this.xy2.y * this.lineLen);
+
+this.ctx.beginPath();
+this.ctx.fillStyle = `hsla(${this.a1}, 100%, 60%, 1)`;
+this.ctx.strokeStyle = `hsla(${this.a1}, 100%, 60%, 1)`;
+this.ctx.moveTo(this.x,this.y);
+this.ctx.lineTo(this.x1,this.y1);
+this.ctx.draw();
+
+this.ctx.beginPath();
+this.ctx.fillStyle = `hsla(${this.a2}, 100%, 60%, 1)`;
+this.ctx.strokeStyle = `hsla(${this.a2}, 100%, 60%, 1)`;
+this.ctx.moveTo(this.x,this.y);
+this.ctx.lineTo(this.x2,this.y2);
+this.ctx.draw();
+
+}
+
+}
+
+/*
+https://raw.githubusercontent.com/UserStefDLT/NyteLabs/main/stylesheets/stars.css
+
+
+https://raw.githubusercontent.com/UserStefDLT/NyteLabs/main/scripts/settings.js
+*/
+
+
+
