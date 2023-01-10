@@ -33,15 +33,18 @@
 
 ─End─
 
-[jan 19]    
-[jan 18]    
-[jan 17]    
+[jan 26]    
+[jan 25]    
+[jan 24]    
+
+[jan 20]    
+[jan 16]    
 
 [jan 13]    
 [jan 12]    
 [jan 11]    
-[jan 10]    
-[jan 09]    
+[jan 10]    ⭐ Waveave 🍭
+[jan 09]    Waveave
 
 [dec 30]    🌌Rotating Tiles💠
 [dec 23]    small steps and chars
