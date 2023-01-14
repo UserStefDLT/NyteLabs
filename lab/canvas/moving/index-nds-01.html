@@ -22,7 +22,7 @@
 </head>
 <body>
     <header>
-        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
         <h1 class="title">NyteLabst</h1>
         <!-- <div class="subtitle">Moving</div> -->
     </header>
@@ -36,10 +36,7 @@
         <div id="display"></div>
         <div class="x"></div>
     </div> -->
-    <!-- <canvas id="canvas"></canvas> -->
-    <canvas id="canvas-bg"></canvas>
-    <canvas id="canvas-grid"></canvas>
-    <canvas id="canvas-draw"></canvas>
+    <canvas id="canvas"></canvas>
 </main>
 
 <!-- <div class="options">
@@ -66,7 +63,6 @@
             x: 0,
             y: 0,
             z: 0,
-            node: {start:{x:0,y:0},end:{x:0,y:0}},
             paths: {},
             path_len: 20,
             tracking: false
@@ -117,12 +113,6 @@
             d: 1000,
             p: 1000,
         },
-        cube: {
-            xlen: 10,
-            ylen: 10,
-            zlen: 10,
-            sz: 10,
-        },
         zoom: 0,
         player: {
             moving: true,
@@ -141,10 +131,7 @@
         q: false
     }
     const particles = [];
-    const pg = {}
-    const layers = ["canvas-bg", "canvas-grid", "canvas-draw"];
-    const canvas = {};
-    const ctx = {};
+    const pg = {};
 </script>
 <script src="../../../scripts/settings.js"></script>
 <!-- <script src="https://raw.githubusercontent.com/UserStefDLT/NyteLabs/main/scripts/settings.js"></script> -->
@@ -197,16 +184,10 @@ window.addEventListener('mousemove', (ev) =>{
 
 </script>
 <script>
-    // const canvas = document.getElementById('canvas');
-    // const ctx = canvas.getContext('2d');
-    // canvas.width = window.innerWidth;
-    // canvas.height = window.innerHeight;
-    layers.forEach(key => {
-        canvas[key] = document.getElementById(key);
-        ctx[key] = canvas[key].getContext('2d');
-        canvas[key].width = window.innerWidth;
-        canvas[key].height = window.innerHeight;
-    });
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
     /* ─── Drawing (view) ─── */
     function drawArc(x,y,sz){
@@ -407,8 +388,6 @@ window.addEventListener('mousemove', (ev) =>{
             this.vy = 0;
             this.vz = 0;
 
-            this.radius = 8;
-            // this.radius = 20;
             this.size = 15;
             this.color = `#8889`;
 
@@ -440,9 +419,6 @@ window.addEventListener('mousemove', (ev) =>{
             if(this.vy < this.lim.high * -1) {this.vy = this.lim.high * -1;}
             if(Math.abs(this.vy) < this.lim.low) {this.vy = 0;}
 
-            if(this.x > s.canvas.w - this.radius || this.x < this.radius){this.vx *= -1;}
-            if(this.y > s.canvas.h - this.radius || this.y < this.radius){this.vy *= -1;}
-
             if(this.vx != 0){this.x += this.vx;}
             if(this.vy != 0){this.y += this.vy;}
 
@@ -452,8 +428,7 @@ window.addEventListener('mousemove', (ev) =>{
             this.ctx.lineWidth = 2;
             // this.ctx.fillStyle = `hsla(${this.hue}, 100%, 60%, .75)`;
             this.ctx.fillStyle = `hsla(210, 100%, 60%, .75)`;
-            // this.ctx.arc(this.x, this.y, this.size/2, 0, 2 * Math.PI);
-            this.ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+            this.ctx.arc(this.x, this.y, this.size/2, 0, 2 * Math.PI);
             this.ctx.fill();
         }
     }
@@ -484,10 +459,7 @@ window.addEventListener('mousemove', (ev) =>{
 
     /* ─── Start and Update ─── */
     function start(){
-        canvas["canvas-draw"].addEventListener("touchstart", handleStart, false);
-        canvas["canvas-draw"].addEventListener("touchend", handleEnd, false);
-        canvas["canvas-draw"].addEventListener("touchcancel", handleCancel, false);
-        canvas["canvas-draw"].addEventListener("touchmove", handleMove, false);
+
         // Code goes here.
         // pg["qwp"] = [];
         // create(72, type="qwp", r=150);
@@ -495,15 +467,16 @@ window.addEventListener('mousemove', (ev) =>{
 
         pg["x"] = [];
         // createPlayer(1, type="x", r=150);
-        let np = new player(ctx["canvas-draw"], particles.length, "x", s.canvas.x2, s.canvas.y2, s.canvas.z2);
+        let np = new player(ctx, particles.length, "x", s.canvas.x2, s.canvas.y2, s.canvas.z2);
         pg["x"].push(np);
         particles.push(np);
+
     }
     function update(){
         if(!s.q && !s.pause){
 
             // Code goes here.
-            clearCanvas(ctx["canvas-draw"]);
+            clearCanvas(ctx);
 
             for(let i = 0; i < particles.length; i++){
                 const e = particles[i];
@@ -526,24 +499,6 @@ window.addEventListener('mousemove', (ev) =>{
         ctx.fillStyle = bg;
         ctx.fillRect(0,0,s.w,s.h);
     }
-    function reset(){
-        // pile = [];
-        // grid = [];
-        // startGrid(s.grid.cols,s.grid.rows);
-        
-        // pile = BuildGrid(s.cube.xlen,s.cube.ylen);
-        // pile = BuildGridArr(s.cube.xlen,s.cube.ylen);
-        // grid = BuildGridFlow(s.cube.xlen,s.cube.ylen);
-
-        // Code goes here.
-        // clearCanvas(ctx["canvas-grid"],"#000");
-        // DrawGridPlane(ctx["canvas-grid"]);
-        // DrawXY(ctx["canvas-grid"]);
-        
-        layers.forEach(key => {
-            clearCanvas(ctx[key]);
-        });
-    }
 
     /* ─── Events ─── */
     function zoom(event) {
@@ -556,7 +511,7 @@ window.addEventListener('mousemove', (ev) =>{
     }
     canvas.onwheel = zoom;
 
-    function updateSettings1(){
+    function updateSettings(){
         s.h = window.innerHeight;
         s.w = window.innerWidth;
         s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
@@ -594,66 +549,6 @@ window.addEventListener('mousemove', (ev) =>{
         canvas.height = s.canvas.y;
         ctx.clearRect(0,0,canvas.width, canvas.height);
     }
-    function updateSettings(){
-        s.h = window.innerHeight;
-        s.w = window.innerWidth;
-        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
-
-        s.z = s.w;
-        // s.z = Math.min(s.w,s.h);
-        s.x2 = s.w/2;
-        s.y2 = s.h/2;
-        s.z2 = s.z/2;
-
-        /* ─ Canvas ─ */
-        s.canvas.x = s.w;
-        s.canvas.y = s.h;
-        // s.canvas.z = (s.h + s.w)/2;
-        s.canvas.z = s.w;
-        // s.canvas.z = Math.min(s.w,s.h);
-
-        s.canvas.x2 = s.canvas.x/2;
-        s.canvas.y2 = s.canvas.y/2;
-        s.canvas.z2 = s.canvas.z/2;
-
-        /* ─ Box ─ */
-        /* resize box for mobile */
-        if(s.h < s.box.y) {s.box.y = s.h;}
-        if(s.w < s.box.x) {s.box.x = s.w;}
-        s.box.z = (s.box.y + s.box.x)/2;
-
-        /* position box */
-        s.box.top = (s.h - s.box.y)/2;
-        s.box.left = (s.w - s.box.x)/2;
-
-        /* determine center */
-        s.box.x2 = s.box.left + (s.box.x / 2);
-        s.box.y2 = s.box.top + (s.box.y / 2);
-        s.box.z2 = (s.box.z / 2);
-
-        /* ─ Cube ─ */
-        s.cube.xlen = window.innerWidth / s.cube.sz;
-        s.cube.ylen = window.innerHeight / s.cube.sz;
-        // s.cube.zlen = s.dim / s.cube.sz;
-        s.cube.zlen = s.cube.xlen;
-        // s.cube.zlen = Math.min(s.cube.xlen, s.cube.ylen);
-
-        /* ─ Grid ─ */
-        s.grid.cols = Math.floor(s.w / s.tile.w);
-        s.grid.rows = Math.floor(s.h / s.tile.h);
-
-        /* ─ Canvas Update ─ */
-        // canvas.width = s.canvas.x;
-        // canvas.height = s.canvas.y;
-        // ctx.clearRect(0,0,canvas.width, canvas.height);
-        layers.forEach(key => {
-            canvas[key].width = window.innerWidth;
-            canvas[key].height = window.innerHeight;
-            ctx[key].clearRect(0,0,canvas[key].width, canvas[key].height);
-        });
-
-        reset();
-    }
     window.addEventListener('resize', () =>{
         updateSettings();
     });
@@ -665,143 +560,16 @@ window.addEventListener('mousemove', (ev) =>{
     //     let y = Math.floor(py / s.tile.h);
     //     console.log(`(${px},${py}) → tile-x: ${x}, tile-y: ${y}`);
     // });
+    // window.addEventListener('mousemove', (ev) =>{
+    //     if(s.mouse.tracking){
+    //         if(!s.q && !s.pause){
+    //             s.mouse.x = ev.clientX;
+    //             s.mouse.y = ev.clientY;
+    //         }
+    //     }
+    // });
 
-    /* ─── Event Handlers ─── */
-    var previousTouchEvent = '';
-    var ongoingTouches = [];
-    function copyTouch({ identifier, pageX, pageY }) {
-        return { identifier, pageX, pageY };
-    }
-    function ongoingTouchIndexById(idToFind) {
-        for (var i = 0; i < ongoingTouches.length; i++) {
-            var id = ongoingTouches[i].identifier;
-            if (id == idToFind) {
-                return i;
-            }
-        }
-        return -1;  // not found
-    }
-
-    function handleStart(ev) {
-        console.log("touchstart.");
-        previousTouchEvent = "touchstart"
-        ev.preventDefault();
-        var touches = ev.changedTouches;
-        for (var i = 0; i < touches.length; i++) {
-            ongoingTouches.push(copyTouch(touches[i]));
-            var idx = ongoingTouchIndexById(touches[i].identifier);
-            if (idx == 0) {
-                s.touch.node.start.x = ongoingTouches[idx].pageX;
-                s.touch.node.start.y = ongoingTouches[idx].pageY;
-            }
-        }
-    }
-    function handleMove(ev) {
-        // console.log("touchmove.");
-        previousTouchEvent = "touchmove";
-        ev.preventDefault();
-        var touches = ev.changedTouches;
-        // console.log(touches);
-        let x = {};
-        let y = {};
-        for (var i = 0; i < touches.length; i++) {
-            var idx = ongoingTouchIndexById(touches[i].identifier);
-            if (idx >= 0) {
-
-                /* up to 6 fingers. */
-                if(i < 6){
-                    // console.log(`i:${i}, idx:${idx}`);
-                    /* Adding the touches to the paths list. */
-                    if(!Object.keys(s.touch.paths).includes(`${idx}`)){s.touch.paths[idx] = [];}
-                    x[idx] = ongoingTouches[idx].pageX;
-                    y[idx] = ongoingTouches[idx].pageY;
-                    // console.log(`x:${x[idx]}, y:${y[idx]}`);
-                    // console.log(`s.touch.paths[${idx}].length: ${s.touch.paths[idx].length};`);
-                    if(s.touch.paths[idx].length > s.touch.path_len){s.touch.paths[idx].shift();}
-                    s.touch.paths[idx].push({"x": x[idx], "y": y[idx]});
-                    /* (End of) Adding the touches to the paths list. */
-
-                    // updateGrid(s.touch.paths[idx],s.grid.cols,s.grid.rows);
-                    // updateGrid(wind_grid,s.touch.paths[idx]);
-                    // updateGrid3(s.touch.paths[idx],s.grid.cols,s.grid.rows);
-                }
-
-                ongoingTouches.splice(idx, 1, copyTouch(touches[i])); // swap in the new touch record
-            } else {
-                console.log("can't figure out which touch to continue");
-            }
-        }
-    }
-    function handleEnd(ev) {
-        console.log("touchend.");
-        ev.preventDefault();
-        var touches = ev.changedTouches;
-        // If (previousTouchEvent == "touchstart"), then it was a tap with no movement or 'drag' motion.
-        if(previousTouchEvent == "touchstart") {
-            for (var i = 0; i < touches.length; i++) {
-                var idx = ongoingTouchIndexById(touches[i].identifier);
-                if (idx >= 0) {
-                    x = ongoingTouches[idx].pageX;
-                    y = ongoingTouches[idx].pageY;
-                    // pulseAt(x,y);
-                } else {
-                    console.log("can't figure out which touch to end");
-                }
-            }
-        }
-        previousTouchEvent = "touchend";
-        // If (previousTouchEvent != "touchstart"), then there was movement or 'drag' motion.
-        for (var i = 0; i < touches.length; i++) {
-            var idx = ongoingTouchIndexById(touches[i].identifier);
-            if (idx >= 0) {
-                if (idx == 0) {
-                    s.touch.node.end.x = ongoingTouches[idx].pageX;
-                    s.touch.node.end.y = ongoingTouches[idx].pageY;
-                }
-                addMovement(s.touch.paths[idx]);
-                ongoingTouches.splice(idx, 1);  // remove it; we're done
-                s.touch.paths[idx] = [];
-            } else {
-                console.log("can't figure out which touch to end");
-            }
-        }
-    }
-    function handleCancel(ev) {
-        console.log("touchcancel.");
-        ev.preventDefault();
-        var touches = ev.changedTouches;
-        for (var i = 0; i < touches.length; i++) {
-            var idx = ongoingTouchIndexById(touches[i].identifier);
-            ongoingTouches.splice(idx, 1);  // remove it; we're done
-        }
-    }
-
-    function addMovement(pathNodes) {
-        console.log(`└─> addMovement();`);
-        console.log(pathNodes);
-        // let x = pathNodes[pathNodes.length-1].x;
-        // let y = pathNodes[pathNodes.length-1].y;
-        // console.log(`x: ${x}, y: ${y}`);
-        let player = pg["x"][0];
-        // let dx = player.x - x;
-        // let dy = player.y - y;
-        // console.log(`x: ${x}, y: ${y}`);
-
-        let x1 = s.touch.node.start.x;
-        let y1 = s.touch.node.start.y;
-        let x2 = s.touch.node.end.x;
-        let y2 = s.touch.node.end.y;
-        console.log(`x1: ${x1}, y1: ${y1}`);
-        console.log(`x2: ${x2}, y2: ${y2}`);
-        let dx = x2 - x1;
-        let dy = y2 - y1;
-        console.log(`dx: ${dx}, dy: ${dy}`);
-
-        player.vx -= dx/5;
-        player.vy -= dy/5;
-
-    }
-
+    
 
     window.addEventListener('load', (ev) => {
         console.log(`Welcome to my Lab!`);
@@ -812,7 +580,7 @@ window.addEventListener('mousemove', (ev) =>{
     /* Version Log:
     [index-nds-00]: Default Canvas Template.
     [index-nds-01]: Basic Movement with the Arrow keys and WASD keys.
-    [index-nds-02]: Drag and release to slingshot.
+    [index-nds-02]: 
     [index-nds-03]: 
     [index-nds-04]: 
     [index-nds-05]: 
