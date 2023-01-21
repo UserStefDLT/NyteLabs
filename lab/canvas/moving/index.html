@@ -810,11 +810,11 @@ window.addEventListener('mousemove', (ev) =>{
         let y1 = s.touch.node.start.y;
         let x2 = s.touch.node.end.x;
         let y2 = s.touch.node.end.y;
-        console.log(`x1: ${x1}, y1: ${y1}`);
-        console.log(`x2: ${x2}, y2: ${y2}`);
+        // console.log(`x1: ${x1}, y1: ${y1}`);
+        // console.log(`x2: ${x2}, y2: ${y2}`);
         let dx = x2 - x1;
         let dy = y2 - y1;
-        console.log(`dx: ${dx}, dy: ${dy}`);
+        // console.log(`dx: ${dx}, dy: ${dy}`);
 
         player.vx -= dx/5;
         player.vy -= dy/5;
