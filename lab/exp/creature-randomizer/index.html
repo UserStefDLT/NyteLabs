@@ -163,8 +163,32 @@
             top: -.25rem;
             cursor: pointer;
             transition: border 200ms ease-in-out;
+            box-shadow: inset 0 0 1px 1px var(--hex);
         }
         .btn-redo:hover {
+            border: 2px solid var(--hex);
+        }
+
+        .btn-another {
+            position: relative;
+            font-size: 1rem;
+            font-weight: bold;
+            --hex: #fff;
+            border: 2px solid #0000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: .25rem;
+            border-radius: .25rem;
+            background: #0000;
+            color: var(--hex);
+            top: 2rem;
+            top: -.25rem;
+            cursor: pointer;
+            transition: border 200ms ease-in-out;
+            box-shadow: inset 0 0 1px 1px var(--hex);
+        }
+        .btn-another:hover {
             border: 2px solid var(--hex);
         }
 
@@ -175,6 +199,12 @@
         .c-left li {
             text-align: left;
         }
+        #display {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        .shelf-title {display: flex;}
 
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
@@ -188,7 +218,10 @@
 
 <main>
     <div class="shelf">
-        <div class="shelf-title"><button class="btn-redo" onclick="DisplayCreature()">Redo Creature</button></div>
+        <div class="shelf-title">
+            <button class="btn-redo" onclick="DisplayCreature()">Redo Creature</button>
+            <button class="btn-another" onclick="DisplayAnotherCreature()">Another Creature</button>
+        </div>
         <div id="display">
             <div class="creature-card" style="--hex: #39f;">
                 <div class="color">Blue</div>

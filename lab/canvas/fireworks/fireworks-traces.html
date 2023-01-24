@@ -713,8 +713,6 @@
             this.id = id;
             this.type = type;
 
-            this.ox = x;
-            this.oy = y;
             this.x = x;
             this.y = y;
             this.vx = 0;
@@ -724,14 +722,11 @@
 
             this.mass = 1;
             this.size = 2;
-            this.size = 8;
             this.size_z = this.size;
-            // this.size_range = 4;
-            this.size_range = 8;
+            this.size_range = 4;
 
             this.time = 100;
             this.entropy = 0.5;
-            // this.entropy = 1.5;
             // this.hp = 100;
             // this.hpdown = .5;
 
@@ -742,7 +737,7 @@
             this.sat = 100;
             this.lum = 50;
             this.alp = 1;
-            // this.alp = .5;
+            this.alp = .5;
             if(Object.keys(clr).includes("hue")){this.hue = clr.hue;}
             if(Object.keys(clr).includes("sat")){this.sat = clr.sat;}
             if(Object.keys(clr).includes("lum")){this.lum = clr.lum;}
@@ -753,15 +748,12 @@
             // this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
             this.zdp = .5;
 
-            this.hue = (id * 3 % 360).toFixed(0);
 
 
 
-            // this.xc = s.x;
-            // this.yc = s.y;
-            this.xc = x;
-            this.yc = y;
-            this.zc = z;
+            this.xc = s.x;
+            this.yc = s.y;
+            this.zc = s.z2;
             // this.x = Math.random() * canvas.width;
             // this.y = Math.random() * canvas.height;
             this.angle = Math.random() * 360;
@@ -788,17 +780,10 @@
         getColor(){
             // this.calcColor();
             // this.lum = (80 - (this.zdp * 60)).toFixed(0);
-            // this.lum = (60 - (this.zdp * 20)).toFixed(0);
+            this.lum = (60 - (this.zdp * 20)).toFixed(0);
             // this.hue = (360 - (this.zdp * 360)).toFixed(0);
             // this.ydp = 1 - this.y/s.h;
-            // this.hue = (this.y / s.h * 360).toFixed(0);
-            this.lum = (100 - (this.zdp * 100)).toFixed(0);
-            // this.hue = ((this.y / s.h * 720) % 360).toFixed(0);
-            // this.hue = ((this.z / s.z * 720) % 360).toFixed(0);
-            // this.hue = (720 - (this.zdp * 720)).toFixed(0);
-            // this.alp = (1 - (this.zdp * 1)).toFixed(0);
-            // this.hue = ((720 - (this.zdp * 720)) % 360).toFixed(0);
-            // this.hue = ((1440 - (this.zdp * 1440)) % 360).toFixed(0);
+            this.hue = (this.y / s.h * 360).toFixed(0);
             
             this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
             // return this.color;
@@ -808,21 +793,17 @@
             // this.time--;
             if(this.time < 1){
                 this.time = 0;
-                // this.angle = Math.random() * 360;
-                // this.angleZ = Math.random() * 360;
+                this.angle = Math.random() * 360;
+                this.angleZ = Math.random() * 360;
             }
 
-            // // if(s.view.x + s.view.y != 0){
-            if(s.rotating.xdegs + s.rotating.ydegs != 0){
-                // this.rotating.x = s.view.x;
-                // this.rotating.y = s.view.y;
-                this.rotating.x = s.rotating.xdegs;
-                this.rotating.y = s.rotating.ydegs;
-            }
-            if(this.rotating.x + this.rotating.y != 0){
-                this.angleZ += this.rotating.x;
-                this.rotating.x = 0;
-            }
+            // if(s.view.x + s.view.y != 0){
+            // if(s.rotating.xdegs + s.rotating.ydegs != 0){
+            //     // this.rotating.x = s.view.x;
+            //     // this.rotating.y = s.view.y;
+            //     this.rotating.x = s.rotating.xdegs;
+            //     this.rotating.y = s.rotating.ydegs;
+            // }
             // if(this.rotating.x + this.rotating.y != 0){
             //     // let xyz = RotateXY(s.rotating.xdegs,s.rotating.ydegs);
             //     let xyz = this.RotateXY(this.rotating.x,this.rotating.y);
@@ -840,15 +821,15 @@
 
             let timef = this.time / 100;
             let timefs = 1-(this.time / 100);
-            this.radius = (timefs * 100) + 5;
+            this.radius = (timefs * 200) + 5;
 
             // let radius_percent = this.radius / this.radius_limit;
 
             // this.alp = Math.floor(((3*(1 - timefs)**2) * timefs)*100)/100;
             // this.alp = Math.floor(timef%100);
-            // this.alp = timef;
+            this.alp = timef;
             
-            // this.hue += Math.floor(Math.random() * 6 - 3);
+            this.hue += Math.floor(Math.random() * 6 - 3);
             // this.size = this.sizeLim * timefs + 1;
             
             // let gravity = (timefs * timefs) * (this.radius_limit / 3);
@@ -862,9 +843,6 @@
             front view circle, cos → x, sin → y.
             top view circle, cos → xy, sin → z.
             */
-            // this.angle += Math.floor(Math.random() * 6 - 3);
-            // this.angleZ += 2;
-
             let aCos = Math.cos(Math.PI*(this.angle/180));
             let aSin = Math.sin(Math.PI*(this.angle/180));
             let zCos = Math.cos(Math.PI*(this.angleZ/180));
@@ -903,52 +881,37 @@
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size_z/2, 0, Math.PI * 2);
                 ctx.fill();
-                this.drawLineToCenter();
             } 
-        }
-        drawLineToCenter(){
-            ctx.strokeStyle = this.color;
-            // ctx.lineWidth = 3;
-            ctx.beginPath();
-            // ctx.moveTo(s.x, s.y);
-            ctx.moveTo(this.ox, this.oy);
-            ctx.lineTo(this.x, this.y);
-            // ctx.arc(this.x, this.y, this.size_z/2, 0, Math.PI * 2);
-            ctx.stroke();
         }
 
         RotateXY(rx=0,ry=0){
-            this.angle += rx;
-            // this.angleZ += ry;
-        }
-        // RotateXY(rx=0,ry=0){
-        //     let x = this.s.x - s.x2;
-        //     let y = this.s.y - s.y2;
-        //     let z = this.s.z - s.z2;
-        //     // let x = x0 - s.x2;
-        //     // let y = y0 - s.y2;
-        //     // let z = z0 - s.z2;
-        //     if(rx != 0){
-        //         let hx = Math.sqrt(z*z+y*y);
-        //         let angleX = XYtoCSSAngle(z,y);
-        //         let zy = CSSAngleToXY(angleX + rx);
-        //         z = zy.x*hx;
-        //         y = zy.y*hx;
-        //     }
-        //     if(ry != 0){
-        //         let hy = Math.sqrt(x*x+z*z);
-        //         let angleY = XYtoCSSAngle(x,z);
-        //         let xz = CSSAngleToXY(angleY + ry);
-        //         x = xz.x*hy;
-        //         z = xz.y*hy;
-        //     }
-        //     x += s.x2;
-        //     y += s.y2;
-        //     z += s.z2;
+            let x = this.s.x - s.x2;
+            let y = this.s.y - s.y2;
+            let z = this.s.z - s.z2;
+            // let x = x0 - s.x2;
+            // let y = y0 - s.y2;
+            // let z = z0 - s.z2;
+            if(rx != 0){
+                let hx = Math.sqrt(z*z+y*y);
+                let angleX = XYtoCSSAngle(z,y);
+                let zy = CSSAngleToXY(angleX + rx);
+                z = zy.x*hx;
+                y = zy.y*hx;
+            }
+            if(ry != 0){
+                let hy = Math.sqrt(x*x+z*z);
+                let angleY = XYtoCSSAngle(x,z);
+                let xz = CSSAngleToXY(angleY + ry);
+                x = xz.x*hy;
+                z = xz.y*hy;
+            }
+            x += s.x2;
+            y += s.y2;
+            z += s.z2;
 
-        //     let nxt = {"x":x,"y":y,"z":z};
-        //     return nxt;
-        // }
+            let nxt = {"x":x,"y":y,"z":z};
+            return nxt;
+        }
     }
 
     class FireWorks4 {
@@ -1024,265 +987,7 @@
         }
     }
 
-    class pz3 {
-        constructor(id, type="p", x, y, z, clr={}){
-            // this.ctx = ctx;
-            this.id = id;
-            this.type = type;
-
-            /* Origin */
-            this.ox = x;
-            this.oy = y;
-            this.oz = z;
-
-            /* Location */
-            this.x = x;
-            this.y = y;
-            this.vx = 0;
-            this.vy = 0;
-            this.z = z;
-            this.vz = 0;
-
-            /* Rotating Angles. Using the axis for the rotating rings. */
-            this.angleX = Math.random() * 360;
-            this.angleY = Math.random() * 360;
-            this.angleZ = Math.random() * 360;
-
-
-            this.mass = 1;
-            // this.size = 2;
-            this.size = 8;
-            this.size_z = this.size;
-            // this.size_range = 4;
-            this.size_range = this.size;
-
-            this.time = 100;
-            this.entropy = 0.5;
-            // this.entropy = 1.5;
-            // this.hp = 100;
-            // this.hpdown = .5;
-
-            this.s = {"x":x,"y":y,"z":z,"size_z":this.size_z};
-            this.rotating = {"x":0,"y":0,"z":0};
-
-            this.hue = 210;
-            this.sat = 100;
-            this.lum = 50;
-            this.alp = 1;
-            // this.alp = .5;
-            if(Object.keys(clr).includes("hue")){this.hue = clr.hue;}
-            if(Object.keys(clr).includes("sat")){this.sat = clr.sat;}
-            if(Object.keys(clr).includes("lum")){this.lum = clr.lum;}
-            if(Object.keys(clr).includes("alp")){this.alp = clr.alp;}
-            // this.color = "hsla(0,0%,50%,.5)";
-            this.colorFlat = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
-            this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
-            // this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
-            this.zdp = .5;
-
-            // this.hue = (id * 3 % 360).toFixed(0);
-
-
-
-            // this.xc = s.x;
-            // this.yc = s.y;
-            this.xc = x;
-            this.yc = y;
-            this.zc = z;
-            // this.x = Math.random() * canvas.width;
-            // this.y = Math.random() * canvas.height;
-            this.angle = Math.random() * 360;
-            this.angleZ = Math.random() * 360;
-            // this.rotSp = Math.random() + .5;
-            // this.radius = Math.random() * 5;
-            this.radius = 5;
-            // this.sizeLim = 2;
-            // this.hueStart = Math.random() * 20 - 10;
-            // this.hueRange = 60;
-            // this.hueRange = 360;
-            // this.hue = Math.floor(Math.random() * 360);
-            this.radius_limit = 200;
-
-        }
-        getSize(){
-            /* this.zdp will vary from 0 to 1. close and far, respectively. */
-            // let box_z = (s.w + s.h)/2;
-            // this.zdp = 1 - this.z/box_z;
-            this.zdp = 1 - this.z/s.z;
-            let zadd = parseFloat((this.zdp * this.size_range).toFixed(2));
-            this.size_z = this.size + (this.size_range/2) - zadd;
-        }
-        getColor(){
-            // this.calcColor();
-            // this.lum = (80 - (this.zdp * 60)).toFixed(0);
-            // this.lum = (60 - (this.zdp * 20)).toFixed(0);
-            // this.hue = (360 - (this.zdp * 360)).toFixed(0);
-            // this.ydp = 1 - this.y/s.h;
-            // this.hue = (this.y / s.h * 360).toFixed(0);
-            this.lum = (100 - (this.zdp * 100)).toFixed(0);
-            // this.hue = ((this.y / s.h * 720) % 360).toFixed(0);
-            // this.hue = ((this.z / s.z * 720) % 360).toFixed(0);
-            // this.hue = (720 - (this.zdp * 720)).toFixed(0);
-            // this.alp = (1 - (this.zdp * 1)).toFixed(0);
-            // this.hue = ((720 - (this.zdp * 720)) % 360).toFixed(0);
-            // this.hue = ((1440 - (this.zdp * 1440)) % 360).toFixed(0);
-            
-            this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
-            // return this.color;
-        }
-        update(){
-            this.time -= this.entropy;
-            // this.time--;
-            if(this.time < 1){
-                this.time = 0;
-                // this.angle = Math.random() * 360;
-                // this.angleZ = Math.random() * 360;
-            }
-
-            // // if(s.view.x + s.view.y != 0){
-            if(s.rotating.xdegs + s.rotating.ydegs != 0){
-                // this.rotating.x = s.view.x;
-                // this.rotating.y = s.view.y;
-                this.rotating.x = s.rotating.xdegs;
-                this.rotating.y = s.rotating.ydegs;
-            }
-            if(this.rotating.x + this.rotating.y != 0){
-                this.angleZ += this.rotating.x;
-                this.rotating.x = 0;
-            }
-            // if(this.rotating.x + this.rotating.y != 0){
-            //     // let xyz = RotateXY(s.rotating.xdegs,s.rotating.ydegs);
-            //     let xyz = this.RotateXY(this.rotating.x,this.rotating.y);
-            //     if(!s.touch.tracking){
-            //         this.s.x = xyz.x;
-            //         this.s.y = xyz.y;
-            //         this.s.z = xyz.z;
-            //         this.rotating.x = 0;
-            //         this.rotating.y = 0;
-            //     }
-            //     this.x = xyz.x;
-            //     this.y = xyz.y;
-            //     this.z = xyz.z;
-            // }
-
-            let timef = this.time / 100;
-            let timefs = 1-(this.time / 100);
-            this.radius = (timefs * 100) + 5;
-
-            // let radius_percent = this.radius / this.radius_limit;
-
-            // this.alp = Math.floor(((3*(1 - timefs)**2) * timefs)*100)/100;
-            // this.alp = Math.floor(timef%100);
-            // this.alp = timef;
-            
-            // this.hue += Math.floor(Math.random() * 6 - 3);
-            // this.size = this.sizeLim * timefs + 1;
-            
-            // let gravity = (timefs * timefs) * (this.radius_limit / 3);
-            let gravity = 1;
-
-            // this.lum = 10 + (this.depth*50);
-
-            // let cirZx = Math.cos(Math.PI*(this.angleZ/180));
-            // let cirX = Math.cos(Math.PI*(this.angle/180)) * this.radius * cirZx;
-            /*
-            front view circle, cos → x, sin → y.
-            top view circle, cos → xy, sin → z.
-            */
-            // this.angle += Math.floor(Math.random() * 6 - 3);
-            // this.angleZ += 2;
-
-            let aCos = Math.cos(Math.PI*(this.angle/180));
-            let aSin = Math.sin(Math.PI*(this.angle/180));
-            let zCos = Math.cos(Math.PI*(this.angleZ/180));
-            let zSin = Math.sin(Math.PI*(this.angleZ/180));
-
-            let sp_x = aCos * zCos * this.radius;
-            let sp_y = aSin * zCos * this.radius;
-            let sp_z = zSin * aSin * this.radius;
-
-            this.x = sp_x + this.xc;
-            this.y = sp_y + this.yc + gravity;
-            this.z = sp_z + this.zc;
-
-            // let cirX = Math.cos(Math.PI*(this.angle/180)) * this.radius;
-            // let cirY = Math.sin(Math.PI*(this.angle/180)) * this.radius;
-            // let cirZxy = Math.sin(Math.PI*(this.angleZ/180)) * this.radius;
-            // let cirZ = Math.sin(Math.PI*(this.angleZ/180)) * this.radius;
-            // this.x = cirX + this.xc;
-            // this.y = cirY + this.yc + gravity;
-            // this.z = cirZ + this.zc;
-
-            this.getSize();
-            this.getColor();
-        }
-        draw(ctx){
-            if(this.x > 0 && this.x < (s.w) && this.y > 0 && this.y < (s.h)){
-                ctx.fillStyle = this.colorFlat;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size/2, 0, Math.PI * 2);
-                ctx.fill();
-            } 
-        }
-        drawZ(ctx){
-            if(this.x > 0 && this.x < (s.w) && this.y > 0 && this.y < (s.h)){
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size_z/2, 0, Math.PI * 2);
-                ctx.fill();
-                this.drawLineToCenter();
-            } 
-        }
-        drawLineToCenter(){
-            ctx.strokeStyle = this.color;
-            // ctx.lineWidth = 3;
-            ctx.beginPath();
-            // ctx.moveTo(s.x, s.y);
-            ctx.moveTo(this.ox, this.oy);
-            ctx.lineTo(this.x, this.y);
-            // ctx.arc(this.x, this.y, this.size_z/2, 0, Math.PI * 2);
-            ctx.stroke();
-        }
-
-        RotateXY(rx=0,ry=0){
-            this.angle += rx;
-            // this.angleZ += ry;
-        }
-        // RotateXY(rx=0,ry=0){
-        //     let x = this.s.x - s.x2;
-        //     let y = this.s.y - s.y2;
-        //     let z = this.s.z - s.z2;
-        //     // let x = x0 - s.x2;
-        //     // let y = y0 - s.y2;
-        //     // let z = z0 - s.z2;
-        //     if(rx != 0){
-        //         let hx = Math.sqrt(z*z+y*y);
-        //         let angleX = XYtoCSSAngle(z,y);
-        //         let zy = CSSAngleToXY(angleX + rx);
-        //         z = zy.x*hx;
-        //         y = zy.y*hx;
-        //     }
-        //     if(ry != 0){
-        //         let hy = Math.sqrt(x*x+z*z);
-        //         let angleY = XYtoCSSAngle(x,z);
-        //         let xz = CSSAngleToXY(angleY + ry);
-        //         x = xz.x*hy;
-        //         z = xz.y*hy;
-        //     }
-        //     x += s.x2;
-        //     y += s.y2;
-        //     z += s.z2;
-
-        //     let nxt = {"x":x,"y":y,"z":z};
-        //     return nxt;
-        // }
-    }
-
     function start(){
-        canvas.addEventListener("touchstart", handleStart, false);
-        canvas.addEventListener("touchend", handleEnd, false);
-        canvas.addEventListener("touchcancel", handleCancel, false);
-        canvas.addEventListener("touchmove", handleMove, false);
         // // for (let index = 0; index < 100; index++) {
         // //     particles.push(new Particle());
         // // }
@@ -1355,37 +1060,22 @@
 
     function update(){
         if(!s.q && !s.pause){
+            /* ─ Calculate Part ─ */
+            for(let i = 0; i < particles.length; i++){particles[i].update();}
+            particles.sort((a,b) => a.z - b.z);
 
-            /* ─ Clear Draw Part ─ */
-            clearCanvas("#000");
+            /* ─ Draw Part ─ */
             // clearCanvas("#0001");
-
-            // for(let i = 0; i < particles.length; i++){particles[i].update();}
-            if(particles.length > 0) {
-                /* ─ Calculate Part ─ */
-                for(let i = 0; i < particles.length; i++){
-                    const e = particles[i];
-                    e.update();
-                    // if(e.time == 0) {
-                    //     particles.splice(i,1);
-                    //     i--;
-                    // }
-                }
-                particles.sort((a,b) => a.z - b.z);
-
-                /* ─ Draw Part ─ */
-                for(let i = 0; i < particles.length; i++){
-                    const e = particles[i];
-                    // draw_e(ctx,particles[i]);
-                    // draw_z(ctx,particles[i]);
-                    e.drawZ(ctx);
-                }
+            for(let i = 0; i < particles.length; i++){
+                const e = particles[i];
+                // draw_e(ctx,particles[i]);
+                // draw_z(ctx,particles[i]);
+                e.drawZ(ctx);
             }
-
         }
         setTimeout(() => {
             requestAnimationFrame(update);
-        }, s.timeOut);
+        }, s.timeOut)
     }
     function clearCanvas(clr="#000"){
         // ctx.clearRect(0,0,s.w,s.h);
@@ -1408,176 +1098,23 @@
 
                 // let firehue = Math.floor(Math.random() * 360);
                 // click_particles.push(new FireWorks4(index, s.x2, s.y2, s.z2, firehue));
-                // particles.push(new pz2(index, "fireworks", s.x2, s.y2, s.z2, {"hue":firehue}));
-                particles.push(new pz2(index, "fireworks", s.x, s.y, s.z2, {"hue":firehue}));
+                particles.push(new pz2(index, "fireworks", s.x2, s.y2, s.z2, {"hue":firehue}));
             }
         }
     });
 
     /* ───── Mouse Move ───── */
-    // window.addEventListener('mousemove', (ev) =>{
-    //     s.x = ev.clientX;
-    //     s.y = ev.clientY;
-    //     moveSpark();
-    // });
-    // function moveSpark() {
-    //     let nodeCount = 50;
-    //     if(mouse_particles.length < nodeCount) {
-    //         for (let index = 0; index < nodeCount; index++) {
-    //             mouse_particles.push(new FireWorksMouse(index, nodeCount));
-    //         }
-    //     }
-    // }
-
-    /* ─── Event Handlers ─── */
-    var previousTouchEvent = '';
-    var ongoingTouches = [];
-    function copyTouch({ identifier, pageX, pageY }) {
-        return { identifier, pageX, pageY };
-    }
-    function ongoingTouchIndexById(idToFind) {
-        for (var i = 0; i < ongoingTouches.length; i++) {
-            var id = ongoingTouches[i].identifier;
-            if (id == idToFind) {
-                return i;
+    window.addEventListener('mousemove', (ev) =>{
+        s.x = ev.clientX;
+        s.y = ev.clientY;
+        moveSpark();
+    });
+    function moveSpark() {
+        let nodeCount = 50;
+        if(mouse_particles.length < nodeCount) {
+            for (let index = 0; index < nodeCount; index++) {
+                mouse_particles.push(new FireWorksMouse(index, nodeCount));
             }
-        }
-        return -1;  // not found
-    }
-    function handleStart(ev) {
-        console.log("touchstart.");
-        previousTouchEvent = "touchstart";
-        s.touch.tracking = true;
-        ev.preventDefault();
-        var touches = ev.changedTouches;
-        for (var i = 0; i < touches.length; i++) {
-            ongoingTouches.push(copyTouch(touches[i]));
-            
-            var idx = ongoingTouchIndexById(touches[i].identifier);
-            rotationStart(idx,ongoingTouches[idx].pageX,ongoingTouches[idx].pageY);
-            // if(s.view.idx == -1){s.view.idx = idx;}
-            // if(s.view.idx == idx){
-            //     rotationStart(ongoingTouches[idx].pageX,ongoingTouches[idx].pageY);
-            // }
-        }
-    }
-    function handleMove(ev) {
-        console.log("touchmove.");
-        previousTouchEvent = "touchmove";
-        ev.preventDefault();
-        var touches = ev.changedTouches;
-        // console.log(touches);
-        let x = {};
-        let y = {};
-        for (var i = 0; i < touches.length; i++) {
-            var idx = ongoingTouchIndexById(touches[i].identifier);
-            if (idx >= 0) {
-
-                rotationMove(idx,ongoingTouches[idx].pageX,ongoingTouches[idx].pageY);
-
-                /* up to 6 fingers. */
-                // if(i < 6){
-                //     // console.log(`i:${i}, idx:${idx}`);
-                //     /* Adding the touches to the paths list. */
-                //     if(!Object.keys(s.touch.paths).includes(`${idx}`)){s.touch.paths[idx] = [];}
-                //     x[idx] = ongoingTouches[idx].pageX;
-                //     y[idx] = ongoingTouches[idx].pageY;
-                //     // console.log(`x:${x[idx]}, y:${y[idx]}`);
-                //     // console.log(`s.touch.paths[${idx}].length: ${s.touch.paths[idx].length};`);
-                //     if(s.touch.paths[idx].length > s.touch.path_len){s.touch.paths[idx].shift();}
-                //     s.touch.paths[idx].push({"x": x[idx], "y": y[idx]});
-                //     /* (End of) Adding the touches to the paths list. */
-
-                //     updateGrid(s.touch.paths[idx],s.grid.cols,s.grid.rows);
-                //     // updateGrid(wind_grid,s.touch.paths[idx]);
-                //     updateGridFlow(s.touch.paths[idx],flow.pile,flow.grid);
-                // }
-
-                ongoingTouches.splice(idx, 1, copyTouch(touches[i])); // swap in the new touch record
-            } else {
-                console.log("can't figure out which touch to continue");
-            }
-        }
-    }
-    function handleEnd(ev) {
-        console.log("touchend.");
-        ev.preventDefault();
-        var touches = ev.changedTouches;
-        if(previousTouchEvent == "touchstart") {
-            for (var i = 0; i < touches.length; i++) {
-                var idx = ongoingTouchIndexById(touches[i].identifier);
-                if (idx >= 0) {
-                    x = ongoingTouches[idx].pageX;
-                    y = ongoingTouches[idx].pageY;
-                    // pulseAt(x,y);
-                } else {
-                    console.log("can't figure out which touch to end");
-                }
-            }
-        }
-        previousTouchEvent = "touchend";
-        for (var i = 0; i < touches.length; i++) {
-            var idx = ongoingTouchIndexById(touches[i].identifier);
-            if (idx >= 0) {
-                ongoingTouches.splice(idx, 1);  // remove it; we're done
-                if(Object.keys(s.touch.paths).includes(idx)){
-                    s.touch.paths[idx] = [];
-                }
-                s.touch.tracking = false;
-                rotationEnd(idx);
-            } else {
-                console.log("can't figure out which touch to end");
-            }
-        }
-    }
-    function handleCancel(ev) {
-        console.log("touchcancel.");
-        ev.preventDefault();
-        var touches = ev.changedTouches;
-        for (var i = 0; i < touches.length; i++) {
-            var idx = ongoingTouchIndexById(touches[i].identifier);
-            ongoingTouches.splice(idx, 1);  // remove it; we're done
-            s.touch.tracking = false;
-            rotationEnd(idx);
-        }
-    }
-    
-    function rotationStart(idx,x,y){
-        if(s.view.idx == -1){s.view.idx = idx;}
-        if(s.view.idx == idx){
-            s.view.x = x;
-            s.view.y = y;
-        }
-    }
-    function rotationMove(idx,x,y){
-        if(s.view.idx == idx){
-            let dx = x - s.view.x;
-            let dy = y - s.view.y;
-            
-            // let r = s.z2;
-            // let rx = Math.round(dx % 360);
-            // let ry = Math.round(dy % 360);
-            
-            // rotateX(ry);
-            // rotateY(rx * -1);
-
-            // rotateX(dy);
-            // rotateY(dx * -1);
-
-            s.rotating.xdegs = dy;
-            s.rotating.ydegs = dx * -1;
-
-            // s.view.x += dx;
-            // s.view.y += dy;
-        }
-    }
-    function rotationEnd(idx){
-        if(s.view.idx == idx){
-            s.view.idx = -1;
-            s.view.x = -1;
-            s.view.y = -1;
-            s.rotating.xdegs = 0;
-            s.rotating.ydegs = 0;
         }
     }
 
@@ -1644,37 +1181,6 @@
         // animate();
         update();
     });
-
-    function CSSAngleToXY(angle){
-        angle = (angle+270)%360;
-        let rad = angle * Math.PI / 180;
-        let xy = {"x":0,"y":0};
-        if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
-        if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
-        return xy;
-    }
-    function XYtoCSSAngle(x,y){
-        let angle = 90;
-        if(x == 0){
-            if(y > 0) {return 180;}
-            if(y < 0) {return 0;}
-        }
-        if(x < 0) { angle += 180; }
-        if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
-        return angle;
-    }
-
-    function randomXYZ(){
-        let x = Math.random()*s.canvas.x;
-        let y = Math.random()*s.canvas.y;
-        let z = Math.random()*s.canvas.z;
-        return {'x':x, 'y':y, 'z':z};
-    }
-    function randomXY(){
-        let x = Math.random()*s.canvas.x;
-        let y = Math.random()*s.canvas.y;
-        return {'x':x, 'y':y};
-    }
 </script>
 </body>
 </html>

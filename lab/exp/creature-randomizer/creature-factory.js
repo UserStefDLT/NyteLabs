@@ -94,6 +94,29 @@ function DisplayCreature() {
     `;
     display.innerHTML = dis;
 }
+function DisplayAnotherCreature() {
+    let display = document.getElementById('display');
+    let creature = DesignCreature();
+    console.log(creature)
+    console.log(creature['animal']['animals']);
+    console.log(creature['element']['elements']);
+    console.log(creature['color']['colors']);
+    console.log(creature['color']['hex']);
+
+    let val_animal = creature['animal']['animals'][0];
+    let val_element = creature['element']['elements'][0];
+    let val_color = creature['color']['colors'][0];
+    let val_hex = creature['color']['hex'][0];
+    
+    let dis = `
+    <div class="creature-card" style="--hex: ${val_hex};">
+        <div class="color">${val_color}</div>
+        <div class="element">${val_element}</div>
+        <div class="animal">${val_animal}</div>
+    </div>
+    `;
+    display.innerHTML += dis;
+}
 
 
 
