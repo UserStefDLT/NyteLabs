@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>Creature Randomizer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Ubuntu|Satisfy&display=swap');
+        body {background: #222; color: #eee;font-family: 'Ubuntu', sans-serif;}
+        .shelf {
+            margin-top: 1rem;
+            padding: .5rem 0;
+            position: relative;
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            flex-direction: row;
+            flex-wrap: wrap;
+
+            box-shadow: 
+            inset 0 -1px 1px #39f,
+            inset 0 1px 1px #39f;
+        }
+        #display {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        
+        .card {
+            --color: #fff;
+            position: relative;
+            border: 2px solid var(--color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            flex-wrap: wrap;
+            height: 20rem;
+            min-width: 12rem;
+            max-width: 20rem;
+            gap: 1.5rem;
+            margin: 1rem 2rem;
+            padding: 1rem;
+            border-radius: .25rem;
+            background-color: var(--color);
+            
+            background-image: linear-gradient(-45deg, black, transparent);
+            box-shadow: 0 0 1.5rem 0.125rem transparent;
+            transition: box-shadow 300ms ease-in-out;
+
+            z-index: 1;
+            overflow: hidden;
+        }
+        .card:hover {
+            box-shadow: 0 0 1.5rem 0.125rem var(--color);
+        }
+        .card div {
+            position: relative;
+            font-size: 2rem;
+            font-weight: bold;
+            background-color: transparent;
+
+            color: #fff;
+            text-shadow: 1px 1px 1px #000;
+
+            border: 1px dashed transparent;
+
+            padding: .125rem .5rem;
+            text-align: center;
+
+            transition: 
+            background-color 200ms ease-in-out, 
+            border 200ms ease-in-out;
+        }
+        .card:hover div {
+            border: 1px dashed var(--color);
+            background-color: #0008;
+
+            transition: 
+            background-color 200ms ease-in-out 100ms, 
+            border 200ms ease-in-out 100ms;
+        }
+
+        .card div::before {
+            content: attr(class);
+            position: absolute;
+            top: 0; left: 50%;
+            transform: translateX(-50%) translateY(-40%);
+            color: transparent;
+            text-shadow: 1px 1px 1px #0000;
+            font-size: 16px;
+            font-weight: normal;
+            transition: 
+            color 200ms ease-in-out 100ms, 
+            transform 200ms ease-in-out 100ms, 
+            text-shadow 200ms ease-in-out 100ms;
+            z-index: -1;
+        }
+        .card:hover div::before {
+            transform: translateX(-50%) translateY(-120%);
+            color: #fff;
+            text-shadow: 1px 1px 1px #000;
+            transition: 
+            color 200ms ease-in-out, 
+            transform 200ms ease-in-out, 
+            text-shadow 200ms ease-in-out;
+        }
+
+
+        footer {
+            min-height: 36px;
+            box-sizing: border-box;
+            padding: .5rem;
+            color: hsla(210, 5%, 29%, 89%);
+            user-select: none;
+        }
+        footer .my-name{
+            position: fixed;
+            bottom: .5rem;
+            left: 1rem;
+            user-select: none;
+            color: hsla(210, 5%, 29%, 89%);
+            bottom: 0px; left: 0px;
+            padding: 9px;
+        }
+    </style>
+    <!-- <link rel="stylesheet" href="../../../stylesheets/end.css"> -->
+</head>
+<body>
+<header>
+    <h1>Creature Randomizer</h1>
+</header>
+
+<main>
+    <div class="shelf">
+        <div id="display">
+            <div class="creature-card" style="--color: #00f;">
+                <div class="color">Blue</div>
+                <div class="element">Fire</div>
+                <div class="animal">Dragon</div>
+            </div>
+        </div>
+        <button class="redo" onclick="MakeCreature()">Make a Creature</button>
+    </div>
+
+    <div class="shelf">
+        <div class="details">
+            there are about:
+            <ul class="c-left">
+                <li><span id="animalsCount"></span> animals.</li>
+                <li><span id="colorsCount"></span> colors.</li>
+                <li><span id="tagsCount"></span> tags.</li>
+                <li><span id="totalCount"></span> Total Combinations.</li>
+            </ul>
+        </div>
+    </div>
+</main>
+
+
+<footer>
+    <div class="my-name">
+        &copy; 2023 | by Stéfano De La Torre 
+    </div>
+</footer>
+<script>
+'use-strict'
+
+var animals = ["Dog", "Cat", "Fish", "Bird", "Dragon"];
+var elements = ["Fire", "Air", "Water", "Earth", "Electric"];
+var colors = [{"name": "Black", "value": "#000000"},
+{"name": "Silver", "value": "#c0c0c0"},
+{"name": "Gray", "value": "#808080"},
+{"name": "White", "value": "#ffffff"},
+{"name": "Maroon", "value": "#800000"},
+{"name": "Red", "value": "#ff0000"},
+{"name": "Purple", "value": "#800080"},
+{"name": "Fuchsia", "value": "#ff00ff"},
+{"name": "Green", "value": "#008000"},
+{"name": "Lime", "value": "#00ff00"},
+{"name": "Olive", "value": "#808000"},
+{"name": "Yellow", "value": "#ffff00"},
+{"name": "Navy", "value": "#000080"},
+{"name": "Blue", "value": "#0000ff"},
+{"name": "Teal", "value": "#008080"},
+{"name": "Aqua", "value": "#00ffff"}];
+
+function MakeCreature() {
+
+    let animal_id = Math.floor(Math.random() * animals.length);
+    let element_id = Math.floor(Math.random() * elements.length);
+    let color_id = Math.floor(Math.random() * colors.length);
+
+    let animalName = animals[animal_id];
+    let elementName = elements[element_id];
+    let colorName = colors[color_id]["name"];
+    let colorValue = colors[color_id]["value"];
+    
+    let display = document.getElementById('display');
+
+    display.innerHTML = `
+    <div class="card" style="--color: ${colorValue};">
+        <div class="color">${colorName}</div>
+        <div class="element">${elementName}</div>
+        <div class="animal">${animalName}</div>
+    </div>
+    `;
+}
+window.addEventListener('load', (ev) => {
+    console.log(`Welcome to my Lab!`);
+    document.getElementById('animalsCount').innerText = animals.length;
+    document.getElementById('colorsCount').innerText = colors.length;
+    document.getElementById('tagsCount').innerText = elements.length;
+    let total = animals.length * colors.length * elements.length;
+    document.getElementById('totalCount').innerText = total;
+    
+    MakeCreature();
+});
+</script>
+</body>
+</html>
+
+
