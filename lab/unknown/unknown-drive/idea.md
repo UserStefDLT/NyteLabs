@@ -48,3 +48,70 @@ The world contains also items, creatures, and elements. Rocks in random places, 
 When a tree produces an apple, it will be part of the tree until it falls and then it is attached directly to world. Until then it is part of the inventory of the tree.
 Once falling, it is an item until degradation. Items degrade over time, and are consumed by something.
 I will need soil to have different fertility rates. So that it varies and it is not all cover in trees. I will also need to control weather, so some trees or forest biomes will be reduced to avoid overpopulation. Fertility or nourishing soil will lower over time while there are plants feeding on. It is slow, but if it reduces too much, the tree can’t grow, less growth could cause drying, and that means that it won’t be able to hold to the ground or to reach to more soil for nutrients. Eventually if the tree dies, then it turns into wood and nourishes the land making it fertile again.
+
+———
+
+<!-- <world> -->
+└─> dimensions
+└─> inventory
+└─> elevation
+
+World.bio.tree:
+Stages:
+* Seed
+* Germination
+* Sapling
+* Mature tree
+* Decaying / Harvest
+
+/* Different tree species stay in this mature stage of the life cycle for longer than others. For example, an oak tree may produce acorns after 40 years and continue to do so for around 300 years. */
+
+```
+│─└┴┘├┼┤┌┬┐
+
+```
+const s = {
+"world": {"h": 25, "w": 25},
+}
+const world = {
+"dim": {"h": 25, "w": 25},
+"map": [],
+"elements: [],
+};
+const map = [];
+
+const bio = {
+ "Age":
+}
+class tree {
+ constructor(id, x, y, type){
+  this.id = id;
+  this.x = x;
+  this.y = y;
+  this.type = type;
+  this.age = 0;
+ }
+ grow(){
+  
+ }
+ reproduce(){
+  if(age > 
+ }
+
+}
+
+
+function start() {
+
+ for(let y = 0; y < s.h; y++){
+  map.push([]);
+  for(let x = 0; x < s.w; x++){
+   map[y].push([]);
+  }
+ }
+
+}
+
+
+```
+
