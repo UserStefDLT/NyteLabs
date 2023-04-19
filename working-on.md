@@ -10,6 +10,7 @@
 * /lab/canvas/fireworks/fireworks2.html
 * /lab/particle-rules/fluid-grid-02/index.html
 * /lab/exp/creature-randomizer/creature-randomizer.html
+* /lab/puzzle/cir-rot-lock/index.html
 
 
 * /lab/___/___/index.html

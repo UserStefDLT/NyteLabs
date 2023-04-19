@@ -18,7 +18,26 @@
         /* :root {} */
     </style>
 <style>
-    .class {}
+    .g, .r {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .g {
+        flex-direction: column;
+    }
+    .r {
+        flex-direction: row;
+    }
+    .t {
+        height: 44px; width: 44px;
+        background-color: #ddd;
+        margin: 1px;
+    }
+    [data-on="1"] {
+        background-color: #3f9;
+        background-color: #b00;
+    }
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
     <link rel="stylesheet" href="../../../stylesheets/end.css">
@@ -229,7 +248,17 @@
 <script>
 
     window.addEventListener('click', (ev) =>{
-        console.log(ev.target);
+        // console.log(ev.target);
+        if(ev.target.classList.contains("t")){
+            // console.log(ev.target.classList);
+            if(ev.target.dataset.on == undefined){
+                ev.target.dataset.on = 1;
+            } else {
+                ev.target.dataset.on = +!+ev.target.dataset.on;
+            }
+            console.log(ev.target.dataset.on);
+        }
+        // data-on="true"
     });
 
     /* ─── Events ─── */
