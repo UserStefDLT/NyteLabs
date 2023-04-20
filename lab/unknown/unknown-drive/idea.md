@@ -83,6 +83,23 @@ const map = [];
 const bio = {
  "Age":
 }
+
+class world {
+    constructor(x,y){
+        this.x = x;
+        this.y = y;
+        this.map = [];
+    }
+    initiateMap() {
+         for(let this.y = 0; y < s.h; y++){
+            map.push([]);
+            for(let x = 0; x < s.w; x++){
+                map[y].push([]);
+            }
+        }
+    }
+}
+
 class tree {
  constructor(id, x, y, type){
   this.id = id;
@@ -95,7 +112,9 @@ class tree {
   
  }
  reproduce(){
-  if(age > 
+  if(5 < age && age < 20){
+
+  } 
  }
 
 }
@@ -114,4 +133,10 @@ function start() {
 
 
 ```
+
+
+Two parts:
+* processing the world.
+* displaying the world.
+
 
