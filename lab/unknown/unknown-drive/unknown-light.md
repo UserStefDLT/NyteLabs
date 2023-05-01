@@ -37,3 +37,9 @@ function update() {
 
 
 ```
+
+
+Having light go from where we click, then bounce in every wall or object.
+It will spread, so it will be dimmer as it goes, but also be dimmer as it hits objects.
+Eventually it will just increase the heat of objects on its way.
+
