@@ -1,0 +1,17 @@
+
+
+click add particles around.
+
+
+create with an x and y for where the click is.
+
+function create360(type,x,y,color){
+  for(let i = 0; i < 360; i++){
+    let vxy = CSSAngleToXY(i);
+    let np = new pd(pg[type].length,type,x,y,0,vxy.x,vxy.y,0,color);
+    pg[type].push(np);
+    particles.push(np);
+  }
+}
+
+create360("0",x,y,"#fff9");
