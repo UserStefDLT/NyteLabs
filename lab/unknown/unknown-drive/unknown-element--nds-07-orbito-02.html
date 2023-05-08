@@ -572,34 +572,6 @@
             }
         }
     }
-    pr["walls2"] = function (list1, g = 0, r = 10){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            let fx = 0;
-            let fy = 0;
-
-            let dx = Math.abs(a.x - s.w);
-            let dy = Math.abs(a.y - s.h);
-            if(a.x > 0 && a.x < r){fx += g;}
-            if(a.y > 0 && a.y < r){fy += g;}
-            if(dx > 0 && dx < r){fx -= g;}
-            if(dy > 0 && dy < r){fy -= g;}
-
-            a.vx = (a.vx + fx);
-            a.vy = (a.vy + fy);
-            a.x += a.vx;
-            a.y += a.vy;
-
-            let margin = -5;
-            let cr = 10;
-            if(a.x < (0-margin) || a.x > (s.canvas.x+margin) || a.y < (0-margin) || a.y > (s.canvas.y+margin)){
-                a.x = s.canvas.x2 + (Math.random() * (cr*2) - cr);
-                a.y = s.canvas.y2 + (Math.random() * (cr*2) - cr);
-                a.vx *= .29;
-                a.vy *= .29;
-            }
-        }
-    }
     
     /* ─ Z rules ─ */
     pr["orbit3d"] = function (list1, list2, g = 0){
@@ -701,7 +673,7 @@
     // var currentRule = "ab";
     // var currentFunction = "oru";
     var currentFunction = "orbit";
-    // var currentFunction = "orbito";
+    var currentFunction = "orbito";
     var currentRule = "abc";
     const rules = {
         "ab": [
@@ -732,8 +704,6 @@
         "abc": [
             // {a: "0", b: "0", g: -0.015, r: 25},
             {a: "0", b: "0", g: -0.0002, r: 50},
-            {a: "0", b: "0", g: -0.00004, r: 120},
-            {a: "0", b: "0", g: 0.0001, r: 5},
             // {a: "0", b: "0", g: 0.025, r: 10},
         ],
     }
@@ -746,8 +716,8 @@
                 pr[currentFunction](pg[e.a], pg[e.b], e.g, e.r);
             });
 
-            pr["walls2"](particles, 1, 0);
-            pr["walls2"](particles, .25, 15);
+            pr["walls"](particles, 1, 0);
+            pr["walls"](particles, .25, 15);
 
             /* ─ Draw Part ─ */
             clearCanvas();
