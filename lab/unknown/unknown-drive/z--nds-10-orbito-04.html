@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Interaction Rules | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <link rel="stylesheet" href="../../../stylesheets/canvas.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        :root {}
+        .subtitle{user-select: none;}
+    </style>
+<style>
+    .box {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        max-height: 500px;
+        max-width: 500px;
+        height: 95vh;
+        width: 95vw;
+        min-height: 100px;
+        min-width: 100px;
+        /* outline: 1px dashed var(--bwf9); */
+        z-index: 5;
+    }
+    :root {
+        --clr-sun: #f93;
+        --clr-sun-glow: #f939;
+        --clr-sun-zero: #f930;
+    }
+    .sun {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        height: 100px; width: 100px;
+        border: 1px solid var(--clr-sun-glow);
+        border-radius: 50%;
+        z-index: 8;
+    }
+</style>
+    <link rel="stylesheet" href="../../../stylesheets/settings.css">
+    <style>
+        /* Settings. */
+        #toggleLights,
+        #toggleIso,
+        #toggleOpacity {display: none;}
+        #toggleLights:checked ~ .options .toggleCheckboxLabel[for="toggleLights"],
+        #toggleIso:checked ~ .options .toggleCheckboxLabel[for="toggleIso"],
+        #toggleOpacity:checked ~ .options .toggleCheckboxLabel[for="toggleOpacity"] {
+            color: var(--bwe);
+            --clr-outline: var(--bwc);
+            --bgc-before: #063;
+            --bgc-after: #0c6;
+            --ttx-after: 1rem;
+        }
+
+        /* ─ Toggle Effects ─ */
+
+        /* Toggle-Opcacity */
+        /* #toggleOpacity:checked ~ main #display {opacity:.5;} */
+
+        /* Toggle-Animation */
+        /* #toggleAnimation:checked ~ main .grid {
+            animation: spin 3600ms ease-in-out infinite both;
+            animation-name: spin;
+            animation-duration: 3600ms;
+            animation-timing-function: linear;
+            animation-delay: 0ms;
+            animation-iteration-count: infinite;
+            animation-fill-mode: both;
+            
+            animation-delay: calc(30ms * var(--hue));
+            animation-play-state: running;
+        } */
+
+        #toggleAnimation:not(:checked) ~ main .sun::before,
+        #toggleAnimation:not(:checked) ~ main .sun::after {
+            animation-play-state: paused;
+        }
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <h1 class="title">NyteLabs</h1>
+        <div class="subtitle">Interaction Rules</div>
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+
+<main>
+    <canvas id="canvas"></canvas>
+    <div class="box"></div>
+    <!-- <div class="sun"></div> -->
+</main>
+
+<!-- <div class="options">
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            path: [],
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: 500,
+            w: 500,
+            padding: 50,
+            brush: "p",
+        },
+        box: {
+            x: 500,
+            y: 500,
+            z: 500,
+            z2: 250,
+            d: 1000,
+        },
+
+        player: false,
+
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+
+</script>
+<script src="../../../scripts/settings.js"></script>
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    /* ─── Other functions ─── */
+    function AngleToXY(angle){
+        angle = angle%360;
+        let rad = angle * Math.PI / 180;
+        let xy = {"x":0,"y":0};
+        if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+        if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+        return xy;
+    }
+    function XYtoAngle(x,y){
+        let angle = 0;
+        if(x == 0) {
+            if(y > 0) {return 90;}
+            if(y < 0) {return 270;}
+        }
+        if(x < 0) { angle += 180; }
+        if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
+        return angle;
+    }
+    function CSSAngleToXY(angle){
+        angle = (angle+270)%360;
+        let rad = angle * Math.PI / 180;
+        let xy = {"x":0,"y":0};
+        if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+        if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+        return xy;
+    }
+    function XYtoCSSAngle(x,y){
+        let angle = 90;
+        if(x == 0){
+            if(y > 0) {return 180;}
+            if(y < 0) {return 0;}
+        }
+        if(x < 0) { angle += 180; }
+        if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
+        return angle;
+    }
+
+    function randomXYZ(){
+        let x = Math.random()*s.w;
+        let y = Math.random()*s.h;
+        let z = Math.random()*s.box.z;
+        return {'x':x, 'y':y, 'z':z};
+    }
+    function randomXY2(){
+        let x = Math.random()*s.w;
+        let y = Math.random()*s.h;
+        return {'x':x, 'y':y};
+    }
+    function randomX(){return Math.random()*s.w;}
+    function randomY(){return Math.random()*s.h;}
+    function random(n,a){return Math.random()*n+a;}
+    function randomXY(){
+        let x = Math.random()*(s.canvas.w)+s.canvas.left;
+        let y = Math.random()*(s.canvas.h)+s.canvas.top;
+        return {'x':x, 'y':y};
+    }
+
+    
+    /* ─── Drawing ─── */
+    function draw_z(ctx,e){
+        if(e.x > 0 && e.x < (s.w) && e.y > 0 && e.y < (s.h)){
+            e.getSize();
+            ctx.fillStyle = e.getColor();
+            ctx.beginPath();
+            ctx.arc(e.x, e.y, e.size_z/2, 0, Math.PI * 2);
+            // ctx.arc(e.x, e.y, e.size/2, 0, Math.PI * 2);
+            ctx.fill();
+        } 
+    }
+    function draw_e(ctx,e){
+        if(e.x > 0 && e.x < (s.w) && e.y > 0 && e.y < (s.h)){
+            ctx.fillStyle = e.color;
+            ctx.beginPath();
+            ctx.arc(e.x, e.y, e.size/2, 0, Math.PI * 2);
+            ctx.fill();
+        } 
+    }
+    function draw_c(ctx,e){
+        if(e.x > 0 && e.x < (s.w) && e.y > 0 && e.y < (s.h)){
+            ctx.fillStyle = e.getColor();
+            ctx.beginPath();
+            ctx.arc(e.x, e.y, e.size/2, 0, Math.PI * 2);
+            ctx.fill();
+        } 
+    }
+    function drawSquare(ctx,left,top,c,w,h){
+        ctx.fillStyle = c;
+        ctx.fillRect(left,top,w,h);
+    }
+
+    /* ─── Particle ─── */
+    const particles = [];
+    class p {
+        constructor(id,type="p",x,y,z=0,color="#8889"){
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.vx = 0;
+            this.vy = 0;
+            this.vz = 0;
+
+            this.size = 5;
+            this.color = color;
+        }
+        draw(){
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size/2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+    class ps {
+        constructor(id,type="p",x,y,z=0,s={}){
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.vx = 0;
+            this.vy = 0;
+            this.vz = 0;
+
+            this.size = 5;
+
+            this.hue = 210;
+            this.sat = 100;
+            this.lum = 50;
+            this.alp = .5;
+            this.c = "hsla(0,0%,50%,.5)";
+            this.heat = 0;
+            this.vh = 0;
+
+            this.s = {};
+            this.sets(s);
+        }
+        sets(s){
+            this.s = {};
+            Object.keys(s).forEach(i=>{
+                this.s[i] = s[i];
+            });
+        }
+        getColor(){
+            if(this.type == "heat"){
+                return this.getHeatColor();
+            } else {
+                this.hue = Math.round(XYtoAngle(this.vx,this.vy));
+                this.c = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            }
+        }
+        getHeatColor(){
+            this.hue = 240 - (this.heat * 2.4);
+            this.lum = 100 - Math.abs(this.heat-50);
+            this.c = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            return this.c;
+        }
+
+    }
+    class pa {
+        constructor(id,type="p",x,y,vx,vy){
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.vx = vx;
+            this.vy = vy;
+            // this.z = 0;
+            // this.vz = 0;
+
+            this.mass = 1;
+            this.size = 4;
+
+            this.hue = 210;
+            this.sat = 100;
+            this.lum = 50;
+            this.alp = .5;
+            this.c = "hsla(0,0%,50%,.5)";
+            this.heat = 0;
+            this.vh = 0;
+        }
+        getColor(){
+            if(this.type == "heat"){
+                return this.getHeatColor();
+            } else if(this.type == "p1"){
+                this.c = `hsla(0, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                return this.c;
+            } else if(this.type == "p2"){
+                this.c = `hsla(180, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                return this.c;
+            } else {
+                this.hue = Math.round(XYtoAngle(this.vx,this.vy));
+                this.c = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                return this.c;
+            }
+        }
+        getHeatColor(){
+            this.hue = 240 - (this.heat * 2.4);
+            this.lum = 100 - Math.abs(this.heat-50);
+            this.c = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            return this.c;
+        }
+    }
+    class pv {
+        constructor(id,type="p",x,y,vx,vy){
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.vx = vx;
+            this.vy = vy;
+            this.z = 0;
+            this.vz = 0;
+
+            this.mass = 1;
+            this.size = 4;
+
+            this.hue = 210;
+            this.sat = 100;
+            this.lum = 50;
+            this.alp = .5;
+            this.color = "hsla(0,0%,50%,.5)";
+        }
+        getColor(){
+            this.calcColor();
+            this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            return this.color;
+        }
+        calcColor(){
+            switch(this.type){
+                case 'angle':
+                    this.hue = Math.round(XYtoAngle(this.vx,this.vy));
+                    break;
+                case 'id':
+                    this.hue = Math.round(this.id * 360/particles.length);
+                    break;
+                case 'heat':
+                    this.hue = 240 - (this.heat * 2.4);
+                    this.lum = 100 - Math.abs(this.heat-50);
+                    break;
+                default: 
+                    break;
+            }
+        }
+    }
+    class pvz {
+        constructor(id,type="p",x,y,z,vx,vy,vz){
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.vx = vx;
+            this.vy = vy;
+            this.z = z;
+            this.vz = vz;
+
+            this.mass = 1;
+            this.size = 4;
+            this.size_z = 4;
+
+            this.hue = 210;
+            this.sat = 100;
+            this.lum = 50;
+            this.alp = 1;
+            this.color = "hsla(0,0%,50%,.5)";
+            this.zdp = .5;
+        }
+        getSize(){
+            let range = 6;
+            /* this.zdp will vary from 0 to 1. close and far, respectively. */
+            let box_z = (s.w + s.h)/2;
+            this.zdp = 1 - this.z/box_z;
+            let zadd = parseFloat((this.zdp * range).toFixed(2));
+            this.size_z = this.size + (range/2) - zadd;
+        }
+        getColor(){
+            this.calcColor();
+            // // let zlum = Math.round(this.zdp) * 20;
+            // // this.lum = (10 + (this.zdp * 60) + zlum).toFixed(0);
+            // this.lum = (10 + (this.zdp * 80)).toFixed(0);
+            // this.lum = (20 + (this.zdp * 60)).toFixed(0);
+            this.lum = (80 - (this.zdp * 60)).toFixed(0);
+            
+            this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            // this.calcGradient();
+            return this.color;
+        }
+        calcColor(){
+            switch(this.type){
+                case 'angle':
+                    this.hue = Math.round(XYtoAngle(this.vx,this.vy));
+                    // this.calcGradient();
+                    break;
+                case 'id':
+                    this.hue = Math.round(this.id * 360/particles.length);
+                    break;
+                case 'heat':
+                    this.hue = 240 - (this.heat * 2.4);
+                    this.lum = 100 - Math.abs(this.heat-50);
+                    break;
+                default: 
+                    this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                    break;
+            }
+        }
+    }
+    class pz {
+        constructor(id,type="p",x,y,z,clr={}){
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.vx = 0;
+            this.vy = 0;
+            this.z = z;
+            this.vz = 0;
+
+            this.mass = 1;
+            this.size = 4;
+            this.size_z = 5;
+            this.range = 6;
+
+            this.hue = 210;
+            this.sat = 100;
+            this.lum = 50;
+            this.alp = 1;
+            if(Object.keys(clr).includes("hue")){this.hue = clr.hue;}
+            if(Object.keys(clr).includes("sat")){this.sat = clr.sat;}
+            if(Object.keys(clr).includes("lum")){this.lum = clr.lum;}
+            if(Object.keys(clr).includes("alp")){this.alp = clr.alp;}
+            this.color = "hsla(0,0%,50%,.5)";
+            // this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            this.zdp = .5;
+        }
+        getSize(){
+            /* this.zdp will vary from 0 to 1. close and far, respectively. */
+            let box_z = (s.w + s.h)/2;
+            this.zdp = 1 - this.z/box_z;
+            let zadd = parseFloat((this.zdp * this.range).toFixed(2));
+            this.size_z = this.size + (this.range/2) - zadd;
+        }
+        getColor(){
+            // this.calcColor();
+            // // let zlum = Math.round(this.zdp) * 20;
+            // // this.lum = (10 + (this.zdp * 60) + zlum).toFixed(0);
+            // this.lum = (10 + (this.zdp * 80)).toFixed(0);
+            // this.lum = (20 + (this.zdp * 60)).toFixed(0);
+            this.lum = (80 - (this.zdp * 60)).toFixed(0);
+            
+            this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            // this.calcGradient();
+            return this.color;
+        }
+        calcColor(){
+            switch(this.type){
+                case 'angle':
+                    this.hue = Math.round(XYtoAngle(this.vx,this.vy));
+                    // this.calcGradient();
+                    break;
+                case 'id':
+                    this.hue = Math.round(this.id * 360/particles.length);
+                    break;
+                case 'heat':
+                    this.hue = 240 - (this.heat * 2.4);
+                    this.lum = 100 - Math.abs(this.heat-50);
+                    break;
+                default: 
+                    // this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                    break;
+            }
+        }
+    }
+    class pzv {
+        constructor(id,type="p",x,y,z,vx,vy,vz,clr={}){
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.vx = vx;
+            this.vy = vy;
+            this.z = z;
+            this.vz = vz;
+
+            this.mass = 1;
+            this.size = 4;
+            this.size_z = 5;
+            this.range = 6;
+
+            this.hue = 210;
+            this.sat = 100;
+            this.lum = 50;
+            this.alp = 1;
+            if(Object.keys(clr).includes("hue")){this.hue = clr.hue;}
+            if(Object.keys(clr).includes("sat")){this.sat = clr.sat;}
+            if(Object.keys(clr).includes("lum")){this.lum = clr.lum;}
+            if(Object.keys(clr).includes("alp")){this.alp = clr.alp;}
+            this.color = "hsla(0,0%,50%,.5)";
+            // this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            this.zdp = .5;
+        }
+        getSize(){
+            /* this.zdp will vary from 0 to 1. close and far, respectively. */
+            let box_z = (s.w + s.h)/2;
+            this.zdp = 1 - this.z/box_z;
+            let zadd = parseFloat((this.zdp * this.range).toFixed(2));
+            this.size_z = this.size + (this.range/2) - zadd;
+        }
+        getColor(){
+            // this.calcColor();
+            // // let zlum = Math.round(this.zdp) * 20;
+            // // this.lum = (10 + (this.zdp * 60) + zlum).toFixed(0);
+            // this.lum = (10 + (this.zdp * 80)).toFixed(0);
+            // this.lum = (20 + (this.zdp * 60)).toFixed(0);
+            this.lum = (80 - (this.zdp * 60)).toFixed(0);
+            
+            this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            // this.calcGradient();
+            return this.color;
+        }
+        calcColor(){
+            switch(this.type){
+                case 'angle':
+                    this.hue = Math.round(XYtoAngle(this.vx,this.vy));
+                    // this.calcGradient();
+                    break;
+                case 'id':
+                    this.hue = Math.round(this.id * 360/particles.length);
+                    break;
+                case 'heat':
+                    this.hue = 240 - (this.heat * 2.4);
+                    this.lum = 100 - Math.abs(this.heat-50);
+                    break;
+                default: 
+                    // this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                    break;
+            }
+        }
+    }
+
+    /* ─── Create ─── */
+    function create360(type="none",x,y,z,color={sat:0,alp:.5}){
+        for(let i = 0; i < 360; i++){
+            let vxy = CSSAngleToXY(i);
+            let np = new pzv(particles.length,type,x,y,z,vxy.x,vxy.y,0,color);
+            pg[type].push(np);
+            particles.push(np);
+        }
+    }
+    function create_pzv(n,type="none",color={sat:0,alp:.5}){
+        for(let i = 0; i < n; i++){
+            let xyz = randomXYZ();
+            let np = new pzv(particles.length,type,xyz.x,xyz.y,xyz.z,0,0,0,color);
+            pg[type].push(np);
+            particles.push(np);
+        }
+    }
+    function create_rxyz(n,type="none",color={sat:0,alp:.5}){
+        for(let i = 0; i < n; i++){
+            let xyz = randomXYZ();
+            let np = new pz(particles.length,type,xyz.x,xyz.y,xyz.z,color);
+            pg[type].push(np);
+            particles.push(np);
+        }
+    }
+    function create_pv_xyz(type="angle",x,y,z,vx,vy,vz){
+        let np = new pvz(particles.length,type,x,y,z,vx,vy,vz);
+        pg[type].push(np);
+        particles.push(np);
+    }
+    function create_pv_xyz(type="angle",x,y,z,vx,vy,vz){
+        let np = new pvz(particles.length,type,x,y,z,vx,vy,vz);
+        pg[type].push(np);
+        particles.push(np);
+    }
+    function createOrbit_RaVf(type,r=100,a=-1,vf){
+        let angle = a;
+        if(a < 0){angle = Math.floor(Math.random()*360);}
+        let xy = AngleToXY(angle);
+        let x = s.canvas.w2 + (xy.x * r);
+        let y = s.canvas.h2 + (xy.y * r);
+        let vxy = AngleToXY(angle+90);
+        let vx = vxy.x * vf;
+        let vy = vxy.y * vf;
+        let np = new pv(particles.length,type,x,y,vx,vy);
+        pg[type].push(np);
+        particles.push(np);
+    }
+    /* 
+          270 ↑
+        180 ← • → 0
+           90 ↓
+     */
+    function createOrbit_RaV(type,r=100,a=-1,vx,vy){
+        let angle = a;
+        if(a < 0){angle = Math.floor(Math.random()*360);}
+        // let xy = AngleToXY(Math.floor(Math.random()*360));
+        let xy = AngleToXY(angle);
+        let x = s.canvas.w2 + (xy.x * r);
+        let y = s.canvas.h2 + (xy.y * r);
+        // let vxy = AngleToXY(angle);
+        // let vx = vxy.x * .7;
+        // let vy = vxy.y * .7;
+        let np = new pv(particles.length,type,x,y,vx,vy);
+        pg[type].push(np);
+        particles.push(np);
+        // for(let i = 0; i < n; i++){
+        // }
+    }
+    function createOrbitRa(n,type,r=100,a=-1){
+        for(let i = 0; i < n; i++){
+            let angle = a;
+            if(a < 0){angle = Math.floor(Math.random()*360);}
+            let xy = AngleToXY(Math.floor(Math.random()*360));
+            let x = s.canvas.w2 + (xy.x * r);
+            let y = s.canvas.h2 + (xy.y * r);
+            let vxy = AngleToXY(angle);
+            let vx = vxy.x * .7;
+            let vy = vxy.y * .7;
+            let np = new pa(particles.length,type,x,y,vx,vy);
+            pg[type].push(np);
+            particles.push(np);
+        }
+    }
+    function create_pv(type="angle",x,y,vx,vy){
+        let np = new pv(particles.length,type,x,y,vx,vy);
+        pg[type].push(np);
+        particles.push(np);
+    }
+    function create_p(type,x,y,vx,vy){
+        let np = new pa(particles.length,type,x,y,vx,vy);
+        pg[type].push(np);
+        particles.push(np);
+    }
+
+    /* ─── Rules ─── */
+    /* This functions affects the particles in list1. */
+    const pr = {}
+    pr["gravity"] = function (list1, list2, g = 0){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > b.size/2){
+                    let force = g * a.mass * b.mass / (d*d);
+                    // let force = g * 1 / (d*d);
+                    fx += (force * dx) / a.mass;
+                    fy += (force * dy) / a.mass;
+                }
+            }
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+            a.x += a.vx;
+            a.y += a.vy;
+        }
+    }
+    pr["orbit"] = function (list1, list2, g = 0){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > b.size/2){
+                    let force = g * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                }
+            }
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+            a.x += a.vx;
+            a.y += a.vy;
+        }
+    }
+    pr["force"] = function (list1, list2, g = 0, r = 10){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > 0 && d < r){
+                    let force = g * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                }
+            }
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+            a.x += a.vx;
+            a.y += a.vy;
+        }
+    }
+    
+    /* scale:
+     * g is for the gravity force.
+     * v is for how much is allowed to be added when moving.
+     * e is how much momentum is lost.
+     */
+    const scale = {
+        // "g": .75,
+        // "v": .125,
+        // "e": .5,
+        "g": 1,
+        "v": 1,
+        "e": .5,
+    }
+    pr["rule"] = function (list1, list2, g = 0, r = 100){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > 0 && d < r){
+                    let force = scale.g * g * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                }
+            }
+            a.vx = (a.vx + fx) * scale.e;
+            a.vy = (a.vy + fy) * scale.e;
+            a.x += a.vx * scale.v;
+            a.y += a.vy * scale.v;
+
+            // if(a.x < 0 || a.x > s.w){a.vx *= -1;}
+            // if(a.y < 0 || a.y > s.h){a.vy *= -1;}
+
+            // if wall is not pushing and teleporting particles back, this is just a preventive measure.
+            let margin = 50;
+            let cr = 100;
+            if(a.x < (0-margin) || a.x > (s.w+margin) || a.y < (0-margin) || a.y > (s.h+margin)){
+                a.x = s.canvas.w2 + (Math.random() * (cr*2) - cr);
+                a.y = s.canvas.h2 + (Math.random() * (cr*2) - cr);
+            }
+        }
+    }
+    pr["space"] = function (list1, list2, g = 0, r = 0){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > 1 && d < a.size){
+                    let force = scale.g * g * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                }
+            }
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+        }
+    }
+    pr["walls"] = function (list1, g = 0, r = 10){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+
+            let dx = Math.abs(a.x - s.w);
+            let dy = Math.abs(a.y - s.h);
+            if(a.x > 0 && a.x < r){fx += g;}
+            if(a.y > 0 && a.y < r){fy += g;}
+            if(dx > 0 && dx < r){fx -= g;}
+            if(dy > 0 && dy < r){fy -= g;}
+
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+            a.x += a.vx;
+            a.y += a.vy;
+
+            let margin = -5;
+            let cr = 10;
+            if(a.x < (0-margin) || a.x > (s.w+margin) || a.y < (0-margin) || a.y > (s.h+margin)){
+                a.x = s.canvas.w2 + (Math.random() * (cr*2) - cr);
+                a.y = s.canvas.h2 + (Math.random() * (cr*2) - cr);
+            }
+        }
+    }
+    
+    pr["orbit3"] = function (list1, list2, g = 0){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fz = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let dz = a.z - b.z;
+                let d = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                if(d > b.size/2){
+                    let force = g * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                    fz += (force * dz);
+                }
+            }
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+            a.vz = (a.vz + fz);
+            a.x += a.vx;
+            a.y += a.vy;
+            a.z += a.vz;
+        }
+    }
+    pr["rule3d"] = function (list1, list2, g = 0, r = 100){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fz = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let dz = a.z - b.z;
+                let d = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                if(d > 0 && d < r){
+                    let force = scale.g * g * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                    fz += (force * dz);
+                }
+            }
+            a.vx = (a.vx + fx) * scale.e;
+            a.vy = (a.vy + fy) * scale.e;
+            a.vz = (a.vz + fz) * scale.e;
+            a.x += a.vx * scale.v;
+            a.y += a.vy * scale.v;
+            a.z += a.vz * scale.v;
+
+            // if(a.x < 0 || a.x > s.w){a.vx *= -1;}
+            // if(a.y < 0 || a.y > s.h){a.vy *= -1;}
+
+            // if wall is not pushing and teleporting particles back, this is just a preventive measure.
+            let margin = 50;
+            let cr = 100;
+            if(a.x < (0-margin) || a.x > (s.w+margin) || a.y < (0-margin) || a.y > (s.h+margin) || a.z < (0-margin) || a.z> (s.box.z+margin)){
+                a.x = s.canvas.w2 + (Math.random() * (cr*2) - cr);
+                a.y = s.canvas.h2 + (Math.random() * (cr*2) - cr);
+                a.z = s.box.z2 + (Math.random() * (cr*2) - cr);
+            }
+        }
+    }
+    pr["walls3d"] = function (list1, g = 0, r = 10){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fz = 0;
+
+            let dx = Math.abs(a.x - s.w);
+            let dy = Math.abs(a.y - s.h);
+            let dz = Math.abs(a.z - s.box.z);
+            if(a.x > 0 && a.x < r){fx += g;}
+            if(a.y > 0 && a.y < r){fy += g;}
+            if(a.z > 0 && a.z < r){fz += g;}
+            if(dx > 0 && dx < r){fx -= g;}
+            if(dy > 0 && dy < r){fy -= g;}
+            if(dz > 0 && dz < r){fz -= g;}
+
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+            a.vz = (a.vz + fz);
+            a.x += a.vx;
+            a.y += a.vy;
+            a.z += a.vz;
+
+            let margin = -5;
+            let cr = 10;
+            if(a.x < (0-margin) || a.x > (s.w+margin) || a.y < (0-margin) || a.y > (s.h+margin) || a.z < (0-margin) || a.z> (s.box.z+margin)){
+                a.x = s.canvas.w2 + (Math.random() * (cr*2) - cr);
+                a.y = s.canvas.h2 + (Math.random() * (cr*2) - cr);
+                a.z = s.box.z2 + (Math.random() * (cr*2) - cr);
+            }
+        }
+    }
+
+    pr["orbito"] = function (list1, list2, g = 0, r = 100){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > 0 && d < r){
+                    let force = g * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                }
+            }
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+            a.x += a.vx;
+            a.y += a.vy;
+        }
+    }
+    pr["orbito3d"] = function (list1, list2, g = 0, r = 100){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fz = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let dz = a.z - b.z;
+                let d = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                if(d > b.size/2 && d < r){
+                    let force = g * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                    fz += (force * dz);
+                }
+            }
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+            a.vz = (a.vz + fz);
+            a.x += a.vx;
+            a.y += a.vy;
+            a.z += a.vz;
+        }
+    }
+    const pg = {}
+    const gsp = {
+        "1": {count: 200, clr:"hsla(30, 100%, 50%, .5)"},
+        "2": {count: 200, clr:"hsla(150, 100%, 50%, .5)"},
+        "3": {count: 200, clr:"hsla(210, 100%, 50%, .5)"},
+        "4": {count: 200, clr:"hsla(330, 100%, 50%, .5)"},
+        // "5": {count: 50, clr:"hsla(240, 100%, 50%, .5)"},
+        // "6": {count: 50, clr:"hsla(300, 100%, 50%, .5)"},
+    };
+    const gs6 = {
+        "1": {count: 250, clr:{hue:30}},
+        "2": {count: 250, clr:{hue:150}},
+        "3": {count: 250, clr:{hue:210}},
+        "4": {count: 250, clr:{hue:330}},
+        // "5": {count: 50, clr:{hue:0}},
+        // "6": {count: 50, clr:{hue:270}},
+    };
+    const gs = {
+        "0": {count: 1, clr:{hue:210, lum:100, alp:0.75}},
+        // "2": {count: 250, clr:{hue:150}},
+        // "3": {count: 250, clr:{hue:210}},
+        // "4": {count: 250, clr:{hue:330}},
+        // "5": {count: 50, clr:{hue:0}},
+        // "6": {count: 50, clr:{hue:270}},
+    };
+    function start(){
+        // createTail(1,s.canvas.w2,s.canvas.h2,"#0000",.89);
+        // createTailXYr(1,s.canvas.w2,s.canvas.h2,50,"#0000",.89);
+        let keys = Object.keys(gs);
+        keys.forEach(k=>{
+            pg[k] = [];
+            // create_rxyz(gs[k].count,k,gs[k].clr);
+            // create_rxyz('id', 100, y, z, 1, 0, 0);
+            create_pzv(gs[k].count,k,gs[k].clr);
+        });
+        create360("0",s.canvas.x2,s.canvas.y2,s.canvas.z2,{hue:210, lum:100, alp:0.75});
+    }
+    function start_z(){
+        /* for [spz] */
+        
+        pg["sun"] = [];
+        create_pv_xyz("sun", s.canvas.w2, s.canvas.h2, s.box.z2, 0, 0, 0);
+        // pg["sun"][0].mass = 50;
+        pg["sun"][0].hue = 50;
+        pg["sun"][0].lum = 80;
+        pg["sun"][0].size = 10;
+
+        let count = 9;
+        let space = Math.round(s.canvas.h / count);
+        let zpace = s.box.z / count;
+        pg["id"] = [];
+        for (let i = 1; i < count; i++) {
+            let y = s.canvas.top + (i*space);
+            // create_pv_xyz('id', 100, y, s.box.z2, 1, 0, 0);
+            
+            let zi = (i-1) - (count-1)/2;
+            let z = s.box.z2 + (zi * zpace);
+            // let z = s.box.z2 + (zi * space);
+            create_pv_xyz('id', 100, y, z, 1, 0, 0);
+        }
+    }
+    // start();
+
+    // var currentFunction = "rule3d";
+    // var currentFunction = "orbit3";
+    var currentFunction = "orbito3d";
+    // var currentRule = "ab";
+    // var currentRule = "rule-6";
+    // var currentRule = "unke";
+    var currentRule = "unke-o3d";
+    // var currentRule = "part";
+    const rules = {
+        "ab": [
+            {"a": "1", "b": "1", "g": 0.05, "r": 30},
+            {"a": "2", "b": "2", "g": 0.05, "r": 30},
+            {"a": "3", "b": "3", "g": 0.05, "r": 30},
+            {"a": "4", "b": "4", "g": 0.05, "r": 30},
+        ],
+        "part": [
+            {a: "1", b: "1", g: 0.5, r: 50},
+            {a: "1", b: "1", g: -0.15, r: 150},
+            {a: "2", b: "2", g: 0.5, r: 50},
+            {a: "2", b: "2", g: -0.15, r: 150},
+            {a: "3", b: "3", g: 0.5, r: 50},
+            {a: "3", b: "3", g: -0.15, r: 150},
+            {a: "4", b: "4", g: 0.5, r: 50},
+            {a: "4", b: "4", g: -0.15, r: 150},
+        ],
+        "ant-path": [
+            {"a":"1","b":"2","g":0,"r":11.27},
+            {"a":"1","b":"3","g":-0.0052,"r":121.84},
+            {"a":"1","b":"4","g":0.0005,"r":120.07},
+            {"a":"2","b":"1","g":0.505,"r":116.2},
+            {"a":"2","b":"3","g":0.0194,"r":152.3},
+            {"a":"2","b":"4","g":-0.5488,"r":30.85},
+            {"a":"3","b":"1","g":0.001,"r":3.93},
+            {"a":"3","b":"2","g":0.2685,"r":72.91},
+            {"a":"3","b":"4","g":-0.0538,"r":0.01},
+            {"a":"4","b":"1","g":-0.0002,"r":22.26},
+            {"a":"4","b":"2","g":0.0481,"r":0.55},
+            {"a":"4","b":"3","g":0.0001,"r":2.63},
+            {"a":"1","b":"1","g":0.7954,"r":30.35},
+            {"a":"1","b":"1","g":-0.0559,"r":1.5},
+            {"a":"2","b":"2","g":0.0543,"r":198.84},
+            {"a":"2","b":"2","g":-0.3886,"r":0.37},
+            {"a":"3","b":"3","g":0.0004,"r":44.06},
+            {"a":"3","b":"3","g":-0.393,"r":67.59},
+            {"a":"4","b":"4","g":0.0035,"r":22.17},
+            {"a":"4","b":"4","g":-0.2187,"r":10.7}
+        ],
+        "rule-6": [
+            {"a":"1","b":"1","g":0.0005,"r":181.52},
+            {"a":"1","b":"1","g":-0.0062,"r":29.83},
+            {"a":"1","b":"2","g":0.0009,"r":270},
+            {"a":"1","b":"2","g":-0.0005,"r":25.84},
+            {"a":"1","b":"3","g":0.1937,"r":132.99},
+            {"a":"1","b":"3","g":-0.0044,"r":182.59},
+            {"a":"1","b":"4","g":0.0017,"r":64.73},
+            {"a":"1","b":"4","g":-0.0252,"r":100.77},
+            {"a":"2","b":"1","g":0.9351,"r":88.96},
+            {"a":"2","b":"1","g":-0.0094,"r":48.69},
+            {"a":"2","b":"2","g":0.1564,"r":71.02},
+            {"a":"2","b":"2","g":-0.0004,"r":123.05},
+            {"a":"2","b":"3","g":0.7723,"r":63.46},
+            {"a":"2","b":"3","g":-0.9951,"r":26.21},
+            {"a":"2","b":"4","g":0.0004,"r":78.16},
+            {"a":"2","b":"4","g":-0.0002,"r":145.12},
+            {"a":"3","b":"1","g":0.0063,"r":2.05},
+            {"a":"3","b":"1","g":-0.0629,"r":78.43},
+            {"a":"3","b":"2","g":0.456,"r":18.07},
+            {"a":"3","b":"2","g":-0.6641,"r":276.82},
+            {"a":"3","b":"3","g":0.0391,"r":50.58},
+            {"a":"3","b":"3","g":0,"r":181.29},
+            {"a":"3","b":"4","g":0.0576,"r":6.08},
+            {"a":"3","b":"4","g":-0.5281,"r":171.03},
+            {"a":"4","b":"1","g":0.0007,"r":63.98},
+            {"a":"4","b":"1","g":-0.0009,"r":3.14},
+            {"a":"4","b":"2","g":0.0013,"r":0.59},
+            {"a":"4","b":"2","g":-0.0039,"r":171.95},
+            {"a":"4","b":"3","g":0.0312,"r":16.08},
+            {"a":"4","b":"3","g":-0.9697,"r":258.3},
+            {"a":"4","b":"4","g":0.0087,"r":198.51},
+            {"a":"4","b":"4","g":-0.0029,"r":93.81}
+        ],
+        "unke": [
+            {a: "0", b: "0", g: -0.0002, r: 50},
+            {a: "0", b: "0", g: -0.00004, r: 120},
+            {a: "0", b: "0", g: 0.0001, r: 5},
+        ],
+        "unke-o3d": [
+            {a: "0", b: "0", g: -0.0002, r: 50},
+            {a: "0", b: "0", g: -0.00004, r: 120},
+        ],
+    };
+    function update(){
+        if(!s.q && !s.pause){
+            rules[currentRule].forEach(e => {
+                // pr["rule"](pg[e.a], pg[e.b], e.g, e.r);
+                pr[currentFunction](pg[e.a], pg[e.b], e.g, e.r);
+            });
+            
+            // pr["orbit3"](pg["angle"], pg["sun"], -.029);
+            // pr["orbit3"](pg["id"], pg["sun"], -.029);
+            // pr["orbit"](pg["id"], pg["sun"], -.029);
+            // pr["orbit"](pg["id"], pg["sun"], -.029);
+            // pr["gravity"](pg["id"], pg["sun"], -.29);
+            // pr["gravity"](pg["id"], pg["sun"], -2.9);
+            
+            pr["walls3d"](particles, 1, 0);
+            pr["walls3d"](particles, .25, 15);
+
+            /* ─Rest of Update()─ */
+            clearCanvas();
+            for(let i = 0; i<particles.length; i++){
+                // draw_e(ctx,particles[i]);
+                // draw_c(ctx,particles[i]);
+                draw_z(ctx,particles[i]);
+            }
+        }
+        // requestAnimationFrame(update);
+        setTimeout(() => {
+            requestAnimationFrame(update);
+        }, s.timeOut)
+    }
+
+    function clearCanvas(){
+        ctx.clearRect(0,0,s.w,s.h);
+        drawSquare(ctx,0,0,"#000",s.w,s.h);
+        // drawSquare(ctx,0,0,"#00000004",s.w,s.h);
+        // drawSquare(ctx,0,0,"#00000020",s.w,s.h);
+        // drawSquare(ctx,0,0,"#00000008",s.w,s.h);
+    }
+
+
+    function getg(r,a){
+        // let gg = parseFloat(((Math.random() * 1)/Math.pow(10,Math.floor(Math.random() * 4))).toFixed(4));
+        return parseFloat(((Math.random() * r - a)/Math.pow(10,Math.floor(Math.random() * 4))).toFixed(4));
+    }
+    function RandomRules4(){
+        let rule_id = `rule-${Object.keys(rules).length}`;
+        let keys = Object.keys(gs);
+
+        let rule_set = [];
+        for (let i = 0; i < keys.length; i++) {
+            const a = keys[i];
+            for (let j = 0; j < keys.length; j++) {
+                const b = keys[j];
+
+                let g1 = getg(1,0);
+                let g2 = getg(-1,0);
+                
+                let rr = Math.sqrt(s.dim/5);
+                let rr1 = Math.random() * rr;
+                let rr2 = Math.random() * rr;
+                let r1 = parseFloat((rr1*rr1).toFixed(2));
+                let r2 = parseFloat((rr2*rr2).toFixed(2));
+
+                let ru1 = {"a": a, "b": b, "g": g1, "r": r1};
+                let ru2 = {"a": a, "b": b, "g": g2, "r": r2};
+                rule_set.push(ru1);
+                rule_set.push(ru2);
+            }
+        }
+        rules[rule_id] = rule_set;
+        currentRule = rule_id;
+    }
+
+    function RandomRule4(){
+        let rule_row = Math.floor(Math.random() * rules[currentRule].length);
+        let g = getg(1,0);
+        if(rules[currentRule][rule_row].g < 0) {
+            g = getg(-1,0);
+        }
+        let r1 = Math.random() * Math.sqrt(s.dim/5);
+        let r = parseFloat((r1*r1).toFixed(2));
+        rules[currentRule][rule_row].g = g;
+        rules[currentRule][rule_row].r = r;
+    }
+
+
+    function RandomRules5(){
+        let rule_id = `rule-${Object.keys(rules).length}`;
+        let keys = Object.keys(gs);
+
+        let rule_set = [];
+        for (let i = 0; i < keys.length; i++) {
+            const a = keys[i];
+            for (let j = 0; j < keys.length; j++) {
+                const b = keys[j];
+
+                let g1 = getg(1,0);
+                let g2 = getg(-1,0);
+                
+                let dim = Math.sqrt(s.h * s.h + s.w * s.w + s.box.z * s.box.z);
+                let rr = Math.sqrt(dim/4);
+                let rr1 = Math.random() * rr;
+                let rr2 = Math.random() * rr;
+                let r1 = parseFloat((rr1*rr1).toFixed(2));
+                let r2 = parseFloat((rr2*rr2).toFixed(2));
+
+                let ru1 = {"a": a, "b": b, "g": g1, "r": r1};
+                let ru2 = {"a": a, "b": b, "g": g2, "r": r2};
+                rule_set.push(ru1);
+                rule_set.push(ru2);
+            }
+        }
+        rules[rule_id] = rule_set;
+        currentRule = rule_id;
+    }
+    function RandomRule5(){
+        let rule_row = Math.floor(Math.random() * rules[currentRule].length);
+        let g = getg(1,0);
+        if(rules[currentRule][rule_row].g < 0) {
+            g = getg(-1,0);
+        }
+        let dim = Math.sqrt(s.h * s.h + s.w * s.w + s.box.z * s.box.z);
+        let r1 = Math.random() * Math.sqrt(dim/4);
+        let r = parseFloat((r1*r1).toFixed(2));
+        rules[currentRule][rule_row].g = g;
+        rules[currentRule][rule_row].r = r;
+    }
+
+    function PrintRule(rule_id){
+        let rule_set = rules[rule_id];
+        let rule_string = JSON.stringify(rule_set);
+        // let rule_ready = rule_string.split('},{').join('},\n{');
+
+        let rule_string2 = rule_string.replace('[', '[\n');
+        rule_string2 = rule_string2.replace(']', '\n]');
+        let rule_ready = rule_string2.split('},{').join('},\n{');
+
+        console.log(`"${rule_id}": ${rule_ready},`);
+    }
+
+    /* ─── Events ─── */
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        s.canvas.z = (s.h + s.w)/2;
+
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
+
+        /* ─ Box ─ */
+        s.box.x = window.innerWidth;
+        s.box.y = window.innerHeight;
+        s.box.z = (s.h + s.w)/2;
+        s.box.x2 = s.w/2;
+        s.box.y2 = s.h/2;
+        s.box.z2 = s.box.z/2;
+
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+
+        if(s.h < s.canvas.h) {s.canvas.h = s.h;}
+        if(s.w < s.canvas.w) {s.canvas.w = s.w;}
+        s.canvas.top = (s.h - s.canvas.h)/2;
+        s.canvas.left = (s.w - s.canvas.w)/2;
+        s.canvas.h2 = s.canvas.top + (s.canvas.h / 2);
+        s.canvas.w2 = s.canvas.left + (s.canvas.w / 2);
+        canvas.width = s.w;
+        canvas.height = s.h;
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+    }
+    window.addEventListener('resize', () =>{
+        updateSettings();
+    });
+
+    // window.addEventListener('click', (ev) => {
+    //     RandomRule5();
+    //     // RandomRules4();
+    //     // PrintRule(currentRule);
+    // });
+    
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        s.timeOut = 10;
+        updateSettings();
+        start();
+        update();
+        // RandomRules4();
+    });
+
+    // for (let i = 0; i < rules[currentRule].length; i++) {
+    //     console.log(rules[currentRule][i].r);
+    // }
+    // for (let i = 0; i < rules[currentRule].length; i++) {
+    //     rules[currentRule][i].r *= 1.2;
+    // }
+</script>
+</body>
+</html>
