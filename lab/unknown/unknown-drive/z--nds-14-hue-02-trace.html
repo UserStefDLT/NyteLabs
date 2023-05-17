@@ -622,6 +622,14 @@
     }
 
     /* ─── Create ─── */
+    function create360c(type="none",x,y,z){
+        for(let i = 0; i < 360; i++){
+            let vxy = CSSAngleToXY(i);
+            let np = new pzv(particles.length,type,x,y,z,vxy.x,vxy.y,0,{hue:i,alp:.75});
+            pg[type].push(np);
+            particles.push(np);
+        }
+    }
     function create360(type="none",x,y,z,color={sat:0,alp:.5}){
         for(let i = 0; i < 360; i++){
             let vxy = CSSAngleToXY(i);
@@ -1068,8 +1076,9 @@
         //     create_pzv(gs[k].count,k,gs[k].clr);
         // });
         pg["0"] = [];
-        create360("0",s.canvas.x2,s.canvas.y2,s.canvas.z2,{hue:210, lum:60, alp:0.75});
+        // create360("0",s.canvas.x2,s.canvas.y2,s.canvas.z2,{hue:210, lum:60, alp:0.75});
         // create360("0",s.canvas.x2,s.canvas.y2,380,{hue:30, lum:50, alp:0.75});
+        create360c("0",s.canvas.x2,s.canvas.y2,s.canvas.z2);
     }
     function start_z(){
         /* for [spz] */
@@ -1221,10 +1230,10 @@
     }
 
     function clearCanvas(){
-        ctx.clearRect(0,0,s.w,s.h);
-        drawSquare(ctx,0,0,"#000",s.w,s.h);
+        // ctx.clearRect(0,0,s.w,s.h);
+        // drawSquare(ctx,0,0,"#000",s.w,s.h);
         // drawSquare(ctx,0,0,"#00000004",s.w,s.h);
-        // drawSquare(ctx,0,0,"#00000020",s.w,s.h);
+        drawSquare(ctx,0,0,"#00000020",s.w,s.h);
         // drawSquare(ctx,0,0,"#00000008",s.w,s.h);
     }
 
