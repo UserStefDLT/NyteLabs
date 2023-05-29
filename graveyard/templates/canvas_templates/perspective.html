@@ -1,0 +1,2044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Perspective and Axis Rotation | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <link rel="stylesheet" href="../../../stylesheets/canvas.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        /* :root {} */
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/settings2.css">
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <h1 class="title">NyteLabs</h1>
+        <!-- <div class="subtitle">Perspective and Axis Rotation</div> -->
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+
+<main>
+    <!-- <div class="shelf">
+        <h3 class="shelf-title">experiment</h3>
+        <div id="display"></div>
+        <div class="x"></div>
+    </div> -->
+    <!-- <canvas id="canvas-draw"></canvas> -->
+    <!-- <canvas id="canvas"></canvas> -->
+    <canvas id="canvas-grid"></canvas>
+    <canvas id="canvas-draw"></canvas>
+</main>
+
+<!-- <div class="options">
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 - 2023 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        touch: {
+            x: 0,
+            y: 0,
+            z: 0,
+            paths: {},
+            path_len: 20,
+            tracking: false
+        },
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            path: [],
+            path_len: 20,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            sz: 20,
+            sz2: 10,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            padding: 0,
+            brush: "p",
+            p: 1000,
+        },
+        box: {
+            x: 500,
+            y: 500,
+            z: 500,
+            x2: 250,
+            y2: 250,
+            z2: 250,
+            d: 1000,
+            p: 1000,
+        },
+        cube: {
+            xlen: 10,
+            ylen: 10,
+            zlen: 10,
+            sz: 10,
+        },
+        rotate: {
+            degs: 5,
+        },
+        rotating: {
+            xdegs: 0,
+            ydegs: 0,
+        },
+        view: {
+            idx: -1,
+            x: -1,
+            y: -1,
+        },
+        
+
+        timeOut: 40,
+        player: false,
+        
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+    const particles = [];
+    const pg = {}
+
+    const layers = ["canvas-grid", "canvas-draw"];
+    const canvas = {};
+    const ctx = {};
+
+</script>
+<script src="../../../scripts/settings.js"></script>
+<script>
+    // const canvas = document.getElementById('canvas');
+    // const ctx = canvas.getContext('2d');
+    // canvas.width = window.innerWidth;
+    // canvas.height = window.innerHeight;
+
+    layers.forEach(key => {
+        canvas[key] = document.getElementById(key);
+        ctx[key] = canvas[key].getContext('2d');
+        canvas[key].width = window.innerWidth;
+        canvas[key].height = window.innerHeight;
+    });
+
+    function lerp(t=.5,p1,p2){
+        return (1 - t) * p1 + t * p2;
+    }
+    
+    /* ─── Drawing (view) ─── */
+    function getZLum3(z){
+        let zdp = z / s.canvas.z;
+        let lum = (80 - (zdp * 60)).toFixed(0);
+        return lum;
+    }
+    function DrawPtoPrevLine3(ctx, e1) {
+        if(e1.id != 0){
+            let e2 = e1.previous;
+
+            ctx.fillStyle = `#0000`;
+            // ctx.lineWidth = 1;
+            ctx.lineWidth = 3;
+            let zl1 = getZLum3(e1.z);
+            ctx.strokeStyle = `hsla(${e1.hue}, ${e1.sat}%, ${zl1}%, .95)`;
+            ctx.beginPath();
+            ctx.arc(e1.xo, e1.yo, e1.size_z, 0, Math.PI * 2);
+            ctx.stroke();
+    
+            // ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(e1.xo, e1.yo);
+            let e2x = lerp(.5, e1.xo, e2.xo);
+            let e2y = lerp(.5, e1.yo, e2.yo);
+            ctx.lineTo(e2x, e2y);
+            ctx.stroke();
+            
+            let zl2 = getZLum3(e2.z);
+            ctx.strokeStyle = `hsla(${e1.hue}, ${e1.sat}%, ${zl2}%, .95)`;
+            ctx.beginPath();
+            ctx.moveTo(e2x, e2y);
+            ctx.lineTo(e2.xo, e2.yo);
+            ctx.stroke();
+        }
+    }
+    function DrawPtoPrevLine(ctx, e1) {
+        if(e1.id != 0){
+            let e2 = e1.previous;
+
+            ctx.fillStyle = `#0000`;
+            // ctx.lineWidth = 1;
+            ctx.lineWidth = 3;
+            let zl1 = getZLum(e1.z);
+            ctx.strokeStyle = `hsla(${e1.hue}, ${e1.sat}%, ${zl1}%, .95)`;
+            ctx.beginPath();
+            ctx.arc(e1.x, e1.y, e1.size_z, 0, Math.PI * 2);
+            ctx.stroke();
+    
+            // ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(e1.x, e1.y);
+            let e2x = lerp(.5, e1.x, e2.x);
+            let e2y = lerp(.5, e1.y, e2.y);
+            ctx.lineTo(e2x, e2y);
+            ctx.stroke();
+            
+            let zl2 = getZLum(e2.z);
+            ctx.strokeStyle = `hsla(${e1.hue}, ${e1.sat}%, ${zl2}%, .95)`;
+            ctx.beginPath();
+            ctx.moveTo(e2x, e2y);
+            ctx.lineTo(e2.x, e2.y);
+            ctx.stroke();
+        }
+    }
+    function DrawPtoPLine(ctx, e1, e2) {
+        ctx.fillStyle = `#0000`;
+        // ctx.lineWidth = 1;
+        ctx.lineWidth = 3;
+        let zl1 = getZLum(e1.z);
+        ctx.strokeStyle = `hsla(${e1.hue}, ${e1.sat}%, ${zl1}%, .2)`;
+        ctx.beginPath();
+        ctx.arc(e1.x, e1.y, e1.size_z, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(e1.x, e1.y);
+        let e2x = lerp(.5, e1.x, e2.x);
+        let e2y = lerp(.5, e1.y, e2.y);
+        ctx.lineTo(e2x, e2y);
+        ctx.stroke();
+        
+        let zl2 = getZLum(e2.z);
+        ctx.strokeStyle = `hsla(${e1.hue}, ${e1.sat}%, ${zl2}%, .2)`;
+        ctx.beginPath();
+        ctx.moveTo(e2x, e2y);
+        ctx.lineTo(e2.x, e2.y);
+        ctx.stroke();
+    }
+    function FindClosestParticle(ctx, e1, list, range = 100) {
+        const e2 = {"id":-1, "h2":range, "x":0, "y":0, "z":0};
+        for (let j = 0; j < list.length; j++) {
+            const e2a = list[j];
+            let x2 = e1.x - e2a.x;
+            let y2 = e1.y - e2a.y;
+            let z2 = e1.z - e2a.z;
+            let h2 = Math.sqrt(x2 * x2 + y2 * y2 + z2 * z2);
+            if(0 < h2 && h2 < range){
+                if(e2.h2 > h2){
+                    e2.id = j;
+                    e2.h2 = h2;
+                    e2.x = e2a.x;
+                    e2.y = e2a.y;
+                    e2.z = e2a.z;
+                }
+            }
+        }
+    }
+
+    function getZLum(z){
+        let zdp = 1 - z / s.canvas.z;
+        let lum = (80 - (zdp * 60)).toFixed(0);
+        return lum;
+    }
+    function DrawParticleLineZ(ctx, e1, list, range = 100){
+        const e2 = {"id":-1, "h2":range, "x":0, "y":0, "z":0};
+        for (let j = 0; j < list.length; j++) {
+            const e2a = list[j];
+            let x2 = e1.x - e2a.x;
+            let y2 = e1.y - e2a.y;
+            let z2 = e1.z - e2a.z;
+            let h2 = Math.sqrt(x2 * x2 + y2 * y2 + z2 * z2);
+            if(0 < h2 && h2 < range){
+                if(e2.h2 > h2){
+                    e2.id = j;
+                    e2.h2 = h2;
+                    e2.x = e2a.x;
+                    e2.y = e2a.y;
+                    e2.z = e2a.z;
+                }
+            }
+        }
+        if(e2.id != -1){
+            ctx.fillStyle = `#fff0`;
+            ctx.lineWidth = 1;
+            // ctx.lineWidth = 3;
+            // let zval = getZ(e1.z, e1.size, e1.range);
+            // ctx.strokeStyle = `hsla(${e1.hue}, ${e1.sat}%, ${zval.lum}%, .2)`;
+            // ctx.strokeStyle = e1.color;
+            // ctx.strokeStyle = zval.color;
+            let zl1 = getZLum(e1.z);
+            ctx.strokeStyle = `hsla(${e1.hue}, ${e1.sat}%, ${zl1}%, .2)`;
+            ctx.beginPath();
+            ctx.arc(e1.x, e1.y, e1.size_z, 0, Math.PI * 2);
+            
+            ctx.stroke();
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+
+
+            ctx.moveTo(e1.x, e1.y);
+            let e2x = lerp(.5, e1.x, e2.x);
+            let e2y = lerp(.5, e1.y, e2.y);
+            ctx.lineTo(e2x, e2y);
+            ctx.stroke();
+            
+            let zl2 = getZLum(e2.z);
+            ctx.strokeStyle = `hsla(${e1.hue}, ${e1.sat}%, ${zl2}%, .2)`;
+            ctx.beginPath();
+            ctx.moveTo(e2x, e2y);
+            ctx.lineTo(e2.x, e2.y);
+            ctx.stroke();
+        }
+        // for (let i = 0; i < list.length; i++) {
+        //     // const e1 = list[i];
+        // }
+    }
+    function DrawParticleLine(ctx, list, range = 100){
+        for (let i = 0; i < list.length; i++) {
+            const e1 = list[i];
+            const e2 = {"id":-1, "h2":9999, "x":0, "y":0};
+            for (let j = 0; j < list.length; j++) {
+                const e2a = list[j];
+                let x2 = e1.x - e2a.x;
+                let y2 = e1.y - e2a.y;
+                let h2 = Math.sqrt(x2 * x2 + y2 * y2);
+                if(0 < h2 && h2 < range){
+                    if(e2.h2 > h2){
+                        e2.id = j;
+                        e2.h2 = h2;
+                        e2.x = e2a.x;
+                        e2.y = e2a.y;
+                    }
+                }
+            }
+            if(e2.id != -1){
+                ctx.fillStyle = `#fff0`;
+                ctx.lineWidth = 1;
+                ctx.strokeStyle = e1.color;
+                ctx.beginPath();
+                ctx.arc(e1.x, e1.y, e1.size, 0, Math.PI * 2);
+                ctx.moveTo(e1.x, e1.y);
+                ctx.lineTo(e2.x, e2.y);
+                ctx.stroke();
+            }
+        }
+    }
+    
+    function draw_line(ctx,x0,y0,x1,y1,color="#fff9",size=2){
+        ctx.strokeStyle = color;
+        ctx.lineWidth = size;
+        ctx.lineJoin = "round";
+        ctx.beginPath();
+        ctx.moveTo(x0,y0);
+        ctx.lineTo(x1,y1);
+        ctx.stroke();
+    }
+    function draw_path(ctx,path,color,size){
+        if(path.length > 0){
+            ctx.strokeStyle = color;
+            ctx.lineWidth = size;
+            ctx.lineJoin = "round";
+            ctx.beginPath();
+            ctx.moveTo(path[0].x, path[0].y);
+            for (let i = 1; i < path.length; i++) {
+                ctx.lineTo(path[i].x, path[i].y);
+            }
+            ctx.stroke();
+        }
+    }
+    function draw_z(ctx,e){
+        if(e.x > 0 && e.x < (s.w) && e.y > 0 && e.y < (s.h)){
+            e.getSize();
+            ctx.fillStyle = e.getColor();
+            ctx.beginPath();
+            ctx.arc(e.x, e.y, e.size_z/2, 0, Math.PI * 2);
+            ctx.fill();
+        } 
+    }
+    function draw_e(ctx,e){
+        if(e.x > 0 && e.x < (s.w) && e.y > 0 && e.y < (s.h)){
+            ctx.fillStyle = e.color;
+            ctx.beginPath();
+            ctx.arc(e.x, e.y, e.size/2, 0, Math.PI * 2);
+            ctx.fill();
+        } 
+    }
+    function draw_c(ctx,e){
+        if(e.x > 0 && e.x < (s.w) && e.y > 0 && e.y < (s.h)){
+            ctx.fillStyle = e.getColor();
+            ctx.beginPath();
+            ctx.arc(e.x, e.y, e.size/2, 0, Math.PI * 2);
+            ctx.fill();
+        } 
+    }
+    function drawSquare(ctx,left,top,c,w,h){
+        ctx.fillStyle = c;
+        ctx.fillRect(left,top,w,h);
+    }
+
+
+    /* ─── Particle ─── */
+    class p {
+        constructor(id=-1,type="p",x=0,y=0,z=0,color="#8889"){
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.vx = 0;
+            this.vy = 0;
+            this.vz = 0;
+
+            this.size = 5;
+            this.color = color;
+        }
+        draw(){
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size/2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+    class pa {
+        constructor(id=-1,type="p",x=0,y=0,z=0,clr={}){
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.vx = 0;
+            this.vy = 0;
+            this.z = z;
+            this.vz = 0;
+
+            this.mass = 1;
+            this.size = 4;
+
+            this.hue = 210;
+            this.sat = 100;
+            this.lum = 50;
+            this.alp = 1;
+            if(Object.keys(clr).includes("hue")){this.hue = clr.hue;}
+            if(Object.keys(clr).includes("sat")){this.sat = clr.sat;}
+            if(Object.keys(clr).includes("lum")){this.lum = clr.lum;}
+            if(Object.keys(clr).includes("alp")){this.alp = clr.alp;}
+            this.color = "hsla(0,0%,50%,.5)";
+            // this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+        }
+        getColor(){
+            this.calcColor();
+            this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            return this.color;
+        }
+        calcColor(){
+            switch(this.type){
+                case 'angle':
+                    this.hue = Math.round(XYtoAngle(this.vx,this.vy));
+                    break;
+                case 'id':
+                    this.hue = Math.round(this.id * 360/particles.length);
+                    break;
+                case 'heat':
+                    this.hue = 240 - (this.heat * 2.4);
+                    this.lum = 100 - Math.abs(this.heat-50);
+                    break;
+                default: 
+                    // this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                    break;
+            }
+        }
+    }
+    class pz {
+        constructor(id,type="p",x,y,z,clr={}){
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.vx = 0;
+            this.vy = 0;
+            this.z = z;
+            this.vz = 0;
+
+            this.mass = 1;
+            this.size = 4;
+            this.size_z = 5;
+            this.range = 6;
+
+            this.hue = 210;
+            this.sat = 100;
+            this.lum = 50;
+            this.alp = 1;
+            if(Object.keys(clr).includes("hue")){this.hue = clr.hue;}
+            if(Object.keys(clr).includes("sat")){this.sat = clr.sat;}
+            if(Object.keys(clr).includes("lum")){this.lum = clr.lum;}
+            if(Object.keys(clr).includes("alp")){this.alp = clr.alp;}
+            this.color = "hsla(0,0%,50%,.5)";
+            // this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            this.zdp = .5;
+        }
+        getSize(){
+            /* this.zdp will vary from 0 to 1. close and far, respectively. */
+            let box_z = (s.w + s.h)/2;
+            this.zdp = 1 - this.z/box_z;
+            let zadd = parseFloat((this.zdp * this.range).toFixed(2));
+            this.size_z = this.size + (this.range/2) - zadd;
+        }
+        getColor(){
+            // this.calcColor();
+            this.lum = (80 - (this.zdp * 60)).toFixed(0);
+            
+            this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            return this.color;
+        }
+        calcColor(){
+            switch(this.type){
+                case 'angle':
+                    this.hue = Math.round(XYtoAngle(this.vx,this.vy));
+                    break;
+                case 'id':
+                    this.hue = Math.round(this.id * 360/particles.length);
+                    break;
+                case 'heat':
+                    this.hue = 240 - (this.heat * 2.4);
+                    this.lum = 100 - Math.abs(this.heat-50);
+                    break;
+                default: 
+                    // this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+                    break;
+            }
+        }
+    }
+    class pz2 {
+        constructor(id,type="p",x,y,z,clr={}){
+            if(id > 0){
+                this.previous = particles[id-1];
+            } else {
+                this.previous = particles[id];
+            }
+            // this.ctx = ctx;
+
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.vx = 0;
+            this.vy = 0;
+            this.z = z;
+            this.vz = 0;
+
+            this.mass = 1;
+            this.size = 4;
+            this.size_z = 5;
+            this.range = 6;
+
+            this.s = {"x":x,"y":y,"z":z,"size_z":this.size_z};
+            this.rotating = {"x":0,"y":0,"z":0};
+
+            this.hue = 210;
+            this.sat = 100;
+            this.lum = 50;
+            this.alp = 1;
+            if(Object.keys(clr).includes("hue")){this.hue = clr.hue;}
+            if(Object.keys(clr).includes("sat")){this.sat = clr.sat;}
+            if(Object.keys(clr).includes("lum")){this.lum = clr.lum;}
+            if(Object.keys(clr).includes("alp")){this.alp = clr.alp;}
+            this.color = "hsla(0,0%,50%,.5)";
+            this.colorFlat = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            // this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            this.zdp = .5;
+        }
+        getSize(){
+            /* this.zdp will vary from 0 to 1. close and far, respectively. */
+            let box_z = (s.w + s.h)/2;
+            this.zdp = 1 - this.z/box_z;
+            let zadd = parseFloat((this.zdp * this.range).toFixed(2));
+            this.size_z = this.size + (this.range/2) - zadd;
+        }
+        getColor(){
+            // this.calcColor();
+            this.lum = (80 - (this.zdp * 60)).toFixed(0);
+            
+            this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            // return this.color;
+        }
+        update(){
+            // if(s.view.x + s.view.y != 0){
+            if(s.rotating.xdegs + s.rotating.ydegs != 0){
+                // this.rotating.x = s.view.x;
+                // this.rotating.y = s.view.y;
+                this.rotating.x = s.rotating.xdegs;
+                this.rotating.y = s.rotating.ydegs;
+            }
+            if(this.rotating.x + this.rotating.y != 0){
+                // let xyz = RotateXY(s.rotating.xdegs,s.rotating.ydegs);
+                let xyz = this.RotateXY(this.rotating.x,this.rotating.y);
+                if(!s.touch.tracking){
+                    this.s.x = xyz.x;
+                    this.s.y = xyz.y;
+                    this.s.z = xyz.z;
+
+                    this.rotating.x = 0;
+                    this.rotating.y = 0;
+                }
+                this.x = xyz.x;
+                this.y = xyz.y;
+                this.z = xyz.z;
+            }
+
+            this.getSize();
+            this.getColor();
+        }
+        draw(ctx){
+            if(this.x > 0 && this.x < (s.w) && this.y > 0 && this.y < (s.h)){
+                ctx.fillStyle = this.colorFlat;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size/2, 0, Math.PI * 2);
+                ctx.fill();
+            } 
+        }
+        drawZ1(ctx){
+            if(this.x > 0 && this.x < (s.w) && this.y > 0 && this.y < (s.h)){
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size_z/2, 0, Math.PI * 2);
+                ctx.fill();
+            } 
+        }
+        drawZ(ctx){
+            let xo = ((this.x - s.canvas.x2) * 800/(s.canvas.z-this.z+800))+s.canvas.x2;
+            let yo = ((this.y - s.canvas.y2) * 800/(s.canvas.z-this.z+800))+s.canvas.y2;
+
+            if(xo > 0 && xo < (s.w) && yo > 0 && yo < (s.h)){
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(xo, yo, this.size_z/2, 0, Math.PI * 2);
+                ctx.fill();
+            } 
+        }
+
+        RotateXY(rx=0,ry=0){
+            let x = this.s.x - s.x2;
+            let y = this.s.y - s.y2;
+            let z = this.s.z - s.z2;
+            // let x = x0 - s.x2;
+            // let y = y0 - s.y2;
+            // let z = z0 - s.z2;
+            if(rx != 0){
+                let hx = Math.sqrt(z*z+y*y);
+                let angleX = XYtoCSSAngle(z,y);
+                let zy = CSSAngleToXY(angleX + rx);
+                z = zy.x*hx;
+                y = zy.y*hx;
+            }
+            if(ry != 0){
+                let hy = Math.sqrt(x*x+z*z);
+                let angleY = XYtoCSSAngle(x,z);
+                let xz = CSSAngleToXY(angleY + ry);
+                x = xz.x*hy;
+                z = xz.y*hy;
+            }
+            x += s.x2;
+            y += s.y2;
+            z += s.z2;
+
+            let nxt = {"x":x,"y":y,"z":z};
+            return nxt;
+        }
+
+        notes(){
+            // addRotationX(add){this.rotations.x += add;}
+            // addRotationY(add){this.rotations.y += add;}
+    
+            // RotateXY1(x0,y0,z0,rx=0,ry=0){
+            //     let x = this.x - s.x2;
+            //     let y = this.y - s.y2;
+            //     let z = this.z - s.z2;
+            //     let x = x0 - s.x2;
+            //     let y = y0 - s.y2;
+            //     let z = z0 - s.z2;
+            //     if(rx != 0){
+            //         let hx = Math.sqrt(z*z+y*y);
+            //         let angleX = XYtoCSSAngle(z,y);
+            //         let zy = CSSAngleToXY(angle + rx);
+            //         let z = zy.x*h;
+            //         let y = zy.y*h;
+            //     }
+            //     if(ry != 0){
+            //         let hy = Math.sqrt(x*x+z*z);
+            //         let angleY = XYtoCSSAngle(x,z);
+            //         let xz = CSSAngleToXY(angle + ry);
+            //         let x = xz.x*h;
+            //         let z = xz.y*h;
+            //     }
+            //     x += s.x2;
+            //     y += s.y2;
+            //     z += s.z2;
+    
+            //     let nxt = {"x":x,"y":y,"z":z};
+            //     return nxt;
+            // }
+            // RotateX(add){
+            //     let x = this.x - s.x2;
+            //     let y = this.y - s.y2;
+            //     let z = this.z - s.z2;
+            //     let h = Math.sqrt(z*z+y*y);
+            //     let angle = XYtoCSSAngle(z,y);
+            //     let zy = CSSAngleToXY(angle + add);
+            //     let nz = zy.x*h + s.z2;
+            //     let ny = zy.y*h + s.y2;
+            //     let nxt = {"x":this.x,"y":ny,"z":nz};
+            // }
+            // RotateY(add){
+            //     let x = this.x - s.x2;
+            //     let y = this.y - s.y2;
+            //     let z = this.z - s.z2;
+            //     let h = Math.sqrt(x*x+z*z);
+            //     let angle = XYtoCSSAngle(x,z);
+            //     let xz = CSSAngleToXY(angle + add);
+                
+            //     let nx = xz.x*h + s.x2;
+            //     let nz = xz.y*h + s.z2;
+            //     let nxt = {"x":nx,"y":this.y,"z":nz};
+            // }
+    
+            // tRotate(){
+            //     if(this.rotations.x != 0){
+            //         tRotateX(this.rotations.x);
+            //     }
+            //     if(this.rotations.y != 0){
+            //         tRotateY(this.rotations.y);
+            //     }
+            // }
+        }
+    }
+    class pz3 {
+        constructor(id,type="p",x,y,z,clr={}){
+            if(id > 0){
+                this.previous = particles[id-1];
+            } else {
+                this.previous = particles[id];
+            }
+            // this.ctx = ctx;
+
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.vx = 0;
+            this.vy = 0;
+            this.z = z;
+            this.vz = 0;
+
+            this.xo = 0;
+            this.yo = 0;
+            this.zo = 0;
+
+            this.mass = 1;
+            this.size = 4;
+            this.size_z = 5;
+            this.range = 6;
+
+            this.s = {"x":x,"y":y,"z":z,"size_z":this.size_z};
+            this.rotating = {"x":0,"y":0,"z":0};
+
+            this.hue = 210;
+            this.sat = 100;
+            this.lum = 50;
+            this.alp = 1;
+            if(Object.keys(clr).includes("hue")){this.hue = clr.hue;}
+            if(Object.keys(clr).includes("sat")){this.sat = clr.sat;}
+            if(Object.keys(clr).includes("lum")){this.lum = clr.lum;}
+            if(Object.keys(clr).includes("alp")){this.alp = clr.alp;}
+            this.color = "hsla(0,0%,50%,.5)";
+            this.colorFlat = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            // this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            this.zdp = .5;
+        }
+        getSize(){
+            /* this.zdp will vary from 0 to 1. close and far, respectively. */
+            let box_z = (s.w + s.h)/2;
+            this.zdp = this.z/box_z;
+            // let zadd = parseFloat((this.zdp * this.range).toFixed(2));
+            // this.size_z = this.size + (this.range/2) - zadd;
+            this.size_z = this.size * s.canvas.p / (this.z + s.canvas.p);
+        }
+        getColor(){
+            // this.calcColor();
+            this.lum = (80 - (this.zdp * 60)).toFixed(0);
+            // this.lum = ((this.zdp * 60) + 20).toFixed(0);
+            
+            this.color = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
+            // return this.color;
+        }
+        update(){
+            // if(s.view.x + s.view.y != 0){
+            if(s.rotating.xdegs + s.rotating.ydegs != 0){
+                // this.rotating.x = s.view.x;
+                // this.rotating.y = s.view.y;
+                this.rotating.x = s.rotating.xdegs;
+                this.rotating.y = s.rotating.ydegs;
+            }
+            if(this.rotating.x + this.rotating.y != 0){
+                // let xyz = RotateXY(s.rotating.xdegs,s.rotating.ydegs);
+                let xyz = this.RotateXY(this.rotating.x,this.rotating.y);
+                if(!s.touch.tracking){
+                    this.s.x = xyz.x;
+                    this.s.y = xyz.y;
+                    this.s.z = xyz.z;
+
+                    this.rotating.x = 0;
+                    this.rotating.y = 0;
+                }
+                this.x = xyz.x;
+                this.y = xyz.y;
+                this.z = xyz.z;
+            }
+
+            this.getSize();
+            this.getColor();
+        }
+        draw(ctx){
+            if(this.x > 0 && this.x < (s.w) && this.y > 0 && this.y < (s.h)){
+                ctx.fillStyle = this.colorFlat;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size/2, 0, Math.PI * 2);
+                ctx.fill();
+            } 
+        }
+        drawZ1(ctx){
+            if(this.x > 0 && this.x < (s.w) && this.y > 0 && this.y < (s.h)){
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size_z/2, 0, Math.PI * 2);
+                ctx.fill();
+            } 
+        }
+        drawZ(ctx){
+            // this.xo = ((this.x - s.canvas.x2) * 800/(s.canvas.z-this.z+800))+s.canvas.x2;
+            // this.yo = ((this.y - s.canvas.y2) * 800/(s.canvas.z-this.z+800))+s.canvas.y2;
+            // if(this.xo > 0 && this.xo < (s.w) && this.yo > 0 && this.yo < (s.h)){
+            //     ctx.fillStyle = this.color;
+            //     ctx.beginPath();
+            //     ctx.arc(this.xo, this.yo, this.size_z/2, 0, Math.PI * 2);
+            //     ctx.fill();
+            // } 
+
+            this.xo = ((this.x - s.canvas.x2) * s.canvas.p/(this.z + s.canvas.p))+s.canvas.x2;
+            this.yo = ((this.y - s.canvas.y2) * s.canvas.p/(this.z + s.canvas.p))+s.canvas.y2;
+            if(this.xo > 0 && this.xo < (s.w) && this.yo > 0 && this.yo < (s.h)){
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.xo, this.yo, this.size_z/2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        RotateXY(rx=0,ry=0){
+            let x = this.s.x - s.x2;
+            let y = this.s.y - s.y2;
+            let z = this.s.z - s.z2;
+            // let x = x0 - s.x2;
+            // let y = y0 - s.y2;
+            // let z = z0 - s.z2;
+            if(rx != 0){
+                let hx = Math.sqrt(z*z+y*y);
+                let angleX = XYtoCSSAngle(z,y);
+                let zy = CSSAngleToXY(angleX + rx);
+                z = zy.x*hx;
+                y = zy.y*hx;
+            }
+            if(ry != 0){
+                let hy = Math.sqrt(x*x+z*z);
+                let angleY = XYtoCSSAngle(x,z);
+                let xz = CSSAngleToXY(angleY + ry);
+                x = xz.x*hy;
+                z = xz.y*hy;
+            }
+            x += s.x2;
+            y += s.y2;
+            z += s.z2;
+
+            let nxt = {"x":x,"y":y,"z":z};
+            return nxt;
+        }
+
+    }
+
+
+    class v {
+        constructor(){
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
+        }
+    }
+    class side {
+        constructor(points){
+            this.v = JSON.parse(JSON.stringify(points));
+        }
+    }
+    class solid {
+        constructor(){
+            this.ctx = ctx;
+            this.id = id;
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
+
+            this.vertex = [];
+            this.side = [];
+        }
+        setVertex(vertexList){
+            this.vertex = JSON.parse(JSON.stringify(vertexList));
+        }
+        setSides(sides){
+            this.side = JSON.parse(JSON.stringify(sides));
+        }
+
+    }
+    const vs = {
+        "v0": {x:0,y:0,z:0},
+        "v1": {x:0,y:0,z:0},
+        "v2": {x:0,y:0,z:0},
+        "v3": {x:0,y:0,z:0},
+    }
+
+    /* ─── Create ─── */
+    function create_xyz3(type="none", x, y, z, color={hue:210}){
+        let np = new pz3(particles.length,type,x,y,z,color);
+        pg[type].push(np);
+        particles.push(np);
+    }
+    function create_xyz2(type="none", x, y, z, color={hue:210}){
+        let np = new pz2(particles.length,type,x,y,z,color);
+        pg[type].push(np);
+        particles.push(np);
+    }
+    function create_xyz(type="none", x, y, z, color={hue:210}){
+        let np = new pz(particles.length,type,x,y,z,color);
+        pg[type].push(np);
+        particles.push(np);
+    }
+    function create(n,type="none",color="#8889"){
+        for(let i = 0; i < n; i++){
+            let xy = randomXY();
+            let np = new p(particles.length,type,xy.x,xy.y,0,color);
+            pg[type].push(np);
+            particles.push(np);
+        }
+    }
+
+    /* ─── Rules ─── */
+    /* This functions affects the particles in list1. */
+    const pr = {}
+    pr["gravity"] = function (list1, list2, g = 0){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > b.size/2){
+                    let force = g * a.mass * b.mass / (d*d);
+                    // let force = g * 1 / (d*d);
+                    fx += (force * dx) / a.mass;
+                    fy += (force * dy) / a.mass;
+                }
+            }
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+            a.x += a.vx;
+            a.y += a.vy;
+        }
+    }
+    pr["orbit"] = function (list1, list2, g = 0){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > b.size/2){
+                    let force = g * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                }
+            }
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+            a.x += a.vx;
+            a.y += a.vy;
+        }
+    }
+    /* scale:
+     * g is for the gravity force.
+     * v is for how much is allowed to be added when moving.
+     * e is how much momentum is lost.
+     */
+    const scale = {
+        "g": 1,
+        "v": 1,
+        "e": .5,
+    }
+    pr["rule"] = function (list1, list2, g = 0, r = 100){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > 0 && d < r){
+                    let force = scale.g * g * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                }
+            }
+            a.vx = (a.vx + fx) * scale.e;
+            a.vy = (a.vy + fy) * scale.e;
+            a.x += a.vx * scale.v;
+            a.y += a.vy * scale.v;
+
+            // if(a.x < 0 || a.x > s.w){a.vx *= -1;}
+            // if(a.y < 0 || a.y > s.h){a.vy *= -1;}
+
+            // if wall is not pushing and teleporting particles back, this is just a preventive measure.
+            let margin = 50;
+            let cr = 100;
+            if(a.x < (0-margin) || a.x > (s.canvas.x+margin) || a.y < (0-margin) || a.y > (s.canvas.y+margin)){
+                a.x = s.canvas.x2 + (Math.random() * (cr*2) - cr);
+                a.y = s.canvas.y2 + (Math.random() * (cr*2) - cr);
+            }
+        }
+    }
+    pr["walls"] = function (list1, g = 0, r = 10){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+
+            let dx = Math.abs(a.x - s.w);
+            let dy = Math.abs(a.y - s.h);
+            if(a.x > 0 && a.x < r){fx += g;}
+            if(a.y > 0 && a.y < r){fy += g;}
+            if(dx > 0 && dx < r){fx -= g;}
+            if(dy > 0 && dy < r){fy -= g;}
+
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+            a.x += a.vx;
+            a.y += a.vy;
+
+            let margin = -5;
+            let cr = 10;
+            if(a.x < (0-margin) || a.x > (s.canvas.x+margin) || a.y < (0-margin) || a.y > (s.canvas.y+margin)){
+                a.x = s.canvas.x2 + (Math.random() * (cr*2) - cr);
+                a.y = s.canvas.y2 + (Math.random() * (cr*2) - cr);
+            }
+        }
+    }
+    
+    /* ─ Z rules ─ */
+    pr["orbit3d"] = function (list1, list2, g = 0){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fz = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let dz = a.z - b.z;
+                let d = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                if(d > b.size/2){
+                    let force = g * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                    fz += (force * dz);
+                }
+            }
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
+            a.vz = (a.vz + fz);
+            a.x += a.vx;
+            a.y += a.vy;
+            a.z += a.vz;
+        }
+    }
+    pr["rule3d"] = function (list1, list2, g = 0, r = 100){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fz = 0;
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                let dz = a.z - b.z;
+                let d = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                if(d > 0 && d < r){
+                    let force = scale.g * g * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                    fz += (force * dz);
+                }
+            }
+            a.vx = (a.vx + fx) * scale.e;
+            a.vy = (a.vy + fy) * scale.e;
+            a.vz = (a.vz + fz) * scale.e;
+            a.x += a.vx * scale.v;
+            a.y += a.vy * scale.v;
+            a.z += a.vz * scale.v;
+
+            // if(a.x < 0 || a.x > s.w){a.vx *= -1;}
+            // if(a.y < 0 || a.y > s.h){a.vy *= -1;}
+
+            // if wall is not pushing and teleporting particles back, this is just a preventive measure.
+            let margin = 50;
+            let cr = 100;
+            if(a.x < (0-margin) || a.x > (s.canvas.x+margin) || a.y < (0-margin) || a.y > (s.canvas.y+margin) || a.z < (0-margin) || a.z> (s.canvas.z+margin)){
+                a.x = s.canvas.x2 + (Math.random() * (cr*2) - cr);
+                a.y = s.canvas.y2 + (Math.random() * (cr*2) - cr);
+                a.z = s.canvas.z2 + (Math.random() * (cr*2) - cr);
+            }
+        }
+    }
+    
+
+    /* ─── Start and Update ─── */
+    const gs = {
+        "1": {count: 200, clr:"hsla(30, 100%, 50%, .75)"},
+        "2": {count: 200, clr:"hsla(150, 100%, 50%, .75)"},
+        "3": {count: 200, clr:"hsla(210, 100%, 50%, .75)"},
+        "4": {count: 200, clr:"hsla(330, 100%, 50%, .75)"},
+        // "5": {count: 50, clr:"hsla(0, 100%, 50%, .5)"},
+        // "6": {count: 50, clr:"hsla(270, 100%, 50%, .5)"},
+    };
+    function start_gs(){
+        // create(10,"p","#fff");
+
+        let keys = Object.keys(gs);
+        keys.forEach(k=>{
+            pg[k] = [];
+            create(gs[k].count,k,gs[k].clr);
+        });
+    }
+    function start1(){
+        // canvas["canvas-draw"].addEventListener("touchstart", handleStart, false);
+        // canvas["canvas-draw"].addEventListener("touchend", handleEnd, false);
+        // canvas["canvas-draw"].addEventListener("touchcancel", handleCancel, false);
+        // canvas["canvas-draw"].addEventListener("touchmove", handleMove, false);
+        canvas.addEventListener("touchstart", handleStart, false);
+        canvas.addEventListener("touchend", handleEnd, false);
+        canvas.addEventListener("touchcancel", handleCancel, false);
+        canvas.addEventListener("touchmove", handleMove, false);
+        // create(10,"p","#fff");
+        // let keys = Object.keys(gs);
+        // keys.forEach(k=>{
+        //     pg[k] = [];
+        //     create(gs[k].count,k,gs[k].clr);
+        // });
+
+        pg["xyz"] = [];
+        create_xyz2("xyz", s.x2, s.y2, s.z2, {"sat":0});
+        // create_xyz("xyz", s.x2+200, s.y2, s.z2, {"hue":90});
+        // create_xyz("xyz", s.x2, s.y2+200, s.z2, {"hue":180});
+        // create_xyz("xyz", s.x2+140, s.y2+140, s.z2+200, {"hue":135});
+
+        let steps = 12;
+        let degs = 360 / steps;
+        let degs2 = 180 / steps;
+        let r = 200;
+        for(let i = 0; i < steps; i++){
+            let yDeg = i * degs + (degs / 2);
+            let xy = CSSAngleToXY(yDeg);
+            let r2 = xy.x * r;
+            for(let j = 0; j < steps; j++){
+                let xDegs = j*degs2
+                let xz = CSSAngleToXY(xDegs);
+                let x = xz.x * r2 + s.x2;
+                let y = xy.y * r + s.y2;
+                let z = xz.y * r2 + s.z2;
+                create_xyz2("xyz", x, y, z, {"hue":yDeg});
+            }
+        }
+    }
+    var cube_dots = [
+        {z:0,y:0,x:0},
+        {z:0,y:0,x:12},
+        {z:0,y:12,x:12},
+        {z:0,y:12,x:0},
+
+        {z:12,y:12,x:0},
+        {z:12,y:12,x:12},
+        {z:12,y:0,x:12},
+        {z:12,y:0,x:0},
+
+        {z:8,y:4,x:4},
+        {z:8,y:4,x:8},
+        {z:8,y:8,x:8},
+        {z:8,y:8,x:4},
+
+        {z:4,y:8,x:4},
+        {z:4,y:8,x:8},
+        {z:4,y:4,x:8},
+        {z:4,y:4,x:4},
+
+        {z:0,y:0,x:0},
+    ];
+    // var cube_dots = [
+    //     {z:0,y:0,x:0},
+    //     {z:0,y:0,x:12},
+    //     {z:0,y:12,x:12},
+    //     {z:0,y:0,x:10},
+    //     {z:0,y:12,x:8},
+    //     {z:0,y:0,x:6},
+    //     {z:0,y:12,x:4},
+    //     {z:0,y:0,x:2},
+    //     {z:0,y:12,x:0},
+    //     {z:0,y:0,x:0},
+    // ];
+    function start(){
+        // canvas.addEventListener("touchstart", handleStart, false);
+        // canvas.addEventListener("touchend", handleEnd, false);
+        // canvas.addEventListener("touchcancel", handleCancel, false);
+        // canvas.addEventListener("touchmove", handleMove, false);
+        canvas["canvas-draw"].addEventListener("touchstart", handleStart, false);
+        canvas["canvas-draw"].addEventListener("touchend", handleEnd, false);
+        canvas["canvas-draw"].addEventListener("touchcancel", handleCancel, false);
+        canvas["canvas-draw"].addEventListener("touchmove", handleMove, false);
+
+        pg["xyz"] = [];
+        // create_xyz2("xyz", s.x2, s.y2, s.z2, {"sat":0});
+
+        cube_dots.forEach(e => {
+            let x = e.x * 25 - 150 + s.x2;
+            let y = e.y * 25 - 150 + s.y2;
+            let z = e.z * 25 - 150 + s.z2;
+            // let hue = (e.x + e.y + e.z) * 10;
+            let hue = (pg["xyz"].length * 15) % 360;
+            // create_xyz2("xyz", x, y, z, {"hue":hue});
+            create_xyz3("xyz", x, y, z, {"hue":hue});
+        });
+
+        // let steps = 12;
+        // let degs = 360 / steps;
+        // let degs2 = 180 / steps;
+        // let r = 200;
+        // for(let i = 0; i < steps; i++){
+        //     let yDeg = i * degs + (degs / 2);
+        //     let xy = CSSAngleToXY(yDeg);
+        //     let r2 = xy.x * r;
+        //     for(let j = 0; j < steps; j++){
+        //         let xDegs = j*degs2
+        //         let xz = CSSAngleToXY(xDegs);
+        //         let x = xz.x * r2 + s.x2;
+        //         let y = xy.y * r + s.y2;
+        //         let z = xz.y * r2 + s.z2;
+        //         create_xyz2("xyz", x, y, z, {"hue":yDeg});
+        //     }
+        // }
+    }
+
+
+    var currentFunction = "rule";
+    var currentRule = "ab";
+    const rules = {
+        "ab": [
+            {"a": "1", "b": "1", "g": 0.05, "r": 30},
+            {"a": "2", "b": "2", "g": 0.05, "r": 30},
+            {"a": "3", "b": "3", "g": 0.05, "r": 30},
+            {"a": "4", "b": "4", "g": 0.05, "r": 30},
+        ],
+        "part": [
+            {a: "1", b: "1", g: 0.5, r: 50},
+            {a: "1", b: "1", g: -0.15, r: 150},
+            {a: "2", b: "2", g: 0.5, r: 50},
+            {a: "2", b: "2", g: -0.15, r: 150},
+            {a: "3", b: "3", g: 0.5, r: 50},
+            {a: "3", b: "3", g: -0.15, r: 150},
+            {a: "4", b: "4", g: 0.5, r: 50},
+            {a: "4", b: "4", g: -0.15, r: 150},
+        ],
+    }
+    function update(){
+        if(!s.q && !s.pause){
+            /* ─ Calculate Part ─ */
+            // rules[currentRule].forEach(e => {
+            //     pr[currentFunction](pg[e.a], pg[e.b], e.g, e.r);
+            // });
+            // pr["walls"](particles, 1, 0);
+            // pr["walls"](particles, .25, 15);
+
+            
+            for(let i = 0; i < particles.length; i++){particles[i].update();}
+            // particles.sort((a,b) => a.z - b.z);
+            particles.sort((a,b) => b.z - a.z);
+
+            // Object.keys(gs).forEach(k=>{
+            //     // // DrawFuseLine(ctx["canvas-draw"],pg[k]);
+            //     // // DrawFuse(ctx["canvas-draw"],pg[k],500);
+            //     // // DrawFuseZ(ctx["canvas-draw"],pg[k],1200);
+            //     // // DrawFuseZ(ctx["canvas-draw"],pg[k],500);
+            //     // DrawParticleLine(ctx["canvas-draw"],pg[k],200);
+            // });
+
+            /* ─ Draw Part ─ */
+            // clearCanvas();
+            clearCanvas(ctx["canvas-draw"]);
+            for(let i = 0; i<particles.length; i++){
+                const e = particles[i];
+                // draw_e(ctx,particles[i]);
+                // draw_z(ctx,particles[i]);
+                e.drawZ(ctx["canvas-draw"]);
+                // // DrawParticleLineZ(ctx,e,pg[e.type],100);
+                // DrawPtoPrevLine(ctx["canvas-draw"], e);
+                DrawPtoPrevLine3(ctx["canvas-draw"], e);
+            }
+        }
+        setTimeout(() => {
+            requestAnimationFrame(update);
+        }, s.timeOut)
+    }
+    function clearCanvas(ctx = ctx["canvas-draw"], bg="#0000"){
+        ctx.clearRect(0,0,s.w,s.h);
+        ctx.fillStyle = bg;
+        ctx.fillRect(0,0,s.w,s.h);
+    }
+    // function clearCanvas(){
+    //     ctx.clearRect(0,0,s.w,s.h);
+    //     ctx.fillStyle = "#000";
+    //     ctx.fillRect(0,0,s.w,s.h);
+    // }
+    function reset(){
+        // pile = BuildGridArr(s.cube.xlen,s.cube.ylen);
+        // grid = BuildGridFlow(s.cube.xlen,s.cube.ylen);
+
+        // Code goes here.
+        // clearCanvas(ctx["canvas-grid"],"#000");
+        // DrawGridPlane(ctx["canvas-grid"]);
+        // DrawXY(ctx["canvas-grid"]);
+        
+        clearCanvas(ctx["canvas-grid"]);
+        clearCanvas(ctx["canvas-draw"]);
+    }
+
+    /* ─── Rotate ─── */
+    function rotateX(add = 15){
+        particles.forEach(p=>{
+            let x = p.x - s.x2;
+            let y = p.y - s.y2;
+            let z = p.z - s.z2;
+            let h = Math.sqrt(z*z+y*y);
+            let angle = XYtoCSSAngle(z,y);
+            let zy = CSSAngleToXY(angle + add);
+            p.z = zy.x*h + s.z2;
+            p.y = zy.y*h + s.y2;
+        });
+    }
+    function rotateY(add = 15){
+        particles.forEach(p=>{
+            let x = p.x - s.x2;
+            let y = p.y - s.y2;
+            let z = p.z - s.z2;
+            let h = Math.sqrt(x*x+z*z);
+            let angle = XYtoCSSAngle(x,z);
+            let xz = CSSAngleToXY(angle + add);
+            p.x = xz.x*h + s.x2;
+            p.z = xz.y*h + s.z2;
+        });
+    }
+    function rotateZ(add = 15){
+        particles.forEach(p=>{
+            let x = p.x - s.x2;
+            let y = p.y - s.y2;
+            let z = p.z - s.z2;
+            let h = Math.sqrt(x*x+y*y);
+            let angle = XYtoCSSAngle(x,y);
+            let xy = CSSAngleToXY(angle + add);
+            p.x = xy.x*h + s.x2;
+            p.y = xy.y*h + s.y2;
+        });
+    }
+
+    /* ─── Events ─── */
+    function updateSettings1(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+
+        /* ─ Center of Screen ─ */
+        s.x2 = s.w/2;
+        s.y2 = s.h/2;
+        s.z2 = s.w/2;
+
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        s.canvas.z = (s.h + s.w)/2;
+
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
+
+        /* ─ Box ─ */
+        /* resize box for mobile */
+        if(s.h < s.box.y) {s.box.y = s.h;}
+        if(s.w < s.box.x) {s.box.x = s.w;}
+        s.box.z = (s.box.y + s.box.x)/2;
+
+        /* center box */
+        s.box.top = (s.h - s.box.y)/2;
+        s.box.left = (s.w - s.box.x)/2;
+
+        /* determine center */
+        s.box.x2 = s.box.left + (s.box.x / 2);
+        s.box.y2 = s.box.top + (s.box.y / 2);
+        s.box.z2 = (s.box.z / 2);
+
+        /* ─ Grid ─ */
+        s.grid.cols = Math.floor(s.w / s.tile.w);
+        s.grid.rows = Math.floor(s.h / s.tile.h);
+
+        /* ─ Canvas Update ─ */
+        canvas.width = s.canvas.x;
+        canvas.height = s.canvas.y;
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+    }
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+
+        s.z = s.w;
+        // s.z = Math.min(s.w,s.h);
+        s.x2 = s.w/2;
+        s.y2 = s.h/2;
+        s.z2 = s.z/2;
+
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        // s.canvas.z = (s.h + s.w)/2;
+        s.canvas.z = s.w;
+        s.canvas.zp = s.canvas.z + s.canvas.p;
+        // s.canvas.z = Math.min(s.w,s.h);
+
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
+
+        /* ─ Box ─ */
+        /* resize box for mobile */
+        if(s.h < s.box.y) {s.box.y = s.h;}
+        if(s.w < s.box.x) {s.box.x = s.w;}
+        s.box.z = (s.box.y + s.box.x)/2;
+
+        /* position box */
+        s.box.top = (s.h - s.box.y)/2;
+        s.box.left = (s.w - s.box.x)/2;
+
+        /* determine center */
+        s.box.x2 = s.box.left + (s.box.x / 2);
+        s.box.y2 = s.box.top + (s.box.y / 2);
+        s.box.z2 = (s.box.z / 2);
+
+        /* ─ Cube ─ */
+        s.cube.xlen = window.innerWidth / s.cube.sz;
+        s.cube.ylen = window.innerHeight / s.cube.sz;
+        // s.cube.zlen = s.dim / s.cube.sz;
+        s.cube.zlen = s.cube.xlen;
+        // s.cube.zlen = Math.min(s.cube.xlen, s.cube.ylen);
+
+        /* ─ Grid ─ */
+        s.grid.cols = Math.floor(s.w / s.tile.w);
+        s.grid.rows = Math.floor(s.h / s.tile.h);
+
+        ScreenAndSpace();
+    //     /* ─ Log ─ */
+    //     console.log(`s.w: ${s.w}, s.h: ${s.h}`);
+    //     console.log(`
+    // [window]
+    //     s.w: ${s.w}, 
+    //     s.h: ${s.h},
+    //     s.dim: ${s.dim.toFixed(2)},
+
+    // [canvas]
+    //     s.canvas.x: ${s.canvas.x},
+    //     s.canvas.y: ${s.canvas.y},
+    //     s.canvas.z: ${s.canvas.z},
+
+    //     s.canvas.x2: ${s.canvas.x2},
+    //     s.canvas.y2: ${s.canvas.y2},
+    //     s.canvas.z2: ${s.canvas.z2},
+
+    // [box]
+    //     s.box.x: ${s.box.x},
+    //     s.box.y: ${s.box.y},
+    //     s.box.z: ${s.box.z},
+
+    //     s.box.x2: ${s.box.x2},
+    //     s.box.y2: ${s.box.y2},
+    //     s.box.z2: ${s.box.z2},
+
+    // [cube]
+    //     s.cube.xlen: ${s.cube.xlen},
+    //     s.cube.ylen: ${s.cube.ylen},
+    //     s.cube.zlen: ${s.cube.zlen},
+    //     `);
+
+        /* ─ Canvas Update ─ */
+        layers.forEach(key => {
+            canvas[key].width = window.innerWidth;
+            canvas[key].height = window.innerHeight;
+            ctx[key].clearRect(0,0,canvas[key].width, canvas[key].height);
+        });
+
+        reset();
+    }
+    function ScreenAndSpace(){
+        /* ─ Log ─ */
+        console.log(`s.w: ${s.w}, s.h: ${s.h}`);
+        console.log(`
+    [window]
+        s.w: ${s.w}, →
+        s.h: ${s.h}, ↓
+        s.dim: ${s.dim.toFixed(2)}, ⇱ ⇲
+
+    [canvas]
+        s.canvas.x: ${s.canvas.x}, →
+        s.canvas.y: ${s.canvas.y}, ↓
+        s.canvas.z: ${s.canvas.z}, ↗
+
+        s.canvas.x2: ${s.canvas.x2},
+        s.canvas.y2: ${s.canvas.y2},
+        s.canvas.z2: ${s.canvas.z2},
+
+    [box]
+        s.box.x: ${s.box.x}, ⥏⥑
+        s.box.y: ${s.box.y}, ⥐
+        s.box.z: ${s.box.z}, ⥎
+
+        s.box.x2: ${s.box.x2},
+        s.box.y2: ${s.box.y2},
+        s.box.z2: ${s.box.z2},
+
+    [cube]
+        s.cube.xlen: ${s.cube.xlen},
+        s.cube.ylen: ${s.cube.ylen},
+        s.cube.zlen: ${s.cube.zlen},
+        `);
+    }
+    window.addEventListener('resize', () =>{
+        updateSettings();
+    });
+    window.addEventListener("keydown", function (event) {
+        // if(event.key == 'Escape') {q();}
+        // if(s.q){console.log(`→ %ckey: %c${event.key}%c | keyCode: %c${event.keyCode}`, logSty.c, logSty.keyStyle, logSty.c, logSty.keyCodeStyle);}
+        if(!s.q){
+            // if(event.key == ' ' || event.key == 'Enter') {pause();}
+            // if(event.key == '`') {openS();}
+            // // if(event.key == 'CapsLock') {lockKeys();}
+            // if(event.key == 'CapsLock') {s.lockKeys = !s.lockKeys;}
+            // if(!s.lockKeys){
+            //     if(event.key == 'l' || event.key == 'L') {toggleLog();}
+            //     // if(event.key == 'i' || event.key == 'I') {toggleTags();}
+            //     // if(event.key == 'w' || event.key == 'W') {openW();}
+            // }
+
+            // if(event.key == '8') {rotateX(45);}
+            // if(event.key == '2') {rotateX(-45);}
+            // if(event.key == '6') {rotateY(45);}
+            // if(event.key == '4') {rotateY(-45);}
+            // if(event.key == '9') {rotateZ(45);}
+            // if(event.key == '7') {rotateZ(-45);}
+            /*
+            key: 8 = keyCode: '104';
+            key: 2 = keyCode: '98';
+            key: 6 = keyCode: '102';
+            key: 4 = keyCode: '100';
+            key: 9 = keyCode: '105';
+            key: 7 = keyCode: '103';
+            
+            key: 0 = keyCode: '96';
+            key: 1 = keyCode: '97';
+            key: 3 = keyCode: '99';
+            key: 5 = keyCode: '101';
+
+            key: + = keyCode: '109';
+            key: - = keyCode: '107';
+            */
+
+            // if(event.keyCode == '104') {rotateX(1 * s.rotate.degs);}
+            // if(event.keyCode == '98') {rotateX(-1 * s.rotate.degs);}
+            // if(event.keyCode == '102') {rotateY(1 * s.rotate.degs);}
+            // if(event.keyCode == '100') {rotateY(-1 * s.rotate.degs);}
+            // if(event.keyCode == '105') {rotateZ(1 * s.rotate.degs);}
+            // if(event.keyCode == '103') {rotateZ(-1 * s.rotate.degs);}
+            if(event.keyCode == '104') {rotateX(-1 * s.rotate.degs);}
+            if(event.keyCode == '98') {rotateX(1 * s.rotate.degs);}
+            if(event.keyCode == '102') {rotateY(-1 * s.rotate.degs);}
+            if(event.keyCode == '100') {rotateY(1 * s.rotate.degs);}
+            if(event.keyCode == '105') {rotateZ(1 * s.rotate.degs);}
+            if(event.keyCode == '103') {rotateZ(-1 * s.rotate.degs);}
+
+            // if(event.keyCode == '109') {s.rotate.degs += 5;}
+            // if(event.keyCode == '107') {s.rotate.degs -= 5;}
+            if(event.keyCode == '109') {
+                if(s.rotate.degs < 180) {
+                    s.rotate.degs += 5;
+                }
+            }
+            if(event.keyCode == '107') {
+                if(s.rotate.degs > 5) {
+                    s.rotate.degs -= 5;
+                }
+            }
+        }
+    });
+
+    /* ─── Event Handlers ─── */
+    var previousTouchEvent = '';
+    var ongoingTouches = [];
+    function copyTouch({ identifier, pageX, pageY }) {
+        return { identifier, pageX, pageY };
+    }
+    function ongoingTouchIndexById(idToFind) {
+        for (var i = 0; i < ongoingTouches.length; i++) {
+            var id = ongoingTouches[i].identifier;
+            if (id == idToFind) {
+                return i;
+            }
+        }
+        return -1;  // not found
+    }
+    function handleStart(ev) {
+        // console.log("touchstart.");
+        previousTouchEvent = "touchstart";
+        s.touch.tracking = true;
+        ev.preventDefault();
+        var touches = ev.changedTouches;
+        for (var i = 0; i < touches.length; i++) {
+            ongoingTouches.push(copyTouch(touches[i]));
+            
+            var idx = ongoingTouchIndexById(touches[i].identifier);
+            rotationStart(idx,ongoingTouches[idx].pageX,ongoingTouches[idx].pageY);
+            // if(s.view.idx == -1){s.view.idx = idx;}
+            // if(s.view.idx == idx){
+            //     rotationStart(ongoingTouches[idx].pageX,ongoingTouches[idx].pageY);
+            // }
+        }
+    }
+    function handleMove(ev) {
+        // console.log("touchmove.");
+        previousTouchEvent = "touchmove";
+        ev.preventDefault();
+        var touches = ev.changedTouches;
+        // console.log(touches);
+        let x = {};
+        let y = {};
+        for (var i = 0; i < touches.length; i++) {
+            var idx = ongoingTouchIndexById(touches[i].identifier);
+            if (idx >= 0) {
+
+                rotationMove(idx,ongoingTouches[idx].pageX,ongoingTouches[idx].pageY);
+
+                /* up to 6 fingers. */
+                // if(i < 6){
+                //     // console.log(`i:${i}, idx:${idx}`);
+                //     /* Adding the touches to the paths list. */
+                //     if(!Object.keys(s.touch.paths).includes(`${idx}`)){s.touch.paths[idx] = [];}
+                //     x[idx] = ongoingTouches[idx].pageX;
+                //     y[idx] = ongoingTouches[idx].pageY;
+                //     // console.log(`x:${x[idx]}, y:${y[idx]}`);
+                //     // console.log(`s.touch.paths[${idx}].length: ${s.touch.paths[idx].length};`);
+                //     if(s.touch.paths[idx].length > s.touch.path_len){s.touch.paths[idx].shift();}
+                //     s.touch.paths[idx].push({"x": x[idx], "y": y[idx]});
+                //     /* (End of) Adding the touches to the paths list. */
+
+                //     updateGrid(s.touch.paths[idx],s.grid.cols,s.grid.rows);
+                //     // updateGrid(wind_grid,s.touch.paths[idx]);
+                //     updateGridFlow(s.touch.paths[idx],flow.pile,flow.grid);
+                // }
+
+                ongoingTouches.splice(idx, 1, copyTouch(touches[i])); // swap in the new touch record
+            } else {
+                console.log("can't figure out which touch to continue");
+            }
+        }
+    }
+    function handleEnd(ev) {
+        // console.log("touchend.");
+        ev.preventDefault();
+        var touches = ev.changedTouches;
+        if(previousTouchEvent == "touchstart") {
+            for (var i = 0; i < touches.length; i++) {
+                var idx = ongoingTouchIndexById(touches[i].identifier);
+                if (idx >= 0) {
+                    x = ongoingTouches[idx].pageX;
+                    y = ongoingTouches[idx].pageY;
+                    // pulseAt(x,y);
+                } else {
+                    console.log("can't figure out which touch to end");
+                }
+            }
+        }
+        previousTouchEvent = "touchend";
+        for (var i = 0; i < touches.length; i++) {
+            var idx = ongoingTouchIndexById(touches[i].identifier);
+            if (idx >= 0) {
+                ongoingTouches.splice(idx, 1);  // remove it; we're done
+                if(Object.keys(s.touch.paths).includes(idx)){
+                    s.touch.paths[idx] = [];
+                }
+                s.touch.tracking = false;
+                rotationEnd(idx);
+            } else {
+                console.log("can't figure out which touch to end");
+            }
+        }
+    }
+    function handleCancel(ev) {
+        console.log("touchcancel.");
+        ev.preventDefault();
+        var touches = ev.changedTouches;
+        for (var i = 0; i < touches.length; i++) {
+            var idx = ongoingTouchIndexById(touches[i].identifier);
+            ongoingTouches.splice(idx, 1);  // remove it; we're done
+            s.touch.tracking = false;
+            rotationEnd(idx);
+        }
+    }
+    
+    function rotationStart(idx,x,y){
+        if(s.view.idx == -1){s.view.idx = idx;}
+        if(s.view.idx == idx){
+            s.view.x = x;
+            s.view.y = y;
+        }
+    }
+    function rotationMove(idx,x,y){
+        if(s.view.idx == idx){
+            // let dx = x - s.view.x;
+            // let dy = y - s.view.y;
+            let dx = s.view.x - x;
+            let dy = s.view.y - y;
+            
+            // let r = s.z2;
+            // let rx = Math.round(dx % 360);
+            // let ry = Math.round(dy % 360);
+            
+            // rotateX(ry);
+            // rotateY(rx * -1);
+
+            // rotateX(dy);
+            // rotateY(dx * -1);
+
+            s.rotating.xdegs = dy;
+            s.rotating.ydegs = dx * -1;
+
+            // s.view.x += dx;
+            // s.view.y += dy;
+        }
+    }
+    function rotationEnd(idx){
+        if(s.view.idx == idx){
+            s.view.idx = -1;
+            s.view.x = -1;
+            s.view.y = -1;
+            s.rotating.xdegs = 0;
+            s.rotating.ydegs = 0;
+        }
+    }
+
+    
+
+    
+    var zyx = {
+        '0,0,0': {z:0,y:0,x:0},
+        '0,0,1': {z:0,y:0,x:1},
+        '0,1,0': {z:0,y:1,x:0},
+        '0,1,1': {z:0,y:1,x:1},
+        '1,0,0': {z:1,y:0,x:0},
+        '1,0,1': {z:1,y:0,x:1},
+        '1,1,0': {z:1,y:1,x:0},
+        '1,1,1': {z:1,y:1,x:1},
+    }
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        updateSettings();
+        start();
+        update();
+
+        // let mySolid = new solid();
+        // mySolid.setVertex({'':{}})
+    });
+    /* Version Log:
+    [index-nds-00]: Default Canvas Template. (Displays a view of a cube.)
+    [index-nds-01]: 
+    [index-nds-02]: 
+    [index-nds-03]: 
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
+    [index-nds-07]: 
+    [index-nds-08]: 
+    [index-nds-09]: 
+    [index-nds-10]: 
+    [index-nds-11]: 
+    [index-nds-12]: 
+    
+    */
+    function CSSAngleToXY(angle){
+        angle = (angle+270)%360;
+        let rad = angle * Math.PI / 180;
+        let xy = {"x":0,"y":0};
+        if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+        if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+        return xy;
+    }
+    function XYtoCSSAngle(x,y){
+        let angle = 90;
+        if(x == 0){
+            if(y > 0) {return 180;}
+            if(y < 0) {return 0;}
+        }
+        if(x < 0) { angle += 180; }
+        if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
+        return angle;
+    }
+
+    function randomXYZ(){
+        let x = Math.random()*s.canvas.x;
+        let y = Math.random()*s.canvas.y;
+        let z = Math.random()*s.canvas.z;
+        return {'x':x, 'y':y, 'z':z};
+    }
+    function randomXY(){
+        let x = Math.random()*s.canvas.x;
+        let y = Math.random()*s.canvas.y;
+        return {'x':x, 'y':y};
+    }
+
+    window.addEventListener('click', (ev) => {
+        let x = ev.pageX;
+        let y = ev.pageY;
+        // let xtile = Math.floor(x / s.cube.sz);
+        // let ytile = Math.floor(y / s.cube.sz);
+        // console.log(`(${x},${y}) → tile-x: ${xtile}, tile-y: ${ytile}`);
+        // // pulseAt(x,y);
+        toCenter(x,y);
+    });
+    function toCenter(x,y,z=0){
+        let xo = x - s.canvas.x2;
+        let yo = y - s.canvas.y2;
+        let zo = z - s.canvas.z2;
+        let ro = Math.sqrt(xo*xo + yo*yo);
+        console.log(`x: ${(xo).toFixed(2)}, y: ${(yo).toFixed(2)}, r: ${(ro).toFixed(2)}`);
+
+
+    }
+
+/*
+// function rotationStart(x,y){}
+// function rotationMove(x,y){}
+// function rotationEnd(){}
+rotating with touch.
+start by saving the start location of where the touch starts.
+save the idx for that touch, so it only follows that finger.
+
+then, 
+when moved, 
+    subtract the difference,
+    and add the rotation.
+
+then, 
+when touch ends,
+    refresh the touches idx and the location to -1.
+
+(♦) if two fingers, 
+then create a center between them. (this is the location.)
+then save the location of the fingers 
+    (respective to the center) 
+    and their distance.
+
+
+
+
+*/
+/*
+    vertex[z][y][x];
+    0: [[0][1][2]]
+    1: [[0][1][2]]
+    2: [[0][1][2]]
+
+    [0,0],[0,1],[0,2],
+    [1,0],[1,1],[1,2],
+    [2,0],[2,1],[2,2],
+
+    [0,0,0] [0,0,0] [0,0,0]
+    [0,0,0] [0,0,0] [0,0,0]
+    [0,0,0] [0,0,0] [0,0,0]
+    [0,0,0] [0,0,0] [0,0,0]
+    [0,0,0] [0,0,0] [0,0,0]
+    [0,0,0] [0,0,0] [0,0,0]
+    [0,0,0] [0,0,0] [0,0,0]
+    [0,0,0] [0,0,0] [0,0,0]
+    [0,0,0] [0,0,0] [0,0,0]
+
+...[•,•]─────[•,•]
+..../│        /│
+.../ │       / │
+[•,•]┼────[•,•]│
+..│  │      │  │
+..│[0,0]────┼[0,1]
+..│ /       │ /
+..│/        │/
+[1,0]─────[1,1]
+    
+
+    '0,0,0': {x:0,y:0,z:0},
+    '0,0,1': {x:0,y:0,z:0},
+    '0,1,0': {x:0,y:0,z:0},
+    '0,1,1': {x:0,y:0,z:0},
+
+.   [1,0,0]────────[1,0,1]
+.     /│             /│
+.    / │            / │
+.   /  │           /  │
+[1,1,0]┼───────[1,1,1]│
+.  │   │          │   │
+.  │   │          │   │
+.  │[0,0,0]───────┼[0,0,1]
+.  │  /           │  /
+.  │ /            │ /
+.  │/             │/
+[0,1,0]────────[0,1,1]
+
+'0,0,0': {z:0,y:0,x:0},
+'0,0,1': {z:0,y:0,x:1},
+'0,1,0': {z:0,y:1,x:0},
+'0,1,1': {z:0,y:1,x:1},
+'1,0,0': {z:1,y:0,x:0},
+'1,0,1': {z:1,y:0,x:1},
+'1,1,0': {z:1,y:1,x:0},
+'1,1,1': {z:1,y:1,x:1},
+
+
+.     [4]────────────[5]
+.     /│             /│
+.    / │            / │
+.   /  │           /  │
+. [6]──┼─────────[7]  │
+.  │   │          │   │
+.  │   │          │   │
+.  │  [0]─────────┼──[1]
+.  │  /           │  /
+.  │ /            │ /
+.  │/             │/
+. [2]────────────[3]
+
+[0,1,2,3],[4,5,6,7],
+[0,1,4,5],[2,3,6,7],
+[0,2,4,6],[1,3,5,7]
+
+'0': {z:0,y:0,x:0},
+'1': {z:0,y:0,x:1},
+'2': {z:0,y:1,x:0},
+'3': {z:0,y:1,x:1},
+'4': {z:1,y:0,x:0},
+'5': {z:1,y:0,x:1},
+'6': {z:1,y:1,x:0},
+'7': {z:1,y:1,x:1},
+
+'z0':[0,1,2,3],
+'z1':[4,5,6,7],
+'y0':[0,1,4,5],
+'y1':[2,3,6,7],
+'x0':[0,2,4,6],
+'x1':[1,3,5,7]
+
+*/
+
+/*
+{a = object.}
+{c = camera. / later replaced by cosines.}
+{θ = the orientation of the camera.}
+{d = result.}
+
+let x = a.x - c.x;
+let y = a.y - c.y;
+let z = a.z - c.z;
+let c = {x:Math.cos(θ.x), y:Math.cos(θ.y), z:Math.cos(θ.z)};
+let s = {x:Math.sin(θ.x), y:Math.sin(θ.y), z:Math.sin(θ.z)};
+
+
+// d.x = c.y * (s.z * y + c.z * x) - s.y * z;
+// d.y = s.x * (c.y * z + s.y * (s.z * y + c.z * x)) + c.x * (c.z * y - s.z * x);
+// d.z = c.x * (c.y * z + s.y * (s.z * y + c.z * x)) - s.x * (c.z * y - s.z * x);
+
+
+let szy_czx = (s.z * y + c.z * x);
+let czy_szx = (c.z * y - s.z * x);
+let cyz_y__szy_czx = (c.y * z + s.y * (s.z * y + c.z * x));
+
+d.x = c.y * szy_czx - s.y * z;
+d.y = s.x * cyz_y__szy_czx + c.x * czy_szx;
+d.z = c.x * cyz_y__szy_czx - s.x * czy_szx;
+
+*/
+</script>
+</body>
+</html>
