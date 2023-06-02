@@ -20,14 +20,14 @@
     <style>
         [id*="canvas"] {
             background-color: #0000;
-            --blur: 2px;
+            --blur: 3px;
             /* filter: blur(8px); */
             /* filter: blur(var(--blur)); */
             /* filter: blur(var(--blur)) url(#quid-50_20); */
-            filter: blur(var(--blur)) url(#quid-10_5);
+            /* filter: blur(var(--blur)) url(#quid-10_5); */
             /* filter: blur(var(--blur)) url(#quid-20_10); */
             /* filter: blur(var(--blur)) url(#quid-50_30); */
-            /* filter: blur(var(--blur)) url(#quid); */
+            filter: blur(var(--blur)) url(#quid);
         }
     </style>
 <style>
@@ -359,7 +359,7 @@
             this.x = x;
             this.y = y;
             this.c = c;
-            this.s = 32;
+            this.s = 24;
             this.vx = vx;
             this.vy = vy;
             this.vz = 0;
