@@ -20,7 +20,7 @@
     <style>
         [id*="canvas"] {
             background-color: #0000;
-            --blur: 3px;
+            --blur: 2px;
             /* filter: blur(8px); */
             /* filter: blur(var(--blur)); */
             /* filter: blur(var(--blur)) url(#quid-50_20); */
@@ -152,7 +152,7 @@
         <h4 class="shelf-title">experiment</h4>
     </div> -->
     <canvas id="canvas"></canvas>
-    <div class="box"></div>
+    <!-- <div class="box"></div> -->
     <!-- <div class="sun"></div> -->
 </main>
 
@@ -359,7 +359,7 @@
             this.x = x;
             this.y = y;
             this.c = c;
-            this.s = 8;
+            this.s = 12;
             this.vx = vx;
             this.vy = vy;
             this.vz = 0;
@@ -404,7 +404,8 @@
             // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .75)`;
             // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.lum}%)`;
             // this.alp = Math.abs(this.heat) * .9 + 10;
-            this.alp = Math.abs(this.heat);
+            // this.alp = Math.abs(this.heat);
+            this.alp = Math.abs(this.heat) * .8 + 20;
             this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.alp}%)`;
             return this.c;
         }
@@ -419,6 +420,25 @@
         return {'x':x, 'y':y};
     }
 
+
+    function createOrbit4(n,h=0,a=-1,r=100){
+        let group = [];
+        for(let i = 0; i < n; i++){
+            // let a = Math.random()*360;
+            let angle = a;
+            if(a < 0){angle = Math.floor(Math.random()*360);}
+            // let xy = AngleToXY(Math.floor(Math.random()*360));
+            let xy = AngleToXY(angle + 45);
+            let x = xy.x * r + s.canvas.left + s.canvas.w/2;
+            let y = xy.y * r + s.canvas.top + s.canvas.h/2;
+            let vxy = AngleToXY(angle);
+            let vx = vxy.x * .7;
+            let vy = vxy.y * .7;
+            group.push(new p3(particles.length,x,y,h,vx,vy));
+            particles.push(group[i]);
+        }
+        return group;
+    }
     function createOrbit3(n,h=0,a=-1,r=100){
         let group = [];
         for(let i = 0; i < n; i++){
@@ -885,6 +905,120 @@
             if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
         }
     }
+    function heat7(list1, list2, g = 0, r = 100){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fh = 0;
+            if(a.heat > 0) {a.heat -= (a.heat/100);}
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                // let dh = a.heat - b.heat;
+                let dh = b.heat - a.heat;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > 0 && d < r){
+                    // let force = g * 1/d;
+                    let hf = g * (50 - a.heat) / 25;
+                    let hg = g + hf;
+                    let force = hg * 1/d;
+
+                    fx += (force * dx);
+                    fy += (force * dy);
+                    fh += dh * 1/d;
+                }
+            }
+            a.vx = (a.vx + fx) * .98;
+            a.vy = (a.vy + fy) * .98;
+            a.x += a.vx;
+            a.y += a.vy;
+            
+            a.vh = (a.vh + fh) * 0.20;
+            a.heat += a.vh;
+            if(a.heat > 100){a.heat = 100;}
+            // if(a.heat < -300){a.heat = -300;}
+            if(a.heat < MaxNegativeHeat) {
+                MaxNegativeHeat = a.heat;
+                console.log(`#${a.id}: ${a.heat}`);
+            }
+
+            /* ─pushes back from border─ */
+            // if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
+            // if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
+            if(a.x <= 0 || a.x >= s.w || a.y <= 0 || a.y >= s.h){
+                // console.log(`#${a.id}: (${a.x},${a.y})`);
+                a.x = Math.random()*(s.w/2) + (s.w/4);
+                a.y = Math.random()*(s.h/2) + (s.h/4);
+                // console.log(` → #${a.id}: (${a.x},${a.y})`);
+            }
+        }
+    }
+    var MaxNegativeHeat = 0;
+    function Calc_GravityAndHeat(list1, list2, g = 0, r = 100){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fh = 0;
+            if(a.heat > 0) {a.heat -= (a.heat/100);}
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                // let dh = a.heat - b.heat;
+                let dh = b.heat - a.heat;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > 0 && d < r){
+                    // let force = g * 1/d;
+                    let hf = g * (50 - a.heat) / 25;
+                    let hg = g + hf;
+                    let force = hg * 1/d;
+
+                    fx += (force * dx);
+                    fy += (force * dy);
+                    fh += dh * 1/d;
+                }
+            }
+            a.vx = (a.vx + fx) * .98;
+            a.vy = (a.vy + fy) * .98;
+            // a.x += a.vx;
+            // a.y += a.vy;
+            
+            a.vh = (a.vh + fh) * 0.10;
+            // a.heat += a.vh;
+            // if(a.heat > 100){a.heat = 100;}
+
+            /* ─pushes back from border─ */
+            // if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
+            // if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
+        }
+    }
+    function Act_GravityAndHeat(list1, list2, g = 0, r = 100){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+
+            // if(a.heat > 0) {a.heat -= (a.heat/100);}
+            
+            a.x += a.vx;
+            a.y += a.vy;
+
+            a.heat += a.vh;
+            if(a.heat > 100){a.heat = 100;}
+
+            /* ─pushes back from border─ */
+            // if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
+            // if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
+            
+            // if(a.x <= 0 || a.x >= s.canvas.w || a.y <= 0 || a.y >= s.canvas.h){
+            //     a.x = 100;
+            //     a.y = 100;
+            // }
+
+        }
+    }
+
     const pg = {}
     function start(){
         // // pg["daor"] = createXY(1,"#f939", s.canvas.left+250, s.canvas.top+250);
@@ -904,8 +1038,11 @@
         
         // pg["e"] = createOrbit2(30, 0, -1, 150);
 
+        // pg["sun"] = createXY3(1, s.canvas.left+250, s.canvas.top+250, 100);
+        // pg["e"] = createOrbit3(360, 0, -1, 100);
+
         pg["sun"] = createXY3(1, s.canvas.left+250, s.canvas.top+250, 100);
-        pg["e"] = createOrbit3(360, 0, -1, 100);
+        pg["e"] = createOrbit4(400, 0, -1, 100);
     }
     // start();
 
@@ -936,9 +1073,28 @@
             // orbit(pg["e"], pg["sun"], -.005, 700);
             // heat5(pg["e"], pg["sun"], .005, 100);
 
-            heat6(pg["e"], pg["sun"], -.009, 700);
-            // orbit(pg["e"], pg["e"], .05, 10);
-            heat6(pg["e"], pg["e"], .05, 8);
+            // heat6(pg["e"], pg["sun"], -.009, 700);
+            // // heat6(pg["e"], pg["sun"], .1, 10);
+            // // orbit(pg["e"], pg["e"], .05, 10);
+            // heat6(pg["e"], pg["e"], .05, 8);
+            
+            // heat7(pg["e"], pg["sun"], -.009, 700);
+            // // heat7(pg["e"], pg["sun"], .09, 10);
+            // heat7(pg["e"], pg["e"], .05, 8);
+            // // heat7(pg["e"], pg["e"], -.002, 20);
+
+
+            // Calc_GravityAndHeat(pg["e"], pg["sun"], -.009, 9000);
+            // Act_GravityAndHeat(pg["e"], pg["sun"], -.009, 9000);
+            // Calc_GravityAndHeat(pg["e"], pg["e"], .05, 8);
+            // Act_GravityAndHeat(pg["e"], pg["e"], .05, 8);
+            heat7(pg["e"], pg["sun"], -.009, 50000);
+            // heat7(pg["e"], pg["sun"], .09, 10);
+            // heat7(pg["e"], pg["e"], .05, 5);
+            heat7(pg["e"], pg["e"], .025, 10);
+            heat7(pg["e"], pg["e"], -.002, 15);
+            // heat7(pg["e"], pg["e"], -.002, 25);
+
             
             /* ─Rest of Update()─ */
             // drawSquare(ctx,0,0,"#00000020",s.w,s.h);
@@ -946,7 +1102,8 @@
             // drawSquare(ctx,s.canvas.left,s.canvas.top,"black",s.canvas.w,s.canvas.h);
             // ctx.clearRect(s.canvas.left,s.canvas.top,s.canvas.w,s.canvas.h);
             // drawSquare(ctx,s.canvas.left,s.canvas.top,"#00000020",s.canvas.w,s.canvas.h);
-            ctx.clearRect(s.canvas.left,s.canvas.top,s.canvas.w,s.canvas.h);
+            // ctx.clearRect(s.canvas.left,s.canvas.top,s.canvas.w,s.canvas.h);
+            ctx.clearRect(0,0,s.w,s.h);
 
             for(let i = 0; i<particles.length; i++){
                 // // draw(ctx,particles[i].x,particles[i].y,particles[i].c,5);

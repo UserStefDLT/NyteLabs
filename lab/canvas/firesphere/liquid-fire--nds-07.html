@@ -20,11 +20,11 @@
     <style>
         [id*="canvas"] {
             background-color: #0000;
-            --blur: 3px;
+            --blur: 1px;
             /* filter: blur(8px); */
             /* filter: blur(var(--blur)); */
             /* filter: blur(var(--blur)) url(#quid-50_20); */
-            /* filter: blur(var(--blur)) url(#quid-10_5); */
+            filter: blur(var(--blur)) url(#quid-10_5);
             /* filter: blur(var(--blur)) url(#quid-20_10); */
             /* filter: blur(var(--blur)) url(#quid-50_30); */
             /* filter: blur(var(--blur)) url(#quid); */
@@ -938,7 +938,7 @@
 
             heat6(pg["e"], pg["sun"], -.009, 700);
             // orbit(pg["e"], pg["e"], .05, 10);
-            heat6(pg["e"], pg["e"], .05, 8);
+            heat6(pg["e"], pg["e"], .05, 5);
             
             /* ─Rest of Update()─ */
             // drawSquare(ctx,0,0,"#00000020",s.w,s.h);
