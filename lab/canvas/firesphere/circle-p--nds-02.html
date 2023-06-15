@@ -942,7 +942,7 @@
             this.hue = 210;
             this.sat = 100;
             this.lum = 50;
-            this.alp = 20;
+            this.alp = 50;
             if(Object.keys(clr).includes("hue")){this.hue = clr.hue;}
             if(Object.keys(clr).includes("sat")){this.sat = clr.sat;}
             if(Object.keys(clr).includes("lum")){this.lum = clr.lum;}
@@ -973,10 +973,7 @@
             this.lum = 100 - Math.abs(this.heat-50);
             // this.alp = Math.abs(this.heat);
             // this.alp = Math.abs(this.heat) * .8 + 20;
-            // this.color = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.alp}%)`;
-            let alp = this.alp;
-            if(this.heat < 0){alp = 80;}
-            this.color = `hsla(${this.hue}, 100%, ${this.lum}%, ${alp}%)`;
+            this.color = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.alp}%)`;
             return this.color;
         }
         update(){
@@ -1410,7 +1407,7 @@
             a.y += a.vy * scale.v;
             a.z += a.vz * scale.v;
 
-            a.vh = (a.vh + fh) * 0.35;
+            a.vh = (a.vh + fh) * 0.20;
             a.heat += a.vh;
             if(a.heat > 100){a.heat = 100;}
 
@@ -1589,7 +1586,7 @@
 
         pg["heat"] = [];
         // createOrbit3("heat",60,-1,200);
-        createOrbit4("heat",360,-1,180,0);
+        createOrbit4("heat",240,-1,200,0);
 
         // let steps = 12;
         // let degs = 360 / steps;
@@ -1648,7 +1645,7 @@
             // // pr["rule3d"](pg["heat"], pg["heat"], .5, 50);
             // pr["heat3d"](pg["heat"], pg["heat"], .5, 10);
             // pr["orbit3d"](pg["heat"], pg["sun"], -.009);
-            pr["heat3d"](pg["heat"], pg["sun"], -.009, 900);
+            pr["heat3d"](pg["heat"], pg["sun"], -.009, 300);
             pr["heat3d"](pg["heat"], pg["heat"], .05, 10);
             
             // heat6(pg["heat"], pg["sun"], -.009, 700);
