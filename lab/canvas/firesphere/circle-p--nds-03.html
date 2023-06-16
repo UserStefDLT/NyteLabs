@@ -931,7 +931,6 @@
 
             this.mass = 1;
             this.size = 12;
-            // this.size = 24;
             this.size_z = 5;
             this.range = 6;
             this.heat = h;
@@ -943,7 +942,7 @@
             this.hue = 210;
             this.sat = 100;
             this.lum = 50;
-            this.alp = 10;
+            this.alp = 20;
             if(Object.keys(clr).includes("hue")){this.hue = clr.hue;}
             if(Object.keys(clr).includes("sat")){this.sat = clr.sat;}
             if(Object.keys(clr).includes("lum")){this.lum = clr.lum;}
@@ -975,10 +974,8 @@
             // this.alp = Math.abs(this.heat);
             // this.alp = Math.abs(this.heat) * .8 + 20;
             // this.color = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.alp}%)`;
-            // let alp = this.alp;
-            let alp = Math.abs(this.heat) * .5 + 10;
+            let alp = this.alp;
             if(this.heat < 0){alp = 80;}
-            if(this.heat == 100){alp = 100;}
             this.color = `hsla(${this.hue}, 100%, ${this.lum}%, ${alp}%)`;
             return this.color;
         }
@@ -1247,12 +1244,7 @@
         "g": 1,
         "v": 1,
         "e": .5,
-        // "h": .3,
-        "h": .2,
     }
-    // var pheat_d = 25;
-    var pheat_d = 30;
-    var heatUpF = -0.005;
     pr["rule"] = function (list1, list2, g = 0, r = 100){
         for (let i = 0; i < list1.length; i++) {
             const a = list1[i];
@@ -1398,13 +1390,10 @@
                 if(d > 0 && d < r){
                     // let force = scale.g * g * 1/d;
                     // // let force = g * 1/d;
-                    // a.heat: 0 → 100;
-                    // hf: 50 → -50, (/25) 2 → -2;
                     let hf = g * (50 - a.heat) / 25;
                     let hg = g + hf;
                     // let force = hg * 1/d;
                     let force = scale.g * hg * 1/d;
-                    // let force = scale.g * g * 1/d;
                     fx += (force * dx);
                     fy += (force * dy);
                     fz += (force * dz);
@@ -1414,14 +1403,14 @@
                     fh += dh * 1/d;
                 }
             }
-            a.vx = (a.vx + fx) * .995;
-            a.vy = (a.vy + fy) * .995;
-            a.vz = (a.vz + fz) * .995;
+            a.vx = (a.vx + fx) * .98;
+            a.vy = (a.vy + fy) * .98;
+            a.vz = (a.vz + fz) * .98;
             a.x += a.vx * scale.v;
             a.y += a.vy * scale.v;
             a.z += a.vz * scale.v;
 
-            a.vh = (a.vh + fh) * scale.h;
+            a.vh = (a.vh + fh) * 0.35;
             a.heat += a.vh;
             if(a.heat > 100){a.heat = 100;}
 
@@ -1436,13 +1425,6 @@
                 a.y = s.canvas.y2 + (Math.random() * (cr*2) - cr);
                 a.z = s.canvas.z2 + (Math.random() * (cr*2) - cr);
             }
-        }
-    }
-    pr["heatUp"] = function (list1, list2, g = 0, r = 100){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            let hf = g * (50 - a.heat) / 25;
-            a.vy = (a.vy + hf);
         }
     }
     
@@ -1666,9 +1648,8 @@
             // // pr["rule3d"](pg["heat"], pg["heat"], .5, 50);
             // pr["heat3d"](pg["heat"], pg["heat"], .5, 10);
             // pr["orbit3d"](pg["heat"], pg["sun"], -.009);
-            pr["heat3d"](pg["heat"], pg["sun"], -.009, 9000);
-            pr["heat3d"](pg["heat"], pg["heat"], .04, pheat_d);
-            pr["heatUp"](pg["heat"], pg["heat"], heatUpF, 1);
+            pr["heat3d"](pg["heat"], pg["sun"], -.009, 900);
+            pr["heat3d"](pg["heat"], pg["heat"], .05, 10);
             
             // heat6(pg["heat"], pg["sun"], -.009, 700);
             // heat6(pg["heat"], pg["heat"], .05, 10);
