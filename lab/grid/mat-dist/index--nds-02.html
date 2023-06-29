@@ -18,9 +18,6 @@
         /* :root {} */
     </style>
 <style>
-    main .shelf-title {
-        border-bottom: 0px solid #7890;
-    }
     :root {
         --d: 0;
         --dim: 5;
@@ -48,23 +45,6 @@
         background-color: var(--bg);
         box-shadow: inset 0 0 0 1px var(--clr);
     }
-    .btn--redo {
-        background-image: linear-gradient(135deg, #39f, #369);
-        border-radius: .25rem;
-        border: 0px solid #0000;
-        color: #fff;
-        text-shadow: 1px 1px 1px #1119;
-        padding: 0.25rem 0.75rem;
-        cursor: pointer;
-        user-select: none;
-    }
-    .xydim {
-        max-width: 40px;
-        background-color: #39f3;
-        border: 0px;
-        color: #def;
-        padding: 2px;
-    }
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
     <link rel="stylesheet" href="../../../stylesheets/end.css">
@@ -81,11 +61,7 @@
 
 <main>
     <div class="shelf">
-        <h3 class="shelf-title">
-            <button onclick="Redo()" class="btn--redo">Redo</button> 
-            <input class="xydim" type="number" name="x" id="xlen" min="1" value="4">
-            <input class="xydim" type="number" name="y" id="ylen" min="1" value="4">
-        </h3>
+        <h3 class="shelf-title">experiment</h3>
         <div id="display"></div>
     </div>
     <!-- <canvas id="canvas"></canvas> -->
@@ -254,28 +230,6 @@ function DisplayGrid(g){
     return res.join('');
 }
 
-function Redo(){
-let xlen = document.getElementById('xlen').value;
-let ylen = document.getElementById('ylen').value;
-// console.log(`x: ${xlen}, y: ${ylen}`);
-if(xlen < 1) {xlen = 1;}
-if(ylen < 1) {ylen = 1;}
-if(xlen > 10) {xlen = 10;}
-if(ylen > 10) {ylen = 10;}
-// console.log(`x: ${xlen}, y: ${ylen}`);
-BuildAndDisplay(xlen,ylen);
-}
-function BuildAndDisplay(x=3,y=3){
-    let g = MakeGridR(y,x);
-    let g2 = CalcDist(g);
-    DisplayGrid(g);
-    DisplayGrid(g2);
-    let display = document.getElementById('display');
-    display.innerHTML = '';
-    display.innerHTML += DisplayGrid(g);
-    display.innerHTML += DisplayGrid(g2);
-}
-
     /* ─── Events ─── */
     function updateSettings(){
         s.h = window.innerHeight;
@@ -324,15 +278,14 @@ function BuildAndDisplay(x=3,y=3){
         updateSettings();
         // start();
         // update();
-        BuildAndDisplay(4,4);
-        // // let g = MakeGridR(3,3);
-        // let g = MakeGridR(4,4);
-        // let g2 = CalcDist(g);
-        // DisplayGrid(g);
-        // DisplayGrid(g2);
-        // let display = document.getElementById('display');
-        // display.innerHTML += DisplayGrid(g);
-        // display.innerHTML += DisplayGrid(g2);
+        // let g = MakeGridR(3,3);
+        let g = MakeGridR(4,4);
+        let g2 = CalcDist(g);
+        DisplayGrid(g);
+        DisplayGrid(g2);
+        let display = document.getElementById('display');
+        display.innerHTML += DisplayGrid(g);
+        display.innerHTML += DisplayGrid(g2);
     });
     /* Version Log:
     [index-nds-00]: Default Template.

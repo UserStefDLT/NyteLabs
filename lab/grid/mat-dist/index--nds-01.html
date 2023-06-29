@@ -18,52 +18,21 @@
         /* :root {} */
     </style>
 <style>
-    main .shelf-title {
-        border-bottom: 0px solid #7890;
-    }
-    :root {
-        --d: 0;
-        --dim: 5;
-    }
+    
     #display, .grid, .row {
         display: flex;
         flex-direction: row;
     }
     .grid {
-        --hue-step: calc(240 / var(--dim));
-        margin: .5rem;
-        /* outline: 1px dashed #fff; */
+        margin: 4px;
+        outline: 1px dashed #fff;
         flex-direction: column;
     }
     .tile {
         outline: 1px solid #fff9;
         margin: 1px;
-        --tile-sz: 20px;
-        height: var(--tile-sz);
-        width: var(--tile-sz);
-        --hue: calc(var(--d) * 15);
-        --hue: calc(var(--d) * var(--hue-step));
-        --bg: hsla(var(--hue), 100%, 25%, 1);
-        --clr: hsla(var(--hue), 100%, 50%, 1);
-        background-color: var(--bg);
-        box-shadow: inset 0 0 0 1px var(--clr);
-    }
-    .btn--redo {
-        background-image: linear-gradient(135deg, #39f, #369);
-        border-radius: .25rem;
-        border: 0px solid #0000;
-        color: #fff;
-        text-shadow: 1px 1px 1px #1119;
-        padding: 0.25rem 0.75rem;
-        cursor: pointer;
-        user-select: none;
-    }
-    .xydim {
-        max-width: 40px;
-        background-color: #39f3;
-        border: 0px;
-        color: #def;
-        padding: 2px;
+        height: 20px;
+        width: 20px;
     }
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
@@ -81,11 +50,7 @@
 
 <main>
     <div class="shelf">
-        <h3 class="shelf-title">
-            <button onclick="Redo()" class="btn--redo">Redo</button> 
-            <input class="xydim" type="number" name="x" id="xlen" min="1" value="4">
-            <input class="xydim" type="number" name="y" id="ylen" min="1" value="4">
-        </h3>
+        <h3 class="shelf-title">experiment</h3>
         <div id="display"></div>
     </div>
     <!-- <canvas id="canvas"></canvas> -->
@@ -209,41 +174,38 @@ function MakeGrid(w,h,fill=0){
 }
 
 function CalcDist(g){
-    let g2z = [];
-    let w = g[0].length;
-    let h = g.length;
-    for(let y = 0; y < h; y++){
-        g2z.push([]);
-        for(let x = 0; x < w; x++){
-            let e = g[y][x];
-            g2z[y].push(h+w);
-            for(let y2 = 0; y2 < g.length; y2++){
-                for(let x2 = 0; x2 < g[y2].length; x2++){
-                    if(g[y2][x2] == 0) {
-                    let dx = Math.abs(x - x2);
-                    let dy = Math.abs(y - y2);
-                    let dxy = dx+dy;
-                        if(dxy < g2z[y][x]){
-                            g2z[y][x] = dxy;
-                        }
-                    }
-                }
-            }
+let g2z = [];
+let w = g[0].length;
+let h = g.length;
+for(let y = 0; y < h; y++){
+  g2z.push([]);
+  for(let x = 0; x < w; x++){
+    let e = g[y][x];
+    g2z[y].push(h+w);
+    for(let y2 = 0; y2 < g.length; y2++){
+      for(let x2 = 0; x2 < g[y2].length; x2++){
+        if(g[y2][x2] == 0) {
+          let dx = Math.abs(x - x2);
+          let dy = Math.abs(y - y2);
+          let dxy = dx+dy;
+          if(dxy < g2z[y][x]){
+            g2z[y][x] = dxy;
+          }
         }
+      }
     }
-    return g2z;
+  }
+}
+return g2z;
 }
 
 function DisplayGrid(g){
     // let display = document.getElementById('display');
-    // let h = g.length;
-    // let w = g[0].length;
-    let hw = g.length + g[0].length - 2;
-    let res = [`<div class="grid" style="--dim: ${hw};">`];
+    let res = ['<div class="grid">'];
     for(let y = 0; y < g.length; y++){
         let row = ['<div class="row">'];
         for(let x = 0; x < g[y].length; x++){
-            row.push(`<div class="tile" style="--d: ${g[y][x]};">${g[y][x]}</div>`);
+            row.push(`<div class="tile">${g[y][x]}</div>`);
         }
         row.push('</div>');
         res.push(row.join(''));
@@ -252,28 +214,6 @@ function DisplayGrid(g){
     // return res;
     // display.innerHTML = res.join('');
     return res.join('');
-}
-
-function Redo(){
-let xlen = document.getElementById('xlen').value;
-let ylen = document.getElementById('ylen').value;
-// console.log(`x: ${xlen}, y: ${ylen}`);
-if(xlen < 1) {xlen = 1;}
-if(ylen < 1) {ylen = 1;}
-if(xlen > 10) {xlen = 10;}
-if(ylen > 10) {ylen = 10;}
-// console.log(`x: ${xlen}, y: ${ylen}`);
-BuildAndDisplay(xlen,ylen);
-}
-function BuildAndDisplay(x=3,y=3){
-    let g = MakeGridR(y,x);
-    let g2 = CalcDist(g);
-    DisplayGrid(g);
-    DisplayGrid(g2);
-    let display = document.getElementById('display');
-    display.innerHTML = '';
-    display.innerHTML += DisplayGrid(g);
-    display.innerHTML += DisplayGrid(g2);
 }
 
     /* ─── Events ─── */
@@ -324,15 +264,13 @@ function BuildAndDisplay(x=3,y=3){
         updateSettings();
         // start();
         // update();
-        BuildAndDisplay(4,4);
-        // // let g = MakeGridR(3,3);
-        // let g = MakeGridR(4,4);
-        // let g2 = CalcDist(g);
-        // DisplayGrid(g);
-        // DisplayGrid(g2);
-        // let display = document.getElementById('display');
-        // display.innerHTML += DisplayGrid(g);
-        // display.innerHTML += DisplayGrid(g2);
+        let g = MakeGridR(3,3);
+        let g2 = CalcDist(g);
+        DisplayGrid(g);
+        DisplayGrid(g2);
+        let display = document.getElementById('display');
+        display.innerHTML += DisplayGrid(g);
+        display.innerHTML += DisplayGrid(g2);
     });
     /* Version Log:
     [index-nds-00]: Default Template.
