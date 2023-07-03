@@ -20,7 +20,7 @@
 <style>
     :root {
         --sz-tile: 2rem;
-        --margin-tile: 2px;
+        --margin-tile: 0px;
         --sz-cube: 3rem;
         --p: 50000px;
 
@@ -44,6 +44,10 @@
     .cube, .grid, .row, .tile, .tile::before, .tile::after {
         transform-style: preserve-3d;
     }
+    .cube, .grid {
+        --sz-cube: 2rem;
+        transition: transform 200ms ease-in-out;
+    }
     .cube {
         position: relative;
         height: calc(var(--sz-cube) * var(--ylen));
@@ -56,6 +60,12 @@
         position: absolute;
         top: 50%; left: 50%;
         transform: translateX(-50%) translateY(-50%) translateZ(var(--zup));
+        transition: transform 200ms ease-in-out;
+    }
+    #toggleSpacedApart:checked ~ main .cube,
+    #toggleSpacedApart:checked ~ main .grid {
+        --sz-cube: 3rem;
+        /* --margin-tile: 2px; */
     }
     #toggleSlideApart:checked ~ main .grid {
         --zup: calc(var(--zo) * var(--sz-cube));
@@ -144,6 +154,7 @@
         --lum: calc(var(--i) * 15% + 20%);
         --clr: hsla(var(--hue), 100%, 50%, 1);
         --clr: hsla(var(--hue), 100%, var(--lum), 1);
+        --clr: hsla(var(--hue), 100%, var(--lum), .5);
         /* outline: 2px dashed var(--clr);
         outline-offset: -2px; */
         
@@ -168,14 +179,57 @@
 
     /* #toggleOpacity */
     /* #toggleOpacity:checked ~ main #display {opacity:.5;} */
-    #toggleOpacity:checked ~ main .tile {--alp: 0.5;}
+    #toggleAlpha:checked ~ main .tile {--alp: 0.15;}
     .tile, .tile::before, .tile::after {
         outline: 2px solid var(--clr);
         outline-offset: -2px;
     }
 
+    #z000:checked ~ .cube .tile[for="z000"],
+    #z001:checked ~ .cube .tile[for="z001"],
+    #z002:checked ~ .cube .tile[for="z002"],
+    #z010:checked ~ .cube .tile[for="z010"],
+    #z011:checked ~ .cube .tile[for="z011"],
+    #z012:checked ~ .cube .tile[for="z012"],
+    #z020:checked ~ .cube .tile[for="z020"],
+    #z021:checked ~ .cube .tile[for="z021"],
+    #z022:checked ~ .cube .tile[for="z022"],
+
+    #z100:checked ~ .cube .tile[for="z100"],
+    #z101:checked ~ .cube .tile[for="z101"],
+    #z102:checked ~ .cube .tile[for="z102"],
+    #z110:checked ~ .cube .tile[for="z110"],
+    #z111:checked ~ .cube .tile[for="z111"],
+    #z112:checked ~ .cube .tile[for="z112"],
+    #z120:checked ~ .cube .tile[for="z120"],
+    #z121:checked ~ .cube .tile[for="z121"],
+    #z122:checked ~ .cube .tile[for="z122"],
+
+    #z200:checked ~ .cube .tile[for="z200"],
+    #z201:checked ~ .cube .tile[for="z201"],
+    #z202:checked ~ .cube .tile[for="z202"],
+    #z210:checked ~ .cube .tile[for="z210"],
+    #z211:checked ~ .cube .tile[for="z211"],
+    #z212:checked ~ .cube .tile[for="z212"],
+    #z220:checked ~ .cube .tile[for="z220"],
+    #z221:checked ~ .cube .tile[for="z221"],
+    #z222:checked ~ .cube .tile[for="z222"] {
+        --alp: 1;
+    }
+
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
+    <style>
+        #toggleSpacedApart:checked ~ .options .toggleCheckboxLabel[for="toggleSpacedApart"],
+        #toggleSlideApart:checked ~ .options .toggleCheckboxLabel[for="toggleSlideApart"],
+        #toggleAlpha:checked ~ .options .toggleCheckboxLabel[for="toggleAlpha"] {
+            color: var(--bwe);
+            --clr-outline: var(--bwc);
+            --bgc-before: #063;
+            --bgc-after: #0c6;
+            --ttx-after: 1rem;
+        }
+    </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
@@ -187,66 +241,16 @@
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
     <input type="checkbox" name="toggle" id="toggleLights">
+
     <input type="checkbox" name="toggle" id="toggleSlideApart">
+    <input type="checkbox" name="toggle" id="toggleAlpha" checked>
+    <input type="checkbox" name="toggle" id="toggleSpacedApart" checked>
 
 <main>
     <div class="shelf">
         <h3 class="shelf-title">experiment</h3>
         <div id="display">
-            <div class="cube">
-                <!-- .grid*3>.row*3>.tile[data-tile="_"]*3 -->
-                <div class="grid">
-                    <div class="row">
-                        <div class="tile" data-tile="_"></div>
-                        <div class="tile" data-tile="_"></div>
-                        <div class="tile" data-tile="_"></div>
-                    </div>
-                    <div class="row">
-                        <div class="tile" data-tile="_"></div>
-                        <div class="tile" data-tile="_"></div>
-                        <div class="tile" data-tile="_"></div>
-                    </div>
-                    <div class="row">
-                        <div class="tile" data-tile="_"></div>
-                        <div class="tile" data-tile="_"></div>
-                        <div class="tile" data-tile="_"></div>
-                    </div>
-                </div>
-                <div class="grid">
-                    <div class="row">
-                        <div class="tile" data-tile="_"></div>
-                        <div class="tile" data-tile="_"></div>
-                        <div class="tile" data-tile="_"></div>
-                    </div>
-                    <div class="row">
-                        <div class="tile" data-tile="_"></div>
-                        <div class="tile" data-tile="_"></div>
-                        <div class="tile" data-tile="_"></div>
-                    </div>
-                    <div class="row">
-                        <div class="tile" data-tile="_"></div>
-                        <div class="tile" data-tile="_"></div>
-                        <div class="tile" data-tile="_"></div>
-                    </div>
-                </div>
-                <div class="grid">
-                    <div class="row">
-                        <div class="tile" data-tile="_"></div>
-                        <div class="tile" data-tile="_"></div>
-                        <div class="tile" data-tile="_"></div>
-                    </div>
-                    <div class="row">
-                        <div class="tile" data-tile="_"></div>
-                        <div class="tile" data-tile="_"></div>
-                        <div class="tile" data-tile="_"></div>
-                    </div>
-                    <div class="row">
-                        <div class="tile" data-tile="_"></div>
-                        <div class="tile" data-tile="_"></div>
-                        <div class="tile" data-tile="_"></div>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </div>
     <!-- <canvas id="canvas"></canvas> -->
@@ -260,8 +264,10 @@
 <div class="options">
     <!-- <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
     <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label> -->
-    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+    <!-- <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label> -->
+    <label for="toggleAlpha" class="toggleCheckboxLabel" data-toggle="Alpha">Alpha</label>
     <label for="toggleSlideApart" class="toggleCheckboxLabel" data-toggle="GridSlide">Grid Slide</label>
+    <label for="toggleSpacedApart" class="toggleCheckboxLabel" data-toggle="Spaced">Spaced</label>
 </div>
 
 <footer>
@@ -344,6 +350,64 @@
 <script src="../../../scripts/settings-02.js"></script>
 <script>
 
+    function MakeCubeMat(xlen=2,ylen=2,zlen=2,fill=0){
+        let cube = [];
+        for (let z = 0; z < zlen; z++) {
+            cube.push([]);
+            for (let y = 0; y < ylen; y++) {
+                cube[z].push([]);
+                for (let x = 0; x < xlen; x++) {
+                    cube[z][y].push(fill);
+                }
+            }
+        }
+        return cube;
+    }
+
+    function BuildCube(xlen = 2, ylen = 2, zlen = 2){
+        let display = document.getElementById('display');
+        
+        let frame = document.createElement('div');
+        frame.id = 'frame';
+
+        let cube = document.createElement('div');
+        cube.classList.add('cube');
+
+        for(let z = 0; z < zlen; z++){
+            let grid = document.createElement('div');
+            grid.classList.add('grid');
+
+            for(let y = 0; y < ylen; y++){
+                let row = document.createElement('div');
+                row.classList.add('row');
+
+                for(let x = 0; x < xlen; x++){
+                    // let tileid = `zyx_${z}_${y}_${x}`;
+                    let tileid = `z${z}${y}${x}`;
+                    
+                    let check = document.createElement('input');
+                    check.type = 'checkbox';
+                    check.classList.add('hidden');
+                    check.id = tileid;
+
+                    let tile = document.createElement('label');
+                    tile.classList.add('tile');
+                    // tile.id = `zyx,${z},${y},${x}`;
+                    tile.setAttribute('for',tileid);
+
+                    frame.appendChild(check);
+                    row.appendChild(tile);
+                }
+                grid.appendChild(row);
+            }
+        
+            cube.appendChild(grid);
+        }
+
+        frame.appendChild(cube);
+        display.appendChild(frame);
+        // return grid;
+    }
 
 
     /* ─── Events ─── */
@@ -394,6 +458,8 @@
         updateSettings();
         // start();
         // update();
+
+        BuildCube(3,3,3);
     });
     /* Version Log:
     [index-nds-00]: Default Template.
