@@ -83,8 +83,8 @@
     <div class="shelf">
         <h3 class="shelf-title">
             <button onclick="Redo()" class="btn--redo">Redo</button> 
-            <input class="xydim" type="number" name="x" id="xlen" min="1" value="4">
-            <input class="xydim" type="number" name="y" id="ylen" min="1" value="4">
+            <input class="xydim" type="number" name="x" id="xlen" min="1" max="10" value="4">
+            <input class="xydim" type="number" name="y" id="ylen" min="1" max="10" value="4">
         </h3>
         <div id="display"></div>
     </div>
@@ -216,6 +216,7 @@ function CalcDist(g){
         g2z.push([]);
         for(let x = 0; x < w; x++){
             let e = g[y][x];
+            // if there are no zeros, it will return the height + width.
             g2z[y].push(h+w);
             for(let y2 = 0; y2 < g.length; y2++){
                 for(let x2 = 0; x2 < g[y2].length; x2++){
@@ -258,8 +259,8 @@ function Redo(){
 let xlen = document.getElementById('xlen').value;
 let ylen = document.getElementById('ylen').value;
 // console.log(`x: ${xlen}, y: ${ylen}`);
-if(xlen < 1) {xlen = 1;}
-if(ylen < 1) {ylen = 1;}
+if(xlen < 2) {xlen = 2;}
+if(ylen < 2) {ylen = 2;}
 if(xlen > 10) {xlen = 10;}
 if(ylen > 10) {ylen = 10;}
 // console.log(`x: ${xlen}, y: ${ylen}`);
