@@ -62,7 +62,6 @@
         position: relative;
         outline: 1px dashed #fff9;
         outline-offset: 2px;
-        margin: 4px;
     }
     #canvas-grid,
     #canvas-draw {
@@ -77,9 +76,6 @@
 
     #ss {
         background-image: linear-gradient(45deg, red, transparent);
-        background-image: linear-gradient(45deg, #eee, transparent);
-        background-image: linear-gradient(45deg, #000, transparent);
-        background-image: linear-gradient(45deg, red, blue);
     }
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
@@ -223,8 +219,8 @@
         player: {x: 0, y:0},
         start: {x: 0, y: 0},
         exit: {x: 20, y: 20},
-        xb: 7,
-        yb: 7,
+        box_xlen: 8,
+        box_ylen: 8,
     }
 
 </script>
@@ -274,9 +270,9 @@
     ];
 
     const indexTile = {
-        "0": {name: "path", fill: "#eee", stroke: "#eee0"},
-        "1": {name: "start", fill: "#9639", stroke: "#963"},
-        "4": {name: "end", fill: "#0c39", stroke: "#0c3"},
+        "0": {name: "path", fill: "#eee2", stroke: "#eee0"},
+        "1": {name: "start", fill: "#9630", stroke: "#963"},
+        "4": {name: "end", fill: "#0c30", stroke: "#0c3"},
         "5": {name: "player", fill: "#39f", stroke: "#39f0"},
         "8": {name: "wall", fill: "#333", stroke: "#3330"},
         "9": {name: "void", fill: "#000", stroke: "#0000"},
@@ -297,19 +293,8 @@
         ctxg.fillRect(left,top,cboxSet.sz,cboxSet.sz);
     }
     function DrawMap(map, ix, iy){
-        for(let j = -7; j < 8; j++){
-            for(let i = -7; i < 8; i++){
-                let x = ix + i;
-                let y = iy + j;
-                if(isInMap(map,x,y)){
-                    DrawTile(ctx["canvas-grid"], map[y][x], i+7, j+7);
-                }
-            }
-        }
-    }
-    function DrawMap1(map, ix, iy){
-        for(let y = iy-7; y < ix+7; y++){
-            for(let x = ix-7; x < iy+7; x++){
+        for(let y = iy-7; y < cboxSet.box_ylen; y++){
+            for(let x = ix-7; x < cboxSet.box_xlen; x++){
                 if(isInMap(map,x,y)){
                     DrawTile(ctx["canvas-grid"], map[y][x], x+7, y+7);
                 }
@@ -418,7 +403,7 @@
             cboxSet.player.x = nx;
             cboxSet.player.y = ny;
         }
-        // console.log(cboxSet.player);
+        console.log(cboxSet.player);
     }
     
     window.addEventListener("keydown", function (event) {
