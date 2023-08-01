@@ -102,12 +102,11 @@
 
 <main>
     <div id="ss" class="shelf">
-        <h3 id="ShelfTitle" class="shelf-title">Ant Maze</h3>
+        <h3 class="shelf-title">Ant Maze</h3>
         <div id="CubeXY">
             <div id="display">
                 <div id="cbox">
                     <canvas id="canvas-grid"></canvas>
-                    <!-- <canvas id="canvas-spec"></canvas> -->
                     <canvas id="canvas-draw"></canvas>
                 </div>
             </div>
@@ -366,7 +365,6 @@
             this.end = new xy();
             this.endingAnt = [];
             this.maze = [];
-            this.mazeHistory = [];
             this.stepMap = [];
             this.step = 0;
 
@@ -384,7 +382,6 @@
             }
         }
         fillMap(fill = this.fill){
-            this.maze = [];
             for(let y=0; y<this.h; y++){
                 this.maze.push([]);
                 this.stepMap.push([]);
@@ -603,7 +600,6 @@
         
 
         levelCleared() {
-            this.mazeHistory.push(this.maze);
             this.fillMap();
         }
     }
@@ -636,7 +632,7 @@
     function DrawTile(ctxg,t,x,y){
         ctxg.fillStyle = indexTile[t].fill;
         // ctxg.strokeStyle = indexTile[t].stroke;
-        let mm = 4;
+        let mm = 2;
         let nsz = cboxSet.sz + mm * 2;
         let left = x * cboxSet.sz - mm;
         let top = y * cboxSet.sz - mm;
@@ -665,7 +661,10 @@
     }
 
     
-    function MakeLevel(){
+    function start(){
+        cboxSet.map = BuildMap(cboxSet.xlen, cboxSet.ylen);
+
+        level = new Maze(s.grid.cols,s.grid.rows);
         level.makePath2();
         let start = {x: level.start.x, y: level.start.y};
         let end = {x: level.end.x, y: level.end.y};
@@ -679,27 +678,6 @@
         gmap = level.maze;
         DrawElement(ctx["canvas-draw"],'5', 7, 7);
         DrawMap(gmap, cboxSet.player.x, cboxSet.player.y);
-    }
-    function start(){
-        cboxSet.map = BuildMap(cboxSet.xlen, cboxSet.ylen);
-
-        // level = new Maze(s.grid.cols,s.grid.rows);
-        level = new Maze(10,10);
-        MakeLevel();
-
-        // level.makePath2();
-        // let start = {x: level.start.x, y: level.start.y};
-        // let end = {x: level.end.x, y: level.end.y};
-        // level.maze[end.y][end.x] = 4;
-        // level.maze[start.y][start.x] = 1;
-
-        // cboxSet.player.x = start.x;
-        // cboxSet.player.y = start.y;
-        // // BuildMaze_Display(level.w, level.h, level.maze);
-
-        // gmap = level.maze;
-        DrawElement(ctx["canvas-draw"],'5', 7, 7);
-        // DrawMap(gmap, cboxSet.player.x, cboxSet.player.y);
 
         let kevents = document.querySelectorAll('.k');
         kevents.forEach(e => {
@@ -796,23 +774,6 @@
         if(isPath(gmap,nx,ny)){
             cboxSet.player.x = nx;
             cboxSet.player.y = ny;
-            if(isEnd(gmap,nx,ny)){
-                let ShelfTitle = document.getElementById("ShelfTitle");
-                s.lockKeys = !s.lockKeys;
-                setTimeout(() => {
-                    clearCanvas(ctx["canvas-draw"]);
-                    console.log("🎊Level Cleared!🎉");
-                    ShelfTitle.innerText = "Ant Maze - 🎊Level Cleared!🎉";
-                }, 100);
-                setTimeout(() => {
-                    level.h += 5;
-                    level.w += 5;
-                    level.levelCleared();
-                    MakeLevel();
-                    s.lockKeys = !s.lockKeys;
-                    ShelfTitle.innerText = `Ant Maze - Level ${level.mazeHistory.length+1}`;
-                }, 1000);
-            }
         }
         // console.log(cboxSet.player);
     }
@@ -820,19 +781,10 @@
     window.addEventListener("keydown", function (event) {
         if(!s.q){
             if(!s.lockKeys){
-                // if(event.key == 'ArrowUp' || event.key == 'w') {move2("8");}
-                // if(event.key == 'ArrowLeft' || event.key == 'a') {move2("4");}
-                // if(event.key == 'ArrowDown' || event.key == 's') {move2("2");}
-                // if(event.key == 'ArrowRight' || event.key == 'd') {move2("6");}
-
-                if(event.keyCode == '103' || event.key == 'q') {move2("7");}
-                if(event.keyCode == '104' || event.key == 'w' || event.key == 'ArrowUp') {move2("8");}
-                if(event.keyCode == '105' || event.key == 'e') {move2("9");}
-                if(event.keyCode == '100' || event.key == 'a' || event.key == 'ArrowLeft') {move2("4");}
-                if(event.keyCode == '102' || event.key == 'd' || event.key == 'ArrowRight') {move2("6");}
-                if(event.keyCode == '97' || event.key == 'z') {move2("1");}
-                if(event.keyCode == '98' || event.key == 's' || event.key == 'ArrowDown') {move2("2");}
-                if(event.keyCode == '99' || event.key == 'x') {move2("3");}
+                if(event.key == 'ArrowUp' || event.key == 'w') {move2("8");}
+                if(event.key == 'ArrowLeft' || event.key == 'a') {move2("4");}
+                if(event.key == 'ArrowDown' || event.key == 's') {move2("2");}
+                if(event.key == 'ArrowRight' || event.key == 'd') {move2("6");}
                 // if(event.key == 'w' || event.key == 'W') {openW();}
             }
         }
@@ -846,8 +798,8 @@
     });
     /* Version Log:
     [index-nds-00]: Default Template.
-    [index-nds-01]: Works.
-    [index-nds-02]: Has levels.
+    [index-nds-01]: 
+    [index-nds-02]: 
     [index-nds-03]: 
     [index-nds-04]: 
     [index-nds-05]: 
@@ -861,9 +813,7 @@
     
     */
 
-    function isEnd(g,x,y){
-        return g[y][x] == "4";
-    }
+
     function isPath(g,x,y){
         if(isInMap(g,x,y)){
             return g[y][x] >= 0 && g[y][x] < 5;
