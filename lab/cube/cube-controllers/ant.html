@@ -236,7 +236,7 @@
         xb: 7,
         yb: 7,
         mm: 4,
-        direction: {"ws":8, "ad":4}
+        preference: {"x":0, "y":0}
     }
 
 </script>
@@ -618,8 +618,8 @@
         "0": {name: "path", fill: "#eee", stroke: "#eee0"},
         // "1": {name: "start", fill: "#963", stroke: "#963"},
         // "4": {name: "end", fill: "#0c3", stroke: "#0c3"},
-        "1": {name: "start", fill: "#093", stroke: "#963"},
-        "4": {name: "end", fill: "#f93", stroke: "#0c3"},
+        "1": {name: "start", fill: "#936", stroke: "#963"},
+        "4": {name: "end", fill: "#222", stroke: "#0c3"},
         "5": {name: "player", fill: "#39f", stroke: "#000"},
         "8": {name: "wall", fill: "#333", stroke: "#3330"},
         "9": {name: "void9", fill: "#000", stroke: "#0000"},
@@ -819,7 +819,7 @@
                 setTimeout(() => {
                     level.h += 5;
                     level.w += 5;
-                    cboxSet.mm = Math.floor((level.mazeHistory.length+1)%4)*2;
+                    cboxSet.mm = Math.floor((level.mazeHistory.length+1)%4)*2 + 2;
                     level.levelCleared();
                     MakeLevel();
                     s.lockKeys = !s.lockKeys;
@@ -872,6 +872,14 @@
     [index-nds-11]: 
     [index-nds-12]: 
     
+    */
+    /*
+    isInMap(g,x,y)
+        isPath(g,x,y)
+            isSide()
+            isOther()
+        if(move)
+            isEnd()
     */
 
     function isEnd(g,x,y){
