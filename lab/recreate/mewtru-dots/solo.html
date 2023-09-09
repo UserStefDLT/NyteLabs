@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mewtru dots | NyteLabs</title>
+    <style>
+        :root {
+            --sz-tile: 20px;
+            --displace: calc(var(--sz-tile) * .25);
+            --displace-back: calc(var(--displace) * -1);
+            --k: 1; --m: 1; --n: 1;
+        }
+        * {box-sizing: border-box;}
+        *:nth-of-type(1) {--i: 1;}
+        *:nth-of-type(2) {--i: 2;}
+        *:nth-of-type(3) {--i: 3;}
+        *:nth-of-type(4) {--i: 4;}
+        *:nth-of-type(5) {--i: 5;}
+        *:nth-of-type(6) {--i: 6;}
+        *:nth-of-type(7) {--i: 7;}
+        *:nth-of-type(8) {--i: 8;}
+        body {margin: 0;}
+        main {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .row:nth-child(2n+1) {--k: 2;}
+        .tile:nth-child(2n) {--n: 2;}
+        .tile:nth-child(3n) {--m: 3;}
+
+        .row {
+            --j: var(--i);
+            display: flex;
+            flex-direction: row;
+        }
+        .tile {
+            height: var(--sz-tile);
+            width: var(--sz-tile);
+            background: #fff;
+            margin: var(--sz-tile);
+
+            --ij: calc((var(--i) * var(--n) + var(--j) * var(--m)) * var(--k));
+            --hue: calc(var(--ij) * 90);
+            --c: hsla(var(--hue), 80%, 40%, 1);
+
+            border: .5px solid #111;
+            border-radius: 50%;
+            box-shadow: 0px 0px 0px 0px var(--c);
+            transform: translate(0px, 0px);
+
+            animation: up 1200ms ease-in-out infinite both;
+            animation-delay: calc(var(--ij) * 20ms);
+        }
+        @keyframes up {
+            0% { transform: translate(0px, 0px); box-shadow: 0px 0px 0px 0px var(--c); }
+            40% { transform: translate(var(--displace-back), var(--displace-back)); box-shadow: var(--displace) var(--displace) 0px 0px var(--c); }
+            80% { transform: translate(0px, 0px); box-shadow: 0px 0px 0px 0px var(--c); }
+            100% { transform: translate(0px, 0px); box-shadow: 0px 0px 0px 0px var(--c); }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div id="display">
+            <div id="grid" class="grid"><div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div><div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div><div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div><div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div><div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div><div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div><div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div><div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div></div>
+        </div>
+    </main>
+</body>
+</html>

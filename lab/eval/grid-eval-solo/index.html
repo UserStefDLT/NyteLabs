@@ -5,13 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Grid Eval | NyteLabs</title>
-    <link rel="stylesheet" href="../../../stylesheets/start.css">
-    <link rel="stylesheet" href="../../../stylesheets/labst.css">
-    
-    <link rel="stylesheet" href="../../../stylesheets/radio-nav.css">
-    <link rel="stylesheet" href="../../../stylesheets/deck.css">
-    <!-- <link rel="stylesheet" href="my-css.css"> -->
+    <title>NyteLabst</title>
+    <!-- <link rel="stylesheet" href="../../../stylesheets/start.css"> -->
+    <!-- <link rel="stylesheet" href="../../../stylesheets/labst.css"> -->
+    <link rel="stylesheet" href="eval.css">
+    <!-- <link rel="stylesheet" href="../../../stylesheets/radio-nav.css"> -->
+    <!-- <link rel="stylesheet" href="../../../stylesheets/deck.css"> -->
     <style>
         /* *::before, *::after {
             position: absolute;
@@ -23,7 +22,6 @@
             flex-wrap: wrap;
         }
         .shelf {
-            /* min-width: max-content; */
             min-width: min-content;
             width: 50%;
             max-width: max(370px, 48vw);
@@ -61,10 +59,10 @@
             border-right: 1px solid #ffc9;
             border-left: 1px solid #ffc9;
             margin: .25rem auto;
-            /* width: 90vw; */
+            width: 90vw;
             /* max-width: 356px; */
             /* max-width: 100vw; */
-            width: 90%;
+            /* width: 90%; */
             max-width: 100%;
         }
         [class|="nybtn"] {
@@ -91,8 +89,7 @@
             color: #fff;
         }
         .nybtn-clear {background-color: #eee; color: #333;}
-        /* .html-btn {background-color: hsla(30,100%,50%,1);}
-        .css-btn {background-color: hsla(225,100%,50%,1);} */
+
         .eval-btn {background-color: hsla(140,85%,40%,1);}
         .html-btn {background-color: hsla(20,85%,60%,1);}
         .css-btn {background-color: hsla(200,85%,40%,1);}
@@ -104,7 +101,6 @@
             flex-direction: row;
         }
 
-        /* #html-display {display: flex; flex-direction: row; flex-wrap: wrap;} */
         .btn,
         .sample {
             padding: 8px 12px;
@@ -124,20 +120,14 @@
         #html-tab:checked ~ main #html-input {display: flex;}
         #css-tab:checked ~ main #css-input {display: flex;}
         #all-tab:checked ~ main #all-input {display: flex;}
-        /* .draw-settings {} */
+
         [for="html-tab"] {--bg: var(--clr-dark-html);}
         [for="css-tab"] {--bg: var(--clr-dark-css);}
         [for="all-tab"] {--bg: var(--clr-dark-all);}
         #html-tab:checked ~ main [for="html-tab"] {--bg: var(--clr-html); --z: 4px;}
         #css-tab:checked ~ main [for="css-tab"] {--bg: var(--clr-css); --z: 4px;}
         #all-tab:checked ~ main [for="all-tab"] {--bg: var(--clr-all); --z: 4px;}
-        /* .tab-label {
-            background-color: var(--bg);
-            padding: .125rem .5rem;
-            margin: .125rem;
-            border-radius: 2px 2px 0 0;
-            clip-path: polygon(0% 100%, 10% 0%, 90% 0%, 100% 100%, 0% 100%);
-        } */
+
         .tab-label {
             background-color: var(--bg);
             height: 2rem; width: 6rem;
@@ -166,20 +156,20 @@
             border-right: 1px solid #eee8;
             border-left: 1px solid #eee8;
             margin: 0rem auto;
-            /* width: 90vw; */
-            /* max-width: 356px; */
+            width: 90vw;
+            max-width: 356px;
             /* max-width: 100vw; */
         }
         .toggle-textarea:focus-visible {
             outline: 0px solid transparent;
         }
     </style>
-    <link rel="stylesheet" href="../../../stylesheets/end.css">
+    <!-- <link rel="stylesheet" href="../../../stylesheets/end.css"> -->
 </head>
 <body>
 <header>
-    <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
-    <div class="title">Nytelabs</div>
+    <!-- <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a> -->
+    <div class="title">Nytelabst</div>
     <div class="subtitle">Grid Eval</div>
 </header>
 
@@ -196,9 +186,6 @@
 
     <div class="shelf shelf-col">
         <div class="shelf-title">Code</div>
-        <!-- <div id="html-display">
-            <button style="background-color: hsla(210,100%,60%,1); color: black;" class="btn">Sample</button>
-        </div> -->
         <div class="input-row">
             <label for="html-tab" class="tab-label">HTML</label>
             <label for="css-tab" class="tab-label">CSS</label>
@@ -215,13 +202,10 @@
             <textarea name="all-input" id="all-input" cols="100" rows="25" class="toggle-textarea"></textarea>
         </div>
 
-
         <div class="input-row">
             <button type="button" onclick="UpdateHTML()" class="nybtn-eval html-btn">Update HTML</button>
             <button type="button" onclick="UpdateCSS()" class="nybtn-eval css-btn">Update CSS</button>
             <button type="button" onclick="UpdateAll()" class="nybtn-eval eval-btn">Update All</button>
-            <!-- <button type="button" data-cmd="eval" onclick="addHTML()" class="nybtn-eval">Eval</button> -->
-            <!-- <button type="button" data-cmd="reset" onclick="resetDisplay()" class="nybtn-reset">Reset</button> -->
         </div>
         
         <div class="input-row">
@@ -234,32 +218,16 @@
     </div>
 </main>
 
-<!-- <div class="draw-settings">
-    <div class="input-row">
-        <input type="number" name="dim" id="xlen">
-        <input type="number" name="dim" id="ylen">
-        <button type="button" data-cmd="build" class="nybtn-go">Build</button>
-    </div>
-</div> -->
-
-
 <footer>
     <div class="my-name">
-        <a href="#">Back To Top</a>
-        &copy; 2022 | by Stéfano De La Torre 
+        &copy; 2022 - 2023 | by Stéfano De La Torre 
     </div>
 </footer>
 <div class="name-end">by St&eacute;fano.</div>
+
 <!-- <script src="main.js"></script> -->
 <script>
-    // var sample = `<button style="\nbackground-color: hsla(210,100%,60%,1); \ncolor: white;\n" class="btn">Sample</button>`;
-//     var sample = `<style>
-// .btn {background-color: hsla(calc(var(--i) * 60), 100%, 60%, 1);}
-// </style>
-// <button class="btn">Sample</button>
-// <button class="btn">Sample</button>
-// <button class="btn">Sample</button>`;
-    var css_grid = `.row {
+var css_grid = `.row {
   display: flex;
   flex-direction: row;
 }
@@ -269,7 +237,7 @@
   background: #fff9;
   margin: 1px;
 }`
-    var css_sample = `.list {
+var css_sample = `.list {
   max-width: max(370px, 48vw);
   display: flex;
   align-items: center;
@@ -286,136 +254,117 @@
   color: black;
   border-radius: .25rem;
 }`
-    var html_sample = `<div class="list">
+var html_sample = `<div class="list">
 <div class="sample">Sample</div>
 <div class="sample">Sample</div>
 <div class="sample">Sample</div>
 </div>`
-    // var htmlInput = document.getElementById('html-input');
-    // var htmlDisplay = document.getElementById('html-display');
 
-    function UpdateFromJoin(){
-        let allInput = document.getElementById('all-input');
-        let split = allInput.value.split('</style>');
-        let cssVal = split[0].split('<style>')[1];
-        let htmlVal = split[1];
 
-        let htmlInput = document.getElementById('html-input');
-        let cssInput = document.getElementById('css-input');
-        cssInput.value = cssVal;
-        htmlInput.value = htmlVal;
-    }
-    function UpdateJoin(){
-        let allInput = document.getElementById('all-input');
+function UpdateFromJoin(){
+    let allInput = document.getElementById('all-input');
+    let split = allInput.value.split('</style>');
+    let cssVal = split[0].split('<style>')[1];
+    let htmlVal = split[1];
 
-        let htmlInput = document.getElementById('html-input');
-        let cssInput = document.getElementById('css-input');
+    let htmlInput = document.getElementById('html-input');
+    let cssInput = document.getElementById('css-input');
+    cssInput.value = cssVal;
+    htmlInput.value = htmlVal;
+}
+function UpdateJoin(){
+    let allInput = document.getElementById('all-input');
 
-        allInput.value = `<style>
+    let htmlInput = document.getElementById('html-input');
+    let cssInput = document.getElementById('css-input');
+
+    allInput.value = `<style>
 ${cssInput.value}
 </style>
 ${htmlInput.value}
 `;
-    }
-    function UpdateCSS(){
-        let cssDisplay = document.getElementById('css-display');
-        let cssInput = document.getElementById('css-input');
+}
+function UpdateCSS(){
+    let cssDisplay = document.getElementById('css-display');
+    let cssInput = document.getElementById('css-input');
 
-        cssDisplay.innerHTML = cssInput.value;
-    }
-    function UpdateHTML(){
-        let htmlDisplay = document.getElementById('html-display');
-        let htmlInput = document.getElementById('html-input');
+    cssDisplay.innerHTML = cssInput.value;
+}
+function UpdateHTML(){
+    let htmlDisplay = document.getElementById('html-display');
+    let htmlInput = document.getElementById('html-input');
 
-        htmlDisplay.innerHTML = htmlInput.value;
+    htmlDisplay.innerHTML = htmlInput.value;
+}
+function UpdateAll(){
+    let allOn = document.getElementById('all-tab').checked;
+    if(document.getElementById('all-tab').checked){
+        UpdateFromJoin();
+        UpdateCSS();
+        UpdateHTML();
+    } else {
+        UpdateCSS();
+        UpdateHTML();
+        UpdateJoin();
     }
-    function UpdateAll(){
-        let allOn = document.getElementById('all-tab').checked;
-        if(document.getElementById('all-tab').checked){
-            UpdateFromJoin();
-            UpdateCSS();
-            UpdateHTML();
-        } else {
-            UpdateCSS();
-            UpdateHTML();
-            UpdateJoin();
+}
+function BuildGrid_Display(w,h){
+    let tile = `<div class="tile"></div>`;
+    let tiles = tile.repeat(w);
+    let row = `<div class="row">${tiles}</div>`;
+    let rows = row.repeat(h);
+    let grid = `<div id="grid" class="grid">${rows}</div>`;
+    return grid;
+}
+function BuildGrid_Display1(w, h){
+    let grid = document.createElement('div');
+    grid.classList.add('grid');
+    grid.id = 'grid';
+    for(let y = 0; y < h; y++){
+        let row = document.createElement('div');
+        row.classList.add('row');
+        for(let x = 0; x < w; x++){
+            let tile = document.createElement('div');
+            tile.classList.add('tile');
+            tile.id = `xy,${x},${y}`;
+            row.appendChild(tile);
         }
+        grid.appendChild(row);
     }
-    function BuildGrid_Display(w,h){
-        let tile = `<div class="tile"></div>`;
-        let tiles = tile.repeat(w);
-        let row = `<div class="row">${tiles}</div>`;
-        let rows = row.repeat(h);
-        let grid = `<div id="grid" class="grid">${rows}</div>`;
-        return grid;
-    }
-    function BuildGrid_Display1(w, h){
-        let grid = document.createElement('div');
-        grid.classList.add('grid');
-        grid.id = 'grid';
-        for(let y = 0; y < h; y++){
-            let row = document.createElement('div');
-            row.classList.add('row');
-            for(let x = 0; x < w; x++){
-                let tile = document.createElement('div');
-                tile.classList.add('tile');
-                tile.id = `xy,${x},${y}`;
-                row.appendChild(tile);
-            }
-            grid.appendChild(row);
-        }
-        return grid;
-    }
-    function BuildGrid(){
-        let xlen = parseInt(document.getElementById('xlen').value);
-        let ylen = parseInt(document.getElementById('ylen').value);
+    return grid;
+}
+function BuildGrid(){
+    let xlen = parseInt(document.getElementById('xlen').value);
+    let ylen = parseInt(document.getElementById('ylen').value);
 
-        let grid = BuildGrid_Display(xlen, ylen);
-        let htmlInput = document.getElementById('html-input');
-        htmlInput.value = grid;
-        // UpdateHTML();
-        let cssInput = document.getElementById('css-input');
-        cssInput.value = css_grid;
-        UpdateAll();
-        // let htmlDisplay = document.getElementById('html-display');
-        // htmlDisplay.appendChild(grid);
-        // let htmlInput = document.getElementById('html-input');
-        // htmlInput.value = htmlDisplay.innerHTML;
-    }
+    let grid = BuildGrid_Display(xlen, ylen);
+    let htmlInput = document.getElementById('html-input');
+    htmlInput.value = grid;
 
-    function ResetDisplay(){
-        let htmlInput = document.getElementById('html-input');
-        htmlInput.value = html_sample;
-        let cssInput = document.getElementById('css-input');
-        cssInput.value = css_sample;
-        UpdateAll();
-    }
-    function ClearDisplay(){
-        let htmlInput = document.getElementById('html-input');
-        htmlInput.value = '';
-        let cssInput = document.getElementById('css-input');
-        cssInput.value = '';
-        UpdateAll();
-    }
-    
+    let cssInput = document.getElementById('css-input');
+    cssInput.value = css_grid;
+    UpdateAll();
+}
 
-    // window.addEventListener('click', (ev) =>{
-    //     if(ev.target.dataset.cmd == 'eval'){
-    //         addHTML();
-    //     }
-    //     if(ev.target.dataset.cmd == 'reset'){
-    //         resetDisplay();
-    //     }
-    // });
-    window.addEventListener('load', (ev) => {
-        console.log(`Welcome to my Lab!`);
-    });
-    /* Version-log:
-    [index-nds-01]: works.
-    [index-nds-02]: main flex direction row.
-    [index-nds-03]: fix the grid dimension inputs to tell the user what they are.
-                    allow for hiding buttons and options.
-    */
+function ResetDisplay(){
+    let htmlInput = document.getElementById('html-input');
+    htmlInput.value = html_sample;
+    let cssInput = document.getElementById('css-input');
+    cssInput.value = css_sample;
+    UpdateAll();
+}
+function ClearDisplay(){
+    let htmlInput = document.getElementById('html-input');
+    htmlInput.value = '';
+    let cssInput = document.getElementById('css-input');
+    cssInput.value = '';
+    UpdateAll();
+}
+
+
+window.addEventListener('load', (ev) => {
+    console.log(`Welcome to my Lab!`);
+});
 </script>
 </body>
 </html>

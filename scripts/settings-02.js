@@ -59,6 +59,8 @@ function pause(){
         sLog([`%cs%c.pause:%c${s.pause}`, logSty.s, logSty.c, logSty.bool]);
         let pauseBtn = document.getElementById('pause');
         if(pauseBtn){pauseBtn.dataset.paused = s.pause;}
+        let toggleAnimation = document.getElementById('toggleAnimation');
+        if(toggleAnimation){toggleAnimation.checked = !s.pause;}
     }
 }
 function toggleTags(){

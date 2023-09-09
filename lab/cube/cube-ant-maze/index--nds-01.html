@@ -362,11 +362,10 @@
         }
     }
     class Maze {
-        constructor(w, h, fill = 0){
+        constructor(w, h, fill = -1){
             this.w = w;
             this.h = h;
             this.fill = fill;
-            this.path = 1;
             this.start = new xy();
             this.end = new xy();
             this.endingAnt = [];
@@ -404,24 +403,21 @@
             this.start.y = Math.floor(Math.random()*this.h);
 
             this.xyPath = new xy(this.start.x, this.start.y);
-            // this.maze[this.start.y][this.start.x] = 1;
-            // this.maze[this.start.y][this.start.x] = 2;
+            this.maze[this.start.y][this.start.x] = 1;
             this.step++;
             // s.maze['start'] = new xy();
             // s.maze.start.x = this.start.x;
             // s.maze.start.y = this.start.y;
         }
         selectEnd() {
-            // this.maze[this.end.y][this.end.x] = 9;
-            // this.maze[this.end.y][this.end.x] = 4;
+            this.maze[this.end.y][this.end.x] = 9;
         }
         isInMap(x,y){
             if(x < 0 || x >= this.w || y < 0 || y >= this.h) {return false;}
             else {return true;}
         }
         isClear(x,y){
-            // if(this.maze[y][x] == -1) {
-            if(this.maze[y][x] == this.fill) {
+            if(this.maze[y][x] == -1) {
                 return true;
             } else {
                 return false;
@@ -451,8 +447,7 @@
             if(this.ants.length < 5){
                 this.pathLog.directionsChosen[this.pathLog.stepCount].push(`${this.antCount}(${d}${direction_char[d]})`);
 
-                // this.maze[y][x] = 0;
-                this.maze[y][x] = this.path;
+                this.maze[y][x] = 0;
                 this.step++;
                 // let nAnt = new Ant(this.antCount,x,y);
                 let nAnt = new Ant(e.id,this.antCount,x,y,e.continual_steps);
@@ -516,8 +511,7 @@
                 if(validPath){
                     if(!antMoved){
                         this.pathLog.directionsChosen[this.pathLog.stepCount].push(nd);
-                        // this.maze[ny][nx] = 0;
-                        this.maze[ny][nx] = this.path;
+                        this.maze[ny][nx] = 0;
                         this.step++;
 
                         e.move(nx,ny,nd);
@@ -587,8 +581,7 @@
 
                     // if this side is on the map, and not where we came from.
                     if(this.isInMap(yxA.x,yxA.y) && !(yxA.x == this.xyPath.x && yxA.y == this.xyPath.y)) {
-                        // if(this.maze[yxA.y][yxA.x] != -1){
-                        if(this.maze[yxA.y][yxA.x] != this.fill){
+                        if(this.maze[yxA.y][yxA.x] != -1){
                             validPath = false;
                         }
                     }
@@ -620,22 +613,12 @@
     }
 
 
-    const mapElement = {
-        "VOID": 0,
-        "PATH": 1,
-        "START": 2,
-        "END": 4,
-        "WALL": 8,
-    }
     const indexTile = {
         "-1": {name: "void", fill: "#000", stroke: "#0000"},
-        // "0": {name: "path", fill: "#eee", stroke: "#eee0"},
-        // "1": {name: "void", fill: "#000", stroke: "#0000"},
-        "0": {name: "void", fill: "#000", stroke: "#0000"},
-        "1": {name: "path", fill: "#eee", stroke: "#eee0"},
+        "0": {name: "path", fill: "#eee", stroke: "#eee0"},
         // "1": {name: "start", fill: "#963", stroke: "#963"},
         // "4": {name: "end", fill: "#0c3", stroke: "#0c3"},
-        "2": {name: "start", fill: "#936", stroke: "#963"},
+        "1": {name: "start", fill: "#936", stroke: "#963"},
         "4": {name: "end", fill: "#222", stroke: "#0c3"},
         "5": {name: "player", fill: "#39f", stroke: "#000"},
         "8": {name: "wall", fill: "#333", stroke: "#3330"},
@@ -666,29 +649,15 @@
         // ctxg.fillRect(left,top,cboxSet.sz,cboxSet.sz);
         ctxg.fillRect(left,top,nsz,nsz);
     }
-    function DrawMap3(map, ix, iy){
-        for(let j = -7; j < 8; j++){
-            for(let i = -7; i < 8; i++){
-                let x = ix + i;
-                let y = iy + j;
-                if(isInMap(map,x,y) && map[y][x] == mapElement.PATH){
-                    DrawTile(ctx["canvas-grid"], map[y][x], i+7, j+7);
-                }
-            }
-        }
-    }
-    function DrawSpec(map, ix, iy){
-        DrawTile(ctx["canvas-spec"], map[y][x], i+7, j+7);
-    }
     function DrawMap(map, ix, iy){
         for(let j = -7; j < 8; j++){
             for(let i = -7; i < 8; i++){
                 let x = ix + i;
                 let y = iy + j;
-                if(isInMap(map,x,y) && map[y][x] != mapElement.VOID){
-                    if(map[y][x] == 1){
+                if(isInMap(map,x,y) && map[y][x] != -1){
+                    if(map[y][x] == 0){
                         DrawTile(ctx["canvas-grid"], map[y][x], i+7, j+7);
-                    } else if (map[y][x] > 1){
+                    } else if (map[y][x] > 0){
                         DrawTile(ctx["canvas-spec"], map[y][x], i+7, j+7);
                     }
                 }
@@ -708,13 +677,10 @@
     
     function MakeLevel(){
         level.makePath2();
-        cboxSet.start = {x: level.start.x, y: level.start.y};
-        cboxSet.end = {x: level.end.x, y: level.end.y};
-
         let start = {x: level.start.x, y: level.start.y};
         let end = {x: level.end.x, y: level.end.y};
         level.maze[end.y][end.x] = 4;
-        level.maze[start.y][start.x] = 2;
+        level.maze[start.y][start.x] = 1;
 
         cboxSet.player.x = start.x;
         cboxSet.player.y = start.y;
@@ -968,7 +934,7 @@
     }
     function isPath(g,x,y){
         if(isInMap(g,x,y)){
-            return g[y][x] > 0 && g[y][x] < 5;
+            return g[y][x] >= 0 && g[y][x] < 5;
         } else {
             return false;
         }
@@ -1014,35 +980,6 @@
                 break;
         }
     }
-
-    function MazeCopy(g){
-        let g2 = [];
-        for (let y = 0; y < g.length; y++) {
-            g2.push([]);
-            for (let x = 0; x < g[y].length; x++) {
-                // const element = g[y][x];
-                g2[y].push(g[y][x]);
-            }
-        }
-        return g2;
-    }
-    function PrintMaze(g){
-        console.log(g.map(row => row.join(',')).join('\n'));
-        // Number.parseInt(row.join(''), 2).toString(36);
-        // g.map(row => Number.parseInt(row.join(''), 2).toString(36)).join('\n')
-        // console.log(g.map(row => Number.parseInt(row.join(''), 2).toString(36)).join('\n'));
-        
-        // g.map(row => row.join('')).join('');
-    }
-
-    function getMazeString(g){
-        return g.map(e=>e.join('')).join(',');
-    }
-    function getMazeGrid(s){
-        return s.split(',').map(e=>e.split(''));
-    }
-    
-
 </script>
 </body>
 </html>
