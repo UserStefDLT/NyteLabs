@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>NyteLabs_Template | NyteLabs</title>
+    <title>Milk | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
@@ -18,16 +18,174 @@
         /* :root {} */
     </style>
 <style>
-    .class {}
+/* making a box, later a milk carton. (adding shades) */
+:root {
+--sz: 100px;
+--h-box: 200px;
+--radius: calc(var(--sz) * -1);
+
+--rot-x: 0deg;
+--rot-y: 0deg;
+--rot-z: 0deg; 
+--tt-50: translate(-50%, -50%);
+--p: 5000px;
+}
+.frame, .box, [class|="z"], [class|="side"], [class|="top"] {
+box-sizing: border-box;
+display: flex;
+align-items: center; justify-content: center;
+transform-style: preserve-3d;
+}
+.frame, .box {
+position: relative;
+border: 1px dashed #fff9;
+}
+.frame {
+  height: 300px;
+  width: 300px;
+  display: flex;
+  align-items: center; justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.box {
+height: 100px;
+width: 100px;
+transform: perspective(var(--p)) rotate3d(1,0,0,54deg) rotate3d(0,0,1,-45deg);
+
+--atime: 3600ms;
+--adel: calc(var(--atime) * -.875);
+animation: zrot var(--atime) linear infinite both;
+animation-delay: var(--adel);
+
+animation-play-state: paused;
+}
+.box:hover {
+animation-play-state: running;
+}
+
+.z-0 {--rot-z: 0deg;}
+.z-90 {--rot-z: 90deg;}
+.z-180 {--rot-z: 180deg;}
+.z-270 {--rot-z: 270deg;}
+[class|="z"] {
+--hue: calc(var(--i) * 30);
+--color: hsla(var(--hue), 0%, 95%, 1);
+
+position: absolute;
+top: 0; left: 0;
+height: var(--sz); width: var(--sz);
+
+transform: rotateZ(var(--rot-z));
+}
+
+[class|="side"] {
+position: absolute;
+bottom: 0; left: 0;
+
+height: var(--sz); width: var(--sz);
+height: var(--h-box);
+
+background-color: var(--color);
+background-image: linear-gradient(#0001, #0002);
+font-size: 24px;
+color: #fff;
+text-shadow: 2px 2px 1px #000a;
+
+--rot-x: -90deg;
+transform-origin: 50% 100%;
+transform: rotate3d(1,0,0,var(--rot-x));
+}
+
+
+[class|="top"] {
+position: absolute;
+bottom: 0; left: 0;
+
+height: 100px; width: var(--sz);
+height: 70.7px;
+
+background-color: var(--color);
+font-size: 24px;
+color: #fff;
+text-shadow: 2px 2px 1px #000a;
+
+--rot-x: -90deg;
+transform-origin: 50% 100%;
+transform: rotate3d(1,0,0,var(--rot-x));
+}
+.top-12::after, 
+.top-18::after {
+content: '';
+position: absolute;
+top: 50%; left: 50%;
+height: 99%; width: 99%;
+transform: translate(-50%, -50%) translateZ(-1px);
+background-color: #0009;
+}
+.top-14, .top-16 {
+height: 50px;
+background-color: #0000;
+background-image: conic-gradient(from 135deg,
+var(--color) 0deg 90deg,
+transparent 90deg);
+
+background-image: 
+conic-gradient(from 45deg,
+#0006 0deg,
+#0003 10deg,
+#0000 20deg,
+#0000 250deg,
+#0003 260deg,
+#0006 270deg,
+transparent 270deg),
+
+conic-gradient(from 135deg,
+var(--color) 0deg 90deg,
+transparent 90deg);
+
+background-size: 100px 100px;
+background-position: 50px 0px, 0px 50px;
+}
+
+.top-12 {--rot-x: -45deg;}
+.top-18 {--rot-x: -45deg;}
+.top-14 {--rot-x: -60deg;}
+.top-16 {--rot-x: -60deg;}
+[class|="top"] {
+transform: translateZ(100px) rotate3d(1,0,0,var(--rot-x));
+
+transform: translateZ(var(--h-box)) rotate3d(1,0,0,var(--rot-x));
+}
+
+
+@keyframes zrot {
+0% {
+transform: perspective(var(--p)) rotate3d(1,0,0,54deg) rotate3d(0,0,1,0deg);
+}
+100% {
+transform: perspective(var(--p)) rotate3d(1,0,0,54deg) rotate3d(0,0,1,360deg);
+}
+}
+
+.top-22 {
+height: 20px;
+--rot-x: -90deg;
+transform-origin: 50% 50%;
+transform: translateY(-40px) translateZ(260px) rotate3d(1,0,0,var(--rot-x));
+border-radius: 4px 4px 0 0;
+background-image: linear-gradient(#0001, #0002);
+}
+
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
     <header>
-        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
         <h1 class="title">NyteLabs</h1>
-        <!-- <div class="subtitle">NyteLabs_Template</div> -->
+        <!-- <div class="subtitle">Milk</div> -->
     </header>
     <input type="checkbox" name="toggle" id="toggleAnimation" checked>
     <input type="checkbox" name="toggle" id="toggleOpacity">
@@ -36,7 +194,44 @@
 <main>
     <div class="shelf">
         <h3 class="shelf-title">experiment</h3>
-        <div id="display"></div>
+        <div id="display">
+            <div class="frame">
+                <div class="box">
+                    <div class="z-0">
+                        <div class="side-2">2</div>
+                    </div>
+                    <div class="z-90">
+                        <div class="side-4">4</div>
+                    </div>
+                    <div class="z-270">
+                        <div class="side-6">6</div>
+                    </div>
+                    <div class="z-180">
+                        <div class="side-8">8</div>
+                    </div>
+                    
+                    <div class="z-0">
+                        <div class="top-12">12</div>
+                    </div>
+                    <div class="z-180">
+                        <div class="top-18">18</div>
+                    </div>
+                    
+                    <div class="z-90">
+                        <div class="top-14">14</div>
+                    </div>
+                    <div class="z-270">
+                        <div class="top-16">16</div>
+                    </div>
+                    
+                    <div class="z-0">
+                        <div class="top-22">22</div>
+                    </div>
+                </div>
+                
+            </div>
+                
+        </div>
     </div>
     <!-- <canvas id="canvas"></canvas> -->
 </main>
