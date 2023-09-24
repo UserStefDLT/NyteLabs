@@ -169,6 +169,15 @@ transform: translateZ(var(--h-box)) rotate3d(1,0,0,var(--rot-x));
 0% {
 transform: perspective(var(--p)) rotate3d(1,0,0,var(--box-x-rot)) rotate3d(0,0,1,0deg);
 }
+25% {
+transform: perspective(var(--p)) rotate3d(1,0,0,var(--box-x-rot)) rotate3d(0,0,1,90deg);
+}
+50% {
+transform: perspective(var(--p)) rotate3d(1,0,0,var(--box-x-rot)) rotate3d(0,0,1,180deg);
+}
+75% {
+transform: perspective(var(--p)) rotate3d(1,0,0,var(--box-x-rot)) rotate3d(0,0,1,270deg);
+}
 100% {
 transform: perspective(var(--p)) rotate3d(1,0,0,var(--box-x-rot)) rotate3d(0,0,1,360deg);
 }
