@@ -413,7 +413,7 @@
 
             let hueheat = Math.sqrt(this.heat) * 10;
             let lumheat = (this.heat*this.heat) / 100;
-            this.hue = (this.heat * .9);
+            this.hue = (this.heat * 1.2);
             this.lum = 50 + lumheat/2;
             
             // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .75)`;
@@ -917,15 +917,12 @@
                 if(d > 0 && d < r){
                     // let force = g * 1/d;
                     let hf = g * (50 - a.heat) / 25;
-                    if(a.heat > 50) { hf = 0; }
                     let hg = g + hf;
                     let force = hg * 1/d;
 
                     fx += (force * dx);
                     fy += (force * dy);
-                    if(dh > 0) {
-                        fh += dh * 1/d;
-                    }
+                    fh += dh * 1/d;
                 }
             }
             a.vx = (a.vx + fx) * .98;
@@ -935,8 +932,7 @@
             
             // a.vh = (a.vh + fh) * 0.20;
             // a.vh = (a.vh + fh) * 0.45;
-            a.vh = (a.vh + fh) * 0.45;
-            // a.vh = (a.vh + fh) * 0.35;
+            a.vh = (a.vh + fh) * 0.40;
             a.heat += a.vh;
             if(a.heat > 100){a.heat = 100;}
 

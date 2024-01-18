@@ -413,7 +413,7 @@
 
             let hueheat = Math.sqrt(this.heat) * 10;
             let lumheat = (this.heat*this.heat) / 100;
-            this.hue = (this.heat * .9);
+            this.hue = (this.heat * 1.2);
             this.lum = 50 + lumheat/2;
             
             // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .75)`;
@@ -900,51 +900,6 @@
             if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
         }
     }
-    function heat7(list1, list2, g = 0, r = 100){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            let fx = 0;
-            let fy = 0;
-            let fh = 0;
-            if(a.heat > 0) {a.heat -= (a.heat/100);}
-            for (let j = 0; j < list2.length; j++) {
-                const b = list2[j];
-                let dx = a.x - b.x;
-                let dy = a.y - b.y;
-                // let dh = a.heat - b.heat;
-                let dh = b.heat - a.heat;
-                let d = Math.sqrt(dx*dx + dy*dy);
-                if(d > 0 && d < r){
-                    // let force = g * 1/d;
-                    let hf = g * (50 - a.heat) / 25;
-                    if(a.heat > 50) { hf = 0; }
-                    let hg = g + hf;
-                    let force = hg * 1/d;
-
-                    fx += (force * dx);
-                    fy += (force * dy);
-                    if(dh > 0) {
-                        fh += dh * 1/d;
-                    }
-                }
-            }
-            a.vx = (a.vx + fx) * .98;
-            a.vy = (a.vy + fy) * .98;
-            a.x += a.vx;
-            a.y += a.vy;
-            
-            // a.vh = (a.vh + fh) * 0.20;
-            // a.vh = (a.vh + fh) * 0.45;
-            a.vh = (a.vh + fh) * 0.45;
-            // a.vh = (a.vh + fh) * 0.35;
-            a.heat += a.vh;
-            if(a.heat > 100){a.heat = 100;}
-
-            /* ─pushes back from border─ */
-            if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
-            if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
-        }
-    }
     const pg = {}
     function start(){
         // // pg["daor"] = createXY(1,"#f939", s.canvas.left+250, s.canvas.top+250);
@@ -996,14 +951,9 @@
             // orbit(pg["e"], pg["sun"], -.005, 700);
             // heat5(pg["e"], pg["sun"], .005, 100);
 
-            // heat6(pg["e"], pg["sun"], -.009, 1500);
-            // // orbit(pg["e"], pg["e"], .05, 10);
-            // heat6(pg["e"], pg["e"], .05, 10);
-            // // heat6(pg["e"], pg["e"], .05, 15);
-
-            heat7(pg["e"], pg["sun"], -.009, 1500);
-            // heat7(pg["e"], pg["e"], .05, 10);
-            heat7(pg["e"], pg["e"], .09, 10);
+            heat6(pg["e"], pg["sun"], -.009, 1500);
+            // orbit(pg["e"], pg["e"], .05, 10);
+            heat6(pg["e"], pg["e"], .05, 10);
             // heat6(pg["e"], pg["e"], .05, 15);
             
             /* ─Rest of Update()─ */
