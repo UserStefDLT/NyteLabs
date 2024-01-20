@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Heat Rules | NyteLabs</title>
+    <title>Water Rules | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/canvas.css">
@@ -22,7 +22,7 @@
             background-color: #0000;
             --blur: 3px;
             /* filter: blur(8px); */
-            filter: blur(var(--blur));
+            /* filter: blur(var(--blur)); */
             /* filter: blur(var(--blur)) url(#quid-50_20); */
             /* filter: blur(var(--blur)) url(#quid-10_5); */
             /* filter: blur(var(--blur)) url(#quid-20_10); */
@@ -132,6 +132,12 @@
             animation-play-state: paused;
         }
 
+        /* :root {
+            --ch: 100px;
+        }
+        [id*="canvas"], #canvas {
+            height: var(--ch);
+        } */
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
@@ -269,7 +275,7 @@
 
         if(pg["sun"].length > 0) {
             pg["sun"][0].x = s.w/2;
-            pg["sun"][0].y = s.h/2;
+            // pg["sun"][0].y = s.h/2;
         }
     });
 
@@ -364,9 +370,10 @@
             this.x = x;
             this.y = y;
             this.c = c;
-            this.s = 32;
+            // this.s = 32;
             // this.s = 12;
             // this.s = 24;
+            this.s = 18;
             this.vx = vx;
             this.vy = vy;
             this.vz = 0;
@@ -413,16 +420,27 @@
             // this.hue = (this.heat * 1.2);
             // this.lum = 50 + this.heat/2;
 
-            let hueheat = Math.sqrt(this.heat) * 10;
+            // let hueheat = Math.sqrt(this.heat) * 10;
             let lumheat = (this.heat*this.heat) / 100;
-            this.hue = (this.heat * .9);
+            // this.hue = (this.heat * 1.2);
+            // this.hue = (hueheat * .9);
+            this.hue = (this.heat * 3.6);
             this.lum = 50 + lumheat/2;
-            
-            // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .75)`;
-            // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.lum}%)`;
-            // this.alp = Math.abs(this.heat) * .9 + 10;
-            this.alp = Math.abs(this.heat);
-            this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.alp}%)`;
+            // this.alp = Math.pow(this.heat,2) / 1000;
+            // this.alp = Math.pow(this.heat,3) / 10000;
+            // this.alp = this.heat;
+            // this.alp = .5;
+            this.alp = Math.abs(this.heat/100);
+            if(this.heat < 55) {this.alp = 0.01;} 
+            else if(this.heat < 70) {this.alp = 0.03;}
+
+            // // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .75)`;
+            // // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.lum}%)`;
+            // // this.alp = Math.abs(this.heat) * .9 + 10;
+            // this.alp = Math.abs(this.heat);
+            // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.alp}%)`;
+            this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.alp})`;
+            // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .01)`;
             return this.c;
         }
     }
@@ -568,341 +586,12 @@
     }
 
     /* This function affects the particles in list1. */
-    function rule2(list1, list2, g = 0, r = 100){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            let fx = 0;
-            let fy = 0;
-            for (let j = 0; j < list2.length; j++) {
-                const b = list2[j];
-                let dx = a.x - b.x;
-                let dy = a.y - b.y;
-                // let d = (dx*dx + dy*dy);
-                let d = Math.sqrt(dx*dx + dy*dy);
-                if(d > 0 && d < r){
-                    let force = g * 1/d;
-                    fx += (force * dx);
-                    fy += (force * dy);
-                }
-            }
-            a.vx = (a.vx + fx) * .5;
-            a.vy = (a.vy + fy) * .5;
-            a.x += a.vx;
-            a.y += a.vy;
-
-            /* ─pushes back from border─ */
-            if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
-            if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
-        }
+    const globRules = {
+        // heatloss: 0.35,
+        heatloss: 0.75,
     }
-    function orbit(list1, list2, g = 0, r = 100){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            let fx = 0;
-            let fy = 0;
-            for (let j = 0; j < list2.length; j++) {
-                const b = list2[j];
-                let dx = a.x - b.x;
-                let dy = a.y - b.y;
-                let d = Math.sqrt(dx*dx + dy*dy);
-                if(d > 0 && d < r){
-                    let force = g * 1/d;
-                    fx += (force * dx);
-                    fy += (force * dy);
-                }
-            }
-            a.vx = (a.vx + fx);
-            a.vy = (a.vy + fy);
-            a.x += a.vx;
-            a.y += a.vy;
-
-            /* ─pushes back from border─ */
-            if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
-            if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
-        }
-    }
-    function orbit2(list1, list2, g = 0, r = 100){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            let fx = 0;
-            let fy = 0;
-            for (let j = 0; j < list2.length; j++) {
-                const b = list2[j];
-                let dx = a.x - b.x;
-                let dy = a.y - b.y;
-                let d = Math.sqrt(dx*dx + dy*dy);
-                if(d > 0 && d < r){
-                    // let force = g * 1/d;
-                    let hg = (a.heat - 50) / 10000;
-                    let force = hg * 1/d;
-                    fx += (force * dx);
-                    fy += (force * dy);
-                }
-            }
-            a.vx = (a.vx + fx);
-            a.vy = (a.vy + fy);
-            a.x += a.vx;
-            a.y += a.vy;
-
-            /* ─pushes back from border─ */
-            if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
-            if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
-        }
-    }
-    function heat(list1, list2, g = 0, r = 100){
-        // for (let i = 0; i < list1.length; i++) {}
-
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            // let fx = 0;
-            // let fy = 0;
-            let fh = 0;
-            if(a.heat > 0) {a.heat -= (a.heat/8);}
-            for (let j = 0; j < list2.length; j++) {
-                const b = list2[j];
-                let dx = a.x - b.x;
-                let dy = a.y - b.y;
-                // let dh = a.heat - b.heat;
-                let dh = b.heat - a.heat;
-                let d = Math.sqrt(dx*dx + dy*dy);
-                if(d > 0 && d < r){
-                    let force = g * 1/d;
-                    // fx += (force * dx);
-                    // fy += (force * dy);
-                    fh += dh * 1/d;
-                    // console.log(`%c1/d: %c${d.toFixed(2)}%c * dh: %c${dh.toFixed(2)}%c = fh: %c${fh.toFixed(2)}`, "color: #999;", "color: #06c;", "color: #999;", "color: #06c;", "color: #999;", "color: #06c;");
-                }
-            }
-            // a.vx = (a.vx + fx);
-            // a.vy = (a.vy + fy);
-            // a.x += a.vx;
-            // a.y += a.vy;
-            
-            a.vh = (a.vh + fh) * 0.8;
-            // a.vh /= 2;
-            a.heat += a.vh;
-            // a.heat = (1-fh) * 100;
-            // a.heat = fh;
-            if(a.heat > 100){a.heat = 100;}
-
-            /* ─pushes back from border─ */
-            // if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
-            // if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
-        }
-    }
-    function heat2(list1, list2, g = 0, r = 100){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            let fx = 0;
-            let fy = 0;
-            let fh = 0;
-            if(a.heat > 0) {a.heat -= (a.heat/8);}
-            for (let j = 0; j < list2.length; j++) {
-                const b = list2[j];
-                let dx = a.x - b.x;
-                let dy = a.y - b.y;
-                // let dh = a.heat - b.heat;
-                let dh = b.heat - a.heat;
-                let d = Math.sqrt(dx*dx + dy*dy);
-                if(d > 0 && d < r){
-                    let force = g * 1/d;
-                    // let hg = g + ((a.heat - 50) / 10000);
-                    // let force = hg * 1/d;
-                    fx += (force * dx);
-                    fy += (force * dy);
-                    fh += dh * 1/d;
-
-                    // // let hf = (50 - a.heat) / 100;
-                    // let hf = (a.heat - 50) / 1000;
-                    // console.log(`%chg: %c${hg.toFixed(5)}`, "color: #999;", "color: #06c;");
-                    // console.log(`%cforce: %c${force.toFixed(5)}`, "color: #999;", "color: #06c;");
-                    // console.log(`%cforce: %c${force.toFixed(5)}%c, fx: %c${fx.toFixed(5)}%c, fy: %c${fy.toFixed(5)}`, "color: #999;", "color: #06c;", "color: #999;", "color: #06c;", "color: #999;", "color: #06c;");
-                    // console.log(`%c1/d: %c${d.toFixed(2)}%c * dh: %c${dh.toFixed(2)}%c = fh: %c${fh.toFixed(2)}`, "color: #999;", "color: #06c;", "color: #999;", "color: #06c;", "color: #999;", "color: #06c;");
-                }
-            }
-            a.vx = (a.vx + fx) * .98;
-            a.vy = (a.vy + fy) * .98;
-            a.x += a.vx;
-            a.y += a.vy;
-            
-            a.vh = (a.vh + fh) * 0.8;
-            a.heat += a.vh;
-            if(a.heat > 100){a.heat = 100;}
-
-            /* ─pushes back from border─ */
-            if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
-            if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
-        }
-    }
-    function heat3(list1, list2, g = 0, r = 100){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            let fx = 0;
-            let fy = 0;
-            let fh = 0;
-            if(a.heat > 0) {a.heat -= (a.heat/8);}
-            for (let j = 0; j < list2.length; j++) {
-                const b = list2[j];
-                let dx = a.x - b.x;
-                let dy = a.y - b.y;
-                // let dh = a.heat - b.heat;
-                let dh = b.heat - a.heat;
-                let d = Math.sqrt(dx*dx + dy*dy);
-                if(d > 0 && d < r){
-                    // let force = g * 1/d;
-                    let hg = g + ((a.heat - 50) / 10000);
-                    let force = hg * 1/d;
-                    fx += (force * dx);
-                    fy += (force * dy);
-                    fh += dh * 1/d;
-
-                    // // let hf = (50 - a.heat) / 100;
-                    // let hf = (a.heat - 50) / 1000;
-                    // console.log(`%chg: %c${hg.toFixed(5)}`, "color: #999;", "color: #06c;");
-                    // console.log(`%cforce: %c${force.toFixed(5)}`, "color: #999;", "color: #06c;");
-                    // console.log(`%cforce: %c${force.toFixed(5)}%c, fx: %c${fx.toFixed(5)}%c, fy: %c${fy.toFixed(5)}`, "color: #999;", "color: #06c;", "color: #999;", "color: #06c;", "color: #999;", "color: #06c;");
-                    // console.log(`%c1/d: %c${d.toFixed(2)}%c * dh: %c${dh.toFixed(2)}%c = fh: %c${fh.toFixed(2)}`, "color: #999;", "color: #06c;", "color: #999;", "color: #06c;", "color: #999;", "color: #06c;");
-                }
-            }
-            a.vx = (a.vx + fx) * .98;
-            a.vy = (a.vy + fy) * .98;
-            a.x += a.vx;
-            a.y += a.vy;
-            
-            a.vh = (a.vh + fh) * 0.9;
-            a.heat += a.vh;
-            if(a.heat > 100){a.heat = 100;}
-
-            /* ─pushes back from border─ */
-            if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
-            if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
-        }
-    }
-    function heat4(list1, list2, g = 0, r = 100){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            let fx = 0;
-            let fy = 0;
-            let fh = 0;
-            if(a.heat > 0) {a.heat -= (a.heat/8);}
-            for (let j = 0; j < list2.length; j++) {
-                const b = list2[j];
-                let dx = a.x - b.x;
-                let dy = a.y - b.y;
-                // let dh = a.heat - b.heat;
-                let dh = b.heat - a.heat;
-                let d = Math.sqrt(dx*dx + dy*dy);
-                if(d > 0 && d < r){
-                    // let force = g * 1/d;
-                    // let hg = g + ((a.heat - 50) / 10000);
-                    // let force = hg * 1/d;
-
-                    let hf = g * (50 - a.heat) / 25;
-                    let hg = g + hf;
-                    // console.log(`%chg: %c${hg.toFixed(5)}`, "color: #999;", "color: #06c;");
-                    let force = hg * 1/d;
-
-                    fx += (force * dx);
-                    fy += (force * dy);
-                    fh += dh * 1/d;
-
-                    // let hf = (50 - a.heat) / 25;
-                    // // let hf = (a.heat - 50) / 100;
-                    // console.log(`%chf: %c${hf.toFixed(5)}`, "color: #999;", "color: #06c;");
-                    // console.log(`%cforce: %c${force.toFixed(5)}`, "color: #999;", "color: #06c;");
-                    // console.log(`%cforce: %c${force.toFixed(5)}%c, fx: %c${fx.toFixed(5)}%c, fy: %c${fy.toFixed(5)}`, "color: #999;", "color: #06c;", "color: #999;", "color: #06c;", "color: #999;", "color: #06c;");
-                    // console.log(`%c1/d: %c${d.toFixed(2)}%c * dh: %c${dh.toFixed(2)}%c = fh: %c${fh.toFixed(2)}`, "color: #999;", "color: #06c;", "color: #999;", "color: #06c;", "color: #999;", "color: #06c;");
-                }
-            }
-            a.vx = (a.vx + fx) * .98;
-            a.vy = (a.vy + fy) * .98;
-            a.x += a.vx;
-            a.y += a.vy;
-            
-            a.vh = (a.vh + fh) * 0.9;
-            a.heat += a.vh;
-            if(a.heat > 100){a.heat = 100;}
-
-            /* ─pushes back from border─ */
-            if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
-            if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
-        }
-    }
-    function heat5(list1, list2, g = 0, r = 100){
-        // for (let i = 0; i < list1.length; i++) {}
-
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            // let fx = 0;
-            // let fy = 0;
-            let fh = 0;
-            if(a.heat > 0) {a.heat -= (a.heat/100);}
-            // if(a.heat > 0) {a.heat--;}
-            for (let j = 0; j < list2.length; j++) {
-                const b = list2[j];
-                let dx = a.x - b.x;
-                let dy = a.y - b.y;
-                // let dh = a.heat - b.heat;
-                let dh = b.heat - a.heat;
-                let d = Math.sqrt(dx*dx + dy*dy);
-                if(d > 0 && d < r){
-                    let force = g * 1/d;
-                    // fx += (force * dx);
-                    // fy += (force * dy);
-                    fh += dh * 1/d;
-                    // console.log(`%c1/d: %c${d.toFixed(2)}%c * dh: %c${dh.toFixed(2)}%c = fh: %c${fh.toFixed(2)}`, "color: #999;", "color: #06c;", "color: #999;", "color: #06c;", "color: #999;", "color: #06c;");
-                }
-            }
-            
-            a.vh = (a.vh + fh) * .25;
-            // a.vh /= 2;
-            a.heat += a.vh;
-            // a.heat = (1-fh) * 100;
-            // a.heat = fh;
-            if(a.heat > 100){a.heat = 100;}
-
-        }
-    }
-    function heat6(list1, list2, g = 0, r = 100){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            let fx = 0;
-            let fy = 0;
-            let fh = 0;
-            if(a.heat > 0) {a.heat -= (a.heat/100);}
-            for (let j = 0; j < list2.length; j++) {
-                const b = list2[j];
-                let dx = a.x - b.x;
-                let dy = a.y - b.y;
-                // let dh = a.heat - b.heat;
-                let dh = b.heat - a.heat;
-                let d = Math.sqrt(dx*dx + dy*dy);
-                if(d > 0 && d < r){
-                    // let force = g * 1/d;
-                    let hf = g * (50 - a.heat) / 25;
-                    let hg = g + hf;
-                    let force = hg * 1/d;
-
-                    fx += (force * dx);
-                    fy += (force * dy);
-                    fh += dh * 1/d;
-                }
-            }
-            a.vx = (a.vx + fx) * .98;
-            a.vy = (a.vy + fy) * .98;
-            a.x += a.vx;
-            a.y += a.vy;
-            
-            a.vh = (a.vh + fh) * 0.20;
-            a.heat += a.vh;
-            if(a.heat > 100){a.heat = 100;}
-
-            /* ─pushes back from border─ */
-            if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
-            if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
-        }
-    }
-    function heat7(list1, list2, g = 0, r = 100){
+    const pr = {}
+    pr["heat7"] = function (list1, list2, g = 0, r = 100){
         for (let i = 0; i < list1.length; i++) {
             const a = list1[i];
             let fx = 0;
@@ -937,16 +626,87 @@
             
             // a.vh = (a.vh + fh) * 0.20;
             // a.vh = (a.vh + fh) * 0.45;
-            a.vh = (a.vh + fh) * 0.45;
             // a.vh = (a.vh + fh) * 0.35;
+            // a.vh = (a.vh + fh) * 0.45;
+            a.vh = (a.vh + fh) * globRules.heatloss;
             a.heat += a.vh;
             if(a.heat > 100){a.heat = 100;}
-
-            /* ─pushes back from border─ */
-            if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
-            if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
         }
     }
+    pr["heat-fall"] = function (list1, list2, g = 0, r = 100){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fh = 0;
+            if(a.heat > 0) {a.heat -= (a.heat/100);}
+            
+            let hf = g * (50 - a.heat) / 25;
+            if(a.heat > 50) { hf = 0; }
+            let hg = g + hf;
+
+            // a.vx = (a.vx + fx) * .98;
+            // a.vy = (a.vy + fy) * .98;
+            a.vy = (a.vy + hg) * .98;
+            // a.x += a.vx;
+            a.y += a.vy;
+            
+            // // a.vh = (a.vh + fh) * 0.20;
+            // // a.vh = (a.vh + fh) * 0.45;
+            // a.vh = (a.vh + fh) * 0.45;
+            // // a.vh = (a.vh + fh) * 0.35;
+            // a.heat += a.vh;
+            // if(a.heat > 100){a.heat = 100;}
+
+            /* ─pushes back from border─ */
+            if(a.x <= 0 || a.x >= (s.w)){a.vx *= -1;}
+            if(a.y <= 0 || a.y >= (s.h)){a.vy *= -1;}
+        }
+    }
+    pr["fall"] = function (list1, list2, g = 0, r = 100){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+
+            a.vy = (a.vy + g) * .98;
+            a.y += a.vy;
+
+            /* ─pushes back from border─ */
+            if(a.x <= 0 || a.x >= (s.w)){a.vx *= -1;}
+            if(a.y <= 0 || a.y >= (s.h)){a.vy *= -1;}
+
+        }
+    }
+    var rules2 = [
+        {rule: "heat7", a: "e", b: "sun", g: -0.009, r: 1500},
+        {rule: "fall", a: "e", b: "e", g: -.009, r: 100},
+        {rule: "heat7", a: "e", b: "e", g: .09, r: 10}
+    ];
+    var rules1 = [
+        {rule: "heat7", a: "e", b: "sun", g: -0.001, r: 1500},
+        {rule: "fall", a: "e", b: "e", g: .015, r: 100},
+        {rule: "heat7", a: "e", b: "e", g: .09, r: 30}
+    ];
+    var rules3 = [
+        {rule: "heat7", a: "e", b: "sun", g: -0.009, r: 1500},
+        {rule: "heat-fall", a: "e", b: "e", g: -.006, r: 100},
+        {rule: "heat7", a: "e", b: "e", g: .09, r: 10}
+    ];
+    var rules4 = [
+        {rule: "heat7", a: "e", b: "sun", g: -0.009, r: 1500},
+        {rule: "fall", a: "e", b: "e", g: -.015, r: 100},
+        {rule: "heat7", a: "e", b: "e", g: .09, r: 10}
+    ];
+    var rules5 = [
+        {rule: "heat7", a: "e", b: "sun", g: -0.005, r: 1500},
+        {rule: "fall", a: "e", b: "e", g: -.005, r: 100},
+        {rule: "heat7", a: "e", b: "e", g: .012, r: 10}
+    ];
+    var rules = [
+        {rule: "heat7", a: "e", b: "sun", g: -0.005, r: 1500},
+        {rule: "fall", a: "e", b: "e", g: -.004, r: 100},
+        {rule: "heat7", a: "e", b: "e", g: .03, r: 10}
+    ];
+
     const pg = {}
     function start(){
         // // pg["daor"] = createXY(1,"#f939", s.canvas.left+250, s.canvas.top+250);
@@ -966,47 +726,24 @@
         
         // pg["e"] = createOrbit2(30, 0, -1, 150);
 
-        pg["sun"] = createXY3(1, s.canvas.left+250, s.canvas.top+250, 100);
+        // pg["sun"] = createXY3(1, s.canvas.left+250, s.canvas.top+250, 100);
+        // pg["sun"] = createXY3(1, s.canvas.left+250, 500, 100);
+        pg["sun"] = createXY3(1, s.canvas.left+250, s.h*.6, 100);
         pg["e"] = createOrbit3(360, 0, -1, 100);
     }
     // start();
 
     function update(){
         if(!s.q && !s.pause){
-            // // works fine moves fast.
-            // orbit(pg["e"], pg["sun"], -.005, 700);
-            // // orbit(pg["e"], pg["sun"], .15, 10);
-            // // heat(pg["e"], pg["sun"], .005, 100);
-            // // // it is slower and stops at the radius.
-            // // rule2(pg["e"], pg["sun"], -.15, 700);
-            // // orbit(pg["e"], pg["sun"], .15, 10);
+            rules.forEach(e => {
+                pr[e.rule](pg[e.a], pg[e.b], e.g, e.r);
+            });
 
-            // heat2(pg["e"], pg["sun"], -.005, 700);
-            // orbit(pg["e"], pg["sun"], .15, 10);
-            // // // heat2(pg["e"], pg["e"], .05, 50);
-            // // orbit(pg["e"], pg["e"], .15, 10);
-            
-            // orbit2(pg["e"], pg["sun"], -.005, 700);
-            // let hf = (a.heat - 50) / 1000;
-
-            // heat4(pg["e"], pg["sun"], -.009, 700);
-            // orbit(pg["e"], pg["sun"], .15, 10);
-            // orbit(pg["e"], pg["e"], .15, 10);
-            // heat2(pg["e"], pg["e"], .15, 10);
-            // orbit(pg["e"], pg["e"], .05, 10);
-
-            // orbit(pg["e"], pg["sun"], -.005, 700);
-            // heat5(pg["e"], pg["sun"], .005, 100);
-
-            // heat6(pg["e"], pg["sun"], -.009, 1500);
-            // // orbit(pg["e"], pg["e"], .05, 10);
-            // heat6(pg["e"], pg["e"], .05, 10);
+            // heat7(pg["e"], pg["sun"], -.009, 1500);
+            // // heat7(pg["e"], pg["e"], .05, 10);
+            // fall(pg["e"], pg["e"], -.009, 100);
+            // heat7(pg["e"], pg["e"], .09, 10);
             // // heat6(pg["e"], pg["e"], .05, 15);
-
-            heat7(pg["e"], pg["sun"], -.009, 1500);
-            // heat7(pg["e"], pg["e"], .05, 10);
-            heat7(pg["e"], pg["e"], .09, 10);
-            // heat6(pg["e"], pg["e"], .05, 15);
             
             /* ─Rest of Update()─ */
             // drawSquare(ctx,0,0,"#00000020",s.w,s.h);
@@ -1015,6 +752,7 @@
             // ctx.clearRect(s.canvas.left,s.canvas.top,s.canvas.w,s.canvas.h);
             // drawSquare(ctx,s.canvas.left,s.canvas.top,"#00000020",s.canvas.w,s.canvas.h);
             // ctx.clearRect(s.canvas.left,s.canvas.top,s.canvas.w,s.canvas.h);
+            // drawSquare(ctx,0,0,"#00000010",s.w,s.h);
             ctx.clearRect(0,0,s.w,s.h);
 
             for(let i = 0; i<particles.length; i++){
@@ -1043,6 +781,8 @@
         updateSettings();
         start();
         update();
+        // let cval = document.getElementById("canvas");
+        // cval.style = `--h: ${window.innerHeight}px`;
     });
 
     function WorldState(){
@@ -1076,6 +816,34 @@ avg: ${avg}.`);
             if(!Object.keys(range).includes(`${heatV}`)) {range[heatV] = 0;}
             range[heatV] += 1;
         });
+        console.log(range);
+    }
+    function PrintHeat(list){
+        // DO NOT USE, NOT FINISHED
+        let up = 0;
+        let dn = 100;
+        // let range = {"0":0, "1":0, "2":0, "3":0, "4":0, "5":0, "6":0, "7":0, "8":0, "9":0, "10":0};
+        let range = {};
+        list.forEach(e=>{
+            if(e.heat > up){up = e.heat;}
+            if(e.heat < dn){dn = e.heat;}
+            let heatV = Math.floor(e.heat/10);
+            if(!Object.keys(range).includes(`${heatV}`)) {
+                range[heatV] = [];
+                sum[heatV] = 0;
+                count[heatV] = 0;
+            }
+            range[heatV].push(e.heat);
+            sum[heatV] += e.heat;
+            count[heatV] += 1;
+        });
+        let prin = [];
+        range.forEach(e=>{
+            e.sort();
+
+            prin.push()
+        });
+
         console.log(range);
     }
 </script>
