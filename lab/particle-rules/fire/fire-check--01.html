@@ -132,12 +132,12 @@
             animation-play-state: paused;
         }
 
-        /* :root {
+        :root {
             --ch: 100px;
         }
         [id*="canvas"], #canvas {
             height: var(--ch);
-        } */
+        }
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
@@ -428,16 +428,12 @@
             // this.alp = Math.pow(this.heat,3) / 10000;
             // if(this.heat < 5) {this.alp = 0;}
             // this.alp = this.heat;
-            // this.alp = .15;
-            this.alp = this.heat/100;
-            this.s = 8 + (this.heat * 0.5);
-            // this.alp = .15;
-            // this.s = 24 + (this.heat * 0.25);
+            // this.alp = .5;
 
             // // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .75)`;
             // // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.lum}%)`;
             // // this.alp = Math.abs(this.heat) * .9 + 10;
-            // this.alp = Math.abs(this.heat);
+            this.alp = Math.abs(this.heat/100);
             // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.alp}%)`;
             this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.alp})`;
             // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .01)`;
@@ -1101,8 +1097,8 @@
             a.y += a.vy;
 
             /* ─pushes back from border─ */
-            if(a.x <= a.s || a.x >= (s.w-a.s)){a.vx *= -1;}
-            if(a.y <= a.s || a.y >= (s.h-a.s)){a.vy *= -1;}
+            if(a.x <= 0 || a.x >= (s.w)){a.vx *= -1;}
+            if(a.y <= 0 || a.y >= (s.h)){a.vy *= -1;}
 
         }
     }
@@ -1147,7 +1143,7 @@
         // pg["e"] = createOrbit2(30, 0, -1, 150);
 
         // pg["sun"] = createXY3(1, s.canvas.left+250, s.canvas.top+250, 100);
-        pg["sun"] = createXY3(1, s.canvas.left+250, s.h*.6, 100);
+        pg["sun"] = createXY3(1, s.canvas.left+250, 500, 100);
         pg["e"] = createOrbit3(360, 0, -1, 100);
     }
     // start();
@@ -1200,8 +1196,8 @@
         updateSettings();
         start();
         update();
-        // let cval = document.getElementById("canvas");
-        // cval.style = `--h: ${window.innerHeight}px`;
+        let cval = document.getElementById("canvas");
+        cval.style = `--ch: ${window.innerHeight}px`;
     });
 
     function WorldState(){

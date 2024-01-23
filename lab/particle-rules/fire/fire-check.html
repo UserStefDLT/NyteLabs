@@ -1196,8 +1196,12 @@
         updateSettings();
         start();
         update();
-        let cval = document.getElementById("canvas");
-        cval.style = `--ch: ${window.innerHeight}px`;
+        // let cval = document.getElementById("canvas");
+        // cval.style = `--ch: ${window.innerHeight}px`;
+        setTimeout(() => {
+            let cval = document.getElementById("canvas");
+            cval.style = `--ch: ${window.innerHeight}px`;
+        }, 2000);
     });
 
     function WorldState(){
