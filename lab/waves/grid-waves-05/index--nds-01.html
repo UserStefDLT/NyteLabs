@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Grid Waves 05 | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        /* :root {} */
+    </style>
+<style>
+    :root {
+        --val: 0;
+        --sz: 20px;
+    }
+    .grid, .row, .tile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .grid {flex-direction: column;}
+    .row {flex-direction: row;}
+    .tile {
+        --hue: calc(var(--val) * 360);
+        --bg: hsla(var(--hue), 100%, 50%, .5);
+        height: var(--sz);
+        width: var(--sz);
+        margin: -2px;
+        background-color: var(--bg);
+        border-radius: 50%;
+        cursor: pointer;
+        user-select: none;
+    }
+</style>
+    <link rel="stylesheet" href="../../../stylesheets/settings2.css">
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">NyteLabs</h1>
+        <!-- <div class="subtitle">NyteLabs_Template</div> -->
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+
+<main>
+    <div class="shelf">
+        <h3 class="shelf-title">experiment</h3>
+        <div id="display"></div>
+    </div>
+    <!-- <canvas id="canvas"></canvas> -->
+</main>
+
+<!-- <div class="options">
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
+
+<footer>
+    <div class="my-name">
+        <a id="BackToTop" class="hidden" href="#">Back To Top</a>
+        &copy; 2022 - 2024 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        touch: {
+            x: 0,
+            y: 0,
+            z: 0,
+            paths: {},
+            path_len: 20,
+            tracking: false
+        },
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            path: [],
+            path_len: 20,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            sz: 20,
+            sz2: 10,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            padding: 0,
+            brush: "p",
+        },
+        box: {
+            x: 500,
+            y: 500,
+            z: 500,
+            x2: 250,
+            y2: 250,
+            z2: 250,
+            d: 1000,
+            p: 1000,
+        },
+        heat: {
+            heatScale: .2
+        },
+
+        timeOut: 40,
+        player: false,
+        
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+    const particles = [];
+    const pg = {}
+
+</script>
+<script src="../../../scripts/settings-02.js"></script>
+<script>
+
+let g = [];
+let gf = [];
+
+function MakeGrid(w,h,f=0) {
+    let g = [];
+    for (let y = 0; y < h; y++) {
+        g.push([]);
+        for (let x = 0; x < w; x++) {
+            g[y].push(f);
+        }
+    }
+    return g;
+}
+const NodeYX = [
+    [1,-1],[1,0],[1,1],
+    [0,-1],[0,0],[0,1],
+    [-1,-1],[-1,0],[-1,1]
+];
+const NodeScale = [
+    0.7, 1.0, 0.7,
+    1.0, 0.0, 1.0,
+    0.7, 1.0, 0.7,
+];
+
+function isInMap(g,x,y){
+    if(x >= 0 && x < g[0].length && y >= 0 && y < g.length){
+        return true;
+    } else {return false;}
+}
+
+
+function Spread(x,y,g,gf){
+    let h = g[y][x];
+    gf[y][x] -= h * .1;
+    if(h > .1) {
+        for(let i = 0; i < 9; i++){
+            let xn = x + NodeYX[i][1];
+            let yn = y + NodeYX[i][0];
+            if(isInMap(g,xn,yn)){
+                let hn = g[yn][xn];
+                // console.log(`xn: ${xn}, yn: ${yn}, hn: ${hn}`);
+                if(h > hn) {
+                    let ht = (h - hn) * NodeScale[i] * s.heat.heatScale;
+                    gf[yn][xn] += ht;
+                    gf[y][x] -= ht;
+                }
+            }
+        }
+    } else {
+        g[y][x] = 0;
+    }
+}
+function UpdateHeat(g,gf){
+    for(let y = 0; y < g.length; y++){
+        for(let x = 0; x < g[y].length; x++){
+            if(gf[y][x] != 0){
+                // g[y][x] += gf[y][x];
+                g[y][x] += +gf[y][x].toFixed(1);
+                gf[y][x] = 0;
+                if(g[y][x] != 0){
+                    let node = document.getElementById(`yx-${y}-${x}`);
+                    if(node.dataset.active == "false"){
+                        node.dataset.active = true;
+                    }
+                }
+                if(g[y][x] > 20) {
+                    gridErr = true;
+                    yxErr.push([y,x]);
+                }
+            }
+        }
+    }
+}
+
+function BuildGrid(g) {
+    let display = document.getElementById('display');
+
+    let grid = document.createElement('div');
+    grid.classList.add('grid');
+
+    for (let y = 0; y < g.length; y++) {
+        
+        let row = document.createElement('div');
+        row.classList.add('row');
+        // xc_row.dataset.row = y;
+        
+        for (let x = 0; x < g[y].length; x++) {
+            let tile = document.createElement('div');
+            tile.classList.add('tile');
+            // xi_node.dataset.row = y;
+            // xi_node.dataset.col = x;
+            tile.id = `yx-${y}-${x}`;
+            tile.dataset.y = y;
+            tile.dataset.x = x;
+            tile.dataset.active = false;
+            // xi_node.dataset.id = `${y}|${x}`;
+            // xi_node.dataset.xy = `${x}${y}`;
+            tile.addEventListener('click', (ev) => {
+                ev.target.dataset.active = true;
+                GridPush(ev.target.dataset.y,ev.target.dataset.x);
+                UpdateGrid(g,gf);
+            });
+            tile.addEventListener('mouseenter', (ev) => {
+                ev.target.dataset.active = true;
+                GridSpark(ev.target.dataset.y,ev.target.dataset.x);
+            });
+
+            row.appendChild(tile);
+        }
+        grid.appendChild(row);
+    }
+    display.appendChild(grid);
+}
+
+function UpdateDisplay(g) {
+    let nodeList = document.querySelectorAll(`[data-active="true"]`);
+    nodeList.forEach(node =>{
+        let y = node.dataset.y;
+        let x = node.dataset.x;
+        let val = g[y][x].toFixed(1);
+        node.dataset.val = val;
+        node.style = `--val: ${val};`;
+        if(g[y][x] == 0){node.dataset.active = false;}
+    });
+}
+
+var gridErr = false;
+var yxErr = [];
+function isStable(g,gf){
+    // let gridErr = false;
+    // let yxErr = [];
+    // for (let y = 0; y < g.length; y++) {
+    //     for (let x = 0; x < g[y].length; x++) {
+    //         if(g[y][x] > 20) {
+    //             gridErr = true;
+    //             yxErr.push([y,x]);
+    //         }
+    //     }
+    // }
+
+    if(!gridErr) {
+        setTimeout(() => {
+            UpdateGrid(g,gf);
+        }, s.timeOut);
+    }
+    else {
+        console.log(yxErr);
+    }
+}
+function UpdateGrid(g,gf) {
+    // let updateList = [];
+    for (let y = 0; y < g.length; y++) {
+        for (let x = 0; x < g[y].length; x++) {
+            if(g[y][x] > 0) {
+                Spread(x,y,g,gf);
+
+                // UpdateNodeForces();
+                // // console.log(`y:${y}, x:${x}`);
+                // updateList.push([y,x]);
+            }
+        }
+    }
+    UpdateHeat(g,gf);
+
+    // updateList.forEach(node => {
+    //     UpdateNodeForces(node[0],node[1]);
+    // });
+
+    // xyGridTimeLine.push({});
+    // RecordForcesFrame();
+
+    // UpdateNodes();
+    UpdateDisplay(g);
+
+    // console.table(g);
+    isStable(g,gf);
+}
+
+function GridPush(y,x) {
+    // let node = ev.target;
+    // let nid = node.dataset.id.split('|');
+    if(g[y][x] == 0) {
+        g[y][x] = 1;
+    } else {
+        let toLimit = 1 - g[y][x];
+        let adding = toLimit*.7;
+        g[y][x] += adding;
+    }
+    // console.log(xyGrid);
+    // UpdateGrid();
+    // if(!g.state) {
+    //     UpdateGrid();
+    // }
+}
+function GridSpark(y,x) {
+    let adding = (1-g[y][x])*.7;
+    g[y][x] += adding;
+}
+
+
+
+
+/* ─── Events ─── */
+function updateSettings(){
+    s.h = window.innerHeight;
+    s.w = window.innerWidth;
+    s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+
+    /* ─ Canvas ─ */
+    s.canvas.x = s.w;
+    s.canvas.y = s.h;
+    s.canvas.z = (s.h + s.w)/2;
+
+    s.canvas.x2 = s.canvas.x/2;
+    s.canvas.y2 = s.canvas.y/2;
+    s.canvas.z2 = s.canvas.z/2;
+
+    /* ─ Box ─ */
+    /* resize box for mobile */
+    if(s.h < s.box.y) {s.box.y = s.h;}
+    if(s.w < s.box.x) {s.box.x = s.w;}
+    s.box.z = (s.box.y + s.box.x)/2;
+
+    /* center box */
+    s.box.top = (s.h - s.box.y)/2;
+    s.box.left = (s.w - s.box.x)/2;
+
+    /* determine center */
+    s.box.x2 = s.box.left + (s.box.x / 2);
+    s.box.y2 = s.box.top + (s.box.y / 2);
+    s.box.z2 = (s.box.z / 2);
+
+    /* ─ Grid ─ */
+    s.grid.cols = Math.floor(s.w / s.tile.w);
+    s.grid.rows = Math.floor(s.h / s.tile.h);
+
+    /* ─ Canvas Update ─ */
+    // canvas.width = s.canvas.x;
+    // canvas.height = s.canvas.y;
+    // ctx.clearRect(0,0,canvas.width, canvas.height);
+}
+window.addEventListener('resize', () =>{
+    updateSettings();
+});
+
+window.addEventListener('load', (ev) => {
+    console.log(`Welcome to my Lab!`);
+    updateSettings();
+    // start();
+    // update();
+
+    let sz = 10;
+
+    g = MakeGrid(sz,sz,0);
+    gf = MakeGrid(sz,sz,0);
+    BuildGrid(g);
+    UpdateGrid(g,gf);
+
+});
+/* Version Log:
+[index-nds-00]: Default Template.
+[index-nds-01]: 
+[index-nds-02]: 
+[index-nds-03]: 
+[index-nds-04]: 
+[index-nds-05]: 
+[index-nds-06]: 
+[index-nds-07]: 
+[index-nds-08]: 
+[index-nds-09]: 
+[index-nds-10]: 
+[index-nds-11]: 
+[index-nds-12]: 
+
+*/
+
+
+</script>
+</body>
+</html>
