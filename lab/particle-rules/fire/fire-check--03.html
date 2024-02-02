@@ -132,27 +132,26 @@
             animation-play-state: paused;
         }
 
-        </style>
-    <style>
         :root {
             --ch: 100px;
         }
         [id*="canvas"], #canvas {
             height: var(--ch);
         }
-
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
-    <!-- <header>
+    <header>
         <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
         <h1 class="title">NyteLabs</h1>
         <div class="subtitle">Heat Rules</div>
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
     </header>
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
-    <input type="checkbox" name="toggle" id="toggleLights"> -->
+    <input type="checkbox" name="toggle" id="toggleLights">
 
 <!-- <main>
 </main> -->
@@ -164,7 +163,7 @@
     <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
 </div> -->
 
-<!-- <svg style='display: none;'>
+<svg style='display: none;'>
     <defs>
         <filter id="quid" x="-25%" y="-25%" width="150%" height="150%">
             <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
@@ -205,7 +204,7 @@
         &copy; 2022 - 2024 | by Stéfano De La Torre 
     </div>
 </footer>
-<div class="name-end">by St&eacute;fano.</div> -->
+<div class="name-end">by St&eacute;fano.</div>
 <!-- <script src="main.js"></script> -->
 <script>
     /* Constant Variables */
@@ -982,8 +981,7 @@
         // cval.style = `--ch: ${window.innerHeight}px`;
         setTimeout(() => {
             let cval = document.getElementById("canvas");
-            let hh = window.innerHeight * .9;
-            cval.style = `--ch: ${hh}px`;
+            cval.style = `--ch: ${window.innerHeight}px`;
         }, 2000);
     });
 

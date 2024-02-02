@@ -132,15 +132,12 @@
             animation-play-state: paused;
         }
 
-        </style>
-    <style>
         :root {
             --ch: 100px;
         }
         [id*="canvas"], #canvas {
             height: var(--ch);
         }
-
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
@@ -982,8 +979,7 @@
         // cval.style = `--ch: ${window.innerHeight}px`;
         setTimeout(() => {
             let cval = document.getElementById("canvas");
-            let hh = window.innerHeight * .9;
-            cval.style = `--ch: ${hh}px`;
+            cval.style = `--ch: ${window.innerHeight}px`;
         }, 2000);
     });
 
