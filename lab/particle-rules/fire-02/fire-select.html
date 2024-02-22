@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>NyteLabs_Template | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        /* :root {} */
+    </style>
+<style>
+    #display {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+    }
+    [class|="f"] {
+        /* height: 50px;  */
+        width: 40px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background-color: #fff;
+        --blur: 3px;
+        /* filter: blur(var(--blur)) url(#cloud-check); */
+    }
+
+    .f-01 {background-image: radial-gradient(circle at 50% 100%,#fff0 5%, #f50c, #ff0f 80%);}
+    .f-02 {background-image: radial-gradient(circle at 50% 100%,#fff0 5%, #fff9, #777c 80%);}
+    .f-03 {background-image: radial-gradient(circle at 50% 100%,#fff0 5%, #93fc, #f39f 80%);}
+    .f-04 {background-image: 
+        radial-gradient(#fff, #fff0 30%),
+        conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00),
+        linear-gradient(#fff9, #777c);
+    }
+    /* .f-05 {background-image: linear-gradient(90deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f);} */
+    .f-05 {
+        background-image: 
+            radial-gradient(circle at 50% 90%, #fff 10%, #fff9 30%, #fff0 80%),
+            linear-gradient(90deg, #f00 10%, #ff0, #0f0, #0ff, #00f, #f0f 90%);
+    }
+    .f-06 {
+        background-image: 
+        radial-gradient(circle at 50% 0%, #f00, #f000 50%),
+        radial-gradient(circle at 86% 30%, #ff0, #ff00 50%),
+        radial-gradient(circle at 86% 70%, #0f0, #0f00 50%),
+        radial-gradient(circle at 50% 100%, #0ff, #0ff0 50%),
+        radial-gradient(circle at 14% 70%, #00f, #00f0 50%),
+        radial-gradient(circle at 14% 30%, #f0f, #f0f0 50%);
+        /* background-blend-mode: normal; */
+        /* background-blend-mode: normal, hard-light, hard-light, normal; */
+    }
+    .f-07 {
+        background-image: conic-gradient(from -45deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f 80deg, #f00 180deg);
+        background-size: 200% 200%;
+        background-position: 50% 0%;
+    }
+    .f-09 {
+        background-image: 
+        radial-gradient(#fff, #fff0 30%),
+        linear-gradient(0deg, #f00 10%, #ff0, #0f0, #0ff, #00f, #f0f 90%),
+        linear-gradient(90deg, #f00 10%, #ff0, #0f0, #0ff, #00f, #f0f 90%),
+        conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+        background-blend-mode: overlay;
+        background-blend-mode: normal, hard-light, hard-light, normal;
+    }
+
+            /* .fireColor[data-color="x"] {background-image: linear-gradient(90deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);} */
+        /* .fireColor[data-color="x"] {background-image: linear-gradient(120deg, #f00 20%, #ff0, #0f0, #0ff, #00f, #f0f 75%);} */
+        /* .fireColor[data-color="x"] {
+            --sat: 100%;
+            --lum: 60%;
+            background-image: 
+            radial-gradient(circle at 50% 100%, #fff 10%, #fff0 30%),
+            linear-gradient(120deg, 
+            hsla(0, var(--sat), var(--lum), 1) 20%, 
+            hsla(60, var(--sat), var(--lum), 1), 
+            hsla(120, var(--sat), var(--lum), 1), 
+            hsla(180, var(--sat), var(--lum), 1), 
+            hsla(240, var(--sat), var(--lum), 1), 
+            hsla(330, var(--sat), var(--lum), 1) 75%);
+        } */
+</style>
+    <link rel="stylesheet" href="../../../stylesheets/settings2.css">
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">NyteLabs</h1>
+        <!-- <div class="subtitle">NyteLabs_Template</div> -->
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+
+<main>
+    <div class="shelf">
+        <h3 class="shelf-title">experiment</h3>
+        <div id="display">
+            <div class="f-01"></div>
+            <div class="f-02"></div>
+            <div class="f-03"></div>
+            <div class="f-04"></div>
+            <div class="f-05"></div>
+            <div class="f-06"></div>
+            <div class="f-07"></div>
+        </div>
+    </div>
+    <!-- <canvas id="canvas"></canvas> -->
+</main>
+
+<!-- <div class="options">
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
+
+<svg style='display: none;'>
+    <defs>
+        <filter id="cloud-check" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency=".012" numOctaves="5" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="SourceGraphic" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="40"
+                result="Displaced">
+            </feDisplacementMap>
+        </filter>
+        <filter id="fire-check" x="-25%" y="-25%" width="150%" height="150%">
+            <feTurbulence type="turbulence" id="turbulence"
+                baseFrequency=".025" numOctaves="2" seed="5"
+                result="turbulence">
+            </feTurbulence>
+            <feDisplacementMap
+                in="SourceGraphic" in2="turbulence"
+                xChannelSelector="R" yChannelSelector="R"
+                scale="100"
+                result="Displaced">
+            </feDisplacementMap>
+        </filter>
+    </defs>
+</svg>
+
+<footer>
+    <div class="my-name">
+        <a id="BackToTop" class="hidden" href="#">Back To Top</a>
+        &copy; 2022 - 2024 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        touch: {
+            x: 0,
+            y: 0,
+            z: 0,
+            paths: {},
+            path_len: 20,
+            tracking: false
+        },
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            path: [],
+            path_len: 20,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            sz: 20,
+            sz2: 10,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            padding: 0,
+            brush: "p",
+        },
+        box: {
+            x: 500,
+            y: 500,
+            z: 500,
+            x2: 250,
+            y2: 250,
+            z2: 250,
+            d: 1000,
+            p: 1000,
+        },
+
+        timeOut: 40,
+        player: false,
+        
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+    const particles = [];
+    const pg = {}
+
+</script>
+<script src="../../../scripts/settings-02.js"></script>
+<script>
+
+
+
+    /* ─── Events ─── */
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        s.canvas.z = (s.h + s.w)/2;
+
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
+
+        /* ─ Box ─ */
+        /* resize box for mobile */
+        if(s.h < s.box.y) {s.box.y = s.h;}
+        if(s.w < s.box.x) {s.box.x = s.w;}
+        s.box.z = (s.box.y + s.box.x)/2;
+
+        /* center box */
+        s.box.top = (s.h - s.box.y)/2;
+        s.box.left = (s.w - s.box.x)/2;
+
+        /* determine center */
+        s.box.x2 = s.box.left + (s.box.x / 2);
+        s.box.y2 = s.box.top + (s.box.y / 2);
+        s.box.z2 = (s.box.z / 2);
+
+        /* ─ Grid ─ */
+        s.grid.cols = Math.floor(s.w / s.tile.w);
+        s.grid.rows = Math.floor(s.h / s.tile.h);
+
+        /* ─ Canvas Update ─ */
+        // canvas.width = s.canvas.x;
+        // canvas.height = s.canvas.y;
+        // ctx.clearRect(0,0,canvas.width, canvas.height);
+    }
+    window.addEventListener('resize', () =>{
+        updateSettings();
+    });
+
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        updateSettings();
+        // start();
+        // update();
+    });
+    /* Version Log:
+    [index-nds-00]: Default Template.
+    [index-nds-01]: 
+    [index-nds-02]: 
+    [index-nds-03]: 
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
+    [index-nds-07]: 
+    [index-nds-08]: 
+    [index-nds-09]: 
+    [index-nds-10]: 
+    [index-nds-11]: 
+    [index-nds-12]: 
+    
+    */
+
+
+</script>
+</body>
+</html>
