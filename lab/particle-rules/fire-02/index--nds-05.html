@@ -1401,6 +1401,8 @@
         s.canvas.left = (s.w - s.canvas.w)/2;
         canvas.width = s.w;
         canvas.height = s.h;
+        let cval = document.getElementById("canvas");
+        cval.style = `--ch: ${window.innerHeight}px`;
         updateCanvasBox();
         ctx.clearRect(0,0,canvas.width, canvas.height);
     }

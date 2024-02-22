@@ -29,13 +29,6 @@
             /* filter: blur(var(--blur)) url(#quid-50_30); */
             /* filter: blur(var(--blur)) url(#quid); */
         }
-        #toggleBlur:not(:checked) ~ main [id*="canvas"] {
-            --blur: 0px;
-        }
-        #toggleBlur:checked ~ main [id*="canvas"] {
-            --blur: 3px;
-            filter: blur(var(--blur));
-        }
         #toggleFilter:checked ~ main [id*="canvas"] {
             filter: blur(var(--blur)) url(#quid);
         }
@@ -105,13 +98,11 @@
     <link rel="stylesheet" href="../../../stylesheets/settings.css">
     <style>
         /* Settings. */
-        #toggleBlur,
         #toggleFilter,
         #toggleLights,
         #toggleIso,
         #toggleOpacity {display: none;}
 
-        #toggleBlur:checked ~ .options .toggleCheckboxLabel[for="toggleBlur"],
         #toggleFilter:checked ~ .options .toggleCheckboxLabel[for="toggleFilter"],
         #toggleLights:checked ~ .options .toggleCheckboxLabel[for="toggleLights"],
         #toggleIso:checked ~ .options .toggleCheckboxLabel[for="toggleIso"],
@@ -192,7 +183,6 @@
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
     <input type="checkbox" name="toggle" id="toggleLights">
-    <input type="checkbox" name="toggle" id="toggleBlur" checked>
     <input type="checkbox" name="toggle" id="toggleFilter" checked>
 
 <main>
@@ -210,7 +200,6 @@
     <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label> -->
     <!-- <button id="FireColorBtn" class="fireColor" onclick="RandomizeFireColor()"></button> -->
     <button id="FireColorBtn" class="fireColor" onclick="NextFireColor()" data-color="normal"></button>
-    <label for="toggleBlur" class="toggleCheckboxLabel" data-toggle="Blur">Blur</label>
     <label for="toggleFilter" class="toggleCheckboxLabel" data-toggle="Filter">Filter</label>
 
 </div>
