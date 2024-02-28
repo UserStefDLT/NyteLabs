@@ -83,8 +83,8 @@
     transform: perspective(1500px) rotate3d(1,1,0, 0deg);
     /* animation: traceAround 12s ease-in-out infinite both -1000ms; */
     transform: perspective(1500px) rotate3d(1,0,0, var(--up-dn)) rotate3d(0,1,0, var(--conic-spin));
-    animation: arc-around 12s ease-in-out infinite both -9s;
-    /* animation: arc-around 3s ease-in-out infinite both 0s; */
+    animation: arc-around 12s ease-in-out infinite both -6s;
+    animation: arc-around 3s ease-in-out infinite both 0s;
     /* animation: arc-around 12s linear infinite both -6s; */
 }
 @property --up-dn {
@@ -250,7 +250,7 @@
         <h1 class="title">NyteLabs</h1>
         <!-- <div class="subtitle">Daisy</div> -->
     </header>
-    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleAnimation" checked>
     <input type="checkbox" name="toggle" id="toggleOpacity">
     <input type="checkbox" name="toggle" id="toggleLights">
 

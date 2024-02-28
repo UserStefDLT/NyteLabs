@@ -61,86 +61,12 @@
     --angle-general-light: -50deg;
     --petal-angle: 0deg;
 
-    --petal-shw-val: 50px;
-    --center-shw-val: 200px;
 }
 /*
 .s:nth-child(1) {--petal-angle: 30deg;}
 .s:nth-child(2) {--petal-angle: 150deg;}
 .s:nth-child(3) {--petal-angle: 270deg;}
 */
-.list {
-    --angle-general-light: calc(var(--conic-spin) * -1);
-    /* --shw: calc(var(--up-dn) * -1); */
-    /* --shw-x: calc(cos(var(--up-dn)) * 50); */
-    /* --shw-y: calc(sin(var(--up-dn)) * 250); */
-    /* --shw-x: cos(var(--up-dn)); */
-    /* --shw-y: sin(var(--up-dn)); */
-    /* --shw-x: calc(1 - cos(var(--up-dn))); */
-    --shw-x: calc(1 - cos(20deg - var(--up-dn)));
-
-    transform-style: preserve-3d;
-    transform: perspective(1500px) rotate3d(1,1,0, 0deg);
-    /* animation: traceAround 12s ease-in-out infinite both -1000ms; */
-    transform: perspective(1500px) rotate3d(1,0,0, var(--up-dn)) rotate3d(0,1,0, var(--conic-spin));
-    animation: arc-around 12s ease-in-out infinite both -9s;
-    /* animation: arc-around 3s ease-in-out infinite both 0s; */
-    /* animation: arc-around 12s linear infinite both -6s; */
-}
-@property --up-dn {
-    syntax: "<angle>";
-    inherits: false;
-    initial-value: 0deg;
-}
-@property --conic-spin {
-    syntax: "<angle>";
-    inherits: false;
-    initial-value: 0deg;
-}
-@keyframes arc-around {
-  0% {--conic-spin: -20deg; --up-dn: 0deg;}
-  25% {--up-dn: 20deg;}
-  50% {--conic-spin: 20deg; --up-dn: 0deg;}
-  75% {--up-dn: 0deg;}
-  100% {--conic-spin: -20deg; --up-dn: 0deg;}
-}
-@keyframes arc-around-02 {
-  0% {--conic-spin: -20deg; --up-dn: 0deg;}
-  25% {--up-dn: 20deg;}
-  50% {--conic-spin: 20deg; --up-dn: 0deg;}
-  75% {--up-dn: 0deg;}
-  100% {--conic-spin: -20deg; --up-dn: 0deg;}
-}
-
-@keyframes arc-around-01 {
-  0% {--conic-spin: -20deg; --up-dn: 0deg;}
-  25% {--conic-spin: 0deg; --up-dn: 20deg;}
-  50% {--conic-spin: 20deg; --up-dn: 0deg;}
-  75% {--conic-spin: 0deg; --up-dn: -20deg;}
-  100% {--conic-spin: -20deg; --up-dn: 0deg;}
-}
-
-
-@keyframes traceAround {
-    0% {transform: perspective(1500px) rotate3d(1,0,0, 10deg) rotate3d(0,1,0, -20deg);}
-    30% {transform: perspective(1500px) rotate3d(1,0,0, 20deg) rotate3d(0,1,0, 0deg);}
-    50% {transform: perspective(1500px) rotate3d(1,0,0, 10deg) rotate3d(0,1,0, 20deg);}
-    70% {transform: perspective(1500px) rotate3d(1,0,0, -20deg) rotate3d(0,1,0, 0deg);}
-    100% {transform: perspective(1500px) rotate3d(1,0,0, 10deg) rotate3d(0,1,0, -20deg);}
-}
-@keyframes traceAround-02 {
-    0% {transform: perspective(1500px) rotate3d(1,0,0, 10deg) rotate3d(0,1,0, -20deg);}
-    30% {transform: perspective(1500px) rotate3d(1,0,0, 20deg) rotate3d(0,1,0, 0deg);}
-    50% {transform: perspective(1500px) rotate3d(1,0,0, 10deg) rotate3d(0,1,0, 20deg);}
-    70% {transform: perspective(1500px) rotate3d(1,0,0, -20deg) rotate3d(0,1,0, 0deg);}
-    100% {transform: perspective(1500px) rotate3d(1,0,0, 10deg) rotate3d(0,1,0, -20deg);}
-}
-@keyframes traceAround-01 {
-    0% {transform: perspective(1500px) rotate3d(1,0,0, 20deg) rotate3d(0,1,0, -20deg);}
-    30% {transform: perspective(1500px) rotate3d(1,0,0, 0deg) rotate3d(0,1,0, 20deg);}
-    70% {transform: perspective(1500px) rotate3d(1,0,0, -20deg) rotate3d(0,1,0, 0deg);}
-    100% {transform: perspective(1500px) rotate3d(1,0,0, 20deg) rotate3d(0,1,0, -20deg);}
-}
 .s {
     /* `.7` means 135deg. */
     --vx: .7;
@@ -148,19 +74,14 @@
 
     --petal-angle: calc(var(--i) * 25deg);
     --petal-angle: calc(var(--i) * 43deg);
-    --petal-angle: calc(var(--i) * 47deg);
-    --petal-z-angle: calc((var(--i) - 16) * 1deg);
+    --petal-z-angle: calc((var(--i) - 15) * 1deg);
 
-    transform-style: preserve-3d;
     transform: translateX(-50%) translateY(-142%) rotate(var(--petal-angle));
     /* transform: translateX(-50%) translateY(-142%) rotate3d(1,0,0,var(--petal-z-angle)) rotate(var(--petal-angle)); */
-    transform: perspective(1500px) translateX(-50%) translateY(-142%) rotate3d(1,0,0,var(--petal-z-angle)) rotate(var(--petal-angle));
 
     --angle: calc(var(--angle-general-light) + 90deg - var(--petal-angle));
     --shadow-val: 2px;
     --shw-blur: 2px;
-    /* --shadow-val: calc(var(--shw-x) * var(--petal-shw-val)); */
-    /* --shw-blur: calc(var(--shw-x) * var(--petal-shw-val)); */
 
     --vx: cos(var(--angle));
     --vy: sin(var(--angle));
@@ -186,7 +107,6 @@
     top: 50%; left: 50%;
     border-radius: 50%;
     transform: translateX(-50%) translateY(-50%);
-    transform: translateX(-50%) translateY(-50%) translateZ(15px);
     background-color: #db5;
     background-image: radial-gradient(
     hsla(45, 100%, 50%, 1) 50%,
@@ -196,47 +116,22 @@
 
     --angle: calc(var(--angle-general-light) + 90deg);
     --shadow-val: 10px;
-    --shw-blur-i: 10px;
-    /* --shw-blur-i: 0px; */
-    --shw-scl: calc(var(--shw-x) * -20px - 1px);
-    /* --shw-scl-i: calc(6px - var(--shw-x) * 100px); */
-    --shw-scl-i: calc(3px - var(--shw-x) * 50px);
-    /* --shw-scl: calc(var(--shw-x) * -50px + 1px); */
-    /* --shw-alp: calc(var(--shw-x) * 10); */
-    /* --shw-alp: calc(var(--shw-x) * 8 + .12); */
-    /* --shw-alp: calc(var(--shw-x) * 5 + .3); */
-    --shw-alp: calc(var(--shw-x) * 2 + .48);
-    /* --shw-alp: .6; */
-    /* --c: hsla(0, 0%, 0%, 0.6); */
-    --shw-c: hsla(0, 0%, 0%, var(--shw-alp));
-    /* --shadow-val-out: calc(var(--shw-x) * var(--center-shw-val)); */
-    --shadow-val-out: calc(var(--shw-x) * 100px + 6px);
-    /* --shw-blur: calc(var(--shw-x) * var(--center-shw-val) + 2px); */
-    --shw-blur: calc(var(--shw-x) * 50px + 9px);
+    --shw-blur: 10px;
 
     --vx: cos(var(--angle));
     --vy: sin(var(--angle));
 
-    --shw-1-x: calc(var(--shadow-val-out) * var(--vx) * 1);
-    --shw-1-y: calc(var(--shadow-val-out) * var(--vy) * 1);
-    --shw-0-x: calc(var(--shadow-val-out) * var(--vx) * -1);
-    --shw-0-y: calc(var(--shadow-val-out) * var(--vy) * -1);
+    --shw-1-x: calc(var(--shadow-val) * var(--vx) * 1);
+    --shw-1-y: calc(var(--shadow-val) * var(--vy) * 1);
 
-    --shw-1-x-i: calc(var(--shadow-val) * var(--vx) * 1);
-    --shw-1-y-i: calc(var(--shadow-val) * var(--vy) * 1);
-    --shw-0-x-i: calc(var(--shadow-val) * var(--vx) * -1);
-    --shw-0-y-i: calc(var(--shadow-val) * var(--vy) * -1);
+    --shw-0-x: calc(var(--shadow-val) * var(--vx) * -1);
+    --shw-0-y: calc(var(--shadow-val) * var(--vy) * -1);
 
     box-shadow: 
-    var(--shw-1-x) var(--shw-1-y) var(--shw-blur) var(--shw-scl) #0009,
+    var(--shw-1-x) var(--shw-1-y) var(--shw-blur) -2px #0009,
     /* inset var(--shw-1-x) var(--shw-1-y) var(--shw-blur) 0px #fff9, */
-    inset var(--shw-1-x-i) var(--shw-1-y-i) var(--shw-blur-i) 0px hsla(60, 100%, 60%, 1),
-    inset var(--shw-0-x-i) var(--shw-0-y-i) var(--shw-blur-i) 0px var(--shw-c);
-
-    box-shadow: 
-    var(--shw-1-x) var(--shw-1-y) var(--shw-blur) var(--shw-scl) #0009,
-    inset var(--shw-1-x-i) var(--shw-1-y-i) var(--shw-blur-i) 0px hsla(60, 100%, 60%, 1),
-    inset var(--shw-0-x) var(--shw-0-y) var(--shw-blur-i) var(--shw-scl-i) var(--shw-c);
+    inset var(--shw-1-x) var(--shw-1-y) var(--shw-blur) 0px hsla(60, 100%, 60%, 1),
+    inset var(--shw-0-x) var(--shw-0-y) var(--shw-blur) 0px #0009;
 
 }
 
@@ -299,11 +194,11 @@
     <!-- <canvas id="canvas"></canvas> -->
 </main>
 
-<div class="options">
+<!-- <div class="options">
     <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
-    <!-- <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label> -->
-    <!-- <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label> -->
-</div>
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
 
 <footer>
     <div class="my-name">
