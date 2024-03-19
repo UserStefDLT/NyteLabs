@@ -101,7 +101,7 @@
 
 <main>
     <div class="shelf">
-        <h3 class="shelf-title">Paths</h3>
+        <h3 class="shelf-title">experiment</h3>
         <div id="display"></div>
     </div>
     <!-- <canvas id="canvas"></canvas> -->
@@ -209,7 +209,7 @@ function buildGrid(w,h,f=100){
     return g;
 }
 
-function CalcSides_01(g){
+function CalcSides(g){
     // g2.push([]);
     for (let y = 1; y < g.length; y++) {
         // g2.push([]);
@@ -230,22 +230,7 @@ function IsInMap(g,x,y){
     }
     return true;
 }
-function CalcSides(g){
-    // g2.push([]);
-    for (let y = 0; y < g.length; y++) {
-        // g2.push([]);
-        for (let x = 0; x < g[y].length; x++) {
-            let e = g[y][x];
-            let s4 = 0;
-            let s8 = 0;
-            if(IsInMap(g,x-1,y) && Math.abs(g[y][x-1] - e) <= 7){s4 = 1;}
-            if(IsInMap(g,x,y-1) && Math.abs(g[y-1][x] - e) <= 7){s8 = 1;}
-            // g2[y].push([s4,s8]);
-            g2[y][x] = [s4,s8];
-        }
-    }
-}
-function CalcSides_03(g){
+function CalcSides_02(g){
     // g2.push([]);
     for (let y = 0; y < g.length; y++) {
         // g2.push([]);
