@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Buoyancy | NyteLabs</title>
+    <title>N Body Problem | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/canvas-2.css">
@@ -27,7 +27,7 @@
     <header>
         <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
         <h1 class="title">NyteLabs</h1>
-        <!-- <div class="subtitle">⛵ Buoyancy Attempt ⛵</div> -->
+        <!-- <div class="subtitle">Playing with Gravity</div> -->
     </header>
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
@@ -108,16 +108,6 @@
             d: 1000,
             p: 1000,
         },
-        cBox: {
-            hh: .5,
-            ww: .5,
-            h: 0,
-            w: 0,
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-        },
 
         timeOut: 40,
         player: false,
@@ -141,32 +131,6 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-function updateCanvasBox(){
-    /*
-    cBox: {
-        hh: .5,
-        ww: .5,
-        h: 0,
-        w: 0,
-        top: 0,
-        left: 0,
-        right: window.innerHeight,
-        bottom: window.innerHeight,
-    },
-    */
-
-    s.cBox.w = Math.min(s.w,200);
-    s.cBox.h = 100000 / s.cBox.w;
-    s.cBox.top = s.h - s.cBox.h;
-    
-    // s.cBox.h = s.h * s.cBox.hh;
-    // s.cBox.w = s.w * s.cBox.ww;
-    // s.cBox.top = (s.h - s.cBox.h)/2;
-    s.cBox.left = (s.w - s.cBox.w)/2;
-    s.cBox.right = s.w - s.cBox.left;
-    s.cBox.bottom = s.h - s.cBox.top;
-}
-
 window.addEventListener('resize', () =>{
     s.h = window.innerHeight;
     s.w = window.innerWidth;
@@ -178,7 +142,7 @@ window.addEventListener('resize', () =>{
     canvas.height = s.h;
     ctx.clearRect(0,0,canvas.width, canvas.height);
 
-    updateCanvasBox();
+    // updateCanvasBox();
     // if(pg["sun"].length > 0) {
     //     pg["sun"][0].x = s.w/2;
     //     // pg["sun"][0].y = s.h/2;
@@ -352,34 +316,11 @@ pr["mouse-orbit"] = function (list1, list2, g = 0, r = 100){
         // a.y += a.vy;
     }
 }
-pr["fall"] = function (list1, list2, g = 0, r = 100){
-    for (let i = 0; i < list1.length; i++) {
-        const a = list1[i];
-
-        a.vy = (a.vy + g) * .98;
-        a.y += a.vy;
-
-        // /* ─pushes back from border─ */
-        // if(a.x <= a.s || a.x >= (s.w-a.s)){a.vx *= -1;}
-        // if(a.y <= a.s || a.y >= (s.h-a.s)){a.vy *= -1;}
-
-        if(a.x < s.cBox.left || a.x > s.cBox.right || a.y < s.cBox.top || a.y > s.cBox.bottom){
-            a.x = Math.floor(Math.random() * s.cBox.w + s.cBox.left);
-            // a.y = s.cBox.bottom + a.s;
-            // a.y = s.cBox.bottom + (Math.random() * s.cBox.top);
-            a.y = s.h/2;
-            a.vx = 0; a.vy = 0;
-            a.heat = 0;
-        }
-    }
-}
-
 
 var rules = [
-    // {rule: "mouse-orbit", a: "e", b: "e", g: -.03, r: 200},
-    {rule: "orbit", a: "e", b: "e", g: -.005, r: 1500},
-    {rule: "orbit", a: "e", b: "e", g: .02, r: 20},
-    // {rule: "fall", a: "e", b: "e", g: .015, r: 100}
+    {rule: "mouse-orbit", a: "e", b: "e", g: -.03, r: 200},
+    {rule: "orbit", a: "e", b: "e", g: -.01, r: 1500},
+    {rule: "orbit", a: "e", b: "e", g: .09, r: 20},
 ];
 
 function start(){
@@ -470,7 +411,6 @@ function updateSettings(){
 
     s.canvas.top = (s.h - s.canvas.h)/2;
     s.canvas.left = (s.w - s.canvas.w)/2;
-    updateCanvasBox();
     let cval = document.getElementById("canvas");
     cval.style = `--ch: ${window.innerHeight}px`;
     // ctx.clearRect(0,0,canvas.width, canvas.height);
@@ -486,9 +426,7 @@ window.addEventListener('load', (ev) => {
     update();
 });
 /* Notes: 
-⛵ Buoyancy affectrs fluids ⛲
-🌊 It can be used for water or fire simulations 🔥
-🎈 I'm thinking about using particles like little balls to see how they adjust 🏐
+...
 */
 /* Version Log:
 [index-nds-00]: Default Template.
