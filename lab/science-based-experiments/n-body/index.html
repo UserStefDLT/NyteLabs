@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>N Body Problem | NyteLabs</title>
+    <title>nBody | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/canvas-2.css">
@@ -174,15 +174,18 @@ class p3 {
         this.heat = h;
         this.vh = 0;
         this.v = 0;
+        this.f = 0;
+        this.st = 1;
 
         // this.hue = 210;
-        this.hue = Math.random() * 360;
-        this.vhue = this.hue;
+        // this.hue = Math.random() * 360;
+        // this.vhue = this.hue;
+        this.hue = this.id * 10;
         this.sat = 100;
-        this.vsat = this.sat;
+        // this.vsat = this.sat;
         this.lum = 50;
-        this.alp = .5;
-        this.c = `hsla(${this.vhue}, ${this.vsat}%, ${this.lum}%, ${this.alp})`;
+        this.alp = .75;
+        this.c = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%, ${this.alp})`;
 
         this.getColor();
     }
@@ -269,6 +272,12 @@ function createOrbit3(n,h=0,a=-1,r=100){
     return group;
 }
 
+var forcesRecord = {
+    log: [],
+    up: 0,
+    dn: 0
+};
+
 pr["orbit"] = function (list1, list2, g = 0, r = 100){
     for (let i = 0; i < list1.length; i++) {
         const a = list1[i];
@@ -287,6 +296,54 @@ pr["orbit"] = function (list1, list2, g = 0, r = 100){
         }
         a.vx = (a.vx + fx) * 1;
         a.vy = (a.vy + fy) * 1;
+        a.x += a.vx;
+        a.y += a.vy;
+
+        /* ─pushes back from border─ */
+        if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
+        if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
+    }
+}
+pr["orbit2"] = function (list1, list2, g = 0, r = 100){
+    for (let i = 0; i < list1.length; i++) {
+        const a = list1[i];
+        let fx = 0;
+        let fy = 0;
+        a.f = 0;
+        for (let j = 0; j < list2.length; j++) {
+            const b = list2[j];
+            let dx = a.x - b.x;
+            let dy = a.y - b.y;
+            let d = Math.sqrt(dx*dx + dy*dy);
+            if(d > 0 && d < r){
+                let force = g * 1/d;
+                if(force < 0){
+                    a.f += force;
+                }
+                // a.st -= force;
+                fx += (force * dx);
+                fy += (force * dy);
+            }
+        }
+        a.st = a.f * 10;
+        if(a.id == 0){
+            let fst = 1 + a.st
+            console.log(`id: ${a.id} | forces: ${a.f.toFixed(5)} \t | st: ${fst.toFixed(2)}`);
+            // if(forcesRecord["log"].length < 100){
+            //     forcesRecord["log"].push(a.f);
+            // }
+            // if(forcesRecord["up"] < a.f){
+            //     forcesRecord["up"] = a.f;
+            // }
+            // if(forcesRecord["dn"] > a.f){
+            //     forcesRecord["dn"] = a.f;
+            // }
+        }
+        
+        a.vx = (a.vx + fx) * (1 + a.st);
+        a.vy = (a.vy + fy) * (1 + a.st);
+        // a.vx = (a.vx + fx) * 1;
+        // a.vy = (a.vy + fy) * 1;
         a.x += a.vx;
         a.y += a.vy;
 
@@ -319,8 +376,8 @@ pr["mouse-orbit"] = function (list1, list2, g = 0, r = 100){
 
 var rules = [
     {rule: "mouse-orbit", a: "e", b: "e", g: -.03, r: 200},
-    {rule: "orbit", a: "e", b: "e", g: -.01, r: 1500},
-    {rule: "orbit", a: "e", b: "e", g: .09, r: 20},
+    {rule: "orbit2", a: "e", b: "e", g: -.01, r: 1500},
+    {rule: "orbit2", a: "e", b: "e", g: .09, r: 20},
 ];
 
 function start(){

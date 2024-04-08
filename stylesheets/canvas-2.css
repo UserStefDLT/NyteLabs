@@ -32,6 +32,9 @@ main, .shelf {position: static; margin: 0;}
 }
 :root {
     --ch: 100px;
+    --ch: 679px;
+    /* --ch: 100dvh; */
+    /* --ch: 1200px; */
 }
 [id*="canvas"], #canvas {
     height: var(--ch);
