@@ -221,7 +221,7 @@ class p3 {
         this.sat = 100;
         this.vsat = this.sat;
         this.lum = 50;
-        this.alp = .95;
+        this.alp = .5;
         this.c = `hsla(${this.vhue}, ${this.vsat}%, ${this.lum}%, ${this.alp})`;
 
         this.getColor();
@@ -366,32 +366,6 @@ pr["orbit2"] = function (list1, list2, g = 0, r = 100){
         if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
     }
 }
-pr["orbit2b"] = function (list1, list2, g = 0, r = 100){
-    for (let i = 0; i < list1.length; i++) {
-        const a = list1[i];
-        let fx = 0;
-        let fy = 0;
-        for (let j = 0; j < list2.length; j++) {
-            const b = list2[j];
-            let dx = a.x - b.x;
-            let dy = a.y - b.y;
-            let d = Math.sqrt(dx*dx + dy*dy);
-            if(d > 0.1 && d < r){
-                let force = g * a.mass * b.mass * 1/d;
-                fx += (force * dx);
-                fy += (force * dy);
-            }
-        }
-        a.vx = (a.vx + fx) * .999;
-        a.vy = (a.vy + fy) * .999;
-        a.x += a.vx / a.mass;
-        a.y += a.vy / a.mass;
-
-        /* ─pushes back from border─ */
-        if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
-        if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
-    }
-}
 pr["mouse-orbit"] = function (list1, list2, g = 0, r = 100){
     for (let i = 0; i < list1.length; i++) {
         const a = list1[i];
@@ -444,10 +418,10 @@ pr["fall"] = function (list1, list2, g = 0, r = 100){
 // ];
 var rules = [
     // {rule: "mouse-orbit", a: "e", b: "e", g: -.03, r: 200},
-    {rule: "orbit2", a: "e", b: "sun", g: -.0015, r: 1500},
+    {rule: "orbit2", a: "e", b: "sun", g: -.002, r: 1500},
     {rule: "orbit2", a: "e", b: "sun", g: .02, r: 24},
-    {rule: "orbit2", a: "e", b: "e", g: -.0015, r: 1500},
-    {rule: "orbit2b", a: "e", b: "e", g: .01, r: 10},
+    {rule: "orbit2", a: "e", b: "e", g: -.002, r: 1500},
+    {rule: "orbit2", a: "e", b: "e", g: .02, r: 10},
     // {rule: "fall", a: "e", b: "e", g: .015, r: 100}
 ];
 
@@ -476,7 +450,7 @@ function start(){
     // pg["sun"].push(new p3(particles.length,s.w/2,s.h/2,s=24));
     particles.push(pg["sun"][pg["sun"].length-1]);
 
-    pg["e"] = createOrbit3(6, 0, -1, 100);
+    pg["e"] = createOrbit3(5, 0, -1, 100);
     // pg["e"] = createOrbit3(10, 0, -1, 100);
 }
 function update(){

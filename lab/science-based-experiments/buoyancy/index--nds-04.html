@@ -445,9 +445,9 @@ pr["fall"] = function (list1, list2, g = 0, r = 100){
 var rules = [
     // {rule: "mouse-orbit", a: "e", b: "e", g: -.03, r: 200},
     {rule: "orbit2", a: "e", b: "sun", g: -.0015, r: 1500},
-    {rule: "orbit2", a: "e", b: "sun", g: .02, r: 24},
+    {rule: "orbit2b", a: "e", b: "sun", g: .02, r: 24},
     {rule: "orbit2", a: "e", b: "e", g: -.0015, r: 1500},
-    {rule: "orbit2b", a: "e", b: "e", g: .01, r: 10},
+    {rule: "orbit2", a: "e", b: "e", g: .01, r: 10},
     // {rule: "fall", a: "e", b: "e", g: .015, r: 100}
 ];
 
@@ -476,7 +476,7 @@ function start(){
     // pg["sun"].push(new p3(particles.length,s.w/2,s.h/2,s=24));
     particles.push(pg["sun"][pg["sun"].length-1]);
 
-    pg["e"] = createOrbit3(6, 0, -1, 100);
+    pg["e"] = createOrbit3(4, 0, -1, 100);
     // pg["e"] = createOrbit3(10, 0, -1, 100);
 }
 function update(){
