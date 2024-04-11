@@ -216,7 +216,7 @@ class p3 {
 
         // this.hue = 210;
         // this.hue = Math.random() * 360;
-        this.hue = this.id * 1;
+        this.hue = this.id * 30;
         this.vhue = this.hue;
         this.sat = 100;
         this.vsat = this.sat;
@@ -382,34 +382,8 @@ pr["orbit2b"] = function (list1, list2, g = 0, r = 100){
                 fy += (force * dy);
             }
         }
-        a.vx = (a.vx + fx) * .99;
-        a.vy = (a.vy + fy) * .99;
-        a.x += a.vx / a.mass;
-        a.y += a.vy / a.mass;
-
-        /* ─pushes back from border─ */
-        if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
-        if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
-    }
-}
-pr["orbit3n"] = function (list1, list2, g = 0, r = 100){
-    for (let i = 0; i < list1.length; i++) {
-        const a = list1[i];
-        let fx = 0;
-        let fy = 0;
-        for (let j = 0; j < list2.length; j++) {
-            const b = list2[j];
-            let dx = a.x - b.x;
-            let dy = a.y - b.y;
-            let d = Math.sqrt(dx*dx + dy*dy);
-            if(d > a.s*.25 && d < a.s){
-                let force = g * a.mass * b.mass * 1/d;
-                fx += (force * dx);
-                fy += (force * dy);
-            }
-        }
-        a.vx = (a.vx + fx) * .99;
-        a.vy = (a.vy + fy) * .99;
+        a.vx = (a.vx + fx) * .999;
+        a.vy = (a.vy + fy) * .999;
         a.x += a.vx / a.mass;
         a.y += a.vy / a.mass;
 
@@ -470,10 +444,10 @@ pr["fall"] = function (list1, list2, g = 0, r = 100){
 // ];
 var rules = [
     // {rule: "mouse-orbit", a: "e", b: "e", g: -.03, r: 200},
-    {rule: "orbit2", a: "e", b: "sun", g: -.0005, r: 1500},
-    {rule: "orbit2b", a: "e", b: "sun", g: .01, r: 24},
-    {rule: "orbit2", a: "e", b: "e", g: -.0001, r: 5},
-    {rule: "orbit3n", a: "e", b: "e", g: .01, r: 12},
+    {rule: "orbit2", a: "e", b: "sun", g: -.0015, r: 1500},
+    // {rule: "orbit2", a: "e", b: "sun", g: .02, r: 24},
+    {rule: "orbit2", a: "e", b: "e", g: -.0015, r: 1500},
+    {rule: "orbit2b", a: "e", b: "e", g: .01, r: 10},
     // {rule: "fall", a: "e", b: "e", g: .015, r: 100}
 ];
 
@@ -502,19 +476,8 @@ function start(){
     // pg["sun"].push(new p3(particles.length,s.w/2,s.h/2,s=24));
     particles.push(pg["sun"][pg["sun"].length-1]);
 
-    let particleCount = 120;
-    // pg["e"] = createOrbit3(90, 0, -1, 100);
+    pg["e"] = createOrbit3(6, 0, -1, 100);
     // pg["e"] = createOrbit3(10, 0, -1, 100);
-    pg["e"] = createOrbit3(particleCount, 0, -1, 100);
-
-    setTimeout(() => {
-        // console.log(`time: ${i}`); updateDOM_arc2(nList);
-        for (let i = particleCount-5; i < particles.length; i++) {
-            // const element = particles[i];
-            particles[i].mass = 12;
-            particles[i].s = 12;
-        }
-    }, 2000);
 }
 function update(){
     if(!s.q && !s.pause){

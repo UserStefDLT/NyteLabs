@@ -473,7 +473,7 @@ var rules = [
     {rule: "orbit2", a: "e", b: "sun", g: -.0005, r: 1500},
     {rule: "orbit2b", a: "e", b: "sun", g: .01, r: 24},
     {rule: "orbit2", a: "e", b: "e", g: -.0001, r: 5},
-    {rule: "orbit3n", a: "e", b: "e", g: .01, r: 12},
+    {rule: "orbit2b", a: "e", b: "e", g: .01, r: 12},
     // {rule: "fall", a: "e", b: "e", g: .015, r: 100}
 ];
 
@@ -502,16 +502,13 @@ function start(){
     // pg["sun"].push(new p3(particles.length,s.w/2,s.h/2,s=24));
     particles.push(pg["sun"][pg["sun"].length-1]);
 
-    let particleCount = 120;
-    // pg["e"] = createOrbit3(90, 0, -1, 100);
+    pg["e"] = createOrbit3(60, 0, -1, 100);
     // pg["e"] = createOrbit3(10, 0, -1, 100);
-    pg["e"] = createOrbit3(particleCount, 0, -1, 100);
 
     setTimeout(() => {
         // console.log(`time: ${i}`); updateDOM_arc2(nList);
-        for (let i = particleCount-5; i < particles.length; i++) {
+        for (let i = 55; i < particles.length; i++) {
             // const element = particles[i];
-            particles[i].mass = 12;
             particles[i].s = 12;
         }
     }, 2000);
