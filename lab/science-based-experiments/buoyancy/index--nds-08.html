@@ -216,8 +216,7 @@ class p3 {
 
         // this.hue = 210;
         // this.hue = Math.random() * 360;
-        // this.hue = this.id * 2;
-        this.hue = this.id * 1;
+        this.hue = this.id * 2;
         this.vhue = this.hue;
         this.sat = 100;
         this.vsat = this.sat;
@@ -285,7 +284,6 @@ class p3 {
         // // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.alp}%)`;
         // // this.c = `hsla(${this.vhue}, 100%, ${this.lum}%, ${this.alp})`;
         // // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .01)`;
-        // this.c = `hsla(${this.vhue}, ${this.vsat}%, ${this.lum}%, ${this.alp})`;
         // this.c = `hsla(${this.vhue}, ${this.vsat}%, ${this.lum}%, ${this.alp})`;
         return this.c;
     }
@@ -514,16 +512,12 @@ function start(){
         for (let i = groupCount; i < groupCount*2; i++) {
             particles[i].s = 12;
             // particles[i].mass = 12;
-            // particles[i].vhue = 120;
-            particles[i].c = `hsla(120, ${particles[i].vsat}%, ${particles[i].lum}%, ${particles[i].alp})`;
         }
     }, 1000);
     setTimeout(() => {
         for (let i = groupCount*2; i < particles.length; i++) {
             particles[i].s = 24;
-            // particles[i].mass = 24;
-            // particles[i].vhue = 240;
-            particles[i].c = `hsla(240, ${particles[i].vsat}%, ${particles[i].lum}%, ${particles[i].alp})`;
+            // particles[i].mass = 18;
         }
     }, 2000);
 }
