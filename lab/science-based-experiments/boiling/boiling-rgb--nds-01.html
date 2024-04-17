@@ -215,6 +215,9 @@ class p3 {
         this.vh = 0;
         this.v = 0;
 
+        this.color_r = 0;
+        this.color_g = 0;
+        this.color_b = 0;
         // this.hue = 210;
         // this.hue = Math.random() * 360;
         // this.hue = this.id * 2;
@@ -288,23 +291,20 @@ class p3 {
         // // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .01)`;
         // this.c = `hsla(${this.vhue}, ${this.vsat}%, ${this.lum}%, ${this.alp})`;
 
-        // this.vhue = (this.heat * .6);
+        this.vhue = (this.heat * .6);
         // this.vhue = (this.heat * .9);
         // this.vhue = (this.heat * 1.8 + 180);
         // this.vhue = (this.x - s.cBox.left) * (1080 / s.cBox.w);
         // let x = (this.x - s.cBox.left);
         // this.vhue = (Math.cos(x/18) * 50) + 180;
         
-        let xc = this.x - s.w/2;
-        let yc = this.y - s.h/2;
-        let hueAngle = XYtoAngle(xc, yc);
-        let dc = Math.sqrt(xc*xc+yc*yc);
+        // let xc = this.x - s.w/2;
+        // let yc = this.y - s.h/2;
+        // let dc = Math.sqrt(xc*xc+yc*yc);
         // let hueCircle = Math.atan(xc/yc) * 180/Math.PI;
-        // this.vhue = Math.round((hueCircle + 360) % 360);
+        // // this.vhue = Math.round((hueCircle + 360) % 360);
         // this.vhue = Math.round((hueCircle + 360 + (this.heat * 1.8)) % 360);
-        // this.vhue = Math.round((hueCircle + 360 + (dc * 2)) % 360);
-        // this.vhue = Math.round((hueAngle + 360) % 360);
-        this.vhue = Math.round((hueAngle + 360 + (dc * 2)) % 360);
+        // // this.vhue = Math.round((hueCircle + 360 + (dc * 2)) % 360);
 
         // // let lumheat = ((this.heat*this.heat) / 100) - 5;
         // let lumheat = ((this.heat*this.heat) / 100);
@@ -314,6 +314,12 @@ class p3 {
         this.alp = this.heat/100;
 
         this.c = `hsla(${this.vhue}, ${this.vsat}%, ${this.lum}%, ${this.alp})`;
+        if(this.color_r > 0 || this.color_g > 0 || this.color_b > 0){
+            this.c = `rgba(${this.color_r*2}, ${this.color_g*2}, ${this.color_b*2}, ${this.alp})`;
+            // this.c = `rgb(${this.color_r*2}, ${this.color_g*2}, ${this.color_b*2})`;
+            // this.c = `rgba(${this.color_r*2}, ${this.color_g*2}, ${this.color_b*2}, .5)`;
+            // this.c = `rgba(250, 0, 0, ${this.alp})`;
+        }
         this.s = this.baseSize + this.baseSize * this.heat/100;
         return this.c;
     }
@@ -445,6 +451,50 @@ pr["orbit2c"] = function (list1, list2, g = 0, r = 100){
         a.vy = (a.vy + fy) * .99;
         a.x += a.vx / a.mass;
         a.y += a.vy / a.mass;
+
+        /* ─pushes back from border─ */
+        if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
+        if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
+    }
+}
+pr["orbit2c_rgb"] = function (list1, list2, g = 0, r = 100){
+    for (let i = 0; i < list1.length; i++) {
+        const a = list1[i];
+        let fx = 0;
+        let fy = 0;
+
+        if(a.color_r > 0) {a.color_r -= (a.color_r/100);}
+        if(a.color_r < 0.1) {a.color_r = 0;}
+        if(a.color_g > 0) {a.color_g -= (a.color_g/100);}
+        if(a.color_g < 0.1) {a.color_g = 0;}
+        if(a.color_b > 0) {a.color_b -= (a.color_b/100);}
+        if(a.color_b < 0.1) {a.color_b = 0;}
+
+        for (let j = 0; j < list2.length; j++) {
+            const b = list2[j];
+            let dx = a.x - b.x;
+            let dy = a.y - b.y;
+            let d = Math.sqrt(dx*dx + dy*dy);
+            if(d < 25) { //b.size/2
+                a.heat = 100;
+                if(a.color_r < b.color_r){a.color_r = b.color_r;}
+                if(a.color_g < b.color_g){a.color_g = b.color_g;}
+                if(a.color_b < b.color_b){a.color_b = b.color_b;}
+            }
+            if(d > 0.1 && d < r){
+                let force = g * a.mass * b.mass * 1/d;
+                fx += (force * dx);
+                fy += (force * dy);
+            }
+        }
+        a.vx = (a.vx + fx) * .99;
+        a.vy = (a.vy + fy) * .99;
+        a.x += a.vx / a.mass;
+        a.y += a.vy / a.mass;
+
+        if(a.color_r > 100){a.color_r = 100;}
+        if(a.color_g > 100){a.color_g = 100;}
+        if(a.color_b > 100){a.color_b = 100;}
 
         /* ─pushes back from border─ */
         if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
@@ -641,8 +691,9 @@ pr["fall"] = function (list1, list2, g = 0, r = 100){
 // ];
 var rules = [
     // {rule: "mouse-orbit", a: "e", b: "e", g: -.03, r: 200},
-    {rule: "orbit2", a: "e", b: "sun", g: -.0005, r: 1500},
-    {rule: "orbit2c", a: "e", b: "sun", g: .01, r: 24},
+    {rule: "orbit2", a: "e", b: "sun", g: -.0003, r: 1500},
+    // {rule: "orbit2c", a: "e", b: "sun", g: .01, r: 24},
+    {rule: "orbit2c_rgb", a: "e", b: "sun", g: .01, r: 24},
     // {rule: "orbit2", a: "e", b: "e", g: -.0001, r: 5},
     {rule: "orbit3n2", a: "e", b: "e", g: .01, r: 12},
     // {rule: "fall", a: "e", b: "e", g: .015, r: 100}
@@ -669,10 +720,40 @@ function start(){
 
     // constructor(id=-1,x,y,h=0,vx=0,vy=0,c="#f39c",s=12)
     pg["sun"] = [];
-    pg["sun"].push(new p3(particles.length,s.w/2,s.h/2,0,0,0,"#f39c",24));
-    // pg["sun"][0].heat = 200;
-    // pg["sun"].push(new p3(particles.length,s.w/2,s.h/2,s=24));
+    let circleRadius = 12;
+    let a0 = AngleToXY(270);
+    let a1 = AngleToXY(30);
+    let a2 = AngleToXY(150);
+
+    let sun_0_x = s.w2 + (a0.x * circleRadius);
+    let sun_0_y = s.h2 + (a0.y * circleRadius);
+    let sun_1_x = s.w2 + (a1.x * circleRadius);
+    let sun_1_y = s.h2 + (a1.y * circleRadius);
+    let sun_2_x = s.w2 + (a2.x * circleRadius);
+    let sun_2_y = s.h2 + (a2.y * circleRadius);
+
+    pg["sun"].push(new p3(particles.length,sun_0_x,sun_0_y,0,0,0,"#f39c",24));
     particles.push(pg["sun"][pg["sun"].length-1]);
+    pg["sun"].push(new p3(particles.length,sun_1_x,sun_1_y,0,0,0,"#f39c",24));
+    particles.push(pg["sun"][pg["sun"].length-1]);
+    pg["sun"].push(new p3(particles.length,sun_2_x,sun_2_y,0,0,0,"#f39c",24));
+    particles.push(pg["sun"][pg["sun"].length-1]);
+
+    // pg["sun"].push(new p3(particles.length,s.w/2,s.h/2-20,0,0,0,"#f39c",24));
+    // particles.push(pg["sun"][pg["sun"].length-1]);
+    // pg["sun"].push(new p3(particles.length,s.w/2+17,s.h/2+10,0,0,0,"#f39c",24));
+    // particles.push(pg["sun"][pg["sun"].length-1]);
+    // pg["sun"].push(new p3(particles.length,s.w/2-17,s.h/2+10,0,0,0,"#f39c",24));
+    // particles.push(pg["sun"][pg["sun"].length-1]);
+
+    pg["sun"][0].heat = 200;
+    pg["sun"][1].heat = 200;
+    pg["sun"][2].heat = 200;
+    pg["sun"][0].color_r = 100;
+    pg["sun"][1].color_g = 100;
+    pg["sun"][2].color_b = 100;
+    // pg["sun"].push(new p3(particles.length,s.w/2,s.h/2,s=24));
+    // particles.push(pg["sun"][pg["sun"].length-1]);
 
     // pg["e"] = createOrbit3(90, 0, -1, 100);
     // pg["e"] = createOrbit3(10, 0, -1, 100);
@@ -729,6 +810,8 @@ function update(){
 function updateSettings(){
     s.h = window.innerHeight;
     s.w = window.innerWidth;
+    s.h2 = window.innerHeight/2;
+    s.w2 = window.innerWidth/2;
     s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
 
     /* ─ Canvas ─ */
@@ -788,14 +871,14 @@ window.addEventListener('load', (ev) => {
 */
 /* Version Log:
 [index-nds-00]: Default Template.
-[index-nds-01]: Visible and works. (looks like pop corn)
-[index-nds-02]: Good boiling bubbles.
-[index-nds-03]: Random color bubbles.
-[index-nds-04]: Hue color. (needs fixing)
-[index-nds-05]: Boiling, Color Hue Spiral.
-[index-nds-06]: Heat.
-[index-nds-07]: HueColor.
-[index-nds-08]: HueColor Spiral.
+[index-nds-01]: 
+[index-nds-02]: 
+[index-nds-03]: 
+[index-nds-04]: 
+[index-nds-05]: 
+[index-nds-06]: 
+[index-nds-07]: 
+[index-nds-08]: 
 [index-nds-09]: 
 [index-nds-10]: 
 [index-nds-11]: 
