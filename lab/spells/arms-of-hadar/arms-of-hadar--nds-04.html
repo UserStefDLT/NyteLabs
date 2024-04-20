@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Boiling ♨️ | NyteLabs</title>
+    <title>Arms of Hadar 🎆 | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/canvas-2.css">
@@ -27,7 +27,7 @@
     <header>
         <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
         <h1 class="title">NyteLabs</h1>
-        <!-- <div class="subtitle">🔥Boiling Attempt♨️🌡</div> -->
+        <!-- <div class="subtitle">🐙 Arms of Hadar 👾🎆</div> -->
     </header>
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
@@ -60,8 +60,6 @@
     const s = {
         h: window.innerHeight,
         w: window.innerWidth,
-        h2: window.innerHeight/2,
-        w2: window.innerWidth/2,
 
         touch: {
             x: 0,
@@ -195,6 +193,18 @@ function draw3(ctx,e,x,y,s){
     ctx.fill();
     // ctx.fillRect(e.x,e.y,e.s,e.s);
 }
+function drawPath(ctx,x,y,s,c){
+    ctx.fillStyle = c;
+    // ctx.filter = "blur(4px)";
+    ctx.beginPath();
+    ctx.arc(x, y, s/2, 0, Math.PI * 2);
+    ctx.fill();
+    // ctx.fillRect(e.x,e.y,e.s,e.s);
+}
+function drawSquare(ctx,left,top,c,w,h){
+    ctx.fillStyle = c;
+    ctx.fillRect(left,top,w,h);
+}
 
 class p3 {
     constructor(id=-1,x,y,h=0,vx=0,vy=0,c="#f39c",s=6){
@@ -217,8 +227,6 @@ class p3 {
         this.vh = 0;
         this.v = 0;
 
-        this.hueAngle = XYtoAngle(this.x - s.w2, this.y - s.h2);
-
         // this.hue = 210;
         // this.hue = Math.random() * 360;
         // this.hue = this.id * 2;
@@ -230,20 +238,30 @@ class p3 {
         this.alp = .95;
         this.c = `hsla(${this.vhue}, ${this.vsat}%, ${this.lum}%, ${this.alp})`;
 
+        this.timer = 0;
+        this.pathLog = [];
+
         this.getColor();
     }
     getV(){
         this.v = Math.abs(this.vx) + Math.abs(this.vy) + Math.abs(this.vz);
         return this.v;
     }
-    particleUpdate(){
-        this.hueAngle = XYtoAngle(this.x - s.w2, this.y - s.h2);
-    }
     getColor(){
         /* Heat can be from -100 to 100. */
         /* If heat is 0, then show white. */
         /* If heat is -100, then show blue. */
         /* If heat is 100, then show red. */
+        this.timer++;
+        if(this.heat < 20){this.pathLog = [];}
+        if(this.timer == 3){
+            this.pathLog.push({x:this.x,y:this.y});
+            this.timer = 0;
+        }
+        if(this.pathLog.length > 20){
+            // this.pathLog.push([this.x,this.y]);
+            this.pathLog.shift();
+        }
         
         // // this.alp = this.heat/100;
         // this.vsat = this.sat;
@@ -295,34 +313,31 @@ class p3 {
         // // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .01)`;
         // this.c = `hsla(${this.vhue}, ${this.vsat}%, ${this.lum}%, ${this.alp})`;
 
-        // this.vhue = (this.heat * .6);
         // this.vhue = (this.heat * .9);
-        // this.vhue = (this.heat * 1.8 + 180);
-        // this.vhue = (this.x - s.cBox.left) * (1080 / s.cBox.w);
-        // let x = (this.x - s.cBox.left);
-        // this.vhue = (Math.cos(x/18) * 50) + 180;
-        
-        let xc = this.x - s.w/2;
-        let yc = this.y - s.h/2;
-        let hueAngle = XYtoAngle(xc, yc);
-        let dc = Math.sqrt(xc*xc+yc*yc);
-        // let hueCircle = Math.atan(xc/yc) * 180/Math.PI;
-        // this.vhue = Math.round((hueCircle + 360) % 360);
-        // this.vhue = Math.round((hueCircle + 360 + (this.heat * 1.8)) % 360);
-        // this.vhue = Math.round((hueCircle + 360 + (dc * 2)) % 360);
-        // this.vhue = Math.round((hueAngle + 360) % 360);
-        this.vhue = Math.round((hueAngle + 360 + (dc * 2)) % 360);
-
-        // // let lumheat = ((this.heat*this.heat) / 100) - 5;
-        // let lumheat = ((this.heat*this.heat) / 100);
-        // this.lum = 40 + lumheat/2;
-        // this.alp = lumheat/100;
+        this.vhue = (this.heat * 1.8 + 180);
+        // let lumheat = ((this.heat*this.heat) / 100) - 5;
+        let lumheat = ((this.heat*this.heat) / 100);
+        this.lum = 40 + lumheat/2;
+        // this.alp = lumheat/100 - .2;
+        this.alp = lumheat/100;
         // this.alp = lumheat/80;
-        this.alp = this.heat/100;
 
         this.c = `hsla(${this.vhue}, ${this.vsat}%, ${this.lum}%, ${this.alp})`;
         this.s = this.baseSize + this.baseSize * this.heat/100;
         return this.c;
+    }
+    drawPath(){
+        if(this.heat > 50){
+            for (let i = 0; i < this.pathLog.length; i++) {
+                const e = this.pathLog[i];
+                // drawSquare(ctx,e.x,e.y,"#00ff0010",10,10);
+                // drawPath(ctx,x,y,s,c)
+                // let size = this.s;
+                // drawPath(ctx,e.x,e.y,this.s,this.c);
+                let color = `hsla(${this.vhue}, ${this.vsat}%, ${this.lum}%, .2)`;
+                drawPath(ctx,e.x,e.y,this.s,color);
+            }
+        }
     }
 }
 
@@ -631,33 +646,6 @@ pr["fall"] = function (list1, list2, g = 0, r = 100){
     }
 }
 
-pr["whirl"] = function (list1, list2, g = 0, r = 100){
-    for (let i = 0; i < list1.length; i++) {
-        const a = list1[i];
-
-        a.hueAngle = XYtoAngle(a.x - s.w2, a.y - s.h2);
-        let whirlAngle = a.hueAngle + 270;
-        let whirlXY = AngleToXY(whirlAngle);
-
-
-        // a.vy = (a.vy + g) * .98;
-        // a.y += a.vy;
-
-        // /* ─pushes back from border─ */
-        // if(a.x <= a.s || a.x >= (s.w-a.s)){a.vx *= -1;}
-        // if(a.y <= a.s || a.y >= (s.h-a.s)){a.vy *= -1;}
-
-        // if(a.x < s.cBox.left || a.x > s.cBox.right || a.y < s.cBox.top || a.y > s.cBox.bottom){
-        //     a.x = Math.floor(Math.random() * s.cBox.w + s.cBox.left);
-        //     // a.y = s.cBox.bottom + a.s;
-        //     // a.y = s.cBox.bottom + (Math.random() * s.cBox.top);
-        //     a.y = s.h/2;
-        //     a.vx = 0; a.vy = 0;
-        //     a.heat = 0;
-        // }
-    }
-}
-
 
 // var rules = [
 //     // {rule: "mouse-orbit", a: "e", b: "e", g: -.03, r: 200},
@@ -754,6 +742,7 @@ function update(){
             // // draw2(ctx,particles[i],particles[i].x,particles[i].y);
             // // draw2(ctx,particles[i]);
             draw3(ctx,particles[i],particles[i].x,particles[i].y,5);
+            particles[i].drawPath();
         }
     }
     requestAnimationFrame(update);
@@ -822,15 +811,15 @@ window.addEventListener('load', (ev) => {
 */
 /* Version Log:
 [index-nds-00]: Default Template.
-[index-nds-01]: Visible and works. (looks like pop corn)
-[index-nds-02]: Good boiling bubbles.
-[index-nds-03]: Random color bubbles.
-[index-nds-04]: Hue color. (needs fixing)
-[index-nds-05]: Boiling, Color Hue Spiral.
-[index-nds-06]: Heat.
-[index-nds-07]: HueColor.
-[index-nds-08]: HueColor Spiral.
-[index-nds-09]: (add a spiral force for the bubbles to float away circling.)
+[index-nds-01]: 
+[index-nds-02]: 
+[index-nds-03]: 
+[index-nds-04]: 
+[index-nds-05]: 
+[index-nds-06]: 
+[index-nds-07]: 
+[index-nds-08]: 
+[index-nds-09]: 
 [index-nds-10]: 
 [index-nds-11]: 
 [index-nds-12]: 
