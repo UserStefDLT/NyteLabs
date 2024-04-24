@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Color Grid | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        /* :root {} */
+    </style>
+<style>
+.grid {
+    display: flex;
+    flex-direction: column;
+}
+.row {
+    display: flex;
+    flex-direction: row;
+}
+.tile {
+    --tile-sz: 20px;
+    height: var(--tile-sz);
+    width: var(--tile-sz);
+    background: #fff9;
+    margin: 0px;
+}
+/* :root {
+    --xlen: 29;
+    --ylen: 29;
+
+    --xhlen: calc((var(--xlen) + 1) / 2);
+    --yhlen: calc((var(--ylen) + 1) / 2);
+
+} */
+.row {--j: var(--i);}
+.tile {
+    /*
+    --x: calc(var(--i) - var(--xhlen));
+    --y: calc(var(--j) - var(--yhlen));
+    --x: var(--i);
+    --y: var(--j);
+    --h: calc(var(--x) + var(--y));
+    --xy: calc(var(--x) * var(--y));
+    --xx: calc(var(--x) * var(--x));
+    --yy: calc(var(--y) * var(--y));
+    --q: calc(var(--x) * var(--x) + var(--y) * var(--y));
+    --val: calc(var(--q) * .5);
+    --hue: var(--val);
+    background-color: hsla(var(--hue), 100%, 50%, 1);
+    */
+
+    background-color: hsla(var(--hue), var(--sat), var(--lum), 1);
+}
+
+
+</style>
+    <link rel="stylesheet" href="../../../stylesheets/settings2.css">
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">NyteLabs</h1>
+        <!-- <div class="subtitle">NyteLabs_Template</div> -->
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+
+<main>
+    <div class="shelf">
+        <h3 class="shelf-title">experiment</h3>
+        <div id="display">
+            
+        </div>
+    </div>
+    <!-- <canvas id="canvas"></canvas> -->
+</main>
+
+<!-- <div class="options">
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
+
+<footer>
+    <div class="my-name">
+        <a id="BackToTop" class="hidden" href="#">Back To Top</a>
+        &copy; 2022 - 2024 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        touch: {
+            x: 0,
+            y: 0,
+            z: 0,
+            paths: {},
+            path_len: 20,
+            tracking: false
+        },
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            path: [],
+            path_len: 20,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            sz: 20,
+            sz2: 10,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            padding: 0,
+            brush: "p",
+        },
+        box: {
+            x: 500,
+            y: 500,
+            z: 500,
+            x2: 250,
+            y2: 250,
+            z2: 250,
+            d: 1000,
+            p: 1000,
+        },
+
+        timeOut: 40,
+        player: false,
+        
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+    const particles = [];
+    const pg = {}
+
+</script>
+<script src="../../../scripts/settings-02.js"></script>
+<script>
+
+    var ColorEqs = {
+        g1: {
+            hue: {o: "i", a: 0, step: 24, c: 0},
+            sat: {o: "i", a: 0, step: 0, c: 100},
+            lum: {o: "i", a: 0, step: 0, c: 50},
+            alp: {o: "i", a: 0, step: 0, c: 1},
+        },
+        g2: {
+            hue: {o: "x", a: 0, step: 7.5, c: 0},
+            sat: {o: "x", a: 3, step: 1, c: 30},
+            lum: {o: "i", a: 0, step: 3, c: 25},
+            alp: {o: "i", a: 0, step: 0, c: 1},
+        },
+        g3: {
+            hue: {o: "x", a: 0, step: -7.5, c: 20},
+            sat: {o: "x", a: 3, step: 1, c: 30},
+            lum: {o: "i", a: 0, step: 3, c: 25},
+            alp: {o: "i", a: 0, step: 0, c: 1},
+        },
+    }
+    var ColorRows = {
+        "g1": [],
+        "g2": [],
+        "g3": [],
+    }
+    
+    /*
+    */
+    function GetGradient(x,y,a,b){
+        
+    }
+
+    /*
+    --hue: calc((var(--i) - 8) * 7.5);
+    --lum: calc(var(--i) * 3% + 25%);
+    --x: calc(var(--i) - 5);
+    --x2: calc(var(--x) * var(--x));
+    --sat: calc(var(--x2) * 1% + 30%);
+
+    background-color: hsla(var(--hue), var(--lum), var(--sat), 1);
+
+    // → create general variables.
+    // → point to them when in use.
+
+    --xhlen: calc((var(--xlen) + 1) / 2);
+    hx = (xlen + 1) / 2;
+    hy = (ylen + 1) / 2;
+
+    x = i - hx
+
+    hue: (i - hxlen) * 7.5 + 0
+    hue_origin: x;
+    hue_step: 7.5;
+    hue_offc: 0;
+
+    sat: Math.pow(i-5,2) * 1 + 30
+    sat_origin: x+3;
+    sat_step: 1;
+    sat_offc: 30;
+
+    lum: i * 3 + 25
+    lum_origin: i;
+    lum_step: 3;
+    lum_offc: 25;
+
+    oadd = "origin_add"
+    g2: {
+        hue: {o: "x", oadd: 0, step: 7.5, offc: 0},
+        sat: {o: "x", a: 3, step: 1, offc: 30},
+        lum: {o: "i", a: 0, step: 3, offc: 25},
+        alp: {o: "i", a: 0, step: 0, offc: 1},
+    }
+    g3: {
+        hue: {o: x, oadd: 0, step: -7.5, offc: 20},
+        sat: {o: x, oadd: 3, step: 1, offc: 30},
+        lum: {o: i, oadd: 0, step: 3, offc: 25},
+        alp: {o: i, oadd: 0, step: 0, offc: 1},
+    }
+
+    g2: {
+        hue: {o: "x", a: 0, step: 7.5, c: 0},
+        sat: {o: "x", a: 3, step: 1, c: 30},
+        lum: {o: "i", a: 0, step: 3, c: 25},
+        alp: {o: "i", a: 0, step: 0, c: 1},
+    }
+
+    g2: {
+        hue: {o: "x", a: 0, step: 7.5, c: 0},
+        sat: {o: "Math.pow(i-5,2)", a: 0, step: 1, c: 30},
+        lum: {o: "i", a: 0, step: 3, c: 25},
+        alp: {o: "i", a: 0, step: 0, c: 1},
+    }
+
+    */
+    /* GetLinearGradient()
+    */
+    function GetLinearGradient(xlen, v={}){
+        let row = [];
+        let hxlen = xlen / 2;
+        for (let i = 0; i < xlen; i++) {
+            let x = i - hxlen;
+            let xx = x*x;
+            let hue_o = i; if(v.hue.o == "x") {hue_o = x;}
+            let sat_o = i; if(v.sat.o == "x") {sat_o = x;}
+
+            let lum_o = i; if(v.lum.o == "x") {lum_o = x;}
+            let alp_o = i; if(v.alp.o == "x") {alp_o = x;}
+            let hue = Math.round(((hue_o + v.hue.a) * v.hue.step) + v.hue.c);
+            let sat = Math.round(((sat_o + v.sat.a) * v.sat.step) + v.sat.c);
+            let lum = Math.round(((lum_o + v.lum.a) * v.lum.step) + v.lum.c);
+            let alp = Math.round(((alp_o + v.alp.a) * v.alp.step) + v.alp.c);
+            row.push({"hue": hue, "sat": sat, "lum": lum, "alp": alp});
+        }
+        return row;
+    }
+    function GetLinearGradient_02(xlen, v={}){
+        let row = [];
+        let hxlen = xlen / 2;
+        for (let i = 0; i < xlen; i++) {
+            let x = i - hxlen;
+            let xx = x*x;
+            let hue_o = i; if(v.hue.o == "x") {hue_o = x;}
+            let sat_o = i; if(v.sat.o == "x") {sat_o = x;}
+
+            let lum_o = i; if(v.lum.o == "x") {lum_o = x;}
+            let alp_o = i; if(v.alp.o == "x") {alp_o = x;}
+            let hue = Math.round(((hue_o + v.hue.a) * v.hue.step) + v.hue.c);
+            let sat = Math.round(((sat_o + v.sat.a) * v.sat.step) + v.sat.c);
+            let lum = Math.round(((lum_o + v.lum.a) * v.lum.step) + v.lum.c);
+            let alp = Math.round(((alp_o + v.alp.a) * v.alp.step) + v.alp.c);
+            row.push({"hue": hue, "sat": sat, "lum": lum, "alp": alp});
+        }
+        return row;
+    }
+    function GetLinearGradient_01(xlen){
+        let row = [];
+        let hxlen = xlen / 2;
+        for (let i = 0; i < xlen; i++) {
+            let hue = (i - hxlen) * 7.5;
+            let sat = Math.round(Math.pow(i-5,2) * 1 + 30);
+            // let sat = Math.round(Math.pow(i-hxlen,2) * 1 + 30);
+            let lum = Math.round(i * 3 + 25);
+            let alp = 1;
+            row.push({"hue": hue, "sat": sat, "lum": lum, "alp": alp});
+        }
+        return row;
+    }
+
+    function BuildGradientRow(colorList){
+        let row = document.createElement('div');
+        row.classList.add('row');
+        
+        for (let i = 0; i < colorList.length; i++) {
+            let e = colorList[i];
+            let tile = document.createElement('div');
+            tile.classList.add('tile');
+            tile.style = `--hue: ${e.hue}; --sat: ${e.sat}%; --lum: ${e.lum}%; --alp: ${e.alp}%;`;
+            row.appendChild(tile);
+        }
+
+        return row;
+    }
+
+    /* ─── Events ─── */
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        s.canvas.z = (s.h + s.w)/2;
+
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
+
+        /* ─ Box ─ */
+        /* resize box for mobile */
+        if(s.h < s.box.y) {s.box.y = s.h;}
+        if(s.w < s.box.x) {s.box.x = s.w;}
+        s.box.z = (s.box.y + s.box.x)/2;
+
+        /* center box */
+        s.box.top = (s.h - s.box.y)/2;
+        s.box.left = (s.w - s.box.x)/2;
+
+        /* determine center */
+        s.box.x2 = s.box.left + (s.box.x / 2);
+        s.box.y2 = s.box.top + (s.box.y / 2);
+        s.box.z2 = (s.box.z / 2);
+
+        /* ─ Grid ─ */
+        s.grid.cols = Math.floor(s.w / s.tile.w);
+        s.grid.rows = Math.floor(s.h / s.tile.h);
+
+        /* ─ Canvas Update ─ */
+        // canvas.width = s.canvas.x;
+        // canvas.height = s.canvas.y;
+        // ctx.clearRect(0,0,canvas.width, canvas.height);
+    }
+    window.addEventListener('resize', () =>{
+        updateSettings();
+    });
+
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        updateSettings();
+        // start();
+        // update();
+        let display = document.getElementById('display');
+        ColorRows['g1'] = GetLinearGradient(15, ColorEqs["g1"]);
+        ColorRows['g2'] = GetLinearGradient(15, ColorEqs["g2"]);
+        ColorRows['g3'] = GetLinearGradient(15, ColorEqs["g3"]);
+
+        let grid = document.createElement('div');
+        grid.classList.add('grid');
+        grid.appendChild(BuildGradientRow(ColorRows['g1']));
+        grid.appendChild(BuildGradientRow(ColorRows['g2']));
+        grid.appendChild(BuildGradientRow(ColorRows['g3']));
+
+        display.appendChild(grid);
+
+    });
+    /* Version Log:
+    [index-nds-00]: Default Template.
+    [index-nds-01]: 
+    [index-nds-02]: 
+    [index-nds-03]: 
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
+    [index-nds-07]: 
+    [index-nds-08]: 
+    [index-nds-09]: 
+    [index-nds-10]: 
+    [index-nds-11]: 
+    [index-nds-12]: 
+    
+    */
+
+
+</script>
+</body>
+</html>
