@@ -21,8 +21,6 @@
     :root {
         --color-1: #321;
         --color-2: #ff9;
-        --color-1: hsl(30, 50%, 13%);
-        --color-2: hsl(60, 100%, 80%);
 
         --color-1: #000;
         --color-2: #fff;
@@ -33,7 +31,6 @@
         transform-style: preserve-3d;
     }
     [id|="display"] {
-        margin: 0.5rem 1rem;
         transform: rotate3d(0,0,0,-45deg) rotate3d(0,0,0,54deg);
         transition: transform 200ms ease-in-out;
     }
@@ -50,7 +47,6 @@
         position: absolute;
         content: "checkerboard";
         content: attr(class);
-        content: "checkerboard-" attr(data-checkerId);
         height: max-content;
         width: max-content;
         top: 0%; left: 50%;
@@ -65,20 +61,6 @@
     }
 
     /* ─── Checkerboard 03 ─── */
-    .checker-grid .tile:nth-child(2n) {--checker: 0;}
-    .checker-grid .tile:nth-child(2n+1) {--checker: 1;}
-    .checker-grid .row:nth-child(2n) .tile:nth-child(2n) {--checker: 1;}
-    .checker-grid .row:nth-child(2n) .tile:nth-child(2n+1) {--checker: 0;}
-    .checker-grid .row {
-        display: flex;
-        flex-direction: row;
-    }
-    .checker-grid .tile {
-        height: 1rem;
-        width: 1rem;
-        margin: 0px;
-    }
-
     .checkerboard-03 .row {
         display: flex;
         flex-direction: row;
@@ -96,8 +78,16 @@
         background: var(--color);
     }
 
-    .checkerboard-04 .row {--j: var(--i);}
-    .checkerboard-04 .tile {
+    /* #display-03 {
+        transform: rotate3d(0,0,1,-45deg) rotate3d(1,1,0,54deg);
+        transform: rotate3d(0,0,0,-45deg) rotate3d(0,0,0,54deg);
+        transition: transform 200ms ease-in-out;
+    }
+    #display-03:hover {
+        transform: rotate3d(0,0,1,-45deg) rotate3d(1,1,0,54deg);
+    } */
+    .checkerboard-03 .row {--j: var(--i);}
+    .checkerboard-03 .tile {
         --x: var(--i);
         --y: var(--j);
         --x: calc(var(--i) - 4.5);
@@ -106,39 +96,10 @@
         --val: calc(var(--h) * 2);
         --hue: calc(var(--val));
         --bg: hsla(var(--hue), 100%, 50%, 1);
-        background: var(--bg);
+        /* background: var(--bg); */
         transform: translateZ(calc(var(--val) * -1px));
         /* transform: scale(calc(1 - var(--val) * .01)); */
-        /* transform: translateZ(calc(var(--val) * -1px)) scale(calc(1 - var(--val) * .01)); */
     }
-    .checkerboard-05 .row {--j: var(--i);}
-    .checkerboard-05 .tile {
-        --x: var(--i);
-        --y: var(--j);
-        --x: calc(var(--i) - 4.5);
-        --y: calc(var(--j) - 4.5);
-        --h: calc(var(--x) * var(--x) + var(--y) * var(--y));
-        --val: calc(var(--h) * 2);
-        --hue: calc(var(--val));
-        /* --bg: hsla(var(--hue), 100%, 50%, 1); */
-        --lum: calc(40% + var(--checker) * 20%);
-        --bg: hsla(var(--hue), 100%, var(--lum), 1);
-        background: var(--bg);
-        transform: translateZ(calc(var(--val) * -1px));
-        /* transform: scale(calc(1 - var(--val) * .01)); */
-        transform: translateZ(calc(var(--val) * -1px)) scale(calc(1 - var(--val) * .01));
-        transform: rotate(calc(var(--val) * 1deg));
-        transform: translateZ(calc(var(--val) * 1px)) scale(calc(1 - var(--val) * .01)) rotate(calc(var(--val) * 1deg));
-    }
-
-    .checkerboard-06 .tile {
-        --hue: calc(30 + var(--checker) * 30);
-        --sat: calc(50% + var(--checker) * 50%);
-        --lum: calc(15% + var(--checker) * 65%);
-        --bg: hsla(var(--hue), var(--sat), var(--lum), 1);
-        background: var(--bg);
-    }
-
 
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
@@ -158,15 +119,15 @@
     <div class="shelf">
         <h3 class="shelf-title">checkerboards</h3>
         <div id="display-01">
-            <div class="checkerboard-01" data-checkerId="01">
+            <div class="checkerboard-01">
                 <img src="checkerboard.png" alt="checkerboard image">
             </div>
         </div>
         <div id="display-02">
-            <div class="checkerboard-02" data-checkerId="02"></div>
+            <div class="checkerboard-02"></div>
         </div>
         <div id="display-03">
-            <div class="checkerboard-03 checker-grid" data-checkerId="03">
+            <div class="checkerboard-03">
                 <div id="grid" class="grid">
                     <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
                     <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
@@ -178,48 +139,7 @@
                     <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
                 </div>
             </div>
-        </div>
-        <div id="display-04">
-            <div class="checkerboard-04 checker-grid" data-checkerId="04">
-                <div id="grid" class="grid">
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                </div>
-            </div>
-        </div>
-        <div id="display-05">
-            <div class="checkerboard-05 checker-grid" data-checkerId="05">
-                <div id="grid" class="grid">
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                </div>
-            </div>
-        </div>
-        <div id="display-06">
-            <div class="checkerboard-06 checker-grid" data-checkerId="06">
-                <div id="grid" class="grid">
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                    <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
-                </div>
-            </div>
+
         </div>
 
     </div>
