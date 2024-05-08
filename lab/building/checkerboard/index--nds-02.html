@@ -25,18 +25,6 @@
         --color-1: #000;
         --color-2: #fff;
     }
-    [id|="display"],
-    .grid, .row, .tile,
-    [class|="checkerboard"] {
-        transform-style: preserve-3d;
-    }
-    [id|="display"] {
-        transform: rotate3d(0,0,0,-45deg) rotate3d(0,0,0,54deg);
-        transition: transform 200ms ease-in-out;
-    }
-    [id|="display"]:hover {
-        transform: rotate3d(0,0,1,-45deg) rotate3d(1,1,0,54deg);
-    }
 
     [class|="checkerboard"]{
         position: relative;
@@ -74,29 +62,6 @@
     .checkerboard-03 .row:nth-child(2n) .tile:nth-child(2n+1) {--color: var(--color-1);}
     .checkerboard-03 .tile {
         background: var(--color);
-    }
-
-    /* #display-03 {
-        transform: rotate3d(0,0,1,-45deg) rotate3d(1,1,0,54deg);
-        transform: rotate3d(0,0,0,-45deg) rotate3d(0,0,0,54deg);
-        transition: transform 200ms ease-in-out;
-    }
-    #display-03:hover {
-        transform: rotate3d(0,0,1,-45deg) rotate3d(1,1,0,54deg);
-    } */
-    .checkerboard-03 .row {--j: var(--i);}
-    .checkerboard-03 .tile {
-        --x: var(--i);
-        --y: var(--j);
-        --x: calc(var(--i) - 4.5);
-        --y: calc(var(--j) - 4.5);
-        --h: calc(var(--x) * var(--x) + var(--y) * var(--y));
-        --val: calc(var(--h) * 2);
-        --hue: calc(var(--val));
-        --bg: hsla(var(--hue), 100%, 50%, 1);
-        /* background: var(--bg); */
-        transform: translateZ(calc(var(--val) * -1px));
-        /* transform: scale(calc(1 - var(--val) * .01)); */
     }
 
 </style>
