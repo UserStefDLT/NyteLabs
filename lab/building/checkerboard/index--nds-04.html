@@ -37,8 +37,7 @@
         transform: rotate3d(0,0,0,-45deg) rotate3d(0,0,0,54deg);
         transition: transform 200ms ease-in-out;
     }
-    /* [id|="display"]:hover, */
-    #toggleIso:checked ~ main [id|="display"] {
+    [id|="display"]:hover {
         transform: rotate3d(0,0,1,-45deg) rotate3d(1,1,0,54deg);
     }
 
@@ -140,38 +139,16 @@
         background: var(--bg);
     }
 
-    .checkerboard-07 .tile {
+    /* .checkerboard-07 .tile {
         --hue: calc(30 + var(--checker) * 30);
         --sat: calc(50% + var(--checker) * 50%);
         --sat: 0%;
         --lum: calc(15% + var(--checker) * 65%);
         --bg: hsla(var(--hue), var(--sat), var(--lum), 1);
         background: var(--bg);
-    }
-    .checkerboard-07 .tile {
-        position: relative;
-    }
-    .checkerboard-07 .tile:hover::before {
-        content: '';
-        position: absolute;
-        top: 50%; left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-        height: 100%; width: 100%;
-        background-color: #39f9;
-    }
+    } */
 
 
-</style>
-<style>
-
-#toggleIso {display: none;}
-#toggleIso:checked ~ .options .toggleCheckboxLabel[for="toggleIso"] {
-    color: var(--bwe);
-    --clr-outline: var(--bwc);
-    --bgc-before: #063;
-    --bgc-after: #0c6;
-    --ttx-after: 1rem;
-}
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
     <link rel="stylesheet" href="../../../stylesheets/end.css">
@@ -180,12 +157,11 @@
     <header>
         <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
         <h1 class="title">NyteLabs</h1>
-        <!-- <div class="subtitle">Checkerboard Pattern ♟⬛⬜🦓🏁</div> -->
+        <!-- <div class="subtitle">Checkerboar Pattern ♟⬛⬜🦓🏁</div> -->
     </header>
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
     <input type="checkbox" name="toggle" id="toggleLights">
-    <input type="checkbox" name="toggle" id="toggleIso">
 
 <main>
     <div class="shelf">
@@ -254,7 +230,7 @@
                 </div>
             </div>
         </div>
-        <div id="display-07">
+        <!-- <div id="display-07">
             <div class="checkerboard-07 checker-grid" data-checkerId="07">
                 <div id="grid" class="grid">
                     <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
@@ -267,18 +243,17 @@
                     <div class="row"><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div><div class="tile"></div></div>
                 </div>
             </div>
-        </div>
+        </div> -->
 
     </div>
     <!-- <canvas id="canvas"></canvas> -->
 </main>
 
-<div class="options">
-    <!-- <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+<!-- <div class="options">
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
     <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
-    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label> -->
-    <label for="toggleIso" class="toggleCheckboxLabel" data-toggle="Iso">Perspective</label>
-</div>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
 
 <footer>
     <div class="my-name">
