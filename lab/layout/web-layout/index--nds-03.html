@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Web Layout | Nytelabs</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Flow+Rounded&display=swap');
+    :root {
+        --h-header: 3rem;
+
+        --hue: 150;
+        /* --hue: 330; */
+
+        /* colors */
+        --c7: hsla(var(--hue), 100%, 7%, 1);
+        --c20: hsla(var(--hue), 100%, 20%, 1);
+        --c33: hsla(var(--hue), 100%, 33%, 1);
+        --c40: hsla(var(--hue), 100%, 40%, 1);
+        --c45: hsla(var(--hue), 100%, 45%, 1);
+        --c50: hsla(var(--hue), 100%, 50%, 1);
+        --c60: hsla(var(--hue), 100%, 60%, 1);
+        
+        --c8050: hsla(var(--hue), 80%, 50%, 1);
+        --c-60: hsla(calc(var(--hue) - 60), 60%, 40%, 1);
+        --c3030: hsla(var(--hue), 30%, 30%, 1);
+
+        --z: 0;
+    }
+    body {margin: 0;}
+
+    #section-1 h2 {
+        color: #fff;
+        text-shadow: 1px 1px 1px #1119;
+    }
+    h2, h3 {
+        color: #063;
+        color: var(--c20);
+        color: hsl(var(--hue), 100%, 20%);
+    }
+
+    header, main {
+        /* width: calc(100vw - 17px); */
+        max-width: 100vw;
+        /* width: 100vw; */
+    }
+    header, main, section {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    header {
+        box-sizing: border-box;
+        padding: .5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: row;
+    }
+    .logo {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 2rem;
+        font-weight: bold;
+        color: #063;
+        color: var(--c20);
+        color: hsl(var(--hue), 100%, 20%);
+        cursor: pointer;
+        user-select: none;
+    }
+    nav {
+        margin: 0 1rem;
+    }
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: row;
+        width: max-content;
+    }
+    nav li {
+        margin: 0 .5rem;
+    }
+    a:link {
+        text-decoration: none;
+        color: #0a5;
+        color: var(--c33);
+        color: hsl(var(--hue), 100%, 33%);
+    }
+    a:link:hover {
+        text-decoration: underline;
+    }
+
+    main {}
+    section {
+        width: 100%;
+        margin: 2rem 0;
+
+        width: 95vw;
+        margin: 2rem auto;
+        overflow: hidden;
+    }
+    section:first-of-type {margin-top: 0rem;}
+    #section-1 {
+        min-height: 50vh;
+        background-image: linear-gradient(to bottom right, #3f9, #063);
+        background-image: linear-gradient(to bottom right, var(--c60), var(--c20));
+        background-image: linear-gradient(to bottom right, hsl(var(--hue), 100%, 60%), hsl(var(--hue), 100%, 20%));
+        width: 100%;
+    }
+    #section-1 h2 {
+        font-size: 32px;
+    }
+    #section-1 p {
+        position: relative;
+        text-align: center;
+        /* background-color: #0633; */
+        /* background-image: linear-gradient(to top left, #3f99, #0639); */
+        color: #fff;
+        text-shadow: 1px 1px 1px #1119;
+        font-size: 18px;
+
+        padding: .5rem;
+        z-index: 1;
+    }
+    /* :root {--z-deg: -15deg;} */
+    #section-1 p {--z-deg: 2deg;}
+    #section-1 p::after {--rotateZ: calc(var(--z-deg) * -1);}
+    #section-1 p::before {--rotateZ: var(--z-deg);}
+    #section-1 p::after,
+    #section-1 p::before {
+        content: '';
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        height: 120%; width: 120%;
+        /* height: calc(80% + 1rem); width: calc(80% + 1rem); */
+        transform: translateX(-50%) translateY(-50%) rotate(0deg);
+        background-image: linear-gradient(to top left, #3f99, #0639);
+        background-image: linear-gradient(to top left, hsla(var(--hue), 100%, 60%, 0.6), hsla(var(--hue), 100%, 20%, 0.6));
+        z-index: -1;
+        mix-blend-mode: overlay;
+        transition: transform 200ms ease-in-out;
+    }
+    #section-1 p::after {
+        background-image: linear-gradient(to bottom right, #3f99, #0639);
+        background-image: linear-gradient(to bottom right, hsla(var(--hue), 100%, 60%, 0.6), hsla(var(--hue), 100%, 20%, 0.6));
+    }
+    #section-1 p::before {
+        background-image: linear-gradient(to top left, #3f99, #0639);
+        background-image: linear-gradient(to top left, hsla(var(--hue), 100%, 60%, 0.6), hsla(var(--hue), 100%, 20%, 0.6));
+    }
+    #section-1 p:hover::after,
+    #section-1 p:hover::before {
+        transform: translateX(-50%) translateY(-50%) rotate(var(--rotateZ));
+    }
+    #section-1:hover p::after,
+    #section-1:hover p::before {
+        transform: translateX(-50%) translateY(-50%) rotate(var(--rotateZ));
+    }
+
+    h2 {}
+    p {
+        /* max-width: 50ch; */
+        /* max-width: 50vw; */
+        /* width: 77ch; */
+        /* max-width: 100%; */
+        max-width: min(77ch, 100%);
+        color: #021;
+        color: var(--c7);
+        color: hsl(var(--hue), 100%, 7%);
+    }
+    button {
+        font-size: 20px;
+        padding: .25em .5em;
+        margin: .25em .5em;
+        padding: .5em 1em;
+        margin: 1em;
+        border: 0;
+        background-color: #063;
+        background-color: var(--c20);
+        background-color: hsl(var(--hue), 100%, 20%);
+        color: hsl(var(--hue), 100%, 20%);
+        color: #fff;
+        transition: 
+        background-color 200ms ease-in-out,
+        color 200ms ease-in-out,
+        box-shadow 200ms ease-in-out,
+        text-shadow 200ms ease-in-out;
+    }
+    button.call-to-action {
+        background-color: #fff;
+        background-color: #0c6;
+        background-color: hsl(150, 100%, 50%);
+        background-color: #00ff80;
+        background-color: hsl(150, 100%, 45%);
+        background-color: hsl(150, 80%, 50%);
+        background-color: var(--c8050);
+        background-color: hsl(var(--hue), 80%, 50%);
+        color: #063;
+        color: var(--c20);
+        color: hsl(var(--hue), 100%, 20%);
+        color: #fff;
+        text-shadow: 1px 1px 1px #1119;
+    }
+    button:hover {
+        background-color: #0c6;
+        background-color: var(--c40);
+        background-color: hsl(var(--hue), 100%, 40%);
+        color: #fff;
+        text-shadow: 1px 1px 1px #1119;
+        box-shadow: 2px 2px 4px #1119;
+    }
+    button.call-to-action:hover {
+        background-color: #fff;
+        color: #063;
+        color: var(--c20);
+        color: hsl(var(--hue), 100%, 20%);
+        /* box-shadow: 2px 2px 4px #1119; */
+        /* background-color: #0c6; */
+        text-shadow: 0px 0px 0px #0000;
+        /* box-shadow: 2px 2px 4px #1119; */
+    }
+
+    .options {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        justify-content: center;
+        gap: 2.5vw;
+    }
+    .option {
+        width: 25vw;
+        max-width: 200px;
+    }
+    .option {
+        display: flex;
+        align-items: center;
+        /* justify-content: center; */
+        flex-direction: column;
+    }
+    .card-description {}
+    .icon {
+        min-height: 5rem;
+        min-width: 5rem;
+        height: 5rem;
+        width: 5rem;
+        border-radius: 50%;
+        background-color: hsl(90, 60%, 40%);
+        background-color: hsla(calc(var(--hue) - 60), 60%, 40%, 1);
+        background-color: hsla(calc(var(--hue) - 30), 60%, 40%, 1);
+        margin: .5rem 1rem 1rem;
+        
+        transform: rotateY(0deg);
+        transition: transform 800ms ease-in-out;
+        transition: transform 800ms cubic-bezier(0.43, 1.5, 1, 1);
+        transition: 
+        border-radius 400ms cubic-bezier(0.43, 1.5, 1, 1) 900ms,
+        transform 800ms cubic-bezier(0.43, 1.5, 1, 1);
+    }
+    .icon:hover {
+        border-radius: 0%;
+        transform: rotateZ(180deg);
+        /* transform: rotateY(180deg); */
+        transition: 
+        border-radius 300ms cubic-bezier(0.43, 1.5, 1, 1),
+        transform 800ms cubic-bezier(0.43, 1.5, 1, 1);
+    }
+    h3 {}
+    .option h3 {
+        width: max-content;
+        margin: 0 auto;
+        margin: .5rem auto;
+    }
+
+    /* #section-3 {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        justify-content: center;
+    }
+    .left, .right {
+        height: 100%; width: 100%;
+    }
+    .left {padding: 2rem; box-sizing: border-box;}
+    .right {}
+    .img {
+        height: 100%; width: 100%;
+        min-width: 35vw;
+        background-color: #93f;
+        background-image: radial-gradient(circle at 50% 50%, #f93, #f93 50%, #f930 50%);
+        background-color: #063;
+        background-image: radial-gradient(circle at 50% 50%, #3f9, #0c6 50%, #0c60 50%);
+    }
+    .right-in .img {
+        height: 8rem; width: 8rem;
+        margin: 0 0 1rem 1rem;
+        background-color: #93f;
+        background-image: radial-gradient(circle at 50% 50%, #f93, #f93 50%, #f930 50%);
+        background-color: #063;
+        background-image: radial-gradient(circle at 50% 50%, #3f9, #0c6 50%, #0c60 50%);
+    } */
+
+
+    .slider {
+        max-width: 95vw;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        /* justify-content: center; */
+        overflow: scroll;
+    }
+    .slider::-webkit-scrollbar { height: 10px; width: 0px; }
+    .slider::-webkit-scrollbar-track { box-shadow: inset 0 0 6px #3690; }
+    .slider::-webkit-scrollbar-track { box-shadow: inset 0 0 6px hsla(calc(var(--hue) + 60), 50%, 40%, 0); }
+    .slider::-webkit-scrollbar-thumb { 
+        background-color: #063; 
+        background-color: hsl(var(--hue), 100%, 20%); 
+        border-radius: 5px; 
+        transition: 
+        background-color 200ms ease-in-out,
+        box-shadow 200ms ease-in-out;
+        box-shadow: 
+        inset 1px 1px 2px #fff0,
+        inset -1px -1px 2px #3f90;
+        box-shadow: 
+        inset 1px 1px 2px #fff0,
+        inset -1px -1px 2px hsla(var(--hue), 100%, 60%, 0);
+    }
+    .slider::-webkit-scrollbar-thumb:hover {
+        /* background-color: #0c6;
+        box-shadow: 
+        inset 2px 2px 4px #fffd,
+        inset -2px -2px 4px #0638; */
+
+        box-shadow: 
+        inset 2px 2px 4px #fffc,
+        inset -2px -2px 4px #3f98;
+        box-shadow: 
+        inset 2px 2px 4px #fffc,
+        inset -2px -2px 4px hsla(var(--hue), 100%, 60%, 0.533);
+    }
+
+    .slider ul {
+        counter-reset: li-counter;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+    .slider li {
+        /* counter-reset: section; */
+        /* counter-reset: li-counter; */
+        counter-increment: li-counter; 
+        margin: .5rem;
+    }
+    .slider .card {
+        position: relative;
+        min-width: 5rem;
+        min-height: 5rem;
+        background-color: #722;
+        background-color: #063;
+        background-color: hsl(var(--hue), 100%, 20%);
+        background-image: conic-gradient();
+        background-image: conic-gradient( 
+        #0c6 0deg 45deg, 
+        #0c60 45deg 315deg, 
+        #0c6 315deg 0deg);
+        background-image: conic-gradient( 
+        hsla(var(--hue), 100%, 40%, 1) 0deg 45deg, 
+        hsla(var(--hue), 100%, 40%, 0) 45deg 315deg, 
+        hsla(var(--hue), 100%, 40%, 1) 315deg 0deg);
+        background-size: .5rem .5rem;
+        transition: transform 200ms ease-in-out;
+        transform: rotate(0deg);
+    }
+    .slider .card:hover {
+        transform: rotate(10deg);
+    }
+    .slider .card::before {
+        /* counter-increment: section; */
+        /* counter-increment: li-counter; */
+        /* content: "- " counter(section) " -"; */
+        content: "- " counter(li-counter) " -";
+        position: absolute;
+        height: 100%; width: 100%;
+        color: #fff;
+        text-shadow: 1px 1px 1px #1119;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    footer {
+        margin: 1rem 0;
+    }
+    #footer-nav, .sitemap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #footer-nav {
+        width: max-content;
+        /* margin: 0 auto; */
+        flex-direction: column;
+    }
+    #footer-nav h3 {
+        /* width: 100%;
+        text-align: left; */
+        margin: .5rem;
+        width: 90%;
+    }
+    .sitemap {
+        flex-direction: row;
+        margin-bottom: 1rem;
+    }
+    .sitemap ul {}
+    /* .sitemap a:link {
+        text-decoration: none;
+        color: #38d;
+    }
+    .sitemap a:link:hover {
+        text-decoration: underline;
+    } */
+    /* .sitemap a {
+        font-family: 'Flow Rounded', cursive;
+    } */
+
+    #copy-r {
+        margin: .5rem;
+        color: #555;
+        color: hsl(150, 15%, 35%);
+        color: hsl(150, 30%, 30%);
+        color: hsla(var(--hue), 30%, 30%, 1);
+    }
+    .water-mark {
+        display: none;
+    }
+
+    ::marker {
+        color: #021;
+        color: #063;
+        color: hsl(var(--hue), 100%, 20%);
+    }
+
+    /* ───────────────  ───────────────  ─────────────── */
+
+
+    section {
+        width: 100%;
+        margin: 2rem 0;
+        
+        width: 95vw;
+        margin: 2rem auto;
+    }
+
+
+    .content {
+        width: 90%;
+        /* padding: 2rem;  */
+        /* box-sizing: border-box; */
+    }
+    /* .left, .right {height: 100%; width: 100%;} */
+    /* .left {padding: 2rem; box-sizing: border-box;} */
+
+    .rl-in {}
+
+    .left-in {
+        /* width: 50%;
+        max-width: 50vw; */
+        max-width: min(60ch, 100%);
+    }
+    .right-in {
+        float: right;
+    }
+    .right-in .img {
+        height: 8rem; width: 8rem;
+        background-color: #063;
+        background-image: radial-gradient(circle at 50% 50%, #3f9, #0c6 50%, #0c60 50%);
+        background-color: hsl(var(--hue), 100%, 20%);
+        background-image: radial-gradient(circle at 50% 50%, hsl(var(--hue), 100%, 60%), hsl(var(--hue), 100%, 40%) 50%, hsla(var(--hue), 100%, 40%, 0) 50%);
+        
+        height: 0rem; width: 0rem;
+        margin: 0rem 0rem 0rem 1rem;
+        padding: 12rem 3rem;
+        padding: 25vh 10vw;
+        padding: calc(30vh - 10vw) 25vw;
+        padding: calc(45vh - 12vw) 20vw;
+        transition: 
+        margin 500ms ease-in-out,
+        padding 500ms ease-in-out;
+    }
+
+    .right-in .img-s {
+        /* Small Size */
+        margin: 0rem 0rem 1rem 1rem;
+        padding: 0rem 0rem;
+    }
+    .right-in .img-l {
+        /* Large side Size */
+        margin: 0rem 0rem 0rem 1rem;
+        padding: 12rem 3rem;
+        padding: 25vh 10vw;
+    }
+
+
+    @media (max-width: 740px){
+        .left {width: max-content;}
+        .right {display: none;}
+        
+        #section-3 button {margin: 0 auto;}
+        .left-in {
+            width: 100%;
+            max-width: 100%;
+        }
+        .right-in .img {
+            margin: 0rem 0rem 1rem 1rem;
+            padding: 0rem 0rem;
+            padding: 8vh 12vw;
+            padding: 12vh 18vw;
+        }
+    }
+    @media (max-width: 540px){    
+        .left {width: 100%;}
+
+        /* .right-in {display: none;} */
+        .right-in .img {
+            margin: 0rem 0rem 0rem 0rem;
+            padding: 0rem 0rem;
+            padding: 0vh 0vw;
+        }
+        .left-in {
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+
+    #section-1 p {max-width: 60vw;}
+    @media (max-width: 740px){
+        #section-1 p {max-width: 80vw;}
+        #section-1 p::after,
+        #section-1 p::before {
+            height: 100%; width: 100%;
+            /* height: calc(80% + 1rem); width: calc(80% + 1rem); */
+        }
+    }
+
+
+    @media (max-width: 540px){
+        .options {
+            /* flex-direction: column; */
+            grid-template-columns: repeat(1, 1fr);
+        }
+        .option {
+            width: 100%;
+            max-width: 80vw;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+        }
+        .card-description {}
+        
+        /* #section-3 {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            justify-content: center;
+        }
+        .left {width: 100%;}
+        .right {display: none;}
+        p{max-width: 100%;} */
+
+        p{max-width: 100%;}
+        #section-1 p {max-width: 80vw;}
+
+        #footer-nav {
+            margin: 0 auto;
+        }
+        #footer-nav h3 {
+            width: max-content;
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- header>.logo+nav>ul>li*4>a:link -->
+    <header>
+        <div id="logo" class="logo">Logo</div>
+        <nav>
+            <ul>
+                <li><a href="#section-1">Home</a></li>
+                <li><a href="#section-2">Options</a></li>
+                <li><a href="#section-3">Purpose</a></li>
+                <li><a href="#section-4">Examples</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- main>section*4>
+    main>
+    section>h2+p+button.call-to-action^
+    section>h2+.option>.icon+h3+p^
+    section>.left>h2+p+button^+.right>img
+    section>ul.slider>li*8>.card
+
+    main>section>h2+p+button.call-to-action^
+    section>h2+.option>.icon+h3+p^^
+    section>.left>h2+p+button^.right>img^^
+    section>ul.slider>li*8>.card
+
+    main>section>h2+p+button.call-to-action^section>h2+.option>.icon+h3+p^^section>.left>h2+p+button^.right>img^^section>ul.slider>li*8>.card -->
+
+    <main>
+        <section id="section-1">
+            <h2>Lorem ipsum dolor sit amet.</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error, ducimus maiores. Quis ducimus iste officiis!</p>
+            <button class="call-to-action">Call to Action</button>
+        </section>
+        <section id="section-2">
+            <h2>Lorem ipsum dolor sit amet.</h2>
+            <div class="options">
+                <div class="option">
+                    <div class="icon"></div>
+                    <div class="card-description">
+                        <h3>Lorem</h3>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto tempora a amet fugiat corrupti id voluptatem aliquid, impedit ut unde, sit porro sed quaerat vitae. Commodi sapiente minus voluptatum aliquam.</p>
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="icon"></div>
+                    <div class="card-description">
+                        <h3>Nobis</h3>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsum debitis repellat quaerat deleniti a in, dolorum aliquid illum inventore nesciunt sunt nihil vero eaque natus.</p>
+                    </div>
+                </div>
+                <div class="option">
+                    <div class="icon"></div>
+                    <div class="card-description">
+                        <h3>Esse iste</h3>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus autem laboriosam, ex quas dolorem sed dolor nihil tempora, eos voluptatem nostrum iusto beatae mollitia omnis!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="section-3">
+            <div class="content">
+                <h2>Lorem, ipsum dolor.</h2>
+                <div class="rl-in">
+                    <div class="right-in"><div class="img"></div></div>
+                    <p class="left-in">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non facilis at quod veniam consectetur harum sed assumenda, sapiente architecto quaerat laborum deserunt totam, quis fugiat obcaecati reiciendis cum ratione vitae?
+                    Cumque ipsam autem eveniet. Consequatur incidunt quo adipisci corporis ipsum voluptates fugit, amet repellendus eveniet maxime libero. Repellat sit maxime voluptate? Consequuntur maxime eos odit alias incidunt nobis nam quo.
+                    Illo sint necessitatibus, eveniet rem libero at cupiditate quaerat iure. Quod reiciendis nobis doloremque unde blanditiis. Aspernatur, possimus officiis magnam laborum, alias architecto dolor soluta nemo voluptatibus accusantium ipsum excepturi.
+                    Repellendus nobis blanditiis laboriosam repudiandae quidem nulla facilis, ipsum alias consequatur, impedit distinctio corrupti sapiente, placeat repellat mollitia eius! Necessitatibus corrupti eaque unde aliquam? Fugit adipisci soluta qui placeat reprehenderit?
+                    Sunt, cupiditate. Velit, rem molestiae. Dolor beatae sunt natus eveniet, suscipit voluptatem eaque dicta rerum esse et quisquam nisi alias explicabo voluptates ullam tempore qui odio magnam aperiam adipisci cum.</p>
+                </div>
+                <button>Call to Action</button>
+            </div>
+        </section>
+        <section id="section-4">
+            <div class="slider">
+                <ul>
+                    <li><div class="card"></div></li>
+                    <li><div class="card"></div></li>
+                    <li><div class="card"></div></li>
+                    <li><div class="card"></div></li>
+                    <li><div class="card"></div></li>
+                    <li><div class="card"></div></li>
+                    <li><div class="card"></div></li>
+                    <li><div class="card"></div></li>
+                    <li><div class="card"></div></li>
+                    <li><div class="card"></div></li>
+                    <li><div class="card"></div></li>
+                    <li><div class="card"></div></li>
+                    <li><div class="card"></div></li>
+                    <li><div class="card"></div></li>
+                    <li><div class="card"></div></li>
+                    <li><div class="card"></div></li>
+                    <li><div class="card"></div></li>
+                    <li><div class="card"></div></li>
+                </ul>
+            </div>
+        </section>
+    </main>
+    
+
+    <!-- 
+        background an image + Text + call to action button.
+
+        title + [ 3 option icons + description ]
+
+        [text + description + button] + image
+
+        slider of options
+
+        Lorem
+        Nobis
+        Esse iste
+     -->    
+     
+    <footer>
+        <div id="footer-nav">
+            <h3>Site Map</h3>
+            <!-- .sitemap>ul*3>li*5>a:link -->
+            <div class="sitemap">
+                <ul>
+                    <li><a href="#">Lorem</a></li>
+                    <li><a href="#">ipsum</a></li>
+                    <li><a href="#">dolor sit</a></li>
+                    <li><a href="#">amet</a></li>
+                    <li><a href="#">consectetur</a></li>
+                </ul>
+                <ul>
+                    <li><a href="#">Nobis</a></li>
+                    <li><a href="#">necessitatibus</a></li>
+                    <li><a href="#">vitae et</a></li>
+                    <li><a href="#">adipisicing</a></li>
+                    <li><a href="#">elit</a></li>
+                </ul>
+                <ul>
+                    <li><a href="#">Esse iste</a></li>
+                    <li><a href="#">provident</a></li>
+                    <li><a href="#">exercitationem</a></li>
+                    <li><a href="#">libero</a></li>
+                    <li><a href="#">velit</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="copy-r">&copy; 2022 | Stéfano De La Torre</div>
+        <div class="water-mark">by Stefano</div>
+    </footer>
+
+    <script>
+        function ReSortColor(){
+            // let bod = document.body;
+            // let hue = Math.round(Math.random() * 360);
+            document.body.style = `--hue: ${Math.round(Math.random() * 360)};`;
+        }
+        window.addEventListener('load', (ev) => {
+            console.log(`Welcome to my Lab!`);
+            let bod = document.body;
+            let hue = Math.round(Math.random() * 360);
+            bod.style = `--hue: ${hue};`;
+            
+            // setTimeout(() => {
+            //     bod.style = `--hue: ${hue};`;
+            // }, 1000);
+            let logo = document.getElementById('logo');
+            logo.addEventListener('click', (ev) => {ReSortColor();});
+        });
+    </script>
+    </body>
+    
+</html>
