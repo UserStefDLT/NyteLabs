@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>SVG Wood | NyteLabs</title>
+    <title>Sky | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
@@ -18,113 +18,113 @@
         /* :root {} */
     </style>
 <style>
-/* feTurbulence for Wood. */
+    .card {
+        height: 89px; width: 54px;
+        height: 340px; width: 210px;
+        outline: 1px solid #fff9;
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+        margin: .25rem;
+    }
+    .cloud-01 {
+        position: absolute;
+        top: -200px; left: -200px;
+        height: 100px; width: 100px;
+        border-radius: 0%;
+        background-color: #fff0;
+        z-index: 9;
+        /* box-shadow: 400px 400px 60px 0px #fff; */
+        /* filter: blur(20px) url(#cloud-05); */
+        
+        border-radius: 50%;
+        top: -200px; left: -200px;
+        box-shadow: 200px 200px 30px 0px #fff;
+        box-shadow: 
+        200px 200px 30px -30px #7779,
+        200px 200px 30px 0px #fff;
+        filter: url(#cloud-05);
+    }
+    .cloud-02 {
+        position: absolute;
+        top: 50%; left: 50%;
+        height: 100px; width: 100px;
+        height: 340px; width: 210px;
+        height: 680px; width: 420px;
+        transform: translateX(-50%) translateY(-50%);
+        border-radius: 0%;
+        background-color: #fff0;
+        background-image: radial-gradient(circle at 50% 50%, #0000 30%, #fff 70%);
+        background-image: radial-gradient(circle at 50% 50%, #0000 20%, #fff 30%);
+        background-image: 
+        radial-gradient(circle at 50% 50%, #0000 35%, #777 40%, #7770 45%),
+        radial-gradient(circle at 50% 50%, #0000 20%, #fff 30%);
+        background-image: 
+        radial-gradient(circle at 50% 50%, #0000 40%, #777a 50%, #9999 60%),
+        radial-gradient(circle at 50% 50%, #0000 20%, #fff 30%);
+        z-index: 9;
+        /* box-shadow: 400px 400px 60px 0px #fff; */
+        /* filter: blur(20px) url(#cloud-05); */
+        
+        border-radius: 50%;
+        /* top: -200px; left: -200px;
+        box-shadow: 200px 200px 30px 0px #fff;
+        box-shadow: 
+        200px 200px 30px -30px #7779,
+        200px 200px 30px 0px #fff; */
+        /* filter: url(#cloud-05); */
+        filter: blur(20px) url(#cloud-05);
+    }
+    .star {
+        position: absolute;
+        top: 105px; left: 200px;
+        height: 4px; width: 4px;
+        transform: translateX(-50%) translateY(-50%);
+        border-radius: 50%;
+        background-color: #fff0;
+        background-color: #ff0;
+    }
+    .stars2 {
+        position: absolute;
+        top: 0px; left: 0px;
+        height: 2px; width: 2px;
+        transform: translateX(-50%) translateY(-50%);
+        border-radius: 50%;
+        background-color: #fff0;
+        box-shadow: 
+        105px 150px 1px 0px #fff,
+        105px 80px 1px 0px #fff,
+        60px 120px 0px 0px #fff9,
+        80px 220px 0px 0px #fff9,
+        130px 180px 0px 0px #fffd,
+        160px 220px 0px 0px #fff9,
+        100px 140px 0px -.5px #ffff,
+        200px 200px 0px 0px #fff;
+    }
+    .sky {
+        position: absolute;
+        height: 100%; width: 100%;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        background-image: linear-gradient(#003A63, #00476F);
+        z-index: -1;
+    }
+    .moon {
+        position: absolute;
+        height: 10%;
+        aspect-ratio: 1;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        border-radius: 50%;
+        background-color: #065D8A;
+        box-shadow: inset -5px -5px 2px -2px #fff;
 
-/* :root {
-    --c: #f2d8c1;
-    --c: #ab7e54;
-    --c: #7b4f28;
-    --c: #b38456;
-    --c: #ead1b2;
-} */
-:root {
+        height: 5%;
+        box-shadow: inset -5px -5px 3px -4px #fff;
+        z-index: 2;
+    }
 
-    --c: hsl(28, 65%, 85%);
-    --c: hsl(29, 34%, 50%);
-    --c: hsl(28, 51%, 32%);
-    --c: hsl(30, 38%, 52%);
-    --c: hsl(33, 57%, 81%);
-
-    --c: hsl(28, 65%, 85%);
-    --c: hsl(33, 57%, 81%);
-    --c: hsl(29, 34%, 50%);
-    --c: hsl(30, 38%, 52%);
-    --c: hsl(28, 51%, 32%);
-    /* H: 28-33; S: 34-65; L: 32-85; */
-
-    --c1: #8a7579;
-    --c2: #663e40;
-    --c3: #350d0f;
-    --c4: #291b1d;
-    --c5: #300d0c;
-
-
-    --bgi: linear-gradient(135deg, var(--c2), var(--c3), var(--c5));
-}
-.list {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    height: 200px; width: 400px;
-    background-color: #fff;
-    z-index: 1;
-}
-.sample {
-    position: relative;
-    margin: 0rem;
-    padding: 0px;
-    font-size: 50px;
-    color: #eee;
-    border-radius: 0px;
-    display: flex; align-items: center; justify-content: center;
-    width: 400px; height: 400px;
-    width: 400px; height: 200px;
-    box-shadow: 10px 10px 4px 0px #000;
-    box-shadow: inset 10px 10px 4px 0px #000;
-    background-image: linear-gradient(#0000, #000f);
-    overflow: hidden;
-    z-index: 1;
-}
-.sample::before {
-    content: "";
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    height: 100%; width: 100%;
-    width: 600px; height: 400px;
-    background-image: linear-gradient(135deg, #f00, #a00);
-    z-index: -1;
-
-    --bwt-len: 20px;
-    background-image: 
-    repeating-linear-gradient(90deg, #0000 0px, #0000 var(--bwt-len), #ff09 var(--bwt-len), #ff09 calc(var(--bwt-len) + 2px)),
-    linear-gradient(135deg, #f00, #a00);
-
-    background-image: 
-    radial-gradient(#0000, #000f),
-    repeating-linear-gradient(90deg, #0000 0px, #0000 var(--bwt-len), var(--c1) var(--bwt-len), var(--c1) calc(var(--bwt-len) + 2px)),
-    var(--bgi);
-
-    /*
-    filter: blur(5px) url(#feTurbo);*/
-    filter: blur(1px) url(#feTurbo);
-
-}
-.sample::after {
-    content: "";
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    height: 100%; width: 100%;
-    /* width: 600px; height: 400px; */
-    z-index: 0;
-
-    background-image: 
-    radial-gradient(#0000, #0000),
-    linear-gradient(0deg, #fff0 90%, #fff3 95%),
-    linear-gradient(180deg, #0000 90%, #0009 95%);
-    background-image: 
-    radial-gradient(#0000, #0000),
-    linear-gradient(0deg, #663e4000 90%, #663e40 95%),
-    linear-gradient(180deg, #300d0c00 90%, #300d0c 95%);
-    mix-blend-mode: overlay;
-}
-
-svg {
-    height: 0px; width: 0px;
-    background: #fff;
-}
-
+    .z {display: none;}
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
     <link rel="stylesheet" href="../../../stylesheets/end.css">
@@ -133,7 +133,7 @@ svg {
     <header>
         <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
         <h1 class="title">NyteLabs</h1>
-        <!-- <div class="subtitle">SVG Wood</div> -->
+        <!-- <div class="subtitle">SVG Sky ☁️🌙☁️</div> -->
     </header>
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
@@ -141,11 +141,24 @@ svg {
 
 <main>
     <div class="shelf">
-        <h3 class="shelf-title">Wood Texture</h3>
-        <div id="display">
-            <div class="list">
-                <div class="sample">Wood</div>
-            </div>
+        <h3 class="shelf-title">Sky</h3>
+        <div class="card">
+            <div class="sky"></div>
+            <div class="moon"></div>
+            <div class="cloud-01"></div>
+        </div>
+        <div class="card">
+            <div class="sky"></div>
+            <div class="moon"></div>
+            <div class="cloud-02"></div>
+        </div>
+        <div class="card">
+            <div class="sky"></div>
+            <div class="stars2"></div>
+            <!-- <div class="stars"></div> -->
+            <!-- <div class="star"></div> -->
+            <div class="moon"></div>
+            <div class="cloud-02"></div>
         </div>
     </div>
     <!-- <canvas id="canvas"></canvas> -->
@@ -157,49 +170,24 @@ svg {
     <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
 </div> -->
 
-<svg>
-    <defs>
-        <filter id="displacementFilter">
-        <feTurbulence
-            type="turbulence"
-            baseFrequency="0.05"
-            numOctaves="2"
-            result="turbulence" />
-        <feDisplacementMap
-            in2="turbulence"
-            in="SourceGraphic"
-            scale="50"
-            xChannelSelector="R"
-            yChannelSelector="G" />
-        </filter>
+<svg width="0" height="0">
+    <filter id="cloud-05">
+        <feTurbulence type="fractalNoise" baseFrequency=".01" numOctaves="10" />
+        <feDisplacementMap in="SourceGraphic" scale="180" />
+    </filter>
 
-        <filter id="feTurbo-1" x="-50%" y="-50%" width="200%" height="200%">
-        <feTurbulence
-            type="turbulence"
-            baseFrequency="0.05"
-            numOctaves="2"
-            result="turbulence" />
-        <feDisplacementMap
-            in2="turbulence"
-            in="SourceGraphic"
-            scale="50"
-            xChannelSelector="R"
-            yChannelSelector="G" />
-        </filter>
-        <filter id="feTurbo" x="-50%" y="-50%" width="200%" height="200%">
-        <feTurbulence
-            type="turbulence"
-            baseFrequency="0.009"
-            numOctaves="2"
-            result="turbulence" />
-        <feDisplacementMap
-            in2="turbulence"
-            in="SourceGraphic"
-            scale="120"
-            xChannelSelector="R"
-            yChannelSelector="G" />
-        </filter>
-    </defs>
+    <filter id="cloud-x4-back">
+        <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="6" />
+        <feDisplacementMap in="SourceGraphic" scale="170" />
+    </filter>
+    <filter id="cloud-x4-mid">
+        <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="4" />
+        <feDisplacementMap in="SourceGraphic" scale="150" />
+    </filter>
+    <filter id="cloud-x4-front">
+        <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="2" />
+        <feDisplacementMap in="SourceGraphic" scale="100" />
+    </filter>
 </svg>
 
 <footer>
