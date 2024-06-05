@@ -19,6 +19,7 @@ footer {
     padding: .5rem;
     color: hsla(210, 5%, 29%, 89%);
     user-select: none;
+    /* min-height: 0px; padding: 0px; */
 }
 footer .my-name{
     position: fixed;

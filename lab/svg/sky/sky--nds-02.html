@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Sky ☁️🌙☁️ | NyteLabs</title>
+    <title>Sky | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
@@ -27,32 +27,71 @@
     </style>
 <style>
     .view {
-        position: relative;
+        position: absolute;
+        top: 0px; left: 0px;
         height: 89px; width: 54px;
         height: 340px; width: 210px;
         height: 400px; width: 80vw;
         height: 75vh; width: 100%;
-        height: 80vh; width: 100%;
+        
+        height: 100vh; width: 100%;
         border-radius: 0px;
         margin: 0px;
         overflow: hidden;
         /* outline: 1px solid #fff9; */
+        z-index: -1;
     }
-    .clouds {
+    .sky {
         position: absolute;
-        top: -200px; left: -200px;
-        height: 100px; width: 100px;
+        height: 100%; width: 100%;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        background-image: linear-gradient(#003A63, #00476F);
+        z-index: -1;
+    }
+    
+
+    #canvas-stars,
+    #stars {
+        position: absolute;
+        top: 0px; left: 0px;
+        height: 100vh; width: 100vw;
         border-radius: 0%;
-        background-color: #fff0;
-        z-index: 9;
-        
+        background-color: #0000;
+        z-index: 1;
+    }
+    .stars {
+        position: absolute;
+        top: 0px; left: 0px;
+        height: 2px; width: 2px;
+        transform: translateX(-50%) translateY(-50%);
         border-radius: 50%;
-        top: -200px; left: -200px;
-        box-shadow: 200px 200px 30px 0px #fff;
+        background-color: #fff0;
         box-shadow: 
-        200px 200px 30px -30px #7779,
-        200px 200px 30px 0px #fff;
-        filter: url(#cloud-05);
+        105px 150px 1px 0px #fff,
+        105px 80px 1px 0px #fff,
+        60px 120px 0px 0px #fff9,
+        80px 220px 0px 0px #fff9,
+        130px 180px 0px 0px #fffd,
+        160px 220px 0px 0px #fff9,
+        100px 140px 0px -.5px #ffff,
+        200px 200px 0px 0px #fff;
+        z-index: 1;
+    }
+
+    .moon {
+        position: absolute;
+        height: 10%;
+        aspect-ratio: 1;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        border-radius: 50%;
+        background-color: #065D8A;
+        box-shadow: inset -5px -5px 2px -2px #fff;
+
+        height: 5%;
+        box-shadow: inset -5px -5px 3px -4px #fff;
+        z-index: 2;
     }
     .cloud-circle {
         position: absolute;
@@ -75,51 +114,41 @@
         border-radius: 50%;
         filter: blur(20px) url(#cloud-05);
     }
-    .stars {
+    .clouds {
         position: absolute;
-        top: 0px; left: 0px;
-        height: 2px; width: 2px;
-        transform: translateX(-50%) translateY(-50%);
-        border-radius: 50%;
+        top: -200px; left: -200px;
+        height: 100px; width: 100px;
+        border-radius: 0%;
         background-color: #fff0;
-        box-shadow: 
-        105px 150px 1px 0px #fff,
-        105px 80px 1px 0px #fff,
-        60px 120px 0px 0px #fff9,
-        80px 220px 0px 0px #fff9,
-        130px 180px 0px 0px #fffd,
-        160px 220px 0px 0px #fff9,
-        100px 140px 0px -.5px #ffff,
-        200px 200px 0px 0px #fff;
-    }
-    .sky {
-        position: absolute;
-        height: 100%; width: 100%;
-        top: 50%; left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-        background-image: linear-gradient(#003A63, #00476F);
-        z-index: -1;
-    }
-    .moon {
-        position: absolute;
-        height: 10%;
-        aspect-ratio: 1;
-        top: 50%; left: 50%;
-        transform: translateX(-50%) translateY(-50%);
+        z-index: 9;
+        
         border-radius: 50%;
-        background-color: #065D8A;
-        box-shadow: inset -5px -5px 2px -2px #fff;
-
-        height: 5%;
-        box-shadow: inset -5px -5px 3px -4px #fff;
-        z-index: 2;
+        top: -200px; left: -200px;
+        box-shadow: 200px 200px 30px 0px #fff;
+        box-shadow: 
+        200px 200px 30px -30px #7779,
+        200px 200px 30px 0px #fff;
+        box-shadow: 
+        250px 250px 30px -30px #7779,
+        250px 250px 30px 0px #fff;
+        /* box-shadow: 
+        500px 250px 30px -30px #f009,
+        500px 250px 30px 0px #f00; */
+        /* box-shadow: 
+        250px 250px 30px -30px #f009,
+        250px 250px 30px 0px #f00; */
+        filter: url(#cloud-05);
     }
+    
 
     .z {display: none;}
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
     <link rel="stylesheet" href="../../../stylesheets/end.css">
-    <style>.shelf {padding: 0px;} footer {min-height: 0px; padding: 0px;}</style>
+    <style>
+        header {box-shadow: 0px 0px 0px #0000; user-select: none;}
+        header .title {color: #3333;}
+    .shelf {padding: 0px;} footer {min-height: 0px; padding: 0px;}</style>
 </head>
 <body>
     <header>
@@ -131,19 +160,20 @@
     <input type="checkbox" name="toggle" id="toggleOpacity">
     <input type="checkbox" name="toggle" id="toggleLights">
 
-<main>
+    <div class="view">
+        <div class="sky"></div>
+        <!-- <div class="stars"></div> -->
+        <!-- <canvas id="stars"></canvas> -->
+        <canvas id="canvas-stars"></canvas>
+        <div class="moon"></div>
+        <div class="cloud-circle"></div>
+        <div class="clouds"></div>
+    </div>
+<!-- <main>
     <div class="shelf">
         <h3 class="shelf-title">Sky</h3>
-        <div class="view">
-            <div class="sky"></div>
-            <div class="stars"></div>
-            <div class="moon"></div>
-            <div class="cloud-circle"></div>
-            <div class="clouds"></div>
-        </div>
     </div>
-    <!-- <canvas id="canvas"></canvas> -->
-</main>
+</main> -->
 
 <!-- <div class="options">
     <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
@@ -249,8 +279,71 @@
 
 </script>
 <script src="../../../scripts/settings-02.js"></script>
+<!-- <script src="../../../scripts/bg-canvas-stars.js"></script> -->
+<script src="bg-stars.js"></script>
 <script>
+    // const canvas = document.getElementById('stars');
+    // const ctx = canvas.getContext('2d');
+    // canvas.width = window.innerWidth;
+    // canvas.height = window.innerHeight;
+    
+    // function AngleToXY(angle){
+    //     angle = angle%360;
+    //     let rad = angle * Math.PI / 180;
+    //     let xy = {"x":0,"y":0};
+    //     if(angle == 180) {xy.y = 0;} else {xy.y = Math.sin(rad);}
+    //     if(angle == 90 || angle == 270) {xy.x = 0;} else {xy.x = Math.cos(rad);}
+    //     return xy;
+    // }
+    // function XYtoAngle(x,y){
+    //     let angle = 0;
+    //     if(x == 0) {
+    //         if(y > 0) {return 90;}
+    //         if(y < 0) {return 270;}
+    //     }
+    //     if(x < 0) { angle += 180; }
+    //     if(y != 0) { angle += Math.atan(y/x) * 180 / Math.PI; }
+    //     return angle;
+    // }
+    
+    // class p {
+    //     constructor(x,y,c,vx=0,vy=0){
+    //         this.x = x;
+    //         this.y = y;
+    //         this.c = c;
+    //         this.vx = vx;
+    //         this.vy = vy;
+    //         this.heat = 0;
+    //         this.vh = 0;
+    //     }
+    // }
+    // function update(){
+    //     if(!s.q && !s.pause){
+    //         // rules.forEach(e => {
+    //         //     pr[e.rule](pg[e.a], pg[e.b], e.g, e.r);
+    //         // });
 
+            
+    //         /* ─Rest of Update()─ */
+    //         // drawSquare(ctx,0,0,"#00000020",s.w,s.h);
+    //         // ctx.clearRect(s.canvas.left,s.canvas.top,s.canvas.w,s.canvas.h);
+    //         // drawSquare(ctx,s.canvas.left,s.canvas.top,"black",s.canvas.w,s.canvas.h);
+    //         // ctx.clearRect(s.canvas.left,s.canvas.top,s.canvas.w,s.canvas.h);
+    //         // drawSquare(ctx,s.canvas.left,s.canvas.top,"#00000020",s.canvas.w,s.canvas.h);
+    //         // ctx.clearRect(s.canvas.left,s.canvas.top,s.canvas.w,s.canvas.h);
+    //         // drawSquare(ctx,0,0,"#00000010",s.w,s.h);
+    //         ctx.clearRect(0,0,s.w,s.h);
+
+    //         for(let i = 0; i<particles.length; i++){
+    //             // // draw(ctx,particles[i].x,particles[i].y,particles[i].c,5);
+    //             // draw2(ctx,particles[i],particles[i].x,particles[i].y,5);
+    //             // // draw2(ctx,particles[i],particles[i].x,particles[i].y);
+    //             // // draw2(ctx,particles[i]);
+    //             draw3(ctx,particles[i],particles[i].x,particles[i].y,5);
+    //         }
+    //     }
+    //     requestAnimationFrame(update);
+    // }
 
 
     /* ─── Events ─── */
@@ -299,8 +392,11 @@
     window.addEventListener('load', (ev) => {
         console.log(`Welcome to my Lab!`);
         updateSettings();
-        // start();
-        // update();
+        setTimeout(() => {
+            // delayed code goes here.
+            start();
+            animate();
+        }, 500);
     });
     /* Version Log:
     [index-nds-00]: Default Template.
