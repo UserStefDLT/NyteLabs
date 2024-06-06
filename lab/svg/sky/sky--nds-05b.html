@@ -26,25 +26,6 @@
         } */
     </style>
 <style>
-    :root {
-        
-        --bgi-c: 
-        radial-gradient(circle at 50% 0%, #f00, #f000 50%),
-        radial-gradient(circle at 86% 30%, #ff0, #ff00 50%),
-        radial-gradient(circle at 86% 70%, #0f0, #0f00 50%),
-        radial-gradient(circle at 50% 100%, #0ff, #0ff0 50%),
-        radial-gradient(circle at 14% 70%, #00f, #00f0 50%),
-        radial-gradient(circle at 14% 30%, #f0f, #f0f0 50%);
-        --bgi-x: 
-        radial-gradient(#fff, #fff0 30%),
-        conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
-        --bgi-normal: radial-gradient(circle at 50% 100%,#fff0 5%, #f50c, #ff0f 80%);
-        --bgi-gray: radial-gradient(circle at 50% 100%,#fff0 5%, #fff9, #777c 80%);
-        --bgi-white: radial-gradient(circle at 50% 100%,#fff0 5%, #fff, #fffc 80%);
-        --bgi-phire: radial-gradient(circle at 50% 100%,#fff0 5%, #93fc, #f39f 80%);
-    }
-        
-
     .view {
         position: absolute;
         top: 0px; left: 0px;
@@ -146,8 +127,6 @@
         /* transform: translateX(-50%) translateY(-50%) scale(.5) rotate(0deg); */
         
         background-color: #fff0;
-        /* background-image: conic-gradient(); */
-        /* background-image: var(--bgi-x); */
         
         box-shadow: 
         inset 0px 0px 120px 12vmax #fff, 
@@ -159,6 +138,8 @@
         border-radius: 50%;
         filter: blur(20px) url(#cloud-05);
         transition: box-shadow 2900ms ease-in-out;
+        /* transition: box-shadow 2900ms ease-in-out, transform 2900ms ease-in-out; */
+        /* transition: transform 900ms ease-in-out; */
     }
     /* .cloud-circle-2:hover, */
     #clearSky:checked ~ .view .cloud-circle-2 {
@@ -168,71 +149,10 @@
         inset 0px 0px 30px 10vmax #9999,
         inset 0px 0px 40px 15vmax #7779,
         inset 0px 0px 50px 20vmax #fff;
+        /* transform: translateX(-50%) translateY(-50%) rotate(45deg);
+        transform: translateX(-50%) translateY(-50%) scale(.5) rotate(45deg); */
     }
-    .cloud-circle-2::after {
-        content: '';
-        position: absolute;
-        top: 50%; left: 50%;
-        transform: translateX(-50%) translateY(-50%) scale(2) rotate(0deg);
-        transform: translateX(-50%) translateY(-50%) rotate(0deg);
-        transform: translateX(-50%) translateY(-50%) scale(var(--scale)) rotate(0deg);
-        height: 100%; width: 100%;
-        background-image: var(--bgi-x);
-        border-radius: 50%;
-        /* backdrop-filter: blur(5px); */
-        /* mix-blend-mode: overlay; */
-        /* mask-composite: subtract; */
-        /* -webkit-mask-composite: source-over; */
-        /* -webkit-mask-composite: subtract; */
-        mix-blend-mode: multiply;
-        mask-image: radial-gradient(circle at 50% 50%, #0000 20%, #fff 50%);
-        transition: transform 2900ms ease-in-out;
-        /* transition: scale 2900ms ease-in-out; */
-        transition: opacity 2900ms ease-in-out;
-        opacity: 0;
-        /* --scale: 2; */
-        /* scale: 2; */
-        animation: rotate 18s linear infinite both;
-        animation-play-state: paused;
-    }
-    #rainbowSky:checked ~ .view .cloud-circle-2::after {
-        opacity: 1;
-        /* --scale: 1; */
-        /* transition: transform 2900ms ease-in-out; */
-        /* transform: translateX(-50%) translateY(-50%) scale(1) rotate(0deg); */
-        /* animation: rotate 6s linear 2900ms infinite forwards; */
-        /* animation: rotate 18s linear 2900ms infinite forwards; */
-        /* animation: rotate 18s linear 2900ms infinite both; */
-        /* animation-delay: 2900ms; */
-        /* scale: 1; */
-        animation-play-state: running;
-    }
-    @keyframes rotate-3 {
-        from {transform: translateX(-50%) translateY(-50%) rotate(0deg);}
-        to {transform: translateX(-50%) translateY(-50%) rotate(360deg);}
-    }
-    @keyframes rotate-2 {
-        from {transform: translateX(-50%) translateY(-50%) scale(var(--scale)) rotate(0deg);}
-        to {transform: translateX(-50%) translateY(-50%) scale(var(--scale)) rotate(360deg);}
-    }
-    @keyframes rotate {
-        from {transform: translateX(-50%) translateY(-50%) scale(1) rotate(0deg);}
-        to {transform: translateX(-50%) translateY(-50%) scale(1) rotate(360deg);}
-    }
-
-    #clearSky:checked ~ .view .cloud-circle-2::after {
-        opacity: 0;
-    }
-
     .toggleClouds {
-        position: absolute;
-        top: 0px; left: 0px;
-        height: 46px; width: 170px;
-        cursor: pointer;
-        z-index: 11;
-    }
-    /* .toggleClouds, */
-    .toggleColors {
         position: absolute;
         height: 10%;
         aspect-ratio: 1;
@@ -266,7 +186,7 @@
         height: 100px; width: 100px;
         border-radius: 0%;
         background-color: #fff0;
-        z-index: 7;
+        z-index: 9;
         
         border-radius: 50%;
         top: -200px; left: -200px;
@@ -306,14 +226,12 @@
     <header>
         <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
         <h1 class="title">NyteLabs</h1>
-        <label for="clearSky" class="toggleClouds" data-toggle="clouds"></label>
         <!-- <div class="subtitle">SVG Sky ☁️🌙☁️</div> -->
     </header>
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
     <input type="checkbox" name="toggle" id="toggleLights">
     <input type="checkbox" name="clouds" id="clearSky">
-    <input type="checkbox" name="clouds" id="rainbowSky">
 
     <div class="view">
         <div class="sky"></div>
@@ -326,7 +244,7 @@
         <div class="clouds"></div>
 
         
-        <label for="rainbowSky" class="toggleColors" data-toggle="colors"></label>
+        <label for="clearSky" class="toggleClouds" data-toggle="clouds"></label>
     </div>
 <!-- <main>
     <div class="shelf">
