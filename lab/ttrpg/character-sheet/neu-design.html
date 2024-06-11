@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Sheet</title>
+
+    <style>
+        body {
+            margin: 0;
+        }
+        .a,
+        .character-details, .character-name-card,
+        .character-name, 
+        .character-detail-inline,
+        .ability-scores, .ability-score-block,
+        .ability-modifier {
+            display: flex;
+            flex-direction: column;
+            align-items: center; justify-content: center;
+        }
+        .character-details {
+            flex-direction: row;
+        }
+        .character-name-card,
+        .character-detail-inline,
+        .ability-scores,
+        .ability-score-block {
+            flex-direction: column;
+        }
+        
+        .character-name-card {
+            min-width: 40vw;
+            /* margin: 8px; */
+        }
+        .character-name {
+            height: 44px;
+            width: 90%;
+            font-size: 32px;
+            /* border: 0px solid #2220;
+            border-top: 2px solid #777;
+            border-bottom: 2px solid #222; */
+
+            border-radius: .5rem;
+            box-shadow: 4px 4px 4px 0px #3339;
+            --c-sh: hsl(210, 30%, 85%);
+            box-shadow: inset -5px -5px 5px 0px #fff, inset 5px 5px 5px 0px var(--c-sh);
+            
+            background-image: linear-gradient(90deg, hsl(210, 20%, 100%), hsl(210, 20%, 95%));
+            --clr-l-1: hsla(210, 20%, 100%, 0.5);
+            --clr-s-1: hsla(210, 20%, 70%, 0.5);
+            --clr-l-2: hsla(210, 20%, 100%, 0.35);
+            --clr-s-2: hsla(210, 20%, 70%, 0.35);
+            --shw-xy-1: -.125em;
+            --shw-xy-2: .125em;
+            --shw-blr: .25em;
+            box-shadow:
+            inset var(--shw-xy-1) var(--shw-xy-1) var(--shw-blr) 0rem var(--clr-l-1),
+            inset var(--shw-xy-2) var(--shw-xy-2) var(--shw-blr) 0rem var(--clr-s-1),
+            inset var(--shw-xy-1) var(--shw-xy-1) var(--shw-blr) .125rem var(--clr-l-2),
+            inset var(--shw-xy-2) var(--shw-xy-2) var(--shw-blr) .125rem var(--clr-s-2);
+            border-radius: 5rem;
+            color: #456c;
+            color: hsla(210, 20%, 33%, 0.8);
+            color: hsla(210, 20%, 20%, 0.8);
+
+            text-align: center;
+        }
+        .character-name-label {
+            /* font-size: 32px; */
+            color: #777;
+            font-weight: lighter;
+            padding: .25rem .5rem;
+        }
+        
+        .other-details {
+            display: grid;
+            grid-template-columns: repeat(1fr, 3);
+            grid-template-columns: repeat(3, 1fr);
+            min-width: 50vw;
+            padding: 4px 12px;
+            border: 1px solid #000;
+            border-radius: 8px;
+        }
+        .character-info {
+            width: 100%;
+            font-size: 20px;
+            border-bottom: 1px solid #aaa;
+        }
+        .detail-label {
+            width: 100%;
+            color: #777;
+            font-weight: lighter;
+        }
+        #class-lvl {
+            position: relative;
+        }
+        .multiclass {
+            position: absolute;
+            top: 100%; left: 0%;
+            display: flex; align-items: center; 
+            justify-content: space-around;
+            flex-direction: column;
+            height: 0px;
+            width: 84px;
+            opacity: 0;
+            padding: 4px 12px;
+            background-color: #fff;
+            border: 2px ridge #333;
+            overflow: hidden;
+            transition: opacity 100ms ease-in-out 600ms, height 300ms ease-in-out 300ms;
+        }
+        #class-lvl:hover .multiclass {
+            height: 81px;
+            /* height: 69px; */
+            opacity: 1;
+            transition: opacity 100ms ease-in-out, height 300ms ease-in-out;
+        }
+        .multiclass div {
+            opacity: 0;
+            transition: opacity 300ms ease-in-out 0ms;
+        }
+        #class-lvl:hover .multiclass div {
+            opacity: 1;
+            transition: opacity 300ms ease-in-out 300ms;
+        }
+
+        main {
+
+        }
+        .ability-scores {
+            width: max-content;
+            background-color: #aaa;
+        }
+        .ability-score-block {
+            position: relative;
+            /* height: 200px; width: 150px; */
+            /* height: 140px; width: 110px; */
+            /* height: 120px; width: 100px; */
+            /* height: 100px; width: 100px; */
+            /* height: 110px; width: 90px; */
+            height: 100px; 
+            aspect-ratio: 12 / 14;
+            margin: 10px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border: 1px solid #000;
+            justify-content: space-around;
+        }
+        .ability-score-label {
+            position: absolute;
+            top: 0%; left: 50%;
+            color: #777;
+            transform: translate(-50%, 40%);
+        }
+        .ability-score {
+            font-size: 32px;
+        }
+        .ability-modifier {
+            position: absolute;
+            top: 100%; left: 50%;
+            /* height: 40px; width: 54px; */
+            /* font-size: 24px; */
+            height: 32px; width: 48px;
+            font-size: 20px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            background-color: #fff;
+            box-shadow: inset 0 0 2px 2px #bbb;
+            transform: translate(-50%, -50%);
+        }
+        .z {display: none;}
+    </style>
+</head>
+<body>
+
+    <!-- .character-details>.character-name+.other-details>.character-detail-inline*6>.character-info+.detail-label -->
+    <!-- .character-details>.character-name-card>.character-name+.character-name-label^.other-details>.character-detail-inline*6>.character-info+.detail-label -->
+    <!-- Class & Level
+    Background
+    Player Name
+    Race
+    Alignment
+    Experience Points -->
+    <div class="character-details">
+        <div class="character-name-card">
+            <div class="character-name">Ki Osaibrin</div>
+            <div class="character-name-label">Character Name</div>
+        </div>
+        <div class="other-details">
+            <div class="character-detail-inline">
+                <div id="class-lvl" class="character-info">Rogue* 20
+                    <div class="multiclass">
+                        <div>Rogue 11</div>
+                        <div>Ranger 4</div>
+                        <div>Warlock 5</div>
+                    </div>
+                </div>
+                <div class="detail-label">Class & Level</div>
+            </div>
+            <div class="character-detail-inline">
+                <div class="character-info">Spy</div>
+                <div class="detail-label">Background</div>
+            </div>
+            <div class="character-detail-inline">
+                <div class="character-info">Stefano</div>
+                <div class="detail-label">Player Name</div>
+            </div>
+            <div class="character-detail-inline">
+                <div class="character-info">Changeling</div>
+                <div class="detail-label">Race</div>
+            </div>
+            <div class="character-detail-inline">
+                <div class="character-info">Neutral</div>
+                <div class="detail-label">Alignment</div>
+            </div>
+            <div class="character-detail-inline">
+                <div class="character-info">??</div>
+                <div class="detail-label">Experience Points</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- .ability-scores>.ability-score-block[data-ability="str"]*6>.ability-score-name+#ability-score+#ability-modifier -->
+    <!-- .ability-scores>.ability-score-block[data-ability="str"]*6>.ability-score-name+#ability-score.ability-score+#ability-modifier.ability-modifier -->
+    <!-- .ability-scores>.ability-score-block[data-ability="str"]*6>.ability-score-label+#ability-score.ability-score+#ability-modifier.ability-modifier -->
+
+    <main>
+        <div class="ability-scores">
+            <div class="ability-score-block" data-ability="str">
+                <div class="ability-score-label">Strength</div>
+                <div id="ability-score" class="ability-score">9</div>
+                <div id="ability-modifier" class="ability-modifier">-1</div>
+            </div>
+            <div class="ability-score-block" data-ability="dex">
+                <div class="ability-score-label">Dexterity</div>
+                <div id="ability-score" class="ability-score">16</div>
+                <div id="ability-modifier" class="ability-modifier">+3</div>
+            </div>
+            <div class="ability-score-block" data-ability="con">
+                <div class="ability-score-label">Constitution</div>
+                <div id="ability-score" class="ability-score">13</div>
+                <div id="ability-modifier" class="ability-modifier">+1</div>
+            </div>
+            <div class="ability-score-block" data-ability="int">
+                <div class="ability-score-label">Intelligence</div>
+                <div id="ability-score" class="ability-score">13</div>
+                <div id="ability-modifier" class="ability-modifier">+1</div>
+            </div>
+            <div class="ability-score-block" data-ability="wis">
+                <div class="ability-score-label">Wisdom</div>
+                <div id="ability-score" class="ability-score">22</div>
+                <div id="ability-modifier" class="ability-modifier">+6</div>
+            </div>
+            <div class="ability-score-block" data-ability="cha">
+                <div class="ability-score-label">Charisma</div>
+                <div id="ability-score" class="ability-score">22</div>
+                <div id="ability-modifier" class="ability-modifier">+6</div>
+            </div>
+        </div>
+
+    </main>
+
+    <div class="ability-scores z">
+        <div class="ability-score-block" data-ability="str">
+            <div class="ability-score-name">Strength</div>
+            <div id="ability-score"></div>
+            <div id="ability-modifier"></div>
+        </div>
+        <div class="ability-score-block" data-ability="dex">
+            <div class="ability-score-name">Dexterity</div>
+            <div id="ability-score"></div>
+            <div id="ability-modifier"></div>
+        </div>
+        <div class="ability-score-block" data-ability="con">
+            <div class="ability-score-name">Constitution</div>
+            <div id="ability-score"></div>
+            <div id="ability-modifier"></div>
+        </div>
+        <div class="ability-score-block" data-ability="int">
+            <div class="ability-score-name">Intelligence</div>
+            <div id="ability-score"></div>
+            <div id="ability-modifier"></div>
+        </div>
+        <div class="ability-score-block" data-ability="wis">
+            <div class="ability-score-name">Wisdom</div>
+            <div id="ability-score"></div>
+            <div id="ability-modifier"></div>
+        </div>
+        <div class="ability-score-block" data-ability="cha">
+            <div class="ability-score-name">Charisma</div>
+            <div id="ability-score"></div>
+            <div id="ability-modifier"></div>
+        </div>
+    </div>
+
+
+    
+</body>
+</html>
