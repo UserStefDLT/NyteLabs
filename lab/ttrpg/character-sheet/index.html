@@ -10,17 +10,22 @@
         body {
             margin: 0;
         }
-        .a,
+        .a, main,
         .character-details, .character-name-card,
-        .character-name, 
-        .character-detail-inline,
-        .ability-scores, .ability-score-block,
-        .ability-modifier {
+        .character-name, .character-detail-inline,
+        .ability-scores, .ability-score-block, .ability-modifier,
+        .proficiency-and-skills, .inspiration-block, .proficiency-block,
+        .inspiration, .proficiency,
+        .inspiration-label, .proficiency-label, 
+        .b {
             display: flex;
             flex-direction: column;
             align-items: center; justify-content: center;
         }
-        .character-details {
+        main,
+        .character-details,
+        .inspiration-block, .proficiency-block,
+        .b {
             flex-direction: row;
             flex-wrap: wrap;
         }
@@ -117,7 +122,8 @@
         }
 
         main {
-
+            width: 100%;
+            align-items: flex-start; justify-content: flex-start;
         }
         .ability-scores {
             width: max-content;
@@ -161,6 +167,55 @@
             box-shadow: inset 0 0 2px 2px #bbb;
             transform: translate(-50%, -50%);
         }
+
+
+        .inspiration-card,
+        .proficiency-card,
+        .saving-card,
+        .skills-card {
+            margin: 0.25rem;
+            border: 1px solid #000;
+        }
+        .inspiration, .proficiency {
+            height: 40px; width: 40px;
+            border: 1px solid #000;
+        }
+        .inspiration-label, .proficiency-label {
+            min-height: 40px;
+            border: 1px solid #000;
+            padding: .125rem .25rem;
+        }
+
+        /* .skill-row {
+            display: grid;
+            grid-template-columns: 20px 20px 1fr;
+        } */
+
+        .save-check,
+        .skill-check {
+            height: 15px; width: 15px;
+            margin: 0.25rem;
+            color: #000;
+            border-radius: 50%;
+            border: 1px solid;
+            background: #fff;
+            box-shadow: inset 0 0 0 1px #fff;
+        }
+        .save-check[data-proficiency="1"],
+        .skill-check[data-proficiency="1"] {background-color: #000;}
+        .save-check[data-proficiency="2"],
+        .skill-check[data-proficiency="2"] {
+            box-shadow: 
+            inset 0 0 0 1px #fff,
+            0 0 0 1px #fff, 0 0 0 3px #000;
+        }
+
+
+        .skill-modifier {
+            margin: 0.25rem;
+            padding: .125rem;
+        }
+
         .z {display: none;}
     </style>
 </head>
@@ -250,43 +305,335 @@
                 <div id="ability-modifier" class="ability-modifier">+6</div>
             </div>
         </div>
+        <!-- .proficiency-and-skills>
+        .inspiration-card>.inspiration-block>#inspiration.inspiration+.inspiration-label^^
+        .proficiency-card>.proficiency-block>#proficiency.proficiency+.proficiency-label^^^
+        #savingThrows.saving-card>.ability-save-row*6>.save-check+.save-modifier+.save-label
+        #skills.skills-card>.skill-row*18>.skill-check+.skill-modifier+.skill-label -->
+
+        <div class="proficiency-and-skills">
+            <div class="inspiration-card">
+                <div class="inspiration-block">
+                    <div id="inspiration" class="inspiration"></div>
+                    <div class="inspiration-label">Inspiration</div>
+                </div>
+            </div>
+            <div class="proficiency-card">
+                <div class="proficiency-block">
+                    <div id="proficiency" class="proficiency">+9</div>
+                    <div class="proficiency-label">Proficiency Bonus</div>
+                </div>
+            </div>
+            <table id="savingThrows" class="saving-card">
+                <tr class="ability-save-row">
+                    <td><div class="save-check" data-proficiency="0"></div></td>
+                    <td><div class="save-modifier">-1</div></td>
+                    <td><div class="save-label">Strength</div></td>
+                </tr>
+                <tr class="ability-save-row">
+                    <td><div class="save-check" data-proficiency="1"></div></td>
+                    <td><div class="save-modifier">12</div></td>
+                    <td><div class="save-label">Dexterity</div></td>
+                </tr>
+                <tr class="ability-save-row">
+                    <td><div class="save-check" data-proficiency="0"></div></td>
+                    <td><div class="save-modifier">1</div></td>
+                    <td><div class="save-label">Constitution</div></td>
+                </tr>
+                <tr class="ability-save-row">
+                    <td><div class="save-check" data-proficiency="1"></div></td>
+                    <td><div class="save-modifier">10</div></td>
+                    <td><div class="save-label">Intelligence</div></td>
+                </tr>
+                <tr class="ability-save-row">
+                    <td><div class="save-check" data-proficiency="0"></div></td>
+                    <td><div class="save-modifier">6</div></td>
+                    <td><div class="save-label">Wisdom</div></td>
+                </tr>
+                <tr class="ability-save-row">
+                    <td><div class="save-check" data-proficiency="0"></div></td>
+                    <td><div class="save-modifier">6</div></td>
+                    <td><div class="save-label">Charisma</div></td>
+                </tr>
+            </table>
+            <table id="skills" class="skills-card">
+                <tr class="skill-row">
+                    <td><div class="skill-check" data-proficiency="1"></div></td>
+                    <td><div class="skill-modifier">12</div></td>
+                    <td><div class="skill-label">Acrobatics <span class="ability-note">(dex)</span></div></td>
+                </tr>
+                
+                <tr class="skill-row">
+                    <td><div class="skill-check" data-proficiency="0"></div></td>
+                    <td><div class="skill-modifier">6</div></td>
+                    <td><div class="skill-label">Animal Handling <span class="ability-note">(wis)</span></div></td>
+                </tr>
+                
+                <tr class="skill-row">
+                    <td><div class="skill-check" data-proficiency="0"></div></td>
+                    <td><div class="skill-modifier">1</div></td>
+                    <td><div class="skill-label">Arcana <span class="ability-note">(int)</span></div></td>
+                </tr>
+                
+                <tr class="skill-row">
+                    <td><div class="skill-check" data-proficiency="1"></div></td>
+                    <td><div class="skill-modifier">8</div></td>
+                    <td><div class="skill-label">Athletics <span class="ability-note">(str)</span></div></td>
+                </tr>
+                
+                <tr class="skill-row">
+                    <td><div class="skill-check" data-proficiency="2"></div></td>
+                    <td><div class="skill-modifier">30</div></td>
+                    <td><div class="skill-label">Deception <span class="ability-note">(cha)</span></div></td>
+                </tr>
+                
+                <tr class="skill-row">
+                    <td><div class="skill-check" data-proficiency="0"></div></td>
+                    <td><div class="skill-modifier">1</div></td>
+                    <td><div class="skill-label">History <span class="ability-note">(int)</span></div></td>
+                </tr>
+                
+                <tr class="skill-row">
+                    <td><div class="skill-check" data-proficiency="2"></div></td>
+                    <td><div class="skill-modifier">24</div></td>
+                    <td><div class="skill-label">Insight <span class="ability-note">(wis)</span></div></td>
+                </tr>
+                
+                <tr class="skill-row">
+                    <td><div class="skill-check" data-proficiency="0"></div></td>
+                    <td><div class="skill-modifier">12</div></td>
+                    <td><div class="skill-label">Intimidation <span class="ability-note">(cha)</span></div></td>
+                </tr>
+                
+                <tr class="skill-row">
+                    <td><div class="skill-check" data-proficiency="1"></div></td>
+                    <td><div class="skill-modifier">10</div></td>
+                    <td><div class="skill-label">Investigation <span class="ability-note">(int)</span></div></td>
+                </tr>
+                
+                <tr class="skill-row">
+                    <td><div class="skill-check" data-proficiency="0"></div></td>
+                    <td><div class="skill-modifier">6</div></td>
+                    <td><div class="skill-label">Medicine <span class="ability-note">(wis)</span></div></td>
+                </tr>
+                
+                <tr class="skill-row">
+                    <td><div class="skill-check" data-proficiency="0"></div></td>
+                    <td><div class="skill-modifier">1</div></td>
+                    <td><div class="skill-label">Nature <span class="ability-note">(int)</span></div></td>
+                </tr>
+                
+                <tr class="skill-row">
+                    <td><div class="skill-check" data-proficiency="2"></div></td>
+                    <td><div class="skill-modifier">24</div></td>
+                    <td><div class="skill-label">Perception <span class="ability-note">(wis)</span></div></td>
+                </tr>
+                
+                <tr class="skill-row">
+                    <td><div class="skill-check" data-proficiency="2"></div></td>
+                    <td><div class="skill-modifier">30</div></td>
+                    <td><div class="skill-label">Performance <span class="ability-note">(cha)</span></div></td>
+                </tr>
+                
+                <tr class="skill-row">
+                    <td><div class="skill-check" data-proficiency="2"></div></td>
+                    <td><div class="skill-modifier">30</div></td>
+                    <td><div class="skill-label">Persuasion <span class="ability-note">(cha)</span></div></td>
+                </tr>
+                
+                <tr class="skill-row">
+                    <td><div class="skill-check" data-proficiency="0"></div></td>
+                    <td><div class="skill-modifier">1</div></td>
+                    <td><div class="skill-label">Religion <span class="ability-note">(int)</span></div></td>
+                </tr>
+                
+                <tr class="skill-row">
+                    <td><div class="skill-check" data-proficiency="1"></div></td>
+                    <td><div class="skill-modifier">12</div></td>
+                    <td><div class="skill-label">Sleight of Hand <span class="ability-note">(dex)</span></div></td>
+                </tr>
+                
+                <tr class="skill-row">
+                    <td><div class="skill-check" data-proficiency="1"></div></td>
+                    <td><div class="skill-modifier">12</div></td>
+                    <td><div class="skill-label">Stealth <span class="ability-note">(dex)</span></div></td>
+                </tr>
+                
+                <tr class="skill-row">
+                    <td><div class="skill-check" data-proficiency="0"></div></td>
+                    <td><div class="skill-modifier">6</div></td>
+                    <td><div class="skill-label">Survival <span class="ability-note">(wis)</span></div></td>
+                </tr>
+            </table>
+            <div id="skills1" class="skills-card z">
+                <div class="skill-row">
+                    <div class="skill-check" data-proficiency="1"></div>
+                    <div class="skill-modifier">12</div>
+                    <div class="skill-label">Acrobatics <span class="ability-note">(dex)</span></div>
+                </div>
+                
+                <div class="skill-row">
+                    <div class="skill-check" data-proficiency="0"></div>
+                    <div class="skill-modifier">6</div>
+                    <div class="skill-label">Animal Handling <span class="ability-note">(wis)</span></div>
+                </div>
+                
+                <div class="skill-row">
+                    <div class="skill-check" data-proficiency="0"></div>
+                    <div class="skill-modifier">1</div>
+                    <div class="skill-label">Arcana <span class="ability-note">(int)</span></div>
+                </div>
+                
+                <div class="skill-row">
+                    <div class="skill-check" data-proficiency="1"></div>
+                    <div class="skill-modifier">8</div>
+                    <div class="skill-label">Athletics <span class="ability-note">(str)</span></div>
+                </div>
+                
+                <div class="skill-row">
+                    <div class="skill-check" data-proficiency="2"></div>
+                    <div class="skill-modifier">30</div>
+                    <div class="skill-label">Deception <span class="ability-note">(cha)</span></div>
+                </div>
+                
+                <div class="skill-row">
+                    <div class="skill-check" data-proficiency="0"></div>
+                    <div class="skill-modifier">1</div>
+                    <div class="skill-label">History <span class="ability-note">(int)</span></div>
+                </div>
+                
+                <div class="skill-row">
+                    <div class="skill-check" data-proficiency="2"></div>
+                    <div class="skill-modifier">24</div>
+                    <div class="skill-label">Insight <span class="ability-note">(wis)</span></div>
+                </div>
+                
+                <div class="skill-row">
+                    <div class="skill-check" data-proficiency="0"></div>
+                    <div class="skill-modifier">12</div>
+                    <div class="skill-label">Intimidation <span class="ability-note">(cha)</span></div>
+                </div>
+                
+                <div class="skill-row">
+                    <div class="skill-check" data-proficiency="1"></div>
+                    <div class="skill-modifier">10</div>
+                    <div class="skill-label">Investigation <span class="ability-note">(int)</span></div>
+                </div>
+                
+                <div class="skill-row">
+                    <div class="skill-check" data-proficiency="0"></div>
+                    <div class="skill-modifier">6</div>
+                    <div class="skill-label">Medicine <span class="ability-note">(wis)</span></div>
+                </div>
+                
+                <div class="skill-row">
+                    <div class="skill-check" data-proficiency="0"></div>
+                    <div class="skill-modifier">1</div>
+                    <div class="skill-label">Nature <span class="ability-note">(int)</span></div>
+                </div>
+                
+                <div class="skill-row">
+                    <div class="skill-check" data-proficiency="2"></div>
+                    <div class="skill-modifier">24</div>
+                    <div class="skill-label">Perception <span class="ability-note">(wis)</span></div>
+                </div>
+                
+                <div class="skill-row">
+                    <div class="skill-check" data-proficiency="2"></div>
+                    <div class="skill-modifier">30</div>
+                    <div class="skill-label">Performance <span class="ability-note">(cha)</span></div>
+                </div>
+                
+                <div class="skill-row">
+                    <div class="skill-check" data-proficiency="2"></div>
+                    <div class="skill-modifier">30</div>
+                    <div class="skill-label">Persuasion <span class="ability-note">(cha)</span></div>
+                </div>
+                
+                <div class="skill-row">
+                    <div class="skill-check" data-proficiency="0"></div>
+                    <div class="skill-modifier">1</div>
+                    <div class="skill-label">Religion <span class="ability-note">(int)</span></div>
+                </div>
+                
+                <div class="skill-row">
+                    <div class="skill-check" data-proficiency="1"></div>
+                    <div class="skill-modifier">12</div>
+                    <div class="skill-label">Sleight of Hand <span class="ability-note">(dex)</span></div>
+                </div>
+                
+                <div class="skill-row">
+                    <div class="skill-check" data-proficiency="1"></div>
+                    <div class="skill-modifier">12</div>
+                    <div class="skill-label">Stealth <span class="ability-note">(dex)</span></div>
+                </div>
+                
+                <div class="skill-row">
+                    <div class="skill-check" data-proficiency="0"></div>
+                    <div class="skill-modifier">6</div>
+                    <div class="skill-label">Survival <span class="ability-note">(wis)</span></div>
+                </div>
+            </div>
+        </div>
 
     </main>
-
-    <div class="ability-scores z">
-        <div class="ability-score-block" data-ability="str">
-            <div class="ability-score-name">Strength</div>
-            <div id="ability-score"></div>
-            <div id="ability-modifier"></div>
-        </div>
-        <div class="ability-score-block" data-ability="dex">
-            <div class="ability-score-name">Dexterity</div>
-            <div id="ability-score"></div>
-            <div id="ability-modifier"></div>
-        </div>
-        <div class="ability-score-block" data-ability="con">
-            <div class="ability-score-name">Constitution</div>
-            <div id="ability-score"></div>
-            <div id="ability-modifier"></div>
-        </div>
-        <div class="ability-score-block" data-ability="int">
-            <div class="ability-score-name">Intelligence</div>
-            <div id="ability-score"></div>
-            <div id="ability-modifier"></div>
-        </div>
-        <div class="ability-score-block" data-ability="wis">
-            <div class="ability-score-name">Wisdom</div>
-            <div id="ability-score"></div>
-            <div id="ability-modifier"></div>
-        </div>
-        <div class="ability-score-block" data-ability="cha">
-            <div class="ability-score-name">Charisma</div>
-            <div id="ability-score"></div>
-            <div id="ability-modifier"></div>
-        </div>
-    </div>
-
-
     
+    <script>
+        let skills1 = ['Athletics', 'Acrobatics', 'Sleight of Hand', 'Stealth', 'Arcana', 'History', 'Investigation', 'Nature', 'Religion', 'Animal Handling', 'Insight', 'Medicine', 'Perception', 'Survival', 'Deception', 'Intimidation', 'Performance', 'Persuasion'];
+        const skills = ['Acrobatics', 'Animal Handling', 'Arcana', 'Athletics', 'Deception', 'History', 'Insight', 'Intimidation', 'Investigation', 'Medicine', 'Nature', 'Perception', 'Performance', 'Persuasion', 'Religion', 'Sleight of Hand', 'Stealth', 'Survival'];
+
+        const skillAb = {
+        "Athletics": "str",
+        "Acrobatics": "dex",
+        "Sleight of Hand": "dex",
+        "Stealth": "dex",
+        "Arcana": "int",
+        "History": "int",
+        "Investigation": "int",
+        "Nature": "int",
+        "Religion": "int",
+        "Animal Handling": "wis",
+        "Insight": "wis",
+        "Medicine": "wis",
+        "Perception": "wis",
+        "Survival": "wis",
+        "Deception": "cha",
+        "Intimidation": "cha",
+        "Performance": "cha",
+        "Persuasion": "cha"
+        };
+
+        var ki = {
+            "details": {},
+            "skillsP": [1, 0, 0, 1, 2, 0, 2, 0, 1, 0, 0, 2, 2, 2, 0, 1, 1, 0],
+            "skills": [12, 6, 1, 8, 30, 1, 24, 12, 10, 6, 1, 24, 30, 30, 1, 12, 12, 6]
+        }
+
+        function skillCard(player){
+            let rows = [];
+            for (let i = 0; i < skills.length; i++) {
+                const skill = skills[i];
+                let ability = skillAb[skill];
+                let check = player["skillsP"][i];
+                let mod = player["skills"][i];
+//                 let card = `
+// <div class="skill-row">
+//     <div class="skill-check" data-proficiency="${check}"></div>
+//     <div class="skill-modifier">${mod}</div>
+//     <div class="skill-label">${skill} <span class="ability-note">(${ability})</span></div>
+// </div>`;
+                let card = `
+<tr class="skill-row">
+    <td><div class="skill-check" data-proficiency="${check}"></div></td>
+    <td><div class="skill-modifier">${mod}</div></td>
+    <td><div class="skill-label">${skill} <span class="ability-note">(${ability})</span></div></td>
+</tr>`;
+                rows.push(card);
+            }
+            console.log(rows.join('\n'));
+        }
+    
+        
+    </script>
 </body>
 </html>
