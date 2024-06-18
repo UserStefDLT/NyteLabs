@@ -176,15 +176,6 @@
             margin: 0.25rem;
             border: 1px solid #000;
         }
-        .skill-table {
-            width: 200px;
-        }
-
-        .inspiration-row,
-        .proficiency-row {
-            min-height: 40px;
-            margin: 8px;
-        }
         .inspiration, .proficiency {
             height: 40px; width: 40px;
             border: 1px solid #000;
@@ -202,24 +193,20 @@
 
         .save-check,
         .skill-check {
-            height: 12px; width: 12px;
+            height: 15px; width: 15px;
             margin: 0.25rem;
             color: #000;
             border-radius: 50%;
             border: 1px solid;
             background: #fff;
-            /* box-shadow: inset 0 0 0 1px #fff; */
+            box-shadow: inset 0 0 0 1px #fff;
         }
         .save-check[data-proficiency="1"],
         .skill-check[data-proficiency="1"] {background-color: #000;}
         .save-check[data-proficiency="2"],
         .skill-check[data-proficiency="2"] {
-            background-color: #000;
-            /* border: 1px solid; */
             box-shadow: 
             inset 0 0 0 1px #fff,
-            0 0 0 1px #fff, 0 0 0 3px #000;
-            box-shadow: 
             0 0 0 1px #fff, 0 0 0 3px #000;
         }
 
@@ -323,28 +310,23 @@
         .proficiency-card>.proficiency-block>#proficiency.proficiency+.proficiency-label^^^
         #savingThrows.saving-card>.ability-save-row*6>.save-check+.save-modifier+.save-label
         #skills.skills-card>.skill-row*18>.skill-check+.skill-modifier+.skill-label -->
-        <!-- tr.inspiration-row>td>#inspiration.inspiration^td>.inspiration-label -->
 
         <div class="proficiency-and-skills">
-            <table>
-                <tr class="inspiration-row">
-                    <td>
-                        <div id="inspiration" class="inspiration"></div>
-                    </td>
-                    <td>
-                        <div class="inspiration-label">Inspiration</div>
-                    </td>
-                </tr>
-                <tr class="proficiency-row">
-                    <td>
-                        <div id="proficiency" class="proficiency">+9</div>
-                    </td>
-                    <td>
-                        <div class="proficiency-label">Proficiency Bonus</div>
-                    </td>
-                </tr>
-            </table>
-            <table id="savingThrows" class="skill-table saving-card">
+            
+            <div class="inspiration-card">
+                <div class="inspiration-block">
+                    <div id="inspiration" class="inspiration"></div>
+                    <div class="inspiration-label">Inspiration</div>
+                </div>
+            </div>
+            <div class="proficiency-card">
+                <div class="proficiency-block">
+                    <div id="proficiency" class="proficiency">+9</div>
+                    <div class="proficiency-label">Proficiency Bonus</div>
+                </div>
+            </div>
+
+            <table id="savingThrows" class="saving-card">
                 <tr class="ability-save-row">
                     <td><div class="save-check" data-proficiency="0"></div></td>
                     <td><div class="save-modifier">-1</div></td>
@@ -376,7 +358,7 @@
                     <td><div class="save-label">Charisma</div></td>
                 </tr>
             </table>
-            <table id="skills" class="skill-table skills-card">
+            <table id="skills" class="skills-card">
                 <tr class="skill-row">
                     <td><div class="skill-check" data-proficiency="1"></div></td>
                     <td><div class="skill-modifier">12</div></td>
