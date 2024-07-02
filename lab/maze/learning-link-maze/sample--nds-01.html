@@ -24,24 +24,7 @@
     }
     td {
         border: 1px solid #333;
-        height: 24px; width: 24px;
-    }
-    .line {
-        position: relative;
-    }
-    .line::before {
-        content: '';
-        position: absolute;
-        top: 50%; left: 50%;
-        /* --h: calc(2px + var(--l2y) * 25px);
-        --w: calc(2px + var(--l2x) * 25px); */
-        --sz: calc(var(--len) * 30px);
-        --deg: calc(var(--angle) * 1deg - 90deg);
-        height: 2px; width: var(--sz);
-        background-color: #1119;
-        transform-origin: 0% 50%;
-        transform: translateX(0%) translateY(0%) rotate(var(--deg));
-        z-index: 9;
+        height: 25px; width: 25px;
     }
     .z {display: none;}
 </style>
@@ -101,28 +84,6 @@
     </div>
     <div class="shelf">
         <h3 class="shelf-title">Sample (<a href="http://http://www.mazelog.com/show?16">source</a>)</h3>
-        <table>
-            <tr>
-                <td><div class="line" style="--len: 1; --angle: 90;">🟩</div></td><td><div class="line" style="--len: 2; --angle: 180;">🟪</div></td><td>💚</td>
-            </tr>
-            <tr>
-                <td><div class="line" style="--len: 2; --angle: 90;">🟠</div></td><td>🟩</td><td><div class="line" style="--len: 1; --angle: 180;">🔴</div></td>
-            </tr>
-            <tr>
-                <td><div class="line" style="--len: 1; --angle: 0;">🧡</div></td><td><div class="line" style="--len: 1; --angle: 270;">💜</div></td><td>📕</td>
-            </tr>
-        </table>
-        <!-- <table>
-            <tr>
-                <td><div class="line" style="--l2x: 1; --l2y: 0;">🟩</div></td><td><div class="line" style="--l2x: 0; --l2y: 2;">🟪</div></td><td>💚</td>
-            </tr>
-            <tr>
-                <td><div class="line" style="--l2x: 2; --l2y: 0;">🟠</div></td><td>🟩</td><td><div class="line" style="--l2x: 0; --l2y: 1;">🔴</div></td>
-            </tr>
-            <tr>
-                <td><div class="line" style="--l2x: 0; --l2y: -1;">🧡</div></td><td><div class="line" style="--l2x: -1; --l2y: 0;">💜</div></td><td>📕</td>
-            </tr>
-        </table> -->
         <table>
             <tr>
                 <td>🟩</td><td>🟪</td><td>💚</td>
