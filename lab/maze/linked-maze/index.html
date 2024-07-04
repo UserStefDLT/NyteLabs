@@ -161,18 +161,19 @@ const definitions = {
     "EMPTY": 0
 };
 
-var grid_h = 4;
-var grid_w = 4;
+var grid_h = 5;
+var grid_w = 5;
 var maze = {
     h: grid_h,
     w: grid_w,
     map: [],
+    mapp: [],
     path: [],
     start: {x: 0, y: 0},
     end: {x: grid_w, y: grid_h},
     minStepCount: 0,
     maxStepCount: 0,
-    sideLen: 4,
+    sideLen: 5,
     z: 0
 };
 
