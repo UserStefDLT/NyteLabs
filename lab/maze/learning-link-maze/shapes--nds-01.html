@@ -32,7 +32,6 @@
 
     --sz-375: calc(var(--sz-shape) * .375);
     --sz-625: calc(var(--sz-shape) * .625);
-    --sz-875: calc(var(--sz-shape) * .875);
     --sz--375: calc(var(--sz-375) * -1);
     --sz--625: calc(var(--sz-625) * -1);
 
@@ -56,8 +55,9 @@
     background: var(--cw);
 }
 
+
+
 [class|="shape"] {
-    --c: hsla(calc(var(--i) * 50), 100%, 50%, 1);
 height: var(--sz-shape);
 width: var(--sz-shape);
 background: var(--cw);
@@ -77,39 +77,6 @@ var(--c) var(--sz-line-1),
 var(--c0) var(--sz-line-1), 
 var(--c0) var(--sz-line-3), 
 var(--c) var(--sz-line-3));
-}
-.shape-xsquare {
-transform: rotate(45deg);
-background-image: 
-linear-gradient(180deg,
-var(--c) var(--sz-line-1), 
-var(--c0) var(--sz-line-1), 
-var(--c0) var(--sz-line-3), 
-var(--c) var(--sz-line-3)
-),
-linear-gradient(90deg,
-var(--c) var(--sz-line-1), 
-var(--c0) var(--sz-line-1), 
-var(--c0) var(--sz-line-3), 
-var(--c) var(--sz-line-3));
-}
-.shape-xsquare4 {
-transform: rotate(45deg);
-background-image: 
-linear-gradient(180deg,
-var(--c) var(--sz-375), 
-var(--c0) var(--sz-375), 
-var(--c0) var(--sz-625), 
-var(--c) var(--sz-625)
-),
-linear-gradient(90deg,
-var(--c) var(--sz-375), 
-var(--c0) var(--sz-375), 
-var(--c0) var(--sz-625), 
-var(--c) var(--sz-625));
-box-shadow: inset 0 0 0 var(--sz-125) var(--cw);
-    outline: 2px solid var(--cw);
-    outline-offset: -1px;
 }
 
 .shape-equals {
@@ -136,10 +103,6 @@ border-radius: 50%;
 .shape-square2 {
 box-shadow: inset 0 0 0 var(--sz-25) var(--c);
 }
-.shape-xsquare2 {
-    transform: rotate(45deg);
-box-shadow: inset 0 0 0 var(--sz-25) var(--c);
-}
 .shape-equals2 {
 box-shadow: 
 inset 0 var(--sz-lines-1) 0 0 var(--cw),
@@ -153,21 +116,6 @@ border-radius: 50%;
 }
 
 .shape-cross {
-background-image: 
-linear-gradient(180deg,
-var(--c0) var(--sz-375), 
-var(--c) var(--sz-375), 
-var(--c) var(--sz-625), 
-var(--c0) var(--sz-625)
-),
-linear-gradient(90deg,
-var(--c0) var(--sz-375), 
-var(--c) var(--sz-375), 
-var(--c) var(--sz-625), 
-var(--c0) var(--sz-625));
-}
-.shape-xcross {
-transform: rotate(45deg);
 background-image: 
 linear-gradient(180deg,
 var(--c0) var(--sz-375), 
@@ -208,11 +156,9 @@ inset var(--sz--375) 0 0 0 var(--cw);
         <div id="display">
             <div class="list">
                 <div class="shape-square"></div>
-                <div class="shape-xsquare4"></div>
                 <div class="shape-equals"></div>
                 <div class="shape-circle"></div>
                 <div class="shape-cross"></div>
-                <div class="shape-xcross"></div>
                 
                 <div class="shape-square2"></div>
                 <div class="shape-equals2"></div>

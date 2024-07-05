@@ -32,7 +32,6 @@
 
     --sz-375: calc(var(--sz-shape) * .375);
     --sz-625: calc(var(--sz-shape) * .625);
-    --sz-875: calc(var(--sz-shape) * .875);
     --sz--375: calc(var(--sz-375) * -1);
     --sz--625: calc(var(--sz-625) * -1);
 
@@ -56,8 +55,9 @@
     background: var(--cw);
 }
 
+
+
 [class|="shape"] {
-    --c: hsla(calc(var(--i) * 50), 100%, 50%, 1);
 height: var(--sz-shape);
 width: var(--sz-shape);
 background: var(--cw);
@@ -108,8 +108,14 @@ var(--c0) var(--sz-375),
 var(--c0) var(--sz-625), 
 var(--c) var(--sz-625));
 box-shadow: inset 0 0 0 var(--sz-125) var(--cw);
-    outline: 2px solid var(--cw);
-    outline-offset: -1px;
+}
+
+.shape-xsquare3 {
+background-image: 
+conic-gradient(
+var(--c0) 0deg 135deg, 
+var(--c) 135deg 225deg, 
+var(--c0) 225deg 360deg);
 }
 
 .shape-equals {
@@ -208,6 +214,8 @@ inset var(--sz--375) 0 0 0 var(--cw);
         <div id="display">
             <div class="list">
                 <div class="shape-square"></div>
+                <div class="shape-xsquare"></div>
+                <div class="shape-xsquare3"></div>
                 <div class="shape-xsquare4"></div>
                 <div class="shape-equals"></div>
                 <div class="shape-circle"></div>
@@ -215,6 +223,7 @@ inset var(--sz--375) 0 0 0 var(--cw);
                 <div class="shape-xcross"></div>
                 
                 <div class="shape-square2"></div>
+                <div class="shape-xsquare2"></div>
                 <div class="shape-equals2"></div>
                 <div class="shape-circle2"></div>
                 <div class="shape-cross2"></div>
