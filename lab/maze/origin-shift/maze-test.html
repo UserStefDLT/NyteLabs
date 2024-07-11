@@ -43,12 +43,25 @@
         background-image: linear-gradient(var(--deg), #0000 40%, var(--c) 40%, var(--c) 60%, #0000 60%);
         background-image: 
         linear-gradient(var(--deg2), #0000 40%, var(--c) 40%, var(--c) 60%, #0000 60%);
+        user-select: none;
+        cursor: pointer;
     }
     .tile[data-d="2"]{border-bottom: 0px;}
     .tile[data-d="4"]{border-left: 0px;}
     .tile[data-d="6"]{border-right: 0px;}
     .tile[data-d="8"]{border-top: 0px;}
-    .tile[data-d="0"]{color: #f00;}
+    /* .tile[data-d="0"]{color: #f00; z-index: 99; --c: #f000;} */
+    .tile[data-d="0"]{color: #f00;
+        z-index: 99; 
+        --c: #f000;
+        background-color: #f00; 
+        background-image: linear-gradient(var(--deg2), #0000 40%, var(--c) 40%, var(--c) 60%, #0000 60%);
+        transform: translate(0px, 0px) scale(.5);
+    }
+    .tile:hover {
+        color: #333;
+        z-index: 50;
+    }
 /* 
     .tile[data-d="2"]{transform: translate(0px, 4px) scale(1.5);}
     .tile[data-d="4"]{transform: translate(-4px, 0px) scale(1.5);}
