@@ -59,10 +59,6 @@
     const s = {
         h: window.innerHeight,
         w: window.innerWidth,
-        screenSz: Math.sqrt(window.innerWidth*window.innerWidth+window.innerHeight*window.innerHeight),
-        h2: window.innerHeight/2,
-        w2: window.innerWidth/2,
-        d2: Math.sqrt(window.innerWidth*window.innerWidth/4+window.innerHeight*window.innerHeight/4),
 
         touch: {
             x: 0,
@@ -275,14 +271,10 @@
     }
 
     /* ─── Drawing (view) ─── */
-    var hueRange = 36;
+    var hueRange = 72;
     var hueBase = 195 - hueRange/2;
     var ghue = [];
-    var ghue2 = [];
-    var gsat = [];
     var glum = [];
-    var gls = {};
-    var gss = {};
     /* ─── (♦) ─── */
     function DrawGridXY1(ctx, grid){
         let xlen = s.cube.xlen;
@@ -338,8 +330,6 @@
         let xlen = s.cube.xlen;
         let ylen = s.cube.ylen;
         ghue = BuildGrid(xlen,ylen,0);
-        ghue2 = BuildGrid(xlen,ylen,0);
-        gsat = BuildGrid(xlen,ylen,0);
         glum = BuildGrid(xlen,ylen,0);
 
         for(let y = 1; y < ylen; y++){
@@ -351,30 +341,18 @@
                 let ny = -1;
                 let x1 = 0;
                 let y1 = 0;
-                let x1s = 0;
-                let y1s = 0;
                 // if(gsettings.xup > 0){nx = Math.round(((ex - e) / gsettings.xup) * 5) + x;}
                 // if(gsettings.yup > 0){ny = Math.round(((ey - e) / gsettings.yup) * 5) + y;}
                 if(gsettings.xup > 0){
                     x1 = Math.round((ex - e) / gsettings.xup);
-                    // x1 = Math.round((ex - e) / gsettings.xup * 100) / 100;
-                    // x1 = Math.round((ex - e) / gsettings.xup * 10) / 10;
-                    x1s = (ex - e) / gsettings.xup;
                     nx = Math.round(((ex - e) / gsettings.xup) * 5) + x;
                 }
                 if(gsettings.yup > 0){
                     y1 = Math.round((ey - e) / gsettings.yup);
-                    // y1 = Math.round((ey - e) / gsettings.yup * 100) / 100;
-                    // y1 = Math.round((ey - e) / gsettings.yup * 10) / 10;
-                    y1s = (ey - e) / gsettings.yup;
                     ny = Math.round(((ey - e) / gsettings.yup) * 5) + y;
                 }
-                // let a1 = XYtoCSSAngle(x1,y1);
-                // ghue[y][x] = a1;
-                // ghue[y][x] = XYtoCSSAngle(x1,y1);
-                ghue[y][x] = XYtoCSSAngle(x1,y1);
-                ghue2[y][x] = XYtoCSSAngle(x1s,y1s);
-                gsat[y][x] = Math.abs(x1s) + Math.abs(y1s);
+                let a1 = XYtoCSSAngle(x1,y1);
+                ghue[y][x] = a1;
                 if(isInGrid(glum,nx,ny)){
                     try {
                         glum[ny][nx] += 1;
@@ -385,19 +363,18 @@
             }
         }
         HandleNoise(glum, fup3["smooth-4-float"]);
-        gls = GridHighAndLow(glum);
-        // gss = GridHighAndLow(gsat);
+        let gls = GridHighAndLow(glum);
         for(let y = 0; y < ylen; y++){
             for(let x = 0; x < xlen; x++){
                 const e = grid[y][x];
                 let xn = x * s.cube.sz;
                 let yn = y * s.cube.sz;
-                // // let lum = glum[y][x] * (90 / gls.up) + 5;
-                // let lum = glum[y][x] * (80 / gls.up) + 10;
-                // // let lum = glum[y][x] * 5;
-                // // let hue = ghue[y][x] % 360;
-                // // let hue = ghue[y][x] % 36 - 18 + 195;
-                // // let hue = ghue[y][x] % 36 - 18 + hueShift;
+                // let lum = glum[y][x] * (90 / gls.up) + 5;
+                let lum = glum[y][x] * (80 / gls.up) + 10;
+                // let lum = glum[y][x] * 5;
+                // let hue = ghue[y][x] % 360;
+                // let hue = ghue[y][x] % 36 - 18 + 195;
+                // let hue = ghue[y][x] % 36 - 18 + hueShift;
 
                 // let dropds = 0;
                 // dropplets.forEach(drop => {
@@ -418,92 +395,20 @@
                 // let hueRange = 36;
                 // let hue = ghue[y][x] % hueRange - hueRange/2 + 195;
 
-                // let RangeShift = Math.cos(Math.PI*hueShift/180);
-                // let hueRange = 180 + RangeShift * 60;
-                // let hue = ghue[y][x] % hueRange - hueRange/2 + 195;
-                // // let hue = ghue[y][x] % hueRange - hueRange/2 + RangeShift * 195;
-
-                // let hue = ghue[y][x] % hueRange - hueRange/2 + hueShift;
-                
-                // // let hueBG = Math.sqrt(xn*xn + yn*yn);
-                // // let hueBG = Math.cos(Math.PI * Math.sqrt(xn*xn + yn*yn) / 1000) * 180 + 180;
-                // let hueBG = Math.cos(Math.PI * Math.sqrt(x*x + y*y) / 350) * 180 + 180;
-                // let hue = ghue[y][x] % hueRange - hueRange/2 + 195 + hueBG;
-                
-                // let p2c = D2Center(xn,yn);
-                // let hueBG = Math.cos(Math.PI * p2c) * 180 + 180;
-                // let hue = ghue[y][x] % hueRange - hueRange/2 + 195 + hueBG;
-
-                // let dropds = 0;
-                // dropplets.forEach(drop => {
-                //     let dropX = xn - drop.x;
-                //     let dropY = yn - drop.y;
-                //     // let dropD = Math.sqrt(dropX*dropX + dropY*dropY) / s.d2;
-                //     let dropD = Math.cos(Math.PI * Math.sqrt(dropX*dropX + dropY*dropY) / s.d2);
-                //     dropds += dropD;
-                // });
-                // dropShift = dropds/2 * 60;
-                // let hue = ghue[y][x] % 36 - 18 + dropShift + 195;
-                // // let hue = ghue[y][x] % 36 - 18 + dropShift + hueShift;
-
-                // // let hue = ghue[y][x] % 360;
-                // let hue = ghue[y][x] % 36 - 18 + 195;
-                // // let sat = gsat[y][x];
-                // let sat = gsat[y][x] / gss.up * 80 + 20;
-                // // let sat = gsat[y][x] / gss.up * 50 + 50;
-                
-                // let satp = gsat[y][x] / gss.up;
-                // let hueRan = ghue[y][x] / 10 * satp;
-                // let hue = ghue[y][x] / 10 * satp + 195;
-                // let hue = ghue[y][x] % (60 * satp) + 195;
-                // let sat = gsat[y][x] / gss.up * 100;
-
-                // // let hue = ghue[y][x] % 36 - 18 + 195;
-                // let hue = ghue[y][x] % 360;
-                // // let sat = gsat[y][x] / gss.up * 80 + 10;
-                // let lum = glum[y][x] / gls.up * 100;
-                // // let lum2 = glum[y][x] / gls.up * 30 + 50;
-                // // let lum = glum[y][x] / gls.up * 40 + sat/2;
-                
-                // let hue = ghue[y][x] % 360;
-                // let lum = glum[y][x] / gls.up * 100;
-
-                // let lump = glum[y][x] / gls.up;
-                // let lum = glum[y][x] / gls.up * 100;
-                // // let lum = glum[y][x] / gls.up * 95 + 5;
-                // let hue = (ghue[y][x] % 360 - 180) * lump + 195;
-
-                let lump = glum[y][x] / gls.up;
-                let lum = glum[y][x] / gls.up * 100;
-                // let hue = ghue2[y][x] % 360;
-                let hue = (ghue[y][x] % 36 - 18) + 195;
-                if(lump > 0.1){
-                    hue = (ghue2[y][x] % 360 - 180) + 195;
-                    let lum = glum[y][x] / gls.up * 90 + 10;
-                }
-
+                let RangeShift = Math.cos(Math.PI*hueShift/180);
+                let hueRange = 180 + RangeShift * 60;
+                let hue = ghue[y][x] % hueRange - hueRange/2 + 195;
+                // let hue = ghue[y][x] % hueRange - hueRange/2 + RangeShift * 195;
 
                 // let hue = e%360;
                 // let bg = `hsla(${hue}, 100%, 60%, .75)`;
                 // let bg = `hsla(${hue}, 100%, ${lum}%, .75)`;
                 // let bg = `hsla(195, 100%, ${lum}%, .75)`;
-                // let bg = `hsla(${hue}, 100%, ${lum}%, 1)`;
-                // let bg = `hsla(${hue}, 100%, ${sat}%, 1)`;
-                // let bg = `hsla(${hue}, ${sat}%, ${lum}%, 1)`;
-                // let bg = `hsla(${hue}, ${sat}%, ${sat}%, 1)`;
-                // let bg = `hsla(${hue}, ${lum2}%, ${lum}%, 1)`;
                 let bg = `hsla(${hue}, 100%, ${lum}%, 1)`;
                 ctx.fillStyle = bg;
                 ctx.fillRect(xn,yn,s.cube.sz,s.cube.sz);
             }
         }
-    }
-    function D2Center(x,y){
-        let dx = x - s.w2;
-        let dy = y - s.h2;
-        let dxy = Math.sqrt(dx*dx+dy*dy);
-        let p2c = dxy/s.d2;
-        return p2c;
     }
 
     var gsettings = {};  
@@ -524,10 +429,10 @@
             }
         }
         mid = sum / (xlen * ylen);
-        // gsettings["up"] = up;
-        // gsettings["dn"] = dn;
-        // gsettings["sum"] = sum;
-        // gsettings["mid"] = mid;
+        gsettings["up"] = up;
+        gsettings["dn"] = dn;
+        gsettings["sum"] = sum;
+        gsettings["mid"] = mid;
         return {"up": up, "dn": dn, "sum": sum, "mid": mid};
     }
     
@@ -1044,11 +949,8 @@
             // ray tracing step.
             DrawGridXY(ctx["canvas-draw"], main_grid);
 
-            hueShift++;
-            if(hueShift > 360) {
-                console.log("hueShift reset to 0.");
-                hueShift = hueShift % 360;
-            }
+            hueShift += 5;
+            if(hueShift > 360) {hueShift = hueShift % 360;}
         }
         setTimeout(() => {
             requestAnimationFrame(update);
@@ -1211,10 +1113,10 @@
         let di = Math.floor(Math.random()*2);
         let r = 1;
         let ra = 1;
-        // if(di == 0) {
-        //     r = 300;
-        //     ra = -1;
-        // }
+        if(di == 0) {
+            r = 300;
+            ra = -1;
+        }
         console.log(`sc: ${sc}, amp: ${amp}, di: ${di}, r: ${r}, ra: ${ra}`);
 
         dropplets.push({
@@ -1379,18 +1281,8 @@
     [index-nds-01]: Ray Tracing Color Shift
     [index-nds-02]: Ray Tracing Rainbowy
     [index-nds-03]: Ray Tracing Rainbowy Color Shift
-    [index-nds-04]: Ray Tracing with Strange Shifting
-    [index-nds-05]: +HueBG
-    [index-nds-06]: +HueBG in Center
-    [index-nds-07]: gsat
-    [index-nds-08]: gsat for glum
-    [index-nds-09]: Hue to 360, but deSaturated
-    [index-nds-10]: Hue to 360, but Saturated
-    [index-nds-11]: Hue in Lum
-    [index-nds-12]: Hue Lum Water
-    [index-nds-13]: Hue Lu2
-    [index-nds-14]: 
-    [index-nds-15]: 
+    [index-nds-04]: 
+    [index-nds-05]: 
     
     
     
@@ -1475,14 +1367,6 @@
            └──> fup3["smooth-4-float"]
               └─> if(isInGrid(g,nx,ny)){...}
         └─> let gls = GridHighAndLow(glum);
-*/
-/* Other Notes:
-
-Math.sqrt(s.w*s.w + s.h*s.h);
-1049.3050080886871
-
-Math.sqrt(s.cube.xlen*s.cube.xlen + s.cube.ylen*s.cube.ylen);
-349.7683360295624
 
 */
 </script>

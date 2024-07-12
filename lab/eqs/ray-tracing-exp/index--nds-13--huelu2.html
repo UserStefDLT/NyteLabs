@@ -278,7 +278,6 @@
     var hueRange = 36;
     var hueBase = 195 - hueRange/2;
     var ghue = [];
-    var ghue2 = [];
     var gsat = [];
     var glum = [];
     var gls = {};
@@ -338,7 +337,6 @@
         let xlen = s.cube.xlen;
         let ylen = s.cube.ylen;
         ghue = BuildGrid(xlen,ylen,0);
-        ghue2 = BuildGrid(xlen,ylen,0);
         gsat = BuildGrid(xlen,ylen,0);
         glum = BuildGrid(xlen,ylen,0);
 
@@ -372,8 +370,7 @@
                 // let a1 = XYtoCSSAngle(x1,y1);
                 // ghue[y][x] = a1;
                 // ghue[y][x] = XYtoCSSAngle(x1,y1);
-                ghue[y][x] = XYtoCSSAngle(x1,y1);
-                ghue2[y][x] = XYtoCSSAngle(x1s,y1s);
+                ghue[y][x] = XYtoCSSAngle(x1s,y1s);
                 gsat[y][x] = Math.abs(x1s) + Math.abs(y1s);
                 if(isInGrid(glum,nx,ny)){
                     try {
@@ -475,11 +472,10 @@
 
                 let lump = glum[y][x] / gls.up;
                 let lum = glum[y][x] / gls.up * 100;
-                // let hue = ghue2[y][x] % 360;
-                let hue = (ghue[y][x] % 36 - 18) + 195;
-                if(lump > 0.1){
-                    hue = (ghue2[y][x] % 360 - 180) + 195;
-                    let lum = glum[y][x] / gls.up * 90 + 10;
+                let hue = ghue[y][x] % 360;
+                if(lump < 0.1){
+                    hue = (ghue[y][x] % 36 - 18) + 195;
+                    let lum = glum[y][x] / gls.up * 80 + 10;
                 }
 
 
@@ -1388,7 +1384,7 @@
     [index-nds-10]: Hue to 360, but Saturated
     [index-nds-11]: Hue in Lum
     [index-nds-12]: Hue Lum Water
-    [index-nds-13]: Hue Lu2
+    [index-nds-13]: 
     [index-nds-14]: 
     [index-nds-15]: 
     
