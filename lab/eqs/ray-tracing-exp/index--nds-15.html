@@ -349,8 +349,8 @@
                 const ey = grid[y-1][x];
                 let nx = -1;
                 let ny = -1;
-                let ex1 = 0;
-                let ey1 = 0;
+                // let ex1 = 0;
+                // let ey1 = 0;
                 let x1 = 0;
                 let y1 = 0;
                 let x2 = 0;
@@ -360,7 +360,7 @@
                 // if(gsettings.xup > 0){nx = Math.round(((ex - e) / gsettings.xup) * 5) + x;}
                 // if(gsettings.yup > 0){ny = Math.round(((ey - e) / gsettings.yup) * 5) + y;}
                 if(gsettings.xup > 0){
-                    ex1 = ex - e;
+                    // ex1 = ex - e;
                     x1s = (ex - e) / gsettings.xup;
                     x1 = Math.round(x1s);
                     x2 = Math.round(x1s * 100) / 100;
@@ -368,21 +368,21 @@
                     nx = Math.round(x1s * 5) + x;
                 }
                 if(gsettings.yup > 0){
-                    ey1 = ey - e;
+                    // ey1 = ey - e;
                     y1s = (ey - e) / gsettings.yup;
                     y1 = Math.round(y1s);
                     y2 = Math.round(y1s * 100) / 100;
                     // y1 = Math.round((ey - e) / gsettings.yup * 10) / 10;
                     ny = Math.round(y1s * 5) + y;
                 }
-                let x5 = XYtoCSSAngle(s.cube.sz, x1s * 5);
-                let y5 = XYtoCSSAngle(s.cube.sz, y1s * 5);
-                if(x==100 && y==100){
-                    // console.log(`gsettings.xup: ${gsettings.xup}, gsettings.yup:${gsettings.yup}`);
-                    // console.log(`nx:${nx}, ny:${ny}, x2: ${x2}, y2: ${y2}, ex1: ${ex1}, ey1: ${ey1}.`);
-                    // console.log(`nx: ${nx}, ny: ${ny}.`);
-                    console.log(`x5: ${x5}, y5: ${y5}`);
-                }
+                // let x5 = XYtoCSSAngle(s.cube.sz, x1s * 5);
+                // let y5 = XYtoCSSAngle(s.cube.sz, y1s * 5);
+                // if(x==100 && y==100){
+                //     // console.log(`gsettings.xup: ${gsettings.xup}, gsettings.yup:${gsettings.yup}`);
+                //     // console.log(`nx:${nx}, ny:${ny}, x2: ${x2}, y2: ${y2}, ex1: ${ex1}, ey1: ${ey1}.`);
+                //     // console.log(`nx: ${nx}, ny: ${ny}.`);
+                //     console.log(`x5: ${x5}, y5: ${y5}`);
+                // }
 
                 // let a1 = XYtoCSSAngle(x1,y1);
                 // ghue[y][x] = a1;
@@ -500,7 +500,7 @@
 
                 // let hue = ghue[y][x] % 36 - 18 + 195;
                 // let hue = 195;
-                let hue = glum[y][x] * 5 % 360 + ghue[y][x] % 36 + 180;
+                let hue = glum[y][x] * 5 % 360;
                 let lum = glum[y][x] * (80 / gls.up) + 10;
 
 
