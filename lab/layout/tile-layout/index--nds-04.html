@@ -56,7 +56,6 @@ width: var(--w);
     transition: border-radius 200ms ease-in-out, transform 400ms ease-in-out;
     transition: border-radius 400ms ease-in-out, transform 400ms ease-in-out;
     overflow: hidden;
-    transform-style: preserve-3d;
 }
 .tile:hover {
 border-radius: 50%;
@@ -82,27 +81,19 @@ transform: translateX(-50%) translateY(-50%) rotate(90deg);
 
 
 .item {
-    /* color: #fff; text-shadow: 2px 2px 2px #3339; */
-    color: #000;
+    color: #fff; text-shadow: 2px 2px 2px #3339;
     font-size: 150px;
     font-size: 100px;
-    font-size: 48px;
+    font-size: 50px;
     transition: transform 400ms ease-in-out;
     transition: transform 400ms ease-in-out, font-size 400ms ease-in-out;
-    transform-style: preserve-3d;
-    transform: rotate(0deg) scale(1);
 }
 .tile:hover .item {
-    /* font-size: 150px; */
-    /* font-size: 100px; */
-    transform: rotate(-90deg) rotate3d(1,-1,0,45deg);
+    font-size: 150px;
+    font-size: 100px;
+    transform: rotate(-90deg);
 }
 
-.tile:hover .placeholder-number {
-    transform: rotate(-90deg) scale(2);
-}
-
-.item path {fill: #000;}
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
     <link rel="stylesheet" href="../../../stylesheets/end.css">
@@ -123,137 +114,76 @@ transform: translateX(-50%) translateY(-50%) rotate(90deg);
         <div id="display">
             <div id="grid" class="grid">
                 <div class="tile">
-                    <div class="item" id="item--sword">
-                        <svg width="100" height="100" viewBox="0 0 100 100">
-                            <path
-                            d="M 50,10
-                                L 55,15 L 55,70
-                                L 65,70 L 60,75
-                                L 53,75 
-                                L 53,88
-                                A 04,02 0,1,1 47,88
-                                L 47,88
-                                L 47,75
-                                L 40,75 L 35,70
-                                L 45,70 L 45,15 z" />
-                        </svg>
-                    </div>
+                    <div class="item">1</div>
                 </div>
                 <div class="tile">
-                    <div class="item" id="item--shield">
-                        <svg width="100" height="100" viewBox="0 0 100 100">
-                            <path
-                              d="M 50,10
-                                     C 55,15 70,30 80,30
-                                     C 80,35 60,90 50,90
-                                     C 40,90 20,35 20,30
-                                     C 30,30 45,15 50,10 z" />
-                        </svg>
-                    </div>
+                    <div class="item">2</div>
                 </div>
                 <div class="tile">
-                    <div class="item" id="item--potion">
-                        <svg width="100" height="100" viewBox="0 0 100 100">
-                            <path
-                               d="M 55,20
-                                      L 55,50
-                                      A 20,20 0,1,1 45,50
-                                      L 45,20 z" />
-                        </svg>
-                    </div>
+                    <div class="item">3</div>
                 </div>
                 <div class="tile">
-                    <div class="item" id="item--gem">
-                        <svg width="100" height="100" viewBox="0 0 100 100">
-                            <path
-                            d="M 50,15
-                                l 20 20 v 30
-                                l -20 20 l -20 -20 v -30 z" />
-                        </svg>
-                    </div>
+                    <div class="item">4</div>
                 </div>
                 <div class="tile">
-                    <div class="item" id="item--book">
-                        <svg width="100" height="100" viewBox="0 0 100 100">
-                            <path 
-                            d="M 50,10
-                                L 80,30
-                                L 50,80
-                                L 21,60
-                                L 21,65 L 50,84.5 L 79,35.5
-                                L 80,36 L 50,86 L 20,66 L 20,60 z" />
-                        </svg>
-                    </div>
+                    <div class="item">5</div>
                 </div>
                 <div class="tile">
-                    <div class="item" id="item--mushroom">
-                        <svg width="100" height="100" viewBox="0 0 100 100">
-                            <path
-                            d="M 50,20
-                                Q 75,20 80,50
-                                Q 70,60 58,60 
-                                L 58,60 
-                                L 60,80
-                                A 10,05 0,1,1 40,80
-                                L 40,80 L 42,60 
-                                Q 30,60 20,50 
-                                Q 25,20 50,20 z" />
-                        </svg>
-                    </div>
+                    <div class="item">6</div>
                 </div>
                 <div class="tile">
-                    <div class="item placeholder-number">7</div>
+                    <div class="item">7</div>
                 </div>
                 <div class="tile">
-                    <div class="item placeholder-number">8</div>
+                    <div class="item">8</div>
                 </div>
                 <div class="tile">
-                    <div class="item placeholder-number">9</div>
+                    <div class="item">9</div>
                 </div>
                 <div class="tile">
-                    <div class="item placeholder-number">10</div>
+                    <div class="item">10</div>
                 </div>
                 <div class="tile">
-                    <div class="item placeholder-number">11</div>
+                    <div class="item">11</div>
                 </div>
                 <div class="tile">
-                    <div class="item placeholder-number">12</div>
+                    <div class="item">12</div>
                 </div>
                 <div class="tile">
-                    <div class="item placeholder-number">13</div>
+                    <div class="item">13</div>
                 </div>
                 <div class="tile">
-                    <div class="item placeholder-number">14</div>
+                    <div class="item">14</div>
                 </div>
                 <div class="tile">
-                    <div class="item placeholder-number">15</div>
+                    <div class="item">15</div>
                 </div>
                 <div class="tile">
-                    <div class="item placeholder-number">16</div>
+                    <div class="item">16</div>
                 </div>
                 <div class="tile">
-                    <div class="item placeholder-number">17</div>
+                    <div class="item">17</div>
                 </div>
                 <div class="tile">
-                    <div class="item placeholder-number">18</div>
+                    <div class="item">18</div>
                 </div>
                 <div class="tile">
-                    <div class="item placeholder-number">19</div>
+                    <div class="item">19</div>
                 </div>
                 <div class="tile">
-                    <div class="item placeholder-number">20</div>
+                    <div class="item">20</div>
                 </div>
                 <div class="tile">
-                    <div class="item placeholder-number">21</div>
+                    <div class="item">21</div>
                 </div>
                 <div class="tile">
-                    <div class="item placeholder-number">22</div>
+                    <div class="item">22</div>
                 </div>
                 <div class="tile">
-                    <div class="item placeholder-number">23</div>
+                    <div class="item">23</div>
                 </div>
                 <div class="tile">
-                    <div class="item placeholder-number">24</div>
+                    <div class="item">24</div>
                 </div>
             </div>
         </div>
