@@ -49,7 +49,7 @@ width: var(--w);
 
     position: relative;
     display: flex; align-items: center; justify-content: center;
-    /* background-image: linear-gradient(135deg, var(--bg1), var(--bg2)); */
+    background-image: linear-gradient(135deg, var(--bg1), var(--bg2));
     margin: calc(var(--w) / 200);
     cursor: pointer;
     user-select: none;
@@ -58,27 +58,9 @@ width: var(--w);
     overflow: hidden;
     transform-style: preserve-3d;
 }
-/* .tile:hover {
+.tile:hover {
 border-radius: 50%;
 transform: rotate(90deg);
-transition: border-radius 400ms ease-in-out, transform 400ms ease-in-out;
-} */
-.tile::before {
-    content: '';
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: rotate(0deg) translateX(-50%) translateY(-50%);
-    transform: translateX(-50%) translateY(-50%) rotate(0deg);
-    background-image: linear-gradient(135deg, var(--bg1), var(--bg2));
-    height: var(--tile-sz);
-    width: var(--tile-sz);
-    transition: border-radius 400ms ease-in-out, transform 400ms ease-in-out;
-    z-index: -1;
-}
-.tile:hover::before {
-border-radius: 50%;
-transform: rotate(90deg) translateX(-50%) translateY(-50%);
-transform: translateX(-50%) translateY(-50%) rotate(90deg);
 /* transition: border-radius 400ms ease-in-out, transform 400ms ease-in-out; */
 }
 
@@ -109,28 +91,11 @@ transform: translateX(-50%) translateY(-50%) rotate(90deg);
     transition: transform 400ms ease-in-out, font-size 400ms ease-in-out;
     transform-style: preserve-3d;
     transform: rotate(0deg) scale(1);
-
-    /* animation: gloss 900ms ease-in-out infinite both; */
-    /* animation-play-state: paused; */
 }
 .tile:hover .item {
     /* font-size: 150px; */
     /* font-size: 100px; */
     transform: rotate(-90deg) rotate3d(1,-1,0,45deg);
-    transform: rotate3d(1,-1,0,45deg);
-    animation: gloss 6s ease-in-out infinite both;
-    animation-play-state: running;
-    animation-delay: -450ms;
-}
-@keyframes gloss {
-    0% {transform: rotate3d(0,1,0,-45deg) rotate3d(1,0,0,15deg);}
-    50% {transform: rotate3d(0,1,0,45deg) rotate3d(1,0,0,15deg);}
-    100% {transform: rotate3d(0,1,0,-45deg) rotate3d(1,0,0,15deg);}
-}
-@keyframes gloss-1 {
-    0% {transform: rotate(-90deg) rotate3d(0,1,0,-45deg) rotate3d(1,0,0,15deg);}
-    50% {transform: rotate(-90deg) rotate3d(0,1,0,45deg) rotate3d(1,0,0,15deg);}
-    100% {transform: rotate(-90deg) rotate3d(0,1,0,-45deg) rotate3d(1,0,0,15deg);}
 }
 
 .tile:hover .placeholder-number {
@@ -148,7 +113,7 @@ transform: translateX(-50%) translateY(-50%) rotate(90deg);
         <h1 class="title">NyteLabs</h1>
         <!-- <div class="subtitle">Tile Layout 💠</div> -->
     </header>
-    <input type="checkbox" name="toggle" id="toggleAnimation" checked>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
     <input type="checkbox" name="toggle" id="toggleLights">
 
