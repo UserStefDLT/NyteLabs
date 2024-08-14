@@ -29,16 +29,6 @@
         display: flex; align-items: center; justify-content: center;
         /* --bg: repeating-conic-gradient(#000 0deg 10deg, #fff 10deg 20deg); */
         /* background: var(--bg); */
-        
-        height: 600px; width: 300px;
-        height: 500px; width: 90vw;
-        border-radius: 15px;
-        overflow: hidden;
-    }
-    @media (max-width: 400px) {
-        .circles {
-            height: 500px; width: 300px;
-        }
     }
     .c {--bg: hsla(calc(var(--i) * 15), 100%, 20%, 1);}
     .c:nth-child(1) {--bg: hsla(170, 70%, 40%, 1);}
@@ -91,9 +81,7 @@
         
         border-radius: 50%;
         --scl: calc(1 - (var(--i) * .075));
-        --scl: calc(2 - (var(--i) * .075));
-        --adur: calc(2500ms + (var(--i) * 1250ms));
-
+        /* --scl: calc(2 - (var(--i) * .075)); */
         /* mix-blend-mode: hard-light; */
         /* mix-blend-mode: luminosity; */
         /* mix-blend-mode: normal; */
@@ -118,21 +106,6 @@
     .z {display: none;}
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
-    <style>
-        #toggleColors,
-        #CheckboxID-01 {display: none;}
-        #toggleColors:checked ~ .options .toggleCheckboxLabel[for="toggleColors"],
-        #CheckboxID-01:checked ~ .options .toggleCheckboxLabel[for="CheckboxID-01"] {
-            color: var(--bwe);
-            --clr-outline: var(--bwc);
-            --bgc-before: #063;
-            --bgc-after: #0c6;
-            --ttx-after: 1rem;
-        }
-        #toggleColors:checked ~ main .c {
-            --hue: calc(var(--i) * 20);
-        }
-    </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
@@ -144,26 +117,12 @@
     <input type="checkbox" name="toggle" id="toggleAnimation" checked>
     <input type="checkbox" name="toggle" id="toggleOpacity">
     <input type="checkbox" name="toggle" id="toggleLights">
-    <input type="checkbox" name="toggle" id="toggleColors">
 
 <main>
     <div class="shelf">
         <h3 class="shelf-title">experiment</h3>
         <div id="display">
             <div class="circles">
-                <div class="c"></div>
-                <div class="c"></div>
-                <div class="c"></div>
-                <div class="c"></div>
-                <div class="c"></div>
-                <div class="c"></div>
-                <div class="c"></div>
-                <div class="c"></div>
-                <div class="c"></div>
-                <div class="c"></div>
-                <div class="c"></div>
-                <div class="c"></div>
-
                 <div class="c"></div>
                 <div class="c"></div>
                 <div class="c"></div>
@@ -184,7 +143,6 @@
 
 <div class="options">
     <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
-    <label for="toggleColors" class="toggleCheckboxLabel" data-toggle="Colors">Colors</label>
     <!-- <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label> -->
     <!-- <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label> -->
 </div>
