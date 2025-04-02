@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Grid Heatwave | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        /* :root {} */
+    </style>
+<style>
+:root {
+    --bw0: #000;
+    --bw1: #111;
+    --bw8: #888;
+    --bwf: #fff;
+    --clr-t: transparent;
+
+    --clr-1: #f93; --clr-1-mid: #963; --clr-1-dark: #630; --bgs-1: #9633;
+    --clr-2: #9f3; --clr-2-mid: #693; --clr-2-dark: #360; --bgs-2: #6933;
+    --clr-3: #3f9; --clr-3-mid: #396; --clr-3-dark: #063; --bgs-3: #3963;
+    --clr-4: #39f; --clr-4-mid: #369; --clr-4-dark: #036; --bgs-4: #3693;
+    --clr-5: #93f; --clr-5-mid: #639; --clr-5-dark: #306; --bgs-5: #6393;
+    --clr-6: #f39; --clr-6-mid: #936; --clr-6-dark: #603; --bgs-6: #9363;
+
+    --bs4-4: #39f4; --bs4-4: hsla(210, 100%, 60%, 0.267); 
+    --bs4-4-mid: #3694; --bs4-4-mid: hsla(210, 50%, 40%, 0.267); 
+    --bs4-4-mid: #06c4; --bs4-4-mid: #0066cc44; 
+    --bs4-4-dark: #0364; --bs4-4-dark: hsla(210, 100%, 20%, 0.267);
+
+    --bs4-1: #f934; --bs4-1-mid: #9634; --bs4-1-dark: #6304;
+    --bs4-2: #9f34; --bs4-2-mid: #6934; --bs4-2-dark: #3604;
+    --bs4-3: #3f94; --bs4-3-mid: #3964; --bs4-3-dark: #0634;
+    --bs4-4: #39f4; --bs4-4-mid: #3694; --bs4-4-dark: #0364;
+    --bs4-5: #93f4; --bs4-5-mid: #6394; --bs4-5-dark: #3064;
+    --bs4-6: #f394; --bs4-6-mid: #9364; --bs4-6-dark: #6034;
+    
+    --h-045: hsla(045deg, 100%, 60%, 1);
+    --h-135: hsla(135deg, 100%, 60%, 1);
+    --h-225: hsla(225deg, 100%, 60%, 1);
+    --h-315: hsla(315deg, 100%, 60%, 1);
+
+    --hue-1: 30;
+    --hue-2: 90;
+    --hue-3: 150;
+    --hue-4: 210;
+    --hue-5: 270;
+    --hue-6: 330;
+
+}
+/* *::before, *::after {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+} */
+.grid-h {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin: 2rem 0;
+}
+.bar-container-2,
+.bar-container {
+    position: relative;
+    height: 324px; 
+    width: 34px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-direction: row;
+    padding-bottom: 2px;
+    margin: 0 3px;
+    outline: 1px dashed #8888;
+}
+.bar {
+    position: relative;
+    min-height: 5px;
+    width: 30px;
+}
+.bar-container:hover .bar {
+    outline: 1px solid #fff;
+    outline-offset: -1px;
+}
+.bar::after {
+    content: attr(data-id);
+    position: absolute;
+    top: 100%; left: 50%;
+    transform: translateX(-50%) translateY(50%);
+}
+.bar::before {
+    content: attr(data-h);
+    position: absolute;
+    /* top: 100%; left: 50%;
+    transform: translateX(-50%) translateY(-320px) rotate(-90deg);
+    transform: translateX(-50%) translateY(-330px) rotate(-60deg); */
+    top: 0%; left: 50%;
+    transform: translateX(-50%) translateY(-120%) rotate(0deg);
+    color: hsla(210, 100%, 100%, .5);
+}
+.bar-container:hover .bar::before {
+    color: hsla(210, 100%, 100%, 1);
+}
+
+
+.bar-2 {
+    position: relative;
+    min-height: 5px;
+    width: 15px;
+    width: 12px;
+    margin: 0 2px;
+}
+.bar-container-2:hover .bar-2 {
+    outline: 1px solid #fff;
+    outline-offset: -1px;
+}
+.bar-container-2::after {
+    content: attr(data-id);
+    position: absolute;
+    top: 100%; left: 50%;
+    transform: translateX(-50%) translateY(50%);
+}
+
+.bar, .bar-2 {
+    --hue: 210;
+    --clr: hsla(var(--hue), 100%, 60%, 1);
+    --clr-dark: hsla(var(--hue), 100%, 20%, 1);
+    --bs4: hsla(var(--hue), 100%, 60%, .3);
+    --bs4-dark: hsla(var(--hue), 100%, 20%, .3);
+    /* background-image: linear-gradient(-30deg, var(--bs4-dark), var(--bs4));
+    box-shadow: 
+    0px 0px 4px 2px var(--clr),
+    inset 1px 1px 0px 0px var(--clr),
+    inset -1px -1px 0px 0px var(--clr-dark); */
+}
+
+
+.bar-2::before {
+    content: attr(data-h);
+    position: absolute;
+    top: 0%; left: 50%;
+    transform: translateX(-50%) translateY(-150%) rotate(-60deg);
+    transform: translateX(-50%) translateY(-150%) rotate(-90deg);
+    color: hsla(var(--hue), 100%, 60%, .5);
+    font-size: 10px;
+    transition: 
+    transform 100ms ease-in-out,
+    font-size 100ms ease-in-out;
+}
+.bar-container-2:hover .bar-2::before {
+    font-size: 14px;
+    transform: translateX(-50%) translateY(-150%) rotate(-60deg);
+    transform: translateX(-50%) translateY(-150%) rotate(0deg);
+    transform: translateX(-50%) translateY(var(--tY)) rotate(0deg);
+    transform: translateX(-50%) translateY(-150%) rotate(-60deg);
+    color: hsla(var(--hue), 100%, 60%, 1);
+}
+
+
+.mid-line {
+    --clr-a: var(--clr-6);
+    --clr-b: var(--clr-3);
+    /* --clr-a: #fffa;
+    --clr-b: #fffa; */
+    --clr-a: var(--clr-5);
+    --clr-b: var(--clr-5);
+    position: absolute;
+    bottom: 2px; left: 50%;
+    transform: translateX(-50%);
+    height: 300px; 
+    background-image: 
+    linear-gradient(180deg, var(--clr-t) 50px, var(--clr-b) 50px, var(--clr-t) 51px ),
+    linear-gradient(180deg, var(--clr-t) 150px, var(--clr-a) 150px, var(--clr-t) 151px ),
+    linear-gradient(180deg, var(--clr-t) 250px, var(--clr-b) 250px, var(--clr-t) 251px );
+    /* z-index: 5; */
+}
+
+[data-h="1"] {--h: 1;}
+[data-h="2"] {--h: 2;}
+[data-h="3"] {--h: 3;}
+[data-h="4"] {--h: 4;}
+[data-h="5"] {--h: 5;}
+[data-h="6"] {--h: 6;}
+[data-h="7"] {--h: 7;}
+[data-h="8"] {--h: 8;}
+[data-h="9"] {--h: 9;}
+[data-h="10"] {--h: 10;}
+[data-h] {height: calc(var(--h) * 30px);}
+
+
+input[type="radio"] {display: none;}
+label {
+    --clr-left: var(--clr-4);
+    --clr-dark-left: var(--clr-4-dark);
+    --clr-right: var(--clr-1);
+    --clr-dark-right: var(--clr-1-dark);
+    position: relative;
+    /* min-height: 6rem; */
+    min-width: 6rem;
+    margin: .125rem;
+    padding: .25rem .5rem;
+    border-radius: .125rem;
+    color: #fff;
+    text-shadow: 2px 2px 2px #1119;
+    cursor: pointer;
+    user-select: none;
+
+    /* background-image: linear-gradient(120deg, var(--bs4-4-dark), var(--bs4-1-dark)); */
+}
+label:hover { outline: 1px solid #fffc; outline-offset: 2px; }
+[for="style--fill"] {background-image: linear-gradient(120deg, var(--clr-4) 50%, var(--clr-1) 50%);}
+[for="style--ghost"] {background-image: linear-gradient(120deg, var(--bs4-4), var(--bs4-1));}
+[for="style--ghost"],
+[for="style--glow"] {
+    box-shadow: 
+    -1px -1px 3px 0px var(--clr-left),
+    inset 1px 1px 0px 0px var(--clr-left),
+    /* inset -1px -1px 0px 0px var(--clr-dark-left), */
+    1px 1px 3px 0px var(--clr-right),
+    /* inset -1px -1px 0px 0px var(--clr-right), */
+    inset -1px -1px 0px 0px var(--clr-dark-right);
+}
+
+:where(#style--fill:checked, #style--ghost:checked, #style--glow:checked) ~ main label::before,
+:where(#style--fill:checked, #style--ghost:checked, #style--glow:checked) ~ main label::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: -2;
+}
+#style--fill:checked ~ main label[for="style--fill"]::before,
+#style--ghost:checked ~ main label[for="style--ghost"]::before,
+#style--glow:checked ~ main label[for="style--glow"]::before {
+    height: 2rem; width: 2rem;
+    height: 1rem; width: 1rem;
+    height: 1.25rem; width: 1.25rem;
+    color: #fc0;
+    border-radius: .125rem;
+    transform: translateX(-50%) translateY(-50%) rotate(45deg);
+    box-shadow: 
+    6px 6px 0 0px #fc0,
+    -6px -6px 0 0px #fc0;
+}
+#style--fill:checked ~ main label[for="style--fill"]::after,
+#style--ghost:checked ~ main label[for="style--ghost"]::after,
+#style--glow:checked ~ main label[for="style--glow"]::after {
+    height: 150%; width: 110%;
+    border-radius: .5rem;
+    background: #000;
+    box-shadow: 
+    inset 0 6px 0 -4px #fc0,
+    inset 0 -6px 0 -4px #fc0;
+
+    background: hsla(210, 0%, 5%, 100%);
+    height: 125%; width: 115%;
+    box-shadow: 
+    0 6px 0 -4px #fc0,
+    0 -6px 0 -4px #fc0;
+}
+
+/* #style--fill:checked ~ main [for="style--fill"] {background-image: linear-gradient(120deg, var(--clr-4) 50%, var(--clr-1) 50%);}
+#style--ghost:checked ~ main [for="style--ghost"] {background-image: linear-gradient(120deg, var(--clr-4) 50%, var(--clr-1) 50%);}
+#style--glow:checked ~ main [for="style--glow"] {background-image: linear-gradient(120deg, var(--clr-4) 50%, var(--clr-1) 50%);} */
+
+.bar,
+.bar-2:nth-of-type(1) {--hue: var(--hue-4);}
+.bar-2:nth-of-type(2) {--hue: var(--hue-1);}
+.bar, .bar-2 {
+    --hue: 210;
+    --clr: hsla(var(--hue), 100%, 60%, 1);
+    --clr-dark: hsla(var(--hue), 100%, 20%, 1);
+    --bs4: hsla(var(--hue), 100%, 60%, .3);
+    --bs4-dark: hsla(var(--hue), 100%, 20%, .3);
+}
+
+#style--fill:checked ~ main .bar,
+#style--fill:checked ~ main .bar-2:nth-of-type(1) {background-image: linear-gradient(-30deg, var(--clr-dark), var(--clr));}
+#style--fill:checked ~ main .bar-2:nth-of-type(2) {background-image: linear-gradient(-30deg, var(--clr-dark), var(--clr));}
+
+#style--glow:checked ~ main .bar,
+#style--glow:checked ~ main .bar-2,
+#style--ghost:checked ~ main .bar,
+#style--ghost:checked ~ main .bar-2 {
+    box-shadow: 
+    0px 0px 4px 2px var(--clr),
+    inset 1px 1px 0px 0px var(--clr),
+    inset -1px -1px 0px 0px var(--clr-dark);
+}
+#style--ghost:checked ~ main .bar,
+#style--ghost:checked ~ main .bar-2:nth-of-type(1) {background-image: linear-gradient(-30deg, var(--bs4-dark), var(--bs4));}
+#style--ghost:checked ~ main .bar-2:nth-of-type(2) {background-image: linear-gradient(-30deg, var(--bs4-dark), var(--bs4));}
+#style--ghost:checked ~ main .bar-container:hover .bar,
+#style--ghost:checked ~ main .bar-container-2:hover .bar-2:nth-of-type(1) {background-image: linear-gradient(-30deg, var(--clr-dark), var(--clr));}
+#style--ghost:checked ~ main .bar-container-2:hover .bar-2:nth-of-type(2) {background-image: linear-gradient(-30deg, var(--clr-dark), var(--clr));}
+
+</style>
+<style>
+.grid-v {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.row-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+.row-container:hover {
+    outline: 1px dashed #8888;
+}
+[class*="node"] {
+    position: relative;
+    min-height: 16px; min-width: 16px;
+    min-height: 1em; min-width: 1em;
+    min-height: 2rem; min-width: 2rem;
+    max-height: 30px; max-width: 30px;
+    border-radius: 50%;
+    /* box-shadow: 0 0 1px 1px #8888; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+
+    min-height: 2em; min-width: 2em;
+    font-size: 18px;
+    margin: 2px;
+}
+[class*="node"]:hover {
+    outline: 1px solid #fff;
+    outline-offset: 2px;
+}
+[class*="node"]::before,
+[class*="node"]::after {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    height: 100%; width: 100%;
+    border-radius: 50%;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+[class*="node"]::before {content: attr(data-val);}
+[class*="node"]::after {
+    /* content: attr(data-id); */
+    background: #0d0d0d;
+    opacity: 0;
+    transition: opacity 200ms ease-in-out;
+}
+[class*="node"]:hover::after {opacity: 1;}
+
+/* [data-row="4"] {outline: 1px solid #39f;}
+[data-col="7"] {outline: 1px solid #39f;} */
+/* [data-row="4"][data-col="7"] {outline: 1px solid #39f;} */
+/* [data-row="7"][data-col="7"] {outline: 1px solid #39f;} */
+/* [data-row="13"][data-col="13"] {outline: 1px solid #39f;} */
+[data-row="10"][data-col="14"] {outline: 1px solid #39f;}
+
+label {
+    max-width: 8rem;
+    margin: .5rem .25rem;
+}
+.grid-update-btn {
+    min-width: 6rem;
+    margin: .125rem;
+    padding: .25rem .5rem;
+
+    max-width: 8rem;
+    margin: .5rem .25rem;
+
+    background-color: transparent;
+    border-radius: 2rem;
+    border: none;
+    
+    color: #fff;
+    text-shadow: 2px 2px 2px #1119;
+    cursor: pointer;
+    user-select: none;
+    transition: box-shadow 200ms ease-in-out;
+}
+.grid-update-btn:hover {
+    outline: 1px solid #fffc; outline-offset: 2px; 
+}
+
+.grid-update-btn {
+    --clr-left: var(--clr-4);
+    --clr-dark-left: var(--clr-4-dark);
+    --clr-right: var(--clr-1);
+    --clr-dark-right: var(--clr-1-dark);
+
+    --fill-bgi: linear-gradient(-30deg, var(--clr-4), var(--clr-1));
+    --ghost-bgi: linear-gradient(120deg, var(--bs4-4), var(--bs4-1));
+    --glow-shadow: 
+    0px 0px 4px 2px var(--clr),
+    inset 1px 1px 0px 0px var(--clr),
+    inset -1px -1px 0px 0px var(--clr-dark);
+    --glow-shadow: 
+    -1px -1px 3px 0px var(--clr-left),
+    inset 1px 1px 0px 0px var(--clr-left),
+    1px 1px 3px 0px var(--clr-right),
+    inset -1px -1px 0px 0px var(--clr-dark-right);
+}
+#style--fill:checked ~ main .grid-update-btn {background-image: var(--fill-bgi);}
+#style--ghost:checked ~ main .grid-update-btn {background-image: var(--ghost-bgi);}
+#style--ghost:checked ~ main .grid-update-btn,
+#style--glow:checked ~ main .grid-update-btn {box-shadow: var(--glow-shadow);}
+
+/* Styles for the nodes. */
+[class*="node"] {
+    --val: 0;
+    --vhue: calc(var(--val) * 360);
+    --valp: calc(var(--val) * 1);
+    --vhclr: hsla(var(--vhue), 100%, 60%, var(--valp));
+    --vhclr-dark: hsla(var(--vhue), 100%, 20%, var(--valp));
+
+    --valp-shw: calc(var(--val) * .5);
+    --vhclr-shw: hsla(var(--vhue), 100%, 60%, var(--valp-shw));
+    --vhclr-shw-dark: hsla(var(--vhue), 100%, 20%, var(--valp-shw));
+    
+    transition: 
+    box-shadow 200ms ease-in-out,
+    background-color 200ms ease-in-out;
+    
+    transition: 
+    background-color 100ms ease-in-out;
+}
+
+#style--fill:checked ~ main [class*="node"] {
+    background-color: var(--vhclr);
+    /* Color of the Fill Style ♦ */
+    /* background-image: linear-gradient(-30deg, var(--vhclr-dark), var(--vhclr)); */
+    /* box-shadow: inset 0 0 2px 1px var(--vhclr-dark); */
+}
+#style--ghost:checked ~ main [class*="node"] {background-color: var(--vhclr-shw);}
+#style--ghost:checked ~ main [class*="node"],
+#style--glow:checked ~ main [class*="node"] {
+    box-shadow: 
+    0px 0px 4px 2px var(--vhclr),
+    inset 0px 0px 2px 0px var(--vhclr),
+    inset 0px 0px 0px 1px var(--vhclr),
+    inset 0px 0px 4px 2px var(--vhclr-shw);
+}
+
+/* spaced out vs compact */
+
+/* #style-spacing--overlap:checked ~ main [for="style-spacing--overlap"] {
+    --fsz: 18px;
+    --margin: -4px;
+    --trX: -2em;
+}
+#style-spacing--spaced:checked ~ main [for="style-spacing--spaced"] {
+    --fsz: 16px;
+    --margin: 2px;
+    --trX: 2em;
+} */
+[for="style-spacing--overlap"] {
+    --fsz: 18px;
+    --margin: 0 -4px;
+    --margin-add: -4px;
+    --trX: .75em;
+}
+[for="style-spacing--spaced"] {
+    --fsz: 16px;
+    --margin: 0 2px;
+    --margin-add: 2px;
+    --trX: 1.125em;
+}
+
+
+
+.node-in-btn:nth-of-type(1) {--tDist: calc(var(--trX) * -1);}
+.node-in-btn:nth-of-type(2) {--tDist: calc(var(--trX) * 1);}
+.node-in-btn {
+    font-size: var(--fsz)!important;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    /* --tDist: calc(var(--trX) * 1); */
+    margin: var(--margin)!important;
+    /* transform: translateX(calc(var(--tDist) - 1em - var(--margin-add))) translateY(calc(-1em - var(--margin-add))); */
+    transform: translateX(calc(var(--tDist) - 1em - var(--margin-add))) translateY(-50%);
+    z-index: -1;
+}
+/* .label--style-spacing::before,
+.label--style-spacing::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    min-height: 2em; min-width: 2em;
+    font-size: var(--fsz);
+    margin: var(--margin);
+
+    --val: 9;
+    --vhue: calc(var(--val) * 40);
+    --valp: calc(var(--val) * .1);
+    --vhclr: hsla(var(--vhue), 100%, 60%, var(--valp));
+    --vhclr-dark: hsla(var(--vhue), 100%, 20%, var(--valp));
+
+    --valp-shw: calc(var(--val) * .05);
+    --vhclr-shw: hsla(var(--vhue), 100%, 60%, var(--valp-shw));
+    --vhclr-shw-dark: hsla(var(--vhue), 100%, 20%, var(--valp-shw));
+
+    transition: 
+    box-shadow 200ms ease-in-out,
+    background-color 200ms ease-in-out;
+}
+
+#style--fill:checked ~ main .label--style-spacing::before, 
+#style--fill:checked ~ main .label--style-spacing::after {
+    background-color: var(--vhclr);
+    background-image: linear-gradient(-30deg, var(--vhclr-dark), var(--vhclr));
+    box-shadow: inset 0 0 2px 1px var(--vhclr-dark);
+}
+#style--ghost:checked ~ main .label--style-spacing::before,
+#style--ghost:checked ~ main .label--style-spacing::after {
+    background-color: var(--vhclr-shw);
+}
+:where(#style-spacing--overlap:checked, #style-spacing--spaced:checked) ~ main .label--style-spacing:where(::before,::after) {
+    box-shadow: 
+    0px 0px 4px 2px var(--vhclr),
+    inset 0px 0px 2px 0px var(--vhclr),
+    inset 0px 0px 0px 1px var(--vhclr),
+    inset 0px 0px 4px 2px var(--vhclr-shw);
+} */
+
+
+
+/* #style-spacing--overlap:checked ~ main [class*="node"] {font-size: 18px; margin: -4px} */
+/* #style-spacing--overlap:checked ~ main [class*="node"] {font-size: 16px; margin: -4px}
+#style-spacing--spaced:checked ~ main [class*="node"] {font-size: 16px; margin: 0px} */
+
+
+#style-spacing--overlap:checked ~ main [class*="node"] {font-size: 10px; margin: -4px}
+#style-spacing--spaced:checked ~ main [class*="node"] {font-size: 10px; margin: 0px}
+
+/* [class*="node"] {
+    min-height: 2em; min-width: 2em;
+    font-size: 12px;
+    margin: 2px;
+} */
+
+
+
+/* :where(#style-spacing--overlap:checked, #style-spacing--overlap:checked) ~ main label::before,
+:where(#style-spacing--overlap:checked, #style-spacing--overlap:checked) ~ main label::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: -1;
+} */
+label::before,
+label::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: -2;
+}
+#style-spacing--overlap:checked ~ main label[for="style-spacing--overlap"]::before,
+#style-spacing--spaced:checked ~ main label[for="style-spacing--spaced"]::before {
+    height: 1.25rem; width: 1.25rem;
+    border-radius: .125rem;
+    transform: translateX(-50%) translateY(-50%) rotate(45deg);
+    box-shadow: 
+    6px 6px 0 0px #fc0,
+    -6px -6px 0 0px #fc0;
+}
+#style-spacing--overlap:checked ~ main label[for="style-spacing--overlap"]::after,
+#style-spacing--spaced:checked ~ main label[for="style-spacing--spaced"]::after{
+    height: 125%; width: 115%;
+    background: hsla(210, 0%, 5%, 100%);
+    border-radius: .5rem;
+    box-shadow: 
+    0 6px 0 -4px #fc0,
+    0 -6px 0 -4px #fc0;
+}
+</style>
+<style>
+    main {margin: 0 auto;}
+    .shelf {
+        margin-top: .5rem;
+        padding: .25rem 0;
+    }
+    main .shelf.no-border {
+        max-width: 600px;
+        margin: 0 auto;
+        border: none;
+        outline: none;
+        box-shadow: none;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: .5rem;
+        align-items: center;
+        justify-content: space-around;
+        justify-items: center;
+    }
+</style>
+    <link rel="stylesheet" href="../../../stylesheets/settings2.css">
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <h1 class="title">NyteLabs</h1>
+        <!-- <div class="subtitle">Grid Heatwave</div> -->
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+
+    <input type="radio" name="style-spacing" id="style-spacing--overlap" checked>
+    <input type="radio" name="style-spacing" id="style-spacing--spaced">
+    <input type="radio" name="style" id="style--fill" checked>
+    <input type="radio" name="style" id="style--ghost">
+    <input type="radio" name="style" id="style--glow">
+<main id="myMain">
+    <div class="shelf no-border">
+        <label class="label--style" for="style--fill">Fill</label>
+        <label class="label--style" for="style--ghost">Ghost</label>
+        <label class="label--style" for="style--glow">Glow</label>
+        <label class="label--style-spacing" for="style-spacing--overlap">
+            Overlap
+            <div class="node-in-btn" style="--val: 1;"></div>
+            <div class="node-in-btn" style="--val: 1;"></div>
+        </label>
+        <label class="label--style-spacing" for="style-spacing--spaced">
+            Spaced
+            <div class="node-in-btn" style="--val: 1;"></div>
+            <div class="node-in-btn" style="--val: 1;"></div>
+        </label>
+        <button class="grid-update-btn" onclick="UpdateGrid()">Update</button>
+    </div>
+    <div id="MyGridContainer" class="shelf"></div>
+</main>
+
+<!-- <main>
+    <div class="shelf">
+        <h3 class="shelf-title">experiment</h3>
+        <div id="display"></div>
+    </div>
+</main> -->
+
+<!-- <div class="options">
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
+
+<footer>
+    <div class="my-name">
+        <a id="BackToTop" class="hidden" href="#">Back To Top</a>
+        &copy; 2022 - 2024 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        touch: {
+            x: 0,
+            y: 0,
+            z: 0,
+            paths: {},
+            path_len: 20,
+            tracking: false
+        },
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            path: [],
+            path_len: 20,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            sz: 20,
+            sz2: 10,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            padding: 0,
+            brush: "p",
+        },
+        box: {
+            x: 500,
+            y: 500,
+            z: 500,
+            x2: 250,
+            y2: 250,
+            z2: 250,
+            d: 1000,
+            p: 1000,
+        },
+
+        widthPerCol: 40,
+        z: 0,
+
+        timeOut: 40,
+        player: false,
+        
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+    const particles = [];
+    const pg = {}
+
+</script>
+<script src="../../../scripts/settings-02.js"></script>
+<script>
+
+/* stats */
+// const s = {
+//     widthPerCol: 40,
+//     z: 0
+// };
+function perceptionRoll(){
+    let wh = window.innerHeight;
+    let ww = window.innerWidth;
+    console.log(`Height: ${wh}`);
+    console.log(`Width: ${ww}`);
+
+    let w90 = ww*.9;
+    let xw = Math.round(w90/s.widthPerCol);
+    console.log(`xw: ${xw}`);
+    s['grid_w'] = xw*s.widthPerCol;
+
+    s['xw'] = xw;
+}
+
+// const g = { h: 9, w: 15, z: 0 }
+const g = {
+    h: 21,
+    w: 29,
+    magnitude: 1,
+    z: 0
+}
+const xyGrid = [];
+const xyGridDirection = [];
+const xyGridForces = [];
+var timeMark = 0;
+const xyGridTimeLine = [];
+function StartGrid() {
+    for (let y = 0; y < g.h; y++) {
+        xyGrid.push([]);
+        xyGridDirection.push([]);
+        xyGridForces.push([]);
+        for (let x = 0; x < g.w; x++) {
+            xyGrid[y].push(0);
+            xyGridDirection[y].push(0);
+            xyGridForces[y].push(0);
+        }
+    }
+    console.log(xyGrid);
+}
+function RecordForcesFrame(){
+    let nforces = [];
+    xyGridForces.forEach(row=>{
+        let nrow = [];
+        row.forEach(node_force=>{
+            if(node_force != 0){
+                nrow.push(node_force.toFixed(1));
+            } else {
+                // nrow.push(node_force.toFixed(0));
+                nrow.push('');
+            }
+        });
+        nforces.push(nrow);
+    });
+    // let gg = {};
+    xyGridTimeLine[timeMark]["forces"] = nforces;
+    // xyGridTimeLine.push(gg);
+}
+function RecordGridFrame(){
+    let ngrid = [];
+    xyGrid.forEach(row=>{
+        let nrow = [];
+        row.forEach(node_val=>{
+            if(node_val != 0){
+                nrow.push(node_val.toFixed(1));
+            } else {
+                // nrow.push(node_val.toFixed(0));
+                nrow.push('');
+            }
+        });
+        ngrid.push(nrow);
+    });
+    // let gg = {};
+    xyGridTimeLine[timeMark]["grid"] = ngrid;
+    // xyGridTimeLine.push(gg);
+}
+function BuildGrid() {
+    let MyGridContainer = document.getElementById('MyGridContainer');
+    let myGrid = document.createElement('div');
+    myGrid.classList.add('grid-v');
+    for (let y = 0; y < g.h; y++) {
+        let xc_row = document.createElement('div');
+        xc_row.classList.add('row-container');
+        xc_row.dataset.row = y;
+        for (let x = 0; x < g.w; x++) {
+            let xi_node = document.createElement('div');
+            xi_node.classList.add('node');
+            xi_node.dataset.row = y;
+            xi_node.dataset.col = x;
+            xi_node.dataset.id = `${y}|${x}`;
+            xi_node.dataset.xy = `${x}${y}`;
+            xi_node.addEventListener('click', (ev) => {
+                GridPush(ev);
+                UpdateDisplay();
+            });
+
+            xc_row.appendChild(xi_node);
+        }
+        myGrid.appendChild(xc_row);
+    }
+    MyGridContainer.appendChild(myGrid);
+}
+
+function AddingForces(a, b) {
+    let force_a = a[0];
+    let angle_a = a[1];
+    let force_b = b[0];
+    let angle_b = b[1];
+
+    let cir_x_a = Math.cos(Math.PI*(angle_a/180)) * force_a;
+    let cir_y_a = Math.sin(Math.PI*(angle_a/180)) * force_a;
+
+    let cir_x_b = Math.cos(Math.PI*(angle_b/180)) * force_b;
+    let cir_y_b = Math.sin(Math.PI*(angle_b/180)) * force_b;
+
+    let cir_x_ab = cir_x_a + cir_x_b;
+    let cir_y_ab = cir_y_a + cir_y_b;
+
+    let force_ab = Math.sqrt(cir_x_ab*cir_x_ab + cir_y_ab*cir_y_ab);
+    let angle_ab = Math.acos(((force_ab**2) + (cir_x_ab**2) - (cir_y_ab**2))/(2*force_ab*cir_x_ab));
+
+    let nodeForce = [force_ab,angle_ab];
+    return nodeForce;
+    // A = arccos((b**2 + c**2 - a**2) / (2bc));
+    /*
+
+        C
+       /|
+      b a
+     /  |
+    A─c─B
+
+    */
+
+    /*
+    let t1 = [10,0];
+    let t2 = [10,90];
+    let t3 = AddingForces(t1,t2);
+    t3
+    →(2) [14.142135623730951, 0.7853981633974484]
+    
+    */
+
+}
+
+const NodeArea = [
+    [1,-1],[1,0],[1,1],
+    [0,-1],[0,0],[0,1],
+    [-1,-1],[-1,0],[-1,1]
+];
+const NodeAreaDeg = [
+    315,0,45,
+    270,0,90,
+    225,180,135,
+];
+const NodeAreaScale = [
+    .7,1,.7,
+    1,0,1,
+    .7,1,.7,
+];
+function isStable(){
+    let gridIsStable = true;
+    let gridErr = false;
+    let yxErr = [];
+    for (let y = 0; y < g.h; y++) {
+        for (let x = 0; x < g.w; x++) {
+            if(xyGrid[y][x] != 0) {
+                gridIsStable = false;
+            }
+            if(xyGrid[y][x] > 20) {
+                gridErr = true;
+                yxErr.push([y,x]);
+            }
+        }
+    }
+    if(!gridIsStable && !gridErr) {
+        setTimeout(() => {
+            // console.log(`time: ${timeMark}`); 
+            UpdateGrid();
+        }, 200);
+    }
+    if(gridErr) {
+        console.log(`─`.repeat(12));
+        let nodeErr = xyGrid[yxErr[0][0]][yxErr[0][1]];
+        console.log(`♦Error!: Node(${yxErr[0][0]},${yxErr[0][1]}) reached critical measurment of ${nodeErr}!`);
+        console.log(xyGridTimeLine);
+    }
+}
+function UpdateNodes(){
+    for (let y = 0; y < g.h; y++) {
+        for (let x = 0; x < g.w; x++) {
+            // console.log(`yx: ${y},${x}`);
+            let xvf = xyGridForces[y][x];
+            if(xvf != 0) {
+                xyGrid[y][x] += xvf;
+                xyGridForces[y][x] = 0;
+            }
+        }
+    }
+}
+function UpdateNodeForces(y,x){
+    // console.log(`y:${y}, x:${x}`);
+    let xv = xyGrid[y][x];
+    
+    // let xu = (xv*xv)/10;
+    // let xu = xv-(Math.sqrt(xv));
+    let xu = 0;
+    let xvn = 0;
+    // if(xv>10) {
+    //     // xu = xv-(xv*.25);
+    //     // xu = (xv*xv)/10;
+    //     xu = xv-(xv*.5);
+    // } else {
+    //     // xu = xv-1;
+    //     xu = (xv*xv)/10;
+    // }
+    // xu = (xv*xv)/10;
+    // xu = (xv*xv);
+    // xu = xv-(xv*.2);
+    xu = xv-(xv*.1);
+    if(xu < .1) xu = 0;
+
+    // xyGrid[y][x] = xu;
+    xyGridForces[y][x] += xu - xyGrid[y][x];
+    // console.log(`xyGrid[${y}][${x}]: ${xyGrid[y][x]}`);
+
+    if(xu > 0) {
+        // xvn = xv-1;
+        // xvn = xv-.2;
+        // xvn = xv;
+        xvn = xv*.9;
+        // console.log(`xvn: ${xvn}`);
+
+        for (let yx = 0; yx < 9; yx++) {
+            let nextY = y+NodeArea[yx][0];
+            let nextX = x+NodeArea[yx][1];
+            // console.log(`nextY:${nextY}, nextX:${nextX}`);
+
+            let inGrid = (nextY > -1 && nextY < g.h) && (nextX > -1 && nextX < g.w);
+            if(inGrid) {
+                let isLower = xvn > xyGrid[nextY][nextX];
+                if(isLower){
+                    let xvn2 = (xvn-xyGrid[nextY][nextX])/2;
+
+                    let addyx = xvn2*NodeAreaScale[yx];
+                    // console.log(`addyx: ${addyx}`);
+                    xyGridForces[nextY][nextX] += addyx;
+                    if(xyGridForces[nextY][nextX] > 9) {xyGridForces[nextY][nextX] = 9;}
+                }
+            }
+        }
+    }
+}
+function UpdateGrid() {
+    let updateList = [];
+    for (let y = 0; y < g.h; y++) {
+        for (let x = 0; x < g.w; x++) {
+            if(xyGrid[y][x]>0) {
+                // console.log(`y:${y}, x:${x}`);
+                updateList.push([y,x]);
+            }
+        }
+    }
+    updateList.forEach(node => {
+        UpdateNodeForces(node[0],node[1]);
+    });
+    xyGridTimeLine.push({});
+    // RecordForcesFrame();
+
+    UpdateNodes();
+    UpdateDisplay();
+
+    // RecordGridFrame();
+    timeMark++;
+
+    isStable();
+}
+function UpdateDisplay() {
+    let nodeList = document.querySelectorAll('.node');
+    nodeList.forEach(node =>{
+        let nid = node.dataset.id.split('|');
+        let val = xyGrid[nid[0]][nid[1]].toFixed(1);
+        // node.dataset.val = val;
+        node.style = `--val: ${val};`;
+    });
+}
+
+function GridPush(ev) {
+    let node = ev.target;
+    let nid = node.dataset.id.split('|');
+    if(xyGrid[nid[0]][nid[1]] == 0) {
+        xyGrid[nid[0]][nid[1]] = g.magnitude;
+    } else {
+        let toLimit = g.magnitude-xyGrid[nid[0]][nid[1]];
+        let adding = toLimit*.7;
+        xyGrid[nid[0]][nid[1]] += adding;
+    }
+    // console.log(xyGrid);
+    // UpdateGrid();
+}
+
+
+
+    /* ─── Events ─── */
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        s.canvas.z = (s.h + s.w)/2;
+
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
+
+        /* ─ Box ─ */
+        /* resize box for mobile */
+        if(s.h < s.box.y) {s.box.y = s.h;}
+        if(s.w < s.box.x) {s.box.x = s.w;}
+        s.box.z = (s.box.y + s.box.x)/2;
+
+        /* center box */
+        s.box.top = (s.h - s.box.y)/2;
+        s.box.left = (s.w - s.box.x)/2;
+
+        /* determine center */
+        s.box.x2 = s.box.left + (s.box.x / 2);
+        s.box.y2 = s.box.top + (s.box.y / 2);
+        s.box.z2 = (s.box.z / 2);
+
+        /* ─ Grid ─ */
+        s.grid.cols = Math.floor(s.w / s.tile.w);
+        s.grid.rows = Math.floor(s.h / s.tile.h);
+
+        /* ─ Canvas Update ─ */
+        // canvas.width = s.canvas.x;
+        // canvas.height = s.canvas.y;
+        // ctx.clearRect(0,0,canvas.width, canvas.height);
+    }
+    window.addEventListener('resize', () =>{
+        updateSettings();
+    });
+
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        updateSettings();
+        // start();
+        // update();
+
+        StartGrid();
+        BuildGrid();
+        UpdateDisplay();
+    });
+    /* Version Log:
+    [index-nds-00]: Default Template.
+    [index-nds-01]: 
+    [index-nds-02]: 
+    [index-nds-03]: 
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
+    [index-nds-07]: 
+    [index-nds-08]: 
+    [index-nds-09]: 
+    [index-nds-10]: 
+    [index-nds-11]: 
+    [index-nds-12]: 
+    
+    */
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!-- <!DOCTYPE html> -->
+<html onmousemove>
+	<head>
+		<link href="style.css" rel="stylesheet">
+		<title>St&eacute;fano De La Torre | Resume</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                font-size: 12px;
+                max-width: 960px;
+                margin: auto;
+            }
+            h1 {
+                font-size: 3em;
+                letter-spacing: .6em;
+                padding-top: 1em;
+                padding-bottom: 1em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+                padding-bottom: 1em;
+            }
+
+            main { 
+                display: grid;
+                grid-template-columns: 40% 60%;
+                margin-top: 3em;
+            }
+
+            header {
+                text-align: center;
+                margin: auto 2em;
+            }
+
+            section {
+                margin: auto 1em 4em 2em;
+            }
+
+            i {
+                margin-right: .5em;
+            }
+
+            p {
+                margin: .2em auto
+            }
+
+            hr {
+                border: none;
+                background-color: lightgray;
+                height: 1px;
+            }
+
+            h1, h2 {
+                font-weight: 100;
+                margin-bottom: 0;
+            }
+
+            #mainLeft {
+                border-right: 1px solid lightgray;
+            }
+
+
+            /* My Changes: */
+
+            h1 {letter-spacing: .5em; padding: .75em 0;}
+            main {margin-top: 2.5em;}
+            section {margin: auto 1em 3em 2em;}
+            section {margin: auto 1em 2.5em 2em;}
+            p {word-break: break-word;}
+            /* i {min-width: 2em;} */
+
+            body {
+                font-size: 14px;
+                overflow-x: hidden;
+                animation: showing 900ms normal 1 both 300ms;
+            }
+            @keyframes  showing {
+                0% {opacity: 0; }
+                100% {opacity: 1; }
+            }
+
+            h1 {animation: fromTop 1200ms normal 1 both 300ms;}
+
+            section:nth-of-type(3n+1) {--delay: 300ms;}
+            section:nth-of-type(3n+2) {--delay: 600ms;}
+            section:nth-of-type(3n+3) {--delay: 900ms;}
+
+            #mainLeft section {animation: fromLeft 1200ms normal 1 both var(--delay);}
+            #mainRight section {animation: fromRight 1200ms normal 1 both var(--delay);}
+
+            @keyframes  fromTop {
+                0% {opacity: 0; transform: translateY(-100%); }
+                100% {opacity: 1; transform: translateY(0%); }
+            }
+            @keyframes  fromLeft {
+                0% {opacity: 0; transform: translateX(-100%); }
+                100% {opacity: 1; transform: translateX(0%); }
+            }
+            @keyframes  fromRight {
+                0% {opacity: 0; transform: translateX(100%); }
+                100% {opacity: 1; transform: translateX(0%); }
+            }
+
+            @keyframes  scaleUp {
+                0% {opacity: 0; transform: scale(0); }
+                100% {opacity: 1; transform: scale(1); }
+            }
+
+            li:nth-of-type(1) {--delay: 1100ms;}
+            li:nth-of-type(2) {--delay: 1200ms;}
+            li:nth-of-type(3) {--delay: 1300ms;}
+            li:nth-of-type(4) {--delay: 1400ms;}
+            li:nth-of-type(5) {--delay: 1500ms;}
+            li:nth-of-type(6) {--delay: 1600ms;}
+            li:nth-of-type(7) {--delay: 1700ms;}
+            li:nth-of-type(8) {--delay: 1800ms;}
+            li:nth-of-type(9) {--delay: 1900ms;}
+            li:nth-of-type(10) {--delay: 2000ms;}
+            li:nth-of-type(11) {--delay: 2100ms;}
+            li:nth-of-type(12) {--delay: 2200ms;}
+
+
+            /* #mainLeft li {animation: fromLeft 1200ms normal 1 both var(--delay);} */
+            #mainLeft li {animation: scaleUp 1200ms normal 1 both var(--delay);}
+            #mainRight li {animation: fromRight 1200ms normal 1 both var(--delay);}
+
+            /* Second Review */
+
+            body {
+                position: relative;
+                height: 11in; width: 8.5in;
+                box-sizing: border-box;
+            }
+            h1 b {
+                display: block;
+                font-size: 3rem;
+                letter-spacing: .45em;
+            }
+            h1 {font-size: 2rem;}
+
+            h2, h3 { transition: color 200ms ease-in-out; }
+            section:hover h2,
+            section:focus h2 { color: #06c; }
+            h3:hover, h3:focus { color: #06c; }
+
+            .skills {
+                min-width: 100%;
+                list-style-type: none;
+                margin: 0; padding: 0;
+                display: flex;
+                gap: 0.25rem;
+                flex-wrap: wrap;
+            }
+            .skills li div {
+                background-color: #06c;
+                color: white;
+                padding: .5rem;
+                border-radius: .25rem;
+            }
+
+            #InterestsList {
+                list-style-type: none;
+                margin: 0rem; padding: 0rem;
+                border-radius: 1rem;
+                padding-left: 6px;
+            }
+            i {margin: 0;}
+            .ifa {
+                width: 24px;
+                display: inline-block;
+                text-align: center;
+                font-size: 16px;
+                padding: .25rem;
+                border-radius: .25rem;
+                margin-right: .125rem;
+            }
+            li:hover .ifa, li:focus .ifa {
+                background-color: #06c;
+                color: white;
+            }
+
+            .shadow-effect {
+                position: absolute;
+                top: 0; left: 0;
+                height: 11in; width: 8.5in;
+                z-index: -1;
+
+                box-shadow: 0rem 0rem 0rem 0rem #1110;
+                transition:
+                box-shadow 1200ms ease-in-out,
+                opacity 000ms ease-in-out;
+                transition: box-shadow 1200ms ease-in-out;
+            }
+            header:hover ~ .shadow-effect,
+            header:focus ~ .shadow-effect {
+                opacity: 1; 
+                box-shadow: -1.5rem 2rem 2rem .5rem #1119;
+            }
+
+
+            .z {display: none;}
+
+            /* .Layout-Grid>.grid-box */
+            /* grid */
+            /* .Layout-Grid {
+                position: absolute;
+                top: 0; left: 0;
+                height: 11in; width: 8.5in;
+                background-color: #f002;
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                grid-template-rows: repeat(10, 1fr);
+                z-index: -1;
+            }
+            .grid-box {
+                height: 1.1in; width: 1.7in;
+                box-shadow: inset 0 0 0 1px #f00;
+            } */
+
+        </style>
+	</head>
+
+	<body>
+		<header id="header">
+			<!-- resume header with your name and title -->
+			<h1><b>ST&Eacute;FANO</b> DE LA TORRE</h1>
+			<hr>
+			SOFTWARE ENGINEER
+			<hr>
+		</header>
+		<main>
+			<article id="mainLeft">
+				<section>
+					<h2>CONTACT</h2>
+					<!-- contact info including social media -->
+                    <p>
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                        <a href="mailto:UserStefDLT@gmail.com">UserStefDLT@gmail.com</a>
+                    </p>
+                    <p>
+                        <i class="fab fa-github" aria-hidden="true"></i>
+                        <a href="https://github.com/UserStefDLT">UserStefDLT</a>
+                    </p>
+                    <p>
+                        <i class="fab fa-linkedin" aria-hidden="true"></i>
+                        <a href="https://www.linkedin.com/in/stefanodelatorre/">stefanodelatorre</a>
+                    </p>
+				</section>
+				<section>
+					<h2>SKILLS</h2>
+					<!-- your skills AKA "buzzwords" -->
+                    <!-- <p>HTML, CSS, Javascript, Bootstrap, Node.js, C#, C++, Python, UX/UI Design, Adobe Photoshop and Illustrator, Figma.</p> -->
+                    <!-- <p>HTML, CSS, Javascript, Bootstrap, Node.js, C#, C++, Python, UX/UI Design, Adobe Photoshop and Illustrator, Figma.</p> -->
+                    <ul class="skills">
+                        <li><div>HTML</div></li>
+                        <li><div>CSS</div></li>
+                        <li><div>Javascript</div></li>
+                        <li><div>Bootstrap</div></li>
+                        <li><div>Node.js</div></li>
+                        <li><div>C#</div></li>
+                        <li><div>C++</div></li>
+                        <li><div>Python</div></li>
+                        <li><div>UX/UI Design</div></li>
+                        <!-- <li><div>Adobe Photoshop and Illustrator</div></li> -->
+                        <li><div>Adobe Photoshop</div></li>
+                        <li><div>Adobe Illustrator</div></li>
+                        <li><div>Figma</div></li>
+                    </ul>
+				</section>
+				<section>
+					<h2>EDUCATION</h2>
+					<!-- your education -->
+                    <!-- <b>B.S. in SOFTWARE ENGINEERING</b> -->
+                    <h3 style="margin: 0px"><b>B.S. in SOFTWARE ENGINEERING</b></h3>
+                    <p>
+                        Brigham Young University - Idaho
+                    </p>
+                    <p>
+                        2018-2021
+                    </p>
+				</section>            
+			</article>
+			<article id="mainRight">
+				<section>
+					<h2>ABOUT</h2>
+					<!-- about you -->
+					<!-- <p>A brief paragraph about you and what kind of job/company you are looking to work for.</p> -->
+                    <p><em>Objective:</em> To design and develop tools that help and inspire. To better understand and perform in my field of studies. </p>
+                    <!-- <p>Hi!</p> -->
+                    <p><em>About me:</em> I've been told I'm good at critical thinking, weather it is true or not is not something I can unbiasly judge. </p>
+                    <p><em>Also:</em> I probably like playing with CSS, SVG, or Canvas too much, here are some of my experiments: <a href="https://userstefdlt.github.io/NyteLabs/">NyteLabs</a>. <i class="fa fa-flask" aria-hidden="true"></i> </p>
+                    <!-- <p>Also interested in UX and UI.</p> -->
+                    <!-- <p></p> -->
+				</section>
+				<section>
+					<h2>WORK EXPERIENCE</h2>
+					<!-- your work experience -->
+                    <h3><b>FULL-STACK DEVELOPER</b></h3>
+                    <p>
+                        Persuasive Media | 2020 - 2022
+                    </p>
+                    <p>
+						Organized software documentation and researched the integration of certain features.
+                    </p>
+                    <ul>
+						<li>Refactored CSS styling.</li>
+						<li>Integrated dark mode CSS styling.</li>
+						<li>Designed mobile app layout variants.</li>
+                    </ul>
+				</section>
+				<section>
+					<h2>INTERESTS</h2>
+                    <ul id="InterestsList">
+                        <li><div class="ifa"><i class="fas fa-code" aria-hidden="true"></i></div><span>Programming</span></li>
+                        <li><div class="ifa"><i class="fas fa-draw-polygon" aria-hidden="true"></i></div><span>Graphic Design</span></li>
+                        <li><div class="ifa"><i class="fas fa-dice-d20" aria-hidden="true"></i></div><span>Dungeon and Dragons</span></li>
+                        <li><div class="ifa"><i class="fas fa-feather-alt" aria-hidden="true"></i></div><span>Writing</span></li>
+                        <li><div class="ifa"><i class="fas fa-brain" aria-hidden="true"></i></div><span>Mental Health</span></li>
+                        <li><div class="ifa"><i class="fas fa-gamepad" aria-hidden="true"></i></div><span>Video Games</span></li>
+                        <li><div class="ifa"><i class="fas fa-robot" aria-hidden="true"></i></div><span>Machine Learning</span></li>
+                    </ul>
+				</section>
+			</article>
+		</main>
+        <div class="Layout-Grid">
+            <div class="grid-box"></div>
+        </div>
+        <div class="shadow-effect"></div>
+	</body>
+</html>
