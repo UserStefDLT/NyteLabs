@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Fire Rules | NyteLabs</title>
+    <title>Particle Tails | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/canvas-2.css">
@@ -16,6 +16,7 @@
             transform: translateX(-50%) translateY(-50%);
         } */
         :root {}
+        body:has(canvas) footer > div > a {display: none;}
     </style>
     <style>
         [id*="canvas"] {
@@ -103,168 +104,65 @@
     } */
 
 </style>
-    <link rel="stylesheet" href="../../../stylesheets/settings.css">
-    <style>
-        /* Settings. */
-        #toggleBlur,
-        #toggleFilter,
-        #toggleLights,
-        #toggleIso,
-        #toggleOpacity {display: none;}
+<link rel="stylesheet" href="../../../stylesheets/settings.css">
+<style>
+    /* Settings. */
+    #toggleBlur,
+    #toggleFilter,
+    #toggleLights,
+    #toggleIso,
+    #toggleOpacity {display: none;}
 
-        #toggleBlur:checked ~ .options .toggleCheckboxLabel[for="toggleBlur"],
-        #toggleFilter:checked ~ .options .toggleCheckboxLabel[for="toggleFilter"],
-        #toggleLights:checked ~ .options .toggleCheckboxLabel[for="toggleLights"],
-        #toggleIso:checked ~ .options .toggleCheckboxLabel[for="toggleIso"],
-        #toggleOpacity:checked ~ .options .toggleCheckboxLabel[for="toggleOpacity"] {
-            color: var(--bwe);
-            --clr-outline: var(--bwc);
-            --bgc-before: #063;
-            --bgc-after: #0c6;
-            --ttx-after: 1rem;
-        }
+    #toggleBlur:checked ~ .options .toggleCheckboxLabel[for="toggleBlur"],
+    #toggleFilter:checked ~ .options .toggleCheckboxLabel[for="toggleFilter"],
+    #toggleLights:checked ~ .options .toggleCheckboxLabel[for="toggleLights"],
+    #toggleIso:checked ~ .options .toggleCheckboxLabel[for="toggleIso"],
+    #toggleOpacity:checked ~ .options .toggleCheckboxLabel[for="toggleOpacity"] {
+        color: var(--bwe);
+        --clr-outline: var(--bwc);
+        --bgc-before: #063;
+        --bgc-after: #0c6;
+        --ttx-after: 1rem;
+    }
 
-        /* ─ Toggle Effects ─ */
+    /* ─ Toggle Effects ─ */
 
-        /* Toggle-Opcacity */
-        /* #toggleOpacity:checked ~ main #display {opacity:.5;} */
+    /* Toggle-Opcacity */
+    /* #toggleOpacity:checked ~ main #display {opacity:.5;} */
 
-        /* Toggle-Animation */
-        /* #toggleAnimation:checked ~ main .grid {
-            animation: spin 3600ms ease-in-out infinite both;
-            animation-name: spin;
-            animation-duration: 3600ms;
-            animation-timing-function: linear;
-            animation-delay: 0ms;
-            animation-iteration-count: infinite;
-            animation-fill-mode: both;
-            
-            animation-delay: calc(30ms * var(--hue));
-            animation-play-state: running;
-        } */
+    /* Toggle-Animation */
+    /* #toggleAnimation:checked ~ main .grid {
+        animation: spin 3600ms ease-in-out infinite both;
+        animation-name: spin;
+        animation-duration: 3600ms;
+        animation-timing-function: linear;
+        animation-delay: 0ms;
+        animation-iteration-count: infinite;
+        animation-fill-mode: both;
+        
+        animation-delay: calc(30ms * var(--hue));
+        animation-play-state: running;
+    } */
 
-        #toggleAnimation:not(:checked) ~ main .sun::before,
-        #toggleAnimation:not(:checked) ~ main .sun::after {
-            animation-play-state: paused;
-        }
+    #toggleAnimation:not(:checked) ~ main .sun::before,
+    #toggleAnimation:not(:checked) ~ main .sun::after {
+        animation-play-state: paused;
+    }
 
-        /* "white", "phire", "chromatic" */
-        .fireColor {
-            position: relative;
-            height: 30px; width: 30px;
-            border-radius: 50%;
-            background-color: #fff;
-            background-image: 
-            radial-gradient(#fff, #fff0 30%),
-            conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
-        }
-        .fireColor[data-color="normal"]::after {content: "Fire";}
-        .fireColor[data-color="gray"]::after {content: "Gray Scale";}
-        .fireColor[data-color="white"]::after {content: "White";}
-        .fireColor[data-color="phire"]::after {content: "Phire";}
-        .fireColor[data-color="random"]::after {content: "Rand";}
-        .fireColor[data-color="x"]::after {content: "x";}
-        .fireColor[data-color="planet-earth"]::after {content: "Planet Earth";}
-        .fireColor[data-color="RGB-wheel"]::after {content: "RGB Wheel";}
-        .fireColor[data-color="RGB-spiral"]::after {content: "RGB Spiral";}
-        .fireColor[data-color="RGB-heat"]::after {content: "RGB Heat";}
-        .fireColor::after {
-            position: absolute;
-            top: 100%; left: 50%;
-            transform: translateX(-50%) translateY(20%);
-            color: #fff;
-            opacity: 0;
-            transition: opacity 200ms ease-in-out;
-        }
-        .fireColor:hover::after {
-            opacity: 1;
-        }
-
-        .fireColor[data-color="normal"] {background-image: radial-gradient(circle at 50% 100%,#fff0 5%, #f50c, #ff0f 80%);}
-        .fireColor[data-color="gray"] {background-image: radial-gradient(circle at 50% 100%,#fff0 5%, #fff9, #777c 80%);}
-        .fireColor[data-color="white"] {background-image: radial-gradient(circle at 50% 100%,#fff0 5%, #fff, #fffc 80%);}
-        .fireColor[data-color="phire"] {background-image: radial-gradient(circle at 50% 100%,#fff0 5%, #93fc, #f39f 80%);}
-        .fireColor[data-color="random"] {
-            background-image: 
-            radial-gradient(circle at 50% 0%, #f00, #f000 50%),
-            radial-gradient(circle at 86% 30%, #ff0, #ff00 50%),
-            radial-gradient(circle at 86% 70%, #0f0, #0f00 50%),
-            radial-gradient(circle at 50% 100%, #0ff, #0ff0 50%),
-            radial-gradient(circle at 14% 70%, #00f, #00f0 50%),
-            radial-gradient(circle at 14% 30%, #f0f, #f0f0 50%);
-        }
-        .fireColor[data-color="x"] {
-            background-image: 
-            radial-gradient(#fff, #fff0 30%),
-            conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
-        }
-        .fireColor[data-color="planet-earth"] {
-            background-image: 
-            radial-gradient(#fff, #fff0 80%),
-            conic-gradient(#0f0, #0ff, #00f, #0f0);
-        }
-        .fireColor[data-color="RGB-wheel"] {
-            background-image: 
-            radial-gradient(circle at 50% 0%, #f00, #f000 50%),
-            radial-gradient(circle at 86% 30%, #ff0, #ff00 50%),
-            radial-gradient(circle at 86% 70%, #0f0, #0f00 50%),
-            radial-gradient(circle at 50% 100%, #0ff, #0ff0 50%),
-            radial-gradient(circle at 14% 70%, #00f, #00f0 50%),
-            radial-gradient(circle at 14% 30%, #f0f, #f0f0 50%);
-        }
-        .fireColor[data-color="RGB-spiral"] {
-            background-image: 
-            radial-gradient(circle at 50% 0%, #f00, #f000 50%),
-            radial-gradient(circle at 86% 30%, #ff0, #ff00 50%),
-            radial-gradient(circle at 86% 70%, #0f0, #0f00 50%),
-            radial-gradient(circle at 50% 100%, #0ff, #0ff0 50%),
-            radial-gradient(circle at 14% 70%, #00f, #00f0 50%),
-            radial-gradient(circle at 14% 30%, #f0f, #f0f0 50%);
-        }
-        .fireColor[data-color="RGB-heat"] {
-            background-image: 
-            radial-gradient(circle at 50% 0%, #f00, #f000 50%),
-            /* radial-gradient(circle at 86% 30%, #ff0, #ff00 50%), */
-            radial-gradient(circle at 86% 70%, #0f0, #0f00 50%),
-            /* radial-gradient(circle at 50% 100%, #0ff, #0ff0 50%), */
-            radial-gradient(circle at 14% 70%, #00f, #00f0 50%),
-            /* radial-gradient(circle at 14% 30%, #f0f, #f0f0 50%); */
-        }
-        .fireColor[data-color="hue-heat"] {
-            background-image: 
-            radial-gradient(circle at 50% 0%, #f00, #f000 50%),
-            radial-gradient(circle at 86% 30%, #ff0, #ff00 50%),
-            radial-gradient(circle at 86% 70%, #0f0, #0f00 50%),
-            radial-gradient(circle at 50% 100%, #0ff, #0ff0 50%),
-            radial-gradient(circle at 14% 70%, #00f, #00f0 50%),
-            radial-gradient(circle at 14% 30%, #f0f, #f0f0 50%);
-        }
-        .fireColor[data-color="hue-heat1"] {
-            background-image: 
-            radial-gradient(circle at 50% 50%, 
-            #00f,
-            #0ff, 
-            #0f0, 
-            #ff0, 
-            #f00, 
-            #f0f, 
-            #f000 70%),
-            radial-gradient(circle at 50% 0%, #f00, #f000 50%),
-            radial-gradient(circle at 86% 30%, #ff0, #ff00 50%),
-            radial-gradient(circle at 86% 70%, #0f0, #0f00 50%),
-            radial-gradient(circle at 50% 100%, #0ff, #0ff0 50%),
-            radial-gradient(circle at 14% 70%, #00f, #00f0 50%),
-            radial-gradient(circle at 14% 30%, #f0f, #f0f0 50%);
-        }
-    </style>
-    <link rel="stylesheet" href="../../../stylesheets/end.css">
+    /* :root {
+        --ch: 100px;
+    }
+    [id*="canvas"], #canvas {
+        height: var(--ch);
+    } */
+</style>
+<link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
     <header>
         <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
         <h1 class="title">NyteLabs</h1>
-        <div class="subtitle">Small Fire</div>
-        <!-- <div class="subtitle">Small Fire 🔥</div> -->
+        <div class="subtitle">Particle Tails</div>
         <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
         <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
     </header>
@@ -272,7 +170,7 @@
     <input type="checkbox" name="toggle" id="toggleOpacity">
     <input type="checkbox" name="toggle" id="toggleLights">
     <input type="checkbox" name="toggle" id="toggleBlur">
-    <input type="checkbox" name="toggle" id="toggleFilter" >
+    <input type="checkbox" name="toggle" id="toggleFilter">
 
 <main>
     <!-- <div class="shelf">
@@ -288,7 +186,7 @@
     <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
     <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label> -->
     <!-- <button id="FireColorBtn" class="fireColor" onclick="RandomizeFireColor()"></button> -->
-    <button id="FireColorBtn" class="fireColor" onclick="NextFireColor()" data-color="normal"></button>
+    <!-- <button id="FireColorBtn" class="fireColor" onclick="NextFireColor()" data-color="normal"></button> -->
     <!-- <button id="FireColorBtn" class="fireColor" onclick="NextFireColor()" data-color="RGB-wheel"></button> -->
     <label for="toggleBlur" class="toggleCheckboxLabel" data-toggle="Blur">Blur</label>
     <label for="toggleFilter" class="toggleCheckboxLabel" data-toggle="Filter">Filter</label>
@@ -332,8 +230,8 @@
 
 <footer>
     <div class="my-name">
-        <a href="#" class="hidden">Back To Top</a>
-        &copy; 2022 - 2024 | by Stéfano De La Torre 
+        <a href="#">Back To Top</a>
+        &copy; 2022 - 2025 | by Stéfano De La Torre 
     </div>
 </footer>
 <div class="name-end">by St&eacute;fano.</div>
@@ -343,14 +241,12 @@
     const s = {
         h: window.innerHeight,
         w: window.innerWidth,
-        h2: window.innerHeight/2,
-        w2: window.innerWidth/2,
 
         mouse: {
             x: 0,
             y: 0,
             z: 0,
-            tracking: true
+            tracking: false
         },
         tile: {
             h: 20,
@@ -386,9 +282,9 @@
             color_index: 0,
             color: "normal",
             // color_index: 6,
-            // color: "RGB-wheel", hue-heat
-            colorOptions: ["normal", "gray", "white", "phire", "random", "x", "planet-earth", "RGB-wheel", "RGB-spiral", "RGB-heat", "hue-heat"],
-            colorOptions_name: ["Fire", "Gray Scale", "White", "Phire", "Rand", "x", "Planet Earth", "RGB Wheel", "RGB Spiral", "RGB Heat", "Hue Heat"],
+            // color: "RGB-wheel",
+            colorOptions: ["normal", "gray", "white", "phire", "random", "x", "planet-earth", "RGB-wheel", "RGB-spiral", "RGB-heat"],
+            colorOptions_name: ["Fire", "Gray Scale", "White", "Phire", "Rand", "x", "Planet Earth", "RGB Wheel", "RGB Spiral", "RGB Heat"],
         },
 
         player: false,
@@ -471,6 +367,136 @@
         return angle;
     }
 
+
+    function draw9(ctx,e){
+        ctx.fillStyle = e.getColor();
+        // ctx.filter = "blur(4px)";
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, e.s/4, 0, Math.PI * 2);
+        ctx.fill();
+        // ctx.fillRect(e.x,e.y,e.s,e.s);
+
+        // let s2 = e.s/4;
+        // let s1 = s2*2;
+        // ctx.fillRect(e.x-s2,e.y-s2,s1,s1);
+
+        // let a = XYtoAngle(e.vx,e.vy);
+        // let xy = AngleToXY(a);
+        // let x1 = e.x - (xy.x * e.s);
+        // let y1 = e.y - (xy.y * e.s);
+
+        // let a2 = XYtoAngle(e.vx2,e.vy2);
+        // let xy2 = AngleToXY(a2);
+        // let x2 = x1 - (xy2.x * e.s);
+        // let y2 = y1 - (xy2.y * e.s);
+
+        ctx.beginPath(); // Start a new path
+        ctx.strokeStyle = e.getColor();
+        ctx.lineWidth = 2;
+        ctx.moveTo(e.x, e.y); // Move the pen to (30, 50)
+        for (let i = e.tail.length-1; i > -1; i-=15) {
+            const et = e.tail[i];
+            ctx.lineTo(et.x, et.y); // Draw a line to (150, 100)
+        }
+        // ctx.lineTo(e.tail[0].x, e.tail[0].y); // Draw a line to (150, 100)
+        ctx.stroke(); // Render the path
+    }
+    function draw8(ctx,e){
+        ctx.fillStyle = e.getColor();
+        // ctx.filter = "blur(4px)";
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, e.s/4, 0, Math.PI * 2);
+        ctx.fill();
+        // ctx.fillRect(e.x,e.y,e.s,e.s);
+
+        // let s2 = e.s/4;
+        // let s1 = s2*2;
+        // ctx.fillRect(e.x-s2,e.y-s2,s1,s1);
+
+        let a = XYtoAngle(e.vx,e.vy);
+        let xy = AngleToXY(a);
+        let x1 = e.x - (xy.x * e.s);
+        let y1 = e.y - (xy.y * e.s);
+
+        let a2 = XYtoAngle(e.vx2,e.vy2);
+        let xy2 = AngleToXY(a2);
+        let x2 = x1 - (xy2.x * e.s);
+        let y2 = y1 - (xy2.y * e.s);
+
+        ctx.beginPath(); // Start a new path
+        ctx.moveTo(e.x, e.y); // Move the pen to (30, 50)
+        ctx.strokeStyle = e.getColor();
+        // ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 2;
+        ctx.lineTo(x1, y1); // Draw a line to (150, 100)
+        ctx.lineTo(x2, y2); // Draw a line to (150, 100)
+        ctx.stroke(); // Render the path
+    }
+    function draw6(ctx,e){
+        ctx.fillStyle = e.getColor();
+        // ctx.filter = "blur(4px)";
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, e.s/4, 0, Math.PI * 2);
+        ctx.fill();
+        // ctx.fillRect(e.x,e.y,e.s,e.s);
+
+        // let s2 = e.s/4;
+        // let s1 = s2*2;
+        // ctx.fillRect(e.x-s2,e.y-s2,s1,s1);
+
+        // let x1 = e.x - (e.vx * e.s);
+        // let y1 = e.y - (e.vy * e.s);
+        // let x1 = e.x - (e.vx * 30);
+        // let y1 = e.y - (e.vy * 30);
+        // let x0 = e.x - e.vx;
+        // let y0 = e.y - e.vy;
+        // let a = XYtoAngle(x0,y0);
+        let a = XYtoAngle(e.vx,e.vy);
+        let xy = AngleToXY(a);
+        // let x1 = e.x - (xy.x * 30);
+        // let y1 = e.y - (xy.y * 30);
+        let x1 = e.x - (xy.x * e.s);
+        let y1 = e.y - (xy.y * e.s);
+        // let x1 = e.x - (xy.x * e.s * e.vx);
+        // let y1 = e.y - (xy.y * e.s * e.vy);
+        ctx.beginPath(); // Start a new path
+        ctx.moveTo(x1, y1); // Move the pen to (30, 50)
+        ctx.strokeStyle = e.getColor();
+        // ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 2;
+        ctx.lineTo(e.x, e.y); // Draw a line to (150, 100)
+        ctx.stroke(); // Render the path
+    }
+    function draw5(ctx,e,x,y,s){
+        ctx.fillStyle = e.getColor();
+        // // ctx.filter = "blur(4px)";
+        // ctx.beginPath();
+        // ctx.arc(e.x, e.y, e.s/2, 0, Math.PI * 2);
+        // ctx.fill();
+        // // ctx.fillRect(e.x,e.y,e.s,e.s);
+        let s2 = e.s/2;
+        ctx.fillRect(e.x-s2,e.y-s2,e.s,e.s);
+
+        let x1 = e.x - e.vx;
+        let y1 = e.y - e.vy;
+        ctx.beginPath(); // Start a new path
+        ctx.moveTo(x1, y1); // Move the pen to (30, 50)
+        // ctx.strokeStyle = e.getColor();
+        ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 3;
+        ctx.lineTo(e.x, e.y); // Draw a line to (150, 100)
+        ctx.stroke(); // Render the path
+    }
+    function draw4(ctx,e,x,y,s){
+        ctx.fillStyle = e.getColor();
+        // // ctx.filter = "blur(4px)";
+        // ctx.beginPath();
+        // ctx.arc(e.x, e.y, e.s/2, 0, Math.PI * 2);
+        // ctx.fill();
+        // // ctx.fillRect(e.x,e.y,e.s,e.s);
+        let s2 = e.s/2;
+        ctx.fillRect(e.x-s2,e.y-s2,e.s,e.s);
+    }
     function draw3(ctx,e,x,y,s){
         ctx.fillStyle = e.getColor();
         // ctx.filter = "blur(4px)";
@@ -494,24 +520,6 @@
     function drawSquare(ctx,left,top,c,w,h){
         ctx.fillStyle = c;
         ctx.fillRect(left,top,w,h);
-    }
-
-    // function RandomizeFireColor(){
-    //     let fireColor = s.fire.color;
-    //     s.fire.color = s.fire.colorOptions[Math.floor(Math.random() * s.fire.colorOptions.length)];
-    //     if(fireColor == s.fire.color){
-    //         RandomizeFireColor();
-    //     } else {
-    //         let FireColorBtn = document.getElementById('FireColorBtn');
-    //         FireColorBtn.dataset.color = s.fire.color;
-    //     }
-    // }
-    function NextFireColor(){
-        s.fire.color_index++;
-        if(s.fire.color_index >= s.fire.colorOptions.length){s.fire.color_index = 0;}
-        s.fire.color = s.fire.colorOptions[s.fire.color_index];
-        let FireColorBtn = document.getElementById('FireColorBtn');
-        FireColorBtn.dataset.color = s.fire.color;
     }
 
     const particles = [];
@@ -561,9 +569,8 @@
             this.x = x;
             this.y = y;
             this.c = c;
-            // this.baseSz = 24;
-            // this.s = 32;
-            this.s = 12;
+            this.s = 32;
+            // this.s = 12;
             // this.s = 24;
             this.vx = vx;
             this.vy = vy;
@@ -572,11 +579,13 @@
             this.vh = 0;
             this.v = 0;
 
-            // this.hue = 210;
-            this.hue = Math.random() * 360;
-            this.vhue = this.hue;
+            this.vx2 = vx;
+            this.vy2 = vy;
+            this.xtail = [];
+            this.ytail = [];
+
+            this.hue = 210;
             this.sat = 100;
-            this.vsat = this.sat;
             this.lum = 50;
             this.alp = .5;
 
@@ -628,91 +637,119 @@
             // this.s = 8 + (this.heat * 0.5);
             // // this.alp = .15;
             // // this.s = 24 + (this.heat * 0.25);
-            
-            // this.hue = (this.heat * 1.2);
-            
-            // this.alp = this.heat/100;
-            this.vsat = this.sat;
-            // let lumheat = (this.heat*this.heat) / 100 ;
-            let lumheat = ((this.heat*this.heat) / 100) - 5;
-            // this.lum = 50 + lumheat/2;
+
+            // this.s = 4 + (this.heat * 0.5);
+            let lumheat = (this.heat*this.heat) / 100;
+            // this.hue = 180 + (this.heat * 1.2);
+            this.hue = (this.heat * 4);
+            // this.hue = (this.heat * 12);
             this.lum = 40 + lumheat/2;
-            this.alp = lumheat/100;
-
-            let xc = this.x - s.w2;
-            let yc = this.y - s.h2*1.15;
-            let hueAngle = XYtoAngle(xc, yc);
-            // ["normal", "white", "phire", "chromatic"]
-            switch(s.fire.color){
-                case "normal":
-                    this.vhue = (this.heat * .9);
-                    break;
-                case "gray":
-                    this.vhue = 180;
-                    this.vsat = 0;
-                    this.lum = 55 + lumheat/2;
-                    break;
-                case "white":
-                    this.vhue = 180;
-                    this.vsat = 0;
-                    this.lum = 100;
-                    break;
-                case "phire":
-                    this.vhue = (this.heat * 1.8 + 180);
-                    break;
-                case "random":
-                    this.vhue = this.hue;
-                    break;
-                case "x":
-                    this.vhue = (this.x - s.cBox.left) * (1080 / s.cBox.w);
-                    break;
-                case "planet-earth":
-                    // this.vhue = (this.heat * 1.2 + 120);
-                    // this.vhue = (this.x - s.cBox.left) * (360 / s.cBox.w);
-                    let x = (this.x - s.cBox.left);
-                    this.vhue = (Math.cos(x/18) * 50) + 180;
-                    break;
-                case "RGB-wheel":
-                    // let xc = this.x - s.w2;
-                    // let yc = this.y - s.h2*1.1;
-                    // // let dc = Math.sqrt(xc*xc+yc*yc);
-                    // // let hueCircle = Math.atan(xc/yc) * 180/Math.PI;
-                    // let hueAngle = XYtoAngle(xc, yc);
-                    this.vhue = Math.round((hueAngle + 360) % 360);
-                    break;
-                case "RGB-spiral":
-                    let dc = Math.sqrt(xc*xc+yc*yc);
-                    this.vhue = Math.round((hueAngle + 360 + (dc * 2)) % 360);
-                    break;
-                case "RGB-heat":
-                    let xc_h = this.x - s.w2;
-                    let yc_h = this.y - s.h2*1.2;
-                    let hueAngle_h = XYtoAngle(xc_h, yc_h);
-                    this.vhue = Math.round((hueAngle + 360 + (this.heat * 1.8)) % 360);
-                    break;
-                case "hue-heat":
-                    // let xc_h = this.x - s.w2;
-                    // let yc_h = this.y - s.h2*1.2;
-                    // let hueAngle_h = XYtoAngle(xc_h, yc_h);
-                    // this.vhue = Math.round((hueAngle + 360 + (this.heat * 1.8)) % 360);
-                    this.vhue = (this.heat * 7.2);
-                    break;
-                default:
-                    break;
-            }
-
-            // Size of Particles!
-            // this.s = 8 + (this.heat * 0.5);
-            // this.s = 8 + (this.heat * 0.25);
-            this.s = 12 + (this.heat * 0.25);
+            this.alp = this.heat/100;
+            this.s = 4 + (this.heat * 0.15);
 
             // // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .75)`;
             // // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.lum}%)`;
             // // this.alp = Math.abs(this.heat) * .9 + 10;
             // this.alp = Math.abs(this.heat);
             // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.alp}%)`;
-            // this.c = `hsla(${this.vhue}, 100%, ${this.lum}%, ${this.alp})`;
-            this.c = `hsla(${this.vhue}, ${this.vsat}%, ${this.lum}%, ${this.alp})`;
+            this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.alp})`;
+            // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .01)`;
+            return this.c;
+        }
+    }
+    class p4 {
+        constructor(id=-1,type="0",x,y,h=0,vx=0,vy=0,c="#f39c"){
+            this.id = id;
+            this.type = type;
+            this.x = x;
+            this.y = y;
+            this.c = c;
+            this.s = 32;
+            // this.s = 12;
+            // this.s = 24;
+            this.vx = vx;
+            this.vy = vy;
+            this.vz = 0;
+            this.heat = h;
+            this.vh = 0;
+            this.v = 0;
+
+            this.vx2 = vx;
+            this.vy2 = vy;
+            // this.xtail = [];
+            // this.ytail = [];
+            this.tail = [{"x": this.x, "y": this.y}];
+
+
+            this.hue = 210;
+            this.sat = 100;
+            this.lum = 50;
+            this.alp = .5;
+
+            this.getColor();
+        }
+        getV(){
+            this.v = Math.abs(this.vx) + Math.abs(this.vy) + Math.abs(this.vz);
+            return this.v;
+        }
+        getColor(){
+            /* Heat can be from -100 to 100. */
+            /* If heat is 0, then show white. */
+            /* If heat is -100, then show blue. */
+            /* If heat is 100, then show red. */
+
+            // this.hue = 240 - (this.heat * 2.4);
+            // this.lum = 100 - Math.abs(this.heat-50);
+            // this.hue = 360 - (this.heat * 3.6);
+            // this.hue = (this.heat * 3.6);
+            // this.lum = 60;
+            // this.lum = 100 - Math.abs(this.heat-50);
+
+            // let heat2 = this.heat * this.heat / 100;
+            // this.hue = (heat2 * 3.6);
+            // this.lum = 100 - Math.abs(heat2-50);
+
+            // let heat3 = Math.sqrt(this.heat) * 10;
+            // this.hue = (heat3 * 3.6);
+            // this.lum = 100 - Math.abs(heat3-50);
+
+            // this.hue = (this.heat * 2.4);
+            // this.hue = (this.heat * .6);
+            // this.lum = 100 - Math.abs(this.heat-50);
+
+            // this.hue = (this.heat * 1.2);
+            // this.lum = 50 + this.heat/2;
+
+            // // let hueheat = Math.sqrt(this.heat) * 10;
+            // let lumheat = (this.heat*this.heat) / 100;
+            // this.hue = (this.heat * 1.2);
+            // // this.hue = (hueheat * .9);
+            // this.lum = 50 + lumheat/2;
+            // // this.alp = Math.pow(this.heat,2) / 1000;
+            // // this.alp = Math.pow(this.heat,3) / 10000;
+            // // if(this.heat < 5) {this.alp = 0;}
+            // // this.alp = this.heat;
+            // // this.alp = .15;
+            // this.alp = this.heat/100;
+            // this.s = 8 + (this.heat * 0.5);
+            // // this.alp = .15;
+            // // this.s = 24 + (this.heat * 0.25);
+
+            // this.s = 4 + (this.heat * 0.5);
+            let lumheat = (this.heat*this.heat) / 100;
+            // this.hue = 180 + (this.heat * 1.2);
+            this.hue = (this.heat * 4);
+            // this.hue = (this.heat * 12);
+            this.lum = 40 + lumheat/2;
+            this.alp = this.heat/100;
+            this.s = 4 + (this.heat * 0.15);
+
+            // // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .75)`;
+            // // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.lum}%)`;
+            // // this.alp = Math.abs(this.heat) * .9 + 10;
+            // this.alp = Math.abs(this.heat);
+            // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.alp}%)`;
+            this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.alp})`;
             // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .01)`;
             return this.c;
         }
@@ -727,6 +764,32 @@
         return {'x':x, 'y':y};
     }
 
+    function createOrbit4(n,type="0",h=0,a=-1,r=100){
+        let group = [];
+        for(let i = 0; i < n; i++){
+            // let a = Math.random()*360;
+            let angle = a;
+            if(a < 0){angle = Math.floor(Math.random()*360);}
+            let xy = AngleToXY(Math.floor(Math.random()*360));
+            let x = xy.x * r + s.canvas.left + s.canvas.w/2;
+            let y = xy.y * r + s.canvas.top + s.canvas.h/2;
+            let vxy = AngleToXY(angle);
+            let vx = vxy.x * .7;
+            let vy = vxy.y * .7;
+            group.push(new p4(particles.length,type,x,y,h,vx,vy));
+            particles.push(group[i]);
+        }
+        return group;
+    }
+    function createXY4(n,type="0",x,y,h){
+        let group = [];
+        for(let i = 0; i < n; i++){
+            // group.push(particle(x,y,c));
+            group.push(new p4(particles.length,type,x,y,h));
+            particles.push(group[i]);
+        }
+        return group;
+    }
     function createOrbit3(n,h=0,a=-1,r=100){
         let group = [];
         for(let i = 0; i < n; i++){
@@ -743,10 +806,6 @@
             particles.push(group[i]);
         }
         return group;
-    }
-    function createXY4(pgid,x,y,h){
-        pg[pgid].push(new p3(particles.length,x,y,h));
-        particles.push(pg[pgid][pg[pgid].length-1]);
     }
     function createXY3(n,x,y,h){
         let group = [];
@@ -1029,6 +1088,135 @@
             if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
         }
     }
+    function heat3(list1, list2, g = 0, r = 100){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fh = 0;
+            if(a.heat > 0) {a.heat -= (a.heat/8);}
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                // let dh = a.heat - b.heat;
+                let dh = b.heat - a.heat;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > 0 && d < r){
+                    // let force = g * 1/d;
+                    let hg = g + ((a.heat - 50) / 10000);
+                    let force = hg * 1/d;
+                    fx += (force * dx);
+                    fy += (force * dy);
+                    fh += dh * 1/d;
+
+                    // // let hf = (50 - a.heat) / 100;
+                    // let hf = (a.heat - 50) / 1000;
+                    // console.log(`%chg: %c${hg.toFixed(5)}`, "color: #999;", "color: #06c;");
+                    // console.log(`%cforce: %c${force.toFixed(5)}`, "color: #999;", "color: #06c;");
+                    // console.log(`%cforce: %c${force.toFixed(5)}%c, fx: %c${fx.toFixed(5)}%c, fy: %c${fy.toFixed(5)}`, "color: #999;", "color: #06c;", "color: #999;", "color: #06c;", "color: #999;", "color: #06c;");
+                    // console.log(`%c1/d: %c${d.toFixed(2)}%c * dh: %c${dh.toFixed(2)}%c = fh: %c${fh.toFixed(2)}`, "color: #999;", "color: #06c;", "color: #999;", "color: #06c;", "color: #999;", "color: #06c;");
+                }
+            }
+            a.vx = (a.vx + fx) * .98;
+            a.vy = (a.vy + fy) * .98;
+            a.x += a.vx;
+            a.y += a.vy;
+            
+            a.vh = (a.vh + fh) * 0.9;
+            a.heat += a.vh;
+            if(a.heat > 100){a.heat = 100;}
+
+            /* ─pushes back from border─ */
+            if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
+            if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
+        }
+    }
+    function heat4(list1, list2, g = 0, r = 100){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fh = 0;
+            if(a.heat > 0) {a.heat -= (a.heat/8);}
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                // let dh = a.heat - b.heat;
+                let dh = b.heat - a.heat;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > 0 && d < r){
+                    // let force = g * 1/d;
+                    // let hg = g + ((a.heat - 50) / 10000);
+                    // let force = hg * 1/d;
+
+                    let hf = g * (50 - a.heat) / 25;
+                    let hg = g + hf;
+                    // console.log(`%chg: %c${hg.toFixed(5)}`, "color: #999;", "color: #06c;");
+                    let force = hg * 1/d;
+
+                    fx += (force * dx);
+                    fy += (force * dy);
+                    fh += dh * 1/d;
+
+                    // let hf = (50 - a.heat) / 25;
+                    // // let hf = (a.heat - 50) / 100;
+                    // console.log(`%chf: %c${hf.toFixed(5)}`, "color: #999;", "color: #06c;");
+                    // console.log(`%cforce: %c${force.toFixed(5)}`, "color: #999;", "color: #06c;");
+                    // console.log(`%cforce: %c${force.toFixed(5)}%c, fx: %c${fx.toFixed(5)}%c, fy: %c${fy.toFixed(5)}`, "color: #999;", "color: #06c;", "color: #999;", "color: #06c;", "color: #999;", "color: #06c;");
+                    // console.log(`%c1/d: %c${d.toFixed(2)}%c * dh: %c${dh.toFixed(2)}%c = fh: %c${fh.toFixed(2)}`, "color: #999;", "color: #06c;", "color: #999;", "color: #06c;", "color: #999;", "color: #06c;");
+                }
+            }
+            a.vx = (a.vx + fx) * .98;
+            a.vy = (a.vy + fy) * .98;
+            a.x += a.vx;
+            a.y += a.vy;
+            
+            a.vh = (a.vh + fh) * 0.9;
+            a.heat += a.vh;
+            if(a.heat > 100){a.heat = 100;}
+
+            /* ─pushes back from border─ */
+            if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
+            if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
+        }
+    }
+    function heat5(list1, list2, g = 0, r = 100){
+        // for (let i = 0; i < list1.length; i++) {}
+
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            // let fx = 0;
+            // let fy = 0;
+            let fh = 0;
+            if(a.heat > 0) {a.heat -= (a.heat/100);}
+            // if(a.heat > 0) {a.heat--;}
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                // let dh = a.heat - b.heat;
+                let dh = b.heat - a.heat;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > 0 && d < r){
+                    let force = g * 1/d;
+                    // fx += (force * dx);
+                    // fy += (force * dy);
+                    fh += dh * 1/d;
+                    // console.log(`%c1/d: %c${d.toFixed(2)}%c * dh: %c${dh.toFixed(2)}%c = fh: %c${fh.toFixed(2)}`, "color: #999;", "color: #06c;", "color: #999;", "color: #06c;", "color: #999;", "color: #06c;");
+                }
+            }
+            
+            a.vh = (a.vh + fh) * .25;
+            // a.vh /= 2;
+            a.heat += a.vh;
+            // a.heat = (1-fh) * 100;
+            // a.heat = fh;
+            if(a.heat > 100){a.heat = 100;}
+
+        }
+    }
     function heat6(list1, list2, g = 0, r = 100){
         for (let i = 0; i < list1.length; i++) {
             const a = list1[i];
@@ -1185,8 +1373,10 @@
                     fy += (force * dy);
                 }
             }
-            a.vx = (a.vx + fx) * 1;
-            a.vy = (a.vy + fy) * 1;
+            // a.vx = (a.vx + fx) * .98;
+            // a.vy = (a.vy + fy) * .98;
+            a.vx = (a.vx + fx);
+            a.vy = (a.vy + fy);
             a.x += a.vx;
             a.y += a.vy;
 
@@ -1195,37 +1385,16 @@
             if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
         }
     }
-    pr["orbitSun"] = function (list1, list2, g = 0, r = 100){
+    pr["heat9"] = function (list1, list2, g = 0, r = 100){
         for (let i = 0; i < list1.length; i++) {
             const a = list1[i];
-            if(a.heat != 100){
-                let fx = 0;
-                let fy = 0;
-                for (let j = 0; j < list2.length; j++) {
-                    const b = list2[j];
-                    let dx = a.x - b.x;
-                    let dy = a.y - b.y;
-                    let d = Math.sqrt(dx*dx + dy*dy);
-                    if(d > 0 && d < r){
-                        let force = g * 1/d;
-                        fx += (force * dx);
-                        fy += (force * dy);
-                    }
-                }
-                a.vy = (a.vy + fy) * .95;
-                a.vx = (a.vx + fx) * .95;
-                a.x += a.vx;
-                a.y += a.vy;
-    
-                /* ─pushes back from border─ */
-                if(a.x <= s.canvas.left || a.x >= (s.canvas.left+s.canvas.w)){a.vx *= -1;}
-                if(a.y <= s.canvas.top || a.y >= (s.canvas.top+s.canvas.h)){a.vy *= -1;}
-            }
-        }
-    }
-    pr["heat7"] = function (list1, list2, g = 0, r = 100){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
+            if(a.tail.length > 50){a.tail.shift();}
+            a.tail.push({x: a.x, y: a.y});
+            
+            // if(xtail.length > 5){a.xtail.shift();}
+            // if(ytail.length > 5){a.ytail.shift();}
+            // a.xtail.push(a.vx);
+            // a.ytail.push(a.vy);
             let fx = 0;
             let fy = 0;
             let fh = 0;
@@ -1237,7 +1406,7 @@
                 // let dh = a.heat - b.heat;
                 let dh = b.heat - a.heat;
                 let d = Math.sqrt(dx*dx + dy*dy);
-                if(d > 0.1 && d < r){
+                if(d > 0 && d < r){
                     // let force = g * 1/d;
                     let hf = g * (50 - a.heat) / 25;
                     if(a.heat > 50) { hf = 0; }
@@ -1268,11 +1437,12 @@
     pr["heat8"] = function (list1, list2, g = 0, r = 100){
         for (let i = 0; i < list1.length; i++) {
             const a = list1[i];
+            a.vx2 = a.vx;
+            a.vy2 = a.vy;
             let fx = 0;
             let fy = 0;
             let fh = 0;
             if(a.heat > 0) {a.heat -= (a.heat/100);}
-            let rh = 5 + r + (r * (a.heat / -100));
             for (let j = 0; j < list2.length; j++) {
                 const b = list2[j];
                 let dx = a.x - b.x;
@@ -1280,7 +1450,7 @@
                 // let dh = a.heat - b.heat;
                 let dh = b.heat - a.heat;
                 let d = Math.sqrt(dx*dx + dy*dy);
-                if(d > 0.5 && d < rh){
+                if(d > 0 && d < r){
                     // let force = g * 1/d;
                     let hf = g * (50 - a.heat) / 25;
                     if(a.heat > 50) { hf = 0; }
@@ -1294,8 +1464,50 @@
                     }
                 }
             }
-            a.vx = (a.vx + fx) * .99;
-            a.vy = (a.vy + fy) * .99;
+            a.vx = (a.vx + fx) * .98;
+            a.vy = (a.vy + fy) * .98;
+            a.x += a.vx;
+            a.y += a.vy;
+            
+            // a.vh = (a.vh + fh) * 0.20;
+            // a.vh = (a.vh + fh) * 0.45;
+            // a.vh = (a.vh + fh) * 0.35;
+            // a.vh = (a.vh + fh) * 0.45;
+            a.vh = (a.vh + fh) * globRules.heatloss;
+            a.heat += a.vh;
+            if(a.heat > 100){a.heat = 100;}
+        }
+    }
+    pr["heat7"] = function (list1, list2, g = 0, r = 100){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fh = 0;
+            if(a.heat > 0) {a.heat -= (a.heat/100);}
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                // let dh = a.heat - b.heat;
+                let dh = b.heat - a.heat;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > 0 && d < r){
+                    // let force = g * 1/d;
+                    let hf = g * (50 - a.heat) / 25;
+                    if(a.heat > 50) { hf = 0; }
+                    let hg = g + hf;
+                    let force = hg * 1/d;
+
+                    fx += (force * dx);
+                    fy += (force * dy);
+                    if(dh > 0) {
+                        fh += dh * 1/d;
+                    }
+                }
+            }
+            a.vx = (a.vx + fx) * .98;
+            a.vy = (a.vy + fy) * .98;
             a.x += a.vx;
             a.y += a.vy;
             
@@ -1338,56 +1550,6 @@
             if(a.y <= 0 || a.y >= (s.h)){a.vy *= -1;}
         }
     }
-    pr["fall-01"] = function (list1, list2, g = 0, r = 100){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-
-            a.vy = (a.vy + g) * .98;
-            a.y += a.vy;
-
-            /* ─pushes back from border─ */
-            if(a.x <= a.s || a.x >= (s.w-a.s)){a.vx *= -1;}
-            if(a.y <= a.s || a.y >= (s.h-a.s)){a.vy *= -1;}
-        }
-    }
-    pr["fall-02"] = function (list1, list2, g = 0, r = 100){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-
-            a.vy = (a.vy + g) * .98;
-            a.y += a.vy;
-
-            // /* ─pushes back from border─ */
-            // if(a.x <= a.s || a.x >= (s.w-a.s)){a.vx *= -1;}
-            // if(a.y <= a.s || a.y >= (s.h-a.s)){a.vy *= -1;}
-
-            // if(a.x < 0 || a.x > s.w){a.x = s.w/2; a.vx = 0;}
-            // if(a.y < 0 || a.y > s.h){a.y = s.h/2; a.vy = 0;}
-
-            if(a.x < 0 || a.x > s.w || a.y < 0 || a.y > s.h + 50){
-                // a.x = Math.floor(Math.random() * s.w);
-                // a.x = Math.floor(Math.random() * (s.w/2) + s.w/4);
-                a.x = Math.floor(Math.random() * (s.w/3) + s.w/3);
-                a.y = s.h + (a.s * 2);
-                a.vx = 0;
-                a.vy = 0;
-            }
-        }
-    }
-    pr["fall-00"] = function (list1, list2, g = 0, r = 100){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-
-            a.vy = (a.vy + g) * .98;
-            a.y += a.vy;
-
-            if(a.x < 0 || a.x > s.w || a.y < 0 || a.y > s.h + 50){
-                a.x = Math.floor(Math.random() * (s.w/3) + s.w/3);
-                a.y = s.h + (a.s * 2);
-                // a.vx = 0; a.vy = 0;
-            }
-        }
-    }
     pr["fall"] = function (list1, list2, g = 0, r = 100){
         for (let i = 0; i < list1.length; i++) {
             const a = list1[i];
@@ -1395,52 +1557,10 @@
             a.vy = (a.vy + g) * .98;
             a.y += a.vy;
 
-            // /* ─pushes back from border─ */
-            // if(a.x <= a.s || a.x >= (s.w-a.s)){a.vx *= -1;}
-            // if(a.y <= a.s || a.y >= (s.h-a.s)){a.vy *= -1;}
-
-            if(a.x < s.cBox.left || a.x > s.cBox.right || a.y < s.cBox.top || a.y > s.h){
-                a.x = Math.floor(Math.random() * s.cBox.w + s.cBox.left);
-                // a.y = s.cBox.bottom + a.s;
-                a.y = s.cBox.bottom + (Math.random() * s.cBox.top);
-                a.vx = 0; a.vy = 0;
-                a.heat = 0;
-            }
-        }
-    }
-    pr["heat-fall-2"] = function (list1, list2, g = 0, r = 100){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-
-            a.vy = (a.vy + g) * .98;
-            a.y += a.vy;
-
             /* ─pushes back from border─ */
             if(a.x <= a.s || a.x >= (s.w-a.s)){a.vx *= -1;}
             if(a.y <= a.s || a.y >= (s.h-a.s)){a.vy *= -1;}
 
-        }
-    }
-
-    pr["mouse-orbit"] = function (list1, list2, g = 0, r = 100){
-        for (let i = 0; i < list1.length; i++) {
-            const a = list1[i];
-            let fx = 0;
-            let fy = 0;
-
-            let dx = a.x - s.mouse.x;
-            let dy = a.y - s.mouse.y;
-            let d = Math.sqrt(dx*dx + dy*dy);
-            if(d > 0 && d < r){
-                let force = g * 1/d;
-                fx += (force * dx);
-                fy += (force * dy);
-            }
-
-            a.vx = (a.vx + fx);
-            a.vy = (a.vy + fy);
-            // a.x += a.vx;
-            // a.y += a.vy;
         }
     }
     var rules2 = [
@@ -1464,49 +1584,65 @@
         {rule: "heat7", a: "e", b: "e", g: .09, r: 10}
     ];
     var rules5 = [
-        {rule: "mouse-orbit", a: "e", b: "e", g: .025, r: 100},
+        /* too explosive. */
+        {rule: "orbit", a: "sun", b: "sun", g: -0.019, r: 1500},
+        {rule: "orbit", a: "sun", b: "e", g: -0.005, r: 300},
+        {rule: "orbit", a: "sun", b: "e", g: 0.002, r: 30},
         {rule: "heat7", a: "e", b: "sun", g: -0.009, r: 1500},
-        {rule: "fall", a: "e", b: "e", g: -.015, r: 100},
+        // {rule: "fall", a: "e", b: "e", g: -.015, r: 100},
         {rule: "heat7", a: "e", b: "e", g: .09, r: 10}
     ];
     var rules6 = [
-        {rule: "mouse-orbit", a: "e", b: "e", g: .025, r: 30},
-        {rule: "heat7", a: "e", b: "sun", g: -0.001, r: 1500},
-        {rule: "fall", a: "e", b: "e", g: -.015, r: 100},
-        {rule: "heat8", a: "e", b: "e", g: .09, r: 20}
+        {rule: "orbit", a: "e", b: "black", g: -0.001, r: 1500},
+        {rule: "orbit", a: "sun", b: "black", g: -0.029, r: 1500},
+        {rule: "orbit", a: "sun", b: "sun", g: -0.001, r: 500},
+        {rule: "orbit", a: "sun", b: "e", g: -0.001, r: 100},
+        {rule: "orbit", a: "sun", b: "e", g: 0.003, r: 30},
+        {rule: "heat7", a: "e", b: "sun", g: -0.009, r: 1500},
+        // {rule: "fall", a: "e", b: "e", g: -.015, r: 100},
+        {rule: "heat7", a: "e", b: "e", g: .09, r: 12}
     ];
     var rules7 = [
-        /* [mouse-orbit] is the repulsion from particles to the mouse. */
-        /* [heat7] is the attraction to the sun/fire particle. */
-        /* [fall] is the general gravity for particles to go up. */
-        /* [heat8] is the repulsion from particle to particle. */
-        {rule: "mouse-orbit", a: "e", b: "e", g: .08, r: 50},
+        {rule: "orbit", a: "e", b: "black", g: -0.009, r: 1500},
+        {rule: "orbit", a: "sun", b: "black", g: -0.029, r: 1500},
+        {rule: "orbit", a: "sun", b: "sun", g: -0.0001, r: 500},
+        // {rule: "orbit", a: "sun", b: "e", g: -0.001, r: 100},
+        // {rule: "orbit", a: "sun", b: "e", g: 0.003, r: 30},
         {rule: "heat7", a: "e", b: "sun", g: -0.001, r: 1500},
-        {rule: "fall", a: "e", b: "e", g: -.015, r: 100},
-        {rule: "heat8", a: "e", b: "e", g: .09, r: 20}
+        // {rule: "fall", a: "e", b: "e", g: -.015, r: 100},
+        {rule: "heat7", a: "e", b: "e", g: .09, r: 12}
     ];
     var rules8 = [
-        /* [mouse-orbit] is the repulsion from particles to the mouse. */
-        /* [heat7] is the attraction to the sun/fire particle. */
-        /* [fall] is the general gravity for particles to go up. */
-        /* [heat8] is the repulsion from particle to particle. */
-        {rule: "mouse-orbit", a: "e", b: "e", g: .08, r: 50},
-        {rule: "orbit", a: "sun", b: "sun", g: -.005, r: 500},
+        {rule: "orbit", a: "e", b: "black", g: -0.009, r: 1500},
+        {rule: "orbit", a: "sun", b: "black", g: -0.029, r: 1500},
+        {rule: "orbit", a: "sun", b: "sun", g: -0.0001, r: 500},
+        // {rule: "orbit", a: "sun", b: "e", g: -0.001, r: 100},
+        // {rule: "orbit", a: "sun", b: "e", g: 0.003, r: 30},
         {rule: "heat7", a: "e", b: "sun", g: -0.001, r: 1500},
-        {rule: "heat8", a: "e", b: "e", g: .09, r: 20},
-        {rule: "fall", a: "e", b: "e", g: -.015, r: 100}
+        // {rule: "fall", a: "e", b: "e", g: -.015, r: 100},
+        {rule: "heat7", a: "e", b: "e", g: .09, r: 12}
+    ];
+    var rules9 = [
+        {rule: "orbit", a: "e", b: "black", g: -0.009, r: 1500},
+        {rule: "orbit", a: "sun", b: "black", g: -0.029, r: 1500},
+        {rule: "orbit", a: "sun", b: "sun", g: -0.0001, r: 500},
+        // {rule: "orbit", a: "sun", b: "e", g: -0.001, r: 100},
+        // {rule: "orbit", a: "sun", b: "e", g: 0.003, r: 30},
+        {rule: "heat7", a: "e", b: "sun", g: -0.001, r: 1500},
+        // {rule: "fall", a: "e", b: "e", g: -.015, r: 100},
+        {rule: "heat7", a: "e", b: "e", g: .09, r: 12}
     ];
     var rules = [
-        /* [mouse-orbit] is the repulsion from particles to the mouse. */
-        /* [heat7] is the attraction to the sun/fire particle. */
-        /* [fall] is the general gravity for particles to go up. */
-        /* [heat8] is the repulsion from particle to particle. */
-        {rule: "mouse-orbit", a: "e", b: "e", g: .08, r: 50},
-        {rule: "orbitSun", a: "sun", b: "sun", g: .025, r: 30},
-        {rule: "orbitSun", a: "sun", b: "sun", g: -.015, r: 1500},
-        {rule: "heat7", a: "e", b: "sun", g: -0.001, r: 1500},
-        {rule: "heat8", a: "e", b: "e", g: .09, r: 20},
-        {rule: "fall", a: "e", b: "e", g: -.015, r: 100}
+        // {rule: "orbit", a: "e", b: "black", g: -0.009, r: 1500},
+        // {rule: "orbit", a: "sun", b: "black", g: -0.029, r: 1500},
+        // {rule: "orbit", a: "sun", b: "sun", g: -0.0001, r: 500},
+        // // {rule: "orbit", a: "sun", b: "e", g: -0.001, r: 100},
+        // // {rule: "orbit", a: "sun", b: "e", g: 0.003, r: 30},
+        // {rule: "heat7", a: "e", b: "sun", g: -0.001, r: 1500},
+        
+        {rule: "heat9", a: "e", b: "sun", g: -0.009, r: 1500},
+        {rule: "heat9", a: "e", b: "e", g: .09, r: 12}
+        // {rule: "fall", a: "e", b: "e", g: -.015, r: 100},
     ];
     
     const pg = {}
@@ -1529,31 +1665,37 @@
         // pg["e"] = createOrbit2(30, 0, -1, 150);
 
         // // pg["sun"] = createXY3(1, s.canvas.left+250, s.canvas.top+250, 100);
-        // pg["sun"] = createXY3(1, s.canvas.left+250, s.h*.6, 100);
+        // pg["sun"] = createXY3(1, s.canvas.left+250, s.h*.5, 100);
         // pg["e"] = createOrbit3(360, 0, -1, 100);
 
-        pg["sun"] = [];
-        // createXY4("sun", s.canvas.left+240, s.h*.6, 70);
-        // createXY4("sun", s.canvas.left+250, s.h*.61, 80);
-        // createXY4("sun", s.canvas.left+260, s.h*.6, 70);
+        /*
+        0	10
+        -9.51	3.09
+        -5.88	-8.09
+        5.88	-8.09
+        9.51	3.09
+        */
+        // // pg["black"] = createXY3(1, s.w*.5, s.h*.5, 0);
+        // let sh2 = s.h/2;
+        // let sw2 = s.w/2;
+
+        // pg["sun"] = createXY3(1, sw2, sh2, 100);
         
-        // createXY4("sun", s.canvas.left+250, s.h*.6, 100);
-        // createXY4("sun", s.canvas.left+240, s.h*.58, 80);
-        // createXY4("sun", s.canvas.left+260, s.h*.56, 60);
-        // createXY4("sun", s.canvas.left+250, s.h*.54, 40);
+        // // pg["sun"] = createXY3(1, sw2, sh2 - 100, 100);
+        // // pg["sun"].push(createXY3(1, sw2 - 95.1, sh2 - 30.9, 100)[0]);
+        // // pg["sun"].push(createXY3(1, sw2 - 58.8, sh2 + 80.9, 100)[0]);
+        // // pg["sun"].push(createXY3(1, sw2 + 58.8, sh2 + 80.9, 100)[0]);
+        // // pg["sun"].push(createXY3(1, sw2 + 95.1, sh2 - 30.9, 100)[0]);
+        // // pg["e"] = createOrbit3(360, 0, -1, 100);
+        // // pg["e"] = createOrbit3(720, 0, -1, 100);
+        // pg["e"] = createOrbit3(360, 0, -1, 100);
+        
+        
+        let sh2 = s.h/2;
+        let sw2 = s.w/2;
 
-        // createXY4("sun", s.canvas.left+250, s.h*.6, 100);
-        // createXY4("sun", s.canvas.left+240, s.h*.58, 50);
-        // createXY4("sun", s.canvas.left+260, s.h*.58, 50);
-        // createXY4("sun", s.canvas.left+250, s.h*.56, 50);
-        // createXY4("sun", s.canvas.left+250, s.h*.62, 50);
-
-        // createXY4("sun", s.canvas.left+250, s.h*.6, 100);
-        createXY4("sun", s.canvas.left+250, s.h*.6, 100);
-        // createXY4("sun", s.w2, s.h2, 100);
-
-        pg["e"] = createOrbit3(360, 0, -1, 100);
-        // pg["e"] = createOrbit3(10, 0, -1, 100);
+        pg["sun"] = createXY4(1, "sun", sw2, sh2, 100);
+        pg["e"] = createOrbit4(360, "e", 0, -1, 100);
     }
     // start();
 
@@ -1584,7 +1726,22 @@
                 // draw2(ctx,particles[i],particles[i].x,particles[i].y,5);
                 // // draw2(ctx,particles[i],particles[i].x,particles[i].y);
                 // // draw2(ctx,particles[i]);
-                draw3(ctx,particles[i],particles[i].x,particles[i].y,5);
+                // draw3(ctx,particles[i],particles[i].x,particles[i].y,5);
+                // draw4(ctx,particles[i],particles[i].x,particles[i].y,5);
+                // draw5(ctx,particles[i],particles[i].x,particles[i].y,5);
+                // draw6(ctx,particles[i]);
+                // if(particles[i].id < 1) {
+                //     draw3(ctx,particles[i],particles[i].x,particles[i].y,5);
+                // } else {
+                //     draw6(ctx,particles[i]);
+                // }
+                
+                if(particles[i].type == "sun") {
+                    draw3(ctx,particles[i],particles[i].x,particles[i].y,5);
+                } else {
+                    draw9(ctx,particles[i]);
+                }
+                
             }
         }
         requestAnimationFrame(update);
@@ -1593,9 +1750,6 @@
     function updateSettings(){
         s.h = window.innerHeight;
         s.w = window.innerWidth;
-        s.h2 = window.innerHeight/2;
-        s.w2 = window.innerWidth/2;
-        
         s.canvas.top = (s.h - s.canvas.h)/2;
         s.canvas.left = (s.w - s.canvas.w)/2;
         canvas.width = s.w;
@@ -1608,31 +1762,12 @@
 
     window.addEventListener('load', (ev) => {
         console.log(`Welcome to my Lab!`);
-        // RandomizeFireColor();
         updateSettings();
         start();
         update();
         // let cval = document.getElementById("canvas");
         // cval.style = `--h: ${window.innerHeight}px`;
-        
     });
-    /* Version Log:
-    [index-nds-00]: Default Template.
-    [index-nds-01]: 
-    [index-nds-02]: 
-    [index-nds-03]: 
-    [index-nds-04]: 
-    [index-nds-05]: Adding 4 Color Options: ["white", "RGB-wheel", "RGB-spiral", "RGB-heat"];
-                    To a total of 10: ["normal", "gray", "white", "phire", "random", "x", "planet-earth", "RGB-wheel", "RGB-spiral", "RGB-heat"]
-    [index-nds-06]: 
-    [index-nds-07]: 
-    [index-nds-08]: 
-    [index-nds-09]: 
-    [index-nds-10]: 
-    [index-nds-11]: 
-    [index-nds-12]: 
-
-    */
 
     function WorldState(){
         let up = 0;
@@ -1695,6 +1830,23 @@ avg: ${avg}.`);
 
         console.log(range);
     }
+
+    /*
+    index--nds-01: two eyes made for a circling motion farther away from the center.
+    index--nds-02: like stones going on water and making a wave.
+    index--nds-03: chaotic particle behavior, it accelerates too much on the walls.
+    index--nds-04: more stable colorful particles orbiting each other.
+    index--nds-05: ajusting the forces and activating a filter.
+    index--nds-06: now 3 particles orbiting around an invisible center and each other.
+    index--nds-07: purple fires.
+    index--nds-08: making it with 5 particles making a pentagon.
+    index--nds-09: squares and lines.
+    index--nds-10: single sun, and tail.
+    --
+    index--nds-11: single sun, and tail.
+
+    */
+
 </script>
 </body>
 </html>

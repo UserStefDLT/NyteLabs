@@ -30,6 +30,17 @@
             /* filter: blur(var(--blur)) url(#quid-50_30); */
             /* filter: blur(var(--blur)) url(#quid); */
         }
+        #toggleBlur:not(:checked) ~ main [id*="canvas"] {
+            --blur: 0px;
+        }
+        #toggleBlur:checked ~ main [id*="canvas"] {
+            --blur: 6px;
+            filter: blur(var(--blur));
+        }
+        #toggleFilter:checked ~ main [id*="canvas"] {
+            --blur: 3px;
+            filter: blur(var(--blur)) url(#quid);
+        }
     </style>
 <style>
     .box {
@@ -96,9 +107,14 @@
 <link rel="stylesheet" href="../../../stylesheets/settings.css">
 <style>
     /* Settings. */
+    #toggleBlur,
+    #toggleFilter,
     #toggleLights,
     #toggleIso,
     #toggleOpacity {display: none;}
+
+    #toggleBlur:checked ~ .options .toggleCheckboxLabel[for="toggleBlur"],
+    #toggleFilter:checked ~ .options .toggleCheckboxLabel[for="toggleFilter"],
     #toggleLights:checked ~ .options .toggleCheckboxLabel[for="toggleLights"],
     #toggleIso:checked ~ .options .toggleCheckboxLabel[for="toggleIso"],
     #toggleOpacity:checked ~ .options .toggleCheckboxLabel[for="toggleOpacity"] {
@@ -146,13 +162,15 @@
     <header>
         <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
         <h1 class="title">NyteLabs</h1>
-        <div class="subtitle">Heat Rules</div>
+        <div class="subtitle">Unknown Rules</div>
         <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
         <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
     </header>
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
     <input type="checkbox" name="toggle" id="toggleLights">
+    <input type="checkbox" name="toggle" id="toggleBlur">
+    <input type="checkbox" name="toggle" id="toggleFilter">
 
 <main>
     <!-- <div class="shelf">
@@ -163,11 +181,17 @@
     <!-- <div class="sun"></div> -->
 </main>
 
-<!-- <div class="options">
-    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+<div class="options">
+    <!-- <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
     <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
-    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
-</div> -->
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label> -->
+    <!-- <button id="FireColorBtn" class="fireColor" onclick="RandomizeFireColor()"></button> -->
+    <!-- <button id="FireColorBtn" class="fireColor" onclick="NextFireColor()" data-color="normal"></button> -->
+    <!-- <button id="FireColorBtn" class="fireColor" onclick="NextFireColor()" data-color="RGB-wheel"></button> -->
+    <label for="toggleBlur" class="toggleCheckboxLabel" data-toggle="Blur">Blur</label>
+    <label for="toggleFilter" class="toggleCheckboxLabel" data-toggle="Filter">Filter</label>
+
+</div>
 
 <svg style='display: none;'>
     <defs>
@@ -257,7 +281,10 @@
         fire: {
             color_index: 0,
             color: "normal",
-            colorOptions: ["normal", "white", "phire", "random", "x", "planet-earth"],
+            // color_index: 6,
+            // color: "RGB-wheel",
+            colorOptions: ["normal", "gray", "white", "phire", "random", "x", "planet-earth", "RGB-wheel", "RGB-spiral", "RGB-heat"],
+            colorOptions_name: ["Fire", "Gray Scale", "White", "Phire", "Rand", "x", "Planet Earth", "RGB Wheel", "RGB Spiral", "RGB Heat"],
         },
 
         player: false,
@@ -340,6 +367,72 @@
         return angle;
     }
 
+
+    function draw6(ctx,e){
+        ctx.fillStyle = e.getColor();
+        // ctx.filter = "blur(4px)";
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, e.s/4, 0, Math.PI * 2);
+        ctx.fill();
+        // ctx.fillRect(e.x,e.y,e.s,e.s);
+
+        // let s2 = e.s/4;
+        // let s1 = s2*2;
+        // ctx.fillRect(e.x-s2,e.y-s2,s1,s1);
+
+        // let x1 = e.x - (e.vx * e.s);
+        // let y1 = e.y - (e.vy * e.s);
+        // let x1 = e.x - (e.vx * 30);
+        // let y1 = e.y - (e.vy * 30);
+        // let x0 = e.x - e.vx;
+        // let y0 = e.y - e.vy;
+        // let a = XYtoAngle(x0,y0);
+        let a = XYtoAngle(e.vx,e.vy);
+        let xy = AngleToXY(a);
+        // let x1 = e.x - (xy.x * 30);
+        // let y1 = e.y - (xy.y * 30);
+        let x1 = e.x - (xy.x * e.s);
+        let y1 = e.y - (xy.y * e.s);
+        // let x1 = e.x - (xy.x * e.s * e.vx);
+        // let y1 = e.y - (xy.y * e.s * e.vy);
+        ctx.beginPath(); // Start a new path
+        ctx.moveTo(x1, y1); // Move the pen to (30, 50)
+        ctx.strokeStyle = e.getColor();
+        // ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 2;
+        ctx.lineTo(e.x, e.y); // Draw a line to (150, 100)
+        ctx.stroke(); // Render the path
+    }
+    function draw5(ctx,e,x,y,s){
+        ctx.fillStyle = e.getColor();
+        // // ctx.filter = "blur(4px)";
+        // ctx.beginPath();
+        // ctx.arc(e.x, e.y, e.s/2, 0, Math.PI * 2);
+        // ctx.fill();
+        // // ctx.fillRect(e.x,e.y,e.s,e.s);
+        let s2 = e.s/2;
+        ctx.fillRect(e.x-s2,e.y-s2,e.s,e.s);
+
+        let x1 = e.x - e.vx;
+        let y1 = e.y - e.vy;
+        ctx.beginPath(); // Start a new path
+        ctx.moveTo(x1, y1); // Move the pen to (30, 50)
+        // ctx.strokeStyle = e.getColor();
+        ctx.strokeStyle = "#fff";
+        ctx.lineWidth = 3;
+        ctx.lineTo(e.x, e.y); // Draw a line to (150, 100)
+        ctx.stroke(); // Render the path
+    }
+    function draw4(ctx,e,x,y,s){
+        ctx.fillStyle = e.getColor();
+        // // ctx.filter = "blur(4px)";
+        // ctx.beginPath();
+        // ctx.arc(e.x, e.y, e.s/2, 0, Math.PI * 2);
+        // ctx.fill();
+        // // ctx.fillRect(e.x,e.y,e.s,e.s);
+        let s2 = e.s/2;
+        ctx.fillRect(e.x-s2,e.y-s2,e.s,e.s);
+    }
     function draw3(ctx,e,x,y,s){
         ctx.fillStyle = e.getColor();
         // ctx.filter = "blur(4px)";
@@ -482,7 +575,7 @@
             this.hue = (this.heat * 4);
             // this.hue = (this.heat * 12);
             this.lum = 40 + lumheat/2;
-            this.alp = this.heat/150;
+            this.alp = this.heat/100;
             this.s = 4 + (this.heat * 0.15);
 
             // // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .75)`;
@@ -1234,13 +1327,35 @@
         // {rule: "fall", a: "e", b: "e", g: -.015, r: 100},
         {rule: "heat7", a: "e", b: "e", g: .09, r: 12}
     ];
-    var rules = [
+    var rules8 = [
         {rule: "orbit", a: "e", b: "black", g: -0.009, r: 1500},
         {rule: "orbit", a: "sun", b: "black", g: -0.029, r: 1500},
         {rule: "orbit", a: "sun", b: "sun", g: -0.0001, r: 500},
         // {rule: "orbit", a: "sun", b: "e", g: -0.001, r: 100},
         // {rule: "orbit", a: "sun", b: "e", g: 0.003, r: 30},
         {rule: "heat7", a: "e", b: "sun", g: -0.001, r: 1500},
+        // {rule: "fall", a: "e", b: "e", g: -.015, r: 100},
+        {rule: "heat7", a: "e", b: "e", g: .09, r: 12}
+    ];
+    var rules9 = [
+        {rule: "orbit", a: "e", b: "black", g: -0.009, r: 1500},
+        {rule: "orbit", a: "sun", b: "black", g: -0.029, r: 1500},
+        {rule: "orbit", a: "sun", b: "sun", g: -0.0001, r: 500},
+        // {rule: "orbit", a: "sun", b: "e", g: -0.001, r: 100},
+        // {rule: "orbit", a: "sun", b: "e", g: 0.003, r: 30},
+        {rule: "heat7", a: "e", b: "sun", g: -0.001, r: 1500},
+        // {rule: "fall", a: "e", b: "e", g: -.015, r: 100},
+        {rule: "heat7", a: "e", b: "e", g: .09, r: 12}
+    ];
+    var rules = [
+        // {rule: "orbit", a: "e", b: "black", g: -0.009, r: 1500},
+        // {rule: "orbit", a: "sun", b: "black", g: -0.029, r: 1500},
+        // {rule: "orbit", a: "sun", b: "sun", g: -0.0001, r: 500},
+        // // {rule: "orbit", a: "sun", b: "e", g: -0.001, r: 100},
+        // // {rule: "orbit", a: "sun", b: "e", g: 0.003, r: 30},
+        // {rule: "heat7", a: "e", b: "sun", g: -0.001, r: 1500},
+        
+        {rule: "heat7", a: "e", b: "sun", g: -0.009, r: 1500},
         // {rule: "fall", a: "e", b: "e", g: -.015, r: 100},
         {rule: "heat7", a: "e", b: "e", g: .09, r: 12}
     ];
@@ -1275,17 +1390,20 @@
         5.88	-8.09
         9.51	3.09
         */
-        pg["black"] = createXY3(1, s.w*.5, s.h*.5, 0);
+        // pg["black"] = createXY3(1, s.w*.5, s.h*.5, 0);
         let sh2 = s.h/2;
         let sw2 = s.w/2;
 
-        pg["sun"] = createXY3(1, sw2, sh2 - 100, 100);
-        pg["sun"].push(createXY3(1, sw2 - 95.1, sh2 - 30.9, 100)[0]);
-        pg["sun"].push(createXY3(1, sw2 - 58.8, sh2 + 80.9, 100)[0]);
-        pg["sun"].push(createXY3(1, sw2 + 58.8, sh2 + 80.9, 100)[0]);
-        pg["sun"].push(createXY3(1, sw2 + 95.1, sh2 - 30.9, 100)[0]);
+        pg["sun"] = createXY3(1, sw2, sh2, 100);
+
+        // pg["sun"] = createXY3(1, sw2, sh2 - 100, 100);
+        // pg["sun"].push(createXY3(1, sw2 - 95.1, sh2 - 30.9, 100)[0]);
+        // pg["sun"].push(createXY3(1, sw2 - 58.8, sh2 + 80.9, 100)[0]);
+        // pg["sun"].push(createXY3(1, sw2 + 58.8, sh2 + 80.9, 100)[0]);
+        // pg["sun"].push(createXY3(1, sw2 + 95.1, sh2 - 30.9, 100)[0]);
         // pg["e"] = createOrbit3(360, 0, -1, 100);
-        pg["e"] = createOrbit3(720, 0, -1, 100);
+        // pg["e"] = createOrbit3(720, 0, -1, 100);
+        pg["e"] = createOrbit3(360, 0, -1, 100);
     }
     // start();
 
@@ -1316,7 +1434,17 @@
                 // draw2(ctx,particles[i],particles[i].x,particles[i].y,5);
                 // // draw2(ctx,particles[i],particles[i].x,particles[i].y);
                 // // draw2(ctx,particles[i]);
-                draw3(ctx,particles[i],particles[i].x,particles[i].y,5);
+                // draw3(ctx,particles[i],particles[i].x,particles[i].y,5);
+                // draw4(ctx,particles[i],particles[i].x,particles[i].y,5);
+                // draw5(ctx,particles[i],particles[i].x,particles[i].y,5);
+                // draw6(ctx,particles[i]);
+                
+                if(particles[i].id < 1) {
+                    draw3(ctx,particles[i],particles[i].x,particles[i].y,5);
+                } else {
+                    draw6(ctx,particles[i]);
+                }
+                // draw6(ctx,particles[i]);
             }
         }
         requestAnimationFrame(update);
@@ -1415,6 +1543,8 @@ avg: ${avg}.`);
     index--nds-06: now 3 particles orbiting around an invisible center and each other.
     index--nds-07: purple fires.
     index--nds-08: making it with 5 particles making a pentagon.
+    index--nds-09: squares and lines.
+    index--nds-10: single sun, and tail.
 
     */
 
