@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Particle Tails 🌀🌌🌠 | NyteLabs</title>
+    <title>Particle Colors  | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/canvas-2.css">
@@ -155,6 +155,159 @@
     [id*="canvas"], #canvas {
         height: var(--ch);
     } */
+    :root {
+        --bgi-hue: 
+        radial-gradient(circle at 50% 0%, #f00, #f000 50%),
+        radial-gradient(circle at 86% 30%, #ff0, #ff00 50%),
+        radial-gradient(circle at 86% 70%, #0f0, #0f00 50%),
+        radial-gradient(circle at 50% 100%, #0ff, #0ff0 50%),
+        radial-gradient(circle at 14% 70%, #00f, #00f0 50%),
+        radial-gradient(circle at 14% 30%, #f0f, #f0f0 50%);
+    }
+    /* [Fire Colors Btn] */
+    /*
+        hue-fire: color from yellow to red.
+        sat-gray: the more heat the brighter.
+        lum-white: fixed white, just shape.
+        hue-phire: purple fire.
+        hue-start: based on the initial position.
+        hue-random: based on the initial random hue.
+        hue-x: based on the x location.
+        hue-earth: based on the x location, green to blue.
+        hue-wheel: hue based on position relative to the center.
+        hue-spiral: hue spiral on position relative to the center.
+        hue-heat: hue based heat.
+        hue-speed: hue based movement.
+        hue-direction: hue based direction.
+        hue-cyan: simple cyan color 180.
+
+        "Hue Fire",
+        "Sat Gray",
+        "Lum White",
+        "Hue Phire",
+        "Hue Start",
+        "Hue Random",
+        "Hue X",
+        "Hue Earth",
+        "Hue Wheel",
+        "Hue Spiral",
+        "Hue Heat",
+        "Hue Speed",
+        "Hue Direction",
+        "Hue Cyan"
+    */
+    .fireColor {
+        position: relative;
+        height: 30px; width: 30px;
+        border-radius: 50%;
+        background-color: #fff;
+        background-image: 
+        radial-gradient(#fff, #fff0 30%),
+        conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+    }
+    .fireColor[data-color="hue-fire"]::after {content: "Fire";}
+    .fireColor[data-color="sat-gray"]::after {content: "Gray Scale";}
+    .fireColor[data-color="lum-white"]::after {content: "White";}
+    .fireColor[data-color="hue-phire"]::after {content: "Phire";}
+    .fireColor[data-color="hue-start"]::after {content: "Hue Start";}
+    .fireColor[data-color="hue-random"]::after {content: "Rand";}
+    .fireColor[data-color="hue-x"]::after {content: "x";}
+    .fireColor[data-color="hue-earth"]::after {content: "Planet Earth";}
+    .fireColor[data-color="hue-wheel"]::after {content: "Hue Wheel";}
+    .fireColor[data-color="hue-spiral"]::after {content: "Hue Spiral";}
+    /* .fireColor[data-color="RGB-heat"]::after {content: "RGB Heat";} */
+    .fireColor[data-color="hue-heat"]::after {content: "Hue Heat";}
+    .fireColor[data-color="hue-speed"]::after {content: "Hue Speed";}
+    .fireColor[data-color="hue-direction"]::after {content: "Hue Direction";}
+    .fireColor[data-color="hue-cyan"]::after {content: "Cyan";}
+    .fireColor::after {
+        position: absolute;
+        top: 100%; left: 50%;
+        transform: translateX(-50%) translateY(20%);
+        color: #fff;
+        opacity: 0;
+        transition: opacity 200ms ease-in-out;
+    }
+    .fireColor:hover::after {
+        opacity: 1;
+    }
+
+    .fireColor[data-color="hue-fire"] {background-image: radial-gradient(circle at 50% 100%,#fff0 5%, #f50c, #ff0f 80%);}
+    .fireColor[data-color="hue-gray"] {background-image: radial-gradient(circle at 50% 100%,#fff0 5%, #fff9, #777c 80%);}
+    .fireColor[data-color="hue-white"] {background-image: radial-gradient(circle at 50% 100%,#fff0 5%, #fff, #fffc 80%);}
+    .fireColor[data-color="hue-phire"] {background-image: radial-gradient(circle at 50% 100%,#fff0 5%, #93fc, #f39f 80%);}
+    .fireColor[data-color="hue-random"] {
+        background-image: 
+        radial-gradient(circle at 50% 0%, #f00, #f000 50%),
+        radial-gradient(circle at 86% 30%, #ff0, #ff00 50%),
+        radial-gradient(circle at 86% 70%, #0f0, #0f00 50%),
+        radial-gradient(circle at 50% 100%, #0ff, #0ff0 50%),
+        radial-gradient(circle at 14% 70%, #00f, #00f0 50%),
+        radial-gradient(circle at 14% 30%, #f0f, #f0f0 50%);
+    }
+    .fireColor[data-color="hue-x"] {
+        background-image: 
+        radial-gradient(#fff, #fff0 30%),
+        conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+    }
+    .fireColor[data-color="hue-earth"] {
+        background-image: 
+        radial-gradient(#fff, #fff0 80%),
+        conic-gradient(#0f0, #0ff, #00f, #0f0);
+    }
+    .fireColor[data-color="hue-wheel"] {
+        background-image: 
+        radial-gradient(circle at 50% 0%, #f00, #f000 50%),
+        radial-gradient(circle at 86% 30%, #ff0, #ff00 50%),
+        radial-gradient(circle at 86% 70%, #0f0, #0f00 50%),
+        radial-gradient(circle at 50% 100%, #0ff, #0ff0 50%),
+        radial-gradient(circle at 14% 70%, #00f, #00f0 50%),
+        radial-gradient(circle at 14% 30%, #f0f, #f0f0 50%);
+    }
+    .fireColor[data-color="hue-spiral"] {
+        background-image: 
+        radial-gradient(circle at 50% 0%, #f00, #f000 50%),
+        radial-gradient(circle at 86% 30%, #ff0, #ff00 50%),
+        radial-gradient(circle at 86% 70%, #0f0, #0f00 50%),
+        radial-gradient(circle at 50% 100%, #0ff, #0ff0 50%),
+        radial-gradient(circle at 14% 70%, #00f, #00f0 50%),
+        radial-gradient(circle at 14% 30%, #f0f, #f0f0 50%);
+    }
+    .fireColor[data-color="RGB-heat"] {
+        background-image: 
+        radial-gradient(circle at 50% 0%, #f00, #f000 50%),
+        /* radial-gradient(circle at 86% 30%, #ff0, #ff00 50%), */
+        radial-gradient(circle at 86% 70%, #0f0, #0f00 50%),
+        /* radial-gradient(circle at 50% 100%, #0ff, #0ff0 50%), */
+        radial-gradient(circle at 14% 70%, #00f, #00f0 50%),
+        /* radial-gradient(circle at 14% 30%, #f0f, #f0f0 50%); */
+    }
+    .fireColor[data-color="hue-heat"] {
+        background-image: 
+        radial-gradient(circle at 50% 0%, #f00, #f000 50%),
+        radial-gradient(circle at 86% 30%, #ff0, #ff00 50%),
+        radial-gradient(circle at 86% 70%, #0f0, #0f00 50%),
+        radial-gradient(circle at 50% 100%, #0ff, #0ff0 50%),
+        radial-gradient(circle at 14% 70%, #00f, #00f0 50%),
+        radial-gradient(circle at 14% 30%, #f0f, #f0f0 50%);
+    }
+    /* "Hue Heat",
+        "Hue Speed",
+        "Hue Direction",
+        "Hue Cyan" */
+    .fireColor[data-color="hue-speed"] {
+        background-image: 
+        linear-gradient(90deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f);
+    }
+    .fireColor[data-color="hue-direction"] {
+        background-image: var(--bgi-hue);
+    }
+    .fireColor[data-color="hue-cyan-0"] {
+        background-image: radial-gradient(circle at 50% 50%, #0ff, hsl(180, 100%, 50%) 50%);
+    }
+    .fireColor[data-color="hue-cyan"] {
+        background-image: radial-gradient(circle at 50% 50%, #0ff, hsl(180, 100%, 20%) 50%);
+    }
 </style>
 <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
@@ -162,7 +315,8 @@
     <header>
         <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
         <h1 class="title">NyteLabs</h1>
-        <div class="subtitle">Particle Tails</div>
+        <div class="subtitle">Particle Colors</div>
+        <!-- <div class="subtitle">Particle Colors ✨🌈🎨 🌀🌌🌠</div> -->
         <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
         <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
     </header>
@@ -188,6 +342,7 @@
     <!-- <button id="FireColorBtn" class="fireColor" onclick="RandomizeFireColor()"></button> -->
     <!-- <button id="FireColorBtn" class="fireColor" onclick="NextFireColor()" data-color="normal"></button> -->
     <!-- <button id="FireColorBtn" class="fireColor" onclick="NextFireColor()" data-color="RGB-wheel"></button> -->
+    <button id="FireColorBtn" class="fireColor" onclick="NextFireColor()" data-color="hue-fire"></button>
     <label for="toggleBlur" class="toggleCheckboxLabel" data-toggle="Blur">Blur</label>
     <label for="toggleFilter" class="toggleCheckboxLabel" data-toggle="Filter">Filter</label>
 
@@ -283,11 +438,41 @@
         },
         fire: {
             color_index: 0,
-            color: "normal",
+            color: "hue-fire",
             // color_index: 6,
-            // color: "RGB-wheel",
-            colorOptions: ["normal", "gray", "white", "phire", "random", "x", "planet-earth", "RGB-wheel", "RGB-spiral", "RGB-heat"],
-            colorOptions_name: ["Fire", "Gray Scale", "White", "Phire", "Rand", "x", "Planet Earth", "RGB Wheel", "RGB Spiral", "RGB Heat"],
+            // color: "RGB-wheel", hue-heat
+            colorOptions: [
+                "hue-fire",
+                "sat-gray",
+                "lum-white",
+                "hue-phire",
+                "hue-start",
+                "hue-random",
+                "hue-x",
+                "hue-earth",
+                "hue-wheel",
+                "hue-spiral",
+                "hue-heat",
+                "hue-speed",
+                "hue-direction",
+                "hue-cyan"
+            ],
+            colorOptions_name: [
+                "Hue Fire",
+                "Sat Gray",
+                "Lum White",
+                "Hue Phire",
+                "Hue Start",
+                "Hue Random",
+                "Hue X",
+                "Hue Earth",
+                "Hue Wheel",
+                "Hue Spiral",
+                "Hue Heat",
+                "Hue Speed",
+                "Hue Direction",
+                "Cyan"
+            ],
         },
 
         player: false,
@@ -300,6 +485,23 @@
         pause: false,
         q: false
     }
+
+/*
+    hue-fire: color from yellow to red.
+    sat-gray: the more heat the brighter.
+    lum-white: fixed white, just shape.
+    hue-phire: purple fire.
+    hue-start: based on the initial position.
+    hue-random: based on the initial hue.
+    hue-x: based on the x location.
+    hue-earth: based on the x location, green to blue.
+    hue-wheel: hue based on position relative to the center.
+    hue-spiral: hue spiral on position relative to the center.
+    hue-heat: hue based heat.
+    hue-speed: hue based movement speed.
+    hue-direction: hue based direction.
+    hue-cyan: simple cyan color 180.
+*/
 
 </script>
 <script src="../../../scripts/settings.js"></script>
@@ -370,7 +572,47 @@
         return angle;
     }
 
+    function NextFireColor(){
+        s.fire.color_index++;
+        if(s.fire.color_index >= s.fire.colorOptions.length){s.fire.color_index = 0;}
+        s.fire.color = s.fire.colorOptions[s.fire.color_index];
+        let FireColorBtn = document.getElementById('FireColorBtn');
+        FireColorBtn.dataset.color = s.fire.color;
+    }
 
+    function draw10(ctx,e){
+        ctx.fillStyle = e.getColor();
+        // ctx.filter = "blur(4px)";
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, e.s, 0, Math.PI * 2);
+        ctx.fill();
+        // ctx.fillRect(e.x,e.y,e.s,e.s);
+
+        // let s2 = e.s/4;
+        // let s1 = s2*2;
+        // ctx.fillRect(e.x-s2,e.y-s2,s1,s1);
+
+        // let a = XYtoAngle(e.vx,e.vy);
+        // let xy = AngleToXY(a);
+        // let x1 = e.x - (xy.x * e.s);
+        // let y1 = e.y - (xy.y * e.s);
+
+        // let a2 = XYtoAngle(e.vx2,e.vy2);
+        // let xy2 = AngleToXY(a2);
+        // let x2 = x1 - (xy2.x * e.s);
+        // let y2 = y1 - (xy2.y * e.s);
+
+        ctx.beginPath(); // Start a new path
+        ctx.strokeStyle = e.getColor();
+        ctx.lineWidth = e.s/4;
+        ctx.moveTo(e.x, e.y); // Move the pen to (30, 50)
+        for (let i = e.tail.length-1; i > -1; i-= 15) {
+            const et = e.tail[i];
+            ctx.lineTo(et.x, et.y); // Draw a line to (150, 100)
+        }
+        // ctx.lineTo(e.tail[0].x, e.tail[0].y); // Draw a line to (150, 100)
+        ctx.stroke(); // Render the path
+    }
     function draw9(ctx,e){
         ctx.fillStyle = e.getColor();
         // ctx.filter = "blur(4px)";
@@ -681,31 +923,79 @@
             this.vy2 = vy;
             // this.xtail = [];
             // this.ytail = [];
-            this.tail = [{"x": this.x, "y": this.y}];
+            this.counter = 0;
+            this.counterLim = 50;
+            this.step = 0;
+            this.stepSize = 10;
+            this.tailLen = 50;
+            this.tail = [{"x": this.x, "y": this.y, "d": 0}];
+            this.dist = 0;
 
             /* hue based on initial location. */
             this.startXY = {"x": this.x, "y": this.y};
-            this.xc = this.x - s.w2;
-            this.yc = this.y - s.h2;
-            // this.yc = this.y - s.h2*1.15;
-            // let hueAngle = XYtoAngle(this.xc, this.yc);
-
-            // this.oXY = {"x": this.x - s.w2, "y": this.y - s.h2};
-            // this.startHue = XYtoAngle(x,y);
-            this.startHue = XYtoAngle(this.xc, this.yc) + 90;
+            this.startXc = this.x - s.w2;
+            this.startYc = this.y - s.h2;
+            this.startHue = XYtoAngle(this.startXc, this.startYc) + 90;
             this.directionHue = this.startHue;
 
 
-            this.hue = 210;
+            // this.hue = 210;
+            // this.sat = 100;
+            // this.lum = 50;
+            // this.alp = .5;
+            this.hue = Math.random() * 360;
+            this.vhue = this.hue;
             this.sat = 100;
+            this.vsat = this.sat;
             this.lum = 50;
+            this.vlum = this.lum;
             this.alp = .5;
+            this.valp = this.alp;
+            
 
             this.getColor();
         }
         getV(){
             this.v = Math.abs(this.vx) + Math.abs(this.vy) + Math.abs(this.vz);
             return this.v;
+        }
+        getStep1(){
+            if(this.counter < 50) {this.counter++;} else {this.counter = 0;}
+            this.step = this.counter % 10;
+            // return this.step;
+        }
+        getStep2(){
+            if(this.counter < this.counterLim) {this.counter++;} else {this.counter = 0;}
+            this.step = this.counter % this.stepSize;
+            if(this.step == 0){
+                if(this.tail.length > this.tailLen){
+                    this.dist -= this.tail[0].d;
+                    this.tail.shift();
+                }
+                let dx = this.x - this.tail[this.tail.length-1].x;
+                let dy = this.y - this.tail[this.tail.length-1].y;
+                let dxy =  Math.abs(dx) + Math.abs(dy);
+                this.tail.push({x: this.x, y: this.y, d: dxy});
+                this.dist += dxy;
+            }
+        }
+        getStep(){
+            // if(this.counter < this.counterLim) {this.counter++;} else {this.counter = 0;}
+            // this.step = this.counter % this.stepSize;
+
+            if(this.tail.length > this.tailLen){
+                this.dist -= this.tail[0].d;
+                this.tail.shift();
+            }
+            let dxy = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+            this.tail.push({x: this.x, y: this.y, d: dxy});
+            this.dist += dxy;
+        }
+        getIsStep(){
+            // this.getStep();
+            if(this.counter < this.counterLim) {this.counter++;} else {this.counter = 0;}
+            this.step = this.counter % this.stepSize;
+            return this.step == 0;
         }
         getColor(){
             /* Heat can be from -100 to 100. */
@@ -750,29 +1040,132 @@
             // // this.alp = .15;
             // // this.s = 24 + (this.heat * 0.25);
 
-            // this.s = 4 + (this.heat * 0.5);
-            let lumheat = (this.heat*this.heat) / 100;
-            // this.hue = 180 + (this.heat * 1.2);
-            this.hue = 100 + (this.heat * 7);
-            // this.hue = (this.heat * 12);
-            // this.lum = 40 + lumheat/2;
-            // this.alp = this.heat/100;
-            // this.alp = this.heat/50;
-            this.lum = 60;
-            this.alp = .9;
-            this.s = 2 + (this.heat * 0.20);
+            // // this.s = 4 + (this.heat * 0.5);
+            // let lumheat = (this.heat*this.heat) / 100;
+            // // this.hue = 180 + (this.heat * 1.2);
+            // this.hue = 100 + (this.heat * 7);
+            // // this.hue = (this.heat * 12);
+            // // this.lum = 40 + lumheat/2;
+            // // this.alp = this.heat/100;
+            // // this.alp = this.heat/50;
+            // this.lum = 60;
+            // this.alp = .9;
+            // this.s = 2 + (this.heat * 0.20);
 
-            this.hue = this.startHue;
+            // this.hue = this.startHue;
             // this.directionHue = XYtoAngle(vx,vy);
             // this.hue = this.directionHue;
 
-            // // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .75)`;
-            // // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.lum}%)`;
-            // // this.alp = Math.abs(this.heat) * .9 + 10;
-            // this.alp = Math.abs(this.heat);
-            // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.alp}%)`;
-            this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.alp})`;
-            // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .01)`;
+            // this.hue = 100 + (this.heat * 7);
+            // let lumheat = (this.heat*this.heat) / 100;
+            // this.lum = 40 + lumheat/2;
+            // this.alp = this.heat/50;
+            // this.s = 2 + (this.heat * 0.20);
+
+            /*
+                hue-fire: color from yellow to red.
+                sat-gray: the more heat the brighter.
+                lum-white: fixed white, just shape.
+                hue-phire: purple fire.
+                hue-start: based on the initial position.
+                hue-random: based on the initial random hue.
+                hue-x: based on the x location.
+                hue-earth: based on the x location, green to blue.
+                hue-wheel: hue based on position relative to the center.
+                hue-spiral: hue spiral on position relative to the center.
+                hue-heat: hue based heat.
+                hue-speed: hue based movement.
+                hue-direction: hue based direction.
+                hue-cyan: simple cyan color 180.
+            */
+
+            // let lumheat = (this.heat*this.heat) / 100 ;
+            let lumheat = ((this.heat*this.heat) / 100) - 5;
+            this.vhue = 0;
+            this.vsat = 100;
+            this.vlum = 50;
+            this.valp = .9;
+            this.s = 2 + (this.heat * 0.20);
+
+            let xc = this.x - s.w2;
+            let yc = this.y - s.h2;
+            let hueAngle = XYtoAngle(xc, yc);
+            switch(s.fire.color){
+                case "hue-fire":
+                    this.vhue = (this.heat * .9);
+                    break;
+                case "sat-gray":
+                    this.vhue = 180;
+                    this.vsat = 0;
+                    this.vlum = 55 + lumheat/2;
+                    break;
+                case "lum-white":
+                    this.vhue = 180;
+                    this.vsat = 0;
+                    this.vlum = 100;
+                    break;
+                case "hue-phire":
+                    this.vhue = (this.heat * 1.8 + 180);
+                    break;
+                case "hue-start":
+                    this.vhue = this.startHue;
+                    break;
+                case "hue-random":
+                    this.vhue = this.hue;
+                    break;
+                case "hue-x":
+                    this.vhue = (this.x - s.cBox.left) * (1080 / s.cBox.w);
+                    break;
+                case "hue-earth":
+                    // // this.vhue = (this.heat * 1.2 + 120);
+                    // // this.vhue = (this.x - s.cBox.left) * (360 / s.cBox.w);
+                    // let x = (this.x - s.cBox.left);
+                    let x = (this.startHue);
+                    this.vhue = (Math.cos(x/18) * 50) + 180;
+                    break;
+                case "hue-wheel":
+                    // let xc = this.x - s.w2;
+                    // let yc = this.y - s.h2*1.1;
+                    // // let dc = Math.sqrt(xc*xc+yc*yc);
+                    // // let hueCircle = Math.atan(xc/yc) * 180/Math.PI;
+                    // let hueAngle = XYtoAngle(xc, yc);
+                    this.vhue = Math.round((hueAngle + 360) % 360);
+                    break;
+                case "hue-spiral":
+                    let dc = Math.sqrt(xc*xc+yc*yc);
+                    this.vhue = Math.round((hueAngle + 360 + (dc * 2)) % 360);
+                    break;
+                case "RGB-heat":
+                    let xc_h = this.x - s.w2;
+                    let yc_h = this.y - s.h2*1.2;
+                    let hueAngle_h = XYtoAngle(xc_h, yc_h);
+                    this.vhue = Math.round((hueAngle + 360 + (this.heat * 1.8)) % 360);
+                    break;
+                case "hue-heat":
+                    this.vhue = 90 + (this.heat * 5);
+                    break;
+                case "hue-speed":
+                    this.vhue = (this.dist * -4) + 180;
+                    break;
+                case "hue-direction":
+                    this.vhue = XYtoAngle(this.vx, this.vy) + 90;
+                    break;
+                case "hue-cyan":
+                    this.vhue = 180;
+                    this.vlum = 40 + lumheat/2;
+                    break;
+                default:
+                    break;
+            }
+
+            // // // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .75)`;
+            // // // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.lum}%)`;
+            // // // this.alp = Math.abs(this.heat) * .9 + 10;
+            // // this.alp = Math.abs(this.heat);
+            // // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.alp}%)`;
+            // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, ${this.alp})`;
+            // // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .01)`;
+            this.c = `hsla(${this.vhue}, ${this.vsat}%, ${this.vlum}%, ${this.valp})`;
             return this.c;
         }
     }
@@ -1411,8 +1804,18 @@
     pr["heat9c"] = function (list1, list2, g = 0, r = 100){
         for (let i = 0; i < list1.length; i++) {
             const a = list1[i];
-            if(a.tail.length > 50){a.tail.shift();}
-            a.tail.push({x: a.x, y: a.y});
+
+            /* [define tail] */
+            // // this.counter++;
+            // // if(this.counter > 50) {this.counter = 0;} else {this.counter++;}
+            // if(this.counter < 50) {this.counter++;} else {this.counter = 0;}
+
+            // if(getIsStep()) {
+            //     if(a.tail.length > a.tailLen){a.tail.shift();}
+            //     a.tail.push({x: a.x, y: a.y});
+            // }
+            
+            a.getStep();
             
             // if(xtail.length > 5){a.xtail.shift();}
             // if(ytail.length > 5){a.ytail.shift();}
@@ -1460,8 +1863,10 @@
     pr["heat9"] = function (list1, list2, g = 0, r = 100){
         for (let i = 0; i < list1.length; i++) {
             const a = list1[i];
-            if(a.tail.length > 50){a.tail.shift();}
-            a.tail.push({x: a.x, y: a.y});
+            // if(a.tail.length > 50){a.tail.shift();}
+            // a.tail.push({x: a.x, y: a.y});
+
+            a.getStep();
             
             // if(xtail.length > 5){a.xtail.shift();}
             // if(ytail.length > 5){a.ytail.shift();}
@@ -1811,7 +2216,8 @@
                 if(particles[i].type == "sun") {
                     draw3(ctx,particles[i],particles[i].x,particles[i].y,5);
                 } else {
-                    draw9(ctx,particles[i]);
+                    // draw9(ctx,particles[i]);
+                    draw10(ctx,particles[i]);
                 }
                 
             }
@@ -1911,6 +2317,75 @@ avg: ${avg}.`);
         console.log(range);
     }
 
+
+    /*
+    
+    fire: color from yellow to red.
+    gray: the more heat the brighter.
+    white: fixed white, just shape.
+    phire: purple fire.
+    random: based on the initial hue.
+    x: based on the x location.
+    hue-wheel: hue based on position relative to the center.
+    hue-spiral: hue spiral on position relative to the center.
+    hue-heat: hue based heat.
+    hue-speed: hue based movement.
+
+    hue-fire: color from yellow to red.
+    sat-gray: the more heat the brighter.
+    lum-white: fixed white, just shape.
+    hue-phire: purple fire.
+    hue-random: based on the initial hue.
+    hue-x: based on the x location.
+    hue-wheel: hue based on position relative to the center.
+    hue-spiral: hue spiral on position relative to the center.
+    hue-heat: hue based heat.
+    hue-speed: hue based movement.
+    hue-cyan: simple cyan color 180.
+
+    colorOptions: [
+    "hue-fire",
+    "sat-gray",
+    "lum-white",
+    "hue-phire",
+    "hue-random",
+    "hue-x",
+    "hue-wheel",
+    "hue-spiral",
+    "hue-heat",
+    "hue-speed",
+    "hue-cyan"
+    ],
+    colorOptions_name: [
+    "Hue Fire",
+    "Sat Gray",
+    "Lum White",
+    "Hue Phire",
+    "Hue Random",
+    "Hue X",
+    "Hue Wheel",
+    "Hue Spiral",
+    "Hue Heat",
+    "Hue Speed",
+    "Hue Cyan"
+    ],
+
+    colorOptions: [
+        "normal", 
+        "gray", 
+        "white", 
+        "phire", 
+        "random", 
+        "x", 
+        "planet-earth", 
+        "RGB-wheel", 
+        "RGB-spiral", 
+        "RGB-heat", 
+        "hue-heat"],
+    colorOptions_name: [
+        "Fire", "Gray Scale", "White", "Phire", "Rand", "x", "Planet Earth", "RGB Wheel", "RGB Spiral", "RGB Heat", "Hue Heat"],
+    */
+
     /*
     index--nds-01: two eyes made for a circling motion farther away from the center.
     index--nds-02: like stones going on water and making a wave.
@@ -1928,6 +2403,13 @@ avg: ${avg}.`);
     index--nds-13: more color.
     index--nds-14: closer together and ternary on canvas.
     index--nds-15: slightly better filter.
+    --
+    index--nds-16: hue from initial position.
+    -- [Particle Colors] --
+    index--nds-01: start the color shifting.
+    index--nds-02: hue speed works, but needs better colors.
+
+
 
     */
 
