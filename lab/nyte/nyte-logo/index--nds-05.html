@@ -17,7 +17,6 @@
         .shelf {
             flex-direction: column;
         }
-        header > h1.title {font-weight: bold;}
     </style>
 <style>
     :root {
@@ -97,7 +96,6 @@
     .grid:has(.moon:hover) .row:nth-child(5) .tile-on,
     .grid:has(.moon:hover) .row:nth-child(6) .tile-on {
         background-color: #39f3;
-        background-color: #14293d;
         transition: background-color var(--moon-t2) ease-in-out;
     }
     .grid:has(.moon:hover) .row:nth-child(6) .tile-on:nth-child(n+2):nth-child(-n+6) {
@@ -183,51 +181,15 @@
     }
 </style>
 <style>
-    SVG#logo {height: 50px; width: 50px; margin: 0px 4px; margin: 0px 4px 0 8px;}
     SVG#logo {
-        --sz-logo: 36px;
-        height: var(--sz-logo); width: var(--sz-logo); 
-        margin: 7px 4px 3px 8px;
-        margin: 0px 4px 0px 8px;
-    }
-    SVG#logo {height: 40px; width: 40px; margin: 3px 4px 3px 8px;}
-
-    SVG#logo-sample {height: 140px; width: 140px;}
-
-    SVG#logo {
-        --bg-city-light: hsl(210, 0%, 60%);
-        --bg-city-light: hsl(210, 0%, 100%);
-        --bg-city-light: hsla(0, 0%, 89%, 100%);
-        --bg-city-dark: hsl(210, 0%, 16%);
-        /* outline: 1px dashed #fff9; */
-    }
-    SVG#logo-sample {
-        --bg-city-light: #39f;
-        --bg-city-dark: #14293d;
-    }
-    .smile-border {fill: var(--bg-city-light);}
-    .smile {
-        fill: #39f;
-        fill: hsl(210, 0%, 60%);
-        fill: var(--bg-city-light);
-        transition: 
-        fill var(--moon-t) ease-in-out;
-    }
-    #logo-sample:hover .smile,
-    #logo:hover .smile {
-        fill: #14293d;
-        fill: hsl(209, 0%, 16%);
-        fill: var(--bg-city-dark);
-        transition: 
-        fill var(--moon-t2) ease-in-out;
+        height: 140px;
+        width: 140px;
     }
     .svgmoon {
         rx: 0;
         fill: #39f;
-        fill: hsl(210, 0%, 60%);
-        fill: var(--bg-city-light);
         transform-origin: 50% 50%;
-        transform: rotate(0deg) scale(1);
+        transform: rotate(0deg);
         filter: url(#shadow);
         
         transition: 
@@ -236,11 +198,10 @@
         filter var(--moon-t) ease-in-out,
         transform var(--moon-t) ease-in-out;
     }
-    .svgmoon:hover,
-    #logo:hover .svgmoon {
+    .svgmoon:hover {
         rx: 10;
         fill: #fff;
-        transform: rotate(180deg) scale(1.25);
+        transform: rotate(90deg);
         filter: url(#shadow2);
 
         transition: 
@@ -291,19 +252,9 @@
 <body>
     <header>
         <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
-        <svg id="logo" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
-            <rect class="svgmoon" x="60" y="60" width="20" height="20" rx="0" />
-            <path class="smile" 
-              d="M 0,80L 20,80 L 20,100 L 120,100 
-                L 120,80 L 140,80 L 140 120 L 0 120 z" />
-            <path class="smile-border" 
-              d="M 0,80 L 20,80 L 20,100 L 120,100 L 120,80 L 140,80
-                L 140,81 L 121,81 L 121,101 L 19,101 L 19,81 L 0,81 z" />
-        </svg>
         <h1 class="title">NyteLabs</h1>
         <!-- <div class="subtitle">Logo 🌕</div> -->
-        <div class="subtitle">Logo 🌑🌒🌓🌔🌕</div>
-        <!-- <div class="subtitle"> 🚧 Work in Progress...🌑🌒🌓🌔🌕 🚧 </div> -->
+        <div class="subtitle"> 🚧 Work in Progress...🌑🌒🌓🌔🌕 🚧 </div>
         <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
     </header>
     <input type="checkbox" name="toggle" id="toggleOpacity">
@@ -313,7 +264,7 @@
     <div class="shelf">
         <div class="shelf-title">experiment</div>
         <div id="display">
-            <svg id="logo-sample" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+            <svg id="logo" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
                 <rect class="svgmoon" x="60" y="60" width="20" height="20" rx="0" fill="cyan"/>
                 <!-- <path fill="#0001"
                   d="M 70,60
@@ -328,24 +279,13 @@
                     L 80,80
                     L 60,80
                     z" /> -->
-                <path class="smile" fill="#39f"
+                <path fill="#39f"
                   d="M 0,80
                     L 20,80 
                     L 20,100 L 120,100 
                     L 120,80 L 140,80
                     L 140 120 
                     L 0 120 
-                    z" />
-                <path class="smile-border" fill="#39f"
-                  d="M 0,80
-                    L 20,80 
-                    L 20,100 L 120,100 
-                    L 120,80 
-                    L 140,80
-                    L 140,81
-                    L 121,81
-                    L 121,101 L 19,101
-                    L 19,81 L 0,81
                     z" />
             </svg>
         </div>
@@ -439,7 +379,7 @@
             <feDropShadow dx="0" dy="0" stdDeviation="18" flood-color="#f00a" />
             <!-- <feDropShadow dx="0" dy="0" stdDeviation="24" flood-color="#fff1" /> -->
         </filter>
-        <filter id="shadow2b" x="-250%" y="-250%" width="600%" height="600%">
+        <filter id="shadow2" x="-250%" y="-250%" width="600%" height="600%">
             <!-- <feDropShadow dx="7" dy="0" stdDeviation="5" flood-color="#f0f0" />
             <feDropShadow dx="5" dy="5" stdDeviation="5" flood-color="#0f00" /> -->
 
@@ -447,16 +387,6 @@
             <feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#00f" />
             <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#0f0" />
             <feDropShadow dx="0" dy="0" stdDeviation="24" flood-color="#f00" />
-            <!-- <feDropShadow dx="0" dy="0" stdDeviation="24" flood-color="#fff1" /> -->
-        </filter>
-        <filter id="shadow2" x="-250%" y="-250%" width="600%" height="600%">
-            <!-- <feDropShadow dx="7" dy="0" stdDeviation="5" flood-color="#f0f0" />
-            <feDropShadow dx="5" dy="5" stdDeviation="5" flood-color="#0f00" /> -->
-
-            <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#fff6" />
-            <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#00f" />
-            <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#0f0" />
-            <feDropShadow dx="0" dy="0" stdDeviation="16" flood-color="#f00" />
             <!-- <feDropShadow dx="0" dy="0" stdDeviation="24" flood-color="#fff1" /> -->
         </filter>
         <filter id="space-cloud" x="-25%" y="-25%" width="150%" height="150%">

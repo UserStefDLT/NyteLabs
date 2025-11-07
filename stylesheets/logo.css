@@ -1,0 +1,76 @@
+SVG#logo {height: 44px; width: 44px; margin: 0px 4px 0 8px;}
+SVG#logo {height: 36px; width: 36px; margin: 7px 4px 3px 8px;}
+SVG#logo {height: 40px; width: 40px; margin: 3px 4px 3px 8px;}
+
+header > .title {font-weight: bold;}
+SVG#logo {
+    --bg-city-light: hsl(210, 0%, 60%);
+    --bg-city-light: hsl(210, 0%, 100%);
+    --bg-city-light: hsla(0, 0%, 89%, 100%);
+    --bg-city-dark: hsl(210, 0%, 16%);
+    /* outline: 1px dashed #fff9; */
+    --moon-t: 300ms;
+    --moon-t2: 600ms;
+}
+SVG#logo-sample {
+    --bg-city-light: #39f;
+    --bg-city-dark: #14293d;
+}
+.smile-border {fill: var(--bg-city-light);}
+.smile {
+    fill: #39f;
+    fill: hsl(210, 0%, 60%);
+    fill: var(--bg-city-light);
+    transition: 
+    fill var(--moon-t) ease-in-out;
+}
+#logo:hover .smile {
+    fill: #14293d;
+    fill: hsl(209, 0%, 16%);
+    fill: var(--bg-city-dark);
+    transition: 
+    fill var(--moon-t2) ease-in-out;
+}
+.svgmoon {
+    rx: 0;
+    fill: #39f;
+    fill: hsl(210, 0%, 60%);
+    fill: var(--bg-city-light);
+    transform-origin: 50% 50%;
+    transform: rotate(0deg) scale(1);
+    filter: url(#moon-shadow);
+    
+    transition: 
+    fill var(--moon-t) ease-in-out,
+    rx var(--moon-t) ease-in-out,
+    filter var(--moon-t) ease-in-out,
+    transform var(--moon-t) ease-in-out;
+}
+#logo:hover .svgmoon {
+    rx: 10;
+    fill: #fff;
+    transform: rotate(180deg) scale(1.25);
+    filter: url(#moon-shadow2);
+
+    transition: 
+    fill var(--moon-t2) ease-in-out,
+    rx var(--moon-t2) ease-in-out,
+    filter var(--moon-t2) ease-in-out,
+    transform var(--moon-t2) ease-in-out;
+}
+
+/* 
+<svg width="0" height="0">
+    <defs>
+        <filter id="moon-shadow" x="-25%" y="-25%" width="150%" height="150%">
+            <feDropShadow dx="0" dy="0" stdDeviation="0.2" />
+        </filter>
+        <filter id="moon-shadow2" x="-250%" y="-250%" width="600%" height="600%">
+            <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#fff6" />
+            <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#00f" />
+            <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#0f0" />
+            <feDropShadow dx="0" dy="0" stdDeviation="16" flood-color="#f00" />
+        </filter>
+    </defs>
+</svg>
+ */

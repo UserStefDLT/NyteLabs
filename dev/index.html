@@ -8,6 +8,7 @@
     <title>NyteLabs</title>
     <link rel="stylesheet" href="../stylesheets/start.css">
     <link rel="stylesheet" href="../stylesheets/labst.css">
+    <link rel="stylesheet" href="../stylesheets/logo.css">
 
     <!-- <link rel="stylesheet" href="../stylesheets/nybtns.css"> -->
     <link rel="stylesheet" href="../stylesheets/stars.css">
@@ -221,6 +222,26 @@
 <body>
     <header>
         <a href="#" class="backLink hidden"><div class="backBtn">No Back.</div></a>
+        <svg id="logo" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <filter id="moon-shadow" x="-25%" y="-25%" width="150%" height="150%">
+                    <feDropShadow dx="0" dy="0" stdDeviation="0.2" />
+                </filter>
+                <filter id="moon-shadow2" x="-250%" y="-250%" width="600%" height="600%">
+                    <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#fff6" />
+                    <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#00f" />
+                    <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#0f0" />
+                    <feDropShadow dx="0" dy="0" stdDeviation="16" flood-color="#f00" />
+                </filter>
+            </defs>
+            <rect class="svgmoon" x="60" y="60" width="20" height="20" rx="0" />
+            <path class="smile" 
+              d="M 0,80L 20,80 L 20,100 L 120,100 
+                L 120,80 L 140,80 L 140 120 L 0 120 z" />
+            <path class="smile-border" 
+              d="M 0,80 L 20,80 L 20,100 L 120,100 L 120,80 L 140,80
+                L 140,81 L 121,81 L 121,101 L 19,101 L 19,81 L 0,81 z" />
+        </svg>
         <div class="title">NyteLabs</div>
         <div class="subtitle"><a class="unwelcome" href="../sitemap.html">un</a>Welcome</div>
         <!-- <div class="subtitle"><a class="unwelcome" href="../index-02.html">un</a>Welcome</div> -->
@@ -462,6 +483,8 @@
         </div> -->
         <div class="lablinks">
             <a href="../lab/nyte/nyte-logo/"><div class="nybtn--labBtn">NyteLabs Logo 🌕</div></a>
+            <a href="../lab/nyte/nyte-logo/index--nds-05.html"><div class="nybtn--labBtn">Logo 05 🌕</div></a>
+            <a href="../lab/nyte/nyte-logo/index--nds-04.html"><div class="nybtn--labBtn">Logo 04 🌕</div></a>
             <a href="../lab/nyte/nyte-logo/index--nds-03.html"><div class="nybtn--labBtn">Logo 03 🌕</div></a>
             <a href="../lab/nyte/nyte-logo/index--nds-02.html"><div class="nybtn--labBtn">Logo 02 🌕</div></a>
             <a href="../lab/nyte/nyte-logo/index--nds-01.html"><div class="nybtn--labBtn">Logo 01 🌕</div></a>

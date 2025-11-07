@@ -53,47 +53,6 @@
         box-shadow: 0 0 6px 6px #fff9;
         filter: blur(12px) url(#space-cloud);
     }
-    /* .cloud {
-        background-color: #1113;
-        transition: outline 300ms ease-in-out;
-        transition: background-color 900ms ease-in-out;
-        transition: 
-        background-color var(--moon-t) ease-in-out,
-        transform var(--moon-t) ease-in-out;
-    }
-    .cloud:hover {
-        background-color: #3333;
-        transition: outline 100ms ease-in-out;
-        transition: background-color 10ms ease-in-out;
-    }
-    .grid:has(.moon:hover) .row:nth-child(2) .cloud,
-    .grid:has(.moon:hover) .row:nth-child(3) .cloud {
-        background-color: #3332;
-        transform: translateZ(1px);
-        transition: 
-        background-color var(--moon-t2) ease-in-out,
-        transform var(--moon-t2) ease-in-out;
-    }
-    .grid:has(.moon:hover) .row:nth-child(2) .cloud:nth-child(n+2):nth-child(-n+6) {
-        border-bottom: 1px solid #fff2;
-    }
-    .grid:has(.moon:hover) .row:nth-child(3) .cloud:nth-child(1) {
-        border-bottom: 1px solid #fff2;
-        border-right: 1px solid #fff2;
-    }
-    .grid:has(.moon:hover) .row:nth-child(3) .cloud:nth-child(7) {
-        border-bottom: 1px solid #fff2;
-        border-left: 1px solid #fff2;
-    } */
-
-    /* .grid:has(.moon:hover) .row:nth-child(6) .tile-on:not(.moon) {
-        outline: 1px solid red;
-        background-color: #39f0;
-        background-image: linear-gradient(#39f9, #39f6, #39f3);
-        border: 1px solid #39f0;
-        border-top: 1px solid #39f;
-        box-shadow: 0px -2px 1px 1px #39f;
-    } */
     .grid:has(.moon:hover) .row:nth-child(5) .tile-on,
     .grid:has(.moon:hover) .row:nth-child(6) .tile-on {
         background-color: #39f3;
@@ -114,26 +73,12 @@
 
 
     .moon {
-        box-shadow: 
-        0px 0px 0px 0px #39f,
-        0px 0px 0px 0px #39f,
-        0px 0px 0px 0px #39f;
+
         box-shadow: 
         0px 0px 0px 0px #fff0,
-        0px 0px 0px 0px #f0f0,
+        0px 0px 0px 0px #fff0,
         0px 0px 0px 0px #00f0,
-        0px 0px 0px 0px #0ff0,
         0px 0px 0px 0px #0f00,
-        0px 0px 0px 0px #ff00,
-        0px 0px 0px 0px #f000;
-        box-shadow: 
-        0px 0px 0px 0px #fff0,
-        0px 0px 0px 0px #fff0,
-        /* 0px 0px 0px 0px #f0f0, */
-        0px 0px 0px 0px #00f0,
-        /* 0px 0px 0px 0px #0ff0, */
-        0px 0px 0px 0px #0f00,
-        /* 0px 0px 0px 0px #ff00, */
         0px 0px 0px 0px #f000;
         transition: 
         background-color 300ms ease-in-out,
@@ -150,29 +95,10 @@
         background-color: #fff;
         border-radius: 50%;
         box-shadow: 
-        0px 0px 6px 0px #39f,
-        0px 0px 24px 3px #39fa,
-        0px 0px 36px 6px #39f6;
-        box-shadow: 
-        0px 0px 12px 3px #00f,
-        0px 0px 24px 3px #0f0,
-        0px 0px 36px 3px #f00;
-        box-shadow: 
-        0px 0px 3px 0px #fff9,
-        0px 0px 6px 3px #f0f9,
-        0px 0px 12px 3px #00f9,
-        0px 0px 18px 3px #0ff9,
-        0px 0px 24px 3px #0f09,
-        0px 0px 30px 3px #ff09,
-        0px 0px 36px 3px #f009;
-        box-shadow: 
         0px 0px 36px 0px #fff3,
         0px 0px 3px 0px #fff9,
-        /* 0px 0px 6px 3px #f0f9, */
         0px 0px 12px 3px #00f9,
-        /* 0px 0px 18px 3px #0ff9, */
         0px 0px 24px 3px #0f09,
-        /* 0px 0px 30px 3px #ff09, */
         0px 0px 36px 3px #f009;
         transform: rotate(180deg) scale(1.25);
         transition: 
@@ -199,7 +125,7 @@
         --bg-city-light: hsl(210, 0%, 100%);
         --bg-city-light: hsla(0, 0%, 89%, 100%);
         --bg-city-dark: hsl(210, 0%, 16%);
-        /* outline: 1px dashed #fff9; */
+        outline: 1px dashed #fff9;
     }
     SVG#logo-sample {
         --bg-city-light: #39f;
@@ -228,7 +154,7 @@
         fill: var(--bg-city-light);
         transform-origin: 50% 50%;
         transform: rotate(0deg) scale(1);
-        filter: url(#shadow);
+        filter: url(#moon-shadow);
         
         transition: 
         fill var(--moon-t) ease-in-out,
@@ -241,7 +167,7 @@
         rx: 10;
         fill: #fff;
         transform: rotate(180deg) scale(1.25);
-        filter: url(#shadow2);
+        filter: url(#moon-shadow2);
 
         transition: 
         fill var(--moon-t2) ease-in-out,
@@ -301,10 +227,7 @@
                 L 140,81 L 121,81 L 121,101 L 19,101 L 19,81 L 0,81 z" />
         </svg>
         <h1 class="title">NyteLabs</h1>
-        <!-- <div class="subtitle">Logo 🌕</div> -->
         <div class="subtitle">Logo 🌑🌒🌓🌔🌕</div>
-        <!-- <div class="subtitle"> 🚧 Work in Progress...🌑🌒🌓🌔🌕 🚧 </div> -->
-        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
     </header>
     <input type="checkbox" name="toggle" id="toggleOpacity">
     <input type="checkbox" name="toggle" id="toggleLights">
@@ -314,39 +237,13 @@
         <div class="shelf-title">experiment</div>
         <div id="display">
             <svg id="logo-sample" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
-                <rect class="svgmoon" x="60" y="60" width="20" height="20" rx="0" fill="cyan"/>
-                <!-- <path fill="#0001"
-                  d="M 70,60
-                    a 10,10 0,0,1 10,10
-                    a -10,10 0,0,1 -10,10
-                    a -10,-10 0,0,1 -10,-10
-                    a 10,-10 0,0,1 10,-10
-                    z" />
-                <path fill="#0f01"
-                  d="M 60,60
-                    L 80,60 
-                    L 80,80
-                    L 60,80
-                    z" /> -->
-                <path class="smile" fill="#39f"
-                  d="M 0,80
-                    L 20,80 
-                    L 20,100 L 120,100 
-                    L 120,80 L 140,80
-                    L 140 120 
-                    L 0 120 
-                    z" />
-                <path class="smile-border" fill="#39f"
-                  d="M 0,80
-                    L 20,80 
-                    L 20,100 L 120,100 
-                    L 120,80 
-                    L 140,80
-                    L 140,81
-                    L 121,81
-                    L 121,101 L 19,101
-                    L 19,81 L 0,81
-                    z" />
+                <rect class="svgmoon" x="60" y="60" width="20" height="20" rx="0" />
+                <path class="smile" 
+                  d="M 0,80L 20,80 L 20,100 L 120,100 
+                    L 120,80 L 140,80 L 140 120 L 0 120 z" />
+                <path class="smile-border" 
+                  d="M 0,80 L 20,80 L 20,100 L 120,100 L 120,80 L 140,80
+                    L 140,81 L 121,81 L 121,101 L 19,101 L 19,81 L 0,81 z" />
             </svg>
         </div>
         <div class="x">
@@ -426,39 +323,16 @@
 
 <svg width="0" height="0">
     <defs>
-        <filter id="shadow" x="-25%" y="-25%" width="150%" height="150%">
+        <filter id="moon-shadow" x="-25%" y="-25%" width="150%" height="150%">
             <feDropShadow dx="0" dy="0" stdDeviation="0.2" />
         </filter>
-        <filter id="shadow2a" x="-250%" y="-250%" width="600%" height="600%">
-            <!-- <feDropShadow dx="7" dy="0" stdDeviation="5" flood-color="#f0f0" />
-            <feDropShadow dx="5" dy="5" stdDeviation="5" flood-color="#0f00" /> -->
-
-            <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#fff6" />
-            <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#00fa" />
-            <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#0f0a" />
-            <feDropShadow dx="0" dy="0" stdDeviation="18" flood-color="#f00a" />
-            <!-- <feDropShadow dx="0" dy="0" stdDeviation="24" flood-color="#fff1" /> -->
-        </filter>
-        <filter id="shadow2b" x="-250%" y="-250%" width="600%" height="600%">
-            <!-- <feDropShadow dx="7" dy="0" stdDeviation="5" flood-color="#f0f0" />
-            <feDropShadow dx="5" dy="5" stdDeviation="5" flood-color="#0f00" /> -->
-
-            <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#fff6" />
-            <feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#00f" />
-            <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#0f0" />
-            <feDropShadow dx="0" dy="0" stdDeviation="24" flood-color="#f00" />
-            <!-- <feDropShadow dx="0" dy="0" stdDeviation="24" flood-color="#fff1" /> -->
-        </filter>
-        <filter id="shadow2" x="-250%" y="-250%" width="600%" height="600%">
-            <!-- <feDropShadow dx="7" dy="0" stdDeviation="5" flood-color="#f0f0" />
-            <feDropShadow dx="5" dy="5" stdDeviation="5" flood-color="#0f00" /> -->
-
+        <filter id="moon-shadow2" x="-250%" y="-250%" width="600%" height="600%">
             <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#fff6" />
             <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#00f" />
             <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#0f0" />
             <feDropShadow dx="0" dy="0" stdDeviation="16" flood-color="#f00" />
-            <!-- <feDropShadow dx="0" dy="0" stdDeviation="24" flood-color="#fff1" /> -->
         </filter>
+
         <filter id="space-cloud" x="-25%" y="-25%" width="150%" height="150%">
             <feTurbulence type="fractalNoise" baseFrequency=".025" numOctaves="5" />
             <feDisplacementMap in="SourceGraphic" scale="200" />
@@ -467,7 +341,7 @@
 </svg>
 <footer>
     <div class="my-name">
-        <a href="#">Back To Top</a>
+        <!-- <a href="#">Back To Top</a> -->
         &copy; 2022 - 2025 | by Stéfano De La Torre 
     </div>
 </footer>
@@ -527,7 +401,7 @@ index--nds-01: initial design.
 index--nds-02: moon halo.
 index--nds-03: unlikely cloud attempt.
 index--nds-04: Ready.
-index--nds-05: SVG attempt
+index--nds-05: SVG attempt.
 index--nds-06: 
 index--nds-07: 
 index--nds-08: 
