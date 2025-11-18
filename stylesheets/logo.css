@@ -1,9 +1,9 @@
-SVG#logo {height: 44px; width: 44px; margin: 0px 4px 0 8px;}
-SVG#logo {height: 36px; width: 36px; margin: 7px 4px 3px 8px;}
-SVG#logo {height: 40px; width: 40px; margin: 3px 4px 3px 8px;}
+svg#logo {height: 44px; width: 44px; margin: 0px 4px 0 8px;}
+svg#logo {height: 36px; width: 36px; margin: 7px 4px 3px 8px;}
+svg#logo {height: 40px; width: 40px; margin: 3px 4px 3px 8px;}
 
 header > .title {font-weight: bold;}
-SVG#logo {
+svg#logo {
     --bg-city-light: hsl(210, 0%, 60%);
     --bg-city-light: hsl(210, 0%, 100%);
     --bg-city-light: hsla(0, 0%, 89%, 100%);
@@ -12,7 +12,7 @@ SVG#logo {
     --moon-t: 300ms;
     --moon-t2: 600ms;
 }
-SVG#logo-sample {
+svg#logo-sample {
     --bg-city-light: #39f;
     --bg-city-dark: #14293d;
 }
