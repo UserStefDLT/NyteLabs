@@ -21,7 +21,6 @@
     </style>
 <style>
     :root {
-        --p: 1000px;
         --sz: 20px;
         --sz: 10px;
         --sz-tile: calc(var(--sz) * 2);
@@ -45,7 +44,6 @@
         flex-direction: column;
     }
     .row {
-        --j: var(--i);
         --y: var(--i);
         flex-direction: row;
     }
@@ -64,7 +62,7 @@
     }
     .tile-off {background-color: #1113;}
     
-    /* .grid:has(.moon:hover) .row:nth-child(5) .tile-on,
+    .grid:has(.moon:hover) .row:nth-child(5) .tile-on,
     .grid:has(.moon:hover) .row:nth-child(6) .tile-on {
         background-color: #39f3;
         background-color: #14293d;
@@ -81,7 +79,7 @@
     .grid:has(.moon:hover) .row:nth-child(5) .tile-on:nth-child(7) {
         border-top: 1px solid var(--bg-city-light);
         border-left: 1px solid var(--bg-city-light);
-    } */
+    }
 
     .moon {
         box-shadow: 
@@ -120,34 +118,6 @@
         transform var(--moon-t2) ease-in-out;
     }
 
-    .tile {
-        --x: calc(var(--i) - 4);
-        --y: calc(var(--j) - 4);
-
-        --xy: calc(var(--x) * var(--y));
-        --xxyy: calc(var(--x) * var(--x) + var(--y) * var(--y));
-        --val: calc(var(--xxyy) * 10);
-
-        --hue: calc((var(--x) * var(--y)) * 10);
-        --c-tile: hsla(var(--hue), 100%, 60%, 1);
-        background-color: var(--c-tile);
-        transition: 
-        background-color var(--moon-t) ease-in-out,
-        border-radius var(--moon-t) ease-in-out,
-        box-shadow var(--moon-t) ease-in-out,
-        transform var(--moon-t) ease-in-out;
-    }
-    .moon {
-        background-color: #fff;
-    }
-    .grid:has(.moon:hover) .tile {
-        transform: perspective(var(--p)) rotate3d(1,1,0,calc(var(--val) * 1deg));
-        transition: 
-        background-color var(--moon-t2) ease-in-out,
-        border-radius var(--moon-t2) ease-in-out,
-        box-shadow var(--moon-t2) ease-in-out,
-        transform var(--moon-t2) ease-in-out;
-    }
 
 </style>
 <style>

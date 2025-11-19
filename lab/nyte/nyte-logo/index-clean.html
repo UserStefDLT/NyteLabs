@@ -21,7 +21,20 @@
     </style>
 <style>
     :root {
-        --sz: 20px;
+        --sz: 24px;
+        --sz: 12px;
+        --sz-tile: calc(var(--sz) * 2);
+        --sz-tile-border: calc(var(--sz) * .125);
+        --sz-tile-border: calc(var(--sz) * .083);
+        /*
+        1 = 12
+        .5 = 6
+        .25 = 3
+        .125 = 1.5
+        */
+
+        --bg-city-light: hsla(0, 0%, 89%, 100%);
+        --bg-city-dark: hsl(210, 0%, 16%);
         --moon-t: 300ms;
         --moon-t2: 600ms;
     }
@@ -29,8 +42,13 @@
         display: flex; align-items: center; justify-content: center;
     }
     .grid {
-        flex-direction: column;
+        --bg-city-light: #39f;
+        --bg-city-dark: #14293d;
+
+        --bg-city-light: hsla(0, 0%, 89%, 100%);
+        --bg-city-dark: hsl(210, 0%, 16%);
     }
+    .grid {flex-direction: column;}
     .row {
         --y: var(--i);
         flex-direction: row;
@@ -39,52 +57,62 @@
         --x: var(--i);
         box-sizing: border-box;
         height: 20px; width: 20px;
+        font-size: var(--sz);
+        /*
+        .25em
+        1em
+        2em
+        3em
+        */
+        height: var(--sz-tile); width: var(--sz-tile);
         background-color: #333;
-        border: 1px solid #39f0;
+        border: 0px solid #39f0;
     }
     .tile-on {
-        background-color: #39f;
+        background-color: var(--bg-city-light);
         transition: background-color var(--moon-t) ease-in-out;
     }
     .tile-off {background-color: #1113;}
-    
-    .megacloud {
-        height: 50px; width: 50px;
-        box-shadow: 0 0 6px 6px #fff9;
-        filter: blur(12px) url(#space-cloud);
-    }
+
     .grid:has(.moon:hover) .row:nth-child(5) .tile-on,
     .grid:has(.moon:hover) .row:nth-child(6) .tile-on {
-        background-color: #39f3;
-        background-color: #14293d;
+        background-color: var(--bg-city-dark);
         transition: background-color var(--moon-t2) ease-in-out;
     }
     .grid:has(.moon:hover) .row:nth-child(6) .tile-on:nth-child(n+2):nth-child(-n+6) {
-        border-top: 1px solid #39f;
+        border-top: 1px solid var(--bg-city-light);
     }
     .grid:has(.moon:hover) .row:nth-child(5) .tile-on:nth-child(1) {
-        border-top: 1px solid #39f;
-        border-right: 1px solid #39f;
+        border-top: 1px solid var(--bg-city-light);
+        border-right: 1px solid var(--bg-city-light);
     }
     .grid:has(.moon:hover) .row:nth-child(5) .tile-on:nth-child(7) {
-        border-top: 1px solid #39f;
-        border-left: 1px solid #39f;
+        border-top: 1px solid var(--bg-city-light);
+        border-left: 1px solid var(--bg-city-light);
+    }
+
+    .grid:has(.moon:hover) .row:nth-child(6) .tile-on:nth-child(1) {
+        background-image: linear-gradient(var(--bg-city-light));
+        background-size: var(--sz-tile-border) var(--sz-tile-border);
+        background-position: calc(var(--sz-tile) - var(--sz-tile-border)) 0px;
+        background-repeat: no-repeat;
+    }
+    .grid:has(.moon:hover) .row:nth-child(6) .tile-on:nth-child(7) {
+        background-image: linear-gradient(var(--bg-city-light));
+        background-size: var(--sz-tile-border) var(--sz-tile-border);
+        background-position: 0px 0px;
+        background-repeat: no-repeat;
     }
 
 
     .moon {
-
         box-shadow: 
         0px 0px 0px 0px #fff0,
         0px 0px 0px 0px #fff0,
         0px 0px 0px 0px #00f0,
         0px 0px 0px 0px #0f00,
         0px 0px 0px 0px #f000;
-        transition: 
-        background-color 300ms ease-in-out,
-        border-radius 300ms ease-in-out,
-        box-shadow 600ms ease-in-out,
-        transform 300ms ease-in-out;
+        transform: rotate(0deg) scale(1);
         transition: 
         background-color var(--moon-t) ease-in-out,
         border-radius var(--moon-t) ease-in-out,
@@ -100,6 +128,20 @@
         0px 0px 12px 3px #00f9,
         0px 0px 24px 3px #0f09,
         0px 0px 36px 3px #f009;
+
+        box-shadow: 
+        0px 0px 3em 0px #fff3,
+        0px 0px .25em 0px #fff9,
+        0px 0px 1em .25em #00f9,
+        0px 0px 2em .25em #0f09,
+        0px 0px 3em .25em #f009;
+
+        box-shadow: 
+        0px 0px 3em 0px #fff,
+        0px 0px .25em 0px #fff,
+        0px 0px 1em .25em #00f,
+        0px 0px 2em .25em #0f0,
+        0px 0px 3em .25em #f00;
         transform: rotate(180deg) scale(1.25);
         transition: 
         background-color var(--moon-t2) ease-in-out,
@@ -107,27 +149,34 @@
         box-shadow var(--moon-t2) ease-in-out,
         transform var(--moon-t2) ease-in-out;
     }
+
+
+    /* .megacloud {
+        height: 50px; width: 50px;
+        box-shadow: 0 0 6px 6px #fff9;
+        filter: blur(12px) url(#space-cloud);
+    } */
 </style>
 <style>
-    SVG#logo {height: 50px; width: 50px; margin: 0px 4px; margin: 0px 4px 0 8px;}
-    SVG#logo {
+    svg#logo {height: 50px; width: 50px; margin: 0px 4px; margin: 0px 4px 0 8px;}
+    svg#logo {
         --sz-logo: 36px;
         height: var(--sz-logo); width: var(--sz-logo); 
         margin: 7px 4px 3px 8px;
         margin: 0px 4px 0px 8px;
     }
-    SVG#logo {height: 40px; width: 40px; margin: 3px 4px 3px 8px;}
+    svg#logo {height: 40px; width: 40px; margin: 3px 4px 3px 8px;}
 
-    SVG#logo-sample {height: 140px; width: 140px;}
+    svg#logo-sample {height: 140px; width: 140px;}
 
-    SVG#logo {
+    svg#logo {
         --bg-city-light: hsl(210, 0%, 60%);
         --bg-city-light: hsl(210, 0%, 100%);
         --bg-city-light: hsla(0, 0%, 89%, 100%);
         --bg-city-dark: hsl(210, 0%, 16%);
         outline: 1px dashed #fff9;
     }
-    SVG#logo-sample {
+    svg#logo-sample {
         --bg-city-light: #39f;
         --bg-city-dark: #14293d;
     }

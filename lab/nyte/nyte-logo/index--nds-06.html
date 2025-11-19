@@ -21,14 +21,7 @@
     </style>
 <style>
     :root {
-        --p: 1000px;
         --sz: 20px;
-        --sz: 10px;
-        --sz-tile: calc(var(--sz) * 2);
-        --sz-tile-border: calc(var(--sz) * .083);
-        --bg-city-light: hsla(0, 0%, 89%, 100%);
-        --bg-city-dark: hsl(210, 0%, 16%);
-
         --moon-t: 300ms;
         --moon-t2: 600ms;
     }
@@ -36,16 +29,9 @@
         display: flex; align-items: center; justify-content: center;
     }
     .grid {
-        --bg-city-light: hsla(0, 0%, 89%, 100%);
-        --bg-city-dark: hsl(210, 0%, 16%);
-
-        --bg-city-light: #39f;
-        --bg-city-dark: #14293d;
-
         flex-direction: column;
     }
     .row {
-        --j: var(--i);
         --y: var(--i);
         flex-direction: row;
     }
@@ -53,43 +39,107 @@
         --x: var(--i);
         box-sizing: border-box;
         height: 20px; width: 20px;
-        font-size: var(--sz);
-        height: var(--sz-tile); width: var(--sz-tile);
         background-color: #333;
-        border: 0px solid #39f0;
+        border: 1px solid #39f0;
     }
     .tile-on {
-        background-color: var(--bg-city-light);
+        background-color: #39f;
         transition: background-color var(--moon-t) ease-in-out;
     }
     .tile-off {background-color: #1113;}
     
-    /* .grid:has(.moon:hover) .row:nth-child(5) .tile-on,
+    .megacloud {
+        height: 50px; width: 50px;
+        box-shadow: 0 0 6px 6px #fff9;
+        filter: blur(12px) url(#space-cloud);
+    }
+    /* .cloud {
+        background-color: #1113;
+        transition: outline 300ms ease-in-out;
+        transition: background-color 900ms ease-in-out;
+        transition: 
+        background-color var(--moon-t) ease-in-out,
+        transform var(--moon-t) ease-in-out;
+    }
+    .cloud:hover {
+        background-color: #3333;
+        transition: outline 100ms ease-in-out;
+        transition: background-color 10ms ease-in-out;
+    }
+    .grid:has(.moon:hover) .row:nth-child(2) .cloud,
+    .grid:has(.moon:hover) .row:nth-child(3) .cloud {
+        background-color: #3332;
+        transform: translateZ(1px);
+        transition: 
+        background-color var(--moon-t2) ease-in-out,
+        transform var(--moon-t2) ease-in-out;
+    }
+    .grid:has(.moon:hover) .row:nth-child(2) .cloud:nth-child(n+2):nth-child(-n+6) {
+        border-bottom: 1px solid #fff2;
+    }
+    .grid:has(.moon:hover) .row:nth-child(3) .cloud:nth-child(1) {
+        border-bottom: 1px solid #fff2;
+        border-right: 1px solid #fff2;
+    }
+    .grid:has(.moon:hover) .row:nth-child(3) .cloud:nth-child(7) {
+        border-bottom: 1px solid #fff2;
+        border-left: 1px solid #fff2;
+    } */
+
+    /* .grid:has(.moon:hover) .row:nth-child(6) .tile-on:not(.moon) {
+        outline: 1px solid red;
+        background-color: #39f0;
+        background-image: linear-gradient(#39f9, #39f6, #39f3);
+        border: 1px solid #39f0;
+        border-top: 1px solid #39f;
+        box-shadow: 0px -2px 1px 1px #39f;
+    } */
+    .grid:has(.moon:hover) .row:nth-child(5) .tile-on,
     .grid:has(.moon:hover) .row:nth-child(6) .tile-on {
         background-color: #39f3;
         background-color: #14293d;
-        background-color: var(--bg-city-dark);
         transition: background-color var(--moon-t2) ease-in-out;
     }
     .grid:has(.moon:hover) .row:nth-child(6) .tile-on:nth-child(n+2):nth-child(-n+6) {
-        border-top: 1px solid var(--bg-city-light);
+        border-top: 1px solid #39f;
     }
     .grid:has(.moon:hover) .row:nth-child(5) .tile-on:nth-child(1) {
-        border-top: 1px solid var(--bg-city-light);
-        border-right: 1px solid var(--bg-city-light);
+        border-top: 1px solid #39f;
+        border-right: 1px solid #39f;
     }
     .grid:has(.moon:hover) .row:nth-child(5) .tile-on:nth-child(7) {
-        border-top: 1px solid var(--bg-city-light);
-        border-left: 1px solid var(--bg-city-light);
-    } */
+        border-top: 1px solid #39f;
+        border-left: 1px solid #39f;
+    }
+
 
     .moon {
         box-shadow: 
+        0px 0px 0px 0px #39f,
+        0px 0px 0px 0px #39f,
+        0px 0px 0px 0px #39f;
+        box-shadow: 
         0px 0px 0px 0px #fff0,
-        0px 0px 0px 0px #fff0,
+        0px 0px 0px 0px #f0f0,
         0px 0px 0px 0px #00f0,
+        0px 0px 0px 0px #0ff0,
         0px 0px 0px 0px #0f00,
+        0px 0px 0px 0px #ff00,
         0px 0px 0px 0px #f000;
+        box-shadow: 
+        0px 0px 0px 0px #fff0,
+        0px 0px 0px 0px #fff0,
+        /* 0px 0px 0px 0px #f0f0, */
+        0px 0px 0px 0px #00f0,
+        /* 0px 0px 0px 0px #0ff0, */
+        0px 0px 0px 0px #0f00,
+        /* 0px 0px 0px 0px #ff00, */
+        0px 0px 0px 0px #f000;
+        transition: 
+        background-color 300ms ease-in-out,
+        border-radius 300ms ease-in-out,
+        box-shadow 600ms ease-in-out,
+        transform 300ms ease-in-out;
         transition: 
         background-color var(--moon-t) ease-in-out,
         border-radius var(--moon-t) ease-in-out,
@@ -100,18 +150,30 @@
         background-color: #fff;
         border-radius: 50%;
         box-shadow: 
+        0px 0px 6px 0px #39f,
+        0px 0px 24px 3px #39fa,
+        0px 0px 36px 6px #39f6;
+        box-shadow: 
+        0px 0px 12px 3px #00f,
+        0px 0px 24px 3px #0f0,
+        0px 0px 36px 3px #f00;
+        box-shadow: 
+        0px 0px 3px 0px #fff9,
+        0px 0px 6px 3px #f0f9,
+        0px 0px 12px 3px #00f9,
+        0px 0px 18px 3px #0ff9,
+        0px 0px 24px 3px #0f09,
+        0px 0px 30px 3px #ff09,
+        0px 0px 36px 3px #f009;
+        box-shadow: 
         0px 0px 36px 0px #fff3,
         0px 0px 3px 0px #fff9,
+        /* 0px 0px 6px 3px #f0f9, */
         0px 0px 12px 3px #00f9,
+        /* 0px 0px 18px 3px #0ff9, */
         0px 0px 24px 3px #0f09,
+        /* 0px 0px 30px 3px #ff09, */
         0px 0px 36px 3px #f009;
-
-        box-shadow: 
-        0px 0px 3em 0px #fff,
-        0px 0px .25em 0px #fff,
-        0px 0px 1em .25em #00f,
-        0px 0px 2em .25em #0f0,
-        0px 0px 3em .25em #f00;
         transform: rotate(180deg) scale(1.25);
         transition: 
         background-color var(--moon-t2) ease-in-out,
@@ -119,57 +181,27 @@
         box-shadow var(--moon-t2) ease-in-out,
         transform var(--moon-t2) ease-in-out;
     }
-
-    .tile {
-        --x: calc(var(--i) - 4);
-        --y: calc(var(--j) - 4);
-
-        --xy: calc(var(--x) * var(--y));
-        --xxyy: calc(var(--x) * var(--x) + var(--y) * var(--y));
-        --val: calc(var(--xxyy) * 10);
-
-        --hue: calc((var(--x) * var(--y)) * 10);
-        --c-tile: hsla(var(--hue), 100%, 60%, 1);
-        background-color: var(--c-tile);
-        transition: 
-        background-color var(--moon-t) ease-in-out,
-        border-radius var(--moon-t) ease-in-out,
-        box-shadow var(--moon-t) ease-in-out,
-        transform var(--moon-t) ease-in-out;
-    }
-    .moon {
-        background-color: #fff;
-    }
-    .grid:has(.moon:hover) .tile {
-        transform: perspective(var(--p)) rotate3d(1,1,0,calc(var(--val) * 1deg));
-        transition: 
-        background-color var(--moon-t2) ease-in-out,
-        border-radius var(--moon-t2) ease-in-out,
-        box-shadow var(--moon-t2) ease-in-out,
-        transform var(--moon-t2) ease-in-out;
-    }
-
 </style>
 <style>
-    svg#logo {height: 50px; width: 50px; margin: 0px 4px; margin: 0px 4px 0 8px;}
-    svg#logo {
+    SVG#logo {height: 50px; width: 50px; margin: 0px 4px; margin: 0px 4px 0 8px;}
+    SVG#logo {
         --sz-logo: 36px;
         height: var(--sz-logo); width: var(--sz-logo); 
         margin: 7px 4px 3px 8px;
         margin: 0px 4px 0px 8px;
     }
-    svg#logo {height: 40px; width: 40px; margin: 3px 4px 3px 8px;}
+    SVG#logo {height: 40px; width: 40px; margin: 3px 4px 3px 8px;}
 
-    svg#logo-sample {height: 140px; width: 140px;}
+    SVG#logo-sample {height: 140px; width: 140px;}
 
-    svg#logo {
+    SVG#logo {
         --bg-city-light: hsl(210, 0%, 60%);
         --bg-city-light: hsl(210, 0%, 100%);
         --bg-city-light: hsla(0, 0%, 89%, 100%);
         --bg-city-dark: hsl(210, 0%, 16%);
         /* outline: 1px dashed #fff9; */
     }
-    svg#logo-sample {
+    SVG#logo-sample {
         --bg-city-light: #39f;
         --bg-city-dark: #14293d;
     }
@@ -233,7 +265,6 @@
 
         --ny-logo-tile-2: calc(var(--ny-logo-tile) * 2);
         --ny-logo-tile-3: calc(var(--ny-logo-tile) * 3);
-        --ny-logo-tile-4: calc(var(--ny-logo-tile) * 4);
         --ny-logo-tile-5: calc(var(--ny-logo-tile) * 5);
         --ny-logo-tile-6: calc(var(--ny-logo-tile) * 6);
         --ny-logo-tile-7: calc(var(--ny-logo-tile) * 7);
@@ -245,12 +276,10 @@
         outline: 1px dashed #fff9;
     }
     [class|="ny-tile"] {
-        box-sizing: border-box;
         height: var(--ny-logo-tile);
         width: var(--ny-logo-tile);
         background-color: #39f;
         background-color: var(--bg-city-light);
-        transition: background-color var(--moon-t) ease-in-out;
     }
     .ny-tile-8 {
         position: absolute;
@@ -291,25 +320,19 @@
     }
     .ny-tile-l {
         position: absolute;
-        top: var(--ny-logo-tile-4); left: 0;
-        /* height: var(--ny-logo-tile-2); */
-        border-top: 1px solid var(--bg-city-light);
-        border-right: 1px solid var(--bg-city-light);
+        top: var(--ny-logo-tile-3); left: 0;
+        height: var(--ny-logo-tile-2);
     }
-    .ny-tile-l:nth-child(4) {
-        left: var(--ny-logo-tile-6);
-        border-left: 1px solid var(--bg-city-light);
-    }
+    .ny-tile-l:nth-child(4) {left: var(--ny-logo-tile-6);}
     .ny-tile-c {
         position: absolute;
         top: var(--ny-logo-tile-5); left: var(--ny-logo-tile);
+        height: var(--ny-logo-tile-2);
         width: var(--ny-logo-tile-5);
-        border-top: 1px solid var(--bg-city-light);
     }
     .y:hover .ny-tile-l,
     .y:hover .ny-tile-c {
         background-color: var(--bg-city-dark);
-        transition: background-color var(--moon-t2) ease-in-out;
     }
     .y {}
 
@@ -482,12 +505,12 @@
             </div>
         </div>
 
-        <div class="y">
-            <div class="ny-tile-8"></div>
-            <div class="ny-tile-l"></div>
-            <div class="ny-tile-c"></div>
-            <div class="ny-tile-l"></div>
-        </div>
+        <!-- <div class="y">
+            <div class="ny-8"></div>
+            <div class="ny-l"></div>
+            <div class="ny-c"></div>
+            <div class="ny-l"></div>
+        </div> -->
     </div>
 </main>
 
@@ -599,9 +622,9 @@ index--nds-01: initial design.
 index--nds-02: moon halo.
 index--nds-03: unlikely cloud attempt.
 index--nds-04: Ready.
-index--nds-05: SVG attempt. (stays)
-index--nds-06: Stable.
-index--nds-07: New attempt on y.
+index--nds-05: SVG attempt
+index--nds-06: 
+index--nds-07: 
 index--nds-08: 
 
 */
