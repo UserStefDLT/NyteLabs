@@ -59,7 +59,6 @@ border-radius: 50%;
 transform-style: preserve-3d;
 transform: rotate3d(1,1,0,30deg);
 transform: perspective(var(--p)) rotate3d(0,1,0,var(--ydeg)) rotate3d(1,0,0,var(--xdeg));
-transform: perspective(500px) rotate3d(0,1,0,var(--ydeg)) rotate3d(1,0,0,var(--xdeg));
 
 transition: transform 300ms ease-in-out;
 /* animation: pan 7200ms linear infinite both; */
@@ -173,19 +172,10 @@ animation: spin-02 3600ms linear infinite both;
     <style>
         main {
             height: 77vh;
-
-            position: absolute;
-            top: 50px;
-            height: calc(100vh - 125px);
-            height: calc(100vh - 100px);
-            left: 2.5vw;
-            margin: auto;
         }
         .shelf {
             height: 100%;
-            margin-top: 0;
         }
-        main .shelf-title {top: 0em;}
         .screen-test {
             position: fixed;
             top: 0; left: 0;
@@ -471,8 +461,7 @@ animation: spin-02 3600ms linear infinite both;
             z: 0,
             path: [],
             path_len: 20,
-            tracking: true
-            // tracking: false
+            tracking: false
         },
         tile: {
             h: 20,
@@ -525,8 +514,7 @@ animation: spin-02 3600ms linear infinite both;
 <script>
 
 
-    
-    function updateTrack1(x,y){
+    function updateTrack(x,y){
         let xdist = x - (s.w2);
         let ydist = y - (s.h2);
         // let sh = Math.sqrt(s.h2 * s.h2 + s.w2 * s.w2);
@@ -546,27 +534,23 @@ animation: spin-02 3600ms linear infinite both;
         let display = document.getElementById("display");
         display.style = `--xdeg: ${xdeg}deg; --ydeg: ${ydeg}deg;`;
     }
-    function updateTrack(x,y){        
-        let xp = (x - (s.w2)) / s.w2;
-        let yp = (y - (s.h2)) / s.h2;
-
-        let xdeg = Math.round(-90 * yp);
-        let ydeg = Math.round(90 * xp);
-
-        let display = document.getElementById("display");
-        display.style = `--xdeg: ${xdeg}deg; --ydeg: ${ydeg}deg;`;
-    }
     window.addEventListener('click', (ev) =>{
         s.mouse.x = ev.clientX;
         s.mouse.y = ev.clientY;
         updateTrack(s.mouse.x,s.mouse.y);
+        
+        // if(s.mouse.tracking){
+        //     if(!s.q && !s.pause){
+        //         s.mouse.x = ev.clientX;
+        //         s.mouse.y = ev.clientY;
+        //     }
+        // }
     });
     // window.addEventListener('mousemove', (ev) =>{
     //     if(s.mouse.tracking){
     //         if(!s.q && !s.pause){
     //             s.mouse.x = ev.clientX;
     //             s.mouse.y = ev.clientY;
-    //             updateTrack(s.mouse.x,s.mouse.y);
     //         }
     //     }
     // });
@@ -628,7 +612,7 @@ animation: spin-02 3600ms linear infinite both;
     [index-nds-01]: Initial attempt, works as expected.
     [index-nds-02]: Working find.
     [index-nds-03]: Added new function that moves to where I click.
-    [index-nds-04]: Inverting the direction, so it aims in front of the screen, not to the back.
+    [index-nds-04]: 
     [index-nds-05]: 
     [index-nds-06]: 
     [index-nds-07]: 
