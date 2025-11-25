@@ -166,6 +166,21 @@
             transition: transform 100ms linear 5s;
         }
     </style>
+    <style>
+        /* until logo.css is fixed. */
+    #logo:hover .svgmoon {
+        rx: 10px;
+        fill: #fff;
+        transform: rotate(180deg) scale(1.25);
+        filter: url(#moon-shadow2);
+
+        transition: 
+        fill var(--moon-t2) ease-in-out,
+        rx var(--moon-t2) ease-in-out,
+        filter var(--moon-t2) ease-in-out,
+        transform var(--moon-t2) ease-in-out;
+    }
+    </style>
     <link rel="stylesheet" href="stylesheets/end.css">
 </head>
 <body>
@@ -223,6 +238,7 @@
                 <li><a href="#Other">Other</a> experiments.</li>
                 <!-- <li><a href="#All">All</a> experiments.</li> -->
                 <li>Experiments under <a href="#dev">dev</a>elopment.</li>
+                <li>Even, the ones I was <a href="#miss">miss</a>ing.</li>
                 <!-- <li><a href="#Under-Development">Under Development</a>.</li> -->
             </ul>
         </div>
@@ -444,6 +460,525 @@
         <a href="lab/dev/variant-dev/"><div class="nybtn--labBtn">Turbulence Variants</div></a>
         <a href="lab/designs/gg-ous/"><div class="nybtn--labBtn">Turbulence Bubble Gradient</div></a>
     </div>
+
+    <div id="fulldev" class="shelf">
+        <div id="Under-Development" class="shelf-title">Under Development</div>
+        <!-- <div class="lablinks">
+            <a href="lab/"><div class="nybtn--labBtn">Experiment</div></a>
+        </div> -->
+        <div class="lablinks">
+            <a href="lab/recreate/magic-metal-windmill-spinner/"><div class="nybtn--labBtn">Spinny thing 🌬</div></a>
+            <a href="lab/recreate/magic-metal-windmill-spinner/index--nds-04.html"><div class="nybtn--labBtn">Spinny thing 04</div></a>
+            <a href="lab/recreate/magic-metal-windmill-spinner/index--nds-03.html"><div class="nybtn--labBtn">Spinny thing 03</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/nyte/nyte-logo/"><div class="nybtn--labBtn">NyteLabs Logo 🌕</div></a>
+            <a href="lab/nyte/nyte-logo/index--nds-05.html"><div class="nybtn--labBtn">Logo 05 🌕</div></a>
+            <a href="lab/nyte/nyte-logo/index--nds-04.html"><div class="nybtn--labBtn">Logo 04 🌕</div></a>
+            <a href="lab/nyte/nyte-logo/index--nds-03.html"><div class="nybtn--labBtn">Logo 03 🌕</div></a>
+            <a href="lab/nyte/nyte-logo/index--nds-02.html"><div class="nybtn--labBtn">Logo 02 🌕</div></a>
+            <a href="lab/nyte/nyte-logo/index--nds-01.html"><div class="nybtn--labBtn">Logo 01 🌕</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/recreate/magic-metal-windmill-spinner/index--nds-02.html"><div class="nybtn--labBtn">Spinny thing 02</div></a>
+            <a href="lab/recreate/magic-metal-windmill-spinner/index--nds-01.html"><div class="nybtn--labBtn">Spinny thing 01</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/layout/web-layout-rand/"><div class="nybtn--labBtn">Random Web Layout</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/layout/magic-store/"><div class="nybtn--labBtn">Magic Store</div></a>
+            <a href="lab/layout/magic-store/index--nds-03.html"><div class="nybtn--labBtn">Magic Store 03</div></a>
+            <a href="lab/layout/magic-store/index--nds-02.html"><div class="nybtn--labBtn">Magic Store 02</div></a>
+            <a href="lab/layout/magic-store/index--nds-01.html"><div class="nybtn--labBtn">Magic Store 01</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/other/git-calentar-toggle/"><div class="nybtn--labBtn">git calendar toggle</div></a>
+            <a href="lab/particle-rules/particle-colors/index.html"><div class="nybtn--labBtn">Particle Colors 🎨🌌</div></a>
+            <a href="lab/particle-rules/particle-colors/index--nds-04.html"><div class="nybtn--labBtn">Particle Colors 04</div></a>
+            <a href="lab/particle-rules/particle-colors/index--nds-03.html"><div class="nybtn--labBtn">Particle Colors 03</div></a>
+            <a href="lab/particle-rules/particle-colors/index--nds-02.html"><div class="nybtn--labBtn">Particle Colors 02</div></a>
+            <a href="lab/particle-rules/particle-colors/index--nds-01.html"><div class="nybtn--labBtn">Particle Colors 01</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/particle-rules/fires/fires--nds-06.html"><div class="nybtn--labBtn">🔥Fires🔥 06</div></a>
+            <a href="lab/particle-rules/particle-tails/"><div class="nybtn--labBtn">Particle Tails 🌀🌌🌠</div></a>
+            <a href="lab/particle-rules/particle-tails/index--nds-15.html"><div class="nybtn--labBtn">Particle Tails 05</div></a>
+            <a href="lab/particle-rules/particle-tails/index--nds-14.html"><div class="nybtn--labBtn">Particle Tails 04</div></a>
+            <a href="lab/particle-rules/particle-tails/index--nds-13.html"><div class="nybtn--labBtn">Particle Tails 03</div></a>
+            <a href="lab/particle-rules/particle-tails/index--nds-12.html"><div class="nybtn--labBtn">Particle Tails 02</div></a>
+            <a href="lab/particle-rules/particle-tails/index--nds-11.html"><div class="nybtn--labBtn">Particle Tails 01</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/unknown/unk-particle-test/"><div class="nybtn--labBtn">Unknown Test</div></a>
+            <a href="lab/unknown/unk-particle-test/index--nds-09.html"><div class="nybtn--labBtn">Unk 09</div></a>
+            <a href="lab/unknown/unk-particle-test/index--nds-08.html"><div class="nybtn--labBtn">Unk 08</div></a>
+            <a href="lab/unknown/unk-particle-test/index--nds-07.html"><div class="nybtn--labBtn">Unk 07</div></a>
+            <a href="lab/unknown/unk-particle-test/index--nds-06.html"><div class="nybtn--labBtn">Unk 06</div></a>
+            <a href="lab/unknown/unk-particle-test/index--nds-05.html"><div class="nybtn--labBtn">Unk 05</div></a>
+            <a href="lab/unknown/unk-particle-test/index--nds-04.html"><div class="nybtn--labBtn">Unk 04</div></a>
+            <a href="lab/unknown/unk-particle-test/index--nds-03.html"><div class="nybtn--labBtn">Unk 03</div></a>
+            <a href="lab/unknown/unk-particle-test/index--nds-02.html"><div class="nybtn--labBtn">Unk 02</div></a>
+            <a href="lab/unknown/unk-particle-test/index--nds-01.html"><div class="nybtn--labBtn">Unk 01</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/math/quick-random/"><div class="nybtn--labBtn">QuickRandom</div></a>
+            <a href="lab/math/quick-random/nds--03.html"><div class="nybtn--labBtn">QuickRandom 03</div></a>
+            <a href="lab/math/quick-random/nds--02.html"><div class="nybtn--labBtn">QuickRandom 02</div></a>
+            <a href="lab/math/quick-random/nds--01.html"><div class="nybtn--labBtn">QuickRandom 01</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/math/probability-tree/"><div class="nybtn--labBtn">ProbTree Test</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/graphs/spidergraph/"><div class="nybtn--labBtn">Spider Graph 🕸</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/cards/card-bg/"><div class="nybtn--labBtn">Card Background 🎴🃏</div></a>
+            <a href="lab/cards/card-bg/index--nds-07.html"><div class="nybtn--labBtn">Card Background 🎴7🃏</div></a>
+            <a href="lab/cards/card-bg/index--nds-06.html"><div class="nybtn--labBtn">Card Background 🎴6🃏</div></a>
+            <a href="lab/cards/card-bg/index--nds-05.html"><div class="nybtn--labBtn">Card Background 🎴5🃏</div></a>
+            <a href="lab/cards/card-bg/index--nds-04.html"><div class="nybtn--labBtn">Card Background 🎴4🃏</div></a>
+            <a href="lab/cards/card-bg/index--nds-03.html"><div class="nybtn--labBtn">Card Background 🎴3🃏</div></a>
+            <a href="lab/cards/card-bg/index--nds-02.html"><div class="nybtn--labBtn">Card Background 🎴2🃏</div></a>
+            <a href="lab/cards/card-bg/index--nds-01.html"><div class="nybtn--labBtn">Card Background 🎴1🃏</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/recreate/patterns/rotating-pattern.html"><div class="nybtn--labBtn">Rotating Pattern 🌌</div></a>
+            <a href="lab/recreate/patterns/rotating-pattern--nds-07.html"><div class="nybtn--labBtn">Rotating Pattern 7 🌌</div></a>
+            <a href="lab/puzzle/gear-tiles/"><div class="nybtn--labBtn">Gear Tiles ⚙💠</div></a>
+            <a href="lab/recreate/patterns/zigzag-pattern.html"><div class="nybtn--labBtn">Zigzag Pattern</div></a>
+            <a href="lab/puzzle/cir-rot-lock/"><div class="nybtn--labBtn">Cir-rot-lock</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/layout/tile-layout/"><div class="nybtn--labBtn">Tile Layout 💠</div></a>
+            <a href="lab/layout/tile-layout/index--nds-05.html"><div class="nybtn--labBtn">Tile Layout 5</div></a>
+            <a href="lab/games/wrong-words/"><div class="nybtn--labBtn">Wrong Wrods</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/eqs/ray-tracing-exp/index.html"><div class="nybtn--labBtn">Ray Tracing Experiment</div></a>
+            <a href="lab/eqs/ray-tracing-exp/index--nds-15.html"><div class="nybtn--labBtn">RayT-15</div></a>
+            <a href="lab/eqs/ray-tracing-exp/index--nds-14.html"><div class="nybtn--labBtn">RayT-14</div></a>
+            <a href="lab/eqs/ray-tracing-exp/index--nds-13--huelu2.html"><div class="nybtn--labBtn">RayT-13: HueLu2</div></a>
+            <a href="lab/eqs/ray-tracing-exp/index--nds-12--huelum-water.html"><div class="nybtn--labBtn">RayT-12: HueLum Water</div></a>
+            <a href="lab/eqs/ray-tracing-exp/index--nds-11--huelum.html"><div class="nybtn--labBtn">RayT-11: HueLum</div></a>
+            <a href="lab/eqs/ray-tracing-exp/index--nds-10--huesat.html"><div class="nybtn--labBtn">RayT-10: HueUp Sat</div></a>
+            <a href="lab/eqs/ray-tracing-exp/index--nds-09--huedsat.html"><div class="nybtn--labBtn">RayT-09: HueUp DeSat</div></a>
+            <a href="lab/eqs/ray-tracing-exp/index--nds-08--gsat2.html"><div class="nybtn--labBtn">RayT-08: gsat4glum</div></a>
+            <a href="lab/eqs/ray-tracing-exp/index--nds-07--gsat.html"><div class="nybtn--labBtn">RayT-07: gsat</div></a>
+            <a href="lab/eqs/ray-tracing-exp/index--nds-06--hueBGc.html"><div class="nybtn--labBtn">RayT-06: HueBG Center</div></a>
+            <a href="lab/eqs/ray-tracing-exp/index--nds-05--hueBG.html"><div class="nybtn--labBtn">RayT-05: HueBG</div></a>
+            <a href="lab/eqs/ray-tracing-exp/index--nds-04.html"><div class="nybtn--labBtn">Ray Tracing with Strange Shifting</div></a>
+            <a href="lab/eqs/ray-tracing-exp/index--nds-03.html"><div class="nybtn--labBtn">Ray Tracing Rainbowy Color Shift</div></a>
+            <a href="lab/eqs/ray-tracing-exp/index--nds-02.html"><div class="nybtn--labBtn">Ray Tracing Rainbowy</div></a>
+            <a href="lab/eqs/ray-tracing-exp/index--nds-01.html"><div class="nybtn--labBtn">Ray Tracing Color Shift</div></a>
+            <a href="lab/maze/origin-shift/maze-test.html"><div class="nybtn--labBtn">Test Maze</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/maze/learning-link-maze/shapes.html"><div class="nybtn--labBtn">Shapes</div></a>
+            <a href="lab/maze/linked-maze/"><div class="nybtn--labBtn">Linked Maze Attempt</div></a>
+            <a href="lab/maze/learning-link-maze/sample.html"><div class="nybtn--labBtn">Learning Linked Maze</div></a>
+            <a href="lab/maze/origin-shift/"><div class="nybtn--labBtn">Origin Shift Maze</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/layout/tile-layout/index--nds-04.html"><div class="nybtn--labBtn">Tile Layout 4</div></a>
+            <a href="lab/layout/tile-layout/index--nds-03.html"><div class="nybtn--labBtn">Tile Layout 3</div></a>
+            <a href="lab/layout/tile-layout/index--nds-02.html"><div class="nybtn--labBtn">Tile Layout 2</div></a>
+            <a href="lab/layout/tile-layout/index--nds-01.html"><div class="nybtn--labBtn">Tile Layout 1</div></a>
+            <a href="lab/svg/items/"><div class="nybtn--labBtn">Items 📦</div></a>
+            <a href="lab/ttrpg/character-sheet/"><div class="nybtn--labBtn">🎲 Character Sheet 📝</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/svg/sky/day-night-scroll.html"><div class="nybtn--labBtn">Day-Night Scroll</div></a>
+            <a href="lab/svg/sky/sky.html"><div class="nybtn--labBtn">Sky ☁️🌙☁️</div></a>
+            <a href="lab/svg/sky/sky--nds-06.html"><div class="nybtn--labBtn">Sky ☁️6☁️</div></a>
+            <a href="lab/svg/sky/sky--nds-05.html"><div class="nybtn--labBtn">Sky ☁️5☁️</div></a>
+            <a href="lab/svg/sky/sky--nds-04.html"><div class="nybtn--labBtn">Sky ☁️4☁️</div></a>
+            <a href="lab/svg/sky/sky--nds-03.html"><div class="nybtn--labBtn">Sky ☁️3☁️</div></a>
+            <a href="lab/svg/sky/sky--nds-02.html"><div class="nybtn--labBtn">Sky ☁️2☁️</div></a>
+            <a href="lab/svg/sky/sky--nds-01.html"><div class="nybtn--labBtn">Sky ☁️1☁️</div></a>
+            <a href="lab/svg/sky/"><div class="nybtn--labBtn">Sky Progress ☁️🌙☁️</div></a>
+            <a href="lab/svg/sky/sky-cards.html"><div class="nybtn--labBtn">Sky Cards ☁️🌙☁️</div></a>
+            <a href="lab/svg/wood/"><div class="nybtn--labBtn">Wood Attempt</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/layout/neumorphic-recreate/"><div class="nybtn--labBtn">Neumorphic Interface 🔘</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/layout/web-layout/index--nds-05.html"><div class="nybtn--labBtn">Web Layout 05</div></a>
+            <a href="lab/layout/web-layout/index--nds-04.html"><div class="nybtn--labBtn">Web Layout 04</div></a>
+            <a href="lab/layout/web-layout/index--nds-03.html"><div class="nybtn--labBtn">Web Layout 03</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/building/checkerboard/"><div class="nybtn--labBtn">Checkerboard 🏁</div></a>
+            <a href="lab/building/checkerboard/index--nds-05.html"><div class="nybtn--labBtn">Checkerboard 05 🏁</div></a>
+            <a href="lab/building/checkerboard/index--nds-04.html"><div class="nybtn--labBtn">Checkerboard 04 🏁</div></a>
+            <a href="lab/building/checkerboard/index--nds-03.html"><div class="nybtn--labBtn">Checkerboard 03 🏁</div></a>
+            <a href="lab/building/checkerboard/index--nds-02.html"><div class="nybtn--labBtn">Checkerboard 02 🏁</div></a>
+            <a href="lab/building/checkerboard/index--nds-01.html"><div class="nybtn--labBtn">Checkerboard 01 🏁</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/color/color-rows/"><div class="nybtn--labBtn">🌈 Color Rows 🎨</div></a>
+            <!-- <a href="lab/color/colot-attempts/color-rows.html"><div class="nybtn--labBtn">🌈 Color Rows 🎨</div></a> -->
+        </div>
+        <div class="lablinks">
+            <a href="lab/particle-rules/fire-01/fire.html"><div class="nybtn--labBtn">🔥 Fire 🎆</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/spells/arms-of-hadar/"><div class="nybtn--labBtn">🐙 Arms of Hadar 👾🎆</div></a>
+            <a href="lab/spells/arms-of-hadar/arms-of-hadar--nds-04.html"><div class="nybtn--labBtn">Arms of Hadar 04</div></a>
+            <a href="lab/spells/arms-of-hadar/arms-of-hadar--nds-03.html"><div class="nybtn--labBtn">Arms of Hadar 03</div></a>
+            <a href="lab/spells/arms-of-hadar/arms-of-hadar--nds-02.html"><div class="nybtn--labBtn">Arms of Hadar 02</div></a>
+            <a href="lab/spells/arms-of-hadar/arms-of-hadar--nds-01.html"><div class="nybtn--labBtn">Arms of Hadar 01</div></a>
+            <a href="lab/science-based-experiments/whirl/"><div class="nybtn--labBtn">🌌 Whirl 🌀</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/particle-rules/fires/fires--nds-05.html"><div class="nybtn--labBtn">🔥Fires🔥 05</div></a>
+            <a href="lab/science-based-experiments/boiling/boiling.html"><div class="nybtn--labBtn">♨️ Boiling</div></a>
+            <a href="lab/science-based-experiments/boiling/boiling--nds-08.html"><div class="nybtn--labBtn">♨️Boiling 08: HueSpiral</div></a>
+            <a href="lab/science-based-experiments/boiling/boiling--nds-07.html"><div class="nybtn--labBtn">♨️Boiling 07: HueColor</div></a>
+            <a href="lab/science-based-experiments/boiling/boiling-rgb.html"><div class="nybtn--labBtn">♨️Boiling RGB</div></a>
+            <a href="lab/science-based-experiments/boiling/boiling-rgb--nds-02.html"><div class="nybtn--labBtn">♨️Boiling RGB 02</div></a>
+            <a href="lab/science-based-experiments/boiling/boiling-rgb--nds-01.html"><div class="nybtn--labBtn">♨️Boiling RGB 01</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/science-based-experiments/boiling/boiling--nds-06.html"><div class="nybtn--labBtn">♨️ Boiling 06</div></a>
+            <a href="lab/science-based-experiments/boiling/boiling--nds-05.html"><div class="nybtn--labBtn">♨️ Boiling 05</div></a>
+            <a href="lab/science-based-experiments/boiling/boiling--nds-04.html"><div class="nybtn--labBtn">♨️ Boiling 04</div></a>
+            <a href="lab/science-based-experiments/boiling/boil-attempt.html"><div class="nybtn--labBtn">🔥 Boiling Attempt ♨️</div></a>
+            <a href="lab/science-based-experiments/boiling/boiling--nds-03.html"><div class="nybtn--labBtn">♨️ Boiling 03</div></a>
+            <a href="lab/science-based-experiments/boiling/boiling--nds-02.html"><div class="nybtn--labBtn">♨️ Boiling 02</div></a>
+            <a href="lab/science-based-experiments/boiling/boiling--nds-01.html"><div class="nybtn--labBtn">♨️ Boiling 01</div></a>
+            <a href="lab/science-based-experiments/buoyancy/"><div class="nybtn--labBtn">⛵ Buoyancy Attempt ⛵</div></a>
+            <a href="lab/science-based-experiments/buoyancy/index--nds-08.html"><div class="nybtn--labBtn">⛵ Buoyancy 08</div></a>
+            <a href="lab/science-based-experiments/buoyancy/index--nds-07.html"><div class="nybtn--labBtn">⛵ Buoyancy 07</div></a>
+            <a href="lab/science-based-experiments/buoyancy/index--nds-06.html"><div class="nybtn--labBtn">⛵ Buoyancy 06</div></a>
+            <a href="lab/science-based-experiments/buoyancy/index--nds-05.html"><div class="nybtn--labBtn">⛵ Buoyancy 05</div></a>
+            <a href="lab/science-based-experiments/buoyancy/index--nds-04.html"><div class="nybtn--labBtn">⛵ Buoyancy 04</div></a>
+            <a href="lab/science-based-experiments/buoyancy/index--nds-03.html"><div class="nybtn--labBtn">⛵ Buoyancy 03</div></a>
+            <a href="lab/science-based-experiments/buoyancy/index--nds-02.html"><div class="nybtn--labBtn">⛵ Buoyancy 02</div></a>
+            <a href="lab/science-based-experiments/buoyancy/index--nds-01.html"><div class="nybtn--labBtn">⛵ Buoyancy 01</div></a>
+            <a href="lab/science-based-experiments/n-body/"><div class="nybtn--labBtn">N Body Problem</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/particle-rules/fires/"><div class="nybtn--labBtn">🔥Fires🔥</div></a>
+            <a href="lab/particle-rules/fires/fires--nds-04.html"><div class="nybtn--labBtn">🔥Fires🔥 04</div></a>
+            <a href="lab/particle-rules/fires/fires--nds-03.html"><div class="nybtn--labBtn">🔥Fires🔥 03</div></a>
+            <a href="lab/particle-rules/fires/fires--nds-02.html"><div class="nybtn--labBtn">🔥Fires🔥 02</div></a>
+            <a href="lab/particle-rules/fires/fires--nds-01.html"><div class="nybtn--labBtn">🔥Fires🔥 01</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/games/paths/paths.md"><div class="nybtn--labBtn">Paths MD</div></a>
+            <a href="lab/games/paths/"><div class="nybtn--labBtn">Paths</div></a>
+            <a href="lab/games/paths/index--nds-02.html"><div class="nybtn--labBtn">Paths 02</div></a>
+            <a href="lab/games/paths/index--nds-01.html"><div class="nybtn--labBtn">Paths 01</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/building/daisy/"><div class="nybtn--labBtn">Daisy 🌼</div></a>
+            <a href="lab/building/daisy/index--nds-02.html"><div class="nybtn--labBtn">Daisy 02</div></a>
+            <a href="lab/building/daisy/index--nds-01.html"><div class="nybtn--labBtn">Daisy 01</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/particle-rules/fire-02/"><div class="nybtn--labBtn">Fire Options</div></a>
+            <a href="lab/particle-rules/fire-02/index--nds-08.html"><div class="nybtn--labBtn">Small Fire 08</div></a>
+            <a href="lab/particle-rules/fire-02/index--nds-07.html"><div class="nybtn--labBtn">Small Fire 07</div></a>
+            <a href="lab/particle-rules/fire-02/index--nds-06.html"><div class="nybtn--labBtn">Small Fire 06</div></a>
+            <a href="lab/particle-rules/fire-02/index--nds-05.html"><div class="nybtn--labBtn">Small Fire 05</div></a>
+            <a href="lab/particle-rules/fire-02/index--nds-05c.html"><div class="nybtn--labBtn">Small Fire 05c</div></a>
+            <a href="lab/particle-rules/fire-02/index--nds-05b.html"><div class="nybtn--labBtn">Small Fire 05b</div></a>
+            <a href="lab/particle-rules/fire-02/index--nds-05a.html"><div class="nybtn--labBtn">Small Fire 05a</div></a>
+            <a href="lab/particle-rules/fire-02/index--nds-04.html"><div class="nybtn--labBtn">Small Fire 04</div></a>
+            <a href="lab/particle-rules/fire-02/index--nds-03.html"><div class="nybtn--labBtn">Small Fire 03</div></a>
+            <a href="lab/particle-rules/fire-02/index--nds-02.html"><div class="nybtn--labBtn">Small Fire 02</div></a>
+            <a href="lab/particle-rules/fire-02/index--nds-01.html"><div class="nybtn--labBtn">Small Fire 01</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/particle-rules/fire-check/fire-check.html"><div class="nybtn--labBtn">Fire Check: hh*.9</div></a>
+            <a href="lab/particle-rules/fire-check/fire-check--04.html"><div class="nybtn--labBtn">Fire Check 04: -HMF</div></a>
+            <a href="lab/particle-rules/fire-check/fire-check--03.html"><div class="nybtn--labBtn">Fire Check 03: Mainless</div></a>
+            <a href="lab/particle-rules/fire-check/fire-check--02.html"><div class="nybtn--labBtn">Fire Check 02:</div></a>
+            <a href="lab/particle-rules/fire-check/fire-check--01.html"><div class="nybtn--labBtn">Fire Check 01</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/z-playful/mix-blend-play/"><div class="nybtn--labBtn">Mix-Blend-Play (KPowell)</div></a>
+        </div>
+        <div class="lablinks">
+            <!-- <a href="lab/particle-rules/fire/fire-check.html"><div class="nybtn--labBtn">Fire Check: hh*.9</div></a>
+            <a href="lab/particle-rules/fire/fire-check--04.html"><div class="nybtn--labBtn">Fire Check 04: -HMF</div></a>
+            <a href="lab/particle-rules/fire/fire-check--03.html"><div class="nybtn--labBtn">Fire Check 03: Mainless</div></a>
+            <a href="lab/particle-rules/fire/fire-check--02.html"><div class="nybtn--labBtn">Fire Check 02:</div></a>
+            <a href="lab/particle-rules/fire/fire-check--01.html"><div class="nybtn--labBtn">Fire Check 01</div></a> -->
+            <a href="lab/dev/screen/"><div class="nybtn--labBtn">Screen Check</div></a>
+            <a href="lab/recreate/coding-train-180/"><div class="nybtn--labBtn">Falling Sand</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/recreate/truchet-tiles/index"><div class="nybtn--labBtn">Truchet Tiles</div></a>
+            <a href="lab/recreate/truchet-tiles/index--nds-07.html"><div class="nybtn--labBtn">Truchet Tiles 07</div></a>
+            <a href="lab/recreate/truchet-tiles/index--nds-06.html"><div class="nybtn--labBtn">Truchet Tiles 06</div></a>
+            <a href="lab/recreate/truchet-tiles/index--nds-05.html"><div class="nybtn--labBtn">Truchet Tiles 05</div></a>
+            <a href="lab/recreate/truchet-tiles/index--nds-04.html"><div class="nybtn--labBtn">Truchet Tiles 04</div></a>
+            <a href="lab/recreate/truchet-tiles/index--nds-03.html"><div class="nybtn--labBtn">Truchet Tiles 03</div></a>
+            <a href="lab/recreate/truchet-tiles/index--nds-02.html"><div class="nybtn--labBtn">Truchet Tiles 02</div></a>
+            <a href="lab/recreate/truchet-tiles/index--nds-01.html"><div class="nybtn--labBtn">Truchet Tiles 01</div></a>
+            <a href="lab/waves/grid-waves-05/"><div class="nybtn--labBtn">Grid Waves 05</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/particle-rules/fire/phire--nds-04.html"><div class="nybtn--labBtn">Phire 04</div></a>
+            <a href="lab/particle-rules/fire/phire--nds-03.html"><div class="nybtn--labBtn">Phire 03</div></a>
+            <a href="lab/particle-rules/fire/phire--nds-02.html"><div class="nybtn--labBtn">Phire 02</div></a>
+            <a href="lab/particle-rules/fire/phire--nds-01.html"><div class="nybtn--labBtn">Phire 01</div></a>
+            <a href="lab/exp/window/check.html"><div class="nybtn--labBtn">Window Check</div></a>
+            <a href="lab/particle-rules/water/index.html"><div class="nybtn--labBtn">Water</div></a>
+            <a href="lab/particle-rules/fire/fire.html"><div class="nybtn--labBtn">Fire</div></a>
+            <a href="lab/particle-rules/fire/fire--nds-04.html"><div class="nybtn--labBtn">Fire 04</div></a>
+            <a href="lab/particle-rules/fire/fire--nds-03.html"><div class="nybtn--labBtn">Fire 03</div></a>
+            <a href="lab/particle-rules/fire/fire--nds-02.html"><div class="nybtn--labBtn">Fire 02</div></a>
+            <a href="lab/particle-rules/fire/fire--nds-01.html"><div class="nybtn--labBtn">Fire 01</div></a>
+            <a href="lab/particle-rules/fire/"><div class="nybtn--labBtn">Sphire</div></a>
+            <a href="lab/particle-rules/fire/index--nds-05.html"><div class="nybtn--labBtn">Sphire 05</div></a>
+            <a href="lab/particle-rules/fire/index--nds-04.html"><div class="nybtn--labBtn">Sphire 04</div></a>
+            <a href="lab/particle-rules/fire/index--nds-03.html"><div class="nybtn--labBtn">Sphire 03</div></a>
+            <a href="lab/particle-rules/fire/index--nds-02.html"><div class="nybtn--labBtn">Sphire 02</div></a>
+            <a href="lab/particle-rules/fire/index--nds-01.html"><div class="nybtn--labBtn">Sphire 01</div></a>
+            <a href="lab/building/wall-rough-reflection/box.html"><div class="nybtn--labBtn">Light Reflection</div></a>
+            <a href="lab/canvas/firesphere/liquid-fire--nds-03b.html"><div class="nybtn--labBtn">Liquid Fire 3b</div></a>
+            <a href="lab/canvas/firesphere/liquid-fire-2.html"><div class="nybtn--labBtn">Liquid Fire 2</div></a>
+            <!-- <a href="lab/layout/university-layouts/b.html"><div class="nybtn--labBtn">b</div></a> -->
+            
+            <a href="lab/particle-rules/fuse/index.html"><div class="nybtn--labBtn">Fuse</div></a>
+            <a href="lab/particle-rules/fuse/index--nds-03.html"><div class="nybtn--labBtn">Fuse 03</div></a>
+            <a href="lab/particle-rules/fuse/index--nds-02.html"><div class="nybtn--labBtn">Fuse 02</div></a>
+            <a href="lab/particle-rules/fuse/index--nds-01.html"><div class="nybtn--labBtn">Fuse 01</div></a>
+            <a href="lab/unknown/unknown-drive/zyx.html"><div class="nybtn--labBtn">unknown zyx</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/nds/glowing-dots/"><div class="nybtn--labBtn">Glowing Dots</div></a>
+            <a href="lab/recreate/milk/"><div class="nybtn--labBtn">Milk Carton</div></a>
+            <a href="lab/canvas/fire-circles/"><div class="nybtn--labBtn">Fire Circles</div></a>
+            <a href="lab/recreate/mewtru-dots/"><div class="nybtn--labBtn">Mewtru Dots</div></a>
+            <a href="lab/eval/grid-eval-solo/"><div class="nybtn--labBtn">GridEval S</div></a>
+        </div>
+        <!-- <div class="lablinks">
+            <a href="lab/dnd/character-card/"><div class="nybtn--labBtn">Characer Card</div></a>
+        </div> -->
+        <div class="lablinks">
+            <a href="lab/cube/cube-ant-maze/"><div class="nybtn--labBtn">Cube Ant Maze</div></a>
+            <a href="lab/cube/cube-controllers/ant--nds-04.html"><div class="nybtn--labBtn">Cube Ant Maze 04</div></a>
+            <a href="lab/cube/cube-controllers/ant--nds-03.html"><div class="nybtn--labBtn">Cube Ant Maze 03</div></a>
+            <a href="lab/cube/cube-controllers/ant--nds-02.html"><div class="nybtn--labBtn">Cube Ant Maze 02</div></a>
+            <a href="lab/cube/cube-controllers/ant--nds-01.html"><div class="nybtn--labBtn">Cube Ant Maze 01</div></a>
+            <a href="lab/cube/cube-controllers/"><div class="nybtn--labBtn">Cube Controllers (sample)</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/canvas/firesphere/circle-p3.html"><div class="nybtn--labBtn">Fire Circle p3</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/cube/cube-go/index--nds-05.html"><div class="nybtn--labBtn">Cube Go 5 (self randomize)</div></a>
+            <a href="lab/cube/cube-go/index--nds-04.html"><div class="nybtn--labBtn">Cube Go 4</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/xo/xo3d/"><div class="nybtn--labBtn">xo3d</div></a>
+            <a href="lab/grid/mat-dist/"><div class="nybtn--labBtn">Matrix Distance</div></a>
+            <a href="lab/layout/ui-icons/icons-02.html"><div class="nybtn--labBtn">Btns 02</div></a>
+            <a href="lab/layout/ui-icons/"><div class="nybtn--labBtn">UI Icons</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/canvas/firesphere/circle-p2.html"><div class="nybtn--labBtn">Fire Follow</div></a>
+            <a href="lab/canvas/firesphere/circle-p.html"><div class="nybtn--labBtn">Fire Fall</div></a>
+            <a href="lab/canvas/firesphere/circle-p--nds-05.html"><div class="nybtn--labBtn">Fire Fall 05</div></a>
+            <a href="lab/canvas/firesphere/circle-p--nds-04.html"><div class="nybtn--labBtn">Fire Fall 04</div></a>
+            <a href="lab/canvas/firesphere/circle-p--nds-03.html"><div class="nybtn--labBtn">Fire Fall 03</div></a>
+            <a href="lab/canvas/firesphere/circle-p--nds-02.html"><div class="nybtn--labBtn">Fire Fall 02</div></a>
+            <a href="lab/canvas/firesphere/liquid-fire--nds-07.html"><div class="nybtn--labBtn">Fire 07</div></a>
+            <a href="lab/canvas/firesphere/liquid-fire--nds-06.html"><div class="nybtn--labBtn">Fire 06</div></a>
+            <a href="lab/canvas/firesphere/liquid-fire--nds-05.html"><div class="nybtn--labBtn">Fire 05</div></a>
+            <a href="lab/canvas/firesphere/circle-p--nds-01.html"><div class="nybtn--labBtn">Circle Fall</div></a>
+            <a href="lab/canvas/firesphere/liquid-fire.html"><div class="nybtn--labBtn">Fire Experiment</div></a>
+            <a href="lab/canvas/firesphere/liquid-fire--nds-04.html"><div class="nybtn--labBtn">Fire Blur</div></a>
+            <a href="lab/canvas/firesphere/liquid-fire--nds-03.html"><div class="nybtn--labBtn">Fire Effect</div></a>
+            <a href="lab/canvas/firesphere/liquid-fire--nds-02.html"><div class="nybtn--labBtn">Fire Filtered</div></a>
+            <a href="lab/canvas/firesphere/liquid-fire--nds-01.html"><div class="nybtn--labBtn">Fire Particles</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/canvas/view-p/axis-view.html"><div class="nybtn--labBtn">Perspective View</div></a>
+            <a href="lab/spheres/sphr/index.html"><div class="nybtn--labBtn">Sphr</div></a>
+            <a href="lab/spheres/sphr/sphr--nds-02.html"><div class="nybtn--labBtn">Sphr 02</div></a>
+            <a href="lab/spheres/sphr/sphr--nds-01.html"><div class="nybtn--labBtn">Sphr 01</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/unknown/unknown-drive/z--nds-16-duo-galaxies.html"><div class="nybtn--labBtn">Zorbit Duo Galaxies</div></a>
+            <a href="lab/unknown/unknown-drive/z--nds-15-hue-03-galaxies.html"><div class="nybtn--labBtn">Zorbit Hue Galaxies</div></a>
+            <a href="lab/unknown/unknown-drive/z--nds-14-hue-02-trace.html"><div class="nybtn--labBtn">Zorbit Hue Trace</div></a>
+            <a href="lab/unknown/unknown-drive/z--nds-13-hue.html"><div class="nybtn--labBtn">Zorbit Hue</div></a>
+            <a href="lab/unknown/unknown-drive/z--nds-12-duo-orbit-04.html"><div class="nybtn--labBtn">Zorbit Duo</div></a>
+            <a href="lab/unknown/unknown-drive/z6.html"><div class="nybtn--labBtn">Zorbit</div></a>
+            <!-- <a href="lab/unknown/unknown-drive/z--nds-11-duo-orbit-03.html"><div class="nybtn--labBtn">Zorbit 11</div></a> -->
+            <a href="lab/unknown/unknown-drive/z--nds-10-orbito-04.html"><div class="nybtn--labBtn">Zorbit Galaxies</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/color/color-curves/index.html"><div class="nybtn--labBtn">Color Curves</div></a>
+            <a href="lab/unknown/unknown-form/index--liquid-fire.html"><div class="nybtn--labBtn">Liquid Fire</div></a>
+            <a href="lab/unknown/unknown-form/index--unknown-element-heat-color.html"><div class="nybtn--labBtn">Unknown Element Heat Color</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/unknown/unknown-drive/unknown-element.html"><div class="nybtn--labBtn">Unknown Element</div></a>
+            <a href="lab/unknown/unknown-drive/unknown-element--nds-09-orbit-02.html"><div class="nybtn--labBtn">Unknown Element 09</div></a>
+            <a href="lab/unknown/unknown-drive/unknown-element--nds-08-orbito-03.html"><div class="nybtn--labBtn">Unknown Element 08</div></a>
+            <a href="lab/unknown/unknown-drive/unknown-element--nds-07-orbito-02.html"><div class="nybtn--labBtn">Unknown Element 07</div></a>
+            <a href="lab/unknown/unknown-drive/unknown-element--nds-06-orbito.html"><div class="nybtn--labBtn">Unknown Element 06</div></a>
+            <a href="lab/unknown/unknown-drive/unknown-element--nds-05-orbit.html"><div class="nybtn--labBtn">Unknown Element 05</div></a>
+            <a href="lab/unknown/unknown-drive/unknown-element--nds-04-orb.html"><div class="nybtn--labBtn">Unknown Element 04</div></a>
+            <a href="lab/unknown/unknown-drive/unknown-element--nds-03.html"><div class="nybtn--labBtn">Unknown Element 03</div></a>
+            <a href="lab/unknown/unknown-drive/unknown-element--nds-02.html"><div class="nybtn--labBtn">Unknown Element 02</div></a>
+            <a href="lab/unknown/unknown-drive/unknown-element--nds-01.html"><div class="nybtn--labBtn">Unknown Element 01</div></a>
+            <a href="lab/unknown/unknown-drive/grid-smooth-noise.html"><div class="nybtn--labBtn">Grid Smooth Noise</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/bg/sky-sunset/"><div class="nybtn--labBtn">Sky Sunset</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/other/git-calendar/"><div class="nybtn--labBtn">git calendar</div></a>
+            <a href="lab/other/git-calendar/linear2.html"><div class="nybtn--labBtn">linear 2</div></a>
+            <a href="lab/other/git-calendar/linear.html"><div class="nybtn--labBtn">linear</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/exp/creature-randomizer/creature-randomizer.html"><div class="nybtn--labBtn">Creature Randomizer</div></a>
+            <a href="lab/exp/creature-randomizer/sample-creature-randomizer-02.html"><div class="nybtn--labBtn">Sample Creature Randomizer 02</div></a>
+            <a href="lab/exp/creature-randomizer/sample-creature-randomizer.html"><div class="nybtn--labBtn">Sample Creature Randomizer 01</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/canvas/fireworks/fireworks2.html"><div class="nybtn--labBtn">Fireworks 2</div></a>
+            <a href="lab/canvas/moving/"><div class="nybtn--labBtn">Player X</div></a>
+            <a href="lab/canvas/waveave/"><div class="nybtn--labBtn">Waveave Control</div></a>
+            <a href="lab/canvas/waveave/Waveave-nds-08.html"><div class="nybtn--labBtn">Waveave 8</div></a>
+            <a href="lab/canvas/waveave/Waveave-nds-06.html"><div class="nybtn--labBtn">Waveave 6</div></a>
+            <a href="lab/canvas/waveave/Waveave-nds-05.html"><div class="nybtn--labBtn">Waveave 5</div></a>
+            <a href="lab/canvas/waveave/Waveave-nds-04.html"><div class="nybtn--labBtn">Waveave 4</div></a>
+            <a href="lab/canvas/waveave/Waveave-nds-03.html"><div class="nybtn--labBtn">Waveave 3</div></a>
+            <a href="lab/canvas/waveave/Waveave-nds-02.html"><div class="nybtn--labBtn">Waveave 2</div></a>
+            <a href="lab/canvas/waveave/Waveave.html"><div class="nybtn--labBtn">Waveave</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/nds/nds-08/"><div class="nybtn--labBtn">🌌Rotating Tiles💠</div></a>
+            <a href="lab/particle-rules/fluid-grid-02/"><div class="nybtn--labBtn">Fluid Grid 2</div></a>
+            <a href="../lib/emotional-resilience/cards/designing.html"><div class="nybtn--labBtn">Card Designing</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/particle-rules/axis-rotation/axis-cube.html"><div class="nybtn--labBtn">Axis Cube Rotation</div></a>
+            <a href="lab/layout/mask-image/"><div class="nybtn--labBtn">Mask SVG</div></a>
+            <a href="lab/cards/card-bg-filter/"><div class="nybtn--labBtn">Card BG Filter</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/puzzle/cir-rot-lock/"><div class="nybtn--labBtn">Rotating Lock</div></a>
+            
+            <a href="lab/xo/xo4/index15.html"><div class="nybtn--labBtn">xo4: 5 in a row</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/fonts/selected-fonts/"><div class="nybtn--labBtn">Selected Fonts</div></a>
+            <a href="../lib/emotional-resilience/anger/"><div class="nybtn--labBtn">Underlying Emotions and Feelings</div></a>
+            <!-- <a href="lab/cube/CubeBase/"><div class="nybtn--labBtn">CubeBase</div></a> -->
+        </div>
+        <div class="lablinks">
+            <!-- <a href="lab/xo/xo4/index2s.html"><div class="nybtn--labBtn">xo4: 5 in a row</div></a> -->
+            <a href="lab/building/tile-patterns-02/index.html"><div class="nybtn--labBtn">Tile Patterns</div></a>
+            <a href="lab/particle-rules/axis-rotation/axis-2.html"><div class="nybtn--labBtn">Axis Rotation</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/particle-rules/fluid-grid/fluid-grid.html"><div class="nybtn--labBtn">Fluid Grid</div></a>
+            <!-- <a href="lab/particle-rules/fluid-grid/fluid-grid-nds-04.html"><div class="nybtn--labBtn">Fluid Grid 05</div></a>
+            <a href="lab/particle-rules/fluid-grid/fluid-grid-nds-04.html"><div class="nybtn--labBtn">Fluid Grid 04</div></a>
+            <a href="lab/particle-rules/fluid-grid/fluid-grid-nds-03.html"><div class="nybtn--labBtn">Fluid Grid 03</div></a>
+            <a href="lab/particle-rules/fluid-grid/fluid-grid-nds-02.html"><div class="nybtn--labBtn">Fluid Grid 02</div></a>
+            <a href="lab/particle-rules/fluid-grid/fluid-grid-nds-01.html"><div class="nybtn--labBtn">Fluid Grid 01</div></a> -->
+            <a href="lab/eqs/ray-tracing/simplify-nds-02.html"><div class="nybtn--labBtn">Ray Tracing Color Shift</div></a>
+            <a href="lab/eqs/ray-tracing/simplify-rgb-nds-06.html"><div class="nybtn--labBtn">Ray Tracing RGB 06</div></a>
+            <a href="lab/eqs/ray-tracing/simplify-rgb-nds-05.html"><div class="nybtn--labBtn">Ray Tracing RGB 05</div></a>
+            <a href="lab/eqs/ray-tracing/simplify-rgb-nds-04.html"><div class="nybtn--labBtn">Ray Tracing RGB 04</div></a>
+            <a href="lab/eqs/ray-tracing/simplify-rgb.html"><div class="nybtn--labBtn">Ray Tracing RGB</div></a>
+            <a href="lab/eqs/ray-tracing/index-nds-03.html"><div class="nybtn--labBtn">Ray Tracing 03</div></a>
+            <a href="lab/eqs/ray-tracing/index-nds-02.html"><div class="nybtn--labBtn">Ray Tracing 02</div></a>
+            
+        </div>
+        <div class="lablinks">
+            <a href="lab/eqs/ray-tracing/"><div class="nybtn--labBtn">Ray Tracing</div></a>
+            <a href="lab/eqs/draw-eq/"><div class="nybtn--labBtn">Grid Directions</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/particle-rules/proximity/proximity--z.html"><div class="nybtn--labBtn">Proximity--z</div></a>
+            <a href="lab/particle-rules/proximity/"><div class="nybtn--labBtn">Proximity</div></a>
+            <a href="lab/canvas/plasma/"><div class="nybtn--labBtn">Electricity</div></a>
+            <a href="lab/canvas/fluid/"><div class="nybtn--labBtn">Fluid 1</div></a>
+            <a href="lab/particle-rules/path/"><div class="nybtn--labBtn">Rainbow Road</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/particle-rules/fluid/"><div class="nybtn--labBtn">Fluid grid</div></a>
+            <a href="lab/particle-rules/gravity/"><div class="nybtn--labBtn">Gravity Crown</div></a>
+            <a href="lab/eqs/noise-field/noise.html"><div class="nybtn--labBtn">Noise</div></a>
+        </div>
+        <div class="lablinks">
+            <a href="lab/eqs/two-ripples/"><div class="nybtn--labBtn">Two Ripples</div></a>
+            <a href="lab/eqs/exp/"><div class="nybtn--labBtn">Ripples Experiment</div></a>
+            <!-- <a href="lab/eqs/ripples/eq-pattern-nds-02.html"><div class="nybtn--labBtn">Eq Exp</div></a> -->
+            <!-- <a href="lab/eqs/ripples/eq-patters.html"><div class="nybtn--labBtn">Eq Patterns</div></a> -->
+            <!-- <a href="lab/eqs/ripples/"><div class="nybtn--labBtn">Ripples</div></a> -->
+            <!-- <a href="lab/eqs/noise-field/index.html"><div class="nybtn--labBtn">Noice Fields</div></a> -->
+            <a href="lab/eqs/wave-field/index.html"><div class="nybtn--labBtn">Wave Ripples</div></a>
+            <!-- <a href="lab/eqs/graph-curve/index.html"><div class="nybtn--labBtn">Graph Waves</div></a> -->
+        </div>
+        <div class="lablinks">
+            <a href="lab/canvas/fluid/index-nds-02.html"><div class="nybtn--labBtn">Particle Interaction: Touch 2</div></a>
+            <a href="lab/canvas/fluid/index-nds-01.html"><div class="nybtn--labBtn">Particle Interaction: Touch 1</div></a>
+            <a href="lab/canvas/fluid/"><div class="nybtn--labBtn">Particle Interaction Base</div></a>
+            <a href="lab/canvas/rules-part/mouse-nds-05.html"><div class="nybtn--labBtn">Mouse Momentum</div></a>
+            <a href="lab/canvas/rules-part/mouse-nds-01.html"><div class="nybtn--labBtn">Mouse Push</div></a>
+            <a href="lab/canvas/rules-rand/index-z--ru-06.html"><div class="nybtn--labBtn">Interactions Rules z6</div></a>
+            <a href="lab/canvas/rules-rand/index-z.html"><div class="nybtn--labBtn">Random Interactions Rules Z</div></a>
+            <a href="lab/canvas/rules-part/part.html"><div class="nybtn--labBtn">Interactions Rules Part</div></a>
+            <!-- <a href="lab/canvas/rules-part/spz-nds-03.html"><div class="nybtn--labBtn">Interactions Rules z3</div></a>
+            <a href="lab/canvas/rules-part/spz-nds-02 - calcGradient.html"><div class="nybtn--labBtn">Interactions Rules z2</div></a>
+            <a href="lab/canvas/rules-part/spz-nds-01.html"><div class="nybtn--labBtn">Interactions Rules z1</div></a>
+            <a href="lab/canvas/rules-part/spz.html"><div class="nybtn--labBtn">Interactions Rules Z</div></a> -->
+            <a href="lab/canvas/rules-rand/index-part.html"><div class="nybtn--labBtn">Random Interactions Rules R4</div></a>
+            <a href="lab/canvas/rules-rand/index-part.html"><div class="nybtn--labBtn">Random Interactions Rules R2</div></a>
+            <!-- <a href="lab/canvas/rules-rand/"><div class="nybtn--labBtn">Random Interactions Rules</div></a> -->
+            <a href="lab/grid/grid-noise/grid-hue.html"><div class="nybtn--labBtn">Grid Noise: Hue</div></a>
+            <!-- <a href="lab/canvas/rules-part/"><div class="nybtn--labBtn">Interaction Rules</div></a> -->
+            <a href="lab/dev/variant-dev/"><div class="nybtn--labBtn">Turbulence Variants</div></a>
+            <a href="lab/stars/pulsing-sun/"><div class="nybtn--labBtn">Pulsing Sun</div></a>
+            <a href="lab/stars/canvas-stars/"><div class="nybtn--labBtn">Starry Background</div></a>
+            <a href="lab/designs/gg-ous/"><div class="nybtn--labBtn">Turbulence Bubble Gradient</div></a>
+            <a href="lab/exp/animation2/"><div class="nybtn--labBtn">Tile Animation 2</div></a>
+            <a href="lab/layout/grid-data/"><div class="nybtn--labBtn">Tile Value Exp</div></a>
+            <a href="lab/building/svg-block/"><div class="nybtn--labBtn">SVG 3D Block</div></a>
+            <a href="lab/btns/do-btns/"><div class="nybtn--labBtn">Gradient Border</div></a>
+            <a href="lab/event/intersection-observer/"><div class="nybtn--labBtn">Intersection Observer</div></a>
+            <a href="lab/exp/drag-rotate/"><div class="nybtn--labBtn">Touch Rotate</div></a>
+            <a href="lab/nyte/nyte-exp/"><div class="nybtn--labBtn">NyteLabs Exp</div></a>
+            <a href="lab/layout/loading-circles/"><div class="nybtn--labBtn">Loading Circles</div></a>
+            <a href="lab/xo/css-only/"><div class="nybtn--labBtn">xo (CSS Only)</div></a>
+            <a href="lab/dev/build/grid.html"><div class="nybtn--labBtn">Grid Building</div></a>
+            <a href="lab/eval/calc-eval/"><div class="nybtn--labBtn">Random Direction</div></a>
+            <!-- <a href="lab/"><div class="nybtn--labBtn">exp</div></a> -->
+        </div>
+    </div>
+    <div id="miss" class="shelf">
+        <div id="Missing" class="shelf-title">Missing</div>
+        <div class="lablinks">
+            <a href="lab/layout/graph-curve/index.html"><div class="nybtn--labBtn">Graph Curve</div></a>
+            <a href="lab/grid/grid-noise/index.html"><div class="nybtn--labBtn">random 0s and 1s</div></a>
+            <a href="lab/grid/gb/gb.html"><div class="nybtn--labBtn">cube map (gb)</div></a>
+            <a href="lab/exp/flow-arrows/index.html"><div class="nybtn--labBtn">Flow</div></a>
+            <a href="lab/exp/grid-boxes/index.html"><div class="nybtn--labBtn">Grid Boxes, touch glow</div></a>
+            <a href="lab/exp/randsphere/index.html"><div class="nybtn--labBtn">RandSphere</div></a>
+            <a href="lab/event/mouse-move/index.html"><div class="nybtn--labBtn">Mouse Move</div></a>
+            <a href="lab/event/mouse-move/touch.html"><div class="nybtn--labBtn">TouchDraw</div></a>
+            <a href="lab/designs/gg-ous/e-xp.html"><div class="nybtn--labBtn">gg-ous (Stef)</div></a>
+            <a href="lab/cube/cube-paths/index.html"><div class="nybtn--labBtn">Cube BGs</div></a>
+            <a href="lab/building/tail-wind/index.html"><div class="nybtn--labBtn">Tailwind</div></a>
+        </div>
+    </div>
+
+
 
     <div id="dev-i" class="shelf hidden">
         <div id="Under-Development" class="shelf-title">Under Development</div>
