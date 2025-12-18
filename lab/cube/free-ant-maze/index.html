@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Free Ant Maze 🐜🗺️🧩 | Cube | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        /* :root {} */
+        </style>
+    <style id="canvas-style">
+        :root {
+            --canvas-size: 144px;
+        }
+        /* :root {
+            --c: #936;
+            --c: #222;
+            --c: #ff9a00;
+            --c: #27a7d8;
+            --c: hsla(210, 100%, 50%, 1);
+            --c: hsla(0, 100%, 50%, 1);
+            --c: hsla(75, 100%, 50%, 1);
+            --c: hsla(120, 100%, 25%, 1);
+            --c: hsla(145, 100%, 50%, 1);
+            
+            --c: hsla(225, 100%, 50%, 1);
+            --c: hsla(0, 100%, 50%, 1);
+            --c: hsla(90, 100%, 50%, 1);
+            
+            --c: hsla(210, 100%, 50%, 1);
+            --c: hsla(345, 100%, 50%, 1);
+            --c: hsla(75, 100%, 50%, 1);
+            
+            --c: #0080ff;
+            --c: #ff0040;
+            --c: #bfff00;
+            
+            --c: #09f;
+            --c: #f04;
+            --c: #cf0;
+            
+            --c: #0099ff;
+            --c: hsl(344, 100%, 50%);
+            --c: hsl(72, 100%, 50%);
+    
+                        
+            --c: hsla(225, 100%, 50%, 1);
+            --c: hsla(345, 100%, 50%, 1);
+            --c: hsla(105, 100%, 40%, 1);
+                        
+            --c: #0040ff;
+            --c: #ff0040;
+            --c: #33cc00;
+                        
+            --c: #04f;
+            --c: #f04;
+            --c: #3c0;
+
+        } */
+    </style>
+<style>
+    .g9, .row, .k {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .g9 {flex-direction: column;}
+    .row {
+        flex-direction: row;
+    }
+    .k {
+        height: 40px;
+        width: 40px;
+        margin: 4px;
+
+        color: #fff;
+        background: radial-gradient(#8888,#8881 70%), #222;
+        box-shadow: 
+        0px 0px 2px 1px #9990,
+        2px 2px 1px 0px #000f;
+        /* &:hover {
+            box-shadow: 
+            0px 0px 2px 1px #9999,
+            2px 2px 1px 0px #000f;
+        } */
+
+        cursor: pointer;
+        user-select: none;
+    }
+    .k:hover {
+        box-shadow: 
+        0px 0px 4px 2px #999f,
+        2px 2px 1px 0px #000f;
+    }
+
+    #cbox,
+    #canvas-grid,
+    #canvas-spec,
+    #canvas-draw {
+        /* --canvas-size: 144px; */
+        height: 144px;
+        width: 144px;
+        height: var(--canvas-size);
+        width: var(--canvas-size);
+    }
+    #cbox {
+        position: relative;
+        /* outline: 1px solid #fff9; */
+        outline: 1px dashed #fff9;
+        outline-offset: 2px;
+        margin: 4px;
+        margin: .75rem;
+    }
+    #canvas-grid,
+    #canvas-spec,
+    #canvas-draw {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+    }
+    /* .g9 {
+        outline: 1px dashed #fff9;
+        outline-offset: 2px;
+    } */
+
+    #ss {
+        background-image: linear-gradient(45deg, red, transparent);
+        background-image: linear-gradient(45deg, #eee, transparent);
+        background-image: linear-gradient(45deg, #000, transparent);
+        background-image: linear-gradient(45deg, red, blue);
+    }
+    #CubeXY {
+        display: flex;
+        flex-direction: column;
+    }
+</style>
+<style>
+    body {background-color: #000;}
+    .shelf {
+        box-shadow: 0 0 0 #0000;
+    }
+    #cbox {
+        outline: 1px solid #fff9;
+        outline-offset: 0px;
+    }
+    #ss {
+        background: #000;
+    }
+</style>
+    <link rel="stylesheet" href="../../../stylesheets/settings2.css">
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <h1 class="title">NyteLabs</h1>
+        <!-- <div class="subtitle">NyteLabs_Template</div> -->
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+
+<main>
+    <div id="ss" class="shelf">
+        <h3 id="ShelfTitle" class="shelf-title">Ant Maze</h3>
+        <div id="CubeXY">
+            <div id="display">
+                <div id="cbox">
+                    <!-- walls -->
+                    <canvas id="canvas-grid"></canvas>
+                    <!-- start and exit -->
+                    <canvas id="canvas-spec"></canvas>
+                    <!-- player -->
+                    <canvas id="canvas-draw"></canvas>
+                </div>
+            </div>
+            <div id="Controllers">
+                <div class="g9">
+                    <div class="row">
+                        <div class="k" data-k="7">↖</div>
+                        <div class="k" data-k="8">↑</div>
+                        <div class="k" data-k="9">↗</div>
+                    </div>
+                    <div class="row">
+                        <div class="k" data-k="4">←</div>
+                        <div class="k" data-k="5">○</div>
+                        <div class="k" data-k="6">→</div>
+                    </div>
+                    <div class="row">
+                        <div class="k" data-k="1">↙</div>
+                        <div class="k" data-k="2">↓</div>
+                        <div class="k" data-k="3">↘</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <canvas id="canvas"></canvas> -->
+</main>
+
+<!-- <div class="options">
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 - 2025 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        touch: {
+            x: 0,
+            y: 0,
+            z: 0,
+            paths: {},
+            path_len: 20,
+            tracking: false
+        },
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            path: [],
+            path_len: 20,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            sz: 20,
+            sz2: 10,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            padding: 0,
+            brush: "p",
+        },
+        box: {
+            x: 500,
+            y: 500,
+            z: 500,
+            x2: 250,
+            y2: 250,
+            z2: 250,
+            d: 1000,
+            p: 1000,
+        },
+
+        timeOut: 40,
+        player: false,
+        
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+    const particles = [];
+    const pg = {}
+
+    const layers = ["canvas-grid", "canvas-spec", "canvas-draw"];
+    const canvas = {};
+    const ctx = {};
+    const cboxSet = {
+        h: 200,
+        w: 200,
+        xlen: 20,
+        ylen: 20,
+        sz: 20,
+        szh: 10,
+        map: [],
+        player: {x: 0, y:0},
+        start: {x: 0, y: 0},
+        exit: {x: 20, y: 20},
+        xb: 7,
+        yb: 7,
+        mm: 6,
+        preference: {"x":0, "y":0}
+    }
+
+</script>
+<script src="../../../scripts/settings-02.js"></script>
+<script>
+    layers.forEach(key => {
+        canvas[key] = document.getElementById(key);
+        ctx[key] = canvas[key].getContext('2d');
+        // canvas[key].width = window.innerWidth;
+        // canvas[key].height = window.innerHeight;
+        canvas[key].width = cboxSet.w;
+        canvas[key].height = cboxSet.h;
+    });
+    function UpdateCanvas() {
+        // let canvasSize = 300;
+        // let canvasSize = ((level.mazeHistory.length * 5) + 5) * 30;
+        let canvasSize = level.w * 20;
+        cboxSet.w = canvasSize;
+        cboxSet.h = canvasSize;
+        // console.log(`UpdateCanvas: canvasSize = ${canvasSize};`);
+        layers.forEach(key => {
+            canvas[key].width = canvasSize;
+            canvas[key].height = canvasSize;
+        });
+        let canvasStyle = document.getElementById("canvas-style");
+        canvasStyle.innerText = `:root {--canvas-size: ${canvasSize}px;}`;
+        DrawElement(ctx["canvas-draw"],'5', cboxSet.player.x, cboxSet.player.y);
+    }
+
+    function BuildMap(xlen,ylen){
+        g = [];
+        for(let y = 0; y < ylen; y++){
+            g.push([]);
+            for(let x = 0; x < xlen; x++){
+                g[y].push(0);
+            }
+        }
+        return g
+    }
+
+    var level;
+    var gmap;
+    var direction_char = ['○', '↙', '↓', '↘', '←', '•', '→', '↖', '↑', '↗'];
+    var sides = [1,2,3,4,5,6,7,8,9];
+    const yxSide = {
+        0:{y:0,x:0},
+        1:{y:1,x:-1},
+        2:{y:1,x:0},
+        3:{y:1,x:1},
+        4:{y:0,x:-1},
+        5:{y:0,x:0},
+        6:{y:0,x:1},
+        7:{y:-1,x:-1},
+        8:{y:-1,x:0},
+        9:{y:-1,x:1}
+    };
+    class xy {
+        constructor(x = 0, y = 0, d = 0, id = -1){
+            this.x = x;
+            this.y = y;
+            this.d = d;
+            this.id = id;
+        }
+    }
+    class Ant {
+        constructor(parentId = -1, id = -1, x = 0, y = 0, continual_steps = 0){
+            this.parentId = parentId;
+            this.id = id;
+            this.x = x;
+            this.y = y;
+            // this.pre_x = this.x;
+            // this.pre_y = this.y;
+            this.steps = 0;
+            this.continual_steps = continual_steps;
+            /* 'd' will be a tile direction (1-4,6-9) */
+            this.d = 0;
+
+            this.size = 5;
+            // this.hue = Math.floor(Math.random() * 360);
+            // this.hue = this.id * 5;
+            this.hue = this.continual_steps * 5;
+
+            this.tileh = s.tile.real_sz / 2;
+            // this.xleft = (this.x * s.tile.real_w) + this.tileh;
+            // this.ytop = (this.y * s.tile.real_h) + this.tileh;
+            this.xleft = 0;
+            this.ytop = 0;
+            this.update();
+
+            this.pre_x = this.xleft;
+            this.pre_y = this.ytop;
+
+            this.pathSides = [];
+
+            // this.clr = `hsla(${this.hue}, 100%, 50%, 1)`;
+            // this.idStyle = `background-color: hsla(${this.hue}, 100%, 50%, .2); color: ${this.clr}; padding: .125rem .25rem; border-radius: .25rem;`;
+            // this.hatchStyle = `background-color: hsla(${this.hue}, 100%, 20%, 1); color: ${this.clr}; padding: .125rem .25rem; border-radius: .25rem; font-weight: bold;`;
+            this.idStyle = `background-color: hsla(${this.hue}, 100%, 50%, .2); color: hsla(${this.hue}, 100%, 50%, 1); padding: .125rem .25rem; border-radius: .25rem;`;
+            this.hatchStyle = `background-color: hsla(${this.hue}, 100%, 50%, 1); color: hsla(${this.hue}, 100%, 5%, 1); padding: .125rem .25rem; border-radius: .25rem; font-weight: bold;`;
+        }
+        update(){
+            this.pre_x = this.xleft;
+            this.pre_y = this.ytop;
+
+            this.xleft = (this.x * s.tile.real_w) + this.tileh;
+            this.ytop = (this.y * s.tile.real_h) + this.tileh;
+        }
+        move(x,y,d){
+            this.x = x;
+            this.y = y;
+            this.update();
+            this.steps++;
+            this.continual_steps++;
+            this.d = d;
+            this.hue = this.continual_steps * 5;
+            // this.xleft = (this.x * s.tile.real_w) + this.tileh;
+            // this.ytop = (this.y * s.tile.real_h) + this.tileh;
+        }
+        draw(){
+            // ctx.fillStyle = `hsl(60, 100%, 40%)`;
+            // ctx.fillStyle = `hsla(${this.hue}, ${this.sat}%, ${this.lum}%,${this.alp})`;
+            // ctx.fillStyle = `hsla(${this.hue}, 100%, 40%, .75)`;
+            // ctx.beginPath();
+            // ctx.arc(this.xleft, this.ytop, this.size, 0, Math.PI * 2);
+            // ctx.fill();
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = `hsla(${this.hue}, 100%, 20%, 1)`;
+            ctx.moveTo(this.pre_x, this.pre_y);
+            ctx.lineTo(this.xleft, this.ytop);
+            ctx.stroke();
+
+            ctx.font = `16px serif`;
+            ctx.textBaseline = "middle";
+            ctx.textAlign = "center";
+            ctx.fillStyle = `hsla(${this.hue}, 100%, 50%, 1)`;
+            ctx.fillText(this.id, this.xleft, this.ytop);
+        }
+    }
+    class Maze {
+        constructor(w, h, fill = 0){
+            this.w = w;
+            this.h = h;
+            this.fill = fill;
+            this.path = 1;
+            this.start = new xy();
+            this.end = new xy();
+            this.endingAnt = [];
+            this.maze = [];
+            this.mazeHistory = [];
+            this.stepMap = [];
+            this.step = 0;
+
+            this.fillMap();
+            this.selectStart();
+
+            this.antCount = 0;
+            this.ants = [];
+            this.antsAtHome = [];
+            this.pathLog = {
+                possibleDirections: [],
+                stepCount: 0,
+                directionsChosen: [],
+                antLog: [],
+            }
+        }
+        fillMap(fill = this.fill){
+            this.maze = [];
+            for(let y=0; y<this.h; y++){
+                this.maze.push([]);
+                this.stepMap.push([]);
+                for(let x=0; x<this.w; x++){
+                    this.maze[y].push(fill);
+                    this.stepMap[y].push(0);
+                }
+            }
+        }
+        selectStart() {
+            this.start.x = Math.floor(Math.random()*this.w);
+            this.start.y = Math.floor(Math.random()*this.h);
+
+            this.xyPath = new xy(this.start.x, this.start.y);
+            // this.maze[this.start.y][this.start.x] = 1;
+            // this.maze[this.start.y][this.start.x] = 2;
+            this.step++;
+            // s.maze['start'] = new xy();
+            // s.maze.start.x = this.start.x;
+            // s.maze.start.y = this.start.y;
+        }
+        selectEnd() {
+            // this.maze[this.end.y][this.end.x] = 9;
+            // this.maze[this.end.y][this.end.x] = 4;
+        }
+        isInMap(x,y){
+            if(x < 0 || x >= this.w || y < 0 || y >= this.h) {return false;}
+            else {return true;}
+        }
+        isClear(x,y){
+            // if(this.maze[y][x] == -1) {
+            if(this.maze[y][x] == this.fill) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        endUpdate(e){
+
+            if(e.continual_steps >= this.end.d){
+                this.end.x = e.x;
+                this.end.y = e.y;
+                this.end.d = e.continual_steps;
+                this.end.id = e.id;
+
+                this.endingAnt = [];
+                this.endingAnt.push(e);
+            }
+        }
+        drawAnts(){
+            // 2) draw and directions. [e.pathSides]
+            for (let index = 0; index < this.ants.length; index++) {
+                const e = this.ants[index];
+                // e.draw();
+            }
+        }
+        hatchAnt(e,x,y,d=0){
+            if(this.ants.length < 5){
+                this.pathLog.directionsChosen[this.pathLog.stepCount].push(`${this.antCount}(${d}${direction_char[d]})`);
+
+                // this.maze[y][x] = 0;
+                this.maze[y][x] = this.path;
+                this.step++;
+                // let nAnt = new Ant(this.antCount,x,y);
+                let nAnt = new Ant(e.id,this.antCount,x,y,e.continual_steps);
+                if(e.id > -1){
+                    // nAnt.pre_x = e.xleft;
+                    // nAnt.pre_y = e.ytop;
+                    nAnt.pre_x = e.pre_x;
+                    nAnt.pre_y = e.pre_y;
+                } else {
+                    // nAnt.pre_x = this.start.x;
+                    // nAnt.pre_y = this.start.y;
+                    // nAnt.pre_x = this.xyPath.x;
+                    // nAnt.pre_y = this.xyPath.y;
+                    nAnt.pre_x = (this.start.x * s.tile.real_w) + nAnt.tileh;
+                    nAnt.pre_y = (this.start.y * s.tile.real_w) + nAnt.tileh;
+                }
+                this.ants.push(nAnt);
+                this.antCount++;
+                // nAnt.draw();
+            }
+        }
+        checkAround(e,ex,ey,nx,ny){
+            for (let i = 0; i < sides.length; i++) {
+                let ax = nx + yxSide[sides[i]].x;
+                let ay = ny + yxSide[sides[i]].y;
+
+                // isInMap, isNotPrevious, isClear
+                // if [isInMap] 
+                //          is true, then check next. 
+                //          is false, then ignore (stop checking). 
+                // if [isPrevious] 
+                //          is false, then check next, 
+                //          is true, then ignore, 
+                // if [isClear] 
+                //          is false, then enter and change to false.
+                //          is true, then ignore.
+                if(this.isInMap(ax,ay) && !(ex == ax && ey == ay) && !this.isClear(ax,ay)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        handleAnt(e){
+            let pSides = [...e.pathSides];
+            let antMoved = false;
+
+            let ant = new xy(e.x,e.y);
+            let eid = e.id;
+            let ex = e.x;
+            let ey = e.y;
+            for (let i = 0; i < e.pathSides.length; i++) {
+                // /* 3) random direction. [nd] */
+                let nd = pSides.splice(Math.floor(Math.random()*pSides.length),1);
+                let nx = ex + yxSide[nd[0]].x;
+                let ny = ey + yxSide[nd[0]].y;
+                
+                // /* 4) around. [nxy] */
+                let validPath = this.checkAround(e,ex,ey,nx,ny);
+
+                // /* 5) move & draw. */
+                if(validPath){
+                    if(!antMoved){
+                        this.pathLog.directionsChosen[this.pathLog.stepCount].push(nd);
+                        // this.maze[ny][nx] = 0;
+                        this.maze[ny][nx] = this.path;
+                        this.step++;
+
+                        e.move(nx,ny,nd);
+                        // e.draw();
+
+                        antMoved = true;
+
+                        this.endUpdate(e);
+                    } else {
+                        this.hatchAnt(e,nx,ny,nd);
+                    }
+                }
+            }
+            return antMoved;
+        }
+        handleAnts(){
+            let antsToCheck = this.ants.length;
+            for (let index = 0; index < antsToCheck; index++) {
+                const e = this.ants[index];
+                e.pathSides = [...this.possibleSides(e.x,e.y)];
+                if(e.pathSides.length > 0){
+                    if(this.handleAnt(e)){
+                    } else {
+                        e.move(this.start.x,this.start.y,5);
+                        this.antsAtHome.push(...this.ants.splice(index,1));
+                        index--;
+                        antsToCheck--;
+                    }
+                } else {
+                    e.move(this.start.x,this.start.y,5);
+                    this.antsAtHome.push(...this.ants.splice(index,1));
+                    index--;
+                    antsToCheck--;
+                }
+            }
+        }
+        possibleSides(x,y){
+            let possibleDirections = [];
+            for (let i = 0; i < sides.length; i++) {
+                let d = sides[i];
+                let nx = x + yxSide[d].x;
+                let ny = y + yxSide[d].y;
+                if(this.isInMap(nx,ny) && this.isClear(nx,ny)) {
+                    possibleDirections.push(d);
+                }
+            }
+            return possibleDirections;
+        }
+        makePath2(){
+            this.pathLog.possibleDirections = this.possibleSides(this.xyPath.x,this.xyPath.y);
+            let pathSides = [...this.pathLog.possibleDirections];
+
+            this.pathLog.directionsChosen.push([]);
+            // safeLogList('Possible Directions', this.pathLog.possibleDirections);
+            // pic a random side, make an ant.
+
+            // for each side,
+            for (let i = 0; i < this.pathLog.possibleDirections.length; i++) {
+                let dNext = pathSides.splice(Math.floor(Math.random()*pathSides.length),1);
+                let next = new xy(this.xyPath.x + yxSide[dNext].x, this.xyPath.y + yxSide[dNext].y);
+
+                let validPath = true;
+                // check around the path chosen.
+                for (let i = 0; i < sides.length; i++) {
+                    let d = sides[i];
+                    let yxA = new xy(next.x + yxSide[d].x, next.y + yxSide[d].y);
+
+                    // if this side is on the map, and not where we came from.
+                    if(this.isInMap(yxA.x,yxA.y) && !(yxA.x == this.xyPath.x && yxA.y == this.xyPath.y)) {
+                        // if(this.maze[yxA.y][yxA.x] != -1){
+                        if(this.maze[yxA.y][yxA.x] != this.fill){
+                            validPath = false;
+                        }
+                    }
+                }
+                if(validPath){
+                    this.hatchAnt({"id":-1,"steps":0},next.x,next.y,dNext);
+                }
+            }
+            // safeLogList('Directions Chosen', this.pathLog.directionsChosen[this.pathLog.stepCount]);
+
+
+            while(!s.q && this.ants.length > 0){
+                this.pathLog.stepCount++;
+                this.pathLog.directionsChosen.push([]);
+                this.handleAnts();
+            }
+            this.selectEnd();
+
+            // this.pathLog.stepCount++;
+            // this.pathLog.directionsChosen.push([]);
+            // this.handleAnts();
+        }
+        
+
+        levelCleared() {
+            this.mazeHistory.push(this.maze);
+            this.fillMap();
+        }
+    }
+
+
+    const mapElement = {
+        "VOID": 0,
+        "PATH": 1,
+        "START": 2,
+        "END": 4,
+        "WALL": 8,
+    }
+    // const indexTile = {
+    //     "-1": {name: "void", fill: "#000", stroke: "#0000"},
+    //     // "0": {name: "path", fill: "#eee", stroke: "#eee0"},
+    //     // "1": {name: "void", fill: "#000", stroke: "#0000"},
+    //     "0": {name: "void", fill: "#000", stroke: "#0000"},
+    //     "1": {name: "path", fill: "#eee", stroke: "#eee0"},
+    //     // "1": {name: "start", fill: "#963", stroke: "#963"},
+    //     // "4": {name: "end", fill: "#0c3", stroke: "#0c3"},
+    //     "2": {name: "start", fill: "#936", stroke: "#963"},
+    //     "4": {name: "end", fill: "#222", stroke: "#0c3"},
+    //     "5": {name: "player", fill: "#39f", stroke: "#000"},
+    //     "8": {name: "wall", fill: "#333", stroke: "#3330"},
+    //     "9": {name: "void9", fill: "#000", stroke: "#0000"},
+    // };
+    /*
+            --c: #04f;
+            --c: #f04;
+            --c: #3c0;
+    */
+    const indexTile = {
+        "-1": {name: "void", fill: "#000", stroke: "#0000"},
+        // "0": {name: "path", fill: "#eee", stroke: "#eee0"},
+        // "1": {name: "void", fill: "#000", stroke: "#0000"},
+        "0": {name: "void", fill: "#000", stroke: "#0000"},
+        "1": {name: "path", fill: "#eee", stroke: "#eee0"},
+        // "1": {name: "start", fill: "#963", stroke: "#963"},
+        // "4": {name: "end", fill: "#0c3", stroke: "#0c3"},
+        "2": {name: "start", fill: "#3c0", stroke: "#0000"},
+        "4": {name: "end", fill: "#f04", stroke: "#0000"},
+        "5": {name: "player", fill: "#04f", stroke: "#000"},
+        "8": {name: "wall", fill: "#333", stroke: "#3330"},
+        "9": {name: "void9", fill: "#000", stroke: "#0000"},
+    };
+    function DrawElement(ctxg,t,x,y){
+        ctxg.fillStyle = indexTile[t].fill;
+        let ex = x * cboxSet.sz + cboxSet.szh;
+        let ey = y * cboxSet.sz + cboxSet.szh;
+        ctxg.beginPath();
+        ctxg.arc(ex, ey, cboxSet.szh, 0, Math.PI * 2);
+        ctxg.fill();
+    }
+    function DrawTile1(ctxg,t,x,y){
+        ctxg.fillStyle = indexTile[t].fill;
+        // ctxg.strokeStyle = indexTile[t].stroke;
+        let left = x * cboxSet.sz;
+        let top = y * cboxSet.sz;
+        ctxg.fillRect(left,top,cboxSet.sz,cboxSet.sz);
+    }
+    function DrawTile0(ctxg,t,x,y){
+        ctxg.fillStyle = indexTile[t].fill;
+        // ctxg.strokeStyle = indexTile[t].stroke;
+        let mm = cboxSet.mm;
+        let nsz = cboxSet.sz + mm * 2;
+        let left = x * cboxSet.sz - mm;
+        let top = y * cboxSet.sz - mm;
+        // ctxg.fillRect(left,top,cboxSet.sz,cboxSet.sz);
+        ctxg.fillRect(left,top,nsz,nsz);
+    }
+    function DrawMap3(map, ix, iy){
+        for(let j = -7; j < 8; j++){
+            for(let i = -7; i < 8; i++){
+                let x = ix + i;
+                let y = iy + j;
+                if(isInMap(map,x,y) && map[y][x] == mapElement.PATH){
+                    DrawTile(ctx["canvas-grid"], map[y][x], i+7, j+7);
+                }
+            }
+        }
+    }
+    function DrawSpec(map, ix, iy){
+        DrawTile(ctx["canvas-spec"], map[y][x], i+7, j+7);
+    }
+    function DrawMap5(map, ix, iy){
+        let center = Math.floor(level.w / 2);
+        let neg = center + 1;
+        let pos = (center * -1) + 1;
+        for(let j = neg; j < pos; j++){
+            for(let i = neg; i < pos; i++){
+                let x = ix + i;
+                let y = iy + j;
+                if(isInMap(map,x,y) && map[y][x] != mapElement.VOID){
+                    if(map[y][x] == 1){
+                        DrawTile(ctx["canvas-grid"], map[y][x], i+center, j+center);
+                    } else if (map[y][x] > 1){
+                        DrawTile(ctx["canvas-spec"], map[y][x], i+center, j+center);
+                    }
+                }
+            }
+        }
+    }
+    function DrawMap0(map, ix, iy){
+        for(let j = -7; j < 8; j++){
+            for(let i = -7; i < 8; i++){
+                let x = ix + i;
+                let y = iy + j;
+                if(isInMap(map,x,y) && map[y][x] != mapElement.VOID){
+                    if(map[y][x] == 1){
+                        DrawTile(ctx["canvas-grid"], map[y][x], i+7, j+7);
+                    } else if (map[y][x] > 1){
+                        DrawTile(ctx["canvas-spec"], map[y][x], i+7, j+7);
+                    }
+                }
+            }
+        }
+    }
+    function DrawMap1(map, ix, iy){
+        for(let y = iy-7; y < ix+7; y++){
+            for(let x = ix-7; x < iy+7; x++){
+                if(isInMap(map,x,y)){
+                    DrawTile(ctx["canvas-grid"], map[y][x], x+7, y+7);
+                }
+            }
+        }
+    }
+
+    function MakeLevel0(){
+        level.makePath2();
+        cboxSet.start = {x: level.start.x, y: level.start.y};
+        cboxSet.end = {x: level.end.x, y: level.end.y};
+
+        let start = {x: level.start.x, y: level.start.y};
+        let end = {x: level.end.x, y: level.end.y};
+        level.maze[end.y][end.x] = 4;
+        level.maze[start.y][start.x] = 2;
+
+        cboxSet.player.x = start.x;
+        cboxSet.player.y = start.y;
+        // BuildMaze_Display(level.w, level.h, level.maze);
+
+        gmap = level.maze;
+        DrawElement(ctx["canvas-draw"],'5', 7, 7);
+        DrawMap(gmap, cboxSet.player.x, cboxSet.player.y);
+    }
+    
+
+/*
+Determine map size, 
+then make level,
+then draw level,
+then keep the update on the player only.
+*/
+
+function DrawTile(ctxg,t,x,y){
+    ctxg.fillStyle = indexTile[t].fill;
+    // ctxg.strokeStyle = indexTile[t].stroke;
+    let mm = cboxSet.mm;
+    let nsz = cboxSet.sz + mm * 2;
+    let left = x * cboxSet.sz - mm;
+    let top = y * cboxSet.sz - mm;
+    // ctxg.fillRect(left,top,cboxSet.sz,cboxSet.sz);
+    ctxg.fillRect(left,top,nsz,nsz);
+}
+
+function DrawMap(map){
+    // clearCanvas(ctx["canvas-grid"]);
+    // clearCanvas(ctx["canvas-spec"]);
+    QuickClearCanvas(ctx["canvas-grid"]);
+    QuickClearCanvas(ctx["canvas-spec"]);
+    let h = map.length;
+    let w = map[0].length;
+    for(let j = 0; j < h; j++){
+        for(let i = 0; i < w; i++){
+            if(map[j][i] == 1){
+                DrawTile(ctx["canvas-grid"], map[j][i], i, j);
+            } else if (map[j][i] > 1){
+                DrawTile(ctx["canvas-spec"], map[j][i], i, j);
+            }
+        }
+    }
+    // for(let j = -7; j < 8; j++){
+    //     for(let i = -7; i < 8; i++){
+    //         let x = ix + i;
+    //         let y = iy + j;
+    //         if(isInMap(map,x,y) && map[y][x] != mapElement.VOID){
+    //             if(map[y][x] == 1){
+    //                 DrawTile(ctx["canvas-grid"], map[y][x], i+7, j+7);
+    //             } else if (map[y][x] > 1){
+    //                 DrawTile(ctx["canvas-spec"], map[y][x], i+7, j+7);
+    //             }
+    //         }
+    //     }
+    // }
+}
+
+
+function MakeLevel(){
+    level.makePath2();
+    cboxSet.start = {x: level.start.x, y: level.start.y};
+    cboxSet.end = {x: level.end.x, y: level.end.y};
+
+    let start = {x: level.start.x, y: level.start.y};
+    let end = {x: level.end.x, y: level.end.y};
+    level.maze[end.y][end.x] = 4;
+    level.maze[start.y][start.x] = 2;
+
+    cboxSet.player.x = start.x;
+    cboxSet.player.y = start.y;
+    // BuildMaze_Display(level.w, level.h, level.maze);
+
+    gmap = level.maze;
+    DrawMap(gmap);
+    DrawElement(ctx["canvas-draw"],'5', start.x, start.y);
+}
+    function start(){
+        cboxSet.map = BuildMap(cboxSet.xlen, cboxSet.ylen);
+
+        // level = new Maze(s.grid.cols,s.grid.rows);
+        level = new Maze(10,10);
+        MakeLevel();
+
+        // level.makePath2();
+        // let start = {x: level.start.x, y: level.start.y};
+        // let end = {x: level.end.x, y: level.end.y};
+        // level.maze[end.y][end.x] = 4;
+        // level.maze[start.y][start.x] = 1;
+
+        // cboxSet.player.x = start.x;
+        // cboxSet.player.y = start.y;
+        // // BuildMaze_Display(level.w, level.h, level.maze);
+
+        // gmap = level.maze;
+        // DrawElement(ctx["canvas-draw"],'5', 7, 7);
+        // DrawMap(gmap, cboxSet.player.x, cboxSet.player.y);
+
+        let kevents = document.querySelectorAll('.k');
+        kevents.forEach(e => {
+            e.addEventListener("click", (ev) => {
+                // console.log(e.dataset.k);
+                move2(e.dataset.k);
+            });
+        });
+    }
+    function update(){
+        if(!s.q && !s.pause){
+            // Code goes here.
+            
+
+            /* ─Rest of Update()─ */
+            // particles.sort((a,b) => a.z - b.z);
+            
+            /* ─ Draw Part ─ */
+            // clearCanvas(ctx["canvas-grid"]);
+            // clearCanvas(ctx["canvas-spec"]);
+            // clearCanvas(ctx["canvas-draw"]);
+            QuickClearCanvas(ctx["canvas-draw"]);
+
+            // DrawMap(cboxSet.map, cboxSet.player.x, cboxSet.player.y);
+            // DrawMap(gmap, cboxSet.player.x, cboxSet.player.y);
+            DrawElement(ctx["canvas-draw"],'5', cboxSet.player.x, cboxSet.player.y);
+        }
+        setTimeout(() => {
+            requestAnimationFrame(update);
+        }, s.timeOut)
+    }
+    function clearCanvas(ctx, bg="#0000"){
+        ctx.clearRect(0,0,cboxSet.w,cboxSet.h);
+        ctx.fillStyle = bg;
+        ctx.fillRect(0,0,s.w,s.h);
+    }
+    function QuickClearCanvas(ctx, bg="#0000"){
+        ctx.clearRect(0,0,cboxSet.w,cboxSet.h);
+        // ctx.fillStyle = bg;
+        // ctx.fillRect(0,0,s.w,s.h);
+    }
+
+
+    /* ─── Events ─── */
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        s.canvas.z = (s.h + s.w)/2;
+
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
+
+        /* ─ Box ─ */
+        /* resize box for mobile */
+        if(s.h < s.box.y) {s.box.y = s.h;}
+        if(s.w < s.box.x) {s.box.x = s.w;}
+        s.box.z = (s.box.y + s.box.x)/2;
+
+        /* center box */
+        s.box.top = (s.h - s.box.y)/2;
+        s.box.left = (s.w - s.box.x)/2;
+
+        /* determine center */
+        s.box.x2 = s.box.left + (s.box.x / 2);
+        s.box.y2 = s.box.top + (s.box.y / 2);
+        s.box.z2 = (s.box.z / 2);
+
+        /* ─ Grid ─ */
+        s.grid.cols = Math.floor(s.w / s.tile.w);
+        s.grid.rows = Math.floor(s.h / s.tile.h);
+
+        /* ─ Canvas Update ─ */
+        // canvas.width = s.canvas.x;
+        // canvas.height = s.canvas.y;
+        // ctx.clearRect(0,0,canvas.width, canvas.height);
+    }
+    window.addEventListener('resize', () =>{
+        updateSettings();
+    });
+
+    const dsides = {
+        "0": {x:0, y:0},
+        "1": {x:-1, y:1},
+        "2": {x:0, y:1},
+        "3": {x:1, y:1},
+        "4": {x:-1, y:0},
+        "5": {x:0, y:0},
+        "6": {x:1, y:0},
+        "7": {x:-1, y:-1},
+        "8": {x:0, y:-1},
+        "9": {x:1, y:-1},
+    }
+    function move2(d){
+        // console.log(`move2(${d});`);
+        let nx = cboxSet.player.x + dsides[d].x;
+        let ny = cboxSet.player.y + dsides[d].y;
+        if(isPath(gmap,nx,ny)){
+            cboxSet.player.x = nx;
+            cboxSet.player.y = ny;
+            cboxSet.preference["x"];
+            cboxSet.preference["y"];
+        } else {
+            switch (d) {
+                case "2":
+                    cboxSet.preference["y"] = 1;
+                    if(isPath(gmap,nx+cboxSet.preference["x"],ny)){
+                        cboxSet.player.x = nx+cboxSet.preference["x"];
+                        cboxSet.player.y = ny;
+                    } else if(isPath(gmap,nx+cboxSet.preference["x"]*-1,ny)){
+                        cboxSet.player.x = nx+cboxSet.preference["x"]*-1;
+                        cboxSet.player.y = ny;
+                    }
+                    break;
+                case "4":
+                    cboxSet.preference["x"] = -1;
+                    if(isPath(gmap,nx,ny+cboxSet.preference["y"])){
+                        cboxSet.player.x = nx;
+                        cboxSet.player.y = ny+cboxSet.preference["y"];
+                    } else if(isPath(gmap,nx,ny+cboxSet.preference["y"]*-1)){
+                        cboxSet.player.x = nx;
+                        cboxSet.player.y = ny+cboxSet.preference["y"]*-1;
+                    }
+                    break;
+                case "6":
+                    cboxSet.preference["x"] = 1;
+                    if(isPath(gmap,nx,ny+cboxSet.preference["y"])){
+                        cboxSet.player.x = nx;
+                        cboxSet.player.y = ny+cboxSet.preference["y"];
+                    } else if(isPath(gmap,nx,ny+cboxSet.preference["y"]*-1)){
+                        cboxSet.player.x = nx;
+                        cboxSet.player.y = ny+cboxSet.preference["y"]*-1;
+                    }
+                    break;
+                case "8":
+                    cboxSet.preference["y"] = -1;
+                    if(isPath(gmap,nx+cboxSet.preference["x"],ny)){
+                        cboxSet.player.x = nx+cboxSet.preference["x"];
+                        cboxSet.player.y = ny;
+                    } else if(isPath(gmap,nx+cboxSet.preference["x"]*-1,ny)){
+                        cboxSet.player.x = nx+cboxSet.preference["x"]*-1;
+                        cboxSet.player.y = ny;
+                    }
+                    break;
+            }
+            // if(isPath(gmap,nx,ny)){}
+        }
+
+        if(isEnd(gmap,cboxSet.player.x,cboxSet.player.y)){
+            let ShelfTitle = document.getElementById("ShelfTitle");
+            s.lockKeys = !s.lockKeys;
+            setTimeout(() => {
+                // clearCanvas(ctx["canvas-grid"]); // this was not here.
+                // clearCanvas(ctx["canvas-draw"]);
+                // clearCanvas(ctx["canvas-spec"]);
+                QuickClearCanvas(ctx["canvas-draw"]);
+                console.log("🎊Level Cleared!🎉");
+                ShelfTitle.innerText = "Ant Maze - 🎊Level Cleared!🎉";
+            }, 100);
+            setTimeout(() => {
+                level.h += 5;
+                level.w += 5;
+                UpdateCanvas();
+                // ♦
+                // This next line makes the width of the tiles change by adding a margin or border.
+                // cboxSet.mm = Math.floor((level.mazeHistory.length+1)%4)*2 + 2;
+                level.levelCleared();
+                MakeLevel();
+                s.lockKeys = !s.lockKeys;
+                ShelfTitle.innerText = `Ant Maze - Level ${level.mazeHistory.length+1}`;
+            }, 1000);
+        }
+        // console.log(cboxSet.player);
+    }
+    
+    window.addEventListener("keydown", function (event) {
+        if(!s.q){
+            if(!s.lockKeys){
+                // if(event.key == 'ArrowUp' || event.key == 'w') {move2("8");}
+                // if(event.key == 'ArrowLeft' || event.key == 'a') {move2("4");}
+                // if(event.key == 'ArrowDown' || event.key == 's') {move2("2");}
+                // if(event.key == 'ArrowRight' || event.key == 'd') {move2("6");}
+
+                if(event.keyCode == '103' || event.key == 'q') {move2("7");}
+                if(event.keyCode == '104' || event.key == 'w' || event.key == 'ArrowUp') {move2("8");}
+                if(event.keyCode == '105' || event.key == 'e') {move2("9");}
+                if(event.keyCode == '100' || event.key == 'a' || event.key == 'ArrowLeft') {move2("4");}
+                if(event.keyCode == '102' || event.key == 'd' || event.key == 'ArrowRight') {move2("6");}
+                if(event.keyCode == '97' || event.key == 'z') {move2("1");}
+                if(event.keyCode == '98' || event.key == 's' || event.key == 'ArrowDown') {move2("2");}
+                if(event.keyCode == '99' || event.key == 'x') {move2("3");}
+                // if(event.key == 'w' || event.key == 'W') {openW();}
+            }
+        }
+    });
+
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        updateSettings();
+        start();
+        update();
+    });
+    /* Version Log:
+    [index-nds-00]: Default Template.
+    [index-nds-01]: Works.
+    [index-nds-02]: Has levels.
+    [index-nds-03]: 
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
+    [index-nds-07]: 
+    [index-nds-08]: 
+    [index-nds-09]: 
+    [index-nds-10]: 
+    [index-nds-11]: 
+    [index-nds-12]: 
+    
+    */
+    /*
+    isInMap(g,x,y)
+        isPath(g,x,y)
+            isSide()
+            isOther()
+        if(move)
+            isEnd()
+    */
+
+    function isEnd(g,x,y){
+        return g[y][x] == "4";
+    }
+    function isPath(g,x,y){
+        if(isInMap(g,x,y)){
+            return g[y][x] > 0 && g[y][x] < 5;
+        } else {
+            return false;
+        }
+    }
+    function isInMap(g,x,y){
+        if(x >= 0 && y >= 0 && y < g.length && x < g[y].length ){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    function move(d){
+        switch(d){
+            case "7":
+                if(cboxSet.player.y > 0){
+                    cboxSet.player.y--;
+                }
+                if(cboxSet.player.y < cboxSet.ylen-1){
+                    cboxSet.player.y++;
+                }
+                break;
+            case "8":
+                if(cboxSet.player.y > 0){
+                    cboxSet.player.y--;
+                }
+                break;
+            case "2":
+                if(cboxSet.player.y < cboxSet.ylen-1){
+                    cboxSet.player.y++;
+                }
+                break;
+            case "4":
+                if(cboxSet.player.x > 0){
+                    cboxSet.player.x--;
+                }
+                break;
+            case "6":
+                if(cboxSet.player.x < cboxSet.xlen-1){
+                    cboxSet.player.x++;
+                }
+                break;
+        }
+    }
+
+    function MazeCopy(g){
+        let g2 = [];
+        for (let y = 0; y < g.length; y++) {
+            g2.push([]);
+            for (let x = 0; x < g[y].length; x++) {
+                // const element = g[y][x];
+                g2[y].push(g[y][x]);
+            }
+        }
+        return g2;
+    }
+    function PrintMaze(g){
+        console.log(g.map(row => row.join(',')).join('\n'));
+        // Number.parseInt(row.join(''), 2).toString(36);
+        // g.map(row => Number.parseInt(row.join(''), 2).toString(36)).join('\n')
+        // console.log(g.map(row => Number.parseInt(row.join(''), 2).toString(36)).join('\n'));
+        
+        // g.map(row => row.join('')).join('');
+    }
+
+    function getMazeString(g){
+        return g.map(e=>e.join('')).join(',');
+    }
+    function getMazeGrid(s){
+        return s.split(',').map(e=>e.split(''));
+    }
+    
+
+</script>
+</body>
+</html>
