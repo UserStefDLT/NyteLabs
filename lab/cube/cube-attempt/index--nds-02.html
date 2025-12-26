@@ -19,13 +19,6 @@
     </style>
 <style>
     .class {}
-    .grid {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        transform: rotate3d(1,0,0,54deg) rotate3d(0,0,1,45deg);
-        margin: -8px 0px;
-    }
     .column {
         display: flex;
         flex-direction: column;
@@ -171,6 +164,7 @@ function Exp_BuildRand3dMap(xlen = 1,ylen = 1,zlen = 1){
     }
     return cube;
 }
+
 function BuildRand3dMap(xlen = 1,ylen = 1,zlen = 1){
     /* for xyz, or whd. */
     cube = [];
@@ -212,65 +206,8 @@ function BuildMap(xlen,ylen){
     return g
 }
 
-function IsInMap(map,x,y,z){
-let inMap = true;
-if(x < 0 || y < 0 || z < 0) {inMap = false;}
-if(x > m[0][0].length || y > m[0].length || z > m.length) {inMap = false;}
-return inMap;
-}
-function IsPath(m,x,y,z){
-return m[z][y][x] == 1;
-}
-
-function RandomSide(){
-    /*not ready*/
-    /* I think we can have a random for either x,y,z; 
-    and another for positive or negative. */
-    let xyz = Math.floor(Maht.random()*3);
-    let posneg = Math.floor(Maht.random()*2);
-    
-    
-    return 0;
-}
-
 
 function LogOut(g){
-    let cube_log = [`<div class="grid">`];
-    for (let z = 0; z < g.length; z++) {
-        for (let y = 0; y < g[z].length; y++) {
-            const row = g[z][y];
-            let rowEl = `<div class="row">${row.join("")}</div>`;
-            // cube_log.push(row.join());
-            cube_log.push(rowEl);
-            // for (let x = 0; x < g[z][y].length; x++) {
-            //     const e = g[z][y][x];
-            // }
-        }
-        cube_log.push(`</div><div class="grid">`);
-    }
-    cube_log.push("</div>");
-    console.log(cube_log.join('\n'));
-    return cube_log;
-}
-function LogOut2(g){
-    let cube_log = [`<div class="row">────</div>`,`<div class="grid">`];
-    for (let z = 0; z < g.length; z++) {
-        for (let y = 0; y < g[z].length; y++) {
-            const row = g[z][y];
-            let rowEl = `<div class="row">${row.join("")}</div>`;
-            // cube_log.push(row.join());
-            cube_log.push(rowEl);
-            // for (let x = 0; x < g[z][y].length; x++) {
-            //     const e = g[z][y][x];
-            // }
-        }
-        cube_log.push(`</div><div class="row">────</div><div class="grid">`);
-    }
-    cube_log.push("</div>");
-    console.log(cube_log.join('\n'));
-    return cube_log;
-}
-function LogOut1(g){
     let cube_log = ["────"];
     for (let z = 0; z < g.length; z++) {
         for (let y = 0; y < g[z].length; y++) {
@@ -291,14 +228,7 @@ function LogOut1(g){
 function DisplayCube(log){
     let display = document.getElementById("display");
     // display.innerHTML = `<div><p>${log.join("</p><p>")}</p></div>`;
-    // display.innerHTML = `<div class="column"><div>${log.join("</div><div>")}</div></div>`;
-    display.innerHTML = `<div class="column">${log.join("")}</div>`;
-}
-function DisplayCube1(log){
-    let display = document.getElementById("display");
-    // display.innerHTML = `<div><p>${log.join("</p><p>")}</p></div>`;
     display.innerHTML = `<div class="column"><div>${log.join("</div><div>")}</div></div>`;
-    // display.innerHTML = `<div class="column">${log.join("")}</div>`;
 }
 
     /* ─── Events ─── */
