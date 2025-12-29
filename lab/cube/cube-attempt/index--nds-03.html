@@ -16,25 +16,15 @@
             transform: translateX(-50%) translateY(-50%);
         } */
         /* :root {} */
-        </style>
+    </style>
 <style>
-    :root {
-        --sz-tile: 20px;
-    }
     .class {}
-    .grid, .row, .column {
-        transform-style: preserve-3d;
-    }
     .grid {
         position: relative;
         display: flex;
         flex-direction: column;
         transform: rotate3d(1,0,0,54deg) rotate3d(0,0,1,45deg);
         margin: -8px 0px;
-
-        transform: rotate3d(1, 0, 0, 90deg) rotate3d(0, 0, 0, 45deg);
-        margin: 0px;
-        height: 20px;
     }
     .column {
         display: flex;
@@ -47,78 +37,13 @@
     [data-val] {
         height: 20px;
         width: 20px;
-        height: var(--sz-tile);
-        width: var(--sz-tile);
         display: flex;
         align-items: center; justify-content: center;
-        color: #0000;
     }
     [data-val="1"] {
         background-color: #0f0;
         color: #000;
     }
-
-    .column {
-            transform: rotate3d(-1, -.5, 0, 45deg);
-    }
-    [data-val="1"] {
-        position: relative;
-        transform-style: preserve-3d;
-    }
-
-    [data-val="1"]::before,
-    [data-val="1"]::after {
-        content: "";
-        position: absolute;
-        top: 0; left: 0;
-        height: 100%;
-        width: 100%;
-        transform-style: preserve-3d;
-        transform-origin: 100% 100%;
-        transform: translate(-50%,-50%) rotate3d(1,0,0,90deg);
-        transform: rotate3d(1,0,0,90deg);
-        
-        background-color: #f008;
-        background-color: #0c0;
-        background-image: linear-gradient(#0a0, #0c0);
-        color: #000;
-    }
-    [data-val="1"]::after {
-        transform: translate(-50%,-50%) rotate3d(0,1,0,-90deg);
-        transform: rotate3d(0,1,0,-90deg);
-        
-        background-color: #00f8;
-        background-color: #0c0;
-        background-image: linear-gradient(90deg, #0a0, #0c0);
-
-        color: #000;
-    }
-
-    /* Visualizing coordinates. */
-    /* [data-zyx] {
-        position: relative;
-        transform-style: preserve-3d;
-    }
-    [data-zyx]::before {
-        content: attr(data-zyx);
-        position: absolute;
-        top: 0; left: 0;
-        height: max-content;
-        width: max-content;
-        color: #f39;
-        background-color: #000;
-        outline: #f398;
-        opacity: 0;
-        transform-style: preserve-3d;
-        transform: rotateX(90deg) translateZ(4px);
-        transition: 
-        opacity 300ms ease-in-out,
-        transform 300ms ease-in-out;
-    }
-    [data-zyx]:hover::before {
-        opacity: 1;
-        transform: rotateX(0deg) translateZ(4px);
-    } */
     /*  */
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
@@ -209,11 +134,6 @@
             d: 1000,
             p: 1000,
         },
-        cube: {
-            xlen: 5,
-            ylen: 5,
-            zlen: 5
-        },
 
         timeOut: 40,
         player: false,
@@ -245,8 +165,7 @@ function Exp_BuildRand3dMap(xlen = 1,ylen = 1,zlen = 1){
             cube[z].push([]);
             for(let x = 0; x < xlen; x++){
                 var val = Math.floor(Math.random()*2);
-                let zyx = `${z},${y},${x}`;
-                cube[z][y].push(`<div data-val="${val}" data-zyx="${zyx}">${val}</div>`);
+                cube[z][y].push(`<div data-val="${val}">${val}</div>`);
             }
         }
     }
@@ -293,7 +212,7 @@ function BuildMap(xlen,ylen){
     return g
 }
 
-/* Next step: Paths */
+/* Next step */
 function IsInMap(map,x,y,z){
 let inMap = true;
 if(x < 0 || y < 0 || z < 0) {inMap = false;}
@@ -317,16 +236,7 @@ function RandomSide(){
     return 0;
 }
 
-function ReviewMap(m,xlen,ylen,zlen){
-    let map = Build3dMap(xlen,ylen,zlen);
-    for (let z = 0; z < m.length; z++) {
-        for (let y = 0; y < m[z].length; y++) {
-            for (let x = 0; x < m[z][y].length; x++) {
 
-            }
-        }
-    }
-}
 
 
 function LogOut(g){
@@ -396,103 +306,79 @@ function DisplayCube1(log){
     // display.innerHTML = `<div class="column">${log.join("")}</div>`;
 }
 
+    /* ─── Events ─── */
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
 
-/* ─── Events ─── */
-function updateSettings(){
-    s.h = window.innerHeight;
-    s.w = window.innerWidth;
-    s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        s.canvas.z = (s.h + s.w)/2;
 
-    /* ─ Canvas ─ */
-    s.canvas.x = s.w;
-    s.canvas.y = s.h;
-    s.canvas.z = (s.h + s.w)/2;
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
 
-    s.canvas.x2 = s.canvas.x/2;
-    s.canvas.y2 = s.canvas.y/2;
-    s.canvas.z2 = s.canvas.z/2;
+        /* ─ Box ─ */
+        /* resize box for mobile */
+        if(s.h < s.box.y) {s.box.y = s.h;}
+        if(s.w < s.box.x) {s.box.x = s.w;}
+        s.box.z = (s.box.y + s.box.x)/2;
 
-    /* ─ Box ─ */
-    /* resize box for mobile */
-    if(s.h < s.box.y) {s.box.y = s.h;}
-    if(s.w < s.box.x) {s.box.x = s.w;}
-    s.box.z = (s.box.y + s.box.x)/2;
+        /* center box */
+        s.box.top = (s.h - s.box.y)/2;
+        s.box.left = (s.w - s.box.x)/2;
 
-    /* center box */
-    s.box.top = (s.h - s.box.y)/2;
-    s.box.left = (s.w - s.box.x)/2;
+        /* determine center */
+        s.box.x2 = s.box.left + (s.box.x / 2);
+        s.box.y2 = s.box.top + (s.box.y / 2);
+        s.box.z2 = (s.box.z / 2);
 
-    /* determine center */
-    s.box.x2 = s.box.left + (s.box.x / 2);
-    s.box.y2 = s.box.top + (s.box.y / 2);
-    s.box.z2 = (s.box.z / 2);
+        /* ─ Grid ─ */
+        s.grid.cols = Math.floor(s.w / s.tile.w);
+        s.grid.rows = Math.floor(s.h / s.tile.h);
 
-    /* ─ Grid ─ */
-    s.grid.cols = Math.floor(s.w / s.tile.w);
-    s.grid.rows = Math.floor(s.h / s.tile.h);
+        /* ─ Canvas Update ─ */
+        // canvas.width = s.canvas.x;
+        // canvas.height = s.canvas.y;
+        // ctx.clearRect(0,0,canvas.width, canvas.height);
+    }
+    window.addEventListener('resize', () =>{
+        updateSettings();
+    });
 
-    /* ─ Canvas Update ─ */
-    // canvas.width = s.canvas.x;
-    // canvas.height = s.canvas.y;
-    // ctx.clearRect(0,0,canvas.width, canvas.height);
-}
-window.addEventListener('resize', () =>{
-    updateSettings();
-});
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        updateSettings();
+        // start();
+        // update();
+        // cmap = Build3dMap(3,3,3);
+        // cmap = BuildRand3dMap(3,3,3);
+        // cmap = BuildRand3dMap(5,5,5);
+        cmap = Exp_BuildRand3dMap(5,5,5);
+        console.log(cmap);
 
-window.addEventListener('load', (ev) => {
-    console.log(`Welcome to my Lab!`);
-    updateSettings();
-    // start();
-    // update();
-    // cmap = Build3dMap(3,3,3);
-    // cmap = BuildRand3dMap(3,3,3);
-    // cmap = BuildRand3dMap(5,5,5);
-    cmap = Exp_BuildRand3dMap(5,5,5);
-    console.log(cmap);
-
-    let clog = LogOut(cmap);
-    DisplayCube(clog);
-});
-/* Version Log:
-[index-nds-00]: Default Template.
-[index-nds-01]: 
-[index-nds-02]: 
-[index-nds-03]: 
-[index-nds-04]: 
-[index-nds-05]: 
-[index-nds-06]: 
-[index-nds-07]: 
-[index-nds-08]: 
-[index-nds-09]: 
-[index-nds-10]: 
-[index-nds-11]: 
-[index-nds-12]: 
-
-*/
-
-
-/*
-Notes:
-
-x →
-y ↓
-z   ⥎↓ ⥑→ ⥏← ⥐↑ (bottom is forward, top is closer)
-
-8	104	-x	rolls forward
-2	98	 x	rolls back
-
-6	102	-y	spins eastward counter-clockwise 
-4	100	 y	spins westward clockwise
-
-9	105	 z	rotates clockwise
-7	103	-z	rotates counter-clockwise
-
-+	109		more or less deg
--	107	
-
-
-*/
+        let clog = LogOut(cmap);
+        DisplayCube(clog);
+    });
+    /* Version Log:
+    [index-nds-00]: Default Template.
+    [index-nds-01]: 
+    [index-nds-02]: 
+    [index-nds-03]: 
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
+    [index-nds-07]: 
+    [index-nds-08]: 
+    [index-nds-09]: 
+    [index-nds-10]: 
+    [index-nds-11]: 
+    [index-nds-12]: 
+    
+    */
 
 
 </script>
