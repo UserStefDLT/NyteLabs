@@ -78,10 +78,10 @@
             tracking: false
         },
         tile: {
-            h: 4,
-            w: 4,
-            sz: 4,
-            sz2: 2,
+            h: 10,
+            w: 10,
+            sz: 10,
+            sz2: 10,
             margin: 16,
             fill: 0
         },
@@ -205,12 +205,12 @@ function spraySand(x,y,r=1){
 // window.addEventListener('click', (ev) =>{
 window.addEventListener('mousemove', (ev) =>{
     if(!s.pause && !s.q){
-        spraySand(ev.clientX,ev.clientY,6);
+        spraySand(ev.clientX,ev.clientY,1);
     }
 });
 window.addEventListener('click', (ev) =>{
     if(!s.pause && !s.q){
-        tapSand(ev.clientX,ev.clientY,36);
+        tapSand(ev.clientX,ev.clientY,3);
     }
 });
 

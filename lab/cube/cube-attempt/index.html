@@ -20,6 +20,10 @@
 <style>
     :root {
         --sz-tile: 20px;
+        --sz2-tile: 10px;
+        --sz-2-tile: -10px;
+        --hue-step: 30;
+        --alp: .75;
     }
     .class {}
     .grid, .row, .column {
@@ -59,14 +63,14 @@
     }
 
     .column {
-            transform: rotate3d(-1, -.5, 0, 45deg);
+        transform: rotate3d(-1, -.5, 0, 45deg);
     }
     [data-val="1"] {
         position: relative;
         transform-style: preserve-3d;
     }
 
-    [data-val="1"]::before,
+    /* [data-val="1"]::before,
     [data-val="1"]::after {
         content: "";
         position: absolute;
@@ -92,7 +96,43 @@
         background-image: linear-gradient(90deg, #0a0, #0c0);
 
         color: #000;
+    } */
+
+    .zf, .zb, .yu, .yd, .xr, .xl {
+        --hue-side: var(--i);
+        position: absolute;
+        top: 0; left: 0;
+        /* top: calc((100% - var(--sz)) / 2); left: calc((100% - var(--sz)) / 2); */
+        top: calc((100% - var(--sz-tile)) / 2); left: calc((100% - var(--sz-tile)) / 2);
+        height: max-content;
+        width: max-content;
+        height: 120px; width: 120px;
+        height: var(--sz); width: var(--sz);
+        height: var(--sz-tile); width: var(--sz-tile);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        transform-style: preserve-3d;
+        transform-origin: 60px 60px -60px;
+        transform-origin: var(--sz-h) var(--sz-h) var(--sz-h);
+        transform-origin: var(--sz-h) var(--sz-h) calc(var(--sz-h) * -1);
+        transform-origin: var(--sz2-tile) var(--sz2-tile) calc(var(--sz2-tile) * -1);
+
+        background-color: hsla(calc(var(--hue-side) * var(--hue-step)), 100%, 60%, var(--alp));
+
+        backface-visibility: hidden;
+        transition: transform 300ms ease-in-out;
     }
+
+    .xr {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,-90deg);}
+    .xl {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,90deg);}
+
+    .yu {transform: translateZ(var(--sz-tile));}
+    .yd {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,180deg);}
+
+    .zf {transform: translateZ(var(--sz-tile)) rotate3d(0,1,0,90deg);}
+    .zb {transform: translateZ(var(--sz-tile)) rotate3d(0,1,0,-90deg);}
 
     /* Visualizing coordinates. */
     /* [data-zyx] {
@@ -140,6 +180,12 @@
         <div id="display"></div>
     </div>
     <!-- <canvas id="canvas"></canvas> -->
+     <!-- <div class="zf"></div>
+     <div class="zb"></div>
+     <div class="yu"></div>
+     <div class="yd"></div>
+     <div class="xr"></div>
+     <div class="xl"></div> -->
 </main>
 
 <!-- <div class="options">
@@ -237,6 +283,29 @@
 var cmap = [];
 
 function Exp_BuildRand3dMap(xlen = 1,ylen = 1,zlen = 1){
+    /* for xyz, or whd. */
+    cube = [];
+    for(let z = 0; z < zlen; z++){
+        cube.push([]);
+        for(let y = 0; y < ylen; y++){
+            cube[z].push([]);
+            for(let x = 0; x < xlen; x++){
+                var val = Math.floor(Math.random()*2);
+                let zyx = `${z},${y},${x}`;
+                cube[z][y].push(`<div data-val="${val}" data-zyx="${zyx}">
+                    <div class="zf"></div>
+                    <div class="zb"></div>
+                    <div class="yu"></div>
+                    <div class="yd"></div>
+                    <div class="xr"></div>
+                    <div class="xl"></div>
+                </div>`);
+            }
+        }
+    }
+    return cube;
+}
+function Exp_BuildRand3dMap_0(xlen = 1,ylen = 1,zlen = 1){
     /* for xyz, or whd. */
     cube = [];
     for(let z = 0; z < zlen; z++){
@@ -448,7 +517,8 @@ window.addEventListener('load', (ev) => {
     // cmap = Build3dMap(3,3,3);
     // cmap = BuildRand3dMap(3,3,3);
     // cmap = BuildRand3dMap(5,5,5);
-    cmap = Exp_BuildRand3dMap(5,5,5);
+    // cmap = Exp_BuildRand3dMap(5,5,5);
+    cmap = Exp_BuildRand3dMap(3,3,3);
     console.log(cmap);
 
     let clog = LogOut(cmap);

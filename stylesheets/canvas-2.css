@@ -36,6 +36,6 @@ main, .shelf {position: static; margin: 0;}
     /* --ch: 100dvh; */
     /* --ch: 1200px; */
 }
-[id*="canvas"], #canvas {
+/* [id*="canvas"], #canvas {
     height: var(--ch);
-}
+} */
