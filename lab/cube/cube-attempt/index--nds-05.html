@@ -42,9 +42,6 @@
         --sz-2-tile: -10px;
         --hue-step: 60;
         --alp: 1;
-
-        --x-deg: -50deg;
-        --y-deg: -45deg;
     }
     .class {}
     .grid, .row, .column {
@@ -322,7 +319,7 @@
         s: false,
         steps: false,
         tags: false,
-        log: false,
+        log: true,
         lockKeys: false,
         pause: false,
         q: false
@@ -330,8 +327,8 @@
     const particles = [];
     const pg = {}
     const box = {
-        x: -50,
-        y: -45,
+        x: 0,
+        y: 0,
         z: 0,
         start: {
             x: 0,
@@ -696,8 +693,8 @@ window.addEventListener('load', (ev) => {
     // cmap = BuildRand3dMap(3,3,3);
     // cmap = BuildRand3dMap(5,5,5);
     // cmap = Exp_BuildRand3dMap(5,5,5);
-    cmap = Exp_BuildRand3dMap(3,3,3);
-    // cmap = Exp_BuildRand3dMap(5,5,5);
+    // cmap = Exp_BuildRand3dMap(3,3,3);
+    cmap = Exp_BuildRand3dMap(5,5,5);
     console.log(cmap);
 
     let clog = LogOut(cmap);
