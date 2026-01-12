@@ -38,7 +38,9 @@
 
     :root {
         --sz-tile: 20px;
+        --szh-tile: 10px;
         --sz2-tile: 10px;
+        --sz4-tile: 5px;
         --sz-2-tile: -10px;
         --hue-side: 60;
         --hue-step: 9;
@@ -82,7 +84,7 @@
         color: #0000;
     }
     [data-val="1"] {
-        background-color: #0f0;
+        /* background-color: #0f0; */
         color: #000;
     }
 
@@ -152,23 +154,41 @@
         transform-origin: var(--sz-h) var(--sz-h) var(--sz-h);
         transform-origin: var(--sz-h) var(--sz-h) calc(var(--sz-h) * -1);
         transform-origin: var(--sz2-tile) var(--sz2-tile) calc(var(--sz2-tile) * -1);
+        transform-origin: var(--sz2-tile) var(--sz2-tile) calc(var(--sz4-tile) * -1);
 
-        background-color: hsla(calc(var(--hue-side) * var(--hue-side)), 100%, 50%, var(--alp));
-        background-color: hsla(calc(var(--step) * var(--hue-step)), 100%, 50%, var(--alp));
+        /* background-color: hsla(calc(var(--hue-side) * var(--hue-side)), 100%, 50%, var(--alp)); */
+        /* background-color: hsla(calc(var(--step) * var(--hue-step)), 100%, 50%, var(--alp)); */
         background-image: radial-gradient(#0000 50%, #0003 100%);
+        --bgc: hsla(calc(var(--step) * var(--hue-step)), 100%, 50%, var(--alp));
+        background-image: 
+        radial-gradient(#0000 50%, #0003 100%),
+        linear-gradient(0deg, var(--bwt) 25%, var(--bgc) 25%, var(--bgc) 75%, var(--bwt) 75%),
+        linear-gradient(90deg, var(--bwt) 25%, var(--bgc) 25%, var(--bgc) 75%, var(--bwt) 75%),
+        radial-gradient(#0000 50%, #0003 100%);
+        background-image: 
+        linear-gradient(0deg, var(--bwt) 25%, var(--bgc) 25%, var(--bgc) 75%, var(--bwt) 75%),
+        linear-gradient(90deg, var(--bwt) 25%, var(--bgc) 25%, var(--bgc) 75%, var(--bwt) 75%);
 
         backface-visibility: hidden;
         transition: transform 300ms ease-in-out;
     }
 
-    .xr {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,-90deg);}
+    /* .xr {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,-90deg);}
     .xl {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,90deg);}
 
     .yu {transform: translateZ(var(--sz-tile));}
     .yd {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,180deg);}
 
     .zf {transform: translateZ(var(--sz-tile)) rotate3d(0,1,0,90deg);}
-    .zb {transform: translateZ(var(--sz-tile)) rotate3d(0,1,0,-90deg);}
+    .zb {transform: translateZ(var(--sz-tile)) rotate3d(0,1,0,-90deg);} */
+
+
+    .xr {transform: translateZ(var(--szh-tile)) rotate3d(1,0,0,-90deg);}
+    .xl {transform: translateZ(var(--szh-tile)) rotate3d(1,0,0,90deg);}
+    .yu {transform: translateZ(var(--szh-tile));}
+    .yd {transform: translateZ(var(--szh-tile)) rotate3d(1,0,0,180deg);}
+    .zf {transform: translateZ(var(--szh-tile)) rotate3d(0,1,0,90deg);}
+    .zb {transform: translateZ(var(--szh-tile)) rotate3d(0,1,0,-90deg);}
 
     [data-val="1"] .zf, 
     [data-val="1"] .zb, 

@@ -40,8 +40,7 @@
         --sz-tile: 20px;
         --sz2-tile: 10px;
         --sz-2-tile: -10px;
-        --hue-side: 60;
-        --hue-step: 9;
+        --hue-step: 60;
         --alp: 1;
 
         --x-deg: -50deg;
@@ -153,8 +152,7 @@
         transform-origin: var(--sz-h) var(--sz-h) calc(var(--sz-h) * -1);
         transform-origin: var(--sz2-tile) var(--sz2-tile) calc(var(--sz2-tile) * -1);
 
-        background-color: hsla(calc(var(--hue-side) * var(--hue-side)), 100%, 50%, var(--alp));
-        background-color: hsla(calc(var(--step) * var(--hue-step)), 100%, 50%, var(--alp));
+        background-color: hsla(calc(var(--hue-side) * var(--hue-step)), 100%, 60%, var(--alp));
         background-image: radial-gradient(#0000 50%, #0003 100%);
 
         backface-visibility: hidden;
@@ -281,7 +279,7 @@
 <footer>
     <div class="my-name">
         <a id="BackToTop" class="hidden" href="#">Back To Top</a>
-        &copy; 2022 - 2026 | by Stéfano De La Torre 
+        &copy; 2022 - 2025 | by Stéfano De La Torre 
     </div>
 </footer>
 <div class="name-end">by St&eacute;fano.</div>
@@ -422,34 +420,6 @@ const maze_settings = {
 var vmap = [];
 var cmap = [];
 
-function Build3dMapDisplaySteps(maze,steps,xlen,ylen,zlen){
-    /* for xyz. */
-    let cube = [];
-    for(let z = 0; z < zlen; z++){
-        cube.push([]);
-        for(let y = 0; y < ylen; y++){
-            cube[z].push([]);
-            for(let x = 0; x < xlen; x++){
-                var val = maze[z][y][x];
-                var step = steps[z][y][x];
-                let zyx = `${z},${y},${x}`;
-                if(val == -1){
-                    cube[z][y].push(`<div data-val="${val}" data-zyx="${zyx}"></div>`);
-                } else {
-                    cube[z][y].push(`<div data-val="${val}" data-zyx="${zyx}" style="--step: ${step};">
-                        <div class="zf"></div>
-                        <div class="zb"></div>
-                        <div class="yu"></div>
-                        <div class="yd"></div>
-                        <div class="xr"></div>
-                        <div class="xl"></div>
-                    </div>`);
-                }
-            }
-        }
-    }
-    return cube;
-}
 function Build3dMapDisplay(maze,xlen,ylen,zlen){
     /* for xyz. */
     let cube = [];
@@ -1110,8 +1080,7 @@ window.addEventListener('load', (ev) => {
     // cmap = Build3dMapDisplay(level.maze,3,3,3);
     level = new Maze3(5,5,5);
     level.MakePath();
-    // cmap = Build3dMapDisplay(level.maze,5,5,5);
-    cmap = Build3dMapDisplaySteps(level.maze,level.stepMap,5,5,5);
+    cmap = Build3dMapDisplay(level.maze,5,5,5);
 
 
     let clog = LogOut(cmap);
@@ -1126,7 +1095,7 @@ window.addEventListener('load', (ev) => {
 [index-nds-03]: 
 [index-nds-04]: 
 [index-nds-05]: 
-[index-nds-06]: Makes a random new 3d Maze each time.
+[index-nds-06]: 
 [index-nds-07]: 
 [index-nds-08]: 
 [index-nds-09]: 
