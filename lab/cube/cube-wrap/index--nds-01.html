@@ -52,7 +52,6 @@
         transform-style: preserve-3d;
     }
     .grid {
-        --cz: var(--i);
         position: relative;
         display: flex;
         flex-direction: column;
@@ -68,12 +67,10 @@
         flex-direction: column;
     }
     .row {
-        --cy: var(--i);
         display: flex;
         font-display: row;
     }
     [data-val] {
-        --cx: var(--i);
         position: relative;
         transform-style: preserve-3d;
         height: 20px;
@@ -85,7 +82,7 @@
         color: #0000;
     }
     [data-val="1"] {
-        background-color: #0f00;
+        background-color: #0f0;
         color: #000;
     }
 
@@ -132,7 +129,6 @@
     } */
 
     .zf, .zb, .yu, .yd, .xr, .xl {
-        --block-step: 10;
         --hue-side: var(--i);
         position: absolute;
         top: 0; left: 0;
@@ -154,29 +150,7 @@
         transform-origin: var(--sz2-tile) var(--sz2-tile) calc(var(--sz2-tile) * -1);
 
         background-color: hsla(calc(var(--hue-side) * var(--hue-step)), 100%, 60%, var(--alp));
-        --c-hue-grid: calc(var(--cz) + var(--cy) + var(--cx));
-        --c-hue: hsla(calc(var(--c-hue-grid) * var(--block-step)), 100%, 60%, var(--alp));
-        --c2-hue: hsla(calc(var(--c-hue-grid) * var(--block-step)), 100%, 30%, var(--alp));
-        background-color: hsla(calc(var(--c-hue-grid) * 15), 100%, 60%, var(--alp));
-        background-color: #0000;
         background-image: radial-gradient(#0000 50%, #0003 100%);
-        background-image: radial-gradient(#0000 50%, #0003 100%),
-        linear-gradient(90deg, #0000 30%, var(--c-hue) 30%, var(--c-hue) 70%, #0000 70%),
-        linear-gradient(0deg, #0000 30%, var(--c-hue) 30%, var(--c-hue) 70%, #0000 70%);
-
-        background-image: radial-gradient(#0000 50%, #0000 100%),
-        linear-gradient(90deg, #0000 30%, #000 30%, #0000 31%, #0000 69%, #000 70%, #0000 70%),
-        linear-gradient(0deg, #0000 30%, #000 30%, #0000 31%, #0000 69%, #000 70%, #0000 70%),
-        linear-gradient(90deg, #0000 30%, var(--c2-hue) 30%, var(--c-hue) 40%, var(--c-hue) 60%, var(--c2-hue) 70%, #0000 70%),
-        linear-gradient(0deg, #0000 30%, var(--c2-hue) 30%, var(--c-hue) 40%, var(--c-hue) 60%, var(--c2-hue) 70%, #0000 70%);
-
-        background-image: radial-gradient(#0000 50%, #0000 100%),
-        /* linear-gradient(90deg, #0000 30%, #000 30%, #0000 31%, #0000 69%, #000 70%, #0000 70%),
-        linear-gradient(0deg, #0000 30%, #000 30%, #0000 31%, #0000 69%, #000 70%, #0000 70%), */
-        linear-gradient(90deg, #0000 40%, var(--c-hue) 40%, var(--c-hue) 60%, #0000 60%),
-        linear-gradient(0deg, #0000 40%, var(--c-hue) 40%, var(--c-hue) 60%, #0000 60%),
-        linear-gradient(90deg, #0000 30%, var(--c2-hue) 30%, var(--c2-hue) 70%, #0000 70%),
-        linear-gradient(0deg, #0000 30%, var(--c2-hue) 30%, var(--c2-hue) 70%, #0000 70%);
 
         /* backface-visibility: hidden; */
         transition: transform 300ms ease-in-out;
@@ -663,7 +637,6 @@ window.addEventListener('load', (ev) => {
     // cmap = Exp_BuildRand3dMap(3,3,3);
     // cmap = Exp_BuildRand3dMap(5,5,5);
     cmap = Exp_BuildRand3dWallMap(3,3,3);
-    // cmap = Exp_BuildRand3dWallMap(5,5,5);
     console.log(cmap);
 
     let clog = LogOut(cmap);
