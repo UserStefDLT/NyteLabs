@@ -451,14 +451,14 @@ function Exp_BuildRand3dWallMap(xlen = 1,ylen = 1,zlen = 1){
                 //     <div class="xl" data-on="${xl}"></div>
                 // </div>`;
                 // console.log(block);
-                // cube[z][y].push(`<div data-val="${val}" data-zyx="${zyx}">
-                //     <div class="zf" data-on="${zf}"></div>
-                //     <div class="zb" data-on="${zb}"></div>
-                //     <div class="yu" data-on="${yu}"></div>
-                //     <div class="yd" data-on="${yd}"></div>
-                //     <div class="xr" data-on="${xr}"></div>
-                //     <div class="xl" data-on="${xl}"></div>
-                // </div>`);
+                cube[z][y].push(`<div data-val="${val}" data-zyx="${zyx}">
+                    <div class="zf" data-on="${zf}"></div>
+                    <div class="zb" data-on="${zb}"></div>
+                    <div class="yu" data-on="${yu}"></div>
+                    <div class="yd" data-on="${yd}"></div>
+                    <div class="xr" data-on="${xr}"></div>
+                    <div class="xl" data-on="${xl}"></div>
+                </div>`);
                 // cube[z][y].push(`<div data-val="${val}" data-zyx="${zyx}">
                 //     <div class="zf"></div>
                 //     <div class="zb"></div>
@@ -467,14 +467,6 @@ function Exp_BuildRand3dWallMap(xlen = 1,ylen = 1,zlen = 1){
                 //     <div class="xr"></div>
                 //     <div class="xl"></div>
                 // </div>`);
-                cube[z][y].push(`<div data-val="${val}" data-zyx="${zyx}" style="--p-zf: ${zf}; --p-zb: ${zb}; --p-yu: ${yu}; --p-yd: ${yd}; --p-xr: ${xr}; --p-xl: ${xl};">
-                    <div class="zf" data-on="${zf}"></div>
-                    <div class="zb" data-on="${zb}"></div>
-                    <div class="yu" data-on="${yu}"></div>
-                    <div class="yd" data-on="${yd}"></div>
-                    <div class="xr" data-on="${xr}"></div>
-                    <div class="xl" data-on="${xl}"></div>
-                </div>`);
             }
         }
     }

@@ -550,6 +550,20 @@ function BuildRand3dMap(xlen = 1,ylen = 1,zlen = 1){
     }
     return cube;
 }
+function Build3dMapF(xlen = 1,ylen = 1,zlen = 1, fill = 0){
+    /* for xyz, or whd. */
+    cube = [];
+    for(let z = 0; z < zlen; z++){
+        cube.push([]);
+        for(let y = 0; y < ylen; y++){
+            cube[z].push([]);
+            for(let x = 0; x < xlen; x++){
+                cube[z][y].push(fill);
+            }
+        }
+    }
+    return cube;
+}
 function Build3dMap(xlen = 1,ylen = 1,zlen = 1){
     /* for xyz, or whd. */
     cube = [];
@@ -853,14 +867,15 @@ function MapStart(xlen,ylen,zlen){
 }
 /* Next step: Paths */
 function IsInMap(m,x,y,z){
-let inMap = true;
-if(x < 0 || y < 0 || z < 0) {inMap = false;}
-if(x > m[0][0].length || y > m[0].length || z > m.length) {inMap = false;}
-return inMap;
+    let inMap = true;
+    if(x < 0 || y < 0 || z < 0) {inMap = false;}
+    if(x >= m[0][0].length || y >= m[0].length || z >= m.length) {inMap = false;}
+    return inMap;
 }
 function IsTile(m,x,y,z,t){
+    console.log(`x: ${x}, y: ${y}, z: ${z}`);
     if(IsInMap(m,x,y,z)){
-        return m[z][y][x] == 1;
+        return m[z][y][x] == t;
     } else {return false;}
 }
 function IsClear(m, x, y, z) {
@@ -879,15 +894,57 @@ function RandomSide(){
 
 
 
-function ReviewMap(m,xlen,ylen,zlen){
-    let map = Build3dMap(xlen,ylen,zlen);
+function ReviewMap(m){
+    let zlen = m.length;
+    let ylen = m[0].length;
+    let xlen = m[0][0].length;
+    let map = Build3dMapF(xlen,ylen,zlen,0);
     for (let z = 0; z < m.length; z++) {
         for (let y = 0; y < m[z].length; y++) {
             for (let x = 0; x < m[z][y].length; x++) {
-
+                map[z][y][x] = {"5": 0, "12": 0, "14": 0, "16": 0, "18": 0, "25": 0};
+                for (let i = 0; i < sides.length; i++) {
+                    let d = sides[i];
+                    let nx = x + xyzSide[d].x;
+                    let ny = y + xyzSide[d].y;
+                    let nz = z + xyzSide[d].z;
+                    if(x == 0 && y == 0 && z == 0){
+                        console.log(`d: ${d}, nx: ${nx}, ny: ${ny}, nz: ${nz}`);
+                        console.log(`IsInMap(m,nx,ny,nz) -> ${IsInMap(m,nx,ny,nz)}`);
+                    }
+                    // if (IsInMap(m,nx,ny,nz)) {
+                    //     map[z][y][x][d] = 1;
+                    // }
+                    // if (IsTile(m,nx,ny,nz,0) || IsTile(m,nx,ny,nz,1) || IsTile(m,nx,ny,nz,9)) {
+                    //     map[z][y][x][d] = 1;
+                    // }
+                    if (!IsTile(m,nx,ny,nz,-1)) {
+                        map[z][y][x][d] = 1;
+                    }
+                }
             }
         }
     }
+    return map;
+}
+function ReviewMap1(m,xlen,ylen,zlen){
+    let map = Build3dMapF(xlen,ylen,zlen,{"5": 0, "12": 0, "14": 0, "16": 0, "18": 0, "25": 0});
+    for (let z = 0; z < m.length; z++) {
+        for (let y = 0; y < m[z].length; y++) {
+            for (let x = 0; x < m[z][y].length; x++) {
+                for (let i = 0; i < sides.length; i++) {
+                    let d = sides[i];
+                    let nx = x + xyzSide[d].x;
+                    let ny = y + xyzSide[d].y;
+                    let nz = z + xyzSide[d].z;
+                    if (IsInMap(m,x,y,z) && !IsTile(m,x,y,z,-1)) {
+                        map[z][y][x][d] = 1;
+                    }
+                }
+            }
+        }
+    }
+    return map;
 }
 
 
@@ -906,7 +963,7 @@ function LogOut(g){
         cube_log.push(`</div><div class="grid">`);
     }
     cube_log.push("</div>");
-    console.log(cube_log.join('\n'));
+    // console.log(cube_log.join('\n'));
     return cube_log;
 }
 function LogOut2(g){
