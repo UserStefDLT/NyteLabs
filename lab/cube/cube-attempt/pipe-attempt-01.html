@@ -15,9 +15,7 @@
             top: 50%; left: 50%;
             transform: translateX(-50%) translateY(-50%);
         } */
-        :root {
-
-        }
+        /* :root {} */
         </style>
 <style>
     :root {
@@ -48,7 +46,7 @@
         --hue-step: 9;
         --alp: 1;
 
-        --x-deg: 40deg;
+        --x-deg: -50deg;
         --y-deg: -45deg;
     }
     /* .class {} */
@@ -136,186 +134,6 @@
         color: #000;
     } */
 
-    :root {
-        /* color managing for the pipes. */
-        /* 
-            for the top view, all pipes look the same, like vertical pipes.
-            but all horizontal pipes seen from the sides would do a linear gradient pipe.
-
-            we can do all vertical pipes for now, but later do the lighting better.
-        */
-        --bgc: hsla(calc(var(--step) * var(--hue-step)), 100%, 50%, var(--alp));
-
-        --hue: calc(var(--step) * var(--hue-step));
-        --pipe-c1: hsla(var(--hue), 100%, 50%, var(--alp));
-        --pipe-c2: hsla(var(--hue), 100%, 30%, var(--alp));
-
-        --pipe-000: #0000;
-        --pipe-090: #0000;
-        --pipe-180: #0000;
-        --pipe-270: #0000;
-
-        /* --pipe-000: linear-gradient(0deg, var(--bwt) 40%, var(--pipe-c2) 40%, var(--pipe-c1) 50%, var(--pipe-c2) 60%, var(--bwt) 60%) 0% 0% / 50% 100% no-repeat;
-        --pipe-090: linear-gradient(90deg, var(--bwt) 40%, var(--pipe-c2) 40%, var(--pipe-c1) 50%, var(--pipe-c2) 60%, var(--bwt) 60%) 0% 0% / 100% 50% no-repeat;
-        --pipe-180: linear-gradient(180deg, var(--bwt) 40%, var(--pipe-c2) 40%, var(--pipe-c1) 50%, var(--pipe-c2) 60%, var(--bwt) 60%) 100% 50% / 50% 100% no-repeat;
-        --pipe-270: linear-gradient(270deg, var(--bwt) 40%, var(--pipe-c2) 40%, var(--pipe-c1) 50%, var(--pipe-c2) 60%, var(--bwt) 60%) 50% 100% / 100% 50% no-repeat; */
-
-/* linear-gradient(0deg, var(--bwt) 40%, var(--c1c) 40%, var(--c1b) 50%, var(--c1a) 60%, var(--bwt) 60%) 0% 0% / 50% 100% no-repeat,
-linear-gradient(90deg, var(--bwt) 40%, var(--c2a) 40%, var(--c2b) 50%, var(--c2c) 60%, var(--bwt) 60%) 0% 0% / 100% 50% no-repeat,
-linear-gradient(180deg, var(--bwt) 40%, var(--c3a) 40%, var(--c3b) 50%, var(--c3c) 60%, var(--bwt) 60%) 100% 50% / 50% 100% no-repeat,
-linear-gradient(270deg, var(--bwt) 40%, var(--c4a) 40%, var(--c4b) 50%, var(--c4c) 60%, var(--bwt) 60%) 50% 100% / 100% 50% no-repeat; */
-
-        --c1a: hsla(0, 100%, 60%, 1);
-        --c2a: hsla(90, 100%, 30%, 1);
-        --c3a: hsla(180, 100%, 60%, 1);
-        --c4a: hsla(270, 100%, 30%, 1);
-
-        --c1b: hsla(0, 100%, 50%, 1);
-        --c2b: hsla(90, 100%, 50%, 1);
-        --c3b: hsla(180, 100%, 50%, 1);
-        --c4b: hsla(270, 100%, 50%, 1);
-
-        --c1c: hsla(0, 100%, 20%, 1);
-        --c2c: hsla(90, 100%, 30%, 1);
-        --c3c: hsla(180, 100%, 20%, 1);
-        --c4c: hsla(270, 100%, 30%, 1);
-
-        --d5: 0;
-        --d12: 0;
-        --d14: 0;
-        --d16: 0;
-        --d18: 0;
-        --d25: 0;
-    }
-    /* start at 0,0,0, that is most forward left bottom, and groes to the upper right closes to the pov. 
-        12 = y++, 18 = y--
-        16 = x++, 14 = x--
-        25 = z++, 05 = z--
-    */
-    /* {"5": 0, "12": 0, "14": 0, "16": 0, "18": 0, "25": 0} */
-    /* {"--d5": 0, "--d12": 0, "--d14": 0, "--d16": 0, "--d18": 0, "--d25": 0} */
-    /* .zf {
-        --alp-000: var(--d18);
-        --alp-090: var(--d16);
-        --alp-180: var(--d12);
-        --alp-270: var(--d14);
-    }
-    .zb {
-        --alp-000: var(--d12);
-        --alp-090: var(--d16);
-        --alp-180: var(--d18);
-        --alp-270: var(--d14);
-    }
-    .yu {
-        --alp-000: var(--d5);
-        --alp-090: var(--d16);
-        --alp-180: var(--d25);
-        --alp-270: var(--d14);
-    }
-    .yd {
-        --alp-000: var(--d25);
-        --alp-090: var(--d16);
-        --alp-180: var(--d5);
-        --alp-270: var(--d14);
-    }
-    .xr {
-        --alp-000: var(--d18);
-        --alp-090: var(--d25);
-        --alp-180: var(--d12);
-        --alp-270: var(--d5);
-    }
-    .xl {
-        --alp-000: var(--d18);
-        --alp-090: var(--d5);
-        --alp-180: var(--d12);
-        --alp-270: var(--d25);
-    } */
-    .zf {
-        --alp-000: var(--d14);
-        --alp-090: var(--d18);
-        --alp-180: var(--d16);
-        --alp-270: var(--d12);
-    }
-    .zb {
-        --alp-000: var(--d14);
-        --alp-090: var(--d12);
-        --alp-180: var(--d16);
-        --alp-270: var(--d18);
-    }
-    .yu {
-        --alp-000: var(--d14);
-        --alp-090: var(--d5);
-        --alp-180: var(--d16); 
-        --alp-270: var(--d25);
-    }
-    .yd {
-        --alp-000: var(--d14);
-        --alp-090: var(--d25);
-        --alp-180: var(--d16);
-        --alp-270: var(--d5);
-    }
-    .xr {
-        --alp-000: var(--d5);
-        --alp-090: var(--d18);
-        --alp-180: var(--d25);
-        --alp-270: var(--d12);
-    }
-    .xl {
-        --alp-000: var(--d25);
-        --alp-090: var(--d18);
-        --alp-180: var(--d5);
-        --alp-270: var(--d12);
-    }
-    .zf, .zb, .yu, .yd, .xr, .xl {
-        --hue: calc(var(--step) * var(--hue-step));
-        --pipe-c1-000: hsla(var(--hue), 100%, 50%, var(--alp-000));
-        --pipe-c2-000: hsla(var(--hue), 100%, 30%, var(--alp-000));
-        --pipe-c1-090: hsla(var(--hue), 100%, 50%, var(--alp-090));
-        --pipe-c2-090: hsla(var(--hue), 100%, 30%, var(--alp-090));
-        --pipe-c1-180: hsla(var(--hue), 100%, 50%, var(--alp-180));
-        --pipe-c2-180: hsla(var(--hue), 100%, 30%, var(--alp-180));
-        --pipe-c1-270: hsla(var(--hue), 100%, 50%, var(--alp-270));
-        --pipe-c2-270: hsla(var(--hue), 100%, 30%, var(--alp-270));
-    }
-    [data-val="1"] .zf, 
-    [data-val="1"] .zb, 
-    [data-val="1"] .yu, 
-    [data-val="1"] .yd, 
-    [data-val="1"] .xr, 
-    [data-val="1"] .xl {
-        --pipe-c1-000: hsla(var(--hue), 0%, 100%, var(--alp-000));
-        --pipe-c2-000: hsla(var(--hue), 0%, 60%, var(--alp-000));
-        --pipe-c1-090: hsla(var(--hue), 0%, 100%, var(--alp-090));
-        --pipe-c2-090: hsla(var(--hue), 0%, 60%, var(--alp-090));
-        --pipe-c1-180: hsla(var(--hue), 0%, 100%, var(--alp-180));
-        --pipe-c2-180: hsla(var(--hue), 0%, 60%, var(--alp-180));
-        --pipe-c1-270: hsla(var(--hue), 0%, 100%, var(--alp-270));
-        --pipe-c2-270: hsla(var(--hue), 0%, 60%, var(--alp-270));
-    }
-    [data-val="9"] .zf, 
-    [data-val="9"] .zb, 
-    [data-val="9"] .yu, 
-    [data-val="9"] .yd, 
-    [data-val="9"] .xr, 
-    [data-val="9"] .xl {
-        --pipe-c1-000: hsla(var(--hue), 0%, 40%, var(--alp-000));
-        --pipe-c2-000: hsla(var(--hue), 0%, 10%, var(--alp-000));
-        --pipe-c1-090: hsla(var(--hue), 0%, 40%, var(--alp-090));
-        --pipe-c2-090: hsla(var(--hue), 0%, 10%, var(--alp-090));
-        --pipe-c1-180: hsla(var(--hue), 0%, 40%, var(--alp-180));
-        --pipe-c2-180: hsla(var(--hue), 0%, 10%, var(--alp-180));
-        --pipe-c1-270: hsla(var(--hue), 0%, 40%, var(--alp-270));
-        --pipe-c2-270: hsla(var(--hue), 0%, 10%, var(--alp-270));
-    }
-
-    .zf, .zb, .yu, .yd, .xr, .xl {
-
-        --pipe-000: linear-gradient(0deg, var(--bwt) 40%, var(--pipe-c2-000) 40%, var(--pipe-c1-000) 50%, var(--pipe-c2-000) 60%, var(--bwt) 60%) 0% 0% / 60% 100% no-repeat;
-        --pipe-090: linear-gradient(90deg, var(--bwt) 40%, var(--pipe-c2-090) 40%, var(--pipe-c1-090) 50%, var(--pipe-c2-090) 60%, var(--bwt) 60%) 0% 0% / 100% 60% no-repeat;
-        --pipe-180: linear-gradient(180deg, var(--bwt) 40%, var(--pipe-c2-180) 40%, var(--pipe-c1-180) 50%, var(--pipe-c2-180) 60%, var(--bwt) 60%) 100% 50% / 60% 100% no-repeat;
-        --pipe-270: linear-gradient(270deg, var(--bwt) 40%, var(--pipe-c2-270) 40%, var(--pipe-c1-270) 50%, var(--pipe-c2-270) 60%, var(--bwt) 60%) 50% 100% / 100% 60% no-repeat;
-
-    }
     .zf, .zb, .yu, .yd, .xr, .xl {
         --hue-side: var(--i);
         position: absolute;
@@ -350,15 +168,8 @@ linear-gradient(270deg, var(--bwt) 40%, var(--c4a) 40%, var(--c4b) 50%, var(--c4
         background-image: 
         linear-gradient(0deg, var(--bwt) 25%, var(--bgc) 25%, var(--bgc) 75%, var(--bwt) 75%),
         linear-gradient(90deg, var(--bwt) 25%, var(--bgc) 25%, var(--bgc) 75%, var(--bwt) 75%);
-        
-        transform-origin: var(--sz2-tile) var(--sz2-tile) -2px;
-        background-image: 
-        linear-gradient(0deg, var(--bwt) 35%, var(--bgc) 35%, var(--bgc) 65%, var(--bwt) 65%),
-        linear-gradient(90deg, var(--bwt) 35%, var(--bgc) 35%, var(--bgc) 65%, var(--bwt) 65%);
 
-        background: var(--pipe-000), var(--pipe-090), var(--pipe-180), var(--pipe-270);
-
-        /* backface-visibility: hidden; */
+        backface-visibility: hidden;
         transition: transform 300ms ease-in-out;
     }
 
@@ -372,24 +183,14 @@ linear-gradient(270deg, var(--bwt) 40%, var(--c4a) 40%, var(--c4b) 50%, var(--c4
     .zb {transform: translateZ(var(--sz-tile)) rotate3d(0,1,0,-90deg);} */
 
 
-    /* .xr {transform: translateZ(var(--szh-tile)) rotate3d(1,0,0,-90deg);}
+    .xr {transform: translateZ(var(--szh-tile)) rotate3d(1,0,0,-90deg);}
     .xl {transform: translateZ(var(--szh-tile)) rotate3d(1,0,0,90deg);}
     .yu {transform: translateZ(var(--szh-tile));}
     .yd {transform: translateZ(var(--szh-tile)) rotate3d(1,0,0,180deg);}
     .zf {transform: translateZ(var(--szh-tile)) rotate3d(0,1,0,90deg);}
-    .zb {transform: translateZ(var(--szh-tile)) rotate3d(0,1,0,-90deg);} */
+    .zb {transform: translateZ(var(--szh-tile)) rotate3d(0,1,0,-90deg);}
 
-    .xr {transform: translateZ(var(--sz-tile)) rotate3d(0,1,0,90deg);}
-    .xl {transform: translateZ(var(--sz-tile)) rotate3d(0,1,0,-90deg);}
-
-    .yu {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,-90deg);}
-    .yd {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,90deg);}
-
-    .zf {transform: translateZ(var(--sz-tile));}
-    .zb {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,180deg);}
-
-
-    /* [data-val="1"] .zf, 
+    [data-val="1"] .zf, 
     [data-val="1"] .zb, 
     [data-val="1"] .yu, 
     [data-val="1"] .yd, 
@@ -410,7 +211,7 @@ linear-gradient(270deg, var(--bwt) 40%, var(--c4a) 40%, var(--c4b) 50%, var(--c4
         linear-gradient(#000 10%, #0000 10%, #0000 90%, #000 90%), 
         linear-gradient(90deg, #000 10%, #0000 10%, #0000 90%, #000 90%), 
         radial-gradient(#0000 50%, #0003 100%);
-    } */
+    }
 
     /* Visualizing coordinates. */
     /* [data-zyx] {
@@ -578,7 +379,7 @@ linear-gradient(270deg, var(--bwt) 40%, var(--c4a) 40%, var(--c4b) 50%, var(--c4
     const particles = [];
     const pg = {}
     const box = {
-        x: 40,
+        x: -50,
         y: -45,
         z: 0,
         start: {
@@ -641,38 +442,6 @@ const maze_settings = {
 var vmap = [];
 var cmap = [];
 
-function Build3dPipeMapDisplaySteps(maze,steps,pipes,xlen,ylen,zlen){
-    /* for xyz. */
-    let cube = [];
-    for(let z = 0; z < zlen; z++){
-        cube.push([]);
-        for(let y = 0; y < ylen; y++){
-            cube[z].push([]);
-            for(let x = 0; x < xlen; x++){
-                var val = maze[z][y][x];
-                var step = steps[z][y][x];
-                let zyx = `${z},${y},${x}`;
-
-                let pipe = pipes[z][y][x];
-
-                if(val == -1){
-                    cube[z][y].push(`<div data-val="${val}" data-zyx="${zyx}"></div>`);
-                } else {
-                    cube[z][y].push(`<div data-val="${val}" data-zyx="${zyx}" style="--step: ${step}; --d5: ${pipe["5"]}; --d12: ${pipe["12"]}; --d14: ${pipe["14"]}; --d16: ${pipe["16"]}; --d18: ${pipe["18"]}; --d25: ${pipe["25"]};
-                    ">
-                        <div class="zf"></div>
-                        <div class="zb"></div>
-                        <div class="yu"></div>
-                        <div class="yd"></div>
-                        <div class="xr"></div>
-                        <div class="xl"></div>
-                    </div>`);
-                }
-            }
-        }
-    }
-    return cube;
-}
 function Build3dMapDisplaySteps(maze,steps,xlen,ylen,zlen){
     /* for xyz. */
     let cube = [];
@@ -836,8 +605,6 @@ class Maze3 {
         this.stepMap = [];
         this.step = 0;
 
-        this.pipeMap = [];
-
         this.Build3dMap();
         // this.FillMap();
         this.SelectStart();
@@ -859,22 +626,18 @@ class Maze3 {
         // cube = [];
         this.maze = [];
         this.stepMap = [];
-        this.pipeMap = [];
         for(let z = 0; z < this.zlen; z++){
             // cube.push([]);
             this.maze.push([]);
             this.stepMap.push([]);
-            this.pipeMap.push([]);
             for(let y = 0; y < this.ylen; y++){
                 // cube[z].push([]);
                 this.maze[z].push([]);
                 this.stepMap[z].push([]);
-                this.pipeMap[z].push([]);
                 for(let x = 0; x < this.xlen; x++){
                     // cube[z][y].push(0);
                     this.maze[z][y].push(this.fill);
                     this.stepMap[z][y].push(this.fill);
-                    this.pipeMap[z][y].push(this.fill);
                 }
             }
         }
@@ -888,8 +651,7 @@ class Maze3 {
         
         this.start.x = 0;
         this.start.y = 0;
-        // this.start.z = this.zlen-1;
-        this.start.z = 0;
+        this.start.z = this.zlen-1;
         this.MoveTo(this.start.x, this.start.y, this.start.z, 1);
     }
     SelectEnd() {
@@ -1065,7 +827,6 @@ class Maze3 {
 
         this.MakePath_Helper(nx,ny,nz);
         this.SelectEnd();
-        this.ReviewMap();
     }
 
     MoveTo(x,y,z, tile = 0, step = this.step) {
@@ -1092,28 +853,6 @@ class Maze3 {
             tile_elem.dataset.type = tile;
             // tile_elem.dataset.steps = step;
             // tile_elem.style = `--steps: ${step};`;
-        }
-    }
-
-    ReviewMap(){
-        for (let z = 0; z < this.zlen; z++) {
-            for (let y = 0; y < this.ylen; y++) {
-                for (let x = 0; x < this.xlen; x++) {
-                    this.pipeMap[z][y][x] = {"5": 0, "12": 0, "14": 0, "16": 0, "18": 0, "25": 0};
-                    for (let i = 0; i < sides.length; i++) {
-                        let d = sides[i];
-                        let nx = x + xyzSide[d].x;
-                        let ny = y + xyzSide[d].y;
-                        let nz = z + xyzSide[d].z;
-                        if (this.IsTile(nx,ny,nz,0) || this.IsTile(nx,ny,nz,1) || this.IsTile(nx,ny,nz,9)) {
-                            this.pipeMap[z][y][x][d] = 1;
-                        }
-                        // if (!this.IsTile(nx,ny,nz,-1)) {
-                        //     this.pipeMap[z][y][x][d] = 1;
-                        // }
-                    }
-                }
-            }
         }
     }
 }
@@ -1443,21 +1182,13 @@ window.addEventListener('load', (ev) => {
     // cmap = Exp_BuildRand3dMap(5,5,5);
     // console.log(cmap);
 
-    // // level = new Maze3(3,3,3);
-    // // level.MakePath();
-    // // cmap = Build3dMapDisplay(level.maze,3,3,3);
-    // level = new Maze3(5,5,5);
+    // level = new Maze3(3,3,3);
     // level.MakePath();
-    // // cmap = Build3dMapDisplay(level.maze,5,5,5);
-    // cmap = Build3dMapDisplaySteps(level.maze,level.stepMap,5,5,5);
-
-    let xl = 5;
-    let yl = 5;
-    let zl = 5;
-    level = new Maze3(xl,yl,zl);
+    // cmap = Build3dMapDisplay(level.maze,3,3,3);
+    level = new Maze3(5,5,5);
     level.MakePath();
-    // cmap = Build3dMapDisplaySteps(level.maze,level.stepMap,xl,yl,zl);
-    cmap = Build3dPipeMapDisplaySteps(level.maze,level.stepMap,level.pipeMap,xl,yl,zl);
+    // cmap = Build3dMapDisplay(level.maze,5,5,5);
+    cmap = Build3dMapDisplaySteps(level.maze,level.stepMap,5,5,5);
 
 
     let clog = LogOut(cmap);

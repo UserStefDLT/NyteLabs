@@ -44,7 +44,8 @@
         --hue-step: 9;
         --alp: 1;
 
-        --x-deg: -50deg;
+        /* --x-deg: -50deg; */
+        --x-deg: 40deg;
         --y-deg: -45deg;
     }
     /* .class {} */
@@ -156,11 +157,28 @@
         background-color: hsla(calc(var(--hue-side) * var(--hue-side)), 100%, 50%, var(--alp));
         background-color: hsla(calc(var(--step) * var(--hue-step)), 100%, 50%, var(--alp));
         background-image: radial-gradient(#0000 50%, #0003 100%);
+        /* background: linear-gradient(0deg, red, blue); */
+
+        /* background:
+        linear-gradient(90deg, #fff0 45%, #fff 45%, #fff 55%, #fff0 55%) 0% 0% / 100% 60% no-repeat, 
+        conic-gradient(from -30deg, #fff 0deg 60deg, #fff0 60deg) 0% 100% / 100% 60% no-repeat,
+        linear-gradient(180deg, #000 50%, blue); */
 
         backface-visibility: hidden;
         transition: transform 300ms ease-in-out;
     }
 
+    .xr {transform: translateZ(var(--sz-tile)) rotate3d(0,1,0,90deg);}
+    .xl {transform: translateZ(var(--sz-tile)) rotate3d(0,1,0,-90deg);}
+
+    .yu {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,-90deg);}
+    .yd {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,90deg);}
+
+    .zf {transform: translateZ(var(--sz-tile));}
+    .zb {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,180deg);}
+
+
+/* 
     .xr {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,-90deg);}
     .xl {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,90deg);}
 
@@ -168,7 +186,7 @@
     .yd {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,180deg);}
 
     .zf {transform: translateZ(var(--sz-tile)) rotate3d(0,1,0,90deg);}
-    .zb {transform: translateZ(var(--sz-tile)) rotate3d(0,1,0,-90deg);}
+    .zb {transform: translateZ(var(--sz-tile)) rotate3d(0,1,0,-90deg);} */
 
     [data-val="1"] .zf, 
     [data-val="1"] .zb, 
@@ -359,7 +377,7 @@
     const particles = [];
     const pg = {}
     const box = {
-        x: -50,
+        x: 40,
         y: -45,
         z: 0,
         start: {
@@ -617,7 +635,8 @@ class Maze3 {
         
         this.start.x = 0;
         this.start.y = 0;
-        this.start.z = this.zlen-1;
+        // this.start.z = this.zlen-1;
+        this.start.z = 0;
         this.MoveTo(this.start.x, this.start.y, this.start.z, 1);
     }
     SelectEnd() {
@@ -1105,14 +1124,20 @@ window.addEventListener('load', (ev) => {
     // cmap = Exp_BuildRand3dMap(5,5,5);
     // console.log(cmap);
 
-    // level = new Maze3(3,3,3);
+    // // level = new Maze3(3,3,3);
+    // // level.MakePath();
+    // // cmap = Build3dMapDisplay(level.maze,3,3,3);
+    // level = new Maze3(5,5,5);
     // level.MakePath();
-    // cmap = Build3dMapDisplay(level.maze,3,3,3);
-    level = new Maze3(5,5,5);
+    // // cmap = Build3dMapDisplay(level.maze,5,5,5);
+    // cmap = Build3dMapDisplaySteps(level.maze,level.stepMap,5,5,5);
+    
+    let xl = 3;
+    let yl = 3;
+    let zl = 3;
+    level = new Maze3(xl,yl,zl);
     level.MakePath();
-    // cmap = Build3dMapDisplay(level.maze,5,5,5);
-    cmap = Build3dMapDisplaySteps(level.maze,level.stepMap,5,5,5);
-
+    cmap = Build3dMapDisplaySteps(level.maze,level.stepMap,xl,yl,zl);
 
     let clog = LogOut(cmap);
     DisplayCube(clog);
@@ -1128,7 +1153,7 @@ window.addEventListener('load', (ev) => {
 [index-nds-05]: 
 [index-nds-06]: Makes a random new 3d Maze each time.
 [index-nds-07]: 
-[index-nds-08]: 
+[index-nds-08]: Texture test.
 [index-nds-09]: 
 [index-nds-10]: 
 [index-nds-11]: 
