@@ -86,6 +86,7 @@
         color: #0000;
     }
     [data-val="1"] {
+        /* background-color: #0f0; */
         color: #000;
     }
 
@@ -102,7 +103,6 @@
     [data-val="0"] {
         opacity: 1;
         --alp: 1;
-        transform: translateZ(-8px);
     }
     [data-val="-1"] {
         opacity: 0;
@@ -412,65 +412,6 @@ linear-gradient(270deg, var(--bwt) 40%, var(--c4a) 40%, var(--c4b) 50%, var(--c4
         radial-gradient(#0000 50%, #0003 100%);
     } */
 
-    [data-val="1"] .zf, 
-    [data-val="1"] .zb, 
-    [data-val="1"] .yu, 
-    [data-val="1"] .yd, 
-    [data-val="1"] .xr, 
-    [data-val="1"] .xl {
-        transform-origin: 10px 10px -10px;
-        transform-origin: var(--sz2-tile) var(--sz2-tile) calc(var(--sz2-tile) * -1);
-        background-image: 
-        linear-gradient(#fff 10%, #0000 10%, #0000 90%, #fff 90%), 
-        linear-gradient(90deg, #fff 10%, #0000 10%, #0000 90%, #fff 90%), 
-        radial-gradient(#0000 50%, #0003 100%);
-        background-color: hsla(calc(var(--step) * var(--hue-step)), 100%, 100%, var(--alp));
-        background-image: radial-gradient(#0000 50%, #0003 100%),
-        linear-gradient(#000 10%, #0000 10%, #0000 90%, #000 90%), 
-        linear-gradient(90deg, #000 10%, #0000 10%, #0000 90%, #000 90%), 
-        radial-gradient(#0000 50%, #0003 100%);
-        
-        background: radial-gradient(#0000 50%, #0003 100%),
-        linear-gradient(#000 10%, #0000 10%, #0000 90%, #000 90%), 
-        linear-gradient(90deg, #000 10%, #0000 10%, #0000 90%, #000 90%), 
-        radial-gradient(#0000 50%, #0003 100%),
-        hsla(calc(var(--step) * var(--hue-step)), 100%, 100%, var(--alp));
-        backface-visibility: hidden;
-    }
-    [data-val="9"] .zf, 
-    [data-val="9"] .zb, 
-    [data-val="9"] .yu, 
-    [data-val="9"] .yd, 
-    [data-val="9"] .xr, 
-    [data-val="9"] .xl {
-        transform-origin: 10px 10px -10px;
-        background-image: 
-        linear-gradient(#000 10%, #0000 10%, #0000 90%, #000 90%), 
-        linear-gradient(90deg, #000 10%, #0000 10%, #0000 90%, #000 90%), 
-        radial-gradient(#0000 50%, #0003 100%);
-        background-color: hsla(calc(var(--step) * var(--hue-step)), 100%, 0%, var(--alp));
-        background-image: radial-gradient(#fff0 50%, #fff3 100%),
-        linear-gradient(#fff 10%, #0000 10%, #0000 90%, #fff 90%), 
-        linear-gradient(90deg, #fff 10%, #0000 10%, #0000 90%, #fff 90%), 
-        radial-gradient(#0000 50%, #0003 100%);
-        
-        background: 
-        radial-gradient(#fff0 50%, #fff3 100%),
-        linear-gradient(#fff 10%, #0000 10%, #0000 90%, #fff 90%), 
-        linear-gradient(90deg, #fff 10%, #0000 10%, #0000 90%, #fff 90%), 
-        radial-gradient(#0000 50%, #0003 100%),
-        hsla(calc(var(--step) * var(--hue-step)), 100%, 0%, var(--alp));
-        
-        background: 
-        radial-gradient(#fff0 50%, #fff3 100%),
-        
-        linear-gradient(#000 10%, #0000 10%, #0000 90%, #000 90%), 
-        linear-gradient(90deg, #000 10%, #0000 10%, #0000 90%, #000 90%), 
-
-        repeating-conic-gradient(from 0deg, #000 0deg 90deg, #fff 90deg 180deg) top left / 5px 5px;
-        backface-visibility: hidden;
-    }
-
     /* Visualizing coordinates. */
     /* [data-zyx] {
         position: relative;
@@ -500,8 +441,7 @@ linear-gradient(270deg, var(--bwt) 40%, var(--c4a) 40%, var(--c4b) 50%, var(--c4
 
     .box-02 {
         position: relative;
-        /* height: 150px; width: 150px; */
-        min-height: 150px; min-width: 150px;
+        height: 150px; width: 150px;
         /* height: auto; width: auto; */
         margin: 5rem;
 
@@ -524,41 +464,6 @@ linear-gradient(270deg, var(--bwt) 40%, var(--c4a) 40%, var(--c4b) 50%, var(--c4
         user-select: none;
     }
 </style>
-<style>
-    .option-btn {
-            padding: .5rem 1.5rem;
-            background-color: #17d;
-            background-color: #06c;
-            background-color: #369;
-            background-color: #1466b8;
-            background-color: #16b;
-            box-shadow: -3rem -3rem 0rem -3rem #fff;
-            box-shadow: 
-            inset 6rem 6rem 0rem -5.5rem #fff,
-            0rem 0rem .25rem .125rem #06c;
-            box-shadow: 
-            inset 0px 4px 4px -6px #fff9,
-            inset 0px -4px 4px -6px #0009,
-            0rem 0rem 0rem 0rem #06c;
-            font-size: 16px;
-            border-radius: 4rem;
-            color: #fff;
-            font-weight: bold;
-            text-shadow: 1px 1px 1px #1116;
-            border: 0;
-            cursor: pointer;
-            transition: 
-            box-shadow 200ms ease-in-out,
-            background-color 200ms ease-in-out;
-        }
-        .option-btn:hover {
-            background-color: #39f;
-            box-shadow: 
-            inset 0px 6px 4px -4px #fff9,
-            inset 0px -6px 4px -4px #0009,
-            0rem 0rem .25rem .125rem #39f;
-        }
-</style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
@@ -574,14 +479,7 @@ linear-gradient(270deg, var(--bwt) 40%, var(--c4a) 40%, var(--c4b) 50%, var(--c4
 
 <main>
     <div class="shelf">
-        <div class="shelf-title">Options:</div>
-        <div class="input-row"><label for="input-x">X: </label><input type="number" name="grid-size" id="input-x" step="1" min="1" max="30" value="9"></div>
-        <div class="input-row"><label for="input-y">Y: </label><input type="number" name="grid-size" id="input-y" step="1" min="1" max="30" value="4"></div>
-        <div class="input-row"><label for="input-z">Z: </label><input type="number" name="grid-size" id="input-z" step="1" min="1" max="30" value="9"></div>
-        <div class="input-row"><button id="RedoBtn" class="option-btn" onclick="ResetPipeMaze()">Redo</button></div>
-    </div>
-    <div class="shelf">
-        <h3 class="shelf-title">experiment</h3>
+        <h3 class="shelf-title">experiment 9*4*9</h3>
         <div id="display" class="box-02"></div>
     </div>
     <!-- <canvas id="canvas"></canvas> -->
@@ -690,9 +588,6 @@ linear-gradient(270deg, var(--bwt) 40%, var(--c4a) 40%, var(--c4b) 50%, var(--c4
         },
         touches: [],
         touch_xyz: {'x': 0, 'y': 0, 'z': 0},
-
-        lim: {xlimit: 30, ylimit: 30, zlimit: 30},
-        hueStep: 9,
 
         grabing: false
     };
@@ -1039,8 +934,8 @@ class Maze3 {
                 valid.push(d);
             }
         }
-        // console.log(`Valid Sides at ${this.step}:`);
-        // console.log(valid);
+        console.log(`Valid Sides at ${this.step}:`);
+        console.log(valid);
         return valid;
     }
     /* 
@@ -1074,7 +969,7 @@ class Maze3 {
             
             if(this.IsInMap(ax,ay,az)){
                 if(!((dx && dx == adx) || (dy && dy == ady) || (dz && dz == adz)) && !this.IsTile(ax,ay,az,-1)){
-                    // console.log(`x: ${x}, y: ${y}, z: ${z}; d: ${d} \nnx: ${nx}, ny: ${ny}, nz: ${nz}; \nax: ${ax}, ay: ${ay}, az: ${az};`);
+                    console.log(`x: ${x}, y: ${y}, z: ${z}; d: ${d} \nnx: ${nx}, ny: ${ny}, nz: ${nz}; \nax: ${ax}, ay: ${ay}, az: ${az};`);
                     return false;
                 }
             }
@@ -1138,7 +1033,7 @@ class Maze3 {
                 let nz = z + xyzSide[d].z;
 
                 let check = this.CheckAround(x,y,z,nx,ny,nz,d);
-                // console.log(`check(${d},${x},${y},${z}) >> ${check}`);
+                console.log(`check(${d},${x},${y},${z}) >> ${check}`);
                 if (check) {
                     this.MoveTo(nx,ny,nz, 0, steps);
                     this.MakePath_Helper(nx,ny,nz, steps + 1);
@@ -1157,7 +1052,7 @@ class Maze3 {
         // console.log(`start: ${x},${y},${z}`);
 
         let validSides = this.ValidSides(x,y,z);
-        // console.log(validSides);
+        console.log(validSides);
 
         let d = validSides[Math.floor(Math.random() * validSides.length)];
         // console.log(d);
@@ -1372,17 +1267,8 @@ function DisplayCube(log){
     let display = document.getElementById("display");
     // display.innerHTML = `<div><p>${log.join("</p><p>")}</p></div>`;
     // display.innerHTML = `<div class="column"><div>${log.join("</div><div>")}</div></div>`;
-    display.innerHTML = ``;
-    display.innerHTML = `<div class="column" style="--hue-step: ${box.hueStep};">${log.join("")}</div>`;
+    display.innerHTML = `<div class="column">${log.join("")}</div>`;
 }
-
-// function DisplayCube(log){
-//     let display = document.getElementById("display");
-//     // display.innerHTML = `<div><p>${log.join("</p><p>")}</p></div>`;
-//     // display.innerHTML = `<div class="column"><div>${log.join("</div><div>")}</div></div>`;
-//     display.innerHTML = ``;
-//     display.innerHTML = `<div class="column">${log.join("")}</div>`;
-// }
 function DisplayCube1(log){
     let display = document.getElementById("display");
     // display.innerHTML = `<div><p>${log.join("</p><p>")}</p></div>`;
@@ -1544,78 +1430,6 @@ function ongoingTouchIndexById(idToFind) {
     return -1;    // not found
 }
 
-
-// function RedoGrid(ev){
-//     let grid = document.getElementById('GridBuild');
-//     grid.remove();
-    
-//     let w = 3;
-//     let h = 3;
-//     let grid_w = parseInt(document.getElementById('input-w').value);
-//     let grid_h = parseInt(document.getElementById('input-h').value);
-//     if(typeof grid_w == "number" && typeof grid_h == "number") {
-//         BuildGrid(grid_w,grid_h);
-//     } else {
-//         BuildGrid(w,h);
-//     }
-// }
-
-
-function ResetPipeMaze(ev){
-    
-    let input_x = document.getElementById('input-x');
-    let input_y = document.getElementById('input-y');
-    let input_z = document.getElementById('input-z');
-
-
-    let xl = parseInt(input_x.value);
-    let yl = parseInt(input_y.value);
-    let zl = parseInt(input_z.value);
-
-    if(xl > box.lim.xlimit){xl = box.lim.xlimit;}
-    if(yl > box.lim.ylimit){yl = box.lim.ylimit;}
-    if(zl > box.lim.zlimit){zl = box.lim.zlimit;}
-    if(xl < 1){xl = 1;}
-    if(yl < 1){yl = 1;}
-    if(zl < 1){zl = 1;}
-
-    input_x.value = xl;
-    input_y.value = yl;
-    input_z.value = zl;
-    
-    console.log(`ResetPipeMaze -> ${xl}, ${yl}, ${zl}`);
-    // let hueS = xl + yl + zl;
-    // let hueT = xl * yl * zl;
-    // console.log(`ResetPipeMaze -> hueS: ${hueS}, hueT: ${hueT};`);
-    // console.log(`ResetPipeMaze -> 360/hueS: ${360/hueS}, 360/hueT: ${360/hueT};`);
-    // // box.hueStep = hueS;
-    // // box.hueStep = 360 / hueT;
-    // box.hueStep = Math.floor(360 / (hueT - hueS));
-    // console.log(`ResetPipeMaze -> (hueT - hueS): ${hueT - hueS}, box.hueStep: ${box.hueStep};`);
-
-    // box.hueStep = Math.floor(360 / level.step);
-    // console.log(`ResetPipeMaze -> level.step: ${level.step}, box.hueStep: ${box.hueStep};`);
-
-    // let xl = 9;
-    // let yl = 4;
-    // let zl = 9;
-    level = new Maze3(xl,yl,zl);
-    level.MakePath();
-
-    // cmap = Build3dMapDisplaySteps(level.maze,level.stepMap,xl,yl,zl);
-    cmap = Build3dPipeMapDisplaySteps(level.maze,level.stepMap,level.pipeMap,xl,yl,zl);
-
-    let stepEnd = level.stepMap[level.end.z][level.end.y][level.end.x];
-    box.hueStep = Math.floor(340 / stepEnd);
-    console.log(`ResetPipeMaze -> stepEnd: ${stepEnd}, box.hueStep: ${box.hueStep};`);
-
-    let clog = LogOut(cmap);
-    DisplayCube(clog);
-
-    // startup();
-
-}
-
 window.addEventListener('load', (ev) => {
     console.log(`Welcome to my Lab!`);
     updateSettings();
@@ -1650,14 +1464,11 @@ window.addEventListener('load', (ev) => {
     DisplayCube(clog);
 
     startup();
-
-    // let redoBtn = document.getElementById('RedoBtn');
-    // redoBtn.addEventListener('click', ResetPipeMaze);
 });
 /* Version Log:
 [index-nds-00]: Default Template.
 [index-nds-01]: Pipe Maze working.
-[index-nds-02]: Select maze size added.
+[index-nds-02]: 
 [index-nds-03]: 
 [index-nds-04]: 
 [index-nds-05]: 
