@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Cube Attempt | NyteLabs</title>
+    <title>Pipe Maze 🐍🎢 | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
@@ -15,7 +15,9 @@
             top: 50%; left: 50%;
             transform: translateX(-50%) translateY(-50%);
         } */
-        /* :root {} */
+        :root {
+
+        }
         </style>
 <style>
     :root {
@@ -38,13 +40,14 @@
 
     :root {
         --sz-tile: 20px;
+        --szh-tile: 10px;
         --sz2-tile: 10px;
+        --sz4-tile: 5px;
         --sz-2-tile: -10px;
         --hue-side: 60;
         --hue-step: 9;
         --alp: 1;
 
-        /* --x-deg: -50deg; */
         --x-deg: 40deg;
         --y-deg: -45deg;
     }
@@ -83,7 +86,6 @@
         color: #0000;
     }
     [data-val="1"] {
-        background-color: #0f0;
         color: #000;
     }
 
@@ -100,9 +102,14 @@
     [data-val="0"] {
         opacity: 1;
         --alp: 1;
+        /* transform: translateZ(-8px); */
     }
     [data-val="-1"] {
         opacity: 0;
+    }
+    [data-val="1"],
+    [data-val="9"] {
+        transform: translateZ(8px);
     }
 
     /* [data-val="1"]::before,
@@ -133,6 +140,186 @@
         color: #000;
     } */
 
+    :root {
+        /* color managing for the pipes. */
+        /* 
+            for the top view, all pipes look the same, like vertical pipes.
+            but all horizontal pipes seen from the sides would do a linear gradient pipe.
+
+            we can do all vertical pipes for now, but later do the lighting better.
+        */
+        --bgc: hsla(calc(var(--step) * var(--hue-step)), 100%, 50%, var(--alp));
+
+        --hue: calc(var(--step) * var(--hue-step));
+        --pipe-c1: hsla(var(--hue), 100%, 50%, var(--alp));
+        --pipe-c2: hsla(var(--hue), 100%, 30%, var(--alp));
+
+        --pipe-000: #0000;
+        --pipe-090: #0000;
+        --pipe-180: #0000;
+        --pipe-270: #0000;
+
+        /* --pipe-000: linear-gradient(0deg, var(--bwt) 40%, var(--pipe-c2) 40%, var(--pipe-c1) 50%, var(--pipe-c2) 60%, var(--bwt) 60%) 0% 0% / 50% 100% no-repeat;
+        --pipe-090: linear-gradient(90deg, var(--bwt) 40%, var(--pipe-c2) 40%, var(--pipe-c1) 50%, var(--pipe-c2) 60%, var(--bwt) 60%) 0% 0% / 100% 50% no-repeat;
+        --pipe-180: linear-gradient(180deg, var(--bwt) 40%, var(--pipe-c2) 40%, var(--pipe-c1) 50%, var(--pipe-c2) 60%, var(--bwt) 60%) 100% 50% / 50% 100% no-repeat;
+        --pipe-270: linear-gradient(270deg, var(--bwt) 40%, var(--pipe-c2) 40%, var(--pipe-c1) 50%, var(--pipe-c2) 60%, var(--bwt) 60%) 50% 100% / 100% 50% no-repeat; */
+
+/* linear-gradient(0deg, var(--bwt) 40%, var(--c1c) 40%, var(--c1b) 50%, var(--c1a) 60%, var(--bwt) 60%) 0% 0% / 50% 100% no-repeat,
+linear-gradient(90deg, var(--bwt) 40%, var(--c2a) 40%, var(--c2b) 50%, var(--c2c) 60%, var(--bwt) 60%) 0% 0% / 100% 50% no-repeat,
+linear-gradient(180deg, var(--bwt) 40%, var(--c3a) 40%, var(--c3b) 50%, var(--c3c) 60%, var(--bwt) 60%) 100% 50% / 50% 100% no-repeat,
+linear-gradient(270deg, var(--bwt) 40%, var(--c4a) 40%, var(--c4b) 50%, var(--c4c) 60%, var(--bwt) 60%) 50% 100% / 100% 50% no-repeat; */
+
+        --c1a: hsla(0, 100%, 60%, 1);
+        --c2a: hsla(90, 100%, 30%, 1);
+        --c3a: hsla(180, 100%, 60%, 1);
+        --c4a: hsla(270, 100%, 30%, 1);
+
+        --c1b: hsla(0, 100%, 50%, 1);
+        --c2b: hsla(90, 100%, 50%, 1);
+        --c3b: hsla(180, 100%, 50%, 1);
+        --c4b: hsla(270, 100%, 50%, 1);
+
+        --c1c: hsla(0, 100%, 20%, 1);
+        --c2c: hsla(90, 100%, 30%, 1);
+        --c3c: hsla(180, 100%, 20%, 1);
+        --c4c: hsla(270, 100%, 30%, 1);
+
+        --d5: 0;
+        --d12: 0;
+        --d14: 0;
+        --d16: 0;
+        --d18: 0;
+        --d25: 0;
+    }
+    /* start at 0,0,0, that is most forward left bottom, and groes to the upper right closes to the pov. 
+        12 = y++, 18 = y--
+        16 = x++, 14 = x--
+        25 = z++, 05 = z--
+    */
+    /* {"5": 0, "12": 0, "14": 0, "16": 0, "18": 0, "25": 0} */
+    /* {"--d5": 0, "--d12": 0, "--d14": 0, "--d16": 0, "--d18": 0, "--d25": 0} */
+    /* .zf {
+        --alp-000: var(--d18);
+        --alp-090: var(--d16);
+        --alp-180: var(--d12);
+        --alp-270: var(--d14);
+    }
+    .zb {
+        --alp-000: var(--d12);
+        --alp-090: var(--d16);
+        --alp-180: var(--d18);
+        --alp-270: var(--d14);
+    }
+    .yu {
+        --alp-000: var(--d5);
+        --alp-090: var(--d16);
+        --alp-180: var(--d25);
+        --alp-270: var(--d14);
+    }
+    .yd {
+        --alp-000: var(--d25);
+        --alp-090: var(--d16);
+        --alp-180: var(--d5);
+        --alp-270: var(--d14);
+    }
+    .xr {
+        --alp-000: var(--d18);
+        --alp-090: var(--d25);
+        --alp-180: var(--d12);
+        --alp-270: var(--d5);
+    }
+    .xl {
+        --alp-000: var(--d18);
+        --alp-090: var(--d5);
+        --alp-180: var(--d12);
+        --alp-270: var(--d25);
+    } */
+    .zf {
+        --alp-000: var(--d14);
+        --alp-090: var(--d18);
+        --alp-180: var(--d16);
+        --alp-270: var(--d12);
+    }
+    .zb {
+        --alp-000: var(--d14);
+        --alp-090: var(--d12);
+        --alp-180: var(--d16);
+        --alp-270: var(--d18);
+    }
+    .yu {
+        --alp-000: var(--d14);
+        --alp-090: var(--d5);
+        --alp-180: var(--d16); 
+        --alp-270: var(--d25);
+    }
+    .yd {
+        --alp-000: var(--d14);
+        --alp-090: var(--d25);
+        --alp-180: var(--d16);
+        --alp-270: var(--d5);
+    }
+    .xr {
+        --alp-000: var(--d5);
+        --alp-090: var(--d18);
+        --alp-180: var(--d25);
+        --alp-270: var(--d12);
+    }
+    .xl {
+        --alp-000: var(--d25);
+        --alp-090: var(--d18);
+        --alp-180: var(--d5);
+        --alp-270: var(--d12);
+    }
+    .zf, .zb, .yu, .yd, .xr, .xl {
+        --hue: calc(var(--step) * var(--hue-step));
+        --pipe-c1-000: hsla(var(--hue), 100%, 50%, var(--alp-000));
+        --pipe-c2-000: hsla(var(--hue), 100%, 30%, var(--alp-000));
+        --pipe-c1-090: hsla(var(--hue), 100%, 50%, var(--alp-090));
+        --pipe-c2-090: hsla(var(--hue), 100%, 30%, var(--alp-090));
+        --pipe-c1-180: hsla(var(--hue), 100%, 50%, var(--alp-180));
+        --pipe-c2-180: hsla(var(--hue), 100%, 30%, var(--alp-180));
+        --pipe-c1-270: hsla(var(--hue), 100%, 50%, var(--alp-270));
+        --pipe-c2-270: hsla(var(--hue), 100%, 30%, var(--alp-270));
+    }
+    [data-val="1"] .zf, 
+    [data-val="1"] .zb, 
+    [data-val="1"] .yu, 
+    [data-val="1"] .yd, 
+    [data-val="1"] .xr, 
+    [data-val="1"] .xl {
+        --pipe-c1-000: hsla(var(--hue), 0%, 100%, var(--alp-000));
+        --pipe-c2-000: hsla(var(--hue), 0%, 60%, var(--alp-000));
+        --pipe-c1-090: hsla(var(--hue), 0%, 100%, var(--alp-090));
+        --pipe-c2-090: hsla(var(--hue), 0%, 60%, var(--alp-090));
+        --pipe-c1-180: hsla(var(--hue), 0%, 100%, var(--alp-180));
+        --pipe-c2-180: hsla(var(--hue), 0%, 60%, var(--alp-180));
+        --pipe-c1-270: hsla(var(--hue), 0%, 100%, var(--alp-270));
+        --pipe-c2-270: hsla(var(--hue), 0%, 60%, var(--alp-270));
+    }
+    [data-val="9"] .zf, 
+    [data-val="9"] .zb, 
+    [data-val="9"] .yu, 
+    [data-val="9"] .yd, 
+    [data-val="9"] .xr, 
+    [data-val="9"] .xl {
+        --pipe-c1-000: hsla(var(--hue), 0%, 40%, var(--alp-000));
+        --pipe-c2-000: hsla(var(--hue), 0%, 10%, var(--alp-000));
+        --pipe-c1-090: hsla(var(--hue), 0%, 40%, var(--alp-090));
+        --pipe-c2-090: hsla(var(--hue), 0%, 10%, var(--alp-090));
+        --pipe-c1-180: hsla(var(--hue), 0%, 40%, var(--alp-180));
+        --pipe-c2-180: hsla(var(--hue), 0%, 10%, var(--alp-180));
+        --pipe-c1-270: hsla(var(--hue), 0%, 40%, var(--alp-270));
+        --pipe-c2-270: hsla(var(--hue), 0%, 10%, var(--alp-270));
+    }
+
+    .zf, .zb, .yu, .yd, .xr, .xl {
+
+        --pipe-000: linear-gradient(0deg, var(--bwt) 40%, var(--pipe-c2-000) 40%, var(--pipe-c1-000) 50%, var(--pipe-c2-000) 60%, var(--bwt) 60%) 0% 0% / 60% 100% no-repeat;
+        --pipe-090: linear-gradient(90deg, var(--bwt) 40%, var(--pipe-c2-090) 40%, var(--pipe-c1-090) 50%, var(--pipe-c2-090) 60%, var(--bwt) 60%) 0% 0% / 100% 60% no-repeat;
+        --pipe-180: linear-gradient(180deg, var(--bwt) 40%, var(--pipe-c2-180) 40%, var(--pipe-c1-180) 50%, var(--pipe-c2-180) 60%, var(--bwt) 60%) 100% 50% / 60% 100% no-repeat;
+        --pipe-270: linear-gradient(270deg, var(--bwt) 40%, var(--pipe-c2-270) 40%, var(--pipe-c1-270) 50%, var(--pipe-c2-270) 60%, var(--bwt) 60%) 50% 100% / 100% 60% no-repeat;
+
+    }
     .zf, .zb, .yu, .yd, .xr, .xl {
         --hue-side: var(--i);
         position: absolute;
@@ -153,20 +340,48 @@
         transform-origin: var(--sz-h) var(--sz-h) var(--sz-h);
         transform-origin: var(--sz-h) var(--sz-h) calc(var(--sz-h) * -1);
         transform-origin: var(--sz2-tile) var(--sz2-tile) calc(var(--sz2-tile) * -1);
+        transform-origin: var(--sz2-tile) var(--sz2-tile) calc(var(--sz4-tile) * -1);
 
-        background-color: hsla(calc(var(--hue-side) * var(--hue-side)), 100%, 50%, var(--alp));
-        background-color: hsla(calc(var(--step) * var(--hue-step)), 100%, 50%, var(--alp));
+        /* background-color: hsla(calc(var(--hue-side) * var(--hue-side)), 100%, 50%, var(--alp)); */
+        /* background-color: hsla(calc(var(--step) * var(--hue-step)), 100%, 50%, var(--alp)); */
         background-image: radial-gradient(#0000 50%, #0003 100%);
-        /* background: linear-gradient(0deg, red, blue); */
+        --bgc: hsla(calc(var(--step) * var(--hue-step)), 100%, 50%, var(--alp));
+        background-image: 
+        radial-gradient(#0000 50%, #0003 100%),
+        linear-gradient(0deg, var(--bwt) 25%, var(--bgc) 25%, var(--bgc) 75%, var(--bwt) 75%),
+        linear-gradient(90deg, var(--bwt) 25%, var(--bgc) 25%, var(--bgc) 75%, var(--bwt) 75%),
+        radial-gradient(#0000 50%, #0003 100%);
+        background-image: 
+        linear-gradient(0deg, var(--bwt) 25%, var(--bgc) 25%, var(--bgc) 75%, var(--bwt) 75%),
+        linear-gradient(90deg, var(--bwt) 25%, var(--bgc) 25%, var(--bgc) 75%, var(--bwt) 75%);
+        
+        transform-origin: var(--sz2-tile) var(--sz2-tile) -2px;
+        background-image: 
+        linear-gradient(0deg, var(--bwt) 35%, var(--bgc) 35%, var(--bgc) 65%, var(--bwt) 65%),
+        linear-gradient(90deg, var(--bwt) 35%, var(--bgc) 35%, var(--bgc) 65%, var(--bwt) 65%);
 
-        /* background:
-        linear-gradient(90deg, #fff0 45%, #fff 45%, #fff 55%, #fff0 55%) 0% 0% / 100% 60% no-repeat, 
-        conic-gradient(from -30deg, #fff 0deg 60deg, #fff0 60deg) 0% 100% / 100% 60% no-repeat,
-        linear-gradient(180deg, #000 50%, blue); */
+        background: var(--pipe-000), var(--pipe-090), var(--pipe-180), var(--pipe-270);
 
-        backface-visibility: hidden;
+        /* backface-visibility: hidden; */
         transition: transform 300ms ease-in-out;
     }
+
+    /* .xr {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,-90deg);}
+    .xl {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,90deg);}
+
+    .yu {transform: translateZ(var(--sz-tile));}
+    .yd {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,180deg);}
+
+    .zf {transform: translateZ(var(--sz-tile)) rotate3d(0,1,0,90deg);}
+    .zb {transform: translateZ(var(--sz-tile)) rotate3d(0,1,0,-90deg);} */
+
+
+    /* .xr {transform: translateZ(var(--szh-tile)) rotate3d(1,0,0,-90deg);}
+    .xl {transform: translateZ(var(--szh-tile)) rotate3d(1,0,0,90deg);}
+    .yu {transform: translateZ(var(--szh-tile));}
+    .yd {transform: translateZ(var(--szh-tile)) rotate3d(1,0,0,180deg);}
+    .zf {transform: translateZ(var(--szh-tile)) rotate3d(0,1,0,90deg);}
+    .zb {transform: translateZ(var(--szh-tile)) rotate3d(0,1,0,-90deg);} */
 
     .xr {transform: translateZ(var(--sz-tile)) rotate3d(0,1,0,90deg);}
     .xl {transform: translateZ(var(--sz-tile)) rotate3d(0,1,0,-90deg);}
@@ -178,17 +393,7 @@
     .zb {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,180deg);}
 
 
-/* 
-    .xr {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,-90deg);}
-    .xl {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,90deg);}
-
-    .yu {transform: translateZ(var(--sz-tile));}
-    .yd {transform: translateZ(var(--sz-tile)) rotate3d(1,0,0,180deg);}
-
-    .zf {transform: translateZ(var(--sz-tile)) rotate3d(0,1,0,90deg);}
-    .zb {transform: translateZ(var(--sz-tile)) rotate3d(0,1,0,-90deg);} */
-
-    [data-val="1"] .zf, 
+    /* [data-val="1"] .zf, 
     [data-val="1"] .zb, 
     [data-val="1"] .yu, 
     [data-val="1"] .yd, 
@@ -209,6 +414,65 @@
         linear-gradient(#000 10%, #0000 10%, #0000 90%, #000 90%), 
         linear-gradient(90deg, #000 10%, #0000 10%, #0000 90%, #000 90%), 
         radial-gradient(#0000 50%, #0003 100%);
+    } */
+
+    [data-val="1"] .zf, 
+    [data-val="1"] .zb, 
+    [data-val="1"] .yu, 
+    [data-val="1"] .yd, 
+    [data-val="1"] .xr, 
+    [data-val="1"] .xl {
+        transform-origin: 10px 10px -10px;
+        transform-origin: var(--sz2-tile) var(--sz2-tile) calc(var(--sz2-tile) * -1);
+        background-image: 
+        linear-gradient(#fff 10%, #0000 10%, #0000 90%, #fff 90%), 
+        linear-gradient(90deg, #fff 10%, #0000 10%, #0000 90%, #fff 90%), 
+        radial-gradient(#0000 50%, #0003 100%);
+        background-color: hsla(calc(var(--step) * var(--hue-step)), 100%, 100%, var(--alp));
+        background-image: radial-gradient(#0000 50%, #0003 100%),
+        linear-gradient(#000 10%, #0000 10%, #0000 90%, #000 90%), 
+        linear-gradient(90deg, #000 10%, #0000 10%, #0000 90%, #000 90%), 
+        radial-gradient(#0000 50%, #0003 100%);
+        
+        background: radial-gradient(#0000 50%, #0003 100%),
+        linear-gradient(#000 10%, #0000 10%, #0000 90%, #000 90%), 
+        linear-gradient(90deg, #000 10%, #0000 10%, #0000 90%, #000 90%), 
+        radial-gradient(#0000 50%, #0003 100%),
+        hsla(calc(var(--step) * var(--hue-step)), 100%, 100%, var(--alp));
+        backface-visibility: hidden;
+    }
+    [data-val="9"] .zf, 
+    [data-val="9"] .zb, 
+    [data-val="9"] .yu, 
+    [data-val="9"] .yd, 
+    [data-val="9"] .xr, 
+    [data-val="9"] .xl {
+        transform-origin: 10px 10px -10px;
+        background-image: 
+        linear-gradient(#000 10%, #0000 10%, #0000 90%, #000 90%), 
+        linear-gradient(90deg, #000 10%, #0000 10%, #0000 90%, #000 90%), 
+        radial-gradient(#0000 50%, #0003 100%);
+        background-color: hsla(calc(var(--step) * var(--hue-step)), 100%, 0%, var(--alp));
+        background-image: radial-gradient(#fff0 50%, #fff3 100%),
+        linear-gradient(#fff 10%, #0000 10%, #0000 90%, #fff 90%), 
+        linear-gradient(90deg, #fff 10%, #0000 10%, #0000 90%, #fff 90%), 
+        radial-gradient(#0000 50%, #0003 100%);
+        
+        background: 
+        radial-gradient(#fff0 50%, #fff3 100%),
+        linear-gradient(#fff 10%, #0000 10%, #0000 90%, #fff 90%), 
+        linear-gradient(90deg, #fff 10%, #0000 10%, #0000 90%, #fff 90%), 
+        radial-gradient(#0000 50%, #0003 100%),
+        hsla(calc(var(--step) * var(--hue-step)), 100%, 0%, var(--alp));
+        
+        background: 
+        radial-gradient(#fff0 50%, #fff3 100%),
+        
+        linear-gradient(#000 10%, #0000 10%, #0000 90%, #000 90%), 
+        linear-gradient(90deg, #000 10%, #0000 10%, #0000 90%, #000 90%), 
+
+        repeating-conic-gradient(from 0deg, #000 0deg 90deg, #fff 90deg 180deg) top left / 5px 5px;
+        backface-visibility: hidden;
     }
 
     /* Visualizing coordinates. */
@@ -240,7 +504,8 @@
 
     .box-02 {
         position: relative;
-        height: 150px; width: 150px;
+        /* height: 150px; width: 150px; */
+        min-height: 150px; min-width: 150px;
         /* height: auto; width: auto; */
         margin: 5rem;
 
@@ -305,7 +570,7 @@
     <header>
         <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
         <h1 class="title">NyteLabs</h1>
-        <!-- <div class="subtitle">Cube Maze</div> -->
+        <!-- <div class="subtitle">Pipe Maze ➕➖🌵🎢🎍🐍</div> -->
     </header>
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
@@ -314,10 +579,10 @@
 <main>
     <div class="shelf">
         <div class="shelf-title">Options:</div>
-        <div class="input-row"><label for="input-x">X: </label><input type="number" name="grid-size" id="input-x" step="1" min="1" max="30" value="3"></div>
-        <div class="input-row"><label for="input-y">Y: </label><input type="number" name="grid-size" id="input-y" step="1" min="1" max="30" value="3"></div>
-        <div class="input-row"><label for="input-z">Z: </label><input type="number" name="grid-size" id="input-z" step="1" min="1" max="30" value="3"></div>
-        <div class="input-row"><button id="RedoBtn" class="option-btn" onclick="ResetMaze()">Redo</button></div>
+        <div class="input-row"><label for="input-x">X: </label><input type="number" name="grid-size" id="input-x" step="1" min="1" max="30" value="9"></div>
+        <div class="input-row"><label for="input-y">Y: </label><input type="number" name="grid-size" id="input-y" step="1" min="1" max="30" value="4"></div>
+        <div class="input-row"><label for="input-z">Z: </label><input type="number" name="grid-size" id="input-z" step="1" min="1" max="30" value="9"></div>
+        <div class="input-row"><button id="RedoBtn" class="option-btn" onclick="ResetPipeMaze()">Redo</button></div>
     </div>
     <div class="shelf">
         <h3 class="shelf-title">experiment</h3>
@@ -485,6 +750,38 @@ const maze_settings = {
 var vmap = [];
 var cmap = [];
 
+function Build3dPipeMapDisplaySteps(maze,steps,pipes,xlen,ylen,zlen){
+    /* for xyz. */
+    let cube = [];
+    for(let z = 0; z < zlen; z++){
+        cube.push([]);
+        for(let y = 0; y < ylen; y++){
+            cube[z].push([]);
+            for(let x = 0; x < xlen; x++){
+                var val = maze[z][y][x];
+                var step = steps[z][y][x];
+                let zyx = `${z},${y},${x}`;
+
+                let pipe = pipes[z][y][x];
+
+                if(val == -1){
+                    cube[z][y].push(`<div data-val="${val}" data-zyx="${zyx}"></div>`);
+                } else {
+                    cube[z][y].push(`<div data-val="${val}" data-zyx="${zyx}" style="--step: ${step}; --d5: ${pipe["5"]}; --d12: ${pipe["12"]}; --d14: ${pipe["14"]}; --d16: ${pipe["16"]}; --d18: ${pipe["18"]}; --d25: ${pipe["25"]};
+                    ">
+                        <div class="zf"></div>
+                        <div class="zb"></div>
+                        <div class="yu"></div>
+                        <div class="yd"></div>
+                        <div class="xr"></div>
+                        <div class="xl"></div>
+                    </div>`);
+                }
+            }
+        }
+    }
+    return cube;
+}
 function Build3dMapDisplaySteps(maze,steps,xlen,ylen,zlen){
     /* for xyz. */
     let cube = [];
@@ -593,6 +890,20 @@ function BuildRand3dMap(xlen = 1,ylen = 1,zlen = 1){
     }
     return cube;
 }
+function Build3dMapF(xlen = 1,ylen = 1,zlen = 1, fill = 0){
+    /* for xyz, or whd. */
+    cube = [];
+    for(let z = 0; z < zlen; z++){
+        cube.push([]);
+        for(let y = 0; y < ylen; y++){
+            cube[z].push([]);
+            for(let x = 0; x < xlen; x++){
+                cube[z][y].push(fill);
+            }
+        }
+    }
+    return cube;
+}
 function Build3dMap(xlen = 1,ylen = 1,zlen = 1){
     /* for xyz, or whd. */
     cube = [];
@@ -634,6 +945,8 @@ class Maze3 {
         this.stepMap = [];
         this.step = 0;
 
+        this.pipeMap = [];
+
         this.Build3dMap();
         // this.FillMap();
         this.SelectStart();
@@ -655,18 +968,22 @@ class Maze3 {
         // cube = [];
         this.maze = [];
         this.stepMap = [];
+        this.pipeMap = [];
         for(let z = 0; z < this.zlen; z++){
             // cube.push([]);
             this.maze.push([]);
             this.stepMap.push([]);
+            this.pipeMap.push([]);
             for(let y = 0; y < this.ylen; y++){
                 // cube[z].push([]);
                 this.maze[z].push([]);
                 this.stepMap[z].push([]);
+                this.pipeMap[z].push([]);
                 for(let x = 0; x < this.xlen; x++){
                     // cube[z][y].push(0);
                     this.maze[z][y].push(this.fill);
                     this.stepMap[z][y].push(this.fill);
+                    this.pipeMap[z][y].push(this.fill);
                 }
             }
         }
@@ -726,8 +1043,8 @@ class Maze3 {
                 valid.push(d);
             }
         }
-        console.log(`Valid Sides at ${this.step}:`);
-        console.log(valid);
+        // console.log(`Valid Sides at ${this.step}:`);
+        // console.log(valid);
         return valid;
     }
     /* 
@@ -761,7 +1078,7 @@ class Maze3 {
             
             if(this.IsInMap(ax,ay,az)){
                 if(!((dx && dx == adx) || (dy && dy == ady) || (dz && dz == adz)) && !this.IsTile(ax,ay,az,-1)){
-                    console.log(`x: ${x}, y: ${y}, z: ${z}; d: ${d} \nnx: ${nx}, ny: ${ny}, nz: ${nz}; \nax: ${ax}, ay: ${ay}, az: ${az};`);
+                    // console.log(`x: ${x}, y: ${y}, z: ${z}; d: ${d} \nnx: ${nx}, ny: ${ny}, nz: ${nz}; \nax: ${ax}, ay: ${ay}, az: ${az};`);
                     return false;
                 }
             }
@@ -825,7 +1142,7 @@ class Maze3 {
                 let nz = z + xyzSide[d].z;
 
                 let check = this.CheckAround(x,y,z,nx,ny,nz,d);
-                console.log(`check(${d},${x},${y},${z}) >> ${check}`);
+                // console.log(`check(${d},${x},${y},${z}) >> ${check}`);
                 if (check) {
                     this.MoveTo(nx,ny,nz, 0, steps);
                     this.MakePath_Helper(nx,ny,nz, steps + 1);
@@ -844,7 +1161,7 @@ class Maze3 {
         // console.log(`start: ${x},${y},${z}`);
 
         let validSides = this.ValidSides(x,y,z);
-        console.log(validSides);
+        // console.log(validSides);
 
         let d = validSides[Math.floor(Math.random() * validSides.length)];
         // console.log(d);
@@ -857,6 +1174,7 @@ class Maze3 {
 
         this.MakePath_Helper(nx,ny,nz);
         this.SelectEnd();
+        this.ReviewMap();
     }
 
     MoveTo(x,y,z, tile = 0, step = this.step) {
@@ -885,6 +1203,28 @@ class Maze3 {
             // tile_elem.style = `--steps: ${step};`;
         }
     }
+
+    ReviewMap(){
+        for (let z = 0; z < this.zlen; z++) {
+            for (let y = 0; y < this.ylen; y++) {
+                for (let x = 0; x < this.xlen; x++) {
+                    this.pipeMap[z][y][x] = {"5": 0, "12": 0, "14": 0, "16": 0, "18": 0, "25": 0};
+                    for (let i = 0; i < sides.length; i++) {
+                        let d = sides[i];
+                        let nx = x + xyzSide[d].x;
+                        let ny = y + xyzSide[d].y;
+                        let nz = z + xyzSide[d].z;
+                        if (this.IsTile(nx,ny,nz,0) || this.IsTile(nx,ny,nz,1) || this.IsTile(nx,ny,nz,9)) {
+                            this.pipeMap[z][y][x][d] = 1;
+                        }
+                        // if (!this.IsTile(nx,ny,nz,-1)) {
+                        //     this.pipeMap[z][y][x][d] = 1;
+                        // }
+                    }
+                }
+            }
+        }
+    }
 }
 
 
@@ -897,14 +1237,15 @@ function MapStart(xlen,ylen,zlen){
 }
 /* Next step: Paths */
 function IsInMap(m,x,y,z){
-let inMap = true;
-if(x < 0 || y < 0 || z < 0) {inMap = false;}
-if(x > m[0][0].length || y > m[0].length || z > m.length) {inMap = false;}
-return inMap;
+    let inMap = true;
+    if(x < 0 || y < 0 || z < 0) {inMap = false;}
+    if(x >= m[0][0].length || y >= m[0].length || z >= m.length) {inMap = false;}
+    return inMap;
 }
 function IsTile(m,x,y,z,t){
+    console.log(`x: ${x}, y: ${y}, z: ${z}`);
     if(IsInMap(m,x,y,z)){
-        return m[z][y][x] == 1;
+        return m[z][y][x] == t;
     } else {return false;}
 }
 function IsClear(m, x, y, z) {
@@ -923,15 +1264,57 @@ function RandomSide(){
 
 
 
-function ReviewMap(m,xlen,ylen,zlen){
-    let map = Build3dMap(xlen,ylen,zlen);
+function ReviewMap(m){
+    let zlen = m.length;
+    let ylen = m[0].length;
+    let xlen = m[0][0].length;
+    let map = Build3dMapF(xlen,ylen,zlen,0);
     for (let z = 0; z < m.length; z++) {
         for (let y = 0; y < m[z].length; y++) {
             for (let x = 0; x < m[z][y].length; x++) {
-
+                map[z][y][x] = {"5": 0, "12": 0, "14": 0, "16": 0, "18": 0, "25": 0};
+                for (let i = 0; i < sides.length; i++) {
+                    let d = sides[i];
+                    let nx = x + xyzSide[d].x;
+                    let ny = y + xyzSide[d].y;
+                    let nz = z + xyzSide[d].z;
+                    if(x == 0 && y == 0 && z == 0){
+                        console.log(`d: ${d}, nx: ${nx}, ny: ${ny}, nz: ${nz}`);
+                        console.log(`IsInMap(m,nx,ny,nz) -> ${IsInMap(m,nx,ny,nz)}`);
+                    }
+                    // if (IsInMap(m,nx,ny,nz)) {
+                    //     map[z][y][x][d] = 1;
+                    // }
+                    // if (IsTile(m,nx,ny,nz,0) || IsTile(m,nx,ny,nz,1) || IsTile(m,nx,ny,nz,9)) {
+                    //     map[z][y][x][d] = 1;
+                    // }
+                    if (!IsTile(m,nx,ny,nz,-1)) {
+                        map[z][y][x][d] = 1;
+                    }
+                }
             }
         }
     }
+    return map;
+}
+function ReviewMap1(m,xlen,ylen,zlen){
+    let map = Build3dMapF(xlen,ylen,zlen,{"5": 0, "12": 0, "14": 0, "16": 0, "18": 0, "25": 0});
+    for (let z = 0; z < m.length; z++) {
+        for (let y = 0; y < m[z].length; y++) {
+            for (let x = 0; x < m[z][y].length; x++) {
+                for (let i = 0; i < sides.length; i++) {
+                    let d = sides[i];
+                    let nx = x + xyzSide[d].x;
+                    let ny = y + xyzSide[d].y;
+                    let nz = z + xyzSide[d].z;
+                    if (IsInMap(m,x,y,z) && !IsTile(m,x,y,z,-1)) {
+                        map[z][y][x][d] = 1;
+                    }
+                }
+            }
+        }
+    }
+    return map;
 }
 
 
@@ -950,7 +1333,7 @@ function LogOut(g){
         cube_log.push(`</div><div class="grid">`);
     }
     cube_log.push("</div>");
-    console.log(cube_log.join('\n'));
+    // console.log(cube_log.join('\n'));
     return cube_log;
 }
 function LogOut2(g){
@@ -993,8 +1376,17 @@ function DisplayCube(log){
     let display = document.getElementById("display");
     // display.innerHTML = `<div><p>${log.join("</p><p>")}</p></div>`;
     // display.innerHTML = `<div class="column"><div>${log.join("</div><div>")}</div></div>`;
-    display.innerHTML = `<div class="column">${log.join("")}</div>`;
+    display.innerHTML = ``;
+    display.innerHTML = `<div class="column" style="--hue-step: ${box.hueStep};">${log.join("")}</div>`;
 }
+
+// function DisplayCube(log){
+//     let display = document.getElementById("display");
+//     // display.innerHTML = `<div><p>${log.join("</p><p>")}</p></div>`;
+//     // display.innerHTML = `<div class="column"><div>${log.join("</div><div>")}</div></div>`;
+//     display.innerHTML = ``;
+//     display.innerHTML = `<div class="column">${log.join("")}</div>`;
+// }
 function DisplayCube1(log){
     let display = document.getElementById("display");
     // display.innerHTML = `<div><p>${log.join("</p><p>")}</p></div>`;
@@ -1157,7 +1549,23 @@ function ongoingTouchIndexById(idToFind) {
 }
 
 
-function ResetMaze(ev){
+// function RedoGrid(ev){
+//     let grid = document.getElementById('GridBuild');
+//     grid.remove();
+    
+//     let w = 3;
+//     let h = 3;
+//     let grid_w = parseInt(document.getElementById('input-w').value);
+//     let grid_h = parseInt(document.getElementById('input-h').value);
+//     if(typeof grid_w == "number" && typeof grid_h == "number") {
+//         BuildGrid(grid_w,grid_h);
+//     } else {
+//         BuildGrid(w,h);
+//     }
+// }
+
+
+function ResetPipeMaze(ev){
     
     let input_x = document.getElementById('input-x');
     let input_y = document.getElementById('input-y');
@@ -1179,7 +1587,7 @@ function ResetMaze(ev){
     input_y.value = yl;
     input_z.value = zl;
     
-    console.log(`ResetMaze -> ${xl}, ${yl}, ${zl}`);
+    console.log(`ResetPipeMaze -> ${xl}, ${yl}, ${zl}`);
     // let hueS = xl + yl + zl;
     // let hueT = xl * yl * zl;
     // console.log(`ResetPipeMaze -> hueS: ${hueS}, hueT: ${hueT};`);
@@ -1198,12 +1606,12 @@ function ResetMaze(ev){
     level = new Maze3(xl,yl,zl);
     level.MakePath();
 
-    cmap = Build3dMapDisplaySteps(level.maze,level.stepMap,xl,yl,zl);
-    // cmap = Build3dPipeMapDisplaySteps(level.maze,level.stepMap,level.pipeMap,xl,yl,zl);
+    // cmap = Build3dMapDisplaySteps(level.maze,level.stepMap,xl,yl,zl);
+    cmap = Build3dPipeMapDisplaySteps(level.maze,level.stepMap,level.pipeMap,xl,yl,zl);
 
     let stepEnd = level.stepMap[level.end.z][level.end.y][level.end.x];
     box.hueStep = Math.floor(340 / stepEnd);
-    console.log(`ResetMaze -> stepEnd: ${stepEnd}, box.hueStep: ${box.hueStep};`);
+    console.log(`ResetPipeMaze -> stepEnd: ${stepEnd}, box.hueStep: ${box.hueStep};`);
 
     let clog = LogOut(cmap);
     DisplayCube(clog);
@@ -1232,29 +1640,34 @@ window.addEventListener('load', (ev) => {
     // level.MakePath();
     // // cmap = Build3dMapDisplay(level.maze,5,5,5);
     // cmap = Build3dMapDisplaySteps(level.maze,level.stepMap,5,5,5);
-    
-    let xl = 3;
-    let yl = 3;
-    let zl = 3;
+
+    let xl = 9;
+    let yl = 4;
+    let zl = 9;
     level = new Maze3(xl,yl,zl);
     level.MakePath();
-    cmap = Build3dMapDisplaySteps(level.maze,level.stepMap,xl,yl,zl);
+    // cmap = Build3dMapDisplaySteps(level.maze,level.stepMap,xl,yl,zl);
+    cmap = Build3dPipeMapDisplaySteps(level.maze,level.stepMap,level.pipeMap,xl,yl,zl);
+
 
     let clog = LogOut(cmap);
     DisplayCube(clog);
 
     startup();
+
+    // let redoBtn = document.getElementById('RedoBtn');
+    // redoBtn.addEventListener('click', ResetPipeMaze);
 });
 /* Version Log:
 [index-nds-00]: Default Template.
-[index-nds-01]: 
-[index-nds-02]: 
+[index-nds-01]: Pipe Maze working.
+[index-nds-02]: Select maze size added.
 [index-nds-03]: 
 [index-nds-04]: 
 [index-nds-05]: 
-[index-nds-06]: Makes a random new 3d Maze each time.
+[index-nds-06]: 
 [index-nds-07]: 
-[index-nds-08]: Texture test.
+[index-nds-08]: 
 [index-nds-09]: 
 [index-nds-10]: 
 [index-nds-11]: 

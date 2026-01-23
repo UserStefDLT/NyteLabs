@@ -102,11 +102,15 @@
     [data-val="0"] {
         opacity: 1;
         --alp: 1;
-        transform: translateZ(-8px);
+        /* transform: translateZ(-8px); */
     }
     [data-val="-1"] {
         opacity: 0;
     }
+    /* [data-val="1"],
+    [data-val="9"] {
+        transform: translateZ(8px);
+    } */
 
     /* [data-val="1"]::before,
     [data-val="1"]::after {
@@ -412,12 +416,24 @@ linear-gradient(270deg, var(--bwt) 40%, var(--c4a) 40%, var(--c4b) 50%, var(--c4
         radial-gradient(#0000 50%, #0003 100%);
     } */
 
-    [data-val="1"] .zf, 
-    [data-val="1"] .zb, 
-    [data-val="1"] .yu, 
-    [data-val="1"] .yd, 
-    [data-val="1"] .xr, 
-    [data-val="1"] .xl {
+    /* Toggle Box. [toggleStartEnd] */
+    /* #CheckboxID-02, */
+    #toggleStartEnd {display: none;}
+    /* #CheckboxID-02:checked ~ .options .toggleCheckboxLabel[for="CheckboxID-02"], */
+    #toggleStartEnd:checked ~ .options .toggleCheckboxLabel[for="toggleStartEnd"] {
+        color: var(--bwe);
+        --clr-outline: var(--bwc);
+        --bgc-before: #063;
+        --bgc-after: #0c6;
+        --ttx-after: 1rem;
+    }
+
+    #toggleStartEnd:checked ~ main [data-val="1"] .zf, 
+    #toggleStartEnd:checked ~ main [data-val="1"] .zb, 
+    #toggleStartEnd:checked ~ main [data-val="1"] .yu, 
+    #toggleStartEnd:checked ~ main [data-val="1"] .yd, 
+    #toggleStartEnd:checked ~ main [data-val="1"] .xr, 
+    #toggleStartEnd:checked ~ main [data-val="1"] .xl {
         transform-origin: 10px 10px -10px;
         transform-origin: var(--sz2-tile) var(--sz2-tile) calc(var(--sz2-tile) * -1);
         background-image: 
@@ -437,12 +453,12 @@ linear-gradient(270deg, var(--bwt) 40%, var(--c4a) 40%, var(--c4b) 50%, var(--c4
         hsla(calc(var(--step) * var(--hue-step)), 100%, 100%, var(--alp));
         backface-visibility: hidden;
     }
-    [data-val="9"] .zf, 
-    [data-val="9"] .zb, 
-    [data-val="9"] .yu, 
-    [data-val="9"] .yd, 
-    [data-val="9"] .xr, 
-    [data-val="9"] .xl {
+    #toggleStartEnd:checked ~ main [data-val="9"] .zf, 
+    #toggleStartEnd:checked ~ main [data-val="9"] .zb, 
+    #toggleStartEnd:checked ~ main [data-val="9"] .yu, 
+    #toggleStartEnd:checked ~ main [data-val="9"] .yd, 
+    #toggleStartEnd:checked ~ main [data-val="9"] .xr, 
+    #toggleStartEnd:checked ~ main [data-val="9"] .xl {
         transform-origin: 10px 10px -10px;
         background-image: 
         linear-gradient(#000 10%, #0000 10%, #0000 90%, #000 90%), 
@@ -470,6 +486,13 @@ linear-gradient(270deg, var(--bwt) 40%, var(--c4a) 40%, var(--c4b) 50%, var(--c4
         repeating-conic-gradient(from 0deg, #000 0deg 90deg, #fff 90deg 180deg) top left / 5px 5px;
         backface-visibility: hidden;
     }
+
+    #toggleStartEnd:checked ~ main [data-val="1"] .xr, #toggleStartEnd:checked ~ main [data-val="9"] .xr {transform: translateZ(8px) translateZ(var(--sz-tile)) rotate3d(0,1,0,90deg);}
+    #toggleStartEnd:checked ~ main [data-val="1"] .xl, #toggleStartEnd:checked ~ main [data-val="9"] .xl {transform: translateZ(8px) translateZ(var(--sz-tile)) rotate3d(0,1,0,-90deg);}
+    #toggleStartEnd:checked ~ main [data-val="1"] .yu, #toggleStartEnd:checked ~ main [data-val="9"] .yu {transform: translateZ(8px) translateZ(var(--sz-tile)) rotate3d(1,0,0,-90deg);}
+    #toggleStartEnd:checked ~ main [data-val="1"] .yd, #toggleStartEnd:checked ~ main [data-val="9"] .yd {transform: translateZ(8px) translateZ(var(--sz-tile)) rotate3d(1,0,0,90deg);}
+    #toggleStartEnd:checked ~ main [data-val="1"] .zf, #toggleStartEnd:checked ~ main [data-val="9"] .zf {transform: translateZ(8px) translateZ(var(--sz-tile));}
+    #toggleStartEnd:checked ~ main [data-val="1"] .zb, #toggleStartEnd:checked ~ main [data-val="9"] .zb {transform: translateZ(8px) translateZ(var(--sz-tile)) rotate3d(1,0,0,180deg);}
 
     /* Visualizing coordinates. */
     /* [data-zyx] {
@@ -571,6 +594,7 @@ linear-gradient(270deg, var(--bwt) 40%, var(--c4a) 40%, var(--c4b) 50%, var(--c4
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
     <input type="checkbox" name="toggle" id="toggleLights">
+    <input type="checkbox" name="toggle" id="toggleStartEnd" checked>
 
 <main>
     <div class="shelf">
@@ -593,11 +617,12 @@ linear-gradient(270deg, var(--bwt) 40%, var(--c4a) 40%, var(--c4b) 50%, var(--c4
      <div class="xl"></div> -->
 </main>
 
-<!-- <div class="options">
-    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+<div class="options">
+    <!-- <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
     <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
-    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
-</div> -->
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label> -->
+    <label for="toggleStartEnd" class="toggleCheckboxLabel" data-toggle="StartEnd">Box</label>
+</div>
 
 <footer>
     <div class="my-name">
