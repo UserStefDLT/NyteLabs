@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Maze Bridges 🌉🎢 | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        .shelf.bg-macy1 {background-image: linear-gradient(45deg, #f391, #39f1);}
+    </style>
+    <style>
+        /* Maze, grid, rows, tiles. */
+        :root {
+            --p: 5000px;
+            /* --p: 1200px; */
+            --bg: var(--bwt);
+            --sz-tile: 1rem;
+            --sz-player: .75rem;
+
+            --bg--1: var(--bwt);
+            --bg-0: var(--bwe);
+            --bg-1: #06c;
+            --bg-9: #c60;
+
+            --hue-1: 210;
+            --hue-9: 30;
+
+            --hue: 0;
+            --sat: 100%;
+            --lum: 40%;
+            --alp: 1;
+
+            --hsl: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+            --step: 0;
+            --steps: 0;
+            --total-steps: 360;
+        }
+
+        /* General */
+        #display {position: relative;}
+        .grid{
+            transform-style: preserve-3d;
+            transition: transform 300ms ease-in-out;
+        }
+        .row, .tile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+        }
+        .row {flex-direction: row;}
+        .row {--iRow: var(--i);}
+        .tile {
+            position: relative;
+            height: var(--sz-tile);
+            width: var(--sz-tile);
+            /* background-color: var(--bg); */
+            /* border-radius: 0rem; */
+            /* box-sizing: border-box; */
+        }
+
+        /* Tile Styles */
+        .tile[data-type="-1"] {--tileFor: 'walls';}
+        .tile[data-type="0"] {--tileFor: 'path';}
+        .tile[data-type="1"] {--tileFor: 'start';}
+        .tile[data-type="9"] {--tileFor: 'end';}
+       
+        /* Walls to Cubes. */
+        .tile[data-type="-1"] {
+            background-color: var(--bg);
+            color: var(--bwt);
+            user-select: none;
+        }
+        
+        /* Start and End tooltips */
+        .tile[data-type="1"]::before {content: 's';}
+        .tile[data-type="9"]::before {content: 'e';}
+        .tile[data-type="1"]::before,
+        .tile[data-type="9"]::before {
+            display: flex;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            color: var(--bwf);
+        }
+
+
+        /* Start and End */
+        .tile[data-type="1"] {--bg: #06c; --hue: var(--hue-1); --sat: 100%; --lum: 40%; --alp: 1;}
+        .tile[data-type="9"] {--bg: #c60; --hue: var(--hue-9); --sat: 100%; --lum: 40%; --alp: 1;}
+
+        /* Path */
+        .tile[data-type="0"] {--bg: var(--bwe); --hue: 210; --sat: 0%; --lum: 93%; --alp: 1;}
+        .tile {
+            --hsl: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
+            background-color: var(--hsl);
+        }
+        .tile[data-type="0"] {
+            --bg: var(--bwe); 
+            --hue: calc(var(--step) * 0.25);
+            --step-size: calc(180 / var(--total-steps));
+            --hue: calc(210 - (var(--step) * var(--step-size))); 
+            /* --hue: var(--step);  */
+            --sat: 100%; 
+            --lum: 60%; 
+            --alp: 1;}
+
+        /* z-index */
+        .tile[data-type="0"] {z-index: 2;}
+        .tile[data-type="1"],
+        .tile[data-type="9"] {z-index: 3;}
+        /* .tile[data-type="5"] {z-index: 5;} */
+        
+
+        /* Previously */
+        .tile[data-type="1"]:hover::after {content: 'start';}
+        .tile[data-type="5"]:hover::after {content: 'you';}
+        .tile[data-type="9"]:hover::after {content: 'exit';}
+        .tile[data-type="1"]:hover::after,
+        .tile[data-type="5"]:hover::after,
+        .tile[data-type="9"]:hover::after {
+            display: none;
+            display: flex;
+            position: absolute;
+            top: 0%; left: 50%;
+            transform: translateX(-50%) translateY(-100%);
+            transform: translateX(-50%) translateY(-100%) translateZ(10px);
+
+            padding: .125rem .25rem;
+            border-radius: .25rem;
+            
+            --hsl-dark: hsla(var(--hue), var(--sat), 20%, .75);
+            background-color: var(--hsl-dark);
+            border: 1px outset var(--bg);
+            
+            color: var(--bwf);
+            text-shadow: 0px 0px 2px var(--bw0);
+
+            box-sizing: border-box;
+            z-index: 8;
+
+            transition: transform 300ms ease-in-out;
+        }
+
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/settings.css">
+    <style>
+        /* Settings. */
+        #toggleIso,
+        #toggleTags,
+        #toggleOpacity,
+        #toggleBorder {display: none;}
+        #toggleIso:checked ~ .options .toggleCheckboxLabel[for="toggleIso"],
+        #toggleTags:checked ~ .options .toggleCheckboxLabel[for="toggleTags"],
+        #toggleOpacity:checked ~ .options .toggleCheckboxLabel[for="toggleOpacity"],
+        #toggleBorder:checked ~ .options .toggleCheckboxLabel[for="toggleBorder"] {
+            color: var(--bwe);
+            --clr-outline: var(--bwc);
+            --bgc-before: #063;
+            --bgc-after: #0c6;
+            --ttx-after: 1rem;
+        }
+
+        /* ─ Toggle Effects ─ */
+
+        /* Toggle-Opcacity */
+        #toggleOpacity:checked ~ main #display {opacity:.5;}
+        #toggleOpacity:checked ~ main #display .tile {--alp:.25;}
+    </style>
+    <style>
+        /* Canvas */
+        /* #display {
+            outline: 2px outset #eee;
+            outline-offset: 4px;
+            outline-offset: -8px;
+        } */
+    </style>
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink"><div class="backBtn">Back?</div></a>
+        <a href="../../../index.html" style="height: 46px;">
+            <svg id="logo" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <filter id="moon-shadow" x="-25%" y="-25%" width="150%" height="150%">
+                        <feDropShadow dx="0" dy="0" stdDeviation="0" />
+                    </filter>
+                    <filter id="moon-shadow2" x="-250%" y="-250%" width="600%" height="600%">
+                        <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#fff6" />
+                        <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#00f" />
+                        <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#0f0" />
+                        <feDropShadow dx="0" dy="0" stdDeviation="16" flood-color="#f00" />
+                    </filter>
+                </defs>
+                <rect class="svgmoon" x="60" y="60" width="20" height="20" rx="0" />
+                <path class="smile" 
+                  d="M 0,80L 20,80 L 20,100 L 120,100 
+                    L 120,80 L 140,80 L 140 120 L 0 120 z" />
+                <path class="smile-border" 
+                  d="M 0,80 L 20,80 L 20,100 L 120,100 L 120,80 L 140,80
+                    L 140,81 L 121,81 L 121,101 L 19,101 L 19,81 L 0,81 z" />
+            </svg>
+        </a>
+        <h1 class="title">Nytelabs</h1>
+        <div class="subtitle">Maze Bridge 🌉🎢</div>
+        <!-- <div class="subtitle">Only makes mazes. (no players)</div> -->
+        <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
+        <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
+    </header>
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+
+<main>
+    <div class="shelf bg-macy1">
+        <div class="shelf-title">A-maze-thing</div>
+        <!-- <div id="display" style="width: 512px; height: 416px;"></div> -->
+        <div id="display"></div>
+    </div>
+</main>
+
+<!-- <div class="options">
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
+
+<footer>
+    <div class="my-name">
+        <a href="#">Back To Top</a>
+        &copy; 2022 - 2026 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            tracking: false
+        },
+        tile: {
+            real_sz: 16,
+            real_h: 16,
+            real_w: 16,
+            h: 20,
+            w: 20,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        maze: {
+            stepMin: 2,
+            stepMax: 12
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+        },
+
+        player: false,
+
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+    const direction_char = ['○', '↙', '↓', '↘', '←', '•', '→', '↖', '↑', '↗'];
+    // var sides = [1,2,3,4,5,6,7,8,9];
+    const sides = [2, 4, 6, 8];
+    const sides_around = [1, 2, 3, 4, 6, 7, 8, 9];
+    const xySide = {
+        0:{y:0,x:0},
+        1:{y:1,x:-1},
+        2:{y:1,x:0},
+        3:{y:1,x:1},
+        4:{y:0,x:-1},
+        5:{y:0,x:0},
+        6:{y:0,x:1},
+        7:{y:-1,x:-1},
+        8:{y:-1,x:0},
+        9:{y:-1,x:1}
+    };
+
+</script>
+<script src="../../../scripts/settings.js"></script>
+<script>
+    var level;
+    const maze_settings = {
+        wall: -1,
+        path: 0,
+        start: 1,
+        end: 9
+    }
+
+    /* Classes */
+    class MazeSideJump {
+        constructor(w, h, fill = -1) {
+            this.h = h;
+            this.w = w;
+            this.fill = fill;
+            this.start = {x: 0, y: 0};
+            this.end = {x: 0, y: 0, d: 0};
+            this.maze = [];
+            this.stepMap = [];
+            this.step = 0;
+
+            this.FillMap();
+            this.SelectStart();
+        }
+        FillMap(fill = this.fill) {
+            this.maze = [];
+            this.stepMap = [];
+            for (let y = 0; y < this.h; y++) {
+                this.maze.push([]);
+                this.stepMap.push([]);
+                for (let x = 0; x < this.w; x++) {
+                    this.maze[y].push(fill);
+                    this.stepMap[y].push(0);
+                }
+            }
+        }
+        SelectStart() {
+            this.start.x = Math.floor(Math.random() * this.w);
+            this.start.y = Math.floor(Math.random() * this.h);
+            this.MoveTo(this.start.x, this.start.y, 1);
+        }
+        SelectEnd() {
+            // this.MoveTo(this.end.x, this.end.y, 9);
+            // this.MoveTo(this.end.x, this.end.y, 9, this.end.d);
+            this.maze[this.end.y][this.end.x] = 9;
+            this.UpdateTileInDOM(this.end.x, this.end.y, 9, this.end.d);
+        }
+        IsInMap(x, y) {
+            if (x < 0 || y < 0 || x >= this.w || y >= this.h) {
+                return false;
+            }
+            return true;
+        }
+        IsTile(x, y, tile) {
+            if (this.IsInMap(x, y)) {
+                return (this.maze[y][x] == tile);
+            }
+        }
+        IsClear(x, y) {
+            return this.IsTile(x, y, -1);
+        }
+
+        ValidSides(x, y) {
+            let valid = [];
+            for (let i = 0; i < sides.length; i++) {
+                let d = sides[i];
+                let nx = x + xySide[d].x;
+                let ny = y + xySide[d].y;
+                if (this.IsClear(nx, ny)) {
+                    valid.push(d);
+                }
+            }
+            return valid;
+        }
+        ValidPaths(x, y) {
+            let valid = [];
+            for (let i = 0; i < sides.length; i++) {
+                let d = sides[i];
+                for(let step = s.maze.stepMin; step <= s.maze.stepMax; step+=2){
+                    let nx = x + (xySide[d].x * step);
+                    let ny = y + (xySide[d].y * step);
+                    if (this.IsClear(nx, ny)) {
+                        valid.push({"d": d, "steps": step});
+                    }
+                }
+                // let nx = x + xySide[d].x;
+                // let ny = y + xySide[d].y;
+                // if (this.IsClear(nx, ny)) {
+                //     valid.push(d);
+                // }
+            }
+            return valid;
+        }
+        CheckAround(x, y, nx, ny, d) {
+            for (let i = 0; i < sides_around.length; i++) {
+                let ad = sides_around[i];
+                let ax = nx + xySide[ad].x;
+                let ay = ny + xySide[ad].y;
+
+                if(!((xySide[d].x && x == ax) || (xySide[d].y && y == ay)) && !this.IsClear(ax, ay)){
+                    return false;
+                }
+            }
+            return true;
+        }
+        CheckThrough(x, y, d) {
+            // console.log(`CheckThrough -> x: ${x}; y: ${y}; d.d: ${d.d}; d.steps: ${d.steps}`);
+            for (let step = 1; step <= d.steps; step++) {
+                let nx = x + (xySide[d.d].x * step);
+                let ny = y + (xySide[d.d].y * step);
+                if(!this.CheckAround(x, y, nx, ny, d.d)){
+                    return false;
+                }
+            }
+            // for (let i = 0; i < sides_around.length; i++) {
+            //     let ad = sides_around[i];
+            //     let ax = nx + xySide[ad].x;
+            //     let ay = ny + xySide[ad].y;
+            //     if(!((xySide[d].x && x == ax) || (xySide[d].y && y == ay)) && !this.IsClear(ax, ay)){
+            //         return false;
+            //     }
+            // }
+            return true;
+        }
+
+        MakePath_Helper(x, y, steps = this.step) {
+            let validSides = this.ValidPaths(x, y);
+            console.log(`MakePath_Helper: ${steps}`);
+            console.log(validSides);
+            if(validSides.length > 0) {
+                let sidesLeft = [...validSides];
+                
+                for (let i = 0; i < validSides.length; i++) {
+                    let d = sidesLeft.splice(Math.floor(Math.random() * sidesLeft.length), 1)[0];
+                    // console.log(d);
+                    // let nx = x + xySide[d.d].x;
+                    // let ny = y + xySide[d.d].y;
+
+                    // change to checkthrough.
+                    // if (this.CheckAround(x, y, nx, ny, d)) {
+                    //     this.MoveTo(nx, ny, 0, steps);
+                    //     this.WalkTo(x, y, d, 0, steps);
+                    //     this.MakePath_Helper(nx, ny, steps + d.steps);
+                    // }
+                    if (this.CheckThrough(x, y, d)) {
+                        // this.MoveTo(nx, ny, 0, steps);
+                        this.WalkTo(x, y, d, 0, steps);
+                        // console.log(`d: ${d.d}; steps: ${d.steps}`);
+                        // console.log(`xySide[d.d].x: ${xySide[d.d].x}; xySide[d.d].y: ${xySide[d.d].y}`);
+                        let nx = x + (xySide[d.d].x * d.steps);
+                        let ny = y + (xySide[d.d].y * d.steps);
+                        // console.log(`nx: ${nx}; ny: ${ny}`);
+                        this.MakePath_Helper(nx, ny, steps + d.steps);
+                    }
+                }
+            }
+        }
+        MakePath() {
+            let x = this.start.x;
+            let y = this.start.y;
+            console.log(`Start -> x: ${x}; y: ${y}`);
+
+            let validSides = this.ValidSides(x, y);
+            console.log(validSides);
+
+            let d = validSides[Math.floor(Math.random() * validSides.length)];
+            console.log(d);
+
+            let nx = x + xySide[d].x;
+            let ny = y + xySide[d].y;
+            // let nx = x + (xySide[d.d].x * d.steps);
+            // let ny = y + (xySide[d.d].y * d.steps);
+
+            this.MoveTo(nx, ny);
+
+            this.MakePath_Helper(nx, ny);
+            this.SelectEnd();
+        }
+
+        MoveTo(x, y, tile = 0, step = this.step) {
+            // safeLog([`%c → At step #%c${this.step}%c, MoveTo(%c${x}%c, %c${y}%c, %c${tile}%c, %c${step}%c)`, logSty.c, logSty.s, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+            this.maze[y][x] = tile;
+            this.stepMap[y][x] = step;
+            if (step >= this.end.d) {
+                this.end.x = x;
+                this.end.y = y;
+                this.end.d = step;
+            }
+            this.step++;
+            this.UpdateTileInDOM(x, y, tile, step);
+        }
+
+        WalkTo(x, y, d, tile = 0, stepCount = this.step) {
+            console.log(`WalkTo() -> x: ${x}; y: ${y}; d: ${d}`);
+            for(let step = 1; step <= d.steps; step++){
+                let nx = x + (xySide[d.d].x * step);
+                let ny = y + (xySide[d.d].y * step);
+                this.maze[ny][nx] = tile;
+                let currentStep = stepCount + step;
+                this.stepMap[ny][nx] = currentStep;
+                if (currentStep >= this.end.d) {
+                    this.end.x = nx;
+                    this.end.y = ny;
+                    this.end.d = currentStep;
+                    this.step += d.steps;
+                }
+                this.UpdateTileInDOM(nx, ny, tile, currentStep);
+            }
+        }
+
+        UpdateTileInDOM(x, y, tile = -1, step = 0) {
+            let tile_id = `xy,${x},${y}`;
+            let tile_elem = document.getElementById(tile_id);
+            if (tile_elem) {
+                // tile_elem.dataset.tile = tile;
+                // tile_elem.dataset.step = step;
+                // tile_elem.style = `--step: ${step};`;
+                tile_elem.dataset.type = tile;
+                // tile_elem.dataset.steps = step;
+                // tile_elem.style = `--steps: ${step};`;
+            }
+        }
+    }
+
+    class MazeSide {
+        constructor(w, h, fill = -1) {
+            this.h = h;
+            this.w = w;
+            this.fill = fill;
+            this.start = {x: 0, y: 0};
+            this.end = {x: 0, y: 0, d: 0};
+            this.maze = [];
+            this.stepMap = [];
+            this.step = 0;
+
+            this.FillMap();
+            this.SelectStart();
+        }
+        FillMap(fill = this.fill) {
+            this.maze = [];
+            this.stepMap = [];
+            for (let y = 0; y < this.h; y++) {
+                this.maze.push([]);
+                this.stepMap.push([]);
+                for (let x = 0; x < this.w; x++) {
+                    this.maze[y].push(fill);
+                    this.stepMap[y].push(0);
+                }
+            }
+        }
+        SelectStart() {
+            this.start.x = Math.floor(Math.random() * this.w);
+            this.start.y = Math.floor(Math.random() * this.h);
+            this.MoveTo(this.start.x, this.start.y, 1);
+        }
+        SelectEnd() {
+            // this.MoveTo(this.end.x, this.end.y, 9);
+            // this.MoveTo(this.end.x, this.end.y, 9, this.end.d);
+            this.maze[this.end.y][this.end.x] = 9;
+            this.UpdateTileInDOM(this.end.x, this.end.y, 9, this.end.d);
+            let display = document.getElementById("display");
+            display.style = `--total-steps: ${this.stepMap[this.end.y][this.end.x]};`;
+            console.log(`end: ${this.stepMap[this.end.y][this.end.x]}`);
+        }
+        IsInMap(x, y) {
+            if (x < 0 || y < 0 || x >= this.w || y >= this.h) {
+                return false;
+            }
+            return true;
+        }
+        IsTile(x, y, tile) {
+            if (this.IsInMap(x, y)) {
+                return (this.maze[y][x] == tile);
+            }
+        }
+        IsClear(x, y) {
+            return this.IsTile(x, y, -1);
+        }
+
+        ValidSides(x, y) {
+            let valid = [];
+            for (let i = 0; i < sides.length; i++) {
+                let d = sides[i];
+                let nx = x + xySide[d].x;
+                let ny = y + xySide[d].y;
+                if (this.IsClear(nx, ny)) {
+                    valid.push(d);
+                }
+            }
+            return valid;
+        }
+        ValidPaths(x, y) {
+            let valid = [];
+            for (let i = 0; i < sides.length; i++) {
+                let d = sides[i];
+                for(let step = s.maze.stepMin; step <= s.maze.stepMax; step+=2){
+                    let nx = x + (xySide[d].x * step);
+                    let ny = y + (xySide[d].y * step);
+                    if (this.IsClear(nx, ny)) {
+                        valid.push({"d": d, "steps": step});
+                    }
+                }
+                // let nx = x + xySide[d].x;
+                // let ny = y + xySide[d].y;
+                // if (this.IsClear(nx, ny)) {
+                //     valid.push(d);
+                // }
+            }
+            return valid;
+        }
+        CheckAround(x, y, nx, ny, d) {
+            for (let i = 0; i < sides_around.length; i++) {
+                let ad = sides_around[i];
+                let ax = nx + xySide[ad].x;
+                let ay = ny + xySide[ad].y;
+
+                if(!((xySide[d].x && x == ax) || (xySide[d].y && y == ay)) && !this.IsClear(ax, ay)){
+                    return false;
+                }
+            }
+            return true;
+        }
+        CheckThrough(x, y, d) {
+            // console.log(`CheckThrough -> x: ${x}; y: ${y}; d.d: ${d.d}; d.steps: ${d.steps}`);
+            for (let step = 1; step <= d.steps; step++) {
+                let nx = x + (xySide[d.d].x * step);
+                let ny = y + (xySide[d.d].y * step);
+                if(!this.CheckAround(x, y, nx, ny, d.d)){
+                    return false;
+                }
+            }
+            // for (let i = 0; i < sides_around.length; i++) {
+            //     let ad = sides_around[i];
+            //     let ax = nx + xySide[ad].x;
+            //     let ay = ny + xySide[ad].y;
+            //     if(!((xySide[d].x && x == ax) || (xySide[d].y && y == ay)) && !this.IsClear(ax, ay)){
+            //         return false;
+            //     }
+            // }
+            return true;
+        }
+
+        MakePath_Helper(x, y, steps = this.step) {
+            let validSides = this.ValidPaths(x, y);
+            console.log(`MakePath_Helper: ${steps}`);
+            console.log(validSides);
+            if(validSides.length > 0) {
+                let sidesLeft = [...validSides];
+                
+                for (let i = 0; i < validSides.length; i++) {
+                    let d = sidesLeft.splice(Math.floor(Math.random() * sidesLeft.length), 1)[0];
+                    // console.log(d);
+                    // let nx = x + xySide[d.d].x;
+                    // let ny = y + xySide[d.d].y;
+
+                    // change to checkthrough.
+                    // if (this.CheckAround(x, y, nx, ny, d)) {
+                    //     this.MoveTo(nx, ny, 0, steps);
+                    //     this.WalkTo(x, y, d, 0, steps);
+                    //     this.MakePath_Helper(nx, ny, steps + d.steps);
+                    // }
+                    if (this.CheckThrough(x, y, d)) {
+                        // this.MoveTo(nx, ny, 0, steps);
+                        this.WalkTo(x, y, d, 0, steps);
+                        // console.log(`d: ${d.d}; steps: ${d.steps}`);
+                        // console.log(`xySide[d.d].x: ${xySide[d.d].x}; xySide[d.d].y: ${xySide[d.d].y}`);
+                        let nx = x + (xySide[d.d].x * d.steps);
+                        let ny = y + (xySide[d.d].y * d.steps);
+                        // console.log(`nx: ${nx}; ny: ${ny}`);
+                        this.MakePath_Helper(nx, ny, steps + d.steps);
+                    }
+                }
+            }
+        }
+        MakePath() {
+            let x = this.start.x;
+            let y = this.start.y;
+            console.log(`Start -> x: ${x}; y: ${y}`);
+
+            let validSides = this.ValidSides(x, y);
+            console.log(validSides);
+
+            let d = validSides[Math.floor(Math.random() * validSides.length)];
+            console.log(d);
+
+            let nx = x + xySide[d].x;
+            let ny = y + xySide[d].y;
+            // let nx = x + (xySide[d.d].x * d.steps);
+            // let ny = y + (xySide[d.d].y * d.steps);
+
+            this.MoveTo(nx, ny);
+
+            this.MakePath_Helper(nx, ny);
+            this.SelectEnd();
+        }
+
+        MoveTo(x, y, tile = 0, step = this.step) {
+            // safeLog([`%c → At step #%c${this.step}%c, MoveTo(%c${x}%c, %c${y}%c, %c${tile}%c, %c${step}%c)`, logSty.c, logSty.s, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c, logSty.b, logSty.c]);
+            this.maze[y][x] = tile;
+            this.stepMap[y][x] = step;
+            if (step >= this.end.d) {
+                this.end.x = x;
+                this.end.y = y;
+                this.end.d = step;
+            }
+            this.step++;
+            this.UpdateTileInDOM(x, y, tile, step);
+        }
+
+        WalkTo(x, y, d, tile = 0, stepCount = this.step) {
+            console.log(`WalkTo() -> x: ${x}; y: ${y}; d: ${d}`);
+            for(let step = 1; step <= d.steps; step++){
+                let nx = x + (xySide[d.d].x * step);
+                let ny = y + (xySide[d.d].y * step);
+                this.maze[ny][nx] = tile;
+                let currentStep = stepCount + step;
+                this.stepMap[ny][nx] = currentStep;
+                if (currentStep >= this.end.d) {
+                    this.end.x = nx;
+                    this.end.y = ny;
+                    this.end.d = currentStep;
+                    this.step += d.steps;
+                }
+                this.UpdateTileInDOM(nx, ny, tile, currentStep);
+            }
+        }
+
+        UpdateTileInDOM(x, y, tile = -1, step = 0) {
+            let tile_id = `xy,${x},${y}`;
+            let tile_elem = document.getElementById(tile_id);
+            if (tile_elem) {
+                // tile_elem.dataset.tile = tile;
+                // tile_elem.dataset.step = step;
+                // tile_elem.style = `--step: ${step};`;
+                tile_elem.dataset.type = tile;
+                // tile_elem.dataset.steps = step;
+                tile_elem.style = `--step: ${step};`;
+            }
+        }
+    }
+
+    /* Functions */
+    function BuildMaze_Display(w, h, map){
+        let display = document.getElementById('display');
+
+        let grid = document.createElement('div');
+        grid.classList.add('grid');
+
+        for(let y = 0; y < h; y++){
+            let row = document.createElement('div');
+            row.classList.add('row');
+            // row.dataset.y = y;
+            for(let x = 0; x < w; x++){
+                let tile = document.createElement('div');
+                tile.classList.add('tile');
+
+                tile.id = `xy,${x},${y}`;
+                // tile.dataset.x = x;
+                // tile.dataset.y = y;
+                // tile.dataset.steps = 0;
+                tile.dataset.type = `-1`;
+
+                row.appendChild(tile);
+            }
+            grid.appendChild(row);
+        }
+        display.appendChild(grid);
+    }
+    
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        let h = s.h * .94 - 108;
+        let w = s.w * .95;
+        console.log(`%cinnerWidth: %c${s.w}%c, innerHeight: %c${s.h}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+        console.log(`%cw: %c${w}%c, h: %c${h}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+
+        s.grid.cols = Math.floor((w - s.grid.margin) / s.tile.w);
+        s.grid.rows = Math.floor((h - s.grid.margin) / s.tile.h);
+        // if(s.grid.cols > 32) { s.grid.cols = 32; }
+        // if(s.grid.rows > 32) { s.grid.rows = 32; }
+        // s.grid.w = s.grid.cols * 16;
+        // s.grid.h = s.grid.rows * 16;
+        console.log(`%ccols: %c${s.grid.cols}%c, rows: %c${s.grid.rows}`, 'color:#ccc;', 'color:#39f;', 'color:#ccc;', 'color:#39f;');
+        
+        // let display = document.getElementById('display');
+        // display.style = `width: ${s.grid.w}px; height: ${s.grid.h}px;`;
+    }
+
+    /* Settings */
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        console.time("Load");
+
+        console.time("updateSettings");
+        updateSettings();
+        console.timeEnd("updateSettings");
+
+        console.log('---');
+        
+        console.time("BuildMaze_Display");
+        BuildMaze_Display(s.grid.cols,s.grid.rows);
+        console.timeEnd("BuildMaze_Display");
+
+        console.log('---');
+        
+        console.time("Maze");
+        level = new MazeSide(s.grid.cols,s.grid.rows);
+        console.time("MakePath");
+        level.MakePath();
+        console.timeEnd("MakePath");
+        console.timeEnd("Maze");
+
+        // console.log(`end: ${level.stepMap[level.end.y][level.end.x]}`);
+        // setTimeout(() => {
+        //     let display = document.getElementById("display");
+        //     display.style = `--total-steps: ${level.stepMap[level.end.y][level.end.x]};`;
+        // }, 2000);
+
+        console.timeEnd("Load");
+    });
+
+    /* Version Log:
+    [simple-nds-00]: Simplest Maze.
+    [simple-nds-01]: Makes long paths.
+    [simple-nds-02]: 
+    [simple-nds-03]: 
+    [simple-nds-04]: 
+    [simple-nds-05]: 
+    [simple-nds-06]: 
+    [simple-nds-07]: 
+    [simple-nds-08]: 
+    [simple-nds-09]: 
+    [simple-nds-10]: 
+    [simple-nds-11]: 
+    [simple-nds-12]: 
+    
+    */
+</script>
+</body>
+</html>
