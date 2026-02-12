@@ -8,8 +8,6 @@
     <title>Maze Bridges 🌉🎢 | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
-    <link rel="stylesheet" href="../../../stylesheets/logo.css">
-    <!-- <link rel="stylesheet" href="../../../stylesheets/custom.css"> -->
     <style>
         /* *::before, *::after {
             position: absolute;
@@ -17,11 +15,6 @@
             transform: translateX(-50%) translateY(-50%);
         } */
         .shelf.bg-macy1 {background-image: linear-gradient(45deg, #f391, #39f1);}
-        /* @property --color-spin {
-            syntax: "<angle>";
-            inherits: false;
-            initial-value: 0deg;
-        } */
     </style>
     <style>
         /* Maze, grid, rows, tiles. */
@@ -49,11 +42,6 @@
             --step: 0;
             --steps: 0;
             --total-steps: 360;
-
-            /* so it goes from blue to orange. */
-            --hue-loop: 180;
-            /* makes one circle through all colors and then lands on the color needed. */
-            --hue-loop: 540; 
         }
 
         /* General */
@@ -118,95 +106,12 @@
         .tile[data-type="0"] {
             --bg: var(--bwe); 
             --hue: calc(var(--step) * 0.25);
-            /* --step-size: calc(180 / var(--total-steps)); */
-            --step-size: calc(var(--hue-loop) / var(--total-steps));
+            --step-size: calc(180 / var(--total-steps));
             --hue: calc(210 - (var(--step) * var(--step-size))); 
             /* --hue: var(--step);  */
             --sat: 100%; 
             --lum: 60%; 
-            --alp: 1;
-            /* 
-            --hsl: hsla(var(--color-spin), var(--sat), var(--lum), var(--alp));
-            --hsl: hsla(calc((var(--hue) * 1deg) + var(--color-spin)), var(--sat), var(--lum), var(--alp)); */
-        }
-        /* .tile[data-type="0"] {
-            animation: glowbow 3600ms linear infinite both;
-        } */
-        @keyframes glowbow {
-            0%  {
-                --color-spin: 0deg;
-            }
-            50%  {
-                --color-spin: 180deg;
-            }
-            100% {
-                --color-spin: 360deg;
-            }
-        }
-        @keyframes glowbow03 {
-            0%  {
-                /* --color-spin: 0deg; */
-                /* --hue: calc(210 - (var(--step) * var(--step-size))); */
-                /* --hue: 0; */
-                --hsl: hsla(0deg, var(--sat), var(--lum), var(--alp));
-                /* --hsl: hsla(var(--color-spin), var(--sat), var(--lum), var(--alp)); */
-                /* background-color: var(--hsl); */
-            }
-            50%  {
-                /* --hue: 180; */
-                --hsl: hsla(180deg, var(--sat), var(--lum), var(--alp));
-                /* background-color: var(--hsl); */
-            }
-            100% {
-                /* --color-spin: 360deg; */
-                /* --hue: calc(210 - (var(--step) * var(--step-size))); */
-                /* --hue: 360; */
-                --hsl: hsla(360deg, var(--sat), var(--lum), var(--alp));
-                /* --hsl: hsla(var(--color-spin), var(--sat), var(--lum), var(--alp)); */
-                /* background-color: var(--hsl); */
-            }
-        }
-        @keyframes glowbow02 {
-            0%  {
-                /* --color-spin: 0deg; */
-                /* --hue: calc(210 - (var(--step) * var(--step-size))); */
-                --hue: 0;
-                --hsl: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
-                /* --hsl: hsla(var(--color-spin), var(--sat), var(--lum), var(--alp)); */
-                /* background-color: var(--hsl); */
-            }
-            50%  {
-                --hue: 180;
-                --hsl: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
-                /* background-color: var(--hsl); */
-            }
-            100% {
-                /* --color-spin: 360deg; */
-                /* --hue: calc(210 - (var(--step) * var(--step-size))); */
-                --hue: 360;
-                --hsl: hsla(var(--hue), var(--sat), var(--lum), var(--alp));
-                /* --hsl: hsla(var(--color-spin), var(--sat), var(--lum), var(--alp)); */
-                /* background-color: var(--hsl); */
-            }
-        }
-        @keyframes glowbow_01 {
-            from  {
-                --color-spin: 0deg;
-                /* --hue: calc(210 - (var(--step) * var(--step-size))); */
-                /* --hue: 0; */
-                /* --hsl: hsla(var(--hue), var(--sat), var(--lum), var(--alp)); */
-                --hsl: hsla(var(--color-spin), var(--sat), var(--lum), var(--alp));
-                background-color: var(--hsl);
-            }
-            to {
-                --color-spin: 360deg;
-                /* --hue: calc(210 - (var(--step) * var(--step-size))); */
-                /* --hue: 360; */
-                /* --hsl: hsla(var(--hue), var(--sat), var(--lum), var(--alp)); */
-                --hsl: hsla(var(--color-spin), var(--sat), var(--lum), var(--alp));
-                background-color: var(--hsl);
-            }
-        }
+            --alp: 1;}
 
         /* z-index */
         .tile[data-type="0"] {z-index: 2;}
@@ -306,8 +211,7 @@
             </svg>
         </a>
         <h1 class="title">Nytelabs</h1>
-        <div class="subtitle">Maze Bridge 🌉🎢🚧</div>
-        <!-- /* <div class="subtitle">Maze Bridge 🌉🎢🚧🛣🛤</div> */ -->
+        <div class="subtitle">Maze Bridge 🌉🎢</div>
         <!-- <div class="subtitle">Only makes mazes. (no players)</div> -->
         <!-- <div class="subtitle"> 🚧 Work in Progress...⏳ 🚧 </div> -->
         <!-- <div class="subtitle"> 🚧 Under Construction 🚧 </div> -->
@@ -364,7 +268,7 @@
         },
         maze: {
             stepMin: 2,
-            stepMax: 24
+            stepMax: 12
         },
         canvas: {
             h: window.innerHeight,
@@ -410,7 +314,6 @@
     }
 
     /* Classes */
-    
     class MazeSideJump {
         constructor(w, h, fill = -1) {
             this.h = h;
@@ -421,8 +324,6 @@
             this.maze = [];
             this.stepMap = [];
             this.step = 0;
-
-            this.bridgeCount = 0;
 
             this.FillMap();
             this.SelectStart();
@@ -449,9 +350,6 @@
             // this.MoveTo(this.end.x, this.end.y, 9, this.end.d);
             this.maze[this.end.y][this.end.x] = 9;
             this.UpdateTileInDOM(this.end.x, this.end.y, 9, this.end.d);
-            let display = document.getElementById("display");
-            display.style = `--total-steps: ${this.stepMap[this.end.y][this.end.x]};`;
-            console.log(`end: ${this.stepMap[this.end.y][this.end.x]}`);
         }
         IsInMap(x, y) {
             if (x < 0 || y < 0 || x >= this.w || y >= this.h) {
@@ -530,7 +428,6 @@
             // }
             return true;
         }
-        CheckBridge(x,y,d){}
 
         MakePath_Helper(x, y, steps = this.step) {
             let validSides = this.ValidPaths(x, y);
@@ -626,10 +523,11 @@
                 // tile_elem.style = `--step: ${step};`;
                 tile_elem.dataset.type = tile;
                 // tile_elem.dataset.steps = step;
-                tile_elem.style = `--step: ${step};`;
+                // tile_elem.style = `--steps: ${step};`;
             }
         }
     }
+
     class MazeSide {
         constructor(w, h, fill = -1) {
             this.h = h;
@@ -846,7 +744,7 @@
             }
         }
     }
-    
+
     /* Functions */
     function BuildMaze_Display(w, h, map){
         let display = document.getElementById('display');
@@ -913,8 +811,7 @@
         console.log('---');
         
         console.time("Maze");
-        // level = new MazeSide(s.grid.cols,s.grid.rows);
-        level = new MazeSideJump(s.grid.cols,s.grid.rows);
+        level = new MazeSide(s.grid.cols,s.grid.rows);
         console.time("MakePath");
         level.MakePath();
         console.timeEnd("MakePath");
@@ -932,8 +829,8 @@
     /* Version Log:
     [simple-nds-00]: Simplest Maze.
     [simple-nds-01]: Makes long paths.
-    [simple-nds-02]: No awkward spaces.
-    [simple-nds-03]: RainbowRoad.
+    [simple-nds-02]: 
+    [simple-nds-03]: 
     [simple-nds-04]: 
     [simple-nds-05]: 
     [simple-nds-06]: 
