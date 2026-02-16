@@ -17,11 +17,11 @@
             transform: translateX(-50%) translateY(-50%);
         } */
         .shelf.bg-macy1 {background-image: linear-gradient(45deg, #f391, #39f1);}
-        /* @property --color-spin {
+        @property --color-spin {
             syntax: "<angle>";
             inherits: false;
             initial-value: 0deg;
-        } */
+        }
     </style>
     <style>
         /* Maze, grid, rows, tiles. */
@@ -54,8 +54,6 @@
             --hue-loop: 180;
             /* makes one circle through all colors and then lands on the color needed. */
             --hue-loop: 540; 
-
-            --color-spin: 0deg;
         }
 
         /* General */
@@ -131,9 +129,9 @@
             --hsl: hsla(var(--color-spin), var(--sat), var(--lum), var(--alp));
             --hsl: hsla(calc((var(--hue) * 1deg) + var(--color-spin)), var(--sat), var(--lum), var(--alp));
         }
-        /* .tile[data-type="0"] {
+        .tile[data-type="0"] {
             animation: glowbow 3600ms linear infinite both;
-        } */
+        }
         @keyframes glowbow {
             0%  {
                 --color-spin: 0deg;
@@ -937,7 +935,7 @@
     [simple-nds-02]: No awkward spaces.
     [simple-nds-03]: RainbowRoad.
     [simple-nds-04]: 
-    [simple-nds-05]: Rainbow Active.
+    [simple-nds-05]: 
     [simple-nds-06]: 
     [simple-nds-07]: 
     [simple-nds-08]: 
