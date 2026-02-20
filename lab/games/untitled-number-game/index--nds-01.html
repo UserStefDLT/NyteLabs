@@ -33,15 +33,9 @@
         margin: 4px;
         width: 24px;
         height: 24px;
-        user-select: none;
-        cursor: pointer;
     }
     .tile:hover {
         background-color: #39f6;
-    }
-    [data-selected="true"] {
-        background-color: #39f6;
-        box-shadow: 0 0 2px 2px #39f9;
     }
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
@@ -221,18 +215,7 @@ function NumbersInGrid(w,h){
         for (let x = 0; x < w; x++) {
             let tile = document.createElement("div");
             tile.classList.add("tile");
-            let val = Math.floor(Math.random() * 6);
-            tile.innerText = val;
-            tile.dataset.val = val;
-       
-            tile.id = `y${y},x${x}`;
-            tile.dataset.yx = `${y},${x}`;
-            tile.dataset.y = `${y}`;
-            tile.dataset.x = `${x}`;
-            tile.dataset.selected = false;
-            tile.addEventListener("click", ev => {
-                selectNumber(ev);
-            });
+            tile.innerText = Math.floor(Math.random() * 8);
             row.appendChild(tile);
         }
         grid.appendChild(row);
@@ -240,42 +223,17 @@ function NumbersInGrid(w,h){
     display.appendChild(grid);
 }
 
-// selectvar
-var sVar = {
-    selecting: false,
-    selected: -1,
-    selected_id: {x:-1, y:-1}
-};
-function selectNumber(ev){
-    let val = ev.target.dataset.val;
-    let targetX = ev.target.dataset.x;
-    let targetY = ev.target.dataset.y;
-    if(sVar.selecting) {
-        let val1 = document.getElementById(`y${sVar.selected_id.y},x${sVar.selected_id.x}`);
-        let val2 = document.getElementById(`y${targetY},x${targetX}`);
+// // selectvar
+// var sVar = {
+//     selecting: false,
+//     selected: -1
+// };
+// function selectNumber(ev){
+//     let val = ev.target.dataset.val;
+//     if(sVar.selecting) {
         
-        val1.innerHTML = val2.dataset.val;
-        val1.dataset.val = val2.dataset.val;
-        val2.innerHTML = sVar.selected;
-        val2.dataset.val = sVar.selected;
-        val1.dataset.selected = "false";
-
-        setTimeout(() => {
-            sVar.selecting = false;
-            sVar.selected = -1;
-            sVar.selected_id.x = -1;
-            sVar.selected_id.y = -1;
-        }, 500);
-
-    } else {
-        sVar.selecting = true;
-        sVar.selected = val;
-        sVar.selected_id.x = targetX;
-        sVar.selected_id.y = targetY;
-        let val2 = document.getElementById(`y${targetY},x${targetX}`);
-        val2.dataset.selected = "true";
-    }
-}
+//     }
+// }
 
     /* ─── Events ─── */
     function updateSettings(){
@@ -330,8 +288,8 @@ function selectNumber(ev){
     });
     /* Version Log:
     [index-nds-00]: Default Template.
-    [index-nds-01]: makes the numbers.
-    [index-nds-02]: you can switch them.
+    [index-nds-01]: 
+    [index-nds-02]: 
     [index-nds-03]: 
     [index-nds-04]: 
     [index-nds-05]: 
