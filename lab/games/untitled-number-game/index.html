@@ -240,6 +240,10 @@ function NumbersInGrid(w,h){
     display.appendChild(grid);
 }
 
+function DistanceBetweenTiles(a,b){
+    return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+}
+
 // selectvar
 var sVar = {
     selecting: false,
@@ -250,9 +254,16 @@ function selectNumber(ev){
     let val = ev.target.dataset.val;
     let targetX = ev.target.dataset.x;
     let targetY = ev.target.dataset.y;
+    // if same id, then deselect.
     if(sVar.selecting) {
+        let distanceAB = DistanceBetweenTiles({x: sVar.selected_id.x, y: sVar.selected_id.y},{x: targetX, y: targetY});
+        console.log(`distanceAB: ${distanceAB}`);
+
+        if(distanceAB > 1){return;}
+
         let val1 = document.getElementById(`y${sVar.selected_id.y},x${sVar.selected_id.x}`);
         let val2 = document.getElementById(`y${targetY},x${targetX}`);
+
         
         val1.innerHTML = val2.dataset.val;
         val1.dataset.val = val2.dataset.val;
