@@ -207,11 +207,7 @@ const glyphs = [0,1,2,3,4,5,6,7,8,9,"a","b"];
 📕📙📒📗📘
 🟥🟧🟨🟩🟦
 🔴🟠🟡🟢🔵
-❤️🧡💛💚💙💜
-
-🍅🍆🍇🍈🍉🍊🍋🍌🍍🍎🍏🍐🍑🍒🍓
-🌑🌒🌓🌔🌕🌖🌗🌘
-♈♉♊♋♌♍♎♏♐♑♒♓
+❤️🧡💛💚💙
 
 '🟥', '🟧', '🟨', '🟩', '🟦', '🔴', '🟠', '🟡', '🟢', '🔵', '❤️', '🧡', '💛', '💚', '💙'
 
@@ -225,11 +221,7 @@ const gly = {
     '❤️': {'color': "red", 'shape': "heart"}, '🧡': {'color': "orange", 'shape': "heart"}, '💛': {'color': "yellow", 'shape': "heart"}, '💚': {'color': "green", 'shape': "heart"}, '💙': {'color': "blue", 'shape': "heart"}
 };
 
-'❤️', '🧡', '💛', '💚', '💙', '💜'
-
 */
-/* ─── Res ─── */
-/*
 const gly = {
     '🟥': {'color': "red", 'shape': "square"}, 
     '🟧': {'color': "orange", 'shape': "square"}, 
@@ -249,43 +241,7 @@ const gly = {
 };
 const iconRow = ['🟥', '🟧', '🟨', '🟩', '🟦', '🔴', '🟠', '🟡', '🟢', '🔵', '❤️', '🧡', '💛', '💚', '💙'];
 
-const iconVal = {
-    '❤️': "red", 
-    '🧡': "orange", 
-    '💛': "yellow", 
-    '💚': "green", 
-    '💙': "blue", 
-    '💜': "purple"
-};
-*/
-// const iconRow = ['❤️', '🧡', '💛', '💚', '💙', '💜'];
-// const iconVal = {
-//     '❤️': "r", 
-//     '🧡': "o", 
-//     '💛': "y", 
-//     '💚': "g", 
-//     '💙': "b", 
-//     '💜': "p"
-// };
 
-const iconRow = ['🟥', '🟧', '🟨', '🟩', '🟦', '🔴', '🟠', '🟡', '🟢', '🔵', '❤️', '🧡', '💛', '💚', '💙'];
-const iconVal = {
-    '🟥': "a",
-    '🟧': "b",
-    '🟨': "c",
-    '🟩': "d",
-    '🟦': "e",
-    '🔴': "f",
-    '🟠': "g",
-    '🟡': "h",
-    '🟢': "i",
-    '🔵': "j",
-    '❤️': "k",
-    '🧡': "l",
-    '💛': "m",
-    '💚': "n",
-    '💙': "o"
-};
 
 // make a function that makes a 5 by 5 grid.
 // make a function that resorts the positon of all numbers inside the grid.
@@ -296,8 +252,7 @@ const iconVal = {
 
 function randomVal(){
     let len = iconRow.length;
-    let index = Math.floor(Math.random()*len);
-    let val = iconRow[index];
+    let val = Math.floor(Math.random()*len);
     return val;
 }
 
@@ -311,11 +266,9 @@ function NumbersInGrid(w,h){
         for (let x = 0; x < w; x++) {
             let tile = document.createElement("div");
             tile.classList.add("tile");
-            // let val = Math.floor(Math.random() * 6);
-            let val = randomVal();
+            let val = Math.floor(Math.random() * 6);
             tile.innerText = val;
             tile.dataset.val = val;
-            // tile.dataset.val = iconVal[val];
        
             tile.id = `y${y},x${x}`;
             tile.dataset.yx = `${y},${x}`;
@@ -334,85 +287,6 @@ function NumbersInGrid(w,h){
 
 function DistanceBetweenTiles(a,b){
     return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
-}
-// const myRe = /.{3,}/g;
-const match3 = /(.)\1{2,}/g;
-
-function CrashCheckRow(y){
-    let xrow = [];
-    // let ycol = [];
-    for(let xi = 0; xi < gs.w; xi++) {
-        let xVal = document.getElementById(`y${y},x${xi}`).dataset.val;
-        // xrow.push(xVal);
-        xrow.push(iconVal[xVal]);
-    }
-    let xstring = xrow.join("");
-    console.log(`xstring: ${xstring};`);
-    xstring.match(match3);
-    let xfind = xstring.match(match3) != null;
-    console.log(`xfind: ${xfind};`);
-    if(xfind) {return xfind;}
-    // // return xstring.match(match3) != null;
-    // for(let yi = 0; yi < gs.h; yi++) {
-    //     let yVal = document.getElementById(`y${yi},x${x}`).dataset.val;
-    //     ycol.push(yVal);
-    // }
-    // let ystring = ycol.join("");
-    // console.log(`ystring: ${ystring};`);
-    // ystring.match(match3);
-    // let yfind = ystring.match(match3) != null;
-    // if(yfind) {return yfind;}
-    // // return ystring.match(match3) != null;
-}
-function CrashCheckCol(x){
-    // let xrow = [];
-    let ycol = [];
-    // for(let xi = 0; xi < gs.w; xi++) {
-    //     let xVal = document.getElementById(`y${y},x${xi}`).dataset.val;
-    //     xrow.push(xVal);
-    // }
-    // let xstring = xrow.join("");
-    // console.log(`xstring: ${xstring};`);
-    // xstring.match(match3);
-    // let xfind = xstring.match(match3) != null;
-    // if(xfind) {return xfind;}
-    // // return xstring.match(match3) != null;
-    for(let yi = 0; yi < gs.h; yi++) {
-        let yVal = document.getElementById(`y${yi},x${x}`).dataset.val;
-        // ycol.push(yVal);
-        ycol.push(iconVal[yVal]);
-    }
-    let ystring = ycol.join("");
-    console.log(`ystring: ${ystring};`);
-    ystring.match(match3);
-    let yfind = ystring.match(match3) != null;
-    console.log(`yfind: ${yfind};`);
-    if(yfind) {return yfind;}
-    // return ystring.match(match3) != null;
-}
-function CrashCheck(x,y){
-    let xrow = [];
-    let ycol = [];
-    for(let xi = 0; xi < gs.w; xi++) {
-        let xVal = document.getElementById(`y${y},x${xi}`).dataset.val;
-        xrow.push(xVal);
-    }
-    let xstring = xrow.join("");
-    console.log(`xstring: ${xstring};`);
-    xstring.match(match3);
-    let xfind = xstring.match(match3) != null;
-    if(xfind) {return xfind;}
-    // return xstring.match(match3) != null;
-    for(let yi = 0; yi < gs.h; yi++) {
-        let yVal = document.getElementById(`y${yi},x${x}`).dataset.val;
-        ycol.push(yVal);
-    }
-    let ystring = ycol.join("");
-    console.log(`ystring: ${ystring};`);
-    ystring.match(match3);
-    let yfind = ystring.match(match3) != null;
-    if(yfind) {return yfind;}
-    // return ystring.match(match3) != null;
 }
 
 // selectvar
@@ -441,7 +315,6 @@ function selectNumber(ev){
         val2.innerHTML = sVar.selected;
         val2.dataset.val = sVar.selected;
         val1.dataset.selected = "false";
-
 
         // victory conditions.
         /*
@@ -511,28 +384,20 @@ function selectNumber(ev){
         updateSettings();
     });
 
-    // gameStats: gs
-    const gs = {
-        h: 8,
-        w: 8,
-        map: [],
-    }
     window.addEventListener('load', (ev) => {
         console.log(`Welcome to my Lab!`);
         updateSettings();
         // start();
 
-
-
-        NumbersInGrid(gs.w,gs.h);
+        NumbersInGrid(5,5);
         // update();
     });
     /* Version Log:
     [index-nds-00]: Default Template.
     [index-nds-01]: makes the numbers.
     [index-nds-02]: you can switch them.
-    [index-nds-03]: you can only switch next to eachother.
-    [index-nds-04]: for now, it is with emojis and can evaluate if there are 3 or more in a row, but it doesn't replace them yet.
+    [index-nds-03]: 
+    [index-nds-04]: 
     [index-nds-05]: 
     [index-nds-06]: 
     [index-nds-07]: 
