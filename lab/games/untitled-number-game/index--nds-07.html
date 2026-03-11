@@ -43,6 +43,9 @@
         background-color: #39f6;
         box-shadow: 0 0 2px 2px #39f9;
     }
+    #score {
+        user-select: none;
+    }
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
     <link rel="stylesheet" href="../../../stylesheets/end.css">
@@ -94,7 +97,7 @@
 
 <main>
     <div class="shelf">
-        <h3 class="shelf-title">experiment</h3>
+        <h3 class="shelf-title">Score: <span id="score">0</span></h3>
         <div id="display"></div>
     </div>
     <!-- <canvas id="canvas"></canvas> -->
@@ -258,15 +261,87 @@ const iconVal = {
     '💜': "purple"
 };
 */
-const iconRow = ['❤️', '🧡', '💛', '💚', '💙', '💜'];
+// const iconRow = ['❤️', '🧡', '💛', '💚', '💙', '💜'];
+// const iconVal = {
+//     '❤️': "r", 
+//     '🧡': "o", 
+//     '💛': "y", 
+//     '💚': "g", 
+//     '💙': "b", 
+//     '💜': "p"
+// };
+
+/*
+📕📙📗📘
+🟥🟧🟩🟦
+🔴🟠🟢🔵
+❤️🧡💚💙
+
+🟥🟩🟦
+🔴🟢🔵
+❤️💚💙
+*/
+
+// const iconRow = ['🟥', '🟧', '🟨', '🟩', '🟦', '🔴', '🟠', '🟡', '🟢', '🔵', '❤️', '🧡', '💛', '💚', '💙'];
+// const iconVal = {
+//     '🟥': "a",
+//     '🟧': "b",
+//     '🟨': "c",
+//     '🟩': "d",
+//     '🟦': "e",
+//     '🔴': "f",
+//     '🟠': "g",
+//     '🟡': "h",
+//     '🟢': "i",
+//     '🔵': "j",
+//     '❤️': "k",
+//     '🧡': "l",
+//     '💛': "m",
+//     '💚': "n",
+//     '💙': "o"
+// };
+// const iconValr = {
+//     'a': "🟥",
+//     'b': "🟧",
+//     'c': "🟨",
+//     'd': "🟩",
+//     'e': "🟦",
+//     'f': "🔴",
+//     'g': "🟠",
+//     'h': "🟡",
+//     'i': "🟢",
+//     'j': "🔵",
+//     'k': "❤️",
+//     'l': "🧡",
+//     'm': "💛",
+//     'n': "💚",
+//     'o': "💙"
+// };
+
+const iconRow = ['🟥', '🟩', '🟦', '🔴', '🟢', '🔵', '❤️', '💚', '💙'];
 const iconVal = {
-    '❤️': "r", 
-    '🧡': "o", 
-    '💛': "y", 
-    '💚': "g", 
-    '💙': "b", 
-    '💜': "p"
+    '🟥': 'a', 
+    '🟩': 'b', 
+    '🟦': 'c', 
+    '🔴': 'd', 
+    '🟢': 'e', 
+    '🔵': 'f', 
+    '❤️': 'g', 
+    '💚': 'h', 
+    '💙': 'i'
 };
+const iconValr = {
+    'a': '🟥', 
+    'b': '🟩', 
+    'c': '🟦', 
+    'd': '🔴', 
+    'e': '🟢', 
+    'f': '🔵', 
+    'g': '❤️', 
+    'h': '💚', 
+    'i': '💙'
+};
+
 
 // make a function that makes a 5 by 5 grid.
 // make a function that resorts the positon of all numbers inside the grid.
@@ -319,7 +394,51 @@ function DistanceBetweenTiles(a,b){
 // const myRe = /.{3,}/g;
 const match3 = /(.)\1{2,}/g;
 
+
 function CrashCheckRow(y){
+    let xrow = [];
+    for(let xi = 0; xi < gs.w; xi++) {
+        let xVal = document.getElementById(`y${y},x${xi}`).dataset.val;
+        xrow.push(iconVal[xVal]);
+    }
+    let xstring = xrow.join("");
+    console.log(`xstring: ${xstring};`);
+
+    let xmatch = xstring.match(match3);
+    // console.log(`xmatch: ${xmatch};`);
+
+    if(xmatch) {
+        let ix = xstring.indexOf(xmatch);
+        let icon = iconValr[xmatch[0].slice(0,1)];
+        let res = {'str': xstring, 'match': xmatch, 'index': ix, 'icon': icon};
+        return res;
+    } else {
+        return xmatch;
+    }
+}
+function CrashCheckCol(x){
+    let ycol = [];
+    for(let yi = 0; yi < gs.h; yi++) {
+        let yVal = document.getElementById(`y${yi},x${x}`).dataset.val;
+        ycol.push(iconVal[yVal]);
+    }
+    let ystring = ycol.join("");
+    console.log(`ystring: ${ystring};`);
+
+    let ymatch = ystring.match(match3);
+    // console.log(`ymatch: ${ymatch};`);
+
+    if(ymatch) {
+        let iy = ystring.indexOf(ymatch);
+        let icon = iconValr[ymatch[0].slice(0,1)];
+        let res = {'str': ystring, 'match': ymatch, 'index': iy, 'icon': icon};
+        return res;
+    } else {
+        return ymatch;
+    }
+}
+
+function CrashCheckRow1(y){
     let xrow = [];
     // let ycol = [];
     for(let xi = 0; xi < gs.w; xi++) {
@@ -329,7 +448,10 @@ function CrashCheckRow(y){
     }
     let xstring = xrow.join("");
     console.log(`xstring: ${xstring};`);
-    xstring.match(match3);
+    // xstring.match(match3);
+    let xmatch = xstring.match(match3);
+    console.log(`xmatch: ${xmatch};`);
+
     let xfind = xstring.match(match3) != null;
     console.log(`xfind: ${xfind};`);
     if(xfind) {return xfind;}
@@ -345,7 +467,7 @@ function CrashCheckRow(y){
     // if(yfind) {return yfind;}
     // // return ystring.match(match3) != null;
 }
-function CrashCheckCol(x){
+function CrashCheckCol1(x){
     // let xrow = [];
     let ycol = [];
     // for(let xi = 0; xi < gs.w; xi++) {
@@ -365,7 +487,10 @@ function CrashCheckCol(x){
     }
     let ystring = ycol.join("");
     console.log(`ystring: ${ystring};`);
-    ystring.match(match3);
+    // ystring.match(match3);
+    let ymatch = ystring.match(match3);
+    console.log(`ymatch: ${ymatch};`);
+
     let yfind = ystring.match(match3) != null;
     console.log(`yfind: ${yfind};`);
     if(yfind) {return yfind;}
@@ -396,6 +521,76 @@ function CrashCheck(x,y){
     // return ystring.match(match3) != null;
 }
 
+// function RandomReplace(x,y,e){
+
+//     let newVal = randomVal();
+//     let tile = document.getElementById(`y${y},x${x}`);
+//     tile.innerText = newVal;
+//     tile.dataset.val = newVal;
+
+// }
+
+function ResetScore(){
+    gs.score = 0;
+    let scoreDisplay = document.getElementById("score");
+    scoreDisplay.innerText = gs.score;
+}
+function Score(){
+    gs.score += 10;
+    let scoreDisplay = document.getElementById("score");
+    scoreDisplay.innerText = gs.score;
+}
+
+function ReplaceOnRow(y,e,index){
+    for(let i = index; i < gs.w; i++){
+        let tile = document.getElementById(`y${y},x${i}`);
+        let tileIcon = tile.dataset.val;
+        if(tileIcon == e){
+            let newVal = randomVal();
+            tile.innerText = newVal;
+            tile.dataset.val = newVal;
+        } else {
+            i = gs.w;
+        }
+    }
+}
+function ReplaceOnCol(x,e,index){
+    for(let i = index; i < gs.h; i++){
+        let tile = document.getElementById(`y${i},x${x}`);
+        let tileIcon = tile.dataset.val;
+        if(tileIcon == e){
+            let newVal = randomVal();
+            tile.innerText = newVal;
+            tile.dataset.val = newVal;
+        } else {
+            i = gs.h;
+        }
+    }
+}
+
+function CheckStuff(x,y){
+    let rowR = CrashCheckRow(y);
+    console.log(`rowR: ${rowR}`);
+    console.log(rowR);
+    let matchingIcon = "";
+    if(rowR != null) {
+        matchingIcon = rowR.icon;
+        console.log(`icon: ${matchingIcon};`);
+        ReplaceOnRow(y,rowR.icon,rowR.index);
+        Score();
+    }
+    let colR = CrashCheckCol(x);
+    console.log(`colR: ${colR}`);
+    console.log(colR);
+    if(colR != null) {
+        matchingIcon = colR.icon;
+        console.log(`icon: ${matchingIcon};`);
+        ReplaceOnCol(x,colR.icon,colR.index);
+        Score();
+    }
+    return matchingIcon;
+}
+
 // selectvar
 var sVar = {
     selecting: false,
@@ -409,7 +604,7 @@ function selectNumber(ev){
     // if same id, then deselect.
     if(sVar.selecting) {
         let distanceAB = DistanceBetweenTiles({x: sVar.selected_id.x, y: sVar.selected_id.y},{x: targetX, y: targetY});
-        console.log(`distanceAB: ${distanceAB}`);
+        // console.log(`distanceAB: ${distanceAB}`);
 
         if(distanceAB > 1){return;}
 
@@ -431,6 +626,9 @@ function selectNumber(ev){
         We could make new ones fall all down.
         We could just remove them and count the points.
         */
+        CheckStuff(targetX,targetY);
+        CheckStuff(sVar.selected_id.x,sVar.selected_id.y);
+
 
         setTimeout(() => {
             sVar.selecting = false;
@@ -447,6 +645,21 @@ function selectNumber(ev){
         let val2 = document.getElementById(`y${targetY},x${targetX}`);
         val2.dataset.selected = "true";
     }
+}
+
+function EvalMap(){
+    console.log("EvalMap()");
+    let dialen = Math.max(gs.h,gs.w);
+    console.log(`len: ${dialen};`);
+    for (let i = 0; i < dialen; i++) {
+        let x = Math.min(i,gs.w);
+        let y = Math.min(i,gs.h);
+        CheckStuff(x,y);
+    }
+    gs.score = -1;
+    // Score();
+    ResetScore()
+    // CheckStuff(targetX,targetY);
 }
 
     /* ─── Events ─── */
@@ -494,9 +707,10 @@ function selectNumber(ev){
 
     // gameStats: gs
     const gs = {
-        h: 5,
-        w: 5,
+        h: 8,
+        w: 8,
         map: [],
+        score: 0,
     }
     window.addEventListener('load', (ev) => {
         console.log(`Welcome to my Lab!`);
@@ -506,6 +720,7 @@ function selectNumber(ev){
 
 
         NumbersInGrid(gs.w,gs.h);
+        EvalMap();
         // update();
     });
     /* Version Log:
@@ -514,9 +729,9 @@ function selectNumber(ev){
     [index-nds-02]: you can switch them.
     [index-nds-03]: you can only switch next to eachother.
     [index-nds-04]: for now, it is with emojis and can evaluate if there are 3 or more in a row, but it doesn't replace them yet.
-    [index-nds-05]: 
-    [index-nds-06]: 
-    [index-nds-07]: 
+    [index-nds-05]: Replaces matches of 3 or more.
+    [index-nds-06]: It keeps a score.
+    [index-nds-07]: Starts without premade matches, and scores go up to 10 per match.
     [index-nds-08]: 
     [index-nds-09]: 
     [index-nds-10]: 
