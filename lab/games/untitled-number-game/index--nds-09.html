@@ -30,7 +30,7 @@
     }
     .tile {
         outline: 1px solid #39f;
-        margin: 1px;
+        margin: 4px;
         width: 24px;
         height: 24px;
         user-select: none;
@@ -333,49 +333,6 @@ const iconVal = {
 */
 
 /*
-
-'&#128338;',
-'&#128341;',
-'&#128344;',
-'&#128347;',
-'&#128350;',
-'&#128353;',
-'&#128356;',
-'&#128359;',
-
-Hourly Clock Faces
-The 12-hour set follows a sequential pattern: 
-Time 	Emoji	Decimal Code	Hex Code
-1:00	🕐	&#128336;	&#x1F550;
-2:00	🕑	&#128337;	&#x1F551;
-3:00	🕒	&#128338;	&#x1F552;
-4:00	🕓	&#128339;	&#x1F553;
-5:00	🕔	&#128340;	&#x1F554;
-6:00	🕕	&#128341;	&#x1F555;
-7:00	🕖	&#128342;	&#x1F556;
-8:00	🕗	&#128343;	&#x1F557;
-9:00	🕘	&#128344;	&#x1F558;
-10:00	🕙	&#128345;	&#x1F559;
-11:00	🕚	&#128346;	&#x1F55A;
-12:00	🕛	&#128347;	&#x1F55B;
-Half-Hour Clock Faces
-The half-hour marks continue the sequence: 
-Time 	Emoji	Decimal Code	Hex Code
-1:30	🕜	&#128348;	&#x1F55C;
-2:30	🕝	&#128349;	&#x1F55D;
-3:30	🕞	&#128350;	&#x1F55E;
-4:30	🕟	&#128351;	&#x1F55F;
-5:30	🕠	&#128352;	&#x1F560;
-6:30	🕡	&#128353;	&#x1F561;
-7:30	🕢	&#128354;	&#x1F562;
-8:30	🕣	&#128355;	&#x1F563;
-9:30	🕤	&#128356;	&#x1F564;
-10:30	🕥	&#128357;	&#x1F565;
-11:30	🕦	&#128358;	&#x1F566;
-12:30	🕧	&#128359;	&#x1F567;
-*/
-
-/*
 const iconRow = ['🟥', '🟧', '🟨', '🟩', '🟦', '🔴', '🟠', '🟡', '🟢', '🔵', '❤️', '🧡', '💛', '💚', '💙'];
 const iconVal = {
     '🟥': "a",
@@ -443,8 +400,8 @@ const iconValr = {
 🍅🍇🍈🍉🍊🍋🍌🍍🍎🍏🍐🍑🍒🍓
 */
 
-var iconRow = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'];
-var iconVal = {
+const iconRow = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'];
+const iconVal = {
     '🌑': 'a', 
     '🌒': 'b', 
     '🌓': 'c', 
@@ -454,7 +411,7 @@ var iconVal = {
     '🌗': 'g', 
     '🌘': 'h'
 };
-var iconValr = {
+const iconValr = {
     'a': '🌑', 
     'b': '🌒', 
     'c': '🌓', 
@@ -464,30 +421,6 @@ var iconValr = {
     'g': '🌗', 
     'h': '🌘'
 };
-
-
-function EmojiEncoding(elist){
-    iconVal = {};
-    iconValr = {};
-    iconRow = [...elist.split('')];
-    for (let i = 0; i < 26; i++) {
-        let eChar = String.fromCharCode(i+65);
-        let eIcon = iconRow[i];
-        iconVal[eIcon] = eChar;
-        iconValr[eChar] = eIcon;
-    }   
-}
-function EmojiEncoding2(elist){
-    iconVal = {};
-    iconValr = {};
-    iconRow = [...elist];
-    for (let i = 0; i < 26; i++) {
-        let eChar = String.fromCharCode(i+65);
-        let eIcon = iconRow[i];
-        iconVal[eIcon] = eChar;
-        iconValr[eChar] = eIcon;
-    }   
-}
 
 // make a function that makes a 5 by 5 grid.
 // make a function that resorts the positon of all numbers inside the grid.
@@ -515,8 +448,7 @@ function NumbersInGrid(w,h){
             tile.classList.add("tile");
             // let val = Math.floor(Math.random() * 6);
             let val = randomVal();
-            // tile.innerText = val;
-            tile.innerHTML = val;
+            tile.innerText = val;
             tile.dataset.val = val;
             // tile.dataset.val = iconVal[val];
        
@@ -680,22 +612,19 @@ function CrashCheck(x,y){
 function ResetScore(){
     gs.score = 0;
     let scoreDisplay = document.getElementById("score");
-    // scoreDisplay.innerText = gs.score;
-    scoreDisplay.innerHTML = gs.score;
+    scoreDisplay.innerText = gs.score;
 }
 function Score(){
     gs.score += 10;
     let scoreDisplay = document.getElementById("score");
-    // scoreDisplay.innerText = gs.score;
-    scoreDisplay.innerHTML = gs.score;
+    scoreDisplay.innerText = gs.score;
 }
 function ScoreUp(n){
     let scoreToAdd = n*3;
     console.log(`Score: ${scoreToAdd} 🏆`);
     gs.score += scoreToAdd;
     let scoreDisplay = document.getElementById("score");
-    // scoreDisplay.innerText = gs.score;   
-    scoreDisplay.innerHTML = gs.score;   
+    scoreDisplay.innerText = gs.score;   
 }
 
 function ReplaceOnRow(y,e,index){
@@ -707,8 +636,7 @@ function ReplaceOnRow(y,e,index){
             score++;
             tile.classList.toggle("scored");
             let newVal = randomVal();
-            // tile.innerText = newVal;
-            tile.innerHTML = newVal;
+            tile.innerText = newVal;
             tile.dataset.val = newVal;
             setTimeout(() => {
                 tile.classList.toggle("scored");
@@ -728,8 +656,7 @@ function ReplaceOnCol(x,e,index){
             score++;
             tile.classList.toggle("scored");
             let newVal = randomVal();
-            // tile.innerText = newVal;
-            tile.innerHTML = newVal;
+            tile.innerText = newVal;
             tile.dataset.val = newVal;
             setTimeout(() => {
                 tile.classList.toggle("scored");
@@ -880,8 +807,8 @@ function EvalMap(){
 
     // gameStats: gs
     const gs = {
-        h: 12,
-        w: 12,
+        h: 8,
+        w: 8,
         map: [],
         score: 0,
     }
@@ -889,23 +816,8 @@ function EvalMap(){
         console.log(`Welcome to my Lab!`);
         updateSettings();
         // start();
-/*
-🌑🌒🌓🌔🌕🌖🌗🌘
-♈♉♊♋♌♍♎♏♐♑♒♓
-🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚🕛🕜🕝🕞🕟🕠🕡🕢🕣🕤🕥🕦🕧
-🍅🍇🍈🍉🍊🍋🍌🍍🍎🍏🍐🍑🍒🍓
-*/
-        // EmojiEncoding('♈♉♊♋♌♍♎♏♐♑♒♓');
-        // EmojiEncoding('🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚🕛🕜🕝🕞🕟🕠🕡🕢🕣🕤🕥🕦🕧');
-        // EmojiEncoding('🕒🕕🕘🕛🕞🕡🕤🕧');
-        EmojiEncoding2(['&#128338;',
-'&#128341;',
-'&#128344;',
-'&#128347;',
-'&#128350;',
-'&#128353;',
-'&#128356;',
-'&#128359;']);
+
+
 
         NumbersInGrid(gs.w,gs.h);
         EvalMap();
@@ -921,8 +833,8 @@ function EvalMap(){
     [index-nds-06]: It keeps a score.
     [index-nds-07]: Starts without premade matches, and scores go up to 10 per match.
     [index-nds-08]: It glows when scored. Now it its 3 points per matching tile.
-    [index-nds-09]: It uses a different emoji list.
-    [index-nds-10]: It can adapt to different emoji lists.
+    [index-nds-09]: 
+    [index-nds-10]: 
     [index-nds-11]: 
     [index-nds-12]: 
     
