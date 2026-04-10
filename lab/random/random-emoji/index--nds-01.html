@@ -22,7 +22,6 @@
     .class {}
     .screen-result {
         font-size: min(60vw, 54vh);
-        user-select: none;
     }
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
@@ -234,7 +233,6 @@ const emojiList = ["⌚","⌛","⏩","⏪","⏫","⏬","⏭","⏮","⏯","⏰","
 
 function DisplayRandom(){
     let display = document.getElementById("display");
-    display.innerHTML = '';
     let card = document.createElement("div");
     card.classList.add("screen-result");
     // String.fromCharCode(i+65)
@@ -299,8 +297,6 @@ function DisplayRandom(){
         updateSettings();
         // start();
         // update();
-        let display = document.getElementById("display");
-        display.addEventListener("click", (ev) => {DisplayRandom();});
         DisplayRandom();
     });
     /* Version Log:

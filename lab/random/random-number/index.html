@@ -22,6 +22,7 @@
     .class {}
     .screen-result {
         font-size: min(80vw, 60vh);
+        user-select: none;
     }
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
@@ -169,6 +170,7 @@
 
 function DisplayRandom(){
     let display = document.getElementById("display");
+    display.innerHTML = '';
     let card = document.createElement("div");
     card.classList.add("screen-result");
     let n = Math.floor(Math.random() * 10);
@@ -225,6 +227,8 @@ function DisplayRandom(){
         updateSettings();
         // start();
         // update();
+        let display = document.getElementById("display");
+        display.addEventListener("click", (ev) => {DisplayRandom();});
         DisplayRandom();
     });
     /* Version Log:
