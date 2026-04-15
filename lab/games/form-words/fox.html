@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title>Form Words | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <link rel="stylesheet" href="../../../stylesheets/logo.css">
+    <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        /* :root {} */
+    </style>
+<style>
+    .grid, .row, .tile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .grid {flex-direction: column;}
+    .row {
+        flex-direction: row;
+    }
+    .tile {
+        outline: 1px solid #39f;
+        margin: 1px;
+        width: 24px;
+        height: 24px;
+        user-select: none;
+        cursor: pointer;
+    }
+    .tile:hover {
+        background-color: #39f6;
+    }
+    [data-selected="true"] {
+        background-color: #39f6;
+        box-shadow: 0 0 2px 2px #39f9;
+    }
+    #score {
+        user-select: none;
+    }
+    .tile[data-scored="1"] {
+        background-color: #fd36;
+        box-shadow: 0 0 4px 3px #ff09;
+    }
+    .scored {
+        /* background-color: #fd36; */
+        box-shadow: 0 0 4px 3px #ff09;
+        animation: score-glow 900ms linear 1 forwards;
+    }
+    @keyframes score-glow {
+        0% {box-shadow: 0 0 4px 3px #ff09;}
+        100% {box-shadow: 0 0 4px 3px #ff00;}
+    }
+</style>
+    <link rel="stylesheet" href="../../../stylesheets/settings2.css">
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+    <style>
+        #copy {
+            position: relative;
+            color: #0000;
+        }
+        #copy::after {
+            content: "&copy; 2026 | by Stéfano De La Torre";
+            content: "© 2026 | by Stéfano De La Torre";
+            color: hsla(210, 5%, 29%, 89%);
+            position: absolute;
+            left: 0; top: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <a href="../../../o.html" style="height: 46px;">
+            <svg id="logo" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <filter id="moon-shadow" x="-25%" y="-25%" width="150%" height="150%">
+                        <feDropShadow dx="0" dy="0" stdDeviation="0" />
+                    </filter>
+                    <filter id="moon-shadow2" x="-250%" y="-250%" width="600%" height="600%">
+                        <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#fff6" />
+                        <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#00f" />
+                        <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#0f0" />
+                        <feDropShadow dx="0" dy="0" stdDeviation="16" flood-color="#f00" />
+                    </filter>
+                </defs>
+                <rect class="svgmoon" x="60" y="60" width="20" height="20" rx="0" />
+                <path class="smile" 
+                  d="M 0,80L 20,80 L 20,100 L 120,100 
+                    L 120,80 L 140,80 L 140 120 L 0 120 z" />
+                <path class="smile-border" 
+                  d="M 0,80 L 20,80 L 20,100 L 120,100 L 120,80 L 140,80
+                    L 140,81 L 121,81 L 121,101 L 19,101 L 19,81 L 0,81 z" />
+            </svg>
+        </a>
+        <h1 class="title">NyteLabs</h1>
+        <!-- <div class="subtitle">Untitled Number Game 🔢</div> -->
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+
+<main>
+    <div class="shelf">
+        <h3 class="shelf-title">Score: <span id="score">0</span></h3>
+        <div id="display"></div>
+    </div>
+    <!-- <canvas id="canvas"></canvas> -->
+</main>
+
+<!-- <div class="options">
+    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
+</div> -->
+
+<footer>
+    <div class="my-name">
+        <a id="BackToTop" class="hidden" href="#">Back To Top</a>
+        <div id="copy">
+            &copy; 2022 - 2026 | by Stéfano De La Torre 
+        </div>
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        touch: {
+            x: 0,
+            y: 0,
+            z: 0,
+            paths: {},
+            path_len: 20,
+            tracking: false
+        },
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            path: [],
+            path_len: 20,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            sz: 20,
+            sz2: 10,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            padding: 0,
+            brush: "p",
+        },
+        box: {
+            x: 500,
+            y: 500,
+            z: 500,
+            x2: 250,
+            y2: 250,
+            z2: 250,
+            d: 1000,
+            p: 1000,
+        },
+
+        timeOut: 40,
+        player: false,
+        
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+    const particles = [];
+    const pg = {}
+    const box = {
+        x: -50,
+        y: -45,
+        z: 0,
+        start: {
+            x: 0,
+            y: 0,
+            z: 0,
+        },
+        touches: [],
+        touch_xyz: {'x': 0, 'y': 0, 'z': 0},
+
+        grabing: false
+    };
+
+</script>
+<script src="../../../scripts/settings-02.js"></script>
+<script>
+
+const glyphs = [0,1,2,3,4,5,6,7,8,9,"a","b"];
+/*
+📕📙📒📗📘
+🟥🟧🟨🟩🟦
+🔴🟠🟡🟢🔵
+❤️🧡💛💚💙💜
+
+🍅🍆🍇🍈🍉🍊🍋🍌🍍🍎🍏🍐🍑🍒🍓
+🌑🌒🌓🌔🌕🌖🌗🌘
+♈♉♊♋♌♍♎♏♐♑♒♓
+
+'🟥', '🟧', '🟨', '🟩', '🟦', '🔴', '🟠', '🟡', '🟢', '🔵', '❤️', '🧡', '💛', '💚', '💙'
+
+'🟥': {'color': "red", 'shape': "square"}, '🟧': {'color': "orange", 'shape': "square"}, '🟨': {'color': "yellow", 'shape': "square"}, '🟩': {'color': "green", 'shape': "square"}, '🟦': {'color': "blue", 'shape': "square"}, 
+'🔴': {'color': "red", 'shape': "circle"}, '🟠': {'color': "orange", 'shape': "circle"}, '🟡': {'color': "yellow", 'shape': "circle"}, '🟢': {'color': "green", 'shape': "circle"}, '🔵': {'color': "blue", 'shape': "circle"}, 
+'❤️': {'color': "red", 'shape': "heart"}, '🧡': {'color': "orange", 'shape': "heart"}, '💛': {'color': "yellow", 'shape': "heart"}, '💚': {'color': "green", 'shape': "heart"}, '💙': {'color': "blue", 'shape': "heart"}, 
+
+const gly = {
+    '🟥': {'color': "red", 'shape': "square"}, '🟧': {'color': "orange", 'shape': "square"}, '🟨': {'color': "yellow", 'shape': "square"}, '🟩': {'color': "green", 'shape': "square"}, '🟦': {'color': "blue", 'shape': "square"}, 
+    '🔴': {'color': "red", 'shape': "circle"}, '🟠': {'color': "orange", 'shape': "circle"}, '🟡': {'color': "yellow", 'shape': "circle"}, '🟢': {'color': "green", 'shape': "circle"}, '🔵': {'color': "blue", 'shape': "circle"}, 
+    '❤️': {'color': "red", 'shape': "heart"}, '🧡': {'color': "orange", 'shape': "heart"}, '💛': {'color': "yellow", 'shape': "heart"}, '💚': {'color': "green", 'shape': "heart"}, '💙': {'color': "blue", 'shape': "heart"}
+};
+
+'❤️', '🧡', '💛', '💚', '💙', '💜'
+
+*/
+/* ─── Res ─── */
+/*
+const gly = {
+    '🟥': {'color': "red", 'shape': "square"}, 
+    '🟧': {'color': "orange", 'shape': "square"}, 
+    '🟨': {'color': "yellow", 'shape': "square"}, 
+    '🟩': {'color': "green", 'shape': "square"}, 
+    '🟦': {'color': "blue", 'shape': "square"}, 
+    '🔴': {'color': "red", 'shape': "circle"}, 
+    '🟠': {'color': "orange", 'shape': "circle"}, 
+    '🟡': {'color': "yellow", 'shape': "circle"}, 
+    '🟢': {'color': "green", 'shape': "circle"}, 
+    '🔵': {'color': "blue", 'shape': "circle"}, 
+    '❤️': {'color': "red", 'shape': "heart"}, 
+    '🧡': {'color': "orange", 'shape': "heart"}, 
+    '💛': {'color': "yellow", 'shape': "heart"}, 
+    '💚': {'color': "green", 'shape': "heart"}, 
+    '💙': {'color': "blue", 'shape': "heart"}
+};
+const iconRow = ['🟥', '🟧', '🟨', '🟩', '🟦', '🔴', '🟠', '🟡', '🟢', '🔵', '❤️', '🧡', '💛', '💚', '💙'];
+
+const iconVal = {
+    '❤️': "red", 
+    '🧡': "orange", 
+    '💛': "yellow", 
+    '💚': "green", 
+    '💙': "blue", 
+    '💜': "purple"
+};
+*/
+// const iconRow = ['❤️', '🧡', '💛', '💚', '💙', '💜'];
+// const iconVal = {
+//     '❤️': "r", 
+//     '🧡': "o", 
+//     '💛': "y", 
+//     '💚': "g", 
+//     '💙': "b", 
+//     '💜': "p"
+// };
+
+/*
+📕📙📗📘
+🟥🟧🟩🟦
+🔴🟠🟢🔵
+❤️🧡💚💙
+
+🟥🟩🟦
+🔴🟢🔵
+❤️💚💙
+
+
+*/
+
+/*
+
+'&#128338;',
+'&#128341;',
+'&#128344;',
+'&#128347;',
+'&#128350;',
+'&#128353;',
+'&#128356;',
+'&#128359;',
+
+Hourly Clock Faces
+The 12-hour set follows a sequential pattern: 
+Time 	Emoji	Decimal Code	Hex Code
+1:00	🕐	&#128336;	&#x1F550;
+2:00	🕑	&#128337;	&#x1F551;
+3:00	🕒	&#128338;	&#x1F552;
+4:00	🕓	&#128339;	&#x1F553;
+5:00	🕔	&#128340;	&#x1F554;
+6:00	🕕	&#128341;	&#x1F555;
+7:00	🕖	&#128342;	&#x1F556;
+8:00	🕗	&#128343;	&#x1F557;
+9:00	🕘	&#128344;	&#x1F558;
+10:00	🕙	&#128345;	&#x1F559;
+11:00	🕚	&#128346;	&#x1F55A;
+12:00	🕛	&#128347;	&#x1F55B;
+Half-Hour Clock Faces
+The half-hour marks continue the sequence: 
+Time 	Emoji	Decimal Code	Hex Code
+1:30	🕜	&#128348;	&#x1F55C;
+2:30	🕝	&#128349;	&#x1F55D;
+3:30	🕞	&#128350;	&#x1F55E;
+4:30	🕟	&#128351;	&#x1F55F;
+5:30	🕠	&#128352;	&#x1F560;
+6:30	🕡	&#128353;	&#x1F561;
+7:30	🕢	&#128354;	&#x1F562;
+8:30	🕣	&#128355;	&#x1F563;
+9:30	🕤	&#128356;	&#x1F564;
+10:30	🕥	&#128357;	&#x1F565;
+11:30	🕦	&#128358;	&#x1F566;
+12:30	🕧	&#128359;	&#x1F567;
+*/
+
+/*
+const iconRow = ['🟥', '🟧', '🟨', '🟩', '🟦', '🔴', '🟠', '🟡', '🟢', '🔵', '❤️', '🧡', '💛', '💚', '💙'];
+const iconVal = {
+    '🟥': "a",
+    '🟧': "b",
+    '🟨': "c",
+    '🟩': "d",
+    '🟦': "e",
+    '🔴': "f",
+    '🟠': "g",
+    '🟡': "h",
+    '🟢': "i",
+    '🔵': "j",
+    '❤️': "k",
+    '🧡': "l",
+    '💛': "m",
+    '💚': "n",
+    '💙': "o"
+};
+const iconValr = {
+    'a': "🟥",
+    'b': "🟧",
+    'c': "🟨",
+    'd': "🟩",
+    'e': "🟦",
+    'f': "🔴",
+    'g': "🟠",
+    'h': "🟡",
+    'i': "🟢",
+    'j': "🔵",
+    'k': "❤️",
+    'l': "🧡",
+    'm': "💛",
+    'n': "💚",
+    'o': "💙"
+};
+
+const iconRow = ['🟥', '🟩', '🟦', '🔴', '🟢', '🔵', '❤️', '💚', '💙'];
+const iconVal = {
+    '🟥': 'a', 
+    '🟩': 'b', 
+    '🟦': 'c', 
+    '🔴': 'd', 
+    '🟢': 'e', 
+    '🔵': 'f', 
+    '❤️': 'g', 
+    '💚': 'h', 
+    '💙': 'i'
+};
+const iconValr = {
+    'a': '🟥', 
+    'b': '🟩', 
+    'c': '🟦', 
+    'd': '🔴', 
+    'e': '🟢', 
+    'f': '🔵', 
+    'g': '❤️', 
+    'h': '💚', 
+    'i': '💙'
+};
+*/
+/*
+🌑🌒🌓🌔🌕🌖🌗🌘
+♈♉♊♋♌♍♎♏♐♑♒♓
+🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚🕛🕜🕝🕞🕟🕠🕡🕢🕣🕤🕥🕦🕧
+🍅🍇🍈🍉🍊🍋🍌🍍🍎🍏🍐🍑🍒🍓
+*/
+
+var iconRow = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'];
+var iconVal = {
+    '🌑': 'a', 
+    '🌒': 'b', 
+    '🌓': 'c', 
+    '🌔': 'd', 
+    '🌕': 'e', 
+    '🌖': 'f', 
+    '🌗': 'g', 
+    '🌘': 'h'
+};
+var iconValr = {
+    'a': '🌑', 
+    'b': '🌒', 
+    'c': '🌓', 
+    'd': '🌔', 
+    'e': '🌕', 
+    'f': '🌖', 
+    'g': '🌗', 
+    'h': '🌘'
+};
+
+
+function EmojiEncoding(elist){
+    iconVal = {};
+    iconValr = {};
+    iconRow = [...elist.split('')];
+    for (let i = 0; i < 26; i++) {
+        let eChar = String.fromCharCode(i+65);
+        let eIcon = iconRow[i];
+        iconVal[eIcon] = eChar;
+        iconValr[eChar] = eIcon;
+    }   
+}
+function EmojiEncoding2(elist){
+    iconVal = {};
+    iconValr = {};
+    iconRow = [...elist];
+    for (let i = 0; i < 26; i++) {
+        let eChar = String.fromCharCode(i+65);
+        let eIcon = iconRow[i];
+        iconVal[eIcon] = eChar;
+        iconValr[eChar] = eIcon;
+    }   
+}
+
+// make a function that makes a 5 by 5 grid.
+// make a function that resorts the positon of all numbers inside the grid.
+// make a function that evaluates for the same numbers being next to eachother.
+// make a function that allows you to drag a number by click and drag or touch and drag
+// -- the function should be flipping numbers from the one moving to the location it is moving to.
+
+
+function randomVal(){
+    let len = iconRow.length;
+    let index = Math.floor(Math.random()*len);
+    let val = iconRow[index];
+    return val;
+}
+
+function NumbersInGrid(w,h){
+    let display = document.getElementById("display");
+    let grid = document.createElement("div");
+    grid.classList.add("grid");
+    for (let y = 0; y < h; y++) {
+        let row = document.createElement("div");
+        row.classList.add("row");
+        for (let x = 0; x < w; x++) {
+            let tile = document.createElement("div");
+            tile.classList.add("tile");
+            // let val = Math.floor(Math.random() * 6);
+            let val = randomVal();
+            // tile.innerText = val;
+            tile.innerHTML = val;
+            tile.dataset.val = val;
+            // tile.dataset.val = iconVal[val];
+       
+            tile.id = `y${y},x${x}`;
+            tile.dataset.yx = `${y},${x}`;
+            tile.dataset.y = `${y}`;
+            tile.dataset.x = `${x}`;
+            tile.dataset.selected = false;
+            // tile.addEventListener("click", ev => {
+            //     selectNumber(ev);
+            // });
+            row.appendChild(tile);
+        }
+        grid.appendChild(row);
+    }
+    display.appendChild(grid);
+}
+
+function DistanceBetweenTiles(a,b){
+    return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+}
+// const myRe = /.{3,}/g;
+const match3 = /(.)\1{2,}/g;
+
+
+function CrashCheckRow(y){
+    let xrow = [];
+    for(let xi = 0; xi < gs.w; xi++) {
+        let xVal = document.getElementById(`y${y},x${xi}`).dataset.val;
+        xrow.push(iconVal[xVal]);
+    }
+    let xstring = xrow.join("");
+    console.log(`xstring: ${xstring};`);
+
+    let xmatch = xstring.match(match3);
+    // console.log(`xmatch: ${xmatch};`);
+
+    if(xmatch) {
+        let ix = xstring.indexOf(xmatch);
+        let icon = iconValr[xmatch[0].slice(0,1)];
+        let res = {'str': xstring, 'match': xmatch, 'index': ix, 'icon': icon};
+        return res;
+    } else {
+        return xmatch;
+    }
+}
+function CrashCheckCol(x){
+    let ycol = [];
+    for(let yi = 0; yi < gs.h; yi++) {
+        let yVal = document.getElementById(`y${yi},x${x}`).dataset.val;
+        ycol.push(iconVal[yVal]);
+    }
+    let ystring = ycol.join("");
+    console.log(`ystring: ${ystring};`);
+
+    let ymatch = ystring.match(match3);
+    // console.log(`ymatch: ${ymatch};`);
+
+    if(ymatch) {
+        let iy = ystring.indexOf(ymatch);
+        let icon = iconValr[ymatch[0].slice(0,1)];
+        let res = {'str': ystring, 'match': ymatch, 'index': iy, 'icon': icon};
+        return res;
+    } else {
+        return ymatch;
+    }
+}
+
+function CrashCheckRow1(y){
+    let xrow = [];
+    // let ycol = [];
+    for(let xi = 0; xi < gs.w; xi++) {
+        let xVal = document.getElementById(`y${y},x${xi}`).dataset.val;
+        // xrow.push(xVal);
+        xrow.push(iconVal[xVal]);
+    }
+    let xstring = xrow.join("");
+    console.log(`xstring: ${xstring};`);
+    // xstring.match(match3);
+    let xmatch = xstring.match(match3);
+    console.log(`xmatch: ${xmatch};`);
+
+    let xfind = xstring.match(match3) != null;
+    console.log(`xfind: ${xfind};`);
+    if(xfind) {return xfind;}
+    // // return xstring.match(match3) != null;
+    // for(let yi = 0; yi < gs.h; yi++) {
+    //     let yVal = document.getElementById(`y${yi},x${x}`).dataset.val;
+    //     ycol.push(yVal);
+    // }
+    // let ystring = ycol.join("");
+    // console.log(`ystring: ${ystring};`);
+    // ystring.match(match3);
+    // let yfind = ystring.match(match3) != null;
+    // if(yfind) {return yfind;}
+    // // return ystring.match(match3) != null;
+}
+function CrashCheckCol1(x){
+    // let xrow = [];
+    let ycol = [];
+    // for(let xi = 0; xi < gs.w; xi++) {
+    //     let xVal = document.getElementById(`y${y},x${xi}`).dataset.val;
+    //     xrow.push(xVal);
+    // }
+    // let xstring = xrow.join("");
+    // console.log(`xstring: ${xstring};`);
+    // xstring.match(match3);
+    // let xfind = xstring.match(match3) != null;
+    // if(xfind) {return xfind;}
+    // // return xstring.match(match3) != null;
+    for(let yi = 0; yi < gs.h; yi++) {
+        let yVal = document.getElementById(`y${yi},x${x}`).dataset.val;
+        // ycol.push(yVal);
+        ycol.push(iconVal[yVal]);
+    }
+    let ystring = ycol.join("");
+    console.log(`ystring: ${ystring};`);
+    // ystring.match(match3);
+    let ymatch = ystring.match(match3);
+    console.log(`ymatch: ${ymatch};`);
+
+    let yfind = ystring.match(match3) != null;
+    console.log(`yfind: ${yfind};`);
+    if(yfind) {return yfind;}
+    // return ystring.match(match3) != null;
+}
+function CrashCheck(x,y){
+    let xrow = [];
+    let ycol = [];
+    for(let xi = 0; xi < gs.w; xi++) {
+        let xVal = document.getElementById(`y${y},x${xi}`).dataset.val;
+        xrow.push(xVal);
+    }
+    let xstring = xrow.join("");
+    console.log(`xstring: ${xstring};`);
+    xstring.match(match3);
+    let xfind = xstring.match(match3) != null;
+    if(xfind) {return xfind;}
+    // return xstring.match(match3) != null;
+    for(let yi = 0; yi < gs.h; yi++) {
+        let yVal = document.getElementById(`y${yi},x${x}`).dataset.val;
+        ycol.push(yVal);
+    }
+    let ystring = ycol.join("");
+    console.log(`ystring: ${ystring};`);
+    ystring.match(match3);
+    let yfind = ystring.match(match3) != null;
+    if(yfind) {return yfind;}
+    // return ystring.match(match3) != null;
+}
+
+function FindFoxAt(x,y){
+    // add search by going to each side of an F and look for O and X and if it is outside of map, return as false.
+    // add the FoxFound function so that we can replace those or do something with them.
+    // Maybe we can freeze them and turn them into part of the fixed shape of the map, or just replace them.
+}
+function FoxSearch(forest){
+    for (let y = 0; y < forest.len; y++) {
+        // const element = array[y];
+        for (let x = 0; x < forest[y].len; x++) {
+            if(forest[y][x] == "F"){
+                FindFoxAt(x,y);
+            }
+        }
+    }
+}
+
+
+// function RandomReplace(x,y,e){
+
+//     let newVal = randomVal();
+//     let tile = document.getElementById(`y${y},x${x}`);
+//     tile.innerText = newVal;
+//     tile.dataset.val = newVal;
+
+// }
+
+function ResetScore(){
+    gs.score = 0;
+    let scoreDisplay = document.getElementById("score");
+    // scoreDisplay.innerText = gs.score;
+    scoreDisplay.innerHTML = gs.score;
+}
+function Score(){
+    gs.score += 10;
+    let scoreDisplay = document.getElementById("score");
+    // scoreDisplay.innerText = gs.score;
+    scoreDisplay.innerHTML = gs.score;
+}
+function ScoreUp(n){
+    let scoreToAdd = n*3;
+    console.log(`Score: ${scoreToAdd} 🏆`);
+    gs.score += scoreToAdd;
+    let scoreDisplay = document.getElementById("score");
+    // scoreDisplay.innerText = gs.score;   
+    scoreDisplay.innerHTML = gs.score;   
+}
+
+function ReplaceOnRow(y,e,index){
+    let score = 0;
+    for(let i = index; i < gs.w; i++){
+        console.log(`ReplaceOnRow -> y:${y}, x:${i};`);
+        let tile = document.getElementById(`y${y},x${i}`);
+        let tileIcon = tile.dataset.val;
+        if(tileIcon == e){
+            score++;
+            tile.classList.toggle("scored");
+            let newVal = randomVal();
+            // tile.innerText = newVal;
+            tile.innerHTML = newVal;
+            tile.dataset.val = newVal;
+            setTimeout(() => {
+                tile.classList.toggle("scored");
+            }, 900);
+        } else {
+            i = gs.w;
+        }
+    }
+    ScoreUp(score);
+}
+function ReplaceOnCol(x,e,index){
+    let score = 0;
+    for(let i = index; i < gs.h; i++){
+        let tile = document.getElementById(`y${i},x${x}`);
+        let tileIcon = tile.dataset.val;
+        if(tileIcon == e){
+            score++;
+            tile.classList.toggle("scored");
+            let newVal = randomVal();
+            // tile.innerText = newVal;
+            tile.innerHTML = newVal;
+            tile.dataset.val = newVal;
+            setTimeout(() => {
+                tile.classList.toggle("scored");
+            }, 900);
+        } else {
+            i = gs.h;
+        }
+    }
+    ScoreUp(score);
+}
+
+function CheckStuff(x,y){
+    let rowR = CrashCheckRow(y);
+    console.log(`rowR: ${rowR}`);
+    console.log(rowR);
+    let matchingIcon = "";
+    if(rowR != null) {
+        matchingIcon = rowR.icon;
+        console.log(`icon: ${matchingIcon};`);
+        ReplaceOnRow(y,rowR.icon,rowR.index);
+        // Score();
+    }
+    let colR = CrashCheckCol(x);
+    console.log(`colR: ${colR}`);
+    console.log(colR);
+    if(colR != null) {
+        matchingIcon = colR.icon;
+        console.log(`icon: ${matchingIcon};`);
+        ReplaceOnCol(x,colR.icon,colR.index);
+        // Score();
+    }
+    return matchingIcon;
+}
+
+// selectvar
+var sVar = {
+    selecting: false,
+    selected: -1,
+    selected_id: {x:-1, y:-1}
+};
+function selectNumber(ev){
+    let val = ev.target.dataset.val;
+    let targetX = ev.target.dataset.x;
+    let targetY = ev.target.dataset.y;
+    // if same id, then deselect.
+    if(sVar.selecting) {
+        let distanceAB = DistanceBetweenTiles({x: sVar.selected_id.x, y: sVar.selected_id.y},{x: targetX, y: targetY});
+        // console.log(`distanceAB: ${distanceAB}`);
+
+        if(distanceAB > 1){return;}
+
+        let val1 = document.getElementById(`y${sVar.selected_id.y},x${sVar.selected_id.x}`);
+        let val2 = document.getElementById(`y${targetY},x${targetX}`);
+
+        
+        val1.innerHTML = val2.dataset.val;
+        val1.dataset.val = val2.dataset.val;
+        val2.innerHTML = sVar.selected;
+        val2.dataset.val = sVar.selected;
+        val1.dataset.selected = "false";
+
+
+        // victory conditions.
+        /*
+        We could lock the numbers in place, not good for a game.
+        we could replace the number with new ones.
+        We could make new ones fall all down.
+        We could just remove them and count the points.
+        */
+        CheckStuff(targetX,targetY);
+        CheckStuff(sVar.selected_id.x,sVar.selected_id.y);
+
+
+        setTimeout(() => {
+            sVar.selecting = false;
+            sVar.selected = -1;
+            sVar.selected_id.x = -1;
+            sVar.selected_id.y = -1;
+        }, 100);
+
+    } else {
+        sVar.selecting = true;
+        sVar.selected = val;
+        sVar.selected_id.x = targetX;
+        sVar.selected_id.y = targetY;
+        let val2 = document.getElementById(`y${targetY},x${targetX}`);
+        val2.dataset.selected = "true";
+    }
+}
+
+function EvalMap(){
+    console.log("EvalMap()");
+    let dialen = Math.max(gs.h,gs.w);
+    console.log(`len: ${dialen};`);
+    for (let i = 0; i < dialen; i++) {
+        let x = Math.min(i,gs.w);
+        let y = Math.min(i,gs.h);
+        CheckStuff(x,y);
+    }
+    gs.score = -1;
+    // Score();
+    ResetScore()
+    // CheckStuff(targetX,targetY);
+}
+
+    /* ─── Events ─── */
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        s.canvas.z = (s.h + s.w)/2;
+
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
+
+        /* ─ Box ─ */
+        /* resize box for mobile */
+        if(s.h < s.box.y) {s.box.y = s.h;}
+        if(s.w < s.box.x) {s.box.x = s.w;}
+        s.box.z = (s.box.y + s.box.x)/2;
+
+        /* center box */
+        s.box.top = (s.h - s.box.y)/2;
+        s.box.left = (s.w - s.box.x)/2;
+
+        /* determine center */
+        s.box.x2 = s.box.left + (s.box.x / 2);
+        s.box.y2 = s.box.top + (s.box.y / 2);
+        s.box.z2 = (s.box.z / 2);
+
+        /* ─ Grid ─ */
+        s.grid.cols = Math.floor(s.w / s.tile.w);
+        s.grid.rows = Math.floor(s.h / s.tile.h);
+
+        /* ─ Canvas Update ─ */
+        // canvas.width = s.canvas.x;
+        // canvas.height = s.canvas.y;
+        // ctx.clearRect(0,0,canvas.width, canvas.height);
+    }
+    window.addEventListener('resize', () =>{
+        updateSettings();
+    });
+
+    // gameStats: gs
+    const gs = {
+        h: 12,
+        w: 12,
+        map: [],
+        score: 0,
+    }
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        updateSettings();
+        // start();
+
+        // EmojiEncoding('♈♉♊♋♌♍♎♏♐♑♒♓');
+        // EmojiEncoding('🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚🕛🕜🕝🕞🕟🕠🕡🕢🕣🕤🕥🕦🕧');
+        // EmojiEncoding('🕒🕕🕘🕛🕞🕡🕤🕧');
+        // EmojiEncoding('📆🥟♊️🥝🍫🍜🫦⛺️');
+//         EmojiEncoding2(['&#128338;',
+// '&#128341;',
+// '&#128344;',
+// '&#128347;',
+// '&#128350;',
+// '&#128353;',
+// '&#128356;',
+// '&#128359;']);
+
+// EmojiEncoding2(['📆','🥟','♊️','🥝','🍫','🍜','🫦','⛺️']);
+EmojiEncoding2(['F','O','X']);
+
+
+        NumbersInGrid(gs.w,gs.h);
+        EvalMap();
+        // update();
+    });
+    /* Version Log:
+    [index-nds-00]: Default Template.
+    [index-nds-01]: makes the numbers.
+    [index-nds-02]: you can switch them.
+    [index-nds-03]: you can only switch next to eachother.
+    [index-nds-04]: for now, it is with emojis and can evaluate if there are 3 or more in a row, but it doesn't replace them yet.
+    [index-nds-05]: Replaces matches of 3 or more.
+    [index-nds-06]: It keeps a score.
+    [index-nds-07]: Starts without premade matches, and scores go up to 10 per match.
+    [index-nds-08]: It glows when scored. Now it its 3 points per matching tile.
+    [index-nds-09]: It uses a different emoji list.
+    [index-nds-10]: It can adapt to different emoji lists.
+    [index-nds-11]: 
+    [index-nds-12]: 
+    
+    */
+
+
+</script>
+</body>
+</html>

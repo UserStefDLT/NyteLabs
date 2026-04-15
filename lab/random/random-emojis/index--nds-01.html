@@ -22,6 +22,9 @@
     .class {}
     .screen-result {
         font-size: min(60vw, 54vh);
+        font-size: min(15vw, 13vh);
+        font-size: min(30vw, 27vh);
+        user-select: none;
     }
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
@@ -231,10 +234,7 @@ const emojiList = ["⌚","⌛","⏩","⏪","⏫","⏬","⏭","⏮","⏯","⏰","
 // const emojiList = `♈♉♊♋♌♍♎♏♐♑♒♓`.split("");
 // const emojiList = `♈♉♊♋♌♍♎♏♐♑♒♓`.split("");
 
-function DisplayRandom(){
-    let display = document.getElementById("display");
-    let card = document.createElement("div");
-    card.classList.add("screen-result");
+function RandomEmoji(){
     // String.fromCharCode(i+65)
     // let ni = Math.floor(Math.random() * 26);
     let ni = Math.floor(Math.random() * emojiList.length);
@@ -243,7 +243,25 @@ function DisplayRandom(){
     console.log(ni);
     // console.log(emojiList.charAt(ni));
     console.log(emojiList[ni]);
-    // card.innerHTML = n;
+    return n;
+}
+
+function DisplayRandom(){
+    let display = document.getElementById("display");
+    display.innerHTML = '';
+    let card = document.createElement("div");
+    card.classList.add("screen-result");
+    // // String.fromCharCode(i+65)
+    // // let ni = Math.floor(Math.random() * 26);
+    // let ni = Math.floor(Math.random() * emojiList.length);
+    // let n = emojiList[ni];
+    // // let n = emojiList.charAt(ni);
+    // console.log(ni);
+    // // console.log(emojiList.charAt(ni));
+    // console.log(emojiList[ni]);
+    // // card.innerHTML = n;
+    // let n = RandomEmoji();
+    let n = `${RandomEmoji()}${RandomEmoji()}${RandomEmoji()}${RandomEmoji()}`;
     card.innerText = n;
     display.appendChild(card);
 }
@@ -297,6 +315,8 @@ function DisplayRandom(){
         updateSettings();
         // start();
         // update();
+        let display = document.getElementById("display");
+        display.addEventListener("click", (ev) => {DisplayRandom();});
         DisplayRandom();
     });
     /* Version Log:
