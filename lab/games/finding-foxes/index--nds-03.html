@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Finding Foxes 🦊 | NyteLabs</title>
+    <title>Finding Foxes | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/logo.css">
@@ -233,7 +233,7 @@
             </svg>
         </a>
         <h1 class="title">NyteLabs</h1>
-        <div class="subtitle">Finding Foxes</div>
+        <!-- <div class="subtitle">Untitled Number Game 🔢</div> -->
     </header>
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
@@ -241,7 +241,7 @@
 
 <main>
     <div class="shelf vshelf">
-        <h3 class="shelf-title">Score: <span id="score">0</span> 🦊</h3>
+        <h3 class="shelf-title">Score: <span id="score">0</span></h3>
         <div id="display"></div>
         <div class="row">
 
@@ -501,20 +501,8 @@ function TilesInGrid(w,h){
             tile.dataset.count = 0;
             tile.addEventListener("click", ev => {
                 // selectNumber(ev);
-                // selectTile(ev);
-                SelectingTile({"x": ev.target.dataset.x, "y": ev.target.dataset.y});
+                selectTile(ev);
             });
-            tile.addEventListener("mouseenter", (ev) => {
-                if(sVar.selecting) {
-                    let et = ev.target;
-                    let etx = et.dataset.x;
-                    let ety = et.dataset.y;
-
-                    SwapTiles(sVar.selected_id,{"x": etx, "y": ety});
-                }
-                // gstates.moves++;
-            });
-
             row.appendChild(tile);
         }
         grid.appendChild(row);
@@ -723,7 +711,7 @@ function FindFoxAt(m,x,y){
     return foxes;
 }
 function HighlightFox(n=0, e){
-    // console.log(e)
+    console.log(e)
     let ey = e.o.y;
     let ex = e.o.x;
     let ey2 = e.o.y + e.d.y;
@@ -792,25 +780,17 @@ function FoxSearch(forest){
         }
     }
     let foxCount = foxList.length;
-    // console.log(`foxCount = ${foxCount}`);
-    // ScoreAdd(foxCount*3);
+    console.log(`foxCount = ${foxCount}`);
+    ScoreAdd(foxCount);
     BagOfFoxes = [...foxList];
     // CatchFoxes(foxList);
 }
-// var searchingFoxes = false;
 function FindFoxes(){
-    // if(!searchingFoxes){
-    //     FoxSearch(map);
-    //     searchingFoxes = true;
-    // }
-    if(BagOfFoxes.length < 1){
-        FoxSearch(map);
-    }
+    FoxSearch(map);
 }
 
 function ResetGrid(){
     TilesInGrid(gs.w,gs.h);
-    SettleGridToZeroFoxes();
 }
 
 /*
@@ -818,16 +798,10 @@ function ResetGrid(){
  * where "o" is origin or the letter "F", and "d" is the direction.
  */
 function CallTheFoxes(){
-    if(BagOfFoxes.length > 0){
-        CatchFoxes(BagOfFoxes);
-        BagOfFoxes = [];
-        // searchingFoxes = false;
-    }
+    CatchFoxes(BagOfFoxes);
 }
 function CatchFoxes(bag){
-    // ScoreAdd(bag.length*3);
-    ScoreAdd(bag.length);
-    // console.log(bag);
+    console.log(bag);
     if(bag.length == 0) {return false;}
     let targetIDs = [];
     let targetTiles = [];
@@ -857,8 +831,8 @@ function CatchFoxes(bag){
         if(!targetIDs.includes(e3id)){targetIDs.push(e2id); targetTiles.push(e3xy);}
 
     }
-    // console.log(`targetTiles: ${targetTiles.length}`);
-    // console.log(targetTiles);
+    console.log(`targetTiles: ${targetTiles.length}`);
+    console.log(targetTiles);
     ReplaceTiles(targetTiles);
 }
 // function replaceTile(tile){}
@@ -881,19 +855,8 @@ function ReplaceTiles(tiles){
 
 
 function SettleGridToZeroFoxes(){
-    let foxesInGrid = 1;
-    FindFoxes();
-    foxesInGrid = BagOfFoxes.length;
-    // while(foxesInGrid > 0){}
-    for (let i = 0; i < 10; i++) {
-        if(foxesInGrid == 0){i=10;}
-        CallTheFoxes();
-        FindFoxes();
-        foxesInGrid = BagOfFoxes.length;
-    }
-    ResetScore();
-}
 
+}
 
 // function RandomReplace(x,y,e){
 
@@ -906,11 +869,12 @@ function SettleGridToZeroFoxes(){
 
 function ResetScore(){
     gs.score = 0;
-    UpdateScoreDisplay();
+    let scoreDisplay = document.getElementById("score");
+    // scoreDisplay.innerText = gs.score;
+    scoreDisplay.innerHTML = gs.score;
 }
 function UpdateScoreDisplay(){
     let scoreDisplay = document.getElementById("score");
-    // scoreDisplay.innerText = gs.score;
     scoreDisplay.innerHTML = gs.score;
 }
 function ScoreAdd(n){
@@ -1007,41 +971,6 @@ var sVar = {
     selected_id: {x:-1, y:-1}
 };
 
-function UpdateTile(e){
-    let elem = document.getElementById(`y${e.y},x${e.x}`);
-    elem.innerHTML = map[e.y][e.x];
-    elem.dataset.val = map[e.y][e.x];
-}
-
-function SwapTiles(a,b){
-    let aVal = map[a.y][a.x];
-    let bVal = map[b.y][b.x];
-
-    map[a.y][a.x] = bVal;
-    map[b.y][b.x] = aVal;
-
-    UpdateTile(a);
-    UpdateTile(b);
-
-    sVar.selected_id = {"x": b.x, "y": b.y};
-}
-
-function SelectingTile(et){
-    if(!sVar.selecting){
-        sVar.selecting = true;
-        sVar.selected_id = {"x": et.x, "y": et.y};
-    } else {
-        sVar.selecting = false;
-        sVar.selected_id = {"x": -1, "y": -1};
-        FindFoxes();
-        // if(BagOfFoxes.length > 0){
-        //     setTimeout(() => {
-        //         CallTheFoxes();
-        //     }, 3000);
-        // }
-    }
-}
-
 function selectTile(ev){
     let val = ev.target.dataset.val;
     let targetX = ev.target.dataset.x;
@@ -1052,30 +981,16 @@ function selectTile(ev){
         // console.log(`distanceAB: ${distanceAB}`);
 
         if(distanceAB > 1){return;}
-        let v1y = sVar.selected_id.y;
-        let v1x = sVar.selected_id.x;
-        let v2y = targetY;
-        let v2x = targetX;
-
-        let v1 = map[v1y][v1x];
-        map[v1y][v1x] = map[v2y][v2x];
-        map[v2y][v2x] = v1;
 
         let val1 = document.getElementById(`y${sVar.selected_id.y},x${sVar.selected_id.x}`);
         let val2 = document.getElementById(`y${targetY},x${targetX}`);
 
         
-        // val1.innerHTML = val2.dataset.val;
-        // val1.dataset.val = val2.dataset.val;
-        // val2.innerHTML = sVar.selected;
-        // val2.dataset.val = sVar.selected;
+        val1.innerHTML = val2.dataset.val;
+        val1.dataset.val = val2.dataset.val;
+        val2.innerHTML = sVar.selected;
+        val2.dataset.val = sVar.selected;
         val1.dataset.selected = "false";
-
-        val1.innerHTML = map[v1y][v1x];
-        val1.dataset.val = map[v1y][v1x];
-        val2.innerHTML = map[v2y][v2x];
-        val2.dataset.val = map[v2y][v2x];
-
 
 
         // victory conditions.
@@ -1087,13 +1002,7 @@ function selectTile(ev){
         */
         // CheckStuff(targetX,targetY);
         // CheckStuff(sVar.selected_id.x,sVar.selected_id.y);
-        
-        FindFoxes();
-        // if(BagOfFoxes.length > 0){
-        //     setTimeout(() => {
-        //         CallTheFoxes();
-        //     }, 3000);
-        // }
+
 
         setTimeout(() => {
             sVar.selecting = false;
@@ -1202,8 +1111,6 @@ EmojiEncoding2(['F','O','X']);
         // NumbersInGrid(gs.w,gs.h);
         TilesInGrid(gs.w,gs.h);
 
-        SettleGridToZeroFoxes();
-
         // EvalMap();
         // // update();
     });
@@ -1225,8 +1132,6 @@ EmojiEncoding2(['F','O','X']);
     [index-nds-01]: 
     [index-nds-02]: It finds the foxes.
     [index-nds-03]: It now finds and catches the foxes.
-    [index-nds-04]: It avoid double scoring.
-    [index-nds-05]: 
     
     */
 
