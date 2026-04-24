@@ -17,43 +17,24 @@
             transform: translateX(-50%) translateY(-50%);
         } */
         /* :root {} */
-        </style>
+    </style>
 <style>
-    :root {
-        --tile-sz: 24px;
-        --tile-sz: 36px;
-        --tile-m: 1px;
-        --tile-space: calc(var(--tile-sz) + var(--tile-m) * 2);
-        --tile-count: 12;
-        --grid-sz: calc(var(--tile-space) * var(--tile-count));
-    }
-    .grid, .row, .tile,
-    .mgrid, .mrow, .mtile {
-        position: relative;
+    .grid, .row, .tile {
         display: flex;
         align-items: center;
         justify-content: center;
     }
-    .grid, .mgrid {
-        flex-direction: column;
-        min-height: var(--grid-sz);
-        min-width: var(--grid-sz);
-    }
-    .row, .mrow {flex-direction: row;}
-    .mrow {
-        min-height: var(--tile-sz);
-        min-width: var(--grid-sz);
-    }
-    .mtile,
-    .tile {
-        margin: var(--tile-m);
-        width: var(--tile-sz);
-        height: var(--tile-sz);
-        user-select: none;
-        cursor: pointer;
+    .grid {flex-direction: column;}
+    .row {
+        flex-direction: row;
     }
     .tile {
         outline: 1px solid #39f;
+        margin: 1px;
+        width: 24px;
+        height: 24px;
+        user-select: none;
+        cursor: pointer;
     }
     /* .tile:hover {
         background-color: #39f6;
@@ -115,27 +96,8 @@
         outline: 1px solid hsl(var(--hue), 100%, 30%);
         text-shadow: 2px 2px 2px #000;
     }
-    .mtile, 
     .tile {
-        position: absolute;
-        --y-off: 1;
-        --x-off: 1;
-        --yt: calc(var(--y-off) * 24px);
-        --xt: calc(var(--x-off) * 24px);
-        --yt: calc(var(--y-off) * var(--tile-space));
-        --xt: calc(var(--x-off) * var(--tile-space));
-        margin: var(--tile-m);
-        width: var(--tile-sz);
-        height: var(--tile-sz);
-        top: 0; left: 0;
-        transform: translateX(var(--xt)) translateY(var(--yt));
-        transition: transform 50ms ease-in-out;
-        transition: transform 200ms ease-in-out;
-    }
-    .mtile:hover {
-        background-image: radial-gradient(#0000 50%, #000 70%);
-        background-image: radial-gradient(#0000 20%, #fff8 100%);
-        /* background-image: radial-gradient(); */
+        position: relative;
     }
     /* .fox-head::before, */
     .tile::before {
@@ -188,10 +150,10 @@
     }
 
 
-    /* .row {
+    .row {
         display: flex;
         flex-direction: row;
-    } */
+    }
     .btn-find-foxes {
         color: #fff;
         background-image: linear-gradient(#fff 45%, hsla(30, 100%, 50%) 55%);
@@ -227,24 +189,6 @@
     }
     .vshelf {
         flex-direction: column;
-    }
-    #grids {
-        position: relative;
-        min-height: 312px;
-        min-width: 312px;
-        min-height: var(--grid-sz);
-        min-width: var(--grid-sz);
-        outline: 1px dashed #fff;
-        outline-offset: 2px;
-    }
-    #grids > div {
-        position: absolute;
-        top: 50%; left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-    }
-    #mouse-display {
-        outline: 1px dashed #0f0;
-        outline-offset: 1px;
     }
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
@@ -298,10 +242,7 @@
 <main>
     <div class="shelf vshelf">
         <h3 class="shelf-title">Score: <span id="score">0</span> 🦊</h3>
-        <div id="grids">
-            <div id="display"></div>
-            <div id="mouse-display"></div>
-        </div>
+        <div id="display"></div>
         <div class="row">
 
             <button onclick="ResetGrid()" class="btn-reset">Reset</button>
@@ -580,128 +521,6 @@ function TilesInGrid(w,h){
     }
     display.appendChild(grid);
 }
-function TilesInDiv1(w,h){
-    let display = document.getElementById("display");
-    display.innerHTML = "";
-    let grid = document.createElement("div");
-    map = [];
-    grid.classList.add("grid");
-    for (let y = 0; y < h; y++) {
-        // let row = document.createElement("div");
-        // row.classList.add("row");
-        map.push([]);
-        for (let x = 0; x < w; x++) {
-            let tile = document.createElement("div");
-            tile.classList.add("tile");
-            // let val = Math.floor(Math.random() * 6);
-            let val = randomVal();
-            map[y].push(val);
-            // tile.innerText = val;
-            tile.innerHTML = val;
-            tile.dataset.val = val;
-            // tile.dataset.val = iconVal[val];
-       
-            tile.id = `y${y},x${x}`;
-            // tile.dataset.yx = `${y},${x}`;
-            tile.dataset.y = `${y}`;
-            tile.dataset.x = `${x}`;
-            tile.dataset.selected = false;
-            tile.dataset.count = 0;
-            tile.style = `--x-off: ${x}; --y-off: ${y};`;
-            tile.addEventListener("click", ev => {
-                // selectNumber(ev);
-                // selectTile(ev);
-                SelectingTile({"x": ev.target.dataset.x, "y": ev.target.dataset.y});
-            });
-            tile.addEventListener("mouseenter", (ev) => {
-                if(sVar.selecting) {
-                    let et = ev.target;
-                    let etx = et.dataset.x;
-                    let ety = et.dataset.y;
-
-                    SwapTiles(sVar.selected_id,{"x": etx, "y": ety});
-                }
-                // gstates.moves++;
-            });
-
-            // row.appendChild(tile);
-            grid.appendChild(tile);
-        }
-        // grid.appendChild(row);
-    }
-    display.appendChild(grid);
-}
-function TilesInDiv(w,h){
-    let display = document.getElementById("display");
-    display.innerHTML = "";
-    let mdisplay = document.getElementById("mouse-display");
-    mdisplay.innerHTML = "";
-    let grid = document.createElement("div");
-    let mgrid = document.createElement("div");
-    map = [];
-    grid.classList.add("grid");
-    mgrid.classList.add("mgrid");
-    for (let y = 0; y < h; y++) {
-        // let row = document.createElement("div");
-        // row.classList.add("row");
-        map.push([]);
-        // let mrow = document.createElement("div");
-        // mrow.classList.add("mrow");
-        for (let x = 0; x < w; x++) {
-            let tile = document.createElement("div");
-            tile.classList.add("tile");
-            let mtile = document.createElement("div");
-            mtile.classList.add("mtile");
-            // let val = Math.floor(Math.random() * 6);
-            let val = randomVal();
-            map[y].push(val);
-            // tile.innerText = val;
-            tile.innerHTML = val;
-            tile.dataset.val = val;
-            // tile.dataset.val = iconVal[val];
-       
-            tile.id = `d,y${y},x${x}`;
-            // tile.dataset.yx = `${y},${x}`;
-            tile.dataset.y = `${y}`;
-            tile.dataset.x = `${x}`;
-            tile.dataset.selected = false;
-            tile.dataset.count = 0;
-            tile.style = `--x-off: ${x}; --y-off: ${y};`;
-
-            mtile.id = `y${y},x${x}`;
-            mtile.dataset.y = `${y}`;
-            mtile.dataset.x = `${x}`;
-            mtile.dataset.selected = false;
-            mtile.dataset.count = 0;
-            mtile.style = `--x-off: ${x}; --y-off: ${y};`;
-            
-            mtile.addEventListener("click", ev => {
-                // selectNumber(ev);
-                // selectTile(ev);
-                SelectingTile({"x": ev.target.dataset.x, "y": ev.target.dataset.y});
-            });
-            mtile.addEventListener("mouseenter", (ev) => {
-                if(sVar.selecting) {
-                    let et = ev.target;
-                    let etx = et.dataset.x;
-                    let ety = et.dataset.y;
-                    console.log(`entering: ${ety},${etx}`);
-
-                    SwapTiles(sVar.selected_id,{"x": etx, "y": ety});
-                }
-                // gstates.moves++;
-            });
-
-            // row.appendChild(tile);
-            mgrid.appendChild(mtile);
-            grid.appendChild(tile);
-        }
-        // grid.appendChild(row);
-        // mgrid.appendChild(mrow);
-    }
-    display.appendChild(grid);
-    mdisplay.appendChild(mgrid);
-}
 
 function DistanceBetweenTiles(a,b){
     return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
@@ -912,20 +731,20 @@ function HighlightFox(n=0, e){
     let ey3 = e.o.y + e.d.y + e.d.y;
     let ex3 = e.o.x + e.d.x + e.d.x;
 
-    let fox = document.getElementById(`d,y${ey},x${ex}`);
+    let fox = document.getElementById(`y${ey},x${ex}`);
     fox.classList.add("fox-head");
-    fox.style = `--x-off: ${ex}; --y-off: ${ey}; --hue: ${n*10};`;
+    fox.style = `--hue: ${n*10}`;
     fox.dataset.count = parseInt(fox.dataset.count)+1;
 
     // fox.style = `outline: 1px solid hsla(${foxList.length*10}, 100%, 50%, 1);`;
     // fox.style = `background-color: hsla(${foxList.length*10}, 100%, 30%, 1);`;
 
-    let fox2 = document.getElementById(`d,y${ey2},x${ex2}`);
-    let fox3 = document.getElementById(`d,y${ey3},x${ex3}`);
+    let fox2 = document.getElementById(`y${ey2},x${ex2}`);
+    let fox3 = document.getElementById(`y${ey3},x${ex3}`);
     fox2.classList.add("fox-tail");
     fox3.classList.add("fox-tail");
-    fox2.style = `--x-off: ${ex2}; --y-off: ${ey2}; --hue: ${n*10}`;
-    fox3.style = `--x-off: ${ex3}; --y-off: ${ey3}; --hue: ${n*10}`;
+    fox2.style = `--hue: ${n*10}`;
+    fox3.style = `--hue: ${n*10}`;
     fox2.dataset.count = parseInt(fox2.dataset.count)+1;
     fox3.dataset.count = parseInt(fox3.dataset.count)+1;
 }
@@ -990,8 +809,7 @@ function FindFoxes(){
 }
 
 function ResetGrid(){
-    // TilesInGrid(gs.w,gs.h);
-    TilesInDiv(gs.w,gs.h);
+    TilesInGrid(gs.w,gs.h);
     SettleGridToZeroFoxes();
 }
 
@@ -1048,7 +866,7 @@ function ReplaceTiles(tiles){
     console.log(`ReplaceTiles: ${tiles.length}`);
     for (let i = 0; i < tiles.length; i++) {
         const e = tiles[i];
-        let id = `d,y${e.y},x${e.x}`;
+        let id = `y${e.y},x${e.x}`;
         let tile = document.getElementById(id);
         let newVal = randomVal();
         map[e.y][e.x] = newVal;
@@ -1057,6 +875,7 @@ function ReplaceTiles(tiles){
         tile.dataset.count = 0;
         tile.classList.remove("fox-head");
         tile.classList.remove("fox-tail");
+        
     }
 }
 
@@ -1101,13 +920,17 @@ function ScoreAdd(n){
 }
 function Score(){
     gs.score += 10;
-    UpdateScoreDisplay();
+    let scoreDisplay = document.getElementById("score");
+    // scoreDisplay.innerText = gs.score;
+    scoreDisplay.innerHTML = gs.score;
 }
 function ScoreUp(n){
     let scoreToAdd = n*3;
     console.log(`Score: ${scoreToAdd} 🏆`);
     gs.score += scoreToAdd;
-    UpdateScoreDisplay();
+    let scoreDisplay = document.getElementById("score");
+    // scoreDisplay.innerText = gs.score;   
+    scoreDisplay.innerHTML = gs.score;   
 }
 
 function ReplaceOnRow(y,e,index){
@@ -1185,57 +1008,20 @@ var sVar = {
 };
 
 function UpdateTile(e){
-    let elem = document.getElementById(`d,y${e.y},x${e.x}`);
-    // elem.innerHTML = map[e.y][e.x];
-    // elem.dataset.val = map[e.y][e.x];
-    // elem.style = ``;
-}
-function UpdateSwap(a,b){
-    let x = b.x;
-    let y = b.y;
-    let tile = document.getElementById(`d,y${a.y},x${a.x}`);
-    tile.id = `d,y${y},x${x}`;
-    // tile.dataset.yx = `${y},${x}`;
-    tile.dataset.y = `${y}`;
-    tile.dataset.x = `${x}`;
-    // tile.dataset.selected = false;
-    // tile.dataset.count = 0;
-    tile.style = `--x-off: ${x}; --y-off: ${y};`;
+    let elem = document.getElementById(`y${e.y},x${e.x}`);
+    elem.innerHTML = map[e.y][e.x];
+    elem.dataset.val = map[e.y][e.x];
 }
 
-function SwapTiles1(a,b){
-    console.log(`Swaping: ${a.y},${a.x} and ${b.y},${b.x}`)
-    let aVal = map[a.y][a.x];
-    let bVal = map[b.y][b.x];
-
-    map[a.y][a.x] = bVal;
-    map[b.y][b.x] = aVal;
-
-    // UpdateTile(a);
-    // UpdateTile(b);
-    UpdateSwap({"x": a.x, "y": a.y},{"x": b.x, "y": b.y});
-    UpdateSwap({"x": b.x, "y": b.y},{"x": a.x, "y": a.y});
-
-    sVar.selected_id = {"x": b.x, "y": b.y};
-}
 function SwapTiles(a,b){
-    console.log(`Swaping: ${a.y},${a.x} and ${b.y},${b.x}`)
     let aVal = map[a.y][a.x];
     let bVal = map[b.y][b.x];
 
     map[a.y][a.x] = bVal;
     map[b.y][b.x] = aVal;
 
-    let atile = document.getElementById(`d,y${a.y},x${a.x}`);
-    let btile = document.getElementById(`d,y${b.y},x${b.x}`);
-    atile.id = `d,y${b.y},x${b.x}`;
-    atile.dataset.y = `${b.y}`;
-    atile.dataset.x = `${b.x}`;
-    atile.style = `--x-off: ${b.x}; --y-off: ${b.y};`;
-    btile.id = `d,y${a.y},x${a.x}`;
-    btile.dataset.y = `${a.y}`;
-    btile.dataset.x = `${a.x}`;
-    btile.style = `--x-off: ${a.x}; --y-off: ${a.y};`;
+    UpdateTile(a);
+    UpdateTile(b);
 
     sVar.selected_id = {"x": b.x, "y": b.y};
 }
@@ -1400,22 +1186,21 @@ function EvalMap(){
         // EmojiEncoding('🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚🕛🕜🕝🕞🕟🕠🕡🕢🕣🕤🕥🕦🕧');
         // EmojiEncoding('🕒🕕🕘🕛🕞🕡🕤🕧');
         // EmojiEncoding('📆🥟♊️🥝🍫🍜🫦⛺️');
-        // EmojiEncoding2(['&#128338;',
-        //     '&#128341;',
-        //     '&#128344;',
-        //     '&#128347;',
-        //     '&#128350;',
-        //     '&#128353;',
-        //     '&#128356;',
-        //     '&#128359;']);
+//         EmojiEncoding2(['&#128338;',
+// '&#128341;',
+// '&#128344;',
+// '&#128347;',
+// '&#128350;',
+// '&#128353;',
+// '&#128356;',
+// '&#128359;']);
 
-        // EmojiEncoding2(['📆','🥟','♊️','🥝','🍫','🍜','🫦','⛺️']);
-        EmojiEncoding2(['F','O','X']);
+// EmojiEncoding2(['📆','🥟','♊️','🥝','🍫','🍜','🫦','⛺️']);
+EmojiEncoding2(['F','O','X']);
 
 
         // NumbersInGrid(gs.w,gs.h);
-        // TilesInGrid(gs.w,gs.h);
-        TilesInDiv(gs.w,gs.h);
+        TilesInGrid(gs.w,gs.h);
 
         SettleGridToZeroFoxes();
 

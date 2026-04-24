@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Finding Foxes 🦊 | NyteLabs</title>
+    <title>Swap Kivifano 🥝🥟🦖📅 | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/logo.css">
@@ -17,7 +17,7 @@
             transform: translateX(-50%) translateY(-50%);
         } */
         /* :root {} */
-        </style>
+    </style>
 <style>
     :root {
         --tile-sz: 24px;
@@ -96,6 +96,7 @@
         background-color: hsla(50, 100%, 60%, 0.2);
         outline: 1px solid hsl(39, 100%, 30%);
     }
+    .match-found,
     .fox-head {
         position: relative;
         --hue: 50;
@@ -167,6 +168,10 @@
         opacity: 1;
     }
 
+    .match-found::before {
+        transform: translateX(50%) translateY(0%) rotateY(0deg) scale(1);
+        opacity: 1;
+    }
     .fox-head::before {
         transform: translateX(50%) translateY(0%) rotateY(0deg) scale(1);
         opacity: 1;
@@ -176,6 +181,7 @@
         opacity: .25;
     }
 
+    .match-found:hover::before,
     .fox-head:hover::before,
     .fox-tail:hover::before {
         transform: translateX(50%) translateY(0%) rotateY(0deg) scale(1.5);
@@ -242,10 +248,10 @@
         top: 50%; left: 50%;
         transform: translateX(-50%) translateY(-50%);
     }
-    #mouse-display {
+    /* #mouse-display {
         outline: 1px dashed #0f0;
         outline-offset: 1px;
-    }
+    } */
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
     <link rel="stylesheet" href="../../../stylesheets/end.css">
@@ -289,7 +295,7 @@
             </svg>
         </a>
         <h1 class="title">NyteLabs</h1>
-        <div class="subtitle">Finding Foxes</div>
+        <!-- <div class="subtitle">Swap Kivifano 🥟🦖📅🥝</div> -->
     </header>
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
@@ -297,7 +303,7 @@
 
 <main>
     <div class="shelf vshelf">
-        <h3 class="shelf-title">Score: <span id="score">0</span> 🦊</h3>
+        <h3 class="shelf-title">Score: <span id="score">0</span></h3>
         <div id="grids">
             <div id="display"></div>
             <div id="mouse-display"></div>
@@ -305,8 +311,8 @@
         <div class="row">
 
             <button onclick="ResetGrid()" class="btn-reset">Reset</button>
-            <button onclick="FindFoxes()" class="btn-find-foxes">Find Foxes</button>
-            <button onclick="CallTheFoxes()" class="btn-find-foxes">Catch the Foxes</button>
+            <button onclick="FindFoxes()" class="btn-find-foxes">Find</button>
+            <button onclick="CallTheFoxes()" class="btn-find-foxes">Collect</button>
         </div>
     </div>
     <!-- <canvas id="canvas"></canvas> -->
@@ -415,20 +421,17 @@
 <script>
 
 const glyphs = [0,1,2,3,4,5,6,7,8,9,"a","b"];
-
-
 /*
-📕📙📗📘
-🟥🟧🟩🟦
-🔴🟠🟢🔵
-❤️🧡💚💙
+📕📙📒📗📘
+🟥🟧🟨🟩🟦
+🔴🟠🟡🟢🔵
+❤️🧡💛💚💙💜
 
-🟥🟩🟦
-🔴🟢🔵
-❤️💚💙
+🍅🍆🍇🍈🍉🍊🍋🍌🍍🍎🍏🍐🍑🍒🍓
+🌑🌒🌓🌔🌕🌖🌗🌘
+♈♉♊♋♌♍♎♏♐♑♒♓
 
 */
-
 
 
 
@@ -482,7 +485,7 @@ function EmojiEncoding2(elist){
         let eIcon = iconRow[i];
         iconVal[eIcon] = eChar;
         iconValr[eChar] = eIcon;
-    }
+    }   
 }
 
 // make a function that makes a 5 by 5 grid.
@@ -527,107 +530,6 @@ function NumbersInGrid(w,h){
             row.appendChild(tile);
         }
         grid.appendChild(row);
-    }
-    display.appendChild(grid);
-}
-var map = [];
-function TilesInGrid(w,h){
-    let display = document.getElementById("display");
-    display.innerHTML = "";
-    let grid = document.createElement("div");
-    map = [];
-    grid.classList.add("grid");
-    for (let y = 0; y < h; y++) {
-        let row = document.createElement("div");
-        row.classList.add("row");
-        map.push([]);
-        for (let x = 0; x < w; x++) {
-            let tile = document.createElement("div");
-            tile.classList.add("tile");
-            // let val = Math.floor(Math.random() * 6);
-            let val = randomVal();
-            map[y].push(val);
-            // tile.innerText = val;
-            tile.innerHTML = val;
-            tile.dataset.val = val;
-            // tile.dataset.val = iconVal[val];
-       
-            tile.id = `y${y},x${x}`;
-            tile.dataset.yx = `${y},${x}`;
-            tile.dataset.y = `${y}`;
-            tile.dataset.x = `${x}`;
-            tile.dataset.selected = false;
-            tile.dataset.count = 0;
-            tile.addEventListener("click", ev => {
-                // selectNumber(ev);
-                // selectTile(ev);
-                SelectingTile({"x": ev.target.dataset.x, "y": ev.target.dataset.y});
-            });
-            tile.addEventListener("mouseenter", (ev) => {
-                if(sVar.selecting) {
-                    let et = ev.target;
-                    let etx = et.dataset.x;
-                    let ety = et.dataset.y;
-
-                    SwapTiles(sVar.selected_id,{"x": etx, "y": ety});
-                }
-                // gstates.moves++;
-            });
-
-            row.appendChild(tile);
-        }
-        grid.appendChild(row);
-    }
-    display.appendChild(grid);
-}
-function TilesInDiv1(w,h){
-    let display = document.getElementById("display");
-    display.innerHTML = "";
-    let grid = document.createElement("div");
-    map = [];
-    grid.classList.add("grid");
-    for (let y = 0; y < h; y++) {
-        // let row = document.createElement("div");
-        // row.classList.add("row");
-        map.push([]);
-        for (let x = 0; x < w; x++) {
-            let tile = document.createElement("div");
-            tile.classList.add("tile");
-            // let val = Math.floor(Math.random() * 6);
-            let val = randomVal();
-            map[y].push(val);
-            // tile.innerText = val;
-            tile.innerHTML = val;
-            tile.dataset.val = val;
-            // tile.dataset.val = iconVal[val];
-       
-            tile.id = `y${y},x${x}`;
-            // tile.dataset.yx = `${y},${x}`;
-            tile.dataset.y = `${y}`;
-            tile.dataset.x = `${x}`;
-            tile.dataset.selected = false;
-            tile.dataset.count = 0;
-            tile.style = `--x-off: ${x}; --y-off: ${y};`;
-            tile.addEventListener("click", ev => {
-                // selectNumber(ev);
-                // selectTile(ev);
-                SelectingTile({"x": ev.target.dataset.x, "y": ev.target.dataset.y});
-            });
-            tile.addEventListener("mouseenter", (ev) => {
-                if(sVar.selecting) {
-                    let et = ev.target;
-                    let etx = et.dataset.x;
-                    let ety = et.dataset.y;
-
-                    SwapTiles(sVar.selected_id,{"x": etx, "y": ety});
-                }
-                // gstates.moves++;
-            });
-
-            // row.appendChild(tile);
-            grid.appendChild(tile);
-        }
-        // grid.appendChild(row);
     }
     display.appendChild(grid);
 }
@@ -709,7 +611,6 @@ function DistanceBetweenTiles(a,b){
 // const myRe = /.{3,}/g;
 const match3 = /(.)\1{2,}/g;
 const matchFox = /FOX/g;
-
 
 function CrashCheckRow(y){
     let xrow = [];
@@ -837,11 +738,8 @@ function CrashCheck(x,y){
     // return ystring.match(match3) != null;
 }
 
-// isInMap(x,y){
-//     if(x < 0 || x >= this.w || y < 0 || y >= this.h) {return false;}
-//     else {return true;}
-// }
 var BagOfFoxes = [];
+var BagOfMatches = [];
 function IsInMap(m,x,y){
     if(y < 0 || y >= m.length || x < 0 || x >= m[y].length) {return false;}
     else {return true;}
@@ -849,6 +747,44 @@ function IsInMap(m,x,y){
 function GetTile(m,x,y){
     if(IsInMap(m,x,y)){return m[y][x];}
     else {return "";}
+}
+const dPaths = [
+    {"x": 0, "y": 1},
+    {"x": 0, "y": -1},
+    {"x": 1, "y": 0},
+    {"x": -1, "y": 0},
+]
+function CheckPath(m,o,d){
+    let crash = [];
+    let ot = m[o.y][o.x];
+    for (let i = 0; i < gs.len; i++) {
+        let nx = o.x + d.x * i;
+        let ny = o.y + d.y * i;
+        console.log(`GetTile for -> nx:${nx} ny:${ny}`)
+        let nt = GetTile(m,nx,ny);
+        console.log(`-- ot: ${ot}, nt: ${nt};`);
+        if(ot == nt){
+            crash.push({"x": nx, "y": ny});
+        } else {
+            i = gs.len;
+        }
+    }
+    // if(crash.length >= 3){return crash;}
+    // else {return false;}
+    return crash;
+}
+function FindMatch(m,x,y){
+    let matchList = [];
+    let val = m[y][x];
+    for (let i = 0; i < dPaths.length; i++) {
+        const e = dPaths[i];
+        if(val == GetTile(m,x+e.x,y+e.y)){
+            console.log(`matchAdjecent: ${val} at x: ${x}, y: ${y}, next to: ${e.x},${e.y};`)
+            let matchRes = CheckPath(m,{"x": x, "y": y},e);
+            if(matchRes.length >= 3){matchList.push(matchRes);}
+        }
+    }
+    return matchList;
 }
 function FindFoxAt(m,x,y){
     // add search by going to each side of an F and look for O and X and if it is outside of map, return as false.
@@ -929,53 +865,63 @@ function HighlightFox(n=0, e){
     fox2.dataset.count = parseInt(fox2.dataset.count)+1;
     fox3.dataset.count = parseInt(fox3.dataset.count)+1;
 }
+function HighlightMatch(list,n){
+    console.log(list);
+    console.log(`n: ${n}`);
+    for (let i = 0; i < list.length; i++) {
+        const e = list[i];
+        let tile = document.getElementById(`d,y${e.y},x${e.x}`);
+        tile.classList.add("match-found");
+        tile.style = `--x-off: ${e.x}; --y-off: ${e.y}; --hue: ${n*10};`;
+        tile.dataset.count = parseInt(tile.dataset.count)+1;
+    }
+}
 function FoxSearch(forest){
     let foxList = [];
+    let allMatches = [];
     for (let y = 0; y < forest.length; y++) {
         // const element = array[y];
         for (let x = 0; x < forest[y].length; x++) {
-            // console.log(`x: ${x}, y: ${y}`);
-            if(forest[y][x] == "F"){
-                // console.log(`an "F" has been found! \nx: ${x}, y: ${y}`);
-                // let find = FindFoxAt(forest,x,y);
-                let foxes = FindFoxAt(forest,x,y);
-                if(foxes.length > 0){
-                    if(foxes.length == 1){
-                        console.log(`a "FOX" has been found! \nx: ${x}, y: ${y}`);
-                    } else {
-                        console.log(`${foxes.length} "FOXes" have been found! \nx: ${x}, y: ${y}`);
-                    }
-                    // foxList.push([...find]);
-                    // let fox = document.getElementById(`y${e[1][1]},x${e[1][0]}`);
-                    // fox.classList.add("fox");
-                    // let fox2 = document.getElementById(`y${find[1][1]+find[2][1]},x${find[1][0]+find[2][0]}`);
-                    // fox2.classList.add("fox2");
+            console.log(`Searching at, x: ${x}, y: ${y}`);
+            let matchList = FindMatch(forest,x,y);
+            if(matchList.length > 0){
+                console.log(`a MATCH has been found! \nx: ${x}, y: ${y}`);
+                for (let i = 0; i < matchList.length; i++) {
+                    const e = matchList[i];
+                    allMatches.push(e);
+                    // HighlightFox(foxList.length,e);
+                    HighlightMatch(e,allMatches.length);
 
-                    for (let i = 0; i < foxes.length; i++) {
-                        const e = foxes[i];
-                        foxList.push(e);
-                        HighlightFox(foxList.length,e);
-
-                        // // let fox = document.getElementById(`y${y},x${x}`);
-                        // let ey = e[1][1];
-                        // let ex = e[1][0];
-                        // let fox = document.getElementById(`y${ey},x${ex}`);
-                        // fox.classList.add("fox");
-                        // fox.style = `outline: 1px solid hsla(${foxList.length*10}, 100%, 50%, 1);`;
-                        // fox.style = `background-color: hsla(${foxList.length*10}, 100%, 30%, 1);`;
-                        // let fox2 = document.getElementById(`y${ey+e[2][1]},x${ex+e[2][0]}`);
-                        // let fox3 = document.getElementById(`y${ey+e[2][1]+e[2][1]},x${ex+e[2][0]+e[2][0]}`);
-                        // fox2.classList.add("fox2");
-                        // fox3.classList.add("fox2");
-                    }
                 }
             }
+            // if(forest[y][x] == "F"){
+            //     // console.log(`an "F" has been found! \nx: ${x}, y: ${y}`);
+            //     // let find = FindFoxAt(forest,x,y);
+            //     let foxes = FindFoxAt(forest,x,y);
+            //     if(foxes.length > 0){
+            //         if(foxes.length == 1){
+            //             console.log(`a "FOX" has been found! \nx: ${x}, y: ${y}`);
+            //         } else {
+            //             console.log(`${foxes.length} "FOXes" have been found! \nx: ${x}, y: ${y}`);
+            //         }
+
+            //         for (let i = 0; i < foxes.length; i++) {
+            //             const e = foxes[i];
+            //             foxList.push(e);
+            //             HighlightFox(foxList.length,e);
+
+            //         }
+            //     }
+            // }
         }
     }
-    let foxCount = foxList.length;
+    // let foxCount = foxList.length;
+    let matchCount = allMatches.length;
     // console.log(`foxCount = ${foxCount}`);
     // ScoreAdd(foxCount*3);
-    BagOfFoxes = [...foxList];
+    // BagOfFoxes = [...foxList];
+    // BagOfMatches = [...allMatches];
+    BagOfFoxes = [...allMatches];
     // CatchFoxes(foxList);
 }
 // var searchingFoxes = false;
@@ -988,6 +934,15 @@ function FindFoxes(){
         FoxSearch(map);
     }
 }
+// function FindFoxes(){
+//     // if(!searchingFoxes){
+//     //     FoxSearch(map);
+//     //     searchingFoxes = true;
+//     // }
+//     if(BagOfMatches.length < 1){
+//         FoxSearch(map);
+//     }
+// }
 
 function ResetGrid(){
     // TilesInGrid(gs.w,gs.h);
@@ -1006,7 +961,7 @@ function CallTheFoxes(){
         // searchingFoxes = false;
     }
 }
-function CatchFoxes(bag){
+function CatchFoxes1(bag){
     // ScoreAdd(bag.length*3);
     ScoreAdd(bag.length);
     // console.log(bag);
@@ -1043,6 +998,56 @@ function CatchFoxes(bag){
     // console.log(targetTiles);
     ReplaceTiles(targetTiles);
 }
+function CatchFoxes(bag){
+    // ScoreAdd(bag.length*3);
+    ScoreAdd(bag.length);
+    // console.log(bag);
+    if(bag.length == 0) {return false;}
+    let targetIDs = [];
+    let targetTiles = [];
+
+    let BagOfTileIDsToReplace = [];
+    let BagOfTilesToReplace = [];
+    for (let i = 0; i < bag.length; i++) {
+        // const fox = bag[i];
+        const m = bag[i];
+        // console.log(e)
+        for (let j = 0; j < m.length; j++) {
+            const t = m[j];
+            let tid = `y${t.y},x${t.x}`;
+            if(!targetIDs.includes(tid)){
+                targetIDs.push(`y${t.y},x${t.x}`);
+                targetTiles.push({"y": t.y,"x": t.x});
+            }
+        }
+
+        // let ey = e.o.y;
+        // let ex = e.o.x;
+        // let ey2 = e.o.y + e.d.y;
+        // let ex2 = e.o.x + e.d.x;
+        // let ey3 = e.o.y + e.d.y + e.d.y;
+        // let ex3 = e.o.x + e.d.x + e.d.x;
+
+        // let eid = `y${ey},x${ex}`;
+        // let e2id = `y${ey2},x${ex2}`;
+        // let e3id = `y${ey3},x${ex3}`;
+        // // if(!targetTiles.includes(eid)){targetTiles.push(eid);}
+        // // if(!targetTiles.includes(e2id)){targetTiles.push(e2id);}
+        // // if(!targetTiles.includes(e3id)){targetTiles.push(e3id);}
+
+        // let exy = {"y": ey,"x": ex};
+        // let e2xy = {"y": ey2,"x": ex2};
+        // let e3xy = {"y": ey3,"x": ex3};
+
+        // if(!targetIDs.includes(eid)){targetIDs.push(eid); targetTiles.push(exy);}
+        // if(!targetIDs.includes(e2id)){targetIDs.push(e2id); targetTiles.push(e2xy);}
+        // if(!targetIDs.includes(e3id)){targetIDs.push(e2id); targetTiles.push(e3xy);}
+
+    }
+    // // console.log(`targetTiles: ${targetTiles.length}`);
+    // // console.log(targetTiles);
+    ReplaceTiles(targetTiles);
+}
 // function replaceTile(tile){}
 function ReplaceTiles(tiles){
     console.log(`ReplaceTiles: ${tiles.length}`);
@@ -1055,11 +1060,11 @@ function ReplaceTiles(tiles){
         tile.innerHTML = newVal;
         tile.dataset.val = newVal;
         tile.dataset.count = 0;
-        tile.classList.remove("fox-head");
-        tile.classList.remove("fox-tail");
+        // tile.classList.remove("fox-head");
+        // tile.classList.remove("fox-tail");
+        tile.classList.remove("match-found");
     }
 }
-
 
 function SettleGridToZeroFoxes(){
     let foxesInGrid = 1;
@@ -1074,16 +1079,6 @@ function SettleGridToZeroFoxes(){
     }
     ResetScore();
 }
-
-
-// function RandomReplace(x,y,e){
-
-//     let newVal = randomVal();
-//     let tile = document.getElementById(`y${y},x${x}`);
-//     tile.innerText = newVal;
-//     tile.dataset.val = newVal;
-
-// }
 
 function ResetScore(){
     gs.score = 0;
@@ -1113,7 +1108,6 @@ function ScoreUp(n){
 function ReplaceOnRow(y,e,index){
     let score = 0;
     for(let i = index; i < gs.w; i++){
-        console.log(`ReplaceOnRow -> y:${y}, x:${i};`);
         let tile = document.getElementById(`y${y},x${i}`);
         let tileIcon = tile.dataset.val;
         if(tileIcon == e){
@@ -1183,7 +1177,6 @@ var sVar = {
     selected: -1,
     selected_id: {x:-1, y:-1}
 };
-
 function UpdateTile(e){
     let elem = document.getElementById(`d,y${e.y},x${e.x}`);
     // elem.innerHTML = map[e.y][e.x];
@@ -1325,6 +1318,55 @@ function selectTile(ev){
         val2.dataset.selected = "true";
     }
 }
+function selectNumber(ev){
+    let val = ev.target.dataset.val;
+    let targetX = ev.target.dataset.x;
+    let targetY = ev.target.dataset.y;
+    // if same id, then deselect.
+    if(sVar.selecting) {
+        let distanceAB = DistanceBetweenTiles({x: sVar.selected_id.x, y: sVar.selected_id.y},{x: targetX, y: targetY});
+        // console.log(`distanceAB: ${distanceAB}`);
+
+        if(distanceAB > 1){return;}
+
+        let val1 = document.getElementById(`y${sVar.selected_id.y},x${sVar.selected_id.x}`);
+        let val2 = document.getElementById(`y${targetY},x${targetX}`);
+
+        
+        val1.innerHTML = val2.dataset.val;
+        val1.dataset.val = val2.dataset.val;
+        val2.innerHTML = sVar.selected;
+        val2.dataset.val = sVar.selected;
+        val1.dataset.selected = "false";
+
+
+        // victory conditions.
+        /*
+        We could lock the numbers in place, not good for a game.
+        we could replace the number with new ones.
+        We could make new ones fall all down.
+        We could just remove them and count the points.
+        */
+        CheckStuff(targetX,targetY);
+        CheckStuff(sVar.selected_id.x,sVar.selected_id.y);
+
+
+        setTimeout(() => {
+            sVar.selecting = false;
+            sVar.selected = -1;
+            sVar.selected_id.x = -1;
+            sVar.selected_id.y = -1;
+        }, 100);
+
+    } else {
+        sVar.selecting = true;
+        sVar.selected = val;
+        sVar.selected_id.x = targetX;
+        sVar.selected_id.y = targetY;
+        let val2 = document.getElementById(`y${targetY},x${targetX}`);
+        val2.dataset.selected = "true";
+    }
+}
 
 function EvalMap(){
     console.log("EvalMap()");
@@ -1388,6 +1430,7 @@ function EvalMap(){
     const gs = {
         h: 12,
         w: 12,
+        len: 12,
         map: [],
         score: 0,
     }
@@ -1395,32 +1438,61 @@ function EvalMap(){
         console.log(`Welcome to my Lab!`);
         updateSettings();
         // start();
+/*
+🌑🌒🌓🌔🌕🌖🌗🌘
+♈♉♊♋♌♍♎♏♐♑♒♓
+🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚🕛🕜🕝🕞🕟🕠🕡🕢🕣🕤🕥🕦🕧
+🍅🍇🍈🍉🍊🍋🍌🍍🍎🍏🍐🍑🍒🍓
 
+---
+Emojis que me recuerdan a nosotros:
+😭🫣🥹🫠😺🙌👉👈💪🫦🫂🧶💍🐸🦄🐙🦖🦕🌵🌞💫✨🫧🍌🥭🥝🍆🌶️🥐🍔🌯🍜🥟🍬🍦🍽️🪁🎭🎨🎼🎲🎢⛺️📷🔮🩸🚿🛏️🛌📆📅📖📏🤍💙💛💔❤️‍🩹♊️♒️1️⃣7️⃣🎶🕔
+
+Los emojis de Kimberly:
+🇨🇴, 🐸, 👾,🧠,🧙‍♂️, 🦖,💪,🫦⭐️,🌙,🍌,🍆,🍅,🫒,🥐,🍳,🍜,🥟,🍬,🍫,🎲,⛺️,💻,🧼,📆,🤍,♊️
+Creo q esos por ahora
+
+
+Los más distintivos:
+📆 🥟 ♊️ 🥝 🍫 🍜 🫦 ⛺️
+♊️🎲💻
+
+🥟🦄🥝📅 📏 📖
+
+🦄📖🥟🦖📅🥝
+
+Dates:
+🥤
+🍟
+🎢🐮
+🍦
+🏔️💍
+🍗
+🍝♊️
+🍔🔖
+🎮💃
+*/
         // EmojiEncoding('♈♉♊♋♌♍♎♏♐♑♒♓');
         // EmojiEncoding('🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚🕛🕜🕝🕞🕟🕠🕡🕢🕣🕤🕥🕦🕧');
         // EmojiEncoding('🕒🕕🕘🕛🕞🕡🕤🕧');
         // EmojiEncoding('📆🥟♊️🥝🍫🍜🫦⛺️');
-        // EmojiEncoding2(['&#128338;',
-        //     '&#128341;',
-        //     '&#128344;',
-        //     '&#128347;',
-        //     '&#128350;',
-        //     '&#128353;',
-        //     '&#128356;',
-        //     '&#128359;']);
+//         EmojiEncoding2(['&#128338;',
+// '&#128341;',
+// '&#128344;',
+// '&#128347;',
+// '&#128350;',
+// '&#128353;',
+// '&#128356;',
+// '&#128359;']);
 
         // EmojiEncoding2(['📆','🥟','♊️','🥝','🍫','🍜','🫦','⛺️']);
-        EmojiEncoding2(['F','O','X']);
-
+        EmojiEncoding2(['📆','🥟','♊️','🎲','💻','🍫','🍜','⛺️']);
 
         // NumbersInGrid(gs.w,gs.h);
-        // TilesInGrid(gs.w,gs.h);
-        TilesInDiv(gs.w,gs.h);
-
-        SettleGridToZeroFoxes();
-
         // EvalMap();
         // // update();
+
+        TilesInDiv(gs.w,gs.h);
     });
     /* Version Log:
     [index-nds-00]: Default Template.
@@ -1436,13 +1508,6 @@ function EvalMap(){
     [index-nds-10]: It can adapt to different emoji lists.
     [index-nds-11]: 
     [index-nds-12]: 
-
-    [index-nds-01]: 
-    [index-nds-02]: It finds the foxes.
-    [index-nds-03]: It now finds and catches the foxes.
-    [index-nds-04]: It avoids double scoring.
-    [index-nds-05]: It allows for click drag and switch as it goes and then click to stop.
-    [index-nds-06]: 
     
     */
 
