@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Swap Kivifano 🥝🥟🦖📅 | NyteLabs</title>
+    <title>Swap Emojis | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/logo.css">
@@ -22,6 +22,7 @@
     :root {
         --tile-sz: 24px;
         --tile-sz: 36px;
+        --tile-sz: 32px;
         --tile-m: 1px;
         --tile-space: calc(var(--tile-sz) + var(--tile-m) * 2);
         --tile-count: 12;
@@ -50,8 +51,15 @@
         width: var(--tile-sz);
         height: var(--tile-sz);
         user-select: none;
-        cursor: pointer;
+        /* cursor: pointer; */
+        /* cursor: grab; */
     }
+    /* #mouse-display.grabbing,
+    .mtile.grabbing {
+        cursor: grabbing;
+    } */
+    .mgrid {cursor: grab;}
+    .mgrid.grabbing {cursor: grabbing;}
     .tile {
         outline: 1px solid #39f;
     }
@@ -248,6 +256,30 @@
         top: 50%; left: 50%;
         transform: translateX(-50%) translateY(-50%);
     }
+    .shelf-title {margin-top: 8px;}
+    .tag-bubble {
+        position: relative;
+        cursor: help;
+    }
+    .tag-bubble::before {
+        content: attr(data-tag);
+        position: absolute;
+        top: 0%; left: 50%;
+        transform: translateX(-50%) translateY(0%) scale(0.5);
+        font-size: 16px;
+        font-weight: 100;
+        background-color: #3339;
+        outline: 1px solid hsla(39, 100%, 50%, .5);
+        padding: 2px 4px;
+        opacity: 0;
+        z-index: -1;
+        transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+    }
+    .tag-bubble:hover::before {
+        transform: translateX(-50%) translateY(-100%) scale(1);
+        opacity: 1;
+
+    }
     /* #mouse-display {
         outline: 1px dashed #0f0;
         outline-offset: 1px;
@@ -295,7 +327,7 @@
             </svg>
         </a>
         <h1 class="title">NyteLabs</h1>
-        <!-- <div class="subtitle">Swap Kivifano 🥟🦖📅🥝</div> -->
+        <!-- <div class="subtitle">Swap Emojis</div> -->
     </header>
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
@@ -303,7 +335,8 @@
 
 <main>
     <div class="shelf vshelf">
-        <h3 class="shelf-title">Score: <span id="score">0</span></h3>
+        <!-- <h3 class="shelf-title">Score: <span id="score">0</span>🧮 / Moves: <span id="moves">0</span>🔀 / Efficiency: <span id="efficiency">0</span>🎯</h3> -->
+        <h3 class="shelf-title"><span class="tag-bubble" data-tag="Score">🧮</span>: <span id="score">0</span> / <span class="tag-bubble" data-tag="Moves">🔀</span>: <span id="moves">0</span> / <span class="tag-bubble" data-tag="Efficiency">🎯</span>: <span id="efficiency">0</span></h3>
         <div id="grids">
             <div id="display"></div>
             <div id="mouse-display"></div>
@@ -540,6 +573,7 @@ function TilesInDiv(w,h){
     mdisplay.innerHTML = "";
     let grid = document.createElement("div");
     let mgrid = document.createElement("div");
+    mgrid.id = "mgrid";
     map = [];
     grid.classList.add("grid");
     mgrid.classList.add("mgrid");
@@ -960,6 +994,7 @@ function CallTheFoxes(){
         BagOfFoxes = [];
         // searchingFoxes = false;
     }
+    UpdateScores();
 }
 function CatchFoxes1(bag){
     // ScoreAdd(bag.length*3);
@@ -1044,6 +1079,9 @@ function CatchFoxes(bag){
         // if(!targetIDs.includes(e3id)){targetIDs.push(e2id); targetTiles.push(e3xy);}
 
     }
+    // console.log(`targetTiles: ${targetTiles};`);
+    console.log(`targetTiles.len: ${targetTiles.length};`);
+    ScoreAdd(targetTiles.length);
     // // console.log(`targetTiles: ${targetTiles.length}`);
     // // console.log(targetTiles);
     ReplaceTiles(targetTiles);
@@ -1082,6 +1120,7 @@ function SettleGridToZeroFoxes(){
 
 function ResetScore(){
     gs.score = 0;
+    gs.moves = 0;
     UpdateScoreDisplay();
 }
 function UpdateScoreDisplay(){
@@ -1091,7 +1130,7 @@ function UpdateScoreDisplay(){
 }
 function ScoreAdd(n){
     gs.score += n;
-    console.log(`Score: ${n} 🦊`);
+    console.log(`Score: ${n} 🥟`);
     UpdateScoreDisplay();
 }
 function Score(){
@@ -1237,9 +1276,18 @@ function SelectingTile(et){
     if(!sVar.selecting){
         sVar.selecting = true;
         sVar.selected_id = {"x": et.x, "y": et.y};
+        // let tileGrabbed = document.getElementById(`y${et.y},x${et.x}`);
+        // tileGrabbed.classList.toggle("grabbing");
+        let mgrid = document.getElementById(`mgrid`);
+        mgrid.classList.toggle("grabbing");
     } else {
         sVar.selecting = false;
         sVar.selected_id = {"x": -1, "y": -1};
+        // let tileGrabbed = document.getElementById(`y${et.y},x${et.x}`);
+        // tileGrabbed.classList.toggle("grabbing");
+        let mgrid = document.getElementById(`mgrid`);
+        mgrid.classList.toggle("grabbing");
+        CountMoves();
         FindFoxes();
         // if(BagOfFoxes.length > 0){
         //     setTimeout(() => {
@@ -1247,6 +1295,22 @@ function SelectingTile(et){
         //     }, 3000);
         // }
     }
+}
+
+function UpdateScores(){
+    let scoreElem = document.getElementById("score");
+    scoreElem.innerHTML = gs.score;
+
+    let movesElem = document.getElementById("moves");
+    movesElem.innerHTML = gs.moves;
+    
+    let eff = Math.floor(gs.score / gs.moves);
+    let effElem = document.getElementById("efficiency");
+    effElem.innerHTML = eff;
+}
+function CountMoves(){
+    gs.moves++;
+    UpdateScores();
 }
 
 function selectTile(ev){
@@ -1277,6 +1341,7 @@ function selectTile(ev){
         // val2.innerHTML = sVar.selected;
         // val2.dataset.val = sVar.selected;
         val1.dataset.selected = "false";
+        val1.classList.toggle("grabbing");
 
         val1.innerHTML = map[v1y][v1x];
         val1.dataset.val = map[v1y][v1x];
@@ -1316,6 +1381,7 @@ function selectTile(ev){
         sVar.selected_id.y = targetY;
         let val2 = document.getElementById(`y${targetY},x${targetX}`);
         val2.dataset.selected = "true";
+        val2.classList.toggle("grabbing");
     }
 }
 function selectNumber(ev){
@@ -1383,6 +1449,10 @@ function EvalMap(){
     // CheckStuff(targetX,targetY);
 }
 
+/* ─── Events ─── */
+
+
+
     /* ─── Events ─── */
     function updateSettings(){
         s.h = window.innerHeight;
@@ -1433,12 +1503,22 @@ function EvalMap(){
         len: 12,
         map: [],
         score: 0,
+        moves: 0,
     }
     window.addEventListener('load', (ev) => {
         console.log(`Welcome to my Lab!`);
         updateSettings();
         // start();
 /*
+⭐️💡🚧🛸🌒
+⛺️🏔️🥑🦖
+💢🚨🔥🍟
+💠🧢💤🌊🥏
+🦄💣🎲
+
+⭐️🦖🌊🛸
+🦑💣🎲🍟
+
 🌑🌒🌓🌔🌕🌖🌗🌘
 ♈♉♊♋♌♍♎♏♐♑♒♓
 🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚🕛🕜🕝🕞🕟🕠🕡🕢🕣🕤🕥🕦🕧
@@ -1483,10 +1563,11 @@ Dates:
 // '&#128350;',
 // '&#128353;',
 // '&#128356;',
-// '&#128359;']);
+// '&#128359;']);⭐️🦖🌊🛸🦑💣🎲🍟
 
         // EmojiEncoding2(['📆','🥟','♊️','🥝','🍫','🍜','🫦','⛺️']);
-        EmojiEncoding2(['📆','🥟','♊️','🎲','💻','🍫','🍜','⛺️']);
+        // EmojiEncoding2(['📆','🥟','♊️','🎲','💻','🍫','🍜','⛺️']);
+        EmojiEncoding2(['⭐️','🦖','🌊','🛸','🦑','💣','🎲','🍟']);
 
         // NumbersInGrid(gs.w,gs.h);
         // EvalMap();

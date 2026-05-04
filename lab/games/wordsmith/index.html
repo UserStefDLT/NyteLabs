@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Swap Kivifano 🥝🥟🦖📅 | NyteLabs</title>
+    <title>WordSmith | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/logo.css">
@@ -22,6 +22,7 @@
     :root {
         --tile-sz: 24px;
         --tile-sz: 36px;
+        --tile-sz: 32px;
         --tile-m: 1px;
         --tile-space: calc(var(--tile-sz) + var(--tile-m) * 2);
         --tile-count: 12;
@@ -50,8 +51,15 @@
         width: var(--tile-sz);
         height: var(--tile-sz);
         user-select: none;
-        cursor: pointer;
+        /* cursor: pointer; */
+        /* cursor: grab; */
     }
+    /* #mouse-display.grabbing,
+    .mtile.grabbing {
+        cursor: grabbing;
+    } */
+    .mgrid {cursor: grab;}
+    .mgrid.grabbing {cursor: grabbing;}
     .tile {
         outline: 1px solid #39f;
     }
@@ -248,10 +256,78 @@
         top: 50%; left: 50%;
         transform: translateX(-50%) translateY(-50%);
     }
+    .shelf-title {margin-top: 8px;}
+    .tag-bubble {
+        position: relative;
+        cursor: help;
+    }
+    .tag-bubble::before {
+        content: attr(data-tag);
+        position: absolute;
+        top: 0%; left: 50%;
+        transform: translateX(-50%) translateY(0%) scale(0.5);
+        font-size: 16px;
+        font-weight: 100;
+        background-color: #3339;
+        outline: 1px solid hsla(39, 100%, 50%, .5);
+        padding: 2px 4px;
+        opacity: 0;
+        z-index: -1;
+        transition: transform 300ms ease-in-out, opacity 300ms ease-in-out;
+    }
+    .tag-bubble:hover::before {
+        transform: translateX(-50%) translateY(-100%) scale(1);
+        opacity: 1;
+
+    }
+
+    [data-vowel="true"] {
+        /* background-color: #f003; */
+        box-shadow: inset 0 0 0 2px #f004;
+    }
+
     /* #mouse-display {
         outline: 1px dashed #0f0;
         outline-offset: 1px;
     } */
+     .word-list {
+        box-sizing: border-box;
+        min-height: var(--grid-sz);
+        outline: 1px dashed #39f;
+        padding: 8px;
+     }
+     .word-list > ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 12px;
+        outline: 1px dashed #f39;
+     }
+     .word-list li {
+        display: flex;
+     }
+     .target-word {
+        text-align: start;
+        margin: 8px 0px;
+     }
+     .word-found {
+        /* text-decoration: line-through; */
+        --word-color: hsla(calc(var(--i) * 30), 100%, 60%, 1);
+        --word-color2: hsla(calc(var(--i) * 30), 100%, 15%, 1);
+        /* font-weight: bold; */
+        background-color: var(--word-color2);
+        outline: 2px solid var(--word-color);
+    }
+    .target-word::before {
+        content: attr(data-foundcount);
+        margin: 0px 4px;
+        padding: 2px 4px;
+        border-radius: 50%;
+        outline: var(--word-color);
+        font-weight: bold;
+        text-shadow: 1px 1px 2px #000;
+        /* text-decoration: none; */
+    }
+    .z {}
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
     <link rel="stylesheet" href="../../../stylesheets/end.css">
@@ -295,21 +371,38 @@
             </svg>
         </a>
         <h1 class="title">NyteLabs</h1>
-        <!-- <div class="subtitle">Swap Kivifano 🥟🦖📅🥝</div> -->
+        <!-- <div class="subtitle">Swap Emojis</div> -->
     </header>
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
     <input type="checkbox" name="toggle" id="toggleLights">
 
 <main>
-    <div class="shelf vshelf">
-        <h3 class="shelf-title">Score: <span id="score">0</span></h3>
+    <div class="shelf">
+        <!-- <h3 class="shelf-title">Score: <span id="score">0</span>🧮 / Moves: <span id="moves">0</span>🔀 / Efficiency: <span id="efficiency">0</span>🎯</h3> -->
+        <h3 class="shelf-title"><span class="tag-bubble" data-tag="Score">🧮</span>: <span id="score">0</span> / <span class="tag-bubble" data-tag="Moves">🔀</span>: <span id="moves">0</span> / <span class="tag-bubble" data-tag="Efficiency">🎯</span>: <span id="efficiency">0</span></h3>
+        
+        <div id="LevelTarget" class="word-list">
+            <ul>
+                <li class="target-word" data-foundcount="0" data-word="SEA">🌊 SEA</li>
+                <li class="target-word" data-foundcount="0" data-word="PEAR">🍐 PEAR</li>
+                <li class="target-word" data-foundcount="0" data-word="ART">🎨 ART</li>
+                <li class="target-word" data-foundcount="0" data-word="STAR">⭐ STAR</li>
+                <li class="target-word" data-foundcount="0" data-word="TREE">🌳 TREE</li>
+                <li class="target-word" data-foundcount="0" data-word="ROSE">🌹 ROSE</li>
+                <li class="target-word" data-foundcount="0" data-word="SALT">🧂 SALT</li>
+                <li class="target-word" data-foundcount="0" data-word="PLATE">🍽️ PLATE</li>
+                <li class="target-word" data-foundcount="0" data-word="PEARL">🦪 PEARL</li>
+                <li class="target-word" data-foundcount="0" data-word="APPLE">🍎 APPLE</li>
+            </ul>
+        </div>
         <div id="grids">
             <div id="display"></div>
             <div id="mouse-display"></div>
         </div>
+    </div>
+    <div class="shelf">
         <div class="row">
-
             <button onclick="ResetGrid()" class="btn-reset">Reset</button>
             <button onclick="FindFoxes()" class="btn-find-foxes">Find</button>
             <button onclick="CallTheFoxes()" class="btn-find-foxes">Collect</button>
@@ -487,6 +580,12 @@ function EmojiEncoding2(elist){
         iconValr[eChar] = eIcon;
     }   
 }
+function EmojiEncoding3(wlist){
+    let elist = GetLetters(wlist)
+    iconRow = [...elist];
+    WordGoalTree(wlist);
+    firstLetters = Object.keys(WordTree);
+}
 
 // make a function that makes a 5 by 5 grid.
 // make a function that resorts the positon of all numbers inside the grid.
@@ -501,7 +600,7 @@ function randomVal(){
     let val = iconRow[index];
     return val;
 }
-
+const VOWEL = ["A","E","I","O","U"];
 function NumbersInGrid(w,h){
     let display = document.getElementById("display");
     let grid = document.createElement("div");
@@ -540,6 +639,7 @@ function TilesInDiv(w,h){
     mdisplay.innerHTML = "";
     let grid = document.createElement("div");
     let mgrid = document.createElement("div");
+    mgrid.id = "mgrid";
     map = [];
     grid.classList.add("grid");
     mgrid.classList.add("mgrid");
@@ -561,6 +661,11 @@ function TilesInDiv(w,h){
             tile.innerHTML = val;
             tile.dataset.val = val;
             // tile.dataset.val = iconVal[val];
+            if(VOWEL.includes(val)){
+                tile.dataset.vowel = true;
+            } else {
+                tile.dataset.vowel = false;
+            }
        
             tile.id = `d,y${y},x${x}`;
             // tile.dataset.yx = `${y},${x}`;
@@ -773,6 +878,96 @@ function CheckPath(m,o,d){
     // else {return false;}
     return crash;
 }
+function FindMatchAround(m,x,y,l){
+
+}
+
+function CheckTargetWords(wordList){
+    for (let i = 0; i < wordList.length; i++) {
+        const e = wordList[i];
+        console.log(`looking for: ${e}`);
+        let wordElem = document.querySelectorAll(`[data-word="${e}"]`)[0];
+        wordElem.classList.add("word-found");
+        wordElem.dataset.foundcount = parseInt(wordElem.dataset.foundcount)+1;
+    }
+}
+
+function GetWordInPath(m,x,y,d,len){
+    let w = {
+        "word": [],
+        "wordPath": [],
+    }
+    // let word = [];
+    // let wordPath = [];
+    for (let i = 0; i < len; i++) {
+        let nx = x + d.x * i;
+        let ny = y + d.y * i;
+        // let letter = GetTile(m,nx,ny);
+        // if(letter)
+        w.word.push(GetTile(m,nx,ny));
+        w.wordPath.push({"x": nx, "y": ny});
+    }
+    // return word.join("");
+    return w;
+}
+function FindWord(m,x,y){
+    // WordGoalTree();
+    let matchList = [];
+    let k1 = m[y][x];
+    // console.log(`x: ${x}, y: ${y}, k1: ${k1}`);
+    // let firstLetters = Object.keys(WordTree);
+    let words = [];
+    if(firstLetters.includes(k1)){
+        // word.push(k1);
+        let k1branch = WordTree[k1];
+        let k1keys = Object.keys(k1branch);
+        for(let ik = 0; ik < k1keys.length; ik++){
+            let k2 = k1keys[ik];
+            // console.log(`--x: ${x}, y: ${y}, k2: ${k2}`);
+            for (let i = 0; i < dPaths.length; i++) {
+                const e = dPaths[i];
+                let nx = x + e.x;
+                let ny = y + e.y;
+                if(GetTile(m,nx,ny) == k2){
+                    // word.push(k2);
+                    let k3 = WordTree[k1][k2];
+                    for (let j = 0; j < k3.length; j++) {
+                        let k4 = k3[j];
+                        // console.log(`k4: ${k4}, len: ${k4.length}`);
+                        // console.log(`--,--x: ${x}, y: ${y}, k4: ${k4} 🔠`);
+                        let w = GetWordInPath(m,x,y,e,k4.length + 2);
+                        // console.log(w);
+                        // console.log(w.word);
+                        let word = w.word.join("");
+                        // console.log(`--,--,--x: ${x}, y: ${y}, word: ${word} 🔠🎯`);
+                        // if(t0.includes(word.toLowerCase())){
+                        if(l0.includes(word)){
+                            words.push(word);
+                            matchList.push(w.wordPath);
+                            console.log(`--,--,--,--> x: ${x}, y: ${y}, wordConfirmed: ${word}! ⭐️⭐️⭐️`);
+                        }
+                    }
+
+                }
+                
+    
+                // if(val == GetTile(m,x+e.x,y+e.y)){
+                //     // console.log(`matchAdjecent: ${val} at x: ${x}, y: ${y}, next to: ${e.x},${e.y};`)
+                //     let matchRes = CheckPath(m,{"x": x, "y": y},e);
+                //     if(matchRes.length >= 3){matchList.push(matchRes);}
+                // }
+            }
+        }
+    } else {
+        return "";
+    }
+    if(words.length > 0){
+        console.log(`words: [${words}]`);
+        // console.log(words);
+        CheckTargetWords(words);
+    }
+    return matchList;
+}
 function FindMatch(m,x,y){
     let matchList = [];
     let val = m[y][x];
@@ -924,6 +1119,54 @@ function FoxSearch(forest){
     BagOfFoxes = [...allMatches];
     // CatchFoxes(foxList);
 }
+function WordSearch(forest){
+    let foxList = [];
+    let allMatches = [];
+    for (let y = 0; y < forest.length; y++) {
+        // const element = array[y];
+        for (let x = 0; x < forest[y].length; x++) {
+            // console.log(`Searching at, x: ${x}, y: ${y}`);
+            let matchList = FindWord(forest,x,y);
+            if(matchList.length > 0){
+                console.log(`a MATCH has been found! \nx: ${x}, y: ${y}`);
+                for (let i = 0; i < matchList.length; i++) {
+                    const e = matchList[i];
+                    console.log(`--> ${forest[e[0].y][e[0].x]}`);
+                    allMatches.push(e);
+                    // HighlightFox(foxList.length,e);
+                    HighlightMatch(e,allMatches.length);
+                }
+            }
+            // if(forest[y][x] == "F"){
+            //     // console.log(`an "F" has been found! \nx: ${x}, y: ${y}`);
+            //     // let find = FindFoxAt(forest,x,y);
+            //     let foxes = FindFoxAt(forest,x,y);
+            //     if(foxes.length > 0){
+            //         if(foxes.length == 1){
+            //             console.log(`a "FOX" has been found! \nx: ${x}, y: ${y}`);
+            //         } else {
+            //             console.log(`${foxes.length} "FOXes" have been found! \nx: ${x}, y: ${y}`);
+            //         }
+
+            //         for (let i = 0; i < foxes.length; i++) {
+            //             const e = foxes[i];
+            //             foxList.push(e);
+            //             HighlightFox(foxList.length,e);
+
+            //         }
+            //     }
+            // }
+        }
+    }
+    // let foxCount = foxList.length;
+    let matchCount = allMatches.length;
+    // console.log(`foxCount = ${foxCount}`);
+    // ScoreAdd(foxCount*3);
+    // BagOfFoxes = [...foxList];
+    // BagOfMatches = [...allMatches];
+    BagOfFoxes = [...allMatches];
+    // CatchFoxes(foxList);
+}
 // var searchingFoxes = false;
 function FindFoxes(){
     // if(!searchingFoxes){
@@ -931,7 +1174,8 @@ function FindFoxes(){
     //     searchingFoxes = true;
     // }
     if(BagOfFoxes.length < 1){
-        FoxSearch(map);
+        // FoxSearch(map);
+        WordSearch(map);
     }
 }
 // function FindFoxes(){
@@ -960,6 +1204,7 @@ function CallTheFoxes(){
         BagOfFoxes = [];
         // searchingFoxes = false;
     }
+    UpdateScores();
 }
 function CatchFoxes1(bag){
     // ScoreAdd(bag.length*3);
@@ -1044,6 +1289,9 @@ function CatchFoxes(bag){
         // if(!targetIDs.includes(e3id)){targetIDs.push(e2id); targetTiles.push(e3xy);}
 
     }
+    // console.log(`targetTiles: ${targetTiles};`);
+    console.log(`targetTiles.len: ${targetTiles.length};`);
+    ScoreAdd(targetTiles.length);
     // // console.log(`targetTiles: ${targetTiles.length}`);
     // // console.log(targetTiles);
     ReplaceTiles(targetTiles);
@@ -1082,6 +1330,7 @@ function SettleGridToZeroFoxes(){
 
 function ResetScore(){
     gs.score = 0;
+    gs.moves = 0;
     UpdateScoreDisplay();
 }
 function UpdateScoreDisplay(){
@@ -1091,7 +1340,7 @@ function UpdateScoreDisplay(){
 }
 function ScoreAdd(n){
     gs.score += n;
-    console.log(`Score: ${n} 🦊`);
+    console.log(`Score: ${n} 🔠`);
     UpdateScoreDisplay();
 }
 function Score(){
@@ -1237,9 +1486,18 @@ function SelectingTile(et){
     if(!sVar.selecting){
         sVar.selecting = true;
         sVar.selected_id = {"x": et.x, "y": et.y};
+        // let tileGrabbed = document.getElementById(`y${et.y},x${et.x}`);
+        // tileGrabbed.classList.toggle("grabbing");
+        let mgrid = document.getElementById(`mgrid`);
+        mgrid.classList.toggle("grabbing");
     } else {
         sVar.selecting = false;
         sVar.selected_id = {"x": -1, "y": -1};
+        // let tileGrabbed = document.getElementById(`y${et.y},x${et.x}`);
+        // tileGrabbed.classList.toggle("grabbing");
+        let mgrid = document.getElementById(`mgrid`);
+        mgrid.classList.toggle("grabbing");
+        CountMoves();
         FindFoxes();
         // if(BagOfFoxes.length > 0){
         //     setTimeout(() => {
@@ -1247,6 +1505,22 @@ function SelectingTile(et){
         //     }, 3000);
         // }
     }
+}
+
+function UpdateScores(){
+    let scoreElem = document.getElementById("score");
+    scoreElem.innerHTML = gs.score;
+
+    let movesElem = document.getElementById("moves");
+    movesElem.innerHTML = gs.moves;
+    
+    let eff = Math.floor(gs.score / gs.moves);
+    let effElem = document.getElementById("efficiency");
+    effElem.innerHTML = eff;
+}
+function CountMoves(){
+    gs.moves++;
+    UpdateScores();
 }
 
 function selectTile(ev){
@@ -1277,6 +1551,7 @@ function selectTile(ev){
         // val2.innerHTML = sVar.selected;
         // val2.dataset.val = sVar.selected;
         val1.dataset.selected = "false";
+        val1.classList.toggle("grabbing");
 
         val1.innerHTML = map[v1y][v1x];
         val1.dataset.val = map[v1y][v1x];
@@ -1316,6 +1591,7 @@ function selectTile(ev){
         sVar.selected_id.y = targetY;
         let val2 = document.getElementById(`y${targetY},x${targetX}`);
         val2.dataset.selected = "true";
+        val2.classList.toggle("grabbing");
     }
 }
 function selectNumber(ev){
@@ -1383,6 +1659,10 @@ function EvalMap(){
     // CheckStuff(targetX,targetY);
 }
 
+/* ─── Events ─── */
+
+
+
     /* ─── Events ─── */
     function updateSettings(){
         s.h = window.innerHeight;
@@ -1433,12 +1713,22 @@ function EvalMap(){
         len: 12,
         map: [],
         score: 0,
+        moves: 0,
     }
     window.addEventListener('load', (ev) => {
         console.log(`Welcome to my Lab!`);
         updateSettings();
         // start();
 /*
+⭐️💡🚧🛸🌒
+⛺️🏔️🥑🦖
+💢🚨🔥🍟
+💠🧢💤🌊🥏
+🦄💣🎲
+
+⭐️🦖🌊🛸
+🦑💣🎲🍟
+
 🌑🌒🌓🌔🌕🌖🌗🌘
 ♈♉♊♋♌♍♎♏♐♑♒♓
 🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚🕛🕜🕝🕞🕟🕠🕡🕢🕣🕤🕥🕦🕧
@@ -1483,10 +1773,14 @@ Dates:
 // '&#128350;',
 // '&#128353;',
 // '&#128356;',
-// '&#128359;']);
+// '&#128359;']);⭐️🦖🌊🛸🦑💣🎲🍟
 
         // EmojiEncoding2(['📆','🥟','♊️','🥝','🍫','🍜','🫦','⛺️']);
-        EmojiEncoding2(['📆','🥟','♊️','🎲','💻','🍫','🍜','⛺️']);
+        // EmojiEncoding2(['📆','🥟','♊️','🎲','💻','🍫','🍜','⛺️']);
+        // EmojiEncoding2(['⭐️','🦖','🌊','🛸','🦑','💣','🎲','🍟']);
+        // EmojiEncoding2(['B', 'E', 'A', 'R', 'O', 'C', 'W', 'D', 'V', 'U', 'K', 'F', 'I', 'S', 'H', 'G', 'L', 'N', 'Y', 'X', 'M']);
+        // EmojiEncoding3(GetLetters(t0));
+        EmojiEncoding3(l0);
 
         // NumbersInGrid(gs.w,gs.h);
         // EvalMap();
@@ -1496,21 +1790,266 @@ Dates:
     });
     /* Version Log:
     [index-nds-00]: Default Template.
-    [index-nds-01]: makes the numbers.
-    [index-nds-02]: you can switch them.
-    [index-nds-03]: you can only switch next to eachother.
-    [index-nds-04]: for now, it is with emojis and can evaluate if there are 3 or more in a row, but it doesn't replace them yet.
-    [index-nds-05]: Replaces matches of 3 or more.
-    [index-nds-06]: It keeps a score.
-    [index-nds-07]: Starts without premade matches, and scores go up to 10 per match.
-    [index-nds-08]: It glows when scored. Now it its 3 points per matching tile.
-    [index-nds-09]: It uses a different emoji list.
-    [index-nds-10]: It can adapt to different emoji lists.
+    [index-nds-01]: It works for words.
+    [index-nds-02]: 
+    [index-nds-03]: 
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
+    [index-nds-07]: 
+    [index-nds-08]: 
+    [index-nds-09]: 
+    [index-nds-10]: 
     [index-nds-11]: 
     [index-nds-12]: 
     
     */
+    /* working with words
+    
+        SIN,3,"S, I, N"
+    TIN,3,"T, I, N"
+    NIL,3,"N, I, L"
+        LIT,3,"L, I, T"
+    SIR,3,"S, I, R"
+        RAN,3,"R, A, N"
+    SAT,3,"S, A, T"
+        LIST,4,"L, I, S, T"
+    SILT,4,"S, I, L, T"
+        RAIN,4,"R, A, I, N"
+    SLIT,4,"S, L, I, T"
+    STIR,4,"S, T, I, R"
+        STAR,4,"S, T, A, R"
+        SAIL,4,"S, A, I, L"
+    TRAIN,5,"T, R, A, I, N"
+        STAIR,5,"S, T, A, I, R"
+        SNAIL,5,"S, N, A, I, L"
+    RAILS,5,"R, A, I, L, S"
+    STAIN,5,"S, T, A, I, N"
+    SLANT,5,"S, L, A, N, T"
 
+
+    "SIN",
+    "LIT",
+    "RAN",
+    "LIST",
+    "RAIN",
+    "STAR",
+    "SAIL",
+    "STAIR",
+    "SNAIL",
+
+        SEA,3,🌊,Nature
+    PEA,3,🫛,Food
+        PEAR,4,🍐,Food
+    POT,3,🫕,Object
+    TOP,3,🔝,Symbol
+    TAP,3,🚰,Object
+    EAR,3,👂,Body
+        ART,3,🎨,Hobby
+        STAR,4,⭐,Nature
+        TREE,4,🌳,Nature
+        ROSE,4,🌹,Nature
+    LEAF,4*,🍃,Nature
+    SOAP,4,🧼,Object
+    ROPE,4,🪢,Object
+        SALT,4,🧂,Food
+    STOP,4,🛑,Symbol
+    TOOL,4,🛠️,Object
+        PLATE,5,🍽️,Object
+        PEARL,5,🦪,Jewelry
+        APPLE,5,🍎,Food
+    SOLAR,5,☀️,Nature
+    
+
+    SEA,3,🌊,Nature
+    PEAR,4,🍐,Food
+    ART,3,🎨,Hobby
+    STAR,4,⭐,Nature
+    TREE,4,🌳,Nature
+    ROSE,4,🌹,Nature
+    SALT,4,🧂,Food
+    PLATE,5,🍽️,Object
+    PEARL,5,🦪,Jewelry
+    APPLE,5,🍎,Food
+    
+    "SEA": "🌊",
+    "PEAR": "🍐",
+    "ART": "🎨",
+    "STAR": "⭐",
+    "TREE": "🌳",
+    "ROSE": "🌹",
+    "SALT": "🧂",
+    "PLATE": "🍽️",
+    "PEARL": "🦪",
+    "APPLE": "🍎",
+
+    "SEA",
+    "PEAR",
+    "ART",
+    "STAR",
+    "TREE",
+    "ROSE",
+    "SALT",
+    "PLATE",
+    "PEARL",
+    "APPLE",
+
+    */
+
+    const l0e = {
+    "SEA": "🌊",
+    "PEAR": "🍐",
+    "ART": "🎨",
+    "STAR": "⭐",
+    "TREE": "🌳",
+    "ROSE": "🌹",
+    "SALT": "🧂",
+    "PLATE": "🍽️",
+    "PEARL": "🦪",
+    "APPLE": "🍎",
+    };
+    
+    const l0 = [
+    "SEA",
+    "PEAR",
+    "ART",
+    "STAR",
+    "TREE",
+    "ROSE",
+    "SALT",
+    "PLATE",
+    "PEARL",
+    "APPLE",
+    ];
+
+    const l1 = [
+        "SIN",
+        "LIT",
+        "RAN",
+        "LIST",
+        "RAIN",
+        "STAR",
+        "SAIL",
+        "STAIR",
+        "SNAIL",
+    ];
+
+    const l2 = [
+        "ART",
+        "SEA",
+        "ERA",
+        "STAR",
+        "EAST",
+        "TEAR",
+    ];
+    const l4 = [
+        "BEAR",
+        "BOAR",
+        "CRAB",
+        "CROW",
+        "DEER",
+        "DOVE",
+        "DUCK",
+        "FISH",
+        "FROG",
+        "LION",
+        "LYNX",
+        "SEAL",
+        "SWAN",
+        "WOLF",
+        "WORM",
+    ];
+    function GetLetters(list){
+        let letters = [];
+        for(let i = 0; i < list.length; i++){
+            let word = list[i];
+            for(let j = 0; j < word.length; j++){
+                // let w = word.at(j).toUpperCase();
+                let w = word.at(j);
+                letters.push(w);
+                // if(!letters.includes(w)){letters.push(w);}
+            }
+        }
+        return letters;
+    }
+    function GetLetterList(list){
+        let letters = [];
+        for(let i = 0; i < list.length; i++){
+            let word = list[i];
+            for(let j = 0; j < word.length; j++){
+                let w = word.at(j).toUpperCase();
+                if(!letters.includes(w)){letters.push(w);}
+            }
+        }
+        return letters;
+    }
+    function GetLetterCount(list){
+        let letters = [];
+        let letterCount = {};
+        for(let i = 0; i < list.length; i++){
+            let word = list[i];
+            for(let j = 0; j < word.length; j++){
+                let w = word.at(j).toUpperCase();
+                if(!letters.includes(w)){
+                    // letters.push(w);
+                    letterCount[w] = 1;
+                } else {
+                    letterCount[w] = 1 + letterCount[w];
+                }
+                letters.push(w);
+            }
+        }
+        console.log(letters);
+        return letterCount;
+    }
+
+// let t1 = {}
+// function WordGoalTree(){
+//     let firstLetters = [];
+//     let wordsChecked = [];
+//     for(let i = 0; i < t0.length; i++){
+//         let w = t0[i].at(0);
+//         let w2 = t0[i].at(1);
+//         let w3 = t0[i].slice(2);
+//         if(!Object.keys(t1).includes(w)){
+//             firstLetters.push(w);
+//             t1[w] = {};
+//         }
+//         if(!Object.keys(t1[w]).includes(w2)){
+//             t1[w][w2] = [];
+//         }
+//         t1[w][w2].push(w3);
+//     }
+//     console.log(firstLetters);
+// }
+var WordTree = {};
+var firstLetters = [];
+function WordGoalTree(wordGoals){
+    WordTree = {}
+    // let firstLetters = [];
+    for(let i = 0; i < wordGoals.length; i++){
+        let wordGoal = wordGoals[i];
+        let w = wordGoal.at(0);
+        let w2 = wordGoal.at(1);
+        let w3 = wordGoal.slice(2);
+        // firstLetters.push(w);
+        if(!Object.keys(WordTree).includes(w)){
+            WordTree[w] = {};
+        }
+        if(!Object.keys(WordTree[w]).includes(w2)){
+            WordTree[w][w2] = [];
+        }
+        WordTree[w][w2].push(w3);
+    }
+    // console.log(firstLetters);
+    console.log(Object.keys(WordTree));
+    console.log(WordTree);
+    return WordTree;
+}
+
+// function WordCollect(){
+
+// }
 
 </script>
 </body>

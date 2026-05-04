@@ -1044,6 +1044,9 @@ function CatchFoxes(bag){
         // if(!targetIDs.includes(e3id)){targetIDs.push(e2id); targetTiles.push(e3xy);}
 
     }
+    console.log(`targetTiles: ${targetTiles};`);
+    console.log(`targetTiles.len: ${targetTiles.length};`);
+    ScoreAdd(targetTiles.length);
     // // console.log(`targetTiles: ${targetTiles.length}`);
     // // console.log(targetTiles);
     ReplaceTiles(targetTiles);
@@ -1091,7 +1094,7 @@ function UpdateScoreDisplay(){
 }
 function ScoreAdd(n){
     gs.score += n;
-    console.log(`Score: ${n} 🦊`);
+    console.log(`Score: ${n} 🥟`);
     UpdateScoreDisplay();
 }
 function Score(){
