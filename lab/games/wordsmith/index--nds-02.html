@@ -62,7 +62,6 @@
     .mgrid.grabbing {cursor: grabbing;}
     .tile {
         outline: 1px solid #39f;
-        border-radius: 50%;
     }
     /* .tile:hover {
         background-color: #39f6;
@@ -115,8 +114,6 @@
         outline: 1px solid orange;
         outline: 1px solid hsl(var(--hue), 100%, 50%);
         text-shadow: 2px 2px 2px #000;
-        border-radius: 50%;
-        border-radius: 0%;
     }
     .fox-tail {
         --hue: 50;
@@ -284,12 +281,9 @@
 
     }
 
-    /* [data-vowel="true"] {
-        background-color: #f003;
+    [data-vowel="true"] {
+        /* background-color: #f003; */
         box-shadow: inset 0 0 0 2px #f004;
-    } */
-    [data-hue] {
-        background-color: hsla(var(--hue), 100%, 20%, 1);
     }
 
     /* #mouse-display {
@@ -418,8 +412,8 @@
     <div class="shelf">
         <div class="row">
             <button onclick="ResetGrid()" class="btn-reset">Reset</button>
-            <button onclick="FindWords()" class="btn-find-foxes">Find</button>
-            <button onclick="CollectWords()" class="btn-find-foxes">Collect</button>
+            <button onclick="FindFoxes()" class="btn-find-foxes">Find</button>
+            <button onclick="CallTheFoxes()" class="btn-find-foxes">Collect</button>
         </div>
     </div>
     <!-- <canvas id="canvas"></canvas> -->
@@ -675,12 +669,11 @@ function TilesInDiv(w,h){
             tile.innerHTML = val;
             tile.dataset.val = val;
             // tile.dataset.val = iconVal[val];
-            // if(VOWEL.includes(val)){
-            //     tile.dataset.vowel = true;
-            // } else {
-            //     tile.dataset.vowel = false;
-            // }
-            // let hue = Math.floor((val.charCodeAt(0) - 65) / 12);
+            if(VOWEL.includes(val)){
+                tile.dataset.vowel = true;
+            } else {
+                tile.dataset.vowel = false;
+            }
        
             tile.id = `d,y${y},x${x}`;
             // tile.dataset.yx = `${y},${x}`;
@@ -688,8 +681,7 @@ function TilesInDiv(w,h){
             tile.dataset.x = `${x}`;
             tile.dataset.selected = false;
             tile.dataset.count = 0;
-            tile.dataset.hue = Math.floor((val.charCodeAt(0) - 65) * 12);
-            tile.style = `--hue: ${tile.dataset.hue}; --x-off: ${x}; --y-off: ${y};`;
+            tile.style = `--x-off: ${x}; --y-off: ${y};`;
 
             mtile.id = `y${y},x${x}`;
             mtile.dataset.y = `${y}`;
@@ -860,7 +852,6 @@ function CrashCheck(x,y){
 }
 
 var BagOfFoxes = [];
-var BagOfWords = [];
 var BagOfMatches = [];
 function IsInMap(m,x,y){
     if(y < 0 || y >= m.length || x < 0 || x >= m[y].length) {return false;}
@@ -1181,22 +1172,10 @@ function WordSearch(forest){
     // ScoreAdd(foxCount*3);
     // BagOfFoxes = [...foxList];
     // BagOfMatches = [...allMatches];
-    // BagOfFoxes = [...allMatches];
-    BagOfWords = [...allMatches];
+    BagOfFoxes = [...allMatches];
     // CatchFoxes(foxList);
 }
 // var searchingFoxes = false;
-function FindWords(){
-    // if(!searchingFoxes){
-    //     FoxSearch(map);
-    //     searchingFoxes = true;
-    // }
-    if(BagOfWords.length < 1){
-        // FoxSearch(map);
-        WordSearch(map);
-    }
-}
-
 function FindFoxes(){
     // if(!searchingFoxes){
     //     FoxSearch(map);
@@ -1227,45 +1206,6 @@ function ResetGrid(){
  * e: {"o": {"x": x, "y": y}, "d":{"x": 0, "y": 1}}
  * where "o" is origin or the letter "F", and "d" is the direction.
  */
-function CatchWords(bag){
-    ScoreAdd(bag.length*3);
-    // ScoreAdd(bag.length);
-    // console.log(bag);
-    if(bag.length == 0) {return false;}
-    let targetIDs = [];
-    let targetTiles = [];
-
-    let BagOfTileIDsToReplace = [];
-    let BagOfTilesToReplace = [];
-    for (let i = 0; i < bag.length; i++) {
-        // const fox = bag[i];
-        const m = bag[i];
-        // console.log(e)
-        for (let j = 0; j < m.length; j++) {
-            const t = m[j];
-            let tid = `y${t.y},x${t.x}`;
-            if(!targetIDs.includes(tid)){
-                targetIDs.push(`y${t.y},x${t.x}`);
-                targetTiles.push({"y": t.y,"x": t.x});
-            }
-        }
-
-    }
-    // console.log(`targetTiles: ${targetTiles};`);
-    console.log(`targetTiles.len: ${targetTiles.length};`);
-    ScoreAdd(targetTiles.length);
-    // // console.log(`targetTiles: ${targetTiles.length}`);
-    // // console.log(targetTiles);
-    ReplaceTiles(targetTiles);
-}
-function CollectWords(){
-    if(BagOfWords.length > 0){
-        CatchFoxes(BagOfWords);
-        BagOfWords = [];
-        // searchingFoxes = false;
-    }
-    UpdateScores();
-}
 function CallTheFoxes(){
     if(BagOfFoxes.length > 0){
         CatchFoxes(BagOfFoxes);
@@ -1375,9 +1315,7 @@ function ReplaceTiles(tiles){
         map[e.y][e.x] = newVal;
         tile.innerHTML = newVal;
         tile.dataset.val = newVal;
-        tile.dataset.hue = Math.floor((newVal.charCodeAt(0) - 65) * 12);
         tile.dataset.count = 0;
-        tile.style = `--hue: ${tile.dataset.hue}; --x-off: ${tile.dataset.x}; --y-off: ${tile.dataset.y};`;
         // tile.classList.remove("fox-head");
         // tile.classList.remove("fox-tail");
         tile.classList.remove("match-found");
@@ -1519,7 +1457,7 @@ function UpdateSwap(a,b){
     tile.dataset.x = `${x}`;
     // tile.dataset.selected = false;
     // tile.dataset.count = 0;
-    tile.style = `--hue: ${tile.dataset.hue}; --x-off: ${x}; --y-off: ${y};`;
+    tile.style = `--x-off: ${x}; --y-off: ${y};`;
 }
 
 function SwapTiles1(a,b){
@@ -1550,11 +1488,11 @@ function SwapTiles(a,b){
     atile.id = `d,y${b.y},x${b.x}`;
     atile.dataset.y = `${b.y}`;
     atile.dataset.x = `${b.x}`;
-    atile.style = `--hue: ${atile.dataset.hue}; --x-off: ${b.x}; --y-off: ${b.y};`;
+    atile.style = `--x-off: ${b.x}; --y-off: ${b.y};`;
     btile.id = `d,y${a.y},x${a.x}`;
     btile.dataset.y = `${a.y}`;
     btile.dataset.x = `${a.x}`;
-    btile.style = `--hue: ${btile.dataset.hue}; --x-off: ${a.x}; --y-off: ${a.y};`;
+    btile.style = `--x-off: ${a.x}; --y-off: ${a.y};`;
 
     sVar.selected_id = {"x": b.x, "y": b.y};
 }
