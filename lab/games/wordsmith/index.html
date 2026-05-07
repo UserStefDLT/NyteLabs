@@ -23,10 +23,17 @@
         --tile-sz: 24px;
         --tile-sz: 36px;
         --tile-sz: 32px;
+        --tile-sz: 28px;
         --tile-m: 1px;
         --tile-space: calc(var(--tile-sz) + var(--tile-m) * 2);
         --tile-count: 12;
         --grid-sz: calc(var(--tile-space) * var(--tile-count));
+        
+        /* Light Version */
+        --tile-m: 2px;
+        --tile-space: calc(var(--tile-sz) + var(--tile-m) * 2);
+        --tile-count: 12;
+        --grid-sz: calc(var(--tile-space) * var(--tile-count) + var(--tile-m) * 1);
     }
     .grid, .row, .tile,
     .mgrid, .mrow, .mtile {
@@ -61,7 +68,7 @@
     .mgrid {cursor: grab;}
     .mgrid.grabbing {cursor: grabbing;}
     .tile {
-        outline: 1px solid #39f;
+        /* outline: 1px solid #39f; */
         border-radius: 50%;
     }
     /* .tile:hover {
@@ -112,8 +119,8 @@
         background-color: #fd36;
         background-color: hsla(50, 100%, 60%, 0.4);
         background-color: hsla(var(--hue), 100%, 60%, 0.6);
-        outline: 1px solid orange;
-        outline: 1px solid hsl(var(--hue), 100%, 50%);
+        /* outline: 1px solid orange; */
+        /* outline: 1px solid hsl(var(--hue), 100%, 50%); */
         text-shadow: 2px 2px 2px #000;
         border-radius: 50%;
         border-radius: 0%;
@@ -123,8 +130,8 @@
         background-color: #fd33;
         background-color: hsla(50, 100%, 60%, 0.2);
         background-color: hsla(var(--hue), 100%, 60%, 0.3);
-        outline: 1px solid hsl(39, 100%, 30%);
-        outline: 1px solid hsl(var(--hue), 100%, 30%);
+        /* outline: 1px solid hsl(39, 100%, 30%); */
+        /* outline: 1px solid hsl(var(--hue), 100%, 30%); */
         text-shadow: 2px 2px 2px #000;
     }
     .mtile, 
@@ -302,8 +309,8 @@
     } */
      .word-list {
         box-sizing: border-box;
-        min-height: var(--grid-sz);
-        outline: 1px dashed #39f;
+        /* min-height: var(--grid-sz); */
+        /* outline: 1px dashed #39f; */
         padding: 8px;
      }
      .word-list > ul {
@@ -342,8 +349,49 @@
         display: flex; align-items: center; justify-content: center;
         margin-top: 8px;
         margin: 8px 0px;
+        margin: 0px 0px 8px 0px;
         font-size: 20px;
     }
+
+    #grids {
+        margin: 8px;
+    }
+    #LevelTarget {
+        /* min-height: var(--grid-sz); */
+        margin-bottom: 8px;
+        padding: 0px;
+    }
+    #LevelTarget ul {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+    }
+    .shelf:not(:first-of-type) {
+        margin-top: .25rem;
+    }
+
+    /* Light Version */
+    #grids {
+        outline: 6px outset #aaa;
+        outline-offset: -1px;
+    }
+    /* .grid.light {background-color: #fff;}
+    .grid.light [data-hue] {
+        text-shadow: 1px 1px 1px #000;
+        background-color: hsla(var(--hue), 60%, 50%, 1);
+        border-bottom: 2px solid hsla(var(--hue), 80%, 35%, 1);
+        box-shadow: 0px 2px 2px hsla(var(--hue), 30%, 10%, .5);
+        box-shadow: 0px 1px 2px 0px hsla(var(--hue), 30%, 15%, .5);
+    } */
+    .grid {background-color: #fff;}
+    [data-hue] {
+        text-shadow: 1px 1px 1px #000;
+        background-color: hsla(var(--hue), 60%, 50%, 1);
+        border-bottom: 2px solid hsla(var(--hue), 80%, 35%, 1);
+        box-shadow: 0px 2px 2px hsla(var(--hue), 30%, 10%, .5);
+        box-shadow: 0px 1px 2px 0px hsla(var(--hue), 30%, 15%, .5);
+    }
+
+
     .z {}
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
@@ -395,7 +443,7 @@
     <input type="checkbox" name="toggle" id="toggleLights">
 
 <main>
-    <div class="shelf">
+    <div class="shelf vshelf">
         <!-- <h3 class="shelf-title">Score: <span id="score">0</span>🧮 / Moves: <span id="moves">0</span>🔀 / Efficiency: <span id="efficiency">0</span>🎯</h3> -->
         <h3 class="shelf-title"><span class="tag-bubble" data-tag="Score">🧮</span>: <span id="score">0</span> / <span class="tag-bubble" data-tag="Moves">🔀</span>: <span id="moves">0</span> / <span class="tag-bubble" data-tag="Efficiency">🎯</span>: <span id="efficiency">0</span></h3>
         
