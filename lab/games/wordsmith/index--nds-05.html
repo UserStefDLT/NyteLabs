@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>WordSmith 🔠🔀 | NyteLabs</title>
+    <title>WordSmith | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/logo.css">
@@ -318,21 +318,13 @@
         margin: 0;
         padding: 2px 12px;
         outline: 1px dashed #f39;
-        padding: 0px;
-        outline: 4px outset #fff;
      }
      .word-list li {
         display: flex;
      }
      .target-word {
-        --word-color-0: hsla(calc(var(--i) * 30), 100%, 60%, 1);
-        position: relative;
         text-align: start;
         margin: 8px 0px;
-        margin: 2px;
-        padding: 2px 2px;
-        cursor: help;
-        outline: 1px dashed var(--word-color-0);
      }
      .word-found {
         /* text-decoration: line-through; */
@@ -341,64 +333,16 @@
         /* font-weight: bold; */
         background-color: var(--word-color2);
         outline: 2px solid var(--word-color);
-        outline: 1px solid var(--word-color);
     }
     .target-word::before {
         content: attr(data-foundcount);
-
-        height: 24px;
-        width: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
         margin: 0px 4px;
         padding: 2px 4px;
-        margin: 0px 2px;
-        padding: 2px 2px;
         border-radius: 50%;
-        outline: 1px solid var(--word-color);
-        font-weight: bold;
-        text-shadow: 1px 1px 2px #000;
-        /* text-decoration: none; */
-    }
-    .target-word::after {
-        content: attr(data-word);
-        position: absolute;
-        top: 50%; left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-
-        top: 100%; left: 100%;
-        transform: translateX(-105%) translateY(-80%);
-        font-size: 10px;
-        
-        margin: 0px 2px;
-        padding: 2px 2px;
-
-        outline: var(--word-color);
-        font-weight: bold;
-        text-shadow: 1px 1px 2px #000;
-        z-index: -1;
-        /* text-decoration: none; */
-        opacity: 0;
-        transition: opacity 200ms ease-in-out;
-    }
-    .target-word:hover::after {
-        top: 0%; left: 50%;
-        transform: translateX(-50%) translateY(-100%);
-        top: 100%; left: 100%;
-        transform: translateX(-105%) translateY(-80%);
-        font-size: 10px;
-        
-        margin: 0px 2px;
-        padding: 2px 2px;
-        
         outline: var(--word-color);
         font-weight: bold;
         text-shadow: 1px 1px 2px #000;
         /* text-decoration: none; */
-        z-index: 1;
-        opacity: 1;
     }
     .target-title {
         width: 100%;
@@ -506,7 +450,7 @@
         <div id="LevelTarget" class="word-list">
             <div class="target-title">Target Words:</div>
             <ul>
-                <!-- <li class="target-word" data-foundcount="0" data-word="SEA">🌊 SEA</li>
+                <li class="target-word" data-foundcount="0" data-word="SEA">🌊 SEA</li>
                 <li class="target-word" data-foundcount="0" data-word="PEAR">🍐 PEAR</li>
                 <li class="target-word" data-foundcount="0" data-word="ART">🎨 ART</li>
                 <li class="target-word" data-foundcount="0" data-word="STAR">⭐ STAR</li>
@@ -515,17 +459,7 @@
                 <li class="target-word" data-foundcount="0" data-word="SALT">🧂 SALT</li>
                 <li class="target-word" data-foundcount="0" data-word="PLATE">🍽️ PLATE</li>
                 <li class="target-word" data-foundcount="0" data-word="PEARL">🦪 PEARL</li>
-                <li class="target-word" data-foundcount="0" data-word="APPLE">🍎 APPLE</li> -->
-                <li class="target-word" data-foundcount="0" data-word="SEA">🌊</li>
-                <li class="target-word" data-foundcount="0" data-word="PEAR">🍐</li>
-                <li class="target-word" data-foundcount="0" data-word="ART">🎨</li>
-                <li class="target-word" data-foundcount="0" data-word="STAR">⭐</li>
-                <li class="target-word" data-foundcount="0" data-word="TREE">🌳</li>
-                <li class="target-word" data-foundcount="0" data-word="ROSE">🌹</li>
-                <li class="target-word" data-foundcount="0" data-word="SALT">🧂</li>
-                <li class="target-word" data-foundcount="0" data-word="PLATE">🍽️</li>
-                <li class="target-word" data-foundcount="0" data-word="PEARL">🦪</li>
-                <li class="target-word" data-foundcount="0" data-word="APPLE">🍎</li>
+                <li class="target-word" data-foundcount="0" data-word="APPLE">🍎 APPLE</li>
             </ul>
         </div>
         <div id="grids">
