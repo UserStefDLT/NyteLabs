@@ -382,14 +382,24 @@
         /* text-decoration: none; */
         opacity: 0;
         transition: opacity 200ms ease-in-out;
-
+    }
+    .target-word:hover::after {
+        top: 0%; left: 50%;
+        transform: translateX(-50%) translateY(-100%);
+        top: 100%; left: 100%;
+        transform: translateX(-105%) translateY(-80%);
+        font-size: 10px;
+        
+        margin: 0px 2px;
+        padding: 2px 2px;
+        
+        outline: var(--word-color);
+        font-weight: bold;
+        text-shadow: 1px 1px 2px #000;
+        /* text-decoration: none; */
         z-index: 1;
         opacity: 1;
     }
-    /* .target-word:hover::after {
-        z-index: 1;
-        opacity: 1;
-    } */
     .target-title {
         width: 100%;
         display: flex; align-items: center; justify-content: center;
@@ -540,7 +550,7 @@
 </div> -->
 <div id="audios">
     <audio id="soundSwap01">
-        <source src="sound_swap_03.mp3" type="audio/mpeg">
+        <source src="sound_swap_02a.mp3" type="audio/mpeg">
     </audio>
 </div>
 
