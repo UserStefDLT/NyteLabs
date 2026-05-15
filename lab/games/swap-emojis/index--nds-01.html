@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>WordSmith 🔠🔀 | NyteLabs</title>
+    <title>Swap Emojis | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/logo.css">
@@ -23,17 +23,10 @@
         --tile-sz: 24px;
         --tile-sz: 36px;
         --tile-sz: 32px;
-        --tile-sz: 28px;
         --tile-m: 1px;
         --tile-space: calc(var(--tile-sz) + var(--tile-m) * 2);
         --tile-count: 12;
         --grid-sz: calc(var(--tile-space) * var(--tile-count));
-        
-        /* Light Version */
-        --tile-m: 2px;
-        --tile-space: calc(var(--tile-sz) + var(--tile-m) * 2);
-        --tile-count: 12;
-        --grid-sz: calc(var(--tile-space) * var(--tile-count) + var(--tile-m) * 1);
     }
     .grid, .row, .tile,
     .mgrid, .mrow, .mtile {
@@ -68,8 +61,7 @@
     .mgrid {cursor: grab;}
     .mgrid.grabbing {cursor: grabbing;}
     .tile {
-        /* outline: 1px solid #39f; */
-        border-radius: 50%;
+        outline: 1px solid #39f;
     }
     /* .tile:hover {
         background-color: #39f6;
@@ -119,19 +111,17 @@
         background-color: #fd36;
         background-color: hsla(50, 100%, 60%, 0.4);
         background-color: hsla(var(--hue), 100%, 60%, 0.6);
-        /* outline: 1px solid orange; */
-        /* outline: 1px solid hsl(var(--hue), 100%, 50%); */
+        outline: 1px solid orange;
+        outline: 1px solid hsl(var(--hue), 100%, 50%);
         text-shadow: 2px 2px 2px #000;
-        border-radius: 50%;
-        border-radius: 0%;
     }
     .fox-tail {
         --hue: 50;
         background-color: #fd33;
         background-color: hsla(50, 100%, 60%, 0.2);
         background-color: hsla(var(--hue), 100%, 60%, 0.3);
-        /* outline: 1px solid hsl(39, 100%, 30%); */
-        /* outline: 1px solid hsl(var(--hue), 100%, 30%); */
+        outline: 1px solid hsl(39, 100%, 30%);
+        outline: 1px solid hsl(var(--hue), 100%, 30%);
         text-shadow: 2px 2px 2px #000;
     }
     .mtile, 
@@ -290,155 +280,10 @@
         opacity: 1;
 
     }
-
-    /* [data-vowel="true"] {
-        background-color: #f003;
-        box-shadow: inset 0 0 0 2px #f004;
-    } */
-    [data-hue] {
-        text-shadow: 1px 1px 1px #000;
-        background-color: hsla(var(--hue), 100%, 30%, 1);
-        border-bottom: 2px solid hsla(var(--hue), 100%, 20%, 1);
-        background-color: hsla(var(--hue), 60%, 40%, 1);
-        border-bottom: 2px solid hsla(var(--hue), 80%, 20%, 1);
-    }
-
     /* #mouse-display {
         outline: 1px dashed #0f0;
         outline-offset: 1px;
     } */
-     .word-list {
-        box-sizing: border-box;
-        /* min-height: var(--grid-sz); */
-        /* outline: 1px dashed #39f; */
-        padding: 8px;
-     }
-     .word-list > ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 2px 12px;
-        outline: 1px dashed #f39;
-        padding: 0px;
-        outline: 4px outset #fff;
-     }
-     .word-list li {
-        display: flex;
-     }
-     .target-word {
-        --word-color-0: hsla(calc(var(--i) * 30), 100%, 60%, 1);
-        position: relative;
-        text-align: start;
-        margin: 8px 0px;
-        margin: 2px;
-        padding: 2px 2px;
-        cursor: help;
-        outline: 1px dashed var(--word-color-0);
-     }
-     .word-found {
-        /* text-decoration: line-through; */
-        --word-color: hsla(calc(var(--i) * 30), 100%, 60%, 1);
-        --word-color2: hsla(calc(var(--i) * 30), 100%, 15%, 1);
-        /* font-weight: bold; */
-        background-color: var(--word-color2);
-        outline: 2px solid var(--word-color);
-        outline: 1px solid var(--word-color);
-    }
-    .target-word::before {
-        content: attr(data-foundcount);
-
-        height: 24px;
-        width: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        margin: 0px 4px;
-        padding: 2px 4px;
-        margin: 0px 2px;
-        padding: 2px 2px;
-        border-radius: 50%;
-        outline: 1px solid var(--word-color);
-        font-weight: bold;
-        text-shadow: 1px 1px 2px #000;
-        /* text-decoration: none; */
-    }
-    .target-word::after {
-        content: attr(data-word);
-        position: absolute;
-        top: 50%; left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-
-        top: 100%; left: 100%;
-        transform: translateX(-105%) translateY(-80%);
-        font-size: 10px;
-        
-        margin: 0px 2px;
-        padding: 2px 2px;
-
-        outline: var(--word-color);
-        font-weight: bold;
-        text-shadow: 1px 1px 2px #000;
-        z-index: -1;
-        /* text-decoration: none; */
-        opacity: 0;
-        transition: opacity 200ms ease-in-out;
-
-        z-index: 1;
-        opacity: 1;
-    }
-    /* .target-word:hover::after {
-        z-index: 1;
-        opacity: 1;
-    } */
-    .target-title {
-        width: 100%;
-        display: flex; align-items: center; justify-content: center;
-        margin-top: 8px;
-        margin: 8px 0px;
-        margin: 0px 0px 8px 0px;
-        font-size: 20px;
-    }
-
-    #grids {
-        margin: 8px;
-    }
-    #LevelTarget {
-        /* min-height: var(--grid-sz); */
-        margin-bottom: 8px;
-        padding: 0px;
-    }
-    #LevelTarget ul {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-    }
-    .shelf:not(:first-of-type) {
-        margin-top: .25rem;
-    }
-
-    /* Light Version */
-    #grids {
-        outline: 6px outset #aaa;
-        outline-offset: -1px;
-    }
-    /* .grid.light {background-color: #fff;}
-    .grid.light [data-hue] {
-        text-shadow: 1px 1px 1px #000;
-        background-color: hsla(var(--hue), 60%, 50%, 1);
-        border-bottom: 2px solid hsla(var(--hue), 80%, 35%, 1);
-        box-shadow: 0px 2px 2px hsla(var(--hue), 30%, 10%, .5);
-        box-shadow: 0px 1px 2px 0px hsla(var(--hue), 30%, 15%, .5);
-    } */
-    .grid {background-color: #fff;}
-    [data-hue] {
-        text-shadow: 1px 1px 1px #000;
-        background-color: hsla(var(--hue), 60%, 50%, 1);
-        border-bottom: 2px solid hsla(var(--hue), 80%, 35%, 1);
-        box-shadow: 0px 2px 2px hsla(var(--hue), 30%, 10%, .5);
-        box-shadow: 0px 1px 2px 0px hsla(var(--hue), 30%, 15%, .5);
-    }
-
-
-    .z {}
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
     <link rel="stylesheet" href="../../../stylesheets/end.css">
@@ -492,42 +337,15 @@
     <div class="shelf vshelf">
         <!-- <h3 class="shelf-title">Score: <span id="score">0</span>🧮 / Moves: <span id="moves">0</span>🔀 / Efficiency: <span id="efficiency">0</span>🎯</h3> -->
         <h3 class="shelf-title"><span class="tag-bubble" data-tag="Score">🧮</span>: <span id="score">0</span> / <span class="tag-bubble" data-tag="Moves">🔀</span>: <span id="moves">0</span> / <span class="tag-bubble" data-tag="Efficiency">🎯</span>: <span id="efficiency">0</span></h3>
-        
-        <div id="LevelTarget" class="word-list">
-            <div class="target-title">Target Words:</div>
-            <ul>
-                <!-- <li class="target-word" data-foundcount="0" data-word="SEA">🌊 SEA</li>
-                <li class="target-word" data-foundcount="0" data-word="PEAR">🍐 PEAR</li>
-                <li class="target-word" data-foundcount="0" data-word="ART">🎨 ART</li>
-                <li class="target-word" data-foundcount="0" data-word="STAR">⭐ STAR</li>
-                <li class="target-word" data-foundcount="0" data-word="TREE">🌳 TREE</li>
-                <li class="target-word" data-foundcount="0" data-word="ROSE">🌹 ROSE</li>
-                <li class="target-word" data-foundcount="0" data-word="SALT">🧂 SALT</li>
-                <li class="target-word" data-foundcount="0" data-word="PLATE">🍽️ PLATE</li>
-                <li class="target-word" data-foundcount="0" data-word="PEARL">🦪 PEARL</li>
-                <li class="target-word" data-foundcount="0" data-word="APPLE">🍎 APPLE</li> -->
-                <li class="target-word" data-foundcount="0" data-word="SEA">🌊</li>
-                <li class="target-word" data-foundcount="0" data-word="PEAR">🍐</li>
-                <li class="target-word" data-foundcount="0" data-word="ART">🎨</li>
-                <li class="target-word" data-foundcount="0" data-word="STAR">⭐</li>
-                <li class="target-word" data-foundcount="0" data-word="TREE">🌳</li>
-                <li class="target-word" data-foundcount="0" data-word="ROSE">🌹</li>
-                <li class="target-word" data-foundcount="0" data-word="SALT">🧂</li>
-                <li class="target-word" data-foundcount="0" data-word="PLATE">🍽️</li>
-                <li class="target-word" data-foundcount="0" data-word="PEARL">🦪</li>
-                <li class="target-word" data-foundcount="0" data-word="APPLE">🍎</li>
-            </ul>
-        </div>
         <div id="grids">
             <div id="display"></div>
             <div id="mouse-display"></div>
         </div>
-    </div>
-    <div class="shelf">
         <div class="row">
+
             <button onclick="ResetGrid()" class="btn-reset">Reset</button>
-            <button onclick="FindWords()" class="btn-find-foxes">Find</button>
-            <button onclick="CollectWords()" class="btn-find-foxes">Collect</button>
+            <button onclick="FindFoxes()" class="btn-find-foxes">Find</button>
+            <button onclick="CallTheFoxes()" class="btn-find-foxes">Collect</button>
         </div>
     </div>
     <!-- <canvas id="canvas"></canvas> -->
@@ -538,23 +356,12 @@
     <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
     <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
 </div> -->
-<div id="audios">
-    <!-- <audio id="soundSwap">
-        <source src="sound_swap_04.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="soundSwap01">
-        <source src="sound_swap_bubble_01.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="soundSwap02">
-        <source src="sound_swap_bubble_02.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="soundSwap03">
-        <source src="sound_swap_bubble_03.mp3" type="audio/mpeg">
-    </audio> -->
+
+<!-- 📌 -->
+<!-- <div id="audios">
     <audio id="soundScore">
         <source src="../../../res/game-sounds/sound_swap_bubbles_1to3.mp3" type="audio/mpeg">
     </audio>
-
     <audio id="soundSwap02_00"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR00.mp3" type="audio/mpeg"></audio>
     <audio id="soundSwap02_01"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR01.mp3" type="audio/mpeg"></audio>
     <audio id="soundSwap02_02"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR02.mp3" type="audio/mpeg"></audio>
@@ -567,20 +374,7 @@
     <audio id="soundSwap02_09"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR09.mp3" type="audio/mpeg"></audio>
     <audio id="soundSwap02_10"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR10.mp3" type="audio/mpeg"></audio>
     <audio id="soundSwap02_11"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR11.mp3" type="audio/mpeg"></audio>
-
-    <!-- <audio id="soundSwap02_00"><source src="sound_swap_bubble_02_LR00.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_01"><source src="sound_swap_bubble_02_LR01.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_02"><source src="sound_swap_bubble_02_LR02.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_03"><source src="sound_swap_bubble_02_LR03.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_04"><source src="sound_swap_bubble_02_LR04.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_05"><source src="sound_swap_bubble_02_LR05.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_06"><source src="sound_swap_bubble_02_LR06.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_07"><source src="sound_swap_bubble_02_LR07.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_08"><source src="sound_swap_bubble_02_LR08.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_09"><source src="sound_swap_bubble_02_LR09.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_10"><source src="sound_swap_bubble_02_LR10.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_11"><source src="sound_swap_bubble_02_LR11.mp3" type="audio/mpeg"></audio> -->
-</div>
+</div> -->
 
 <footer>
     <div class="my-name">
@@ -722,13 +516,7 @@ var iconValr = {
     'h': '🌘'
 };
 
-// const soundSwap = new Audio('sound_swap_01.mp3');
 const mySounds = {
-    "swap": {
-        "0": document.getElementById('soundSwap01'),
-        "1": document.getElementById('soundSwap02'),
-        "2": document.getElementById('soundSwap03'),
-    },
     "xswap": {
         "0": document.getElementById('soundSwap02_00'),
         "1": document.getElementById('soundSwap02_01'),
@@ -746,23 +534,6 @@ const mySounds = {
     "score": {
         "0": document.getElementById('soundScore'),
     }
-}
-// const soundSwap01 = document.getElementById('soundSwap01');
-// const soundSwap02 = document.getElementById('soundSwap02');
-// const soundSwap03 = document.getElementById('soundSwap03');
-// const soundScore = document.getElementById('soundScore');
-// soundSwap01.play();
-// const soundSwap = new Audio('sound_swap_02.wap');
-// soundSwap.play();
-function playSoundSwap01(){
-    soundSwap01.currentTime = 0;
-    soundSwap01.play();
-}
-function playRandomSoundSwap(){
-    let rid = Math.floor(Math.random()*3);
-    let soundSwapEl = mySounds["swap"][`${rid}`];
-    soundSwapEl.currentTime = 0;
-    soundSwapEl.play();
 }
 function playSoundSwapX(x = -1){
     let soundSwapEl = mySounds["xswap"][`${x}`];
@@ -797,12 +568,6 @@ function EmojiEncoding2(elist){
         iconValr[eChar] = eIcon;
     }   
 }
-function EmojiEncoding3(wlist){
-    let elist = GetLetters(wlist)
-    iconRow = [...elist];
-    WordGoalTree(wlist);
-    firstLetters = Object.keys(WordTree);
-}
 
 // make a function that makes a 5 by 5 grid.
 // make a function that resorts the positon of all numbers inside the grid.
@@ -817,7 +582,7 @@ function randomVal(){
     let val = iconRow[index];
     return val;
 }
-const VOWEL = ["A","E","I","O","U"];
+
 function NumbersInGrid(w,h){
     let display = document.getElementById("display");
     let grid = document.createElement("div");
@@ -878,12 +643,6 @@ function TilesInDiv(w,h){
             tile.innerHTML = val;
             tile.dataset.val = val;
             // tile.dataset.val = iconVal[val];
-            // if(VOWEL.includes(val)){
-            //     tile.dataset.vowel = true;
-            // } else {
-            //     tile.dataset.vowel = false;
-            // }
-            // let hue = Math.floor((val.charCodeAt(0) - 65) / 12);
        
             tile.id = `d,y${y},x${x}`;
             // tile.dataset.yx = `${y},${x}`;
@@ -891,8 +650,7 @@ function TilesInDiv(w,h){
             tile.dataset.x = `${x}`;
             tile.dataset.selected = false;
             tile.dataset.count = 0;
-            tile.dataset.hue = Math.floor((val.charCodeAt(0) - 65) * 12);
-            tile.style = `--hue: ${tile.dataset.hue}; --x-off: ${x}; --y-off: ${y};`;
+            tile.style = `--x-off: ${x}; --y-off: ${y};`;
 
             mtile.id = `y${y},x${x}`;
             mtile.dataset.y = `${y}`;
@@ -1063,7 +821,6 @@ function CrashCheck(x,y){
 }
 
 var BagOfFoxes = [];
-var BagOfWords = [];
 var BagOfMatches = [];
 function IsInMap(m,x,y){
     if(y < 0 || y >= m.length || x < 0 || x >= m[y].length) {return false;}
@@ -1097,96 +854,6 @@ function CheckPath(m,o,d){
     // if(crash.length >= 3){return crash;}
     // else {return false;}
     return crash;
-}
-function FindMatchAround(m,x,y,l){
-
-}
-
-function CheckTargetWords(wordList){
-    for (let i = 0; i < wordList.length; i++) {
-        const e = wordList[i];
-        console.log(`looking for: ${e}`);
-        let wordElem = document.querySelectorAll(`[data-word="${e}"]`)[0];
-        wordElem.classList.add("word-found");
-        wordElem.dataset.foundcount = parseInt(wordElem.dataset.foundcount)+1;
-    }
-}
-
-function GetWordInPath(m,x,y,d,len){
-    let w = {
-        "word": [],
-        "wordPath": [],
-    }
-    // let word = [];
-    // let wordPath = [];
-    for (let i = 0; i < len; i++) {
-        let nx = x + d.x * i;
-        let ny = y + d.y * i;
-        // let letter = GetTile(m,nx,ny);
-        // if(letter)
-        w.word.push(GetTile(m,nx,ny));
-        w.wordPath.push({"x": nx, "y": ny});
-    }
-    // return word.join("");
-    return w;
-}
-function FindWord(m,x,y){
-    // WordGoalTree();
-    let matchList = [];
-    let k1 = m[y][x];
-    // console.log(`x: ${x}, y: ${y}, k1: ${k1}`);
-    // let firstLetters = Object.keys(WordTree);
-    let words = [];
-    if(firstLetters.includes(k1)){
-        // word.push(k1);
-        let k1branch = WordTree[k1];
-        let k1keys = Object.keys(k1branch);
-        for(let ik = 0; ik < k1keys.length; ik++){
-            let k2 = k1keys[ik];
-            // console.log(`--x: ${x}, y: ${y}, k2: ${k2}`);
-            for (let i = 0; i < dPaths.length; i++) {
-                const e = dPaths[i];
-                let nx = x + e.x;
-                let ny = y + e.y;
-                if(GetTile(m,nx,ny) == k2){
-                    // word.push(k2);
-                    let k3 = WordTree[k1][k2];
-                    for (let j = 0; j < k3.length; j++) {
-                        let k4 = k3[j];
-                        // console.log(`k4: ${k4}, len: ${k4.length}`);
-                        // console.log(`--,--x: ${x}, y: ${y}, k4: ${k4} 🔠`);
-                        let w = GetWordInPath(m,x,y,e,k4.length + 2);
-                        // console.log(w);
-                        // console.log(w.word);
-                        let word = w.word.join("");
-                        // console.log(`--,--,--x: ${x}, y: ${y}, word: ${word} 🔠🎯`);
-                        // if(t0.includes(word.toLowerCase())){
-                        if(l0.includes(word)){
-                            words.push(word);
-                            matchList.push(w.wordPath);
-                            console.log(`--,--,--,--> x: ${x}, y: ${y}, wordConfirmed: ${word}! ⭐️⭐️⭐️`);
-                        }
-                    }
-
-                }
-                
-    
-                // if(val == GetTile(m,x+e.x,y+e.y)){
-                //     // console.log(`matchAdjecent: ${val} at x: ${x}, y: ${y}, next to: ${e.x},${e.y};`)
-                //     let matchRes = CheckPath(m,{"x": x, "y": y},e);
-                //     if(matchRes.length >= 3){matchList.push(matchRes);}
-                // }
-            }
-        }
-    } else {
-        return "";
-    }
-    if(words.length > 0){
-        console.log(`words: [${words}]`);
-        // console.log(words);
-        CheckTargetWords(words);
-    }
-    return matchList;
 }
 function FindMatch(m,x,y){
     let matchList = [];
@@ -1339,75 +1006,14 @@ function FoxSearch(forest){
     BagOfFoxes = [...allMatches];
     // CatchFoxes(foxList);
 }
-function WordSearch(forest){
-    let foxList = [];
-    let allMatches = [];
-    for (let y = 0; y < forest.length; y++) {
-        // const element = array[y];
-        for (let x = 0; x < forest[y].length; x++) {
-            // console.log(`Searching at, x: ${x}, y: ${y}`);
-            let matchList = FindWord(forest,x,y);
-            if(matchList.length > 0){
-                console.log(`a MATCH has been found! \nx: ${x}, y: ${y}`);
-                for (let i = 0; i < matchList.length; i++) {
-                    const e = matchList[i];
-                    console.log(`--> ${forest[e[0].y][e[0].x]}`);
-                    allMatches.push(e);
-                    // HighlightFox(foxList.length,e);
-                    HighlightMatch(e,allMatches.length);
-                }
-            }
-            // if(forest[y][x] == "F"){
-            //     // console.log(`an "F" has been found! \nx: ${x}, y: ${y}`);
-            //     // let find = FindFoxAt(forest,x,y);
-            //     let foxes = FindFoxAt(forest,x,y);
-            //     if(foxes.length > 0){
-            //         if(foxes.length == 1){
-            //             console.log(`a "FOX" has been found! \nx: ${x}, y: ${y}`);
-            //         } else {
-            //             console.log(`${foxes.length} "FOXes" have been found! \nx: ${x}, y: ${y}`);
-            //         }
-
-            //         for (let i = 0; i < foxes.length; i++) {
-            //             const e = foxes[i];
-            //             foxList.push(e);
-            //             HighlightFox(foxList.length,e);
-
-            //         }
-            //     }
-            // }
-        }
-    }
-    // let foxCount = foxList.length;
-    let matchCount = allMatches.length;
-    // console.log(`foxCount = ${foxCount}`);
-    // ScoreAdd(foxCount*3);
-    // BagOfFoxes = [...foxList];
-    // BagOfMatches = [...allMatches];
-    // BagOfFoxes = [...allMatches];
-    BagOfWords = [...allMatches];
-    // CatchFoxes(foxList);
-}
 // var searchingFoxes = false;
-function FindWords(){
-    // if(!searchingFoxes){
-    //     FoxSearch(map);
-    //     searchingFoxes = true;
-    // }
-    if(BagOfWords.length < 1){
-        // FoxSearch(map);
-        WordSearch(map);
-    }
-}
-
 function FindFoxes(){
     // if(!searchingFoxes){
     //     FoxSearch(map);
     //     searchingFoxes = true;
     // }
     if(BagOfFoxes.length < 1){
-        // FoxSearch(map);
-        WordSearch(map);
+        FoxSearch(map);
     }
 }
 // function FindFoxes(){
@@ -1430,51 +1036,12 @@ function ResetGrid(){
  * e: {"o": {"x": x, "y": y}, "d":{"x": 0, "y": 1}}
  * where "o" is origin or the letter "F", and "d" is the direction.
  */
-function CatchWords(bag){
-    ScoreAdd(bag.length*3);
-    // ScoreAdd(bag.length);
-    // console.log(bag);
-    if(bag.length == 0) {return false;}
-    let targetIDs = [];
-    let targetTiles = [];
-
-    let BagOfTileIDsToReplace = [];
-    let BagOfTilesToReplace = [];
-    for (let i = 0; i < bag.length; i++) {
-        // const fox = bag[i];
-        const m = bag[i];
-        // console.log(e)
-        for (let j = 0; j < m.length; j++) {
-            const t = m[j];
-            let tid = `y${t.y},x${t.x}`;
-            if(!targetIDs.includes(tid)){
-                targetIDs.push(`y${t.y},x${t.x}`);
-                targetTiles.push({"y": t.y,"x": t.x});
-            }
-        }
-
-    }
-    // console.log(`targetTiles: ${targetTiles};`);
-    console.log(`targetTiles.len: ${targetTiles.length};`);
-    ScoreAdd(targetTiles.length);
-    // // console.log(`targetTiles: ${targetTiles.length}`);
-    // // console.log(targetTiles);
-    ReplaceTiles(targetTiles);
-}
-function CollectWords(){
-    if(BagOfWords.length > 0){
-        CatchFoxes(BagOfWords);
-        BagOfWords = [];
-        // searchingFoxes = false;
-    }
-    playSoundScore();
-    UpdateScores();
-}
 function CallTheFoxes(){
     if(BagOfFoxes.length > 0){
         CatchFoxes(BagOfFoxes);
         BagOfFoxes = [];
         // searchingFoxes = false;
+        // playSoundScore(); 📌
     }
     UpdateScores();
 }
@@ -1579,9 +1146,7 @@ function ReplaceTiles(tiles){
         map[e.y][e.x] = newVal;
         tile.innerHTML = newVal;
         tile.dataset.val = newVal;
-        tile.dataset.hue = Math.floor((newVal.charCodeAt(0) - 65) * 12);
         tile.dataset.count = 0;
-        tile.style = `--hue: ${tile.dataset.hue}; --x-off: ${tile.dataset.x}; --y-off: ${tile.dataset.y};`;
         // tile.classList.remove("fox-head");
         // tile.classList.remove("fox-tail");
         tile.classList.remove("match-found");
@@ -1600,15 +1165,8 @@ function SettleGridToZeroFoxes(){
         foxesInGrid = BagOfFoxes.length;
     }
     ResetScore();
-    ResetWords();
 }
-function ResetWords(){
-    let wordListElem = document.querySelectorAll(".target-word");
-    wordListElem.forEach((e) => {
-        e.classList.remove("word-found");
-        e.dataset.foundcount = 0;
-    });
-}
+
 function ResetScore(){
     gs.score = 0;
     gs.moves = 0;
@@ -1621,7 +1179,7 @@ function UpdateScoreDisplay(){
 }
 function ScoreAdd(n){
     gs.score += n;
-    console.log(`Score: ${n} 🔠`);
+    console.log(`Score: ${n} 🥟`);
     UpdateScoreDisplay();
 }
 function Score(){
@@ -1723,7 +1281,7 @@ function UpdateSwap(a,b){
     tile.dataset.x = `${x}`;
     // tile.dataset.selected = false;
     // tile.dataset.count = 0;
-    tile.style = `--hue: ${tile.dataset.hue}; --x-off: ${x}; --y-off: ${y};`;
+    tile.style = `--x-off: ${x}; --y-off: ${y};`;
 }
 
 function SwapTiles1(a,b){
@@ -1754,17 +1312,16 @@ function SwapTiles(a,b){
     atile.id = `d,y${b.y},x${b.x}`;
     atile.dataset.y = `${b.y}`;
     atile.dataset.x = `${b.x}`;
-    atile.style = `--hue: ${atile.dataset.hue}; --x-off: ${b.x}; --y-off: ${b.y};`;
+    atile.style = `--x-off: ${b.x}; --y-off: ${b.y};`;
     btile.id = `d,y${a.y},x${a.x}`;
     btile.dataset.y = `${a.y}`;
     btile.dataset.x = `${a.x}`;
-    btile.style = `--hue: ${btile.dataset.hue}; --x-off: ${a.x}; --y-off: ${a.y};`;
+    btile.style = `--x-off: ${a.x}; --y-off: ${a.y};`;
 
     sVar.selected_id = {"x": b.x, "y": b.y};
-    // soundSwap01.play();
-    // playSoundSwap01();
-    // playRandomSoundSwap();
-    playSoundSwapX(a.x);
+
+    // 📌
+    // playSoundSwapX(a.x);
 }
 
 function SelectingTile(et){
@@ -1800,7 +1357,6 @@ function UpdateScores(){
     movesElem.innerHTML = gs.moves;
     
     let eff = Math.floor(gs.score / gs.moves);
-    if(!isFinite(eff)) {eff = 0;}
     let effElem = document.getElementById("efficiency");
     effElem.innerHTML = eff;
 }
@@ -2063,10 +1619,7 @@ Dates:
 
         // EmojiEncoding2(['📆','🥟','♊️','🥝','🍫','🍜','🫦','⛺️']);
         // EmojiEncoding2(['📆','🥟','♊️','🎲','💻','🍫','🍜','⛺️']);
-        // EmojiEncoding2(['⭐️','🦖','🌊','🛸','🦑','💣','🎲','🍟']);
-        // EmojiEncoding2(['B', 'E', 'A', 'R', 'O', 'C', 'W', 'D', 'V', 'U', 'K', 'F', 'I', 'S', 'H', 'G', 'L', 'N', 'Y', 'X', 'M']);
-        // EmojiEncoding3(GetLetters(t0));
-        EmojiEncoding3(l0);
+        EmojiEncoding2(['⭐️','🦖','🌊','🛸','🦑','💣','🎲','🍟']);
 
         // NumbersInGrid(gs.w,gs.h);
         // EvalMap();
@@ -2076,266 +1629,21 @@ Dates:
     });
     /* Version Log:
     [index-nds-00]: Default Template.
-    [index-nds-01]: It works for words.
-    [index-nds-02]: 
-    [index-nds-03]: 
-    [index-nds-04]: 
-    [index-nds-05]: 
-    [index-nds-06]: 
-    [index-nds-07]: 
-    [index-nds-08]: 
-    [index-nds-09]: 
-    [index-nds-10]: 
+    [index-nds-01]: makes the numbers.
+    [index-nds-02]: you can switch them.
+    [index-nds-03]: you can only switch next to eachother.
+    [index-nds-04]: for now, it is with emojis and can evaluate if there are 3 or more in a row, but it doesn't replace them yet.
+    [index-nds-05]: Replaces matches of 3 or more.
+    [index-nds-06]: It keeps a score.
+    [index-nds-07]: Starts without premade matches, and scores go up to 10 per match.
+    [index-nds-08]: It glows when scored. Now it its 3 points per matching tile.
+    [index-nds-09]: It uses a different emoji list.
+    [index-nds-10]: It can adapt to different emoji lists.
     [index-nds-11]: 
     [index-nds-12]: 
     
     */
-    /* working with words
-    
-        SIN,3,"S, I, N"
-    TIN,3,"T, I, N"
-    NIL,3,"N, I, L"
-        LIT,3,"L, I, T"
-    SIR,3,"S, I, R"
-        RAN,3,"R, A, N"
-    SAT,3,"S, A, T"
-        LIST,4,"L, I, S, T"
-    SILT,4,"S, I, L, T"
-        RAIN,4,"R, A, I, N"
-    SLIT,4,"S, L, I, T"
-    STIR,4,"S, T, I, R"
-        STAR,4,"S, T, A, R"
-        SAIL,4,"S, A, I, L"
-    TRAIN,5,"T, R, A, I, N"
-        STAIR,5,"S, T, A, I, R"
-        SNAIL,5,"S, N, A, I, L"
-    RAILS,5,"R, A, I, L, S"
-    STAIN,5,"S, T, A, I, N"
-    SLANT,5,"S, L, A, N, T"
 
-
-    "SIN",
-    "LIT",
-    "RAN",
-    "LIST",
-    "RAIN",
-    "STAR",
-    "SAIL",
-    "STAIR",
-    "SNAIL",
-
-        SEA,3,🌊,Nature
-    PEA,3,🫛,Food
-        PEAR,4,🍐,Food
-    POT,3,🫕,Object
-    TOP,3,🔝,Symbol
-    TAP,3,🚰,Object
-    EAR,3,👂,Body
-        ART,3,🎨,Hobby
-        STAR,4,⭐,Nature
-        TREE,4,🌳,Nature
-        ROSE,4,🌹,Nature
-    LEAF,4*,🍃,Nature
-    SOAP,4,🧼,Object
-    ROPE,4,🪢,Object
-        SALT,4,🧂,Food
-    STOP,4,🛑,Symbol
-    TOOL,4,🛠️,Object
-        PLATE,5,🍽️,Object
-        PEARL,5,🦪,Jewelry
-        APPLE,5,🍎,Food
-    SOLAR,5,☀️,Nature
-    
-
-    SEA,3,🌊,Nature
-    PEAR,4,🍐,Food
-    ART,3,🎨,Hobby
-    STAR,4,⭐,Nature
-    TREE,4,🌳,Nature
-    ROSE,4,🌹,Nature
-    SALT,4,🧂,Food
-    PLATE,5,🍽️,Object
-    PEARL,5,🦪,Jewelry
-    APPLE,5,🍎,Food
-    
-    "SEA": "🌊",
-    "PEAR": "🍐",
-    "ART": "🎨",
-    "STAR": "⭐",
-    "TREE": "🌳",
-    "ROSE": "🌹",
-    "SALT": "🧂",
-    "PLATE": "🍽️",
-    "PEARL": "🦪",
-    "APPLE": "🍎",
-
-    "SEA",
-    "PEAR",
-    "ART",
-    "STAR",
-    "TREE",
-    "ROSE",
-    "SALT",
-    "PLATE",
-    "PEARL",
-    "APPLE",
-
-    */
-
-    const l0e = {
-    "SEA": "🌊",
-    "PEAR": "🍐",
-    "ART": "🎨",
-    "STAR": "⭐",
-    "TREE": "🌳",
-    "ROSE": "🌹",
-    "SALT": "🧂",
-    "PLATE": "🍽️",
-    "PEARL": "🦪",
-    "APPLE": "🍎",
-    };
-    
-    const l0 = [
-    "SEA",
-    "PEAR",
-    "ART",
-    "STAR",
-    "TREE",
-    "ROSE",
-    "SALT",
-    "PLATE",
-    "PEARL",
-    "APPLE",
-    ];
-
-    const l1 = [
-        "SIN",
-        "LIT",
-        "RAN",
-        "LIST",
-        "RAIN",
-        "STAR",
-        "SAIL",
-        "STAIR",
-        "SNAIL",
-    ];
-
-    const l2 = [
-        "ART",
-        "SEA",
-        "ERA",
-        "STAR",
-        "EAST",
-        "TEAR",
-    ];
-    const l4 = [
-        "BEAR",
-        "BOAR",
-        "CRAB",
-        "CROW",
-        "DEER",
-        "DOVE",
-        "DUCK",
-        "FISH",
-        "FROG",
-        "LION",
-        "LYNX",
-        "SEAL",
-        "SWAN",
-        "WOLF",
-        "WORM",
-    ];
-    function GetLetters(list){
-        let letters = [];
-        for(let i = 0; i < list.length; i++){
-            let word = list[i];
-            for(let j = 0; j < word.length; j++){
-                // let w = word.at(j).toUpperCase();
-                let w = word.at(j);
-                letters.push(w);
-                // if(!letters.includes(w)){letters.push(w);}
-            }
-        }
-        return letters;
-    }
-    function GetLetterList(list){
-        let letters = [];
-        for(let i = 0; i < list.length; i++){
-            let word = list[i];
-            for(let j = 0; j < word.length; j++){
-                let w = word.at(j).toUpperCase();
-                if(!letters.includes(w)){letters.push(w);}
-            }
-        }
-        return letters;
-    }
-    function GetLetterCount(list){
-        let letters = [];
-        let letterCount = {};
-        for(let i = 0; i < list.length; i++){
-            let word = list[i];
-            for(let j = 0; j < word.length; j++){
-                let w = word.at(j).toUpperCase();
-                if(!letters.includes(w)){
-                    // letters.push(w);
-                    letterCount[w] = 1;
-                } else {
-                    letterCount[w] = 1 + letterCount[w];
-                }
-                letters.push(w);
-            }
-        }
-        console.log(letters);
-        return letterCount;
-    }
-
-// let t1 = {}
-// function WordGoalTree(){
-//     let firstLetters = [];
-//     let wordsChecked = [];
-//     for(let i = 0; i < t0.length; i++){
-//         let w = t0[i].at(0);
-//         let w2 = t0[i].at(1);
-//         let w3 = t0[i].slice(2);
-//         if(!Object.keys(t1).includes(w)){
-//             firstLetters.push(w);
-//             t1[w] = {};
-//         }
-//         if(!Object.keys(t1[w]).includes(w2)){
-//             t1[w][w2] = [];
-//         }
-//         t1[w][w2].push(w3);
-//     }
-//     console.log(firstLetters);
-// }
-var WordTree = {};
-var firstLetters = [];
-function WordGoalTree(wordGoals){
-    WordTree = {}
-    // let firstLetters = [];
-    for(let i = 0; i < wordGoals.length; i++){
-        let wordGoal = wordGoals[i];
-        let w = wordGoal.at(0);
-        let w2 = wordGoal.at(1);
-        let w3 = wordGoal.slice(2);
-        // firstLetters.push(w);
-        if(!Object.keys(WordTree).includes(w)){
-            WordTree[w] = {};
-        }
-        if(!Object.keys(WordTree[w]).includes(w2)){
-            WordTree[w][w2] = [];
-        }
-        WordTree[w][w2].push(w3);
-    }
-    // console.log(firstLetters);
-    console.log(Object.keys(WordTree));
-    console.log(WordTree);
-    return WordTree;
-}
-
-// function WordCollect(){
-
-// }
 
 </script>
 </body>

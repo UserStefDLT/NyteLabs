@@ -357,6 +357,24 @@
     <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
 </div> -->
 
+<div id="audios">
+    <audio id="soundSwap_01"><source src="../../../res/game-sounds/sound_swap_01.mp3" type="audio/mpeg"></audio>
+    <audio id="soundScore"><source src="../../../res/game-sounds/sound_swap_bubbles_1to3.mp3" type="audio/mpeg"></audio>
+
+    <audio id="soundSwap02_00"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR00.mp3" type="audio/mpeg"></audio>
+    <audio id="soundSwap02_01"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR01.mp3" type="audio/mpeg"></audio>
+    <audio id="soundSwap02_02"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR02.mp3" type="audio/mpeg"></audio>
+    <audio id="soundSwap02_03"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR03.mp3" type="audio/mpeg"></audio>
+    <audio id="soundSwap02_04"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR04.mp3" type="audio/mpeg"></audio>
+    <audio id="soundSwap02_05"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR05.mp3" type="audio/mpeg"></audio>
+    <audio id="soundSwap02_06"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR06.mp3" type="audio/mpeg"></audio>
+    <audio id="soundSwap02_07"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR07.mp3" type="audio/mpeg"></audio>
+    <audio id="soundSwap02_08"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR08.mp3" type="audio/mpeg"></audio>
+    <audio id="soundSwap02_09"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR09.mp3" type="audio/mpeg"></audio>
+    <audio id="soundSwap02_10"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR10.mp3" type="audio/mpeg"></audio>
+    <audio id="soundSwap02_11"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR11.mp3" type="audio/mpeg"></audio>
+</div>
+
 <footer>
     <div class="my-name">
         <a id="BackToTop" class="hidden" href="#">Back To Top</a>
@@ -496,6 +514,42 @@ var iconValr = {
     'g': '🌗', 
     'h': '🌘'
 };
+
+const mySounds = {
+    "xswap": {
+        "0": document.getElementById('soundSwap02_00'),
+        "1": document.getElementById('soundSwap02_01'),
+        "2": document.getElementById('soundSwap02_02'),
+        "3": document.getElementById('soundSwap02_03'),
+        "4": document.getElementById('soundSwap02_04'),
+        "5": document.getElementById('soundSwap02_05'),
+        "6": document.getElementById('soundSwap02_06'),
+        "7": document.getElementById('soundSwap02_07'),
+        "8": document.getElementById('soundSwap02_08'),
+        "9": document.getElementById('soundSwap02_09'),
+        "10": document.getElementById('soundSwap02_10'),
+        "11": document.getElementById('soundSwap02_11'),
+    },
+    "swap": {
+        "0": document.getElementById('soundSwap_01'),
+    },
+    "score": {
+        "0": document.getElementById('soundScore'),
+    }
+}
+function playSoundSwap(){
+    mySounds["swap"]["0"].currentTime = 0;
+    mySounds["swap"]["0"].play();
+}
+function playSoundSwapX(x = -1){
+    let soundSwapEl = mySounds["xswap"][`${x}`];
+    soundSwapEl.currentTime = 0;
+    soundSwapEl.play();
+}
+function playSoundScore(){
+    mySounds["score"]["0"].currentTime = 0;
+    mySounds["score"]["0"].play();
+}
 
 
 function EmojiEncoding(elist){
@@ -993,6 +1047,7 @@ function CallTheFoxes(){
         CatchFoxes(BagOfFoxes);
         BagOfFoxes = [];
         // searchingFoxes = false;
+        playSoundScore();
     }
     UpdateScores();
 }
@@ -1270,6 +1325,9 @@ function SwapTiles(a,b){
     btile.style = `--x-off: ${a.x}; --y-off: ${a.y};`;
 
     sVar.selected_id = {"x": b.x, "y": b.y};
+
+    // playSoundSwapX(a.x);
+    playSoundSwap();
 }
 
 function SelectingTile(et){

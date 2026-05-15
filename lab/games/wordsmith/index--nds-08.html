@@ -539,7 +539,7 @@
     <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
 </div> -->
 <div id="audios">
-    <!-- <audio id="soundSwap">
+    <audio id="soundSwap">
         <source src="sound_swap_04.mp3" type="audio/mpeg">
     </audio>
     <audio id="soundSwap01">
@@ -550,11 +550,15 @@
     </audio>
     <audio id="soundSwap03">
         <source src="sound_swap_bubble_03.mp3" type="audio/mpeg">
-    </audio> -->
+    </audio>
+    <audio id="soundScore">
+        <source src="sound_swap_bubbles_1to3.mp3" type="audio/mpeg">
+    </audio>
+
+
     <audio id="soundScore">
         <source src="../../../res/game-sounds/sound_swap_bubbles_1to3.mp3" type="audio/mpeg">
     </audio>
-
     <audio id="soundSwap02_00"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR00.mp3" type="audio/mpeg"></audio>
     <audio id="soundSwap02_01"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR01.mp3" type="audio/mpeg"></audio>
     <audio id="soundSwap02_02"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR02.mp3" type="audio/mpeg"></audio>
@@ -567,19 +571,6 @@
     <audio id="soundSwap02_09"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR09.mp3" type="audio/mpeg"></audio>
     <audio id="soundSwap02_10"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR10.mp3" type="audio/mpeg"></audio>
     <audio id="soundSwap02_11"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR11.mp3" type="audio/mpeg"></audio>
-
-    <!-- <audio id="soundSwap02_00"><source src="sound_swap_bubble_02_LR00.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_01"><source src="sound_swap_bubble_02_LR01.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_02"><source src="sound_swap_bubble_02_LR02.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_03"><source src="sound_swap_bubble_02_LR03.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_04"><source src="sound_swap_bubble_02_LR04.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_05"><source src="sound_swap_bubble_02_LR05.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_06"><source src="sound_swap_bubble_02_LR06.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_07"><source src="sound_swap_bubble_02_LR07.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_08"><source src="sound_swap_bubble_02_LR08.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_09"><source src="sound_swap_bubble_02_LR09.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_10"><source src="sound_swap_bubble_02_LR10.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_11"><source src="sound_swap_bubble_02_LR11.mp3" type="audio/mpeg"></audio> -->
 </div>
 
 <footer>
@@ -722,7 +713,6 @@ var iconValr = {
     'h': '🌘'
 };
 
-// const soundSwap = new Audio('sound_swap_01.mp3');
 const mySounds = {
     "swap": {
         "0": document.getElementById('soundSwap01'),
@@ -746,23 +736,6 @@ const mySounds = {
     "score": {
         "0": document.getElementById('soundScore'),
     }
-}
-// const soundSwap01 = document.getElementById('soundSwap01');
-// const soundSwap02 = document.getElementById('soundSwap02');
-// const soundSwap03 = document.getElementById('soundSwap03');
-// const soundScore = document.getElementById('soundScore');
-// soundSwap01.play();
-// const soundSwap = new Audio('sound_swap_02.wap');
-// soundSwap.play();
-function playSoundSwap01(){
-    soundSwap01.currentTime = 0;
-    soundSwap01.play();
-}
-function playRandomSoundSwap(){
-    let rid = Math.floor(Math.random()*3);
-    let soundSwapEl = mySounds["swap"][`${rid}`];
-    soundSwapEl.currentTime = 0;
-    soundSwapEl.play();
 }
 function playSoundSwapX(x = -1){
     let soundSwapEl = mySounds["xswap"][`${x}`];
@@ -1466,8 +1439,8 @@ function CollectWords(){
         CatchFoxes(BagOfWords);
         BagOfWords = [];
         // searchingFoxes = false;
+        playSoundScore();
     }
-    playSoundScore();
     UpdateScores();
 }
 function CallTheFoxes(){
