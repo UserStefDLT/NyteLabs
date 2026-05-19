@@ -31,15 +31,8 @@
         
         /* Light Version */
         --tile-m: 2px;
-        --tile-count: 12;
         --tile-space: calc(var(--tile-sz) + var(--tile-m) * 2);
-        --grid-sz: calc(var(--tile-space) * var(--tile-count) + var(--tile-m) * 1);
-    }
-    #grids {
-        /* Light Version */
-        --tile-m: 2px;
         --tile-count: 12;
-        --tile-space: calc(var(--tile-sz) + var(--tile-m) * 2);
         --grid-sz: calc(var(--tile-space) * var(--tile-count) + var(--tile-m) * 1);
     }
     .grid, .row, .tile,
@@ -338,8 +331,11 @@
         margin: 8px 0px;
         margin: 2px;
         padding: 2px 2px;
+        /* padding-bottom: 14px; */
         cursor: help;
         outline: 1px dashed var(--word-color-0);
+        min-width: 54px;
+        min-height: 44px;
      }
      .word-found {
         /* text-decoration: line-through; */
@@ -353,6 +349,11 @@
     .target-word::before {
         content: attr(data-foundcount);
 
+        position: absolute;
+        top: 0%; left: 50%;
+        transform: translateX(-50%) translateY(0%);
+        transform: translateX(-50%) translateY(4px);
+
         height: 24px;
         width: 24px;
         display: flex;
@@ -363,6 +364,7 @@
         padding: 2px 4px;
         margin: 0px 2px;
         padding: 2px 2px;
+        margin: 0;
         border-radius: 50%;
         outline: 1px solid var(--word-color);
         font-weight: bold;
@@ -377,10 +379,18 @@
 
         top: 100%; left: 100%;
         transform: translateX(-105%) translateY(-80%);
+
+        left: 50%;
+        transform: translateX(-50%) translateY(-100%);
+        
         font-size: 10px;
+        font-size: 12px;
         
         margin: 0px 2px;
         padding: 2px 2px;
+
+        margin: 0;
+        padding: 0;
 
         outline: var(--word-color);
         font-weight: bold;
@@ -513,7 +523,7 @@
                 <li class="target-word" data-foundcount="0" data-word="PLATE">🍽️ PLATE</li>
                 <li class="target-word" data-foundcount="0" data-word="PEARL">🦪 PEARL</li>
                 <li class="target-word" data-foundcount="0" data-word="APPLE">🍎 APPLE</li> -->
-                <li class="target-word" data-foundcount="0" data-word="SEA">🌊</li>
+                <!-- <li class="target-word" data-foundcount="0" data-word="SEA">🌊</li>
                 <li class="target-word" data-foundcount="0" data-word="PEAR">🍐</li>
                 <li class="target-word" data-foundcount="0" data-word="ART">🎨</li>
                 <li class="target-word" data-foundcount="0" data-word="STAR">⭐</li>
@@ -522,7 +532,17 @@
                 <li class="target-word" data-foundcount="0" data-word="SALT">🧂</li>
                 <li class="target-word" data-foundcount="0" data-word="PLATE">🍽️</li>
                 <li class="target-word" data-foundcount="0" data-word="PEARL">🦪</li>
-                <li class="target-word" data-foundcount="0" data-word="APPLE">🍎</li>
+                <li class="target-word" data-foundcount="0" data-word="APPLE">🍎</li> -->
+                <li class="target-word" data-foundcount="0" data-word="SEA" data-emoji="🌊"></li>
+                <li class="target-word" data-foundcount="0" data-word="PEAR" data-emoji="🍐"></li>
+                <li class="target-word" data-foundcount="0" data-word="ART" data-emoji="🎨"></li>
+                <li class="target-word" data-foundcount="0" data-word="STAR" data-emoji="⭐"></li>
+                <li class="target-word" data-foundcount="0" data-word="TREE" data-emoji="🌳"></li>
+                <li class="target-word" data-foundcount="0" data-word="ROSE" data-emoji="🌹"></li>
+                <li class="target-word" data-foundcount="0" data-word="SALT" data-emoji="🧂"></li>
+                <li class="target-word" data-foundcount="0" data-word="PLATE" data-emoji="🍽️"></li>
+                <li class="target-word" data-foundcount="0" data-word="PEARL" data-emoji="🦪"></li>
+                <li class="target-word" data-foundcount="0" data-word="APPLE" data-emoji="🍎"></li>
             </ul>
         </div>
         <div id="grids">
@@ -546,7 +566,7 @@
     <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
 </div> -->
 <div id="audios">
-    <!-- <audio id="soundSwap">
+    <audio id="soundSwap">
         <source src="sound_swap_04.mp3" type="audio/mpeg">
     </audio>
     <audio id="soundSwap01">
@@ -557,11 +577,15 @@
     </audio>
     <audio id="soundSwap03">
         <source src="sound_swap_bubble_03.mp3" type="audio/mpeg">
-    </audio> -->
+    </audio>
+    <audio id="soundScore">
+        <source src="sound_swap_bubbles_1to3.mp3" type="audio/mpeg">
+    </audio>
+
+
     <audio id="soundScore">
         <source src="../../../res/game-sounds/sound_swap_bubbles_1to3.mp3" type="audio/mpeg">
     </audio>
-
     <audio id="soundSwap02_00"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR00.mp3" type="audio/mpeg"></audio>
     <audio id="soundSwap02_01"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR01.mp3" type="audio/mpeg"></audio>
     <audio id="soundSwap02_02"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR02.mp3" type="audio/mpeg"></audio>
@@ -574,19 +598,6 @@
     <audio id="soundSwap02_09"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR09.mp3" type="audio/mpeg"></audio>
     <audio id="soundSwap02_10"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR10.mp3" type="audio/mpeg"></audio>
     <audio id="soundSwap02_11"><source src="../../../res/game-sounds/sound_swap_bubble_02_LR11.mp3" type="audio/mpeg"></audio>
-
-    <!-- <audio id="soundSwap02_00"><source src="sound_swap_bubble_02_LR00.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_01"><source src="sound_swap_bubble_02_LR01.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_02"><source src="sound_swap_bubble_02_LR02.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_03"><source src="sound_swap_bubble_02_LR03.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_04"><source src="sound_swap_bubble_02_LR04.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_05"><source src="sound_swap_bubble_02_LR05.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_06"><source src="sound_swap_bubble_02_LR06.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_07"><source src="sound_swap_bubble_02_LR07.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_08"><source src="sound_swap_bubble_02_LR08.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_09"><source src="sound_swap_bubble_02_LR09.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_10"><source src="sound_swap_bubble_02_LR10.mp3" type="audio/mpeg"></audio>
-    <audio id="soundSwap02_11"><source src="sound_swap_bubble_02_LR11.mp3" type="audio/mpeg"></audio> -->
 </div>
 
 <footer>
@@ -729,7 +740,6 @@ var iconValr = {
     'h': '🌘'
 };
 
-// const soundSwap = new Audio('sound_swap_01.mp3');
 const mySounds = {
     "swap": {
         "0": document.getElementById('soundSwap01'),
@@ -753,23 +763,6 @@ const mySounds = {
     "score": {
         "0": document.getElementById('soundScore'),
     }
-}
-// const soundSwap01 = document.getElementById('soundSwap01');
-// const soundSwap02 = document.getElementById('soundSwap02');
-// const soundSwap03 = document.getElementById('soundSwap03');
-// const soundScore = document.getElementById('soundScore');
-// soundSwap01.play();
-// const soundSwap = new Audio('sound_swap_02.wap');
-// soundSwap.play();
-function playSoundSwap01(){
-    soundSwap01.currentTime = 0;
-    soundSwap01.play();
-}
-function playRandomSoundSwap(){
-    let rid = Math.floor(Math.random()*3);
-    let soundSwapEl = mySounds["swap"][`${rid}`];
-    soundSwapEl.currentTime = 0;
-    soundSwapEl.play();
 }
 function playSoundSwapX(x = -1){
     let soundSwapEl = mySounds["xswap"][`${x}`];
@@ -1473,8 +1466,8 @@ function CollectWords(){
         CatchFoxes(BagOfWords);
         BagOfWords = [];
         // searchingFoxes = false;
+        playSoundScore();
     }
-    playSoundScore();
     UpdateScores();
 }
 function CallTheFoxes(){
@@ -1998,15 +1991,19 @@ function EvalMap(){
     window.addEventListener('resize', () =>{
         updateSettings();
     });
-
+    
     // gameStats: gs
     const gs = {
-        h: 6,
-        w: 6,
-        len: 6,
+        h: 12,
+        w: 12,
+        len: 12,
         map: [],
         score: 0,
         moves: 0,
+    }
+    
+    function UpdateUI(){
+        
     }
     window.addEventListener('load', (ev) => {
         console.log(`Welcome to my Lab!`);
@@ -2078,8 +2075,10 @@ Dates:
         // NumbersInGrid(gs.w,gs.h);
         // EvalMap();
         // // update();
-        let grids = document.getElementById("grids")
-        grids.style = `--tile-count: ${gs.len};`;
+
+        // let grids = document.getElementById("grids")
+        // grids.style = `--tile-count: ${gs.len};`;
+
         TilesInDiv(gs.w,gs.h);
     });
     /* Version Log:
@@ -2204,19 +2203,6 @@ Dates:
     };
     
     const l0 = [
-    "SEA",
-    "PEAR",
-    "ART",
-    "STAR",
-    "TREE",
-    "ROSE",
-    "SALT",
-    "PLATE",
-    "PEARL",
-    "APPLE",
-    ];
-    
-    const l00 = [
     "SEA",
     "PEAR",
     "ART",

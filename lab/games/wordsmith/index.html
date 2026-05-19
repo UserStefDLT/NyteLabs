@@ -24,6 +24,7 @@
         --tile-sz: 36px;
         --tile-sz: 32px;
         --tile-sz: 28px;
+        --tile-sz: 40px;
         --tile-m: 1px;
         --tile-space: calc(var(--tile-sz) + var(--tile-m) * 2);
         --tile-count: 12;
@@ -31,8 +32,15 @@
         
         /* Light Version */
         --tile-m: 2px;
-        --tile-space: calc(var(--tile-sz) + var(--tile-m) * 2);
         --tile-count: 12;
+        --tile-space: calc(var(--tile-sz) + var(--tile-m) * 2);
+        --grid-sz: calc(var(--tile-space) * var(--tile-count) + var(--tile-m) * 1);
+    }
+    #grids {
+        /* Light Version */
+        --tile-m: 2px;
+        --tile-count: 12;
+        --tile-space: calc(var(--tile-sz) + var(--tile-m) * 2);
         --grid-sz: calc(var(--tile-space) * var(--tile-count) + var(--tile-m) * 1);
     }
     .grid, .row, .tile,
@@ -150,12 +158,31 @@
         transform: translateX(var(--xt)) translateY(var(--yt));
         transition: transform 50ms ease-in-out;
         transition: transform 200ms ease-in-out;
+        transition: transform 200ms ease-in-out, box-shadow 200ms ease-in-out;
+
+        font-size: calc(var(--tile-sz) * 0.5);
+        font-weight: bold;
     }
     .mtile:hover {
         background-image: radial-gradient(#0000 50%, #000 70%);
         background-image: radial-gradient(#0000 20%, #fff8 100%);
+        background-image: radial-gradient(#0006 20%, #0000 100%);
         /* background-image: radial-gradient(); */
     }
+    /* .grabbed {
+        transform: translateX(var(--xt)) translateY(var(--yt)) perspective(500px) translateZ(10px) translateY(-2px);
+        box-shadow: 0px 1px 2px 0px hsla(var(--hue), 30%, 15%, .5), 0px 3px 3px 1px hsla(var(--hue), 30%, 15%, .5);
+        animation: hovering 1200ms linear infinite both;
+        animation-play-state: running;
+    }
+    @keyframes hovering {
+        0%{transform: translateX(var(--xt)) translateY(var(--yt)) perspective(500px) translateZ(10px) translateY(-2px) rotateX(0deg) rotateY(0deg);}
+        20%{transform: translateX(var(--xt)) translateY(var(--yt)) perspective(500px) translateZ(10px) translateY(-2px) rotateX(-10deg) rotateY(0deg);}
+        40%{transform: translateX(var(--xt)) translateY(var(--yt)) perspective(500px) translateZ(10px) translateY(-2px) rotateX(-20deg) rotateY(10deg);}
+        60%{transform: translateX(var(--xt)) translateY(var(--yt)) perspective(500px) translateZ(10px) translateY(-2px) rotateX(-10deg) rotateY(20deg);}
+        80%{transform: translateX(var(--xt)) translateY(var(--yt)) perspective(500px) translateZ(10px) translateY(-2px) rotateX(0deg) rotateY(10deg);}
+        100%{transform: translateX(var(--xt)) translateY(var(--yt)) perspective(500px) translateZ(10px) translateY(-2px) rotateX(0deg) rotateY(0deg);}
+    } */
     /* .fox-head::before, */
     .tile::before {
         content: attr(data-count);
@@ -452,8 +479,23 @@
         border-bottom: 2px solid hsla(var(--hue), 80%, 35%, 1);
         box-shadow: 0px 2px 2px hsla(var(--hue), 30%, 10%, .5);
         box-shadow: 0px 1px 2px 0px hsla(var(--hue), 30%, 15%, .5);
+        box-shadow: 0px 1px 2px 0px hsla(var(--hue), 30%, 15%, .5), 0px 3px 3px 1px hsla(var(--hue), 30%, 15%, 0);
     }
 
+    .grabbed {
+        transform: translateX(var(--xt)) translateY(var(--yt)) perspective(500px) translateZ(10px) translateY(-2px);
+        box-shadow: 0px 1px 2px 0px hsla(var(--hue), 30%, 15%, .5), 0px 3px 3px 1px hsla(var(--hue), 30%, 15%, .5);
+        /* animation: hovering 1200ms linear infinite both;
+        animation-play-state: running; */
+    }
+    @keyframes hovering {
+        0%{transform: translateX(var(--xt)) translateY(var(--yt)) perspective(500px) translateZ(10px) translateY(-2px) rotateX(0deg) rotateY(0deg);}
+        20%{transform: translateX(var(--xt)) translateY(var(--yt)) perspective(500px) translateZ(10px) translateY(-2px) rotateX(-10deg) rotateY(0deg);}
+        40%{transform: translateX(var(--xt)) translateY(var(--yt)) perspective(500px) translateZ(10px) translateY(-2px) rotateX(-20deg) rotateY(10deg);}
+        60%{transform: translateX(var(--xt)) translateY(var(--yt)) perspective(500px) translateZ(10px) translateY(-2px) rotateX(-10deg) rotateY(20deg);}
+        80%{transform: translateX(var(--xt)) translateY(var(--yt)) perspective(500px) translateZ(10px) translateY(-2px) rotateX(0deg) rotateY(10deg);}
+        100%{transform: translateX(var(--xt)) translateY(var(--yt)) perspective(500px) translateZ(10px) translateY(-2px) rotateX(0deg) rotateY(0deg);}
+    }
 
     .z {}
 </style>
@@ -512,7 +554,7 @@
         
         <div id="LevelTarget" class="word-list">
             <div class="target-title">Target Words:</div>
-            <ul>
+            <ul id="TargetWords">
                 <!-- <li class="target-word" data-foundcount="0" data-word="SEA">🌊 SEA</li>
                 <li class="target-word" data-foundcount="0" data-word="PEAR">🍐 PEAR</li>
                 <li class="target-word" data-foundcount="0" data-word="ART">🎨 ART</li>
@@ -1771,15 +1813,19 @@ function SelectingTile(et){
     if(!sVar.selecting){
         sVar.selecting = true;
         sVar.selected_id = {"x": et.x, "y": et.y};
-        // let tileGrabbed = document.getElementById(`y${et.y},x${et.x}`);
-        // tileGrabbed.classList.toggle("grabbing");
+        
+        let tileGrabbed = document.getElementById(`d,y${et.y},x${et.x}`);
+        tileGrabbed.classList.add("grabbed");
+
         let mgrid = document.getElementById(`mgrid`);
         mgrid.classList.toggle("grabbing");
     } else {
         sVar.selecting = false;
         sVar.selected_id = {"x": -1, "y": -1};
-        // let tileGrabbed = document.getElementById(`y${et.y},x${et.x}`);
-        // tileGrabbed.classList.toggle("grabbing");
+
+        let tileGrabbed = document.getElementById(`d,y${et.y},x${et.x}`);
+        tileGrabbed.classList.remove("grabbed");
+
         let mgrid = document.getElementById(`mgrid`);
         mgrid.classList.toggle("grabbing");
         CountMoves();
@@ -1991,15 +2037,36 @@ function EvalMap(){
     window.addEventListener('resize', () =>{
         updateSettings();
     });
-
+    
     // gameStats: gs
     const gs = {
-        h: 12,
-        w: 12,
-        len: 12,
+        h: 6,
+        w: 6,
+        len: 6,
         map: [],
         score: 0,
         moves: 0,
+    }
+    
+    function UpdateUI(){
+        
+        let grids = document.getElementById("grids");
+        grids.style = `--tile-count: ${gs.len};`;
+
+        let targetWords = document.getElementById("TargetWords");
+        // targetWords.innerHTML = ``;
+
+        let liList = [];
+        let l0keys = Object.keys(l0e);
+        for (let i = 0; i < l0keys.length; i++) {
+            const e = l0keys[i];
+            let li = `<li class="target-word" data-foundcount="0" data-word="${e}" data-emoji="${l0e[e]}"></li>`;
+            liList.push(li);
+        }
+        targetWords.innerHTML = liList.join("");
+
+        // <li class="target-word" data-foundcount="0" data-word="APPLE" data-emoji="🍎"></li>
+
     }
     window.addEventListener('load', (ev) => {
         console.log(`Welcome to my Lab!`);
@@ -2071,6 +2138,8 @@ Dates:
         // NumbersInGrid(gs.w,gs.h);
         // EvalMap();
         // // update();
+
+        UpdateUI();
 
         TilesInDiv(gs.w,gs.h);
     });
