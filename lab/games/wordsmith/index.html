@@ -25,6 +25,7 @@
         --tile-sz: 32px;
         --tile-sz: 28px;
         --tile-sz: 40px;
+        --tile-sz: 36px;
         --tile-m: 1px;
         --tile-space: calc(var(--tile-sz) + var(--tile-m) * 2);
         --tile-count: 12;
@@ -35,6 +36,7 @@
         --tile-count: 12;
         --tile-space: calc(var(--tile-sz) + var(--tile-m) * 2);
         --grid-sz: calc(var(--tile-space) * var(--tile-count) + var(--tile-m) * 1);
+        --target-words-count: 6;
     }
     #grids {
         /* Light Version */
@@ -454,6 +456,7 @@
     #LevelTarget ul {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(var(--target-words-count), 1fr);
     }
     .shelf:not(:first-of-type) {
         margin-top: .25rem;
@@ -2040,9 +2043,9 @@ function EvalMap(){
     
     // gameStats: gs
     const gs = {
-        h: 6,
-        w: 6,
-        len: 6,
+        h: 8,
+        w: 8,
+        len: 8,
         map: [],
         score: 0,
         moves: 0,
@@ -2248,10 +2251,81 @@ Dates:
     "PLATE",
     "PEARL",
     "APPLE",
+///
+    "CAT",
+    "RED",
+    "HAT",
+    "HOT",
+    "ACT",
+    "COAT",
+    "DEAR",
+    "EACH",
+    "ROAD",
+    "TEAR",
+    "CHART",
+    "CHORE",
+    "HEART",
+    "EARTH",
+    "DOCTOR",
+    "TORCH",
+---
+    "CAT",
+    "HAT",
+    "HOT",
+
+    "ACT",
+    "COAT",
+    "DEAR",
+
+    "ROAD",
+    "TEAR",
+    "HEART",
+
+    "EARTH",
+    "DOCTOR",
+    "TORCH",
+
 
     */
 
     const l0e = {
+
+    "CAT": "🚧",
+    "HAT": "🚧",
+    "HOT": "🚧",
+
+    "ACT": "🚧",
+    "COAT": "🚧",
+    "DEAR": "🚧",
+
+    "ROAD": "🚧",
+    "TEAR": "🚧",
+    "HEART": "🚧",
+
+    "EARTH": "🚧",
+    "DOCTOR": "🚧",
+    "TORCH": "🚧",
+    };
+    
+    const l0 = [
+    "CAT",
+    "HAT",
+    "HOT",
+
+    "ACT",
+    "COAT",
+    "DEAR",
+    
+    "ROAD",
+    "TEAR",
+    "HEART",
+
+    "EARTH",
+    "DOCTOR",
+    "TORCH",
+    ];
+
+    const l3e = {
     "SEA": "🌊",
     "PEAR": "🍐",
     "ART": "🎨",
@@ -2264,7 +2338,7 @@ Dates:
     "APPLE": "🍎",
     };
     
-    const l0 = [
+    const l3 = [
     "SEA",
     "PEAR",
     "ART",
