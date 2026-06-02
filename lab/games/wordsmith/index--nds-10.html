@@ -20,11 +20,6 @@
     </style>
 <style>
     :root {
-
-        /* on a 6x6, we do 40px per tile */
-        /* on a 8x8, we do 36px per tile */
-        /* on a 12x12, we do 30px per tile */
-
         --tile-sz: 24px;
         --tile-sz: 36px;
         --tile-sz: 32px;
@@ -41,7 +36,7 @@
         --tile-count: 12;
         --tile-space: calc(var(--tile-sz) + var(--tile-m) * 2);
         --grid-sz: calc(var(--tile-space) * var(--tile-count) + var(--tile-m) * 1);
-        --target-words-count: 5;
+        --target-words-count: 6;
     }
     #grids {
         /* Light Version */
@@ -2048,9 +2043,9 @@ function EvalMap(){
     
     // gameStats: gs
     const gs = {
-        h: 12,
-        w: 12,
-        len: 12,
+        h: 8,
+        w: 8,
+        len: 8,
         map: [],
         score: 0,
         moves: 0,
@@ -2274,71 +2269,57 @@ Dates:
     "DOCTOR",
     "TORCH",
 ---
-    "QUARTZ",
-    "JEEP",
-    "FOX",
-    "WAVE",
-    "BOMB",
-    "KEY",
-    "SHIELD",
-    "CROWN",
-    "RAIN",
-    "GLOVE",
+    "CAT",
+    "HAT",
+    "HOT",
+
+    "ACT",
+    "COAT",
+    "DEAR",
+
+    "ROAD",
+    "TEAR",
+    "HEART",
+
+    "EARTH",
+    "DOCTOR",
+    "TORCH",
 
 
     */
 
     const l0e = {
-    "QUARTZ": "💎",
-    "JEEP": "🚙",
-    "FOX": "🦊",
-    "WAVE": "🌊",
-    "BOMB": "💣",
-    "KEY": "🔑",
-    "SHIELD": "🛡️",
-    "CROWN": "👑",
-    "RAIN": "🌧️",
-    "GLOVE": "🧤",
-    };
-    
-    const l0 = [
-    "QUARTZ",
-    "JEEP",
-    "FOX",
-    "WAVE",
-    "BOMB",
-    "KEY",
-    "SHIELD",
-    "CROWN",
-    "RAIN",
-    "GLOVE",
-    ];
 
-    const l5e = {
     "CAT": "🚧",
     "HAT": "🚧",
     "HOT": "🚧",
+
     "ACT": "🚧",
     "COAT": "🚧",
     "DEAR": "🚧",
+
     "ROAD": "🚧",
     "TEAR": "🚧",
     "HEART": "🚧",
+
     "EARTH": "🚧",
     "DOCTOR": "🚧",
     "TORCH": "🚧",
     };
     
-    const l5 = [
+    const l0 = [
     "CAT",
     "HAT",
     "HOT",
+
     "ACT",
     "COAT",
     "DEAR",
+    
     "ROAD",
     "TEAR",
     "HEART",
+
     "EARTH",
     "DOCTOR",
     "TORCH",
