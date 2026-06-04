@@ -142,33 +142,6 @@
         border-radius: 50%;
         border-radius: 0%;
     }
-    .tile.match-found {
-        /* position: relative; */
-        --hue2: 50;
-        /* background-color: #fd36; */
-        /* background-color: hsla(50, 100%, 60%, 0.4); */
-        --c1: hsla(var(--hue), 100%, 60%, 1);
-        --c2: hsla(var(--hue2), 100%, 60%, 0.6);
-        background-image: 
-        linear-gradient(170deg, #000 20%, #0000 20%),
-        linear-gradient(150deg, #0000 60%, #000 60%);
-        
-        background-image: 
-        linear-gradient(170deg, #fff3 25%, #0000 25%),
-        linear-gradient(150deg, #0000 70%, #0004 70%);
-        background-image: 
-        linear-gradient(170deg, #fff3 20%, #0000 40%),
-        linear-gradient(150deg, #0000 54%, #0004 80%);
-        /* background-image: 
-        linear-gradient(150deg, #fff6 20%, #0000 45%),
-        linear-gradient(150deg, #0000 55%, #0006 80%); */
-        
-        /* outline: 1px solid orange; */
-        /* outline: 1px solid hsl(var(--hue), 100%, 50%); */
-        /* text-shadow: 2px 2px 2px #000; */
-        border-bottom: 0px solid hsla(var(--hue), 80%, 35%, 1);
-        border-radius: 50%;
-    }
     .fox-tail {
         --hue: 50;
         background-color: #fd33;
@@ -552,9 +525,8 @@
         box-shadow: 0px 1px 2px 0px hsla(var(--hue), 70%, 45%, .5), 0px 3px 10px 5px hsla(var(--hue), 100%, 50%, 0);
     } */
 
-    /* colores pastel. */
-    .tile {
-        text-shadow: 1px 1px 1px #0000;
+    .tile.cake{
+        text-shadow: 1px 1px 1px #000;
         background-color: hsla(var(--hue), 50%, 70%, 1);
         border-bottom: 2px solid hsla(var(--hue), 30%, 60%, 1);
         box-shadow: 0px 0px 1px 0px hsla(var(--hue), 30%, 25%, .5), 0px 3px 0px 0px hsla(var(--hue), 100%, 50%, 0);
@@ -904,7 +876,7 @@ function EmojiEncoding2(elist){
     }   
 }
 function EmojiEncoding3(wlist){
-    let elist = GetLetters(wlist);
+    let elist = GetLetters(wlist)
     iconRow = [...elist];
     WordGoalTree(wlist);
     firstLetters = Object.keys(WordTree);
@@ -1393,8 +1365,7 @@ function HighlightMatch(list,n){
         const e = list[i];
         let tile = document.getElementById(`d,y${e.y},x${e.x}`);
         tile.classList.add("match-found");
-        // tile.style = `--x-off: ${e.x}; --y-off: ${e.y}; --hue: ${n*10};`;
-        tile.style = `--hue: ${tile.dataset.hue}; --x-off: ${e.x}; --y-off: ${e.y}; --hue2: ${n*10};`;
+        tile.style = `--x-off: ${e.x}; --y-off: ${e.y}; --hue: ${n*10};`;
         tile.dataset.count = parseInt(tile.dataset.count)+1;
     }
 }
@@ -2060,96 +2031,155 @@ function EvalMap(){
 
 
 
-/* ─── Events ─── */
-function updateSettings(){
-    s.h = window.innerHeight;
-    s.w = window.innerWidth;
-    s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+    /* ─── Events ─── */
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
 
-    /* ─ Canvas ─ */
-    s.canvas.x = s.w;
-    s.canvas.y = s.h;
-    s.canvas.z = (s.h + s.w)/2;
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        s.canvas.z = (s.h + s.w)/2;
 
-    s.canvas.x2 = s.canvas.x/2;
-    s.canvas.y2 = s.canvas.y/2;
-    s.canvas.z2 = s.canvas.z/2;
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
 
-    /* ─ Box ─ */
-    /* resize box for mobile */
-    if(s.h < s.box.y) {s.box.y = s.h;}
-    if(s.w < s.box.x) {s.box.x = s.w;}
-    s.box.z = (s.box.y + s.box.x)/2;
+        /* ─ Box ─ */
+        /* resize box for mobile */
+        if(s.h < s.box.y) {s.box.y = s.h;}
+        if(s.w < s.box.x) {s.box.x = s.w;}
+        s.box.z = (s.box.y + s.box.x)/2;
 
-    /* center box */
-    s.box.top = (s.h - s.box.y)/2;
-    s.box.left = (s.w - s.box.x)/2;
+        /* center box */
+        s.box.top = (s.h - s.box.y)/2;
+        s.box.left = (s.w - s.box.x)/2;
 
-    /* determine center */
-    s.box.x2 = s.box.left + (s.box.x / 2);
-    s.box.y2 = s.box.top + (s.box.y / 2);
-    s.box.z2 = (s.box.z / 2);
+        /* determine center */
+        s.box.x2 = s.box.left + (s.box.x / 2);
+        s.box.y2 = s.box.top + (s.box.y / 2);
+        s.box.z2 = (s.box.z / 2);
 
-    /* ─ Grid ─ */
-    s.grid.cols = Math.floor(s.w / s.tile.w);
-    s.grid.rows = Math.floor(s.h / s.tile.h);
+        /* ─ Grid ─ */
+        s.grid.cols = Math.floor(s.w / s.tile.w);
+        s.grid.rows = Math.floor(s.h / s.tile.h);
 
-    /* ─ Canvas Update ─ */
-    // canvas.width = s.canvas.x;
-    // canvas.height = s.canvas.y;
-    // ctx.clearRect(0,0,canvas.width, canvas.height);
-}
-window.addEventListener('resize', () =>{
-    updateSettings();
-});
-
-// gameStats: gs
-const gs = {
-    h: 12,
-    w: 12,
-    len: 12,
-    map: [],
-    score: 0,
-    moves: 0,
-}
-
-function UpdateUI(){
-    
-    let grids = document.getElementById("grids");
-    grids.style = `--tile-count: ${gs.len};`;
-
-    let targetWords = document.getElementById("TargetWords");
-    // targetWords.innerHTML = ``;
-
-    let liList = [];
-    let l0keys = Object.keys(l0e);
-    for (let i = 0; i < l0keys.length; i++) {
-        const e = l0keys[i];
-        let li = `<li class="target-word" data-foundcount="0" data-word="${e}" data-emoji="${l0e[e]}"></li>`;
-        liList.push(li);
+        /* ─ Canvas Update ─ */
+        // canvas.width = s.canvas.x;
+        // canvas.height = s.canvas.y;
+        // ctx.clearRect(0,0,canvas.width, canvas.height);
     }
-    targetWords.innerHTML = liList.join("");
+    window.addEventListener('resize', () =>{
+        updateSettings();
+    });
+    
+    // gameStats: gs
+    const gs = {
+        h: 12,
+        w: 12,
+        len: 12,
+        map: [],
+        score: 0,
+        moves: 0,
+    }
+    
+    function UpdateUI(){
+        
+        let grids = document.getElementById("grids");
+        grids.style = `--tile-count: ${gs.len};`;
 
-    // <li class="target-word" data-foundcount="0" data-word="APPLE" data-emoji="🍎"></li>
+        let targetWords = document.getElementById("TargetWords");
+        // targetWords.innerHTML = ``;
 
-}
-window.addEventListener('load', (ev) => {
-    console.log(`Welcome to my Lab!`);
-    updateSettings();
-    // start();
+        let liList = [];
+        let l0keys = Object.keys(l0e);
+        for (let i = 0; i < l0keys.length; i++) {
+            const e = l0keys[i];
+            let li = `<li class="target-word" data-foundcount="0" data-word="${e}" data-emoji="${l0e[e]}"></li>`;
+            liList.push(li);
+        }
+        targetWords.innerHTML = liList.join("");
 
-    EmojiEncoding3(l0);
+        // <li class="target-word" data-foundcount="0" data-word="APPLE" data-emoji="🍎"></li>
 
-    // NumbersInGrid(gs.w,gs.h);
-    // EvalMap();
-    // // update();
+    }
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        updateSettings();
+        // start();
+/*
+⭐️💡🚧🛸🌒
+⛺️🏔️🥑🦖
+💢🚨🔥🍟
+💠🧢💤🌊🥏
+🦄💣🎲
 
-    UpdateUI();
+⭐️🦖🌊🛸
+🦑💣🎲🍟
 
-    TilesInDiv(gs.w,gs.h);
-});
+🌑🌒🌓🌔🌕🌖🌗🌘
+♈♉♊♋♌♍♎♏♐♑♒♓
+🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚🕛🕜🕝🕞🕟🕠🕡🕢🕣🕤🕥🕦🕧
+🍅🍇🍈🍉🍊🍋🍌🍍🍎🍏🍐🍑🍒🍓
 
-/* Version Log:
+---
+Emojis que me recuerdan a nosotros:
+😭🫣🥹🫠😺🙌👉👈💪🫦🫂🧶💍🐸🦄🐙🦖🦕🌵🌞💫✨🫧🍌🥭🥝🍆🌶️🥐🍔🌯🍜🥟🍬🍦🍽️🪁🎭🎨🎼🎲🎢⛺️📷🔮🩸🚿🛏️🛌📆📅📖📏🤍💙💛💔❤️‍🩹♊️♒️1️⃣7️⃣🎶🕔
+
+Los emojis de Kimberly:
+🇨🇴, 🐸, 👾,🧠,🧙‍♂️, 🦖,💪,🫦⭐️,🌙,🍌,🍆,🍅,🫒,🥐,🍳,🍜,🥟,🍬,🍫,🎲,⛺️,💻,🧼,📆,🤍,♊️
+Creo q esos por ahora
+
+
+Los más distintivos:
+📆 🥟 ♊️ 🥝 🍫 🍜 🫦 ⛺️
+♊️🎲💻
+
+🥟🦄🥝📅 📏 📖
+
+🦄📖🥟🦖📅🥝
+
+Dates:
+🥤
+🍟
+🎢🐮
+🍦
+🏔️💍
+🍗
+🍝♊️
+🍔🔖
+🎮💃
+*/
+        // EmojiEncoding('♈♉♊♋♌♍♎♏♐♑♒♓');
+        // EmojiEncoding('🕐🕑🕒🕓🕔🕕🕖🕗🕘🕙🕚🕛🕜🕝🕞🕟🕠🕡🕢🕣🕤🕥🕦🕧');
+        // EmojiEncoding('🕒🕕🕘🕛🕞🕡🕤🕧');
+        // EmojiEncoding('📆🥟♊️🥝🍫🍜🫦⛺️');
+//         EmojiEncoding2(['&#128338;',
+// '&#128341;',
+// '&#128344;',
+// '&#128347;',
+// '&#128350;',
+// '&#128353;',
+// '&#128356;',
+// '&#128359;']);⭐️🦖🌊🛸🦑💣🎲🍟
+
+        // EmojiEncoding2(['📆','🥟','♊️','🥝','🍫','🍜','🫦','⛺️']);
+        // EmojiEncoding2(['📆','🥟','♊️','🎲','💻','🍫','🍜','⛺️']);
+        // EmojiEncoding2(['⭐️','🦖','🌊','🛸','🦑','💣','🎲','🍟']);
+        // EmojiEncoding2(['B', 'E', 'A', 'R', 'O', 'C', 'W', 'D', 'V', 'U', 'K', 'F', 'I', 'S', 'H', 'G', 'L', 'N', 'Y', 'X', 'M']);
+        // EmojiEncoding3(GetLetters(t0));
+        EmojiEncoding3(l0);
+
+        // NumbersInGrid(gs.w,gs.h);
+        // EvalMap();
+        // // update();
+
+        UpdateUI();
+
+        TilesInDiv(gs.w,gs.h);
+    });
+    /* Version Log:
     [index-nds-00]: Default Template.
     [index-nds-01]: It works for words.
     [index-nds-02]: 
@@ -2164,7 +2194,7 @@ window.addEventListener('load', (ev) => {
     [index-nds-11]: 
     [index-nds-12]: 
     
-*/
+    */
     /* working with words
     
         SIN,3,"S, I, N"
@@ -2286,14 +2316,6 @@ window.addEventListener('load', (ev) => {
 
     */
 
-const levels = {
-    "l0": [],
-    "l3": ["SEA", "PEAR", "ART", "STAR", "TREE", "ROSE", "SALT", "PLATE", "PEARL", "APPLE"],
-    "l4": ["BEAR", "BOAR", "CRAB", "CROW", "DEER", "DOVE", "DUCK", "FISH", "FROG", "LION", "LYNX", "SEAL", "SWAN", "WOLF", "WORM"],
-    "l0": ["CAT", "HAT", "HOT", "ACT", "COAT", "DEAR", "ROAD", "TEAR", "HEART", "EARTH", "DOCTOR", "TORCH"],
-    "l10": ["QUARTZ", "JEEP", "FOX", "WAVE", "BOMB", "KEY", "SHIELD", "CROWN", "RAIN", "GLOVE"],
-}
-
     const l0e = {
     "QUARTZ": "💎",
     "JEEP": "🚙",
@@ -2413,45 +2435,71 @@ const levels = {
         "WOLF",
         "WORM",
     ];
-
-
-/* -.- GetLetters -.- */
-/* input: an array of words. */
-/* output: an array of letters. (this is a list allowing repeated) */
-function GetLetters(list){
-    let letters = [];
-    for(let i = 0; i < list.length; i++){
-        let word = list[i];
-        for(let j = 0; j < word.length; j++){
-            // let w = word.at(j).toUpperCase();
-            let w = word.at(j);
-            letters.push(w);
-            // if(!letters.includes(w)){letters.push(w);}
+    function GetLetters(list){
+        let letters = [];
+        for(let i = 0; i < list.length; i++){
+            let word = list[i];
+            for(let j = 0; j < word.length; j++){
+                // let w = word.at(j).toUpperCase();
+                let w = word.at(j);
+                letters.push(w);
+                // if(!letters.includes(w)){letters.push(w);}
+            }
         }
+        return letters;
     }
-    return letters;
-}
-
-/* -.- GetLetterSet -.- */
-/* input: an array of words. */
-/* output: an array of letters. (this is a set, doesn't allow repeated) */
-function GetLetterSet(list){
-    let letters = [];
-    for(let i = 0; i < list.length; i++){
-        let word = list[i];
-        for(let j = 0; j < word.length; j++){
-            let w = word.at(j).toUpperCase();
-            if(!letters.includes(w)){letters.push(w);}
+    function GetLetterList(list){
+        let letters = [];
+        for(let i = 0; i < list.length; i++){
+            let word = list[i];
+            for(let j = 0; j < word.length; j++){
+                let w = word.at(j).toUpperCase();
+                if(!letters.includes(w)){letters.push(w);}
+            }
         }
+        return letters;
     }
-    return letters;
-}
+    function GetLetterCount(list){
+        let letters = [];
+        let letterCount = {};
+        for(let i = 0; i < list.length; i++){
+            let word = list[i];
+            for(let j = 0; j < word.length; j++){
+                let w = word.at(j).toUpperCase();
+                if(!letters.includes(w)){
+                    // letters.push(w);
+                    letterCount[w] = 1;
+                } else {
+                    letterCount[w] = 1 + letterCount[w];
+                }
+                letters.push(w);
+            }
+        }
+        console.log(letters);
+        return letterCount;
+    }
 
+// let t1 = {}
+// function WordGoalTree(){
+//     let firstLetters = [];
+//     let wordsChecked = [];
+//     for(let i = 0; i < t0.length; i++){
+//         let w = t0[i].at(0);
+//         let w2 = t0[i].at(1);
+//         let w3 = t0[i].slice(2);
+//         if(!Object.keys(t1).includes(w)){
+//             firstLetters.push(w);
+//             t1[w] = {};
+//         }
+//         if(!Object.keys(t1[w]).includes(w2)){
+//             t1[w][w2] = [];
+//         }
+//         t1[w][w2].push(w3);
+//     }
+//     console.log(firstLetters);
+// }
 var WordTree = {};
 var firstLetters = [];
-/* -.- WordGoalTree -.- */
-/* input: an array of words. */
-/* output: an object of letters. (it expands like a tree) */
 function WordGoalTree(wordGoals){
     WordTree = {}
     // let firstLetters = [];
@@ -2471,10 +2519,13 @@ function WordGoalTree(wordGoals){
     }
     // console.log(firstLetters);
     console.log(Object.keys(WordTree));
-    // console.log(WordTree);
+    console.log(WordTree);
     return WordTree;
 }
 
+// function WordCollect(){
+
+// }
 
 </script>
 </body>
