@@ -1024,11 +1024,6 @@ function TilesInDiv(w,h){
                 // gstates.moves++;
             });
 
-            // mtile.addEventListener("touchstart", handleStart, false);
-            // mtile.addEventListener("touchend", handleEnd, false);
-            // mtile.addEventListener("touchcancel", handleCancel, false);
-            // mtile.addEventListener("touchmove", handleMove, false);
-
             // row.appendChild(tile);
             mgrid.appendChild(mtile);
             grid.appendChild(tile);
@@ -1817,7 +1812,6 @@ function CheckStuff(x,y){
 var sVar = {
     selecting: false,
     selected: -1,
-    id: "",
     selected_id: {x:-1, y:-1}
 };
 function UpdateTile(e){
@@ -2063,166 +2057,7 @@ function EvalMap(){
 }
 
 /* ─── Events ─── */
-function AddEvents() {
-    window.addEventListener("touchstart", handleStart, false);
-    window.addEventListener("touchend", handleEnd, false);
-    window.addEventListener("touchcancel", handleCancel, false);
-    window.addEventListener("touchmove", handleMove, false);
-}
 
-/*
-mtile.addEventListener("click", ev => {
-    // selectNumber(ev);
-    // selectTile(ev);
-    SelectingTile({"x": ev.target.dataset.x, "y": ev.target.dataset.y});
-});
-mtile.addEventListener("mouseenter", (ev) => {
-    if(sVar.selecting) {
-        let et = ev.target;
-        let etx = et.dataset.x;
-        let ety = et.dataset.y;
-        console.log(`entering: ${ety},${etx}`);
-
-        SwapTiles(sVar.selected_id,{"x": etx, "y": ety});
-    }
-    // gstates.moves++;
-});
-*/
-
-/* ─── Event Handlers ─── */
-var previousTouchEvent = '';
-var ongoingTouches = [];
-function copyTouch({ identifier, pageX, pageY }) {
-    return { identifier, pageX, pageY };
-}
-function ongoingTouchIndexById(idToFind) {
-    for (var i = 0; i < ongoingTouches.length; i++) {
-        var id = ongoingTouches[i].identifier;
-        if (id == idToFind) {
-            return i;
-        }
-    }
-    return -1;  // not found
-}
-function handleStart(ev) {
-    console.log("touchstart.");
-    previousTouchEvent = "touchstart";
-    s.touch.tracking = true;
-    ev.preventDefault();
-    var touches = ev.changedTouches;
-    for (var i = 0; i < touches.length; i++) {
-        ongoingTouches.push(copyTouch(touches[i]));
-        
-        var idx = ongoingTouchIndexById(touches[i].identifier);
-
-        console.log(ev.target);
-        // console.log(ev.target.classList);
-        console.log(`Start: "x": ${ev.target.dataset.x}, "y": ${ev.target.dataset.y}`);
-        // SelectingTile({"x": ev.target.dataset.x, "y": ev.target.dataset.y});
-
-    }
-}
-function handleMove(ev) {
-    // console.log("touchmove.");
-    previousTouchEvent = "touchmove";
-    ev.preventDefault();
-    var touches = ev.changedTouches;
-    // console.log(touches);
-    let x = {};
-    let y = {};
-    for (var i = 0; i < touches.length; i++) {
-        var idx = ongoingTouchIndexById(touches[i].identifier);
-        if (idx >= 0) {
-
-            // rotationMove(idx,ongoingTouches[idx].pageX,ongoingTouches[idx].pageY);
-
-            // console.log(ev.target);
-            console.log(`Move: "x": ${ev.target.dataset.x}, "y": ${ev.target.dataset.y}`);
-            if(sVar.selecting) {
-                // let et = ev.target;
-                // let etx = et.dataset.x;
-                // let ety = et.dataset.y;
-                // // let tileid = `y${ety},x${etx}`;
-                // console.log(`entering: ${ety},${etx}`);
-                // if(sVar.selected_id.x != etx || sVar.selected_id.y != ety){
-                //     SwapTiles(sVar.selected_id,{"x": etx, "y": ety});
-                // }
-
-            }
-
-            /* up to 6 fingers. */
-            // if(i < 6){
-            //     // console.log(`i:${i}, idx:${idx}`);
-            //     /* Adding the touches to the paths list. */
-            //     if(!Object.keys(s.touch.paths).includes(`${idx}`)){s.touch.paths[idx] = [];}
-            //     x[idx] = ongoingTouches[idx].pageX;
-            //     y[idx] = ongoingTouches[idx].pageY;
-            //     // console.log(`x:${x[idx]}, y:${y[idx]}`);
-            //     // console.log(`s.touch.paths[${idx}].length: ${s.touch.paths[idx].length};`);
-            //     if(s.touch.paths[idx].length > s.touch.path_len){s.touch.paths[idx].shift();}
-            //     s.touch.paths[idx].push({"x": x[idx], "y": y[idx]});
-            //     /* (End of) Adding the touches to the paths list. */
-
-            //     updateGrid(s.touch.paths[idx],s.grid.cols,s.grid.rows);
-            //     // updateGrid(wind_grid,s.touch.paths[idx]);
-            //     updateGridFlow(s.touch.paths[idx],flow.pile,flow.grid);
-            // }
-
-            ongoingTouches.splice(idx, 1, copyTouch(touches[i])); // swap in the new touch record
-        } else {
-            console.log("can't figure out which touch to continue");
-        }
-    }
-}
-function handleEnd(ev) {
-    console.log("touchend.");
-    ev.preventDefault();
-    var touches = ev.changedTouches;
-    if(previousTouchEvent == "touchstart") {
-        for (var i = 0; i < touches.length; i++) {
-            var idx = ongoingTouchIndexById(touches[i].identifier);
-            if (idx >= 0) {
-                x = ongoingTouches[idx].pageX;
-                y = ongoingTouches[idx].pageY;
-                // pulseAt(x,y);
-
-                console.log(`End 1: "x": ${ev.target.dataset.x}, "y": ${ev.target.dataset.y}`);
-                // SelectingTile({"x": ev.target.dataset.x, "y": ev.target.dataset.y});
-            } else {
-                console.log("can't figure out which touch to end");
-            }
-        }
-    }
-    previousTouchEvent = "touchend";
-    for (var i = 0; i < touches.length; i++) {
-        var idx = ongoingTouchIndexById(touches[i].identifier);
-        if (idx >= 0) {
-            ongoingTouches.splice(idx, 1);  // remove it; we're done
-            if(Object.keys(s.touch.paths).includes(idx)){
-                s.touch.paths[idx] = [];
-            }
-            s.touch.tracking = false;
-            // rotationEnd(idx);
-
-            console.log(`End 2: "x": ${ev.target.dataset.x}, "y": ${ev.target.dataset.y}`);
-        } else {
-            console.log("can't figure out which touch to end");
-        }
-    }
-}
-function handleCancel(ev) {
-    console.log("touchcancel.");
-    ev.preventDefault();
-    var touches = ev.changedTouches;
-    for (var i = 0; i < touches.length; i++) {
-        var idx = ongoingTouchIndexById(touches[i].identifier);
-        ongoingTouches.splice(idx, 1);  // remove it; we're done
-        s.touch.tracking = false;
-        // rotationEnd(idx);
-
-        console.log(`Cancelled: "x": ${ev.target.dataset.x}, "y": ${ev.target.dataset.y}`);
-    }
-}
 
 
 /* ─── Events ─── */
