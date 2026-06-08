@@ -1013,6 +1013,7 @@ function TilesInDiv(w,h){
                 SelectingTile({"x": ev.target.dataset.x, "y": ev.target.dataset.y});
             });
             mtile.addEventListener("mouseenter", (ev) => {
+                console.log("mouseenter");
                 if(sVar.selecting) {
                     let et = ev.target;
                     let etx = et.dataset.x;
@@ -2273,6 +2274,11 @@ const gs = {
     h: 12,
     w: 12,
     len: 12,
+    sz: 36,
+    mouse: {
+        x: 0,
+        y: 0,
+    },
     map: [],
     score: 0,
     moves: 0,
@@ -2640,6 +2646,30 @@ function WordGoalTree(wordGoals){
     console.log(Object.keys(WordTree));
     // console.log(WordTree);
     return WordTree;
+}
+
+// ---
+function WhereIsTheCursor(){
+    let grid = document.getElementById("grids");
+    grid.addEventListener('mousemove', (ev) =>{
+        if(s.mouse.tracking){
+            if(!s.q && !s.pause){
+                gs.mouse.x = ev.clientX;
+                gs.mouse.y = ev.clientY;
+            }
+        }
+    });
+    let mx = gs.mouse.x;
+    let my = gs.mouse.y;
+    console.log(`x: ${mx}; y: ${my};`);
+    let colrow = GetColRowFromXY(mx,my);
+    console.log(`col: ${colrow.x}; row: ${colrow.y};`);
+
+}
+function GetColRowFromXY(x,y,sz = gs.sz){
+    let col = Math.floor(x/sz);
+    let row = Math.floor(y/sz);
+    return {"x": col, "y": row};
 }
 
 
