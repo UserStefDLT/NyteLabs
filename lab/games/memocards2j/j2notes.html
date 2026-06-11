@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title> J2 - Memocards | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <link rel="stylesheet" href="../../../stylesheets/logo.css">
+    <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        /* :root {} */
+    </style>
+<style>
+    .class {}
+    .display {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .word {
+        --c: hsla(150, 100%, 40%, 1);
+        --c: hsla(150, 100%, 40%, 1);
+        --c1: hsla(150, 80%, 100%, 1);
+        --c2: hsla(150, 50%, 30%, .75);
+        --c3: hsla(150, 50%, 70%, .75);
+        padding: 2px 8px;
+        padding: 8px 12px;
+        margin: 8px;
+        border: 2px solid var(--c);
+        border-radius: 8px;
+        color: var(--c1);
+        font-size: 16px;
+        box-shadow: 0px 0px 2px 0px var(--c), inset 0px 0px 4px 0px var(--c);
+
+        display: flex;
+        align-items: center; justify-content: center;
+        flex-direction: column;
+    }
+    .japanese {
+        display: flex;
+        flex-direction: row;
+    }
+    .syl {
+        flex-direction: column;
+    }
+    /* first is Romaji */
+    .syl > div:nth-child(1) {
+        color: var(--c2);
+        color: #0000;
+    }
+    .syl > div:nth-child(2) {
+        font-weight: bold;
+        font-size: 20px;
+    }
+    .spanish {
+        color: var(--c3);
+        color: #0000;
+    }
+
+    #toggleRomaji:not(:checked) ~ main .syl > div:nth-child(1) {
+        color: #0000;
+    }
+    #toggleRomaji:checked ~ main .syl > div:nth-child(1) {
+        color: var(--c2);
+    }
+    #toggleSpanish:not(:checked) ~ main .spanish {
+        color: #0000;
+    }
+    #toggleSpanish:checked ~ main .spanish {
+        color: var(--c3);
+    }
+
+    #toggleSpanish,
+    #toggleRomaji {display: none;}
+    #toggleSpanish:checked ~ .options .toggleCheckboxLabel[for="toggleSpanish"],
+    #toggleRomaji:checked ~ .options .toggleCheckboxLabel[for="toggleRomaji"] {
+        color: var(--bwe);
+        --clr-outline: var(--bwc);
+        --bgc-before: #063;
+        --bgc-after: #0c6;
+        --ttx-after: 1rem;
+    }
+
+    .z {}
+</style>
+    <link rel="stylesheet" href="../../../stylesheets/settings2.css">
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <a href="../../../o.html" style="height: 46px;">
+            <svg id="logo" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <filter id="moon-shadow" x="-25%" y="-25%" width="150%" height="150%">
+                        <feDropShadow dx="0" dy="0" stdDeviation="0" />
+                    </filter>
+                    <filter id="moon-shadow2" x="-250%" y="-250%" width="600%" height="600%">
+                        <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#fff6" />
+                        <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#00f" />
+                        <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#0f0" />
+                        <feDropShadow dx="0" dy="0" stdDeviation="16" flood-color="#f00" />
+                    </filter>
+                </defs>
+                <rect class="svgmoon" x="60" y="60" width="20" height="20" rx="0" />
+                <path class="smile" 
+                  d="M 0,80L 20,80 L 20,100 L 120,100 
+                    L 120,80 L 140,80 L 140 120 L 0 120 z" />
+                <path class="smile-border" 
+                  d="M 0,80 L 20,80 L 20,100 L 120,100 L 120,80 L 140,80
+                    L 140,81 L 121,81 L 121,101 L 19,101 L 19,81 L 0,81 z" />
+            </svg>
+        </a>
+        <h1 class="title">NyteLabs</h1>
+        <!-- <div class="subtitle">J2</div> -->
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+    <input type="checkbox" name="toggle" id="toggleRomaji" checked>
+    <input type="checkbox" name="toggle" id="toggleSpanish" checked>
+
+<main>
+    <!-- <div class="shelf">
+        <h3 class="shelf-title">Lesson 1</h3>
+        <div id="display1" class="display">
+        </div>
+    </div>
+    <div class="shelf">
+        <h3 class="shelf-title">Lesson 2</h3>
+        <div id="display2" class="display">
+        </div>
+    </div> -->
+    <div class="shelf hidden">
+        <h3 class="shelf-title">test</h3>
+        <div id="display2">
+            <div class="word">
+                <div class="japanese">
+                    <div class="syl">
+                        <div>mi</div>
+                        <div>み</div>
+                    </div>
+                    <div class="syl">
+                        <div>zu</div>
+                        <div>ず</div>
+                    </div>
+                </div>
+                <div class="spanish">agua</div>
+            </div>
+        </div>
+    </div>
+    <!-- <canvas id="canvas"></canvas> -->
+</main>
+
+<div class="options">
+    <!-- <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label> -->
+    <label for="toggleRomaji" class="toggleCheckboxLabel" data-toggle="Romaji">Romaji</label>
+    <label for="toggleSpanish" class="toggleCheckboxLabel" data-toggle="Spanish">Spanish</label>
+</div>
+
+<footer>
+    <div class="my-name">
+        <a id="BackToTop" class="hidden" href="#">Back To Top</a>
+        &copy; 2022 - 2026 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        touch: {
+            x: 0,
+            y: 0,
+            z: 0,
+            paths: {},
+            path_len: 20,
+            tracking: false
+        },
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            path: [],
+            path_len: 20,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            sz: 20,
+            sz2: 10,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            padding: 0,
+            brush: "p",
+        },
+        box: {
+            x: 500,
+            y: 500,
+            z: 500,
+            x2: 250,
+            y2: 250,
+            z2: 250,
+            d: 1000,
+            p: 1000,
+        },
+
+        timeOut: 40,
+        player: false,
+        
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+    const particles = [];
+    const pg = {}
+    const box = {
+        x: -50,
+        y: -45,
+        z: 0,
+        start: {
+            x: 0,
+            y: 0,
+            z: 0,
+        },
+        touches: [],
+        touch_xyz: {'x': 0, 'y': 0, 'z': 0},
+
+        grabing: false
+    };
+
+</script>
+<script src="../../../scripts/settings-02.js"></script>
+<script>
+
+// `[あ], [い], [う], [え], [お], 
+// [か], [き], [く], [け], [こ], [きゃ], [きゅ], [きょ], 
+// [さ], [し], [す], [せ], [そ], [しゃ], [しゅ], [しょ], 
+// [た], [ち], [つ], [て], [と], [ちゃ], [ちゅ], [ちょ], 
+// [な], [に], [ぬ], [ね], [の], [にゃ], [にゅ], [にょ], 
+// [は], [ひ], [ふ], [へ], [ほ], [ひゃ], [ひゅ], [ひょ], 
+// [ま], [み], [む], [め], [も], [みゃ], [みゅ], [みょ], 
+// [や], [𛀆], [ゆ], [𛀁], [よ], 
+// [ら], [り], [る], [れ], [ろ], [りゃ], [りゅ], [りょ], 
+// [わ], [ゐ], [𛄟], [ゑ], [を]
+
+// [が], [ぎ], [ぐ], [げ], [ご], [ぎゃ], [ぎゅ], [ぎょ], 
+// [ざ], [じ], [ず], [ぜ], [ぞ], [じゃ], [じゅ], [じょ], 
+// [だ], [ぢ], [づ], [で], [ど], [ぢゃ], [ぢゅ], [ぢょ], 
+// [ば], [び], [ぶ], [べ], [ぼ], [びゃ], [びゅ], [びょ], 
+// [ぱ], [ぴ], [ぷ], [ぺ], [ぽ], [ぴゃ], [ぴゅ], [ぴょ]`
+
+const lessons = [
+    ["y", "es", "agua", "te", "arroz", "por favor"],
+    ["persona", "genial", "abogado", "doctor", "amable", "estudiante", "profesor"],
+    ["señor", "hola", "buenas noches", "hasta mañana"],
+    ["ramen", "ensalada", "delicioso", "si", "esto", "a", "?", "torta", "pizza"],
+    // [],
+]
+
+const wordList = {
+    "L1": [["ichi","一"], ["1️⃣","|"], ["i","い"], ["chi","ち"]],
+    "y": [["to","と"]],
+    "es": [["de","で"], ["su","す"]],
+    "agua": [["mi","み"], ["zu","ず"]],
+    "te": [["o","お"], ["cha","ちゃ"]],
+    "arroz": [["go","ご"], ["ha","は"], ["n","ん"]],
+    "por favor": [["ku","く"], ["da","だ"], ["sa","さ"], ["i","い"]],
+    
+    "L2": [["ni","二"], ["2️⃣","|"], ["ni","に"]],
+    "persona": [["hi","ひ"], ["to","と"]],
+    "genial": [["ka","か"], ["kko","つこ"], ["i","い"], ["i","い"]],
+    "abogado": [["be","べ"], ["n","ん"], ["go","ご"], ["shi","し"]],
+    "doctor": [["i","い"], ["sha","しゃ"]],
+    "amable": [["ya","や"], ["sa","さ"], ["shi","し"], ["i","い"]],
+    "estudiante": [["ga","が"], ["ku","く"], ["se","せ"], ["i","い"]],
+    "profesor": [["se","せ"], ["n","ん"], ["se","せ"], ["n","ん"]],
+    
+    "L3": [["san","三"], ["3️⃣","|"], ["sa","さ"], ["n","ん"]],
+    "señor": [["sa","さ"], ["n","ん"]],
+    "hola": [["ko","こ"], ["n","ん"], ["ni","に"], ["chi","ち"], ["wa","は"]],
+    "buenas noches": [["ko","こ"], ["n","ん"], ["ba","ば"], ["n","ん"], ["wa","は"]],
+    "hasta mañana": [["ma","ま"], ["ta","た"], ["a","あ"], ["shi","し"], ["ta","た"]],
+    
+    "L4": [["shi","四"], ["4️⃣","|"], ["shi","し"]],
+    "ramen": [["raa","ラー"], ["me","メ"], ["n","ン"]],
+    "ensalada": [["sa","サ"], ["ra","ラ"], ["da","ダ"]],
+    "delicioso": [["o","お"], ["i","い"], ["shi","し"], ["i","い"]],
+    "si": [["ha","は"], ["i","い"]],
+    "esto": [["ko","こ"], ["re","れ"]],
+    "a": [["wa","は"]],
+    "?": [["ka","か"]],
+    "torta": [["kee","ケー"], ["ki","キ"]],
+    "pizza": [["pi","ピ"], ["za","ザ"]],
+
+    "L5": [["go","五"], ["5️⃣","|"], ["go","ご"]],
+}
+/*
+
+	a	i	u	e	o
+∅	ア	イ	ウ	エ	オ
+k	カ	キ	ク	ケ	コ
+g	ガ	ギ	グ	ゲ	ゴ
+s	サ	シ	ス	セ	ソ
+z	ザ	ジ	ズ	ゼ	ゾ
+t	タ	チ	ツ	テ	ト
+d	ダ	ヂ	ヅ	デ	ド
+n	ナ	ニ	ヌ	ネ	ノ
+h	ハ	ヒ	フ	ヘ	ホ
+b	バ	ビ	ブ	ベ	ボ
+p	パ	ピ	プ	ペ	ポ
+m	マ	ミ	ム	メ	モ
+y	ヤ	[5]	ユ	[5]	ヨ
+r	ラ	リ	ル	レ	ロ
+w	ワ	ヰ	[5]	ヱ	ヲ
+ン (n)
+ー
+
+[ラー][メ][ン]
+[サ][ラ][ダ]
+[ケー][キ]
+[ピ][ザ]
+
+ra a me n
+sa ra da
+o i shi i
+ha i
+ko re 
+wa
+kee ki
+pi za
+
+
+
+[こ][ん][に][ち][は]
+[こ][ん][ば][ん][は]
+[ま][た][あ][し][た]
+ko n ni chi wa
+ko n ba n wa
+ma ta a shi ta
+
+
+[か][こ][い]
+[ひ][と]
+[せ]
+[べ][ご][し]
+[や][さ]
+[しゃ]
+[が][く]
+
+ka kko i i
+hi to
+se n se i
+be n go shi
+ya sa shi i
+i sha
+ga ku se i
+
+*/
+
+function MakeWordCard(k){
+    let j2 = wordList[k];
+//     let whtml = `
+// <div class="word">
+//     <div class="japanese">
+//         <div class="syl">
+//             <div>mi</div>
+//             <div>み</div>
+//         </div>
+//         <div class="syl">
+//             <div>zu</div>
+//             <div>ず</div>
+//         </div>
+//     </div>
+//     <div class="spanish">${k}</div>
+// </div>`;
+
+let wordEl = document.createElement("div");
+wordEl.classList.add("word");
+
+let syls = [`<div class="japanese">`];
+for (let i = 0; i < j2.length; i++) {
+    const e = j2[i];
+    syls.push(`<div class="syl">
+    <div>${e[0]}</div>
+    <div>${e[1]}</div>
+</div>`);
+}
+syls.push(`</div><div class="spanish">${k}</div>`);
+
+wordEl.innerHTML = syls.join("");
+
+return wordEl;
+}
+
+function DisplayWords(){
+    // let display = document.getElementById("display");
+    // let words = Object.keys(wordList);
+    // for (let i = 0; i < words.length; i++) {
+    //     const w = words[i];
+    //     display.appendChild(MakeWordCard(w));
+    // }
+
+
+
+    //<div class="shelf">
+    //     <h3 class="shelf-title">Lesson 1</h3>
+    //     <div id="display1" class="display">
+    //     </div>
+    // </div>
+    let main = document.getElementsByTagName("main")[0];
+
+    for (let i = 0; i < lessons.length; i++) {
+        const lesson = lessons[i];
+
+        let shelf = document.createElement('div');
+        shelf.classList.add("shelf");
+        let shelfTitle = document.createElement('h3');
+        shelfTitle.classList.add("shelf-title");
+        shelfTitle.innerText = `Lesson ${i}`;
+        shelf.appendChild(shelfTitle);
+        let display = document.createElement('div');
+        display.id = `display${i}`;
+        display.classList.add("display");
+        shelf.appendChild(display);
+
+        for (let j = 0; j < lesson.length; j++) {
+            const w = lesson[j];
+            display.appendChild(MakeWordCard(w));
+        }
+
+        main.append(shelf);
+    }
+}
+
+
+    /* ─── Events ─── */
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        s.canvas.z = (s.h + s.w)/2;
+
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
+
+        /* ─ Box ─ */
+        /* resize box for mobile */
+        if(s.h < s.box.y) {s.box.y = s.h;}
+        if(s.w < s.box.x) {s.box.x = s.w;}
+        s.box.z = (s.box.y + s.box.x)/2;
+
+        /* center box */
+        s.box.top = (s.h - s.box.y)/2;
+        s.box.left = (s.w - s.box.x)/2;
+
+        /* determine center */
+        s.box.x2 = s.box.left + (s.box.x / 2);
+        s.box.y2 = s.box.top + (s.box.y / 2);
+        s.box.z2 = (s.box.z / 2);
+
+        /* ─ Grid ─ */
+        s.grid.cols = Math.floor(s.w / s.tile.w);
+        s.grid.rows = Math.floor(s.h / s.tile.h);
+
+        /* ─ Canvas Update ─ */
+        // canvas.width = s.canvas.x;
+        // canvas.height = s.canvas.y;
+        // ctx.clearRect(0,0,canvas.width, canvas.height);
+    }
+    window.addEventListener('resize', () =>{
+        updateSettings();
+    });
+
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        updateSettings();
+        // start();
+        // update();
+        DisplayWords();
+    });
+    /* Version Log:
+    [index-nds-00]: Default Template.
+    [index-nds-01]: 
+    [index-nds-02]: 
+    [index-nds-03]: 
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
+    [index-nds-07]: 
+    [index-nds-08]: 
+    [index-nds-09]: 
+    [index-nds-10]: 
+    [index-nds-11]: 
+    [index-nds-12]: 
+    
+    */
+
+
+/*
+[a], [i], [u], [e], [o], [ya], [yu], [yo]
+[あ], [い], [う], [え], [お], 
+[か], [き], [く], [け], [こ], [きゃ], [きゅ], [きょ], 
+[さ], [し], [す], [せ], [そ], [しゃ], [しゅ], [しょ], 
+[た], [ち], [つ], [て], [と], [ちゃ], [ちゅ], [ちょ], 
+[な], [に], [ぬ], [ね], [の], [にゃ], [にゅ], [にょ], 
+[は], [ひ], [ふ], [へ], [ほ], [ひゃ], [ひゅ], [ひょ], 
+[ま], [み], [む], [め], [も], [みゃ], [みゅ], [みょ], 
+[や], [𛀆], [ゆ], [𛀁], [よ], 
+[ら], [り], [る], [れ], [ろ], [りゃ], [りゅ], [りょ], 
+[わ], [ゐ], [𛄟], [ゑ], [を]
+
+[が], [ぎ], [ぐ], [げ], [ご], [ぎゃ], [ぎゅ], [ぎょ], 
+[ざ], [じ], [ず], [ぜ], [ぞ], [じゃ], [じゅ], [じょ], 
+[だ], [ぢ], [づ], [で], [ど], [ぢゃ], [ぢゅ], [ぢょ], 
+[ば], [び], [ぶ], [べ], [ぼ], [びゃ], [びゅ], [びょ], 
+[ぱ], [ぴ], [ぷ], [ぺ], [ぽ], [ぴゃ], [ぴゅ], [ぴょ]
+
+
+aiueoyayuyo
+[a], [i], [u], [e], [o], [ya], [yu], [yo]
+[k]
+[s]
+[t]
+[n]
+[h]
+[m]
+[y]
+[r]
+[w]
+[g]
+[z]
+[d]
+[b]
+[p]
+[ka], [ki], [ku], [ke], [ko], [kya], [kyu], [kyo]
+[sa], [si], [su], [se], [so], [sya], [syu], [syo]
+[ta], [ti], [tu], [te], [to], [tya], [tyu], [tyo]
+[na], [ni], [nu], [ne], [no], [nya], [nyu], [nyo]
+[ha], [hi], [hu], [he], [ho], [hya], [hyu], [hyo]
+[ma], [mi], [mu], [me], [mo], [mya], [myu], [myo]
+[ya], [yi], [yu], [ye], [yo], 
+[ra], [ri], [ru], [re], [ro], [rya], [ryu], [ryo]
+[wa], [wi], [wu], [we], [wo], 
+[ga], [gi], [gu], [ge], [go], [gya], [gyu], [gyo]
+[za], [zi], [zu], [ze], [zo], [zya], [zyu], [zyo]
+[da], [di], [du], [de], [do], [dya], [dyu], [dyo]
+[ba], [bi], [bu], [be], [bo], [bya], [byu], [byo]
+[pa], [pi], [pu], [pe], [po], [pya], [pyu], [pyo]
+
+
+ka kko i i
+hi to
+se n se i
+be n go shi
+ya sa shi i
+i sha
+ga ku se i
+[か][こ][い]
+[ひ][と]
+[せ]
+[べ][ご][し]
+[や][さ]
+[しゃ]
+[が][く]
+
+
+     [a],  [i],  [u],  [e],  [o],  [ya],  [yu],  [yo]
+[ ], [あ], [い], [う], [え], [お], 
+[k], [か], [き], [く], [け], [こ], [きゃ], [きゅ], [きょ], 
+[s], [さ], [し], [す], [せ], [そ], [しゃ], [しゅ], [しょ], 
+[t], [た], [ち], [つ], [て], [と], [ちゃ], [ちゅ], [ちょ], 
+[n], [な], [に], [ぬ], [ね], [の], [にゃ], [にゅ], [にょ], 
+[h], [は], [ひ], [ふ], [へ], [ほ], [ひゃ], [ひゅ], [ひょ], 
+[m], [ま], [み], [む], [め], [も], [みゃ], [みゅ], [みょ], 
+[y], [や], [𛀆], [ゆ], [𛀁], [よ], 
+[r], [ら], [り], [る], [れ], [ろ], [りゃ], [りゅ], [りょ], 
+[w], [わ], [ゐ], [𛄟], [ゑ], [を]
+[g], [が], [ぎ], [ぐ], [げ], [ご], [ぎゃ], [ぎゅ], [ぎょ], 
+[z], [ざ], [じ], [ず], [ぜ], [ぞ], [じゃ], [じゅ], [じょ], 
+[d], [だ], [ぢ], [づ], [で], [ど], [ぢゃ], [ぢゅ], [ぢょ], 
+[b], [ば], [び], [ぶ], [べ], [ぼ], [びゃ], [びゅ], [びょ], 
+[p], [ぱ], [ぴ], [ぷ], [ぺ], [ぽ], [ぴゃ], [ぴゅ], [ぴょ]
+
+
+	a	i	u	e	o
+∅	ア	イ	ウ	エ	オ
+k	カ	キ	ク	ケ	コ
+s	サ	シ	ス	セ	ソ
+t	タ	チ	ツ	テ	ト
+n	ナ	ニ	ヌ	ネ	ノ
+h	ハ	ヒ	フ	ヘ	ホ
+m	マ	ミ	ム	メ	モ
+y	ヤ	[5]	ユ	[5]	ヨ
+r	ラ	リ	ル	レ	ロ
+w	ワ	ヰ	[5]	ヱ	ヲ
+ン (n)
+
+	a	i	u	e	o
+∅	ア	イ	ウ	エ	オ
+k	カ	キ	ク	ケ	コ
+g	ガ	ギ	グ	ゲ	ゴ
+s	サ	シ	ス	セ	ソ
+z	ザ	ジ	ズ	ゼ	ゾ
+t	タ	チ	ツ	テ	ト
+d	ダ	ヂ	ヅ	デ	ド
+n	ナ	ニ	ヌ	ネ	ノ
+h	ハ	ヒ	フ	ヘ	ホ
+b	バ	ビ	ブ	ベ	ボ
+p	パ	ピ	プ	ペ	ポ
+m	マ	ミ	ム	メ	モ
+y	ヤ	[5]	ユ	[5]	ヨ
+r	ラ	リ	ル	レ	ロ
+w	ワ	ヰ	[5]	ヱ	ヲ
+ン (n)
+
+*/
+
+</script>
+</body>
+</html>

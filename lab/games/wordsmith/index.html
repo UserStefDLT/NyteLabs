@@ -1013,7 +1013,7 @@ function TilesInDiv(w,h){
                 SelectingTile({"x": ev.target.dataset.x, "y": ev.target.dataset.y});
             });
             mtile.addEventListener("mouseenter", (ev) => {
-                console.log("mouseenter");
+                // console.log("mouseenter");
                 if(sVar.selecting) {
                     let et = ev.target;
                     let etx = et.dataset.x;
@@ -2656,15 +2656,18 @@ function WhereIsTheCursor(){
             if(!s.q && !s.pause){
                 gs.mouse.x = ev.clientX;
                 gs.mouse.y = ev.clientY;
+                console.log(`gridX: ${ev.clientX}, gridY: ${ev.clientY}`);
+
+                let colrow = GetColRowFromXY(ev.clientX,ev.clientY);
+                console.log(`col: ${colrow.x}; row: ${colrow.y};`);
             }
         }
     });
-    let mx = gs.mouse.x;
-    let my = gs.mouse.y;
-    console.log(`x: ${mx}; y: ${my};`);
-    let colrow = GetColRowFromXY(mx,my);
-    console.log(`col: ${colrow.x}; row: ${colrow.y};`);
-
+    // let mx = gs.mouse.x;
+    // let my = gs.mouse.y;
+    // console.log(`x: ${mx}; y: ${my};`);
+    // let colrow = GetColRowFromXY(mx,my);
+    // console.log(`col: ${colrow.x}; row: ${colrow.y};`);
 }
 function GetColRowFromXY(x,y,sz = gs.sz){
     let col = Math.floor(x/sz);
