@@ -17,20 +17,26 @@
             transform: translateX(-50%) translateY(-50%);
         } */
         /* :root {} */
-    </style>
+        </style>
 <style>
+    :root {
+        --c: hsla(150, 100%, 40%, 1);
+        --c1: hsla(150, 80%, 100%, 1);
+        --c2: hsla(150, 50%, 30%, .75);
+        --c3: hsla(150, 50%, 70%, .75);
+    }
     .class {}
     .display {
-        display: flex;
+        display: flex; align-items: center; justify-content: center;
         flex-direction: row;
         flex-wrap: wrap;
     }
     .word {
         --c: hsla(150, 100%, 40%, 1);
-        --c: hsla(150, 100%, 40%, 1);
+        --c: hsla(210, 100%, 40%, 1);
         --c1: hsla(150, 80%, 100%, 1);
         --c2: hsla(150, 50%, 30%, .75);
-        --c3: hsla(150, 50%, 70%, .75);
+        --c3: hsla(0, 50%, 70%, .75);
         padding: 2px 8px;
         padding: 8px 12px;
         margin: 8px;
@@ -59,6 +65,8 @@
     .syl > div:nth-child(2) {
         font-weight: bold;
         font-size: 20px;
+        font-weight: 500;
+        font-size: 36px;
     }
     .spanish {
         color: var(--c3);
@@ -285,6 +293,9 @@ const lessons = [
     ["señor", "hola", "buenas noches", "hasta mañana"],
     ["ramen", "ensalada", "delicioso", "si", "esto", "a", "?", "torta", "pizza"],
     // [],
+
+    ["Japan", "America", "Canada", "Brazil", "Vietnam", "grande", "pequeño", "japones", "americano", "canadadiense", "brazilero", "vietnamita"],
+    ["aqui", "donde", "parada", "universidad", "hotel", "bus", "tienda"],
 ]
 
 const wordList = {
@@ -323,6 +334,69 @@ const wordList = {
     "pizza": [["pi","ピ"], ["za","ザ"]],
 
     "L5": [["go","五"], ["5️⃣","|"], ["go","ご"]],
+    "Japan": [["ni","に"], ["ho","ほ"], ["n","ん"]],
+    "America": [["a","ア"], ["me","メ"], ["ri","リ"], ["ka","カ"]],
+    "Canada": [["ka","カ"], ["na","ナ"], ["da","ダ"]],
+    "Brazil": [["bu","ブ"], ["ra","ル"], ["ji","ジ"], ["ru","ル"]],
+    "Vietnam": [["be","ベ"], ["to","ト"], ["na","ナ"], ["mu","ム"]],
+
+    "grande": [["o","お"], ["o","お"], ["ki","き"], ["i","い"]],
+    "pequeño": [["chi","ち"], ["i","い"], ["sa","さ"], ["i","い"]],
+
+    "japones": [["ni","に"], ["ho","ほ"], ["n","ん"], ["ji","じ"], ["n","ん"]],
+    "americano": [["a","ア"], ["me","メ"], ["ri","リ"], ["ka","カ"], ["ji","じ"], ["n","ん"]],
+    "canadadiense": [["ka","カ"], ["na","ナ"], ["da","ダ"], ["ji","じ"], ["n","ん"]],
+    "brazilero": [["bu","ブ"], ["ra","ル"], ["ji","ジ"], ["ru","ル"], ["ji","じ"], ["n","ん"]],
+    "vietnamita": [["be","ベ"], ["to","ト"], ["na","ナ"], ["mu","ム"], ["ji","じ"], ["n","ん"]],
+    
+    "L6": [["roku","六"], ["6️⃣","|"], ["ro","ろ"], ["ku","く"]],
+    "aqui": [["ko","こ"], ["ko","こ"]],
+    "donde": [["do","ど"], ["ko","こ"]],
+    "parada": [["te","て"]],
+    "universidad": [["da","だ"], ["i","い"], ["ga","が"], ["ku","く"]],
+
+    "hotel": [["ho","ホ"], ["te","テ"], ["ru","ル"]],
+    "bus": [["ba","バ"], ["su","ス"]],
+    "tienda": [["ko","コ"], ["so","ソ"], ["bi","ビ"], ["ni","ニ"]],
+    /*
+    "": [["",""], ["",""]],
+    
+
+ko ko de su ka
+ここですか
+Esta aqui?
+
+ho te tu
+ホテル	= hotel
+
+do ko
+どこ	= donde
+
+ba su
+バ ス
+
+te
+て
+
+ko so bi ni
+コソビニ
+
+
+da i ga ku
+だいがく	= universidad
+
+だいがく は どこ です か = donde esta la universidad?
+
+
+
+    */
+
+
+
+    "L7": [["shichi","七"], ["7️⃣","|"], ["shi","し"], ["chi","ち"]],
+    "L8": [["hachi","八"], ["8️⃣","|"], ["ha","は"], ["chi","ち"]],
+    "L9": [["ku, kyū","九"], ["9️⃣","|"], ["ku","く, "], ["kyū","きゅう"]],
+    "L10": [["jū","十"], ["🔟","|"], ["jū","じゅう"]],
 }
 /*
 
