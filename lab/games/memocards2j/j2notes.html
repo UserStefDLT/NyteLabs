@@ -295,7 +295,9 @@ const lessons = [
     // [],
 
     ["Japan", "America", "Canada", "Brazil", "Vietnam", "grande", "pequeño", "japones", "americano", "canadadiense", "brazilero", "vietnamita"],
-    ["aqui", "donde", "parada", "universidad", "hotel", "bus", "tienda"],
+    // ["aqui", "donde", "parada de", "universidad", "estacion", "no", "no es", "hotel", "bus", "tienda", "almacen"],
+    ["aqui", "donde", "parada de", "universidad", "estacion", "no", "no es", "parada de bus", "hotel", "bus", "tienda", "almacen"],
+    ["bolso","abrigo","mi","rojo","blanco","azul","negro","zapatos"],
 ]
 
 const wordList = {
@@ -352,43 +354,73 @@ const wordList = {
     "L6": [["roku","六"], ["6️⃣","|"], ["ro","ろ"], ["ku","く"]],
     "aqui": [["ko","こ"], ["ko","こ"]],
     "donde": [["do","ど"], ["ko","こ"]],
-    "parada": [["te","て"]],
+    "parada de": [["te","て"], ["i","い"]],
     "universidad": [["da","だ"], ["i","い"], ["ga","が"], ["ku","く"]],
-
+    "estacion": [["e","え"], ["ki","き"]],
+    "no": [["i","い"], ["i","い"], ["e","え"]],
+    "no es": [["ja","じゃ"], ["na","な"], ["i","い"]],
+    
+    "parada de bus": [["ba","バ"], ["su","ス"], ["te","て"], ["i","い"]],
     "hotel": [["ho","ホ"], ["te","テ"], ["ru","ル"]],
     "bus": [["ba","バ"], ["su","ス"]],
     "tienda": [["ko","コ"], ["so","ソ"], ["bi","ビ"], ["ni","ニ"]],
+    "almacen": [["de","デ"], ["pa","パー"], ["to","ト"]],
+
+    "L7": [["shichi","七"], ["7️⃣","|"], ["shi","し"], ["chi","ち"]],
+    "bolso": [["ka","か"], ["ba","ば"], ["n","ん"]],
+    "abrigo": [["koo","コー"], ["to","ト"]],
+    "mi": [["wa","わ"], ["ta","た"], ["shi","し"], ["no","の"]],
+    "rojo": [["a","あ"], ["ka","か"], ["i","い"]],
+    "blanco": [["shi","し"], ["ro","ろ"], ["i","い"]],
+    "azul": [["a","あ"], ["o","お"], ["i","い"]],
+    "negro": [["ku","く"], ["ro","ろ"], ["i","い"]],
+    "zapatos": [["ku","く"], ["su","つ"]],
+
     /*
     "": [["",""], ["",""]],
+    "bolso": [["ka","か"], ["ba","ば"], ["n","ん"]],
+    "abrigo": [["koo","コー"], ["to","ト"]],
+    "mi": [["wa","わ"], ["ta","た"], ["shi","し"], ["no","の"]],
+    "rojo": [["a","あ"], ["ka","か"], ["i","い"]],
+    "blanco": [["shi","し"], ["ro","ろ"], ["i","い"]],
+
+    "rojo": [["a","あ"], ["ka","か"]],
+    "blanco": [["shi","し"], ["ro","ろ"]],
+    "azul": [["a","あ"], ["o","お"]],
+    "negro": [["ku","く"], ["ro","ろ"]],
+    "zapatos": [["ku","く"], ["su","つ"]],
+
+ka ba n = bolso
+かばん
+
+koo to = abrigo
+コート
+
+wa ta shi no = mi
+わたしの
+
+a ka i = rojo
+あかい
+
+a o i = azul
+あおい
+
+shi ro i = blanco
+しろい
+
+くろ = negro
+kuro
+
+te bu ku ro
+てぶくろ
+
+ku tsu = zapatos
+くつ
+
+ka ba wa
+かばん
     
-
-ko ko de su ka
-ここですか
-Esta aqui?
-
-ho te tu
-ホテル	= hotel
-
-do ko
-どこ	= donde
-
-ba su
-バ ス
-
-te
-て
-
-ko so bi ni
-コソビニ
-
-
-da i ga ku
-だいがく	= universidad
-
-だいがく は どこ です か = donde esta la universidad?
-
-
-
+    
     */
 
 
@@ -463,37 +495,38 @@ ga ku se i
 
 function MakeWordCard(k){
     let j2 = wordList[k];
-//     let whtml = `
-// <div class="word">
-//     <div class="japanese">
-//         <div class="syl">
-//             <div>mi</div>
-//             <div>み</div>
-//         </div>
-//         <div class="syl">
-//             <div>zu</div>
-//             <div>ず</div>
-//         </div>
-//     </div>
-//     <div class="spanish">${k}</div>
-// </div>`;
+    //     let whtml = `
+    // <div class="word">
+    //     <div class="japanese">
+    //         <div class="syl">
+    //             <div>mi</div>
+    //             <div>み</div>
+    //         </div>
+    //         <div class="syl">
+    //             <div>zu</div>
+    //             <div>ず</div>
+    //         </div>
+    //     </div>
+    //     <div class="spanish">${k}</div>
+    // </div>`;
 
-let wordEl = document.createElement("div");
-wordEl.classList.add("word");
+    let wordEl = document.createElement("div");
+    wordEl.classList.add("word");
 
-let syls = [`<div class="japanese">`];
-for (let i = 0; i < j2.length; i++) {
-    const e = j2[i];
-    syls.push(`<div class="syl">
+    let syls = [`<div class="japanese">`];
+    // console.log(j2);
+    for (let i = 0; i < j2.length; i++) {
+        const e = j2[i];
+        syls.push(`<div class="syl">
     <div>${e[0]}</div>
     <div>${e[1]}</div>
 </div>`);
-}
-syls.push(`</div><div class="spanish">${k}</div>`);
+    }
+    syls.push(`</div><div class="spanish">${k}</div>`);
 
-wordEl.innerHTML = syls.join("");
+    wordEl.innerHTML = syls.join("");
 
-return wordEl;
+    return wordEl;
 }
 
 function DisplayWords(){
@@ -520,7 +553,7 @@ function DisplayWords(){
         shelf.classList.add("shelf");
         let shelfTitle = document.createElement('h3');
         shelfTitle.classList.add("shelf-title");
-        shelfTitle.innerText = `Lesson ${i}`;
+        shelfTitle.innerText = `Lesson ${i+1}`;
         shelf.appendChild(shelfTitle);
         let display = document.createElement('div');
         display.id = `display${i}`;
@@ -606,6 +639,257 @@ function DisplayWords(){
 
 
 /*
+
+height: 300px; width: 180px;
+background-color: #fff;
+background-image: radial-gradient(circle at 50% 50%, #f00 50%, #0000 50%);
+background: radial-gradient(circle at 50% 50%, #f00 50%, #0000 50%) 50px 40px / 100px 80px repeat, #fff;
+background: radial-gradient(circle at 50% 50%, #f00 50%, #0000 50%) 35px 40px / 70px 80px repeat, #fff;
+background: radial-gradient(circle at 50% 50%, #700 50%, #0000 50%) 35px 40px / 70px 80px repeat, #300;
+background: radial-gradient(circle at 50% 50%, #700 50%, #0000 50%) 35px 40px / 70px 80px repeat, linear-gradient(135deg, #fff5 50%, #0005 50%), #aaa;
+background: radial-gradient(circle at 50% 50%, #700 50%, #0000 50%) 40px 30px / 60px 60px repeat, linear-gradient(135deg, #fff5 50%, #0005 50%), #aaa;
+background: radial-gradient(circle at 50% 50%, #700 50%, #0000 50%) 25px 70px / 100px 100px no-repeat, linear-gradient(135deg, #fff5 50%, #0002 50%), #aaa;
+    --card-bg: radial-gradient(circle at 50% 50%, #700 50%, #0000 50%) 25px 70px / 100px 100px no-repeat, linear-gradient(135deg, #fff5 50%, #0002 50%), #aaa;
+.deck-list a:nth-child(6) .deck {--card-bg: radial-gradient(circle at 50% 50%, #700 50%, #0000 50%) 25px 70px / 100px 100px no-repeat, linear-gradient(135deg, #fff5 50%, #0002 50%), #aaa;}
+.deck-list a:nth-child(6) .deck {--card-bg: radial-gradient(circle at 50% 50%, #700 50%, #0000 50%) 0px 50px / 140px 140px no-repeat, linear-gradient(135deg, #fff5 50%, #0002 50%), #aaa;}
+
+[file]: "japanese-hiragana-deck"
+MemoCards/decks/japanese-hiragana-deck/index.html
+[7] >> <title>Japanese Hiragana Deck | MemoCards</title>
+[25] >> --card-bg-02: radial-gradient(circle at 50% 50%, #700 50%, #0000 50%) 10px 10px / 100px 100px no-repeat, linear-gradient(135deg, #fff5 50%, #0002 50%), #aaa;
+[54] >> © 2026 | by Stéfano De La Torre
+[141] >> "hiragana": [
+        {"pid": `0`, "q": `a`, "p": `あ`},
+        {"pid": `1`, "q": `i`, "p": `い`},
+        {"pid": `2`, "q": `e`, "p": `え`},
+        {"pid": `3`, "q": `o`, "p": `お`},
+        {"pid": `4`, "q": `ba`, "p": `ば`},
+        {"pid": `5`, "q": `be`, "p": `べ`},
+        {"pid": `6`, "q": `cha`, "p": `ちゃ`},
+        {"pid": `7`, "q": `chi`, "p": `ち`},
+        {"pid": `8`, "q": `da`, "p": `だ`},
+        {"pid": `9`, "q": `de`, "p": `で`},
+        {"pid": `10`, "q": `do`, "p": `ど`},
+        {"pid": `11`, "q": `ga`, "p": `が`},
+        {"pid": `12`, "q": `go`, "p": `ご`},
+        {"pid": `13`, "q": `ha`, "p": `は`},
+        {"pid": `14`, "q": `hi`, "p": `ひ`},
+        {"pid": `15`, "q": `ka`, "p": `か`},
+        {"pid": `16`, "q": `ko`, "p": `こ`},
+        {"pid": `17`, "q": `kko`, "p": `つこ`},
+        {"pid": `18`, "q": `ku`, "p": `く`},
+        {"pid": `19`, "q": `ma`, "p": `ま`},
+        {"pid": `20`, "q": `mi`, "p": `み`},
+        {"pid": `21`, "q": `n`, "p": `ん`},
+        {"pid": `22`, "q": `na`, "p": `な`},
+        {"pid": `23`, "q": `ni`, "p": `に`},
+        {"pid": `24`, "q": `re`, "p": `れ`},
+        {"pid": `25`, "q": `sa`, "p": `さ`},
+        {"pid": `26`, "q": `se`, "p": `せ`},
+        {"pid": `27`, "q": `su`, "p": `す`},
+        {"pid": `28`, "q": `sha`, "p": `しゃ`},
+        {"pid": `29`, "q": `shi`, "p": `し`},
+        {"pid": `30`, "q": `ta`, "p": `た`},
+        {"pid": `31`, "q": `te`, "p": `て`},
+        {"pid": `32`, "q": `to`, "p": `と`},
+        {"pid": `33`, "q": `wa`, "p": `は`},
+        {"pid": `34`, "q": `ya`, "p": `や`},
+        {"pid": `35`, "q": `zu`, "p": `ず`},
+        {"pid": `36`, "q": `ja`, "p": `じゃ`},
+    ],
+[332] >>  "deck": "hiragana", 
+
+--- Level 2 ---
+
+{"pid": `0`, "q": `n`, "p": `ん`},
+{"pid": `1`, "q": `a`, "p": `あ`},
+{"pid": `2`, "q": `ka`, "p": `か`},
+{"pid": `3`, "q": `sa`, "p": `さ`},
+{"pid": `4`, "q": `ta`, "p": `た`},
+{"pid": `5`, "q": `na`, "p": `な`},
+{"pid": `6`, "q": `ha`, "p": `は`},
+{"pid": `7`, "q": `ma`, "p": `ま`},
+{"pid": `8`, "q": `ya`, "p": `や`},
+{"pid": `9`, "q": `ra`, "p": `ら`},
+{"pid": `10`, "q": `wa`, "p": `わ`},
+{"pid": `11`, "q": `ga`, "p": `が`},
+{"pid": `12`, "q": `za`, "p": `ざ`},
+{"pid": `13`, "q": `da`, "p": `だ`},
+{"pid": `14`, "q": `ba`, "p": `ば`},
+{"pid": `15`, "q": `pa`, "p": `ぱ`},
+{"pid": `16`, "q": `i`, "p": `い`},
+{"pid": `17`, "q": `ki`, "p": `き`},
+{"pid": `18`, "q": `si`, "p": `し`},
+{"pid": `19`, "q": `ti`, "p": `ち`},
+{"pid": `20`, "q": `ni`, "p": `に`},
+{"pid": `21`, "q": `hi`, "p": `ひ`},
+{"pid": `22`, "q": `mi`, "p": `み`},
+{"pid": `24`, "q": `ri`, "p": `り`},
+{"pid": `25`, "q": `wi`, "p": `ゐ`},
+{"pid": `26`, "q": `gi`, "p": `ぎ`},
+{"pid": `27`, "q": `zi`, "p": `じ`},
+{"pid": `28`, "q": `di`, "p": `ぢ`},
+{"pid": `29`, "q": `bi`, "p": `び`},
+{"pid": `30`, "q": `pi`, "p": `ぴ`},
+{"pid": `31`, "q": `u`, "p": `う`},
+{"pid": `32`, "q": `ku`, "p": `く`},
+{"pid": `33`, "q": `su`, "p": `す`},
+{"pid": `34`, "q": `tu`, "p": `つ`},
+{"pid": `35`, "q": `nu`, "p": `ぬ`},
+{"pid": `36`, "q": `hu`, "p": `ふ`},
+{"pid": `37`, "q": `mu`, "p": `む`},
+{"pid": `38`, "q": `yu`, "p": `ゆ`},
+{"pid": `39`, "q": `ru`, "p": `る`},
+{"pid": `41`, "q": `gu`, "p": `ぐ`},
+{"pid": `42`, "q": `zu`, "p": `ず`},
+{"pid": `43`, "q": `du`, "p": `づ`},
+{"pid": `44`, "q": `bu`, "p": `ぶ`},
+{"pid": `45`, "q": `pu`, "p": `ぷ`},
+{"pid": `46`, "q": `e`, "p": `え`},
+{"pid": `47`, "q": `ke`, "p": `け`},
+{"pid": `48`, "q": `se`, "p": `せ`},
+{"pid": `49`, "q": `te`, "p": `て`},
+{"pid": `50`, "q": `ne`, "p": `ね`},
+{"pid": `51`, "q": `he`, "p": `へ`},
+{"pid": `52`, "q": `me`, "p": `め`},
+{"pid": `53`, "q": `ye`, "p": `𛀁`},
+{"pid": `54`, "q": `re`, "p": `れ`},
+{"pid": `55`, "q": `we`, "p": `ゑ`},
+{"pid": `56`, "q": `ge`, "p": `げ`},
+{"pid": `57`, "q": `ze`, "p": `ぜ`},
+{"pid": `58`, "q": `de`, "p": `で`},
+{"pid": `59`, "q": `be`, "p": `べ`},
+{"pid": `60`, "q": `pe`, "p": `ぺ`},
+{"pid": `61`, "q": `o`, "p": `お`},
+{"pid": `62`, "q": `ko`, "p": `こ`},
+{"pid": `63`, "q": `so`, "p": `そ`},
+{"pid": `64`, "q": `to`, "p": `と`},
+{"pid": `65`, "q": `no`, "p": `の`},
+{"pid": `66`, "q": `ho`, "p": `ほ`},
+{"pid": `67`, "q": `mo`, "p": `も`},
+{"pid": `68`, "q": `yo`, "p": `よ`},
+{"pid": `69`, "q": `ro`, "p": `ろ`},
+{"pid": `70`, "q": `wo`, "p": `を`},
+{"pid": `71`, "q": `go`, "p": `ご`},
+{"pid": `72`, "q": `zo`, "p": `ぞ`},
+{"pid": `73`, "q": `do`, "p": `ど`},
+{"pid": `74`, "q": `bo`, "p": `ぼ`},
+{"pid": `75`, "q": `po`, "p": `ぽ`},
+{"pid": `76`, "q": `kya`, "p": `きゃ`},
+{"pid": `77`, "q": `sya`, "p": `しゃ`},
+{"pid": `78`, "q": `tya`, "p": `ちゃ`},
+{"pid": `79`, "q": `nya`, "p": `にゃ`},
+{"pid": `80`, "q": `hya`, "p": `ひゃ`},
+{"pid": `81`, "q": `mya`, "p": `みゃ`},
+{"pid": `82`, "q": `rya`, "p": `りゃ`},
+{"pid": `83`, "q": `gya`, "p": `ぎゃ`},
+{"pid": `84`, "q": `zya`, "p": `じゃ`},
+{"pid": `85`, "q": `dya`, "p": `ぢゃ`},
+{"pid": `86`, "q": `bya`, "p": `びゃ`},
+{"pid": `87`, "q": `pya`, "p": `ぴゃ`},
+{"pid": `88`, "q": `kyu`, "p": `きゅ`},
+{"pid": `89`, "q": `syu`, "p": `しゅ`},
+{"pid": `90`, "q": `tyu`, "p": `ちゅ`},
+{"pid": `91`, "q": `nyu`, "p": `にゅ`},
+{"pid": `92`, "q": `hyu`, "p": `ひゅ`},
+{"pid": `93`, "q": `myu`, "p": `みゅ`},
+{"pid": `94`, "q": `ryu`, "p": `りゅ`},
+{"pid": `95`, "q": `gyu`, "p": `ぎゅ`},
+{"pid": `96`, "q": `zyu`, "p": `じゅ`},
+{"pid": `97`, "q": `dyu`, "p": `ぢゅ`},
+{"pid": `98`, "q": `byu`, "p": `びゅ`},
+{"pid": `99`, "q": `pyu`, "p": `ぴゅ`},
+{"pid": `100`, "q": `kyo`, "p": `きょ`},
+{"pid": `101`, "q": `syo`, "p": `しょ`},
+{"pid": `102`, "q": `tyo`, "p": `ちょ`},
+{"pid": `103`, "q": `nyo`, "p": `にょ`},
+{"pid": `104`, "q": `hyo`, "p": `ひょ`},
+{"pid": `105`, "q": `myo`, "p": `みょ`},
+{"pid": `106`, "q": `ryo`, "p": `りょ`},
+{"pid": `107`, "q": `gyo`, "p": `ぎょ`},
+{"pid": `108`, "q": `zyo`, "p": `じょ`},
+{"pid": `109`, "q": `dyo`, "p": `ぢょ`},
+{"pid": `110`, "q": `byo`, "p": `びょ`},
+{"pid": `111`, "q": `pyo`, "p": `ぴょ`},
+
+---
+
+
+
+a   あ
+i   い
+e   え
+o   お
+ba  ば
+be  べ
+cha ちゃ
+chi ち
+da  だ
+de  で
+do  ど
+ga  が
+go  ご
+ha  は
+hi  ひ
+ka  か
+ko  こ
+kko つこ
+ku  く
+ma  ま
+mi  み
+n   ん
+na  な
+ni  に
+re  れ
+sa  さ
+se  せ
+su  す
+sha しゃ
+shi し
+ta  た
+te  て
+to  と
+wa  は
+ya  や
+zu  ず
+
+---------------
+
+[[Hiragana]]
+["a","あ"], ["i","い"], ["e","え"], ["o","お"], 
+["ba","ば"], ["be","べ"], 
+["cha","ちゃ"], ["chi","ち"], 
+["da","だ"], ["de","で"], ["do","ど"], 
+["ga","が"], ["go","ご"], 
+["ha","は"], ["hi","ひ"], 
+["ka","か"], ["ko","こ"], ["kko","つこ"], ["ku","く"], 
+["ma","ま"], ["mi","み"], 
+["n","ん"], 
+["na","な"], ["ni","に"]
+["re","れ"], 
+["sa","さ"], ["se","せ"], ["su","す"], 
+["sha","しゃ"], ["shi","し"], 
+["ta","た"], ["te","て"], ["to","と"], 
+["wa","は"], 
+["ya","や"], 
+["zu","ず"]; ["ja","じゃ"]
+
+[[Katakana]]
+["ba","バ"], ["bi", "ビ"],
+["da","ダ"], ["de","デ"], 
+["ko", "コ"], ["kee","ケー"], ["ki","キ"]
+["me","メ"], 
+["n","ン"], 
+["ni", "ニ"],
+["paa","パー"], ["pi","ピ"],
+["ra","ラ"], ["raa","ラー"], 
+["sa","サ"], ["su","ス"],
+["to","ト"],
+["za","ザ"]
+
+
+*/
+/*
 [a], [i], [u], [e], [o], [ya], [yu], [yo]
 [あ], [い], [う], [え], [お], 
 [か], [き], [く], [け], [こ], [きゃ], [きゅ], [きょ], 
@@ -673,7 +957,7 @@ ga ku se i
 [が][く]
 
 
-     [a],  [i],  [u],  [e],  [o],  [ya],  [yu],  [yo]
+     [a],  [i],  [u],  [e],  [o],  [ya],  [yu], [yo]
 [ ], [あ], [い], [う], [え], [お], 
 [k], [か], [き], [く], [け], [こ], [きゃ], [きゅ], [きょ], 
 [s], [さ], [し], [す], [せ], [そ], [しゃ], [しゅ], [しょ], 
@@ -721,6 +1005,17 @@ y	ヤ	[5]	ユ	[5]	ヨ
 r	ラ	リ	ル	レ	ロ
 w	ワ	ヰ	[5]	ヱ	ヲ
 ン (n)
+
+
+Japanese kana: hiragana (left) and katakana (right)
+     –	     k       s     t       n       h       m       y       r      w
+a	あア	かカ	さサ	たタ	なナ	はハ	まマ	やヤ	らラ	わワ
+i	いイ	きキ	しシ	ちチ	にニ	ひヒ	みミ	𛀆𛄠*	りリ	ゐヰ
+u	うウ	くク	すス	つツ	ぬヌ	ふフ	むム	ゆユ	るル	𛄟𛄢*
+e	えエ	けケ	せセ	てテ	ねネ	へヘ	めメ	𛀁𛄡*	れレ	ゑヱ
+o	おオ	こコ	そソ	とト	のノ	ほホ	もモ	よヨ	ろロ	をヲ
+
+
 
 */
 
