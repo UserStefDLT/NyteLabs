@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="style.css">
     
     <style>
+        @import url('https://fonts.googleapis.com/css?family=Alegreya|Ubuntu|Satisfy&display=swap');
         :root {
             /* --hue-math: 210;
             --hue-english: 0;
@@ -29,7 +30,7 @@
         }
         main {margin-top: 8vmin;}
         .board {
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(10, 1fr);
         }
         .card {
             height: 100px; width: 100px;
@@ -184,7 +185,7 @@ let cards = {
         {"pid": `6`, "q": `Moon`, "p": `Luna`},
         {"pid": `7`, "q": `card`, "p": `carta`},
     ],
-    "hiragana": [
+    "hiragana1": [
         {"pid": `0`, "q": `n`, "p": `ん`},
         {"pid": `1`, "q": `a`, "p": `あ`},
         {"pid": `2`, "q": `ka`, "p": `か`},
@@ -302,6 +303,120 @@ let cards = {
         // {"pid": `109`, "q": `dyo`, "p": `ぢょ`},
         // {"pid": `110`, "q": `byo`, "p": `びょ`},
         // {"pid": `111`, "q": `pyo`, "p": `ぴょ`},
+    ],
+    "hiragana": [
+        {"pid": `0`, "q": `n`, "p": `ん`},
+        {"pid": `1`, "q": `a`, "p": `あ`},
+        {"pid": `2`, "q": `i`, "p": `い`},
+        {"pid": `3`, "q": `u`, "p": `う`},
+        {"pid": `4`, "q": `e`, "p": `え`},
+        {"pid": `5`, "q": `o`, "p": `お`},
+        {"pid": `6`, "q": `ka`, "p": `か`},
+        {"pid": `7`, "q": `ki`, "p": `き`},
+        {"pid": `8`, "q": `ku`, "p": `く`},
+        {"pid": `9`, "q": `ke`, "p": `け`},
+        {"pid": `10`, "q": `ko`, "p": `こ`},
+                {"pid": `11`, "q": `kya`, "p": `きゃ`},
+                {"pid": `12`, "q": `kyu`, "p": `きゅ`},
+                {"pid": `13`, "q": `kyo`, "p": `きょ`},
+        {"pid": `14`, "q": `sa`, "p": `さ`},
+        {"pid": `15`, "q": `shi`, "p": `し`},
+        {"pid": `16`, "q": `su`, "p": `す`},
+        {"pid": `17`, "q": `se`, "p": `せ`},
+        {"pid": `18`, "q": `so`, "p": `そ`},
+                {"pid": `19`, "q": `sha`, "p": `しゃ`},
+                {"pid": `20`, "q": `shu`, "p": `しゅ`},
+                {"pid": `21`, "q": `sho`, "p": `しょ`},
+        {"pid": `22`, "q": `ta`, "p": `た`},
+        {"pid": `23`, "q": `chi`, "p": `ち`},
+        {"pid": `24`, "q": `tsu`, "p": `つ`},
+        {"pid": `25`, "q": `te`, "p": `て`},
+        {"pid": `26`, "q": `to`, "p": `と`},
+                {"pid": `27`, "q": `cha`, "p": `ちゃ`},
+                {"pid": `28`, "q": `chu`, "p": `ちゅ`},
+                {"pid": `29`, "q": `cho`, "p": `ちょ`},
+        {"pid": `30`, "q": `na`, "p": `な`},
+        {"pid": `31`, "q": `ni`, "p": `に`},
+        {"pid": `32`, "q": `nu`, "p": `ぬ`},
+        {"pid": `33`, "q": `ne`, "p": `ね`},
+        {"pid": `34`, "q": `no`, "p": `の`},
+                {"pid": `35`, "q": `nya`, "p": `にゃ`},
+                {"pid": `36`, "q": `nyu`, "p": `にゅ`},
+                {"pid": `37`, "q": `nyo`, "p": `にょ`},
+        {"pid": `38`, "q": `ha / wa`, "p": `は`},
+        {"pid": `39`, "q": `hi`, "p": `ひ`},
+        {"pid": `40`, "q": `fu`, "p": `ふ`},
+        {"pid": `41`, "q": `he`, "p": `へ`},
+        {"pid": `42`, "q": `ho`, "p": `ほ`},
+                {"pid": `43`, "q": `hya`, "p": `ひゃ`},
+                {"pid": `44`, "q": `hyu`, "p": `ひゅ`},
+                {"pid": `45`, "q": `hyo`, "p": `ひょ`},
+        {"pid": `46`, "q": `ma`, "p": `ま`},
+        {"pid": `47`, "q": `mi`, "p": `み`},
+        {"pid": `48`, "q": `mu`, "p": `む`},
+        {"pid": `49`, "q": `me`, "p": `め`},
+        {"pid": `50`, "q": `mo`, "p": `も`},
+                {"pid": `51`, "q": `mya`, "p": `みゃ`},
+                {"pid": `52`, "q": `myu`, "p": `みゅ`},
+                {"pid": `53`, "q": `myo`, "p": `みょ`},
+        {"pid": `54`, "q": `ya`, "p": `や`},
+        // {"pid": `55`, "q": `i(yi)`, "p": `𛀆`},
+        {"pid": `56`, "q": `yu`, "p": `ゆ`},
+        {"pid": `57`, "q": `e (ye)`, "p": `𛀁`},
+        {"pid": `58`, "q": `yo`, "p": `よ`},
+        {"pid": `59`, "q": `ra`, "p": `ら`},
+        {"pid": `60`, "q": `ri`, "p": `り`},
+        {"pid": `61`, "q": `ru`, "p": `る`},
+        {"pid": `62`, "q": `re`, "p": `れ`},
+        {"pid": `63`, "q": `ro`, "p": `ろ`},
+                {"pid": `64`, "q": `rya`, "p": `りゃ`},
+                {"pid": `65`, "q": `ryu`, "p": `りゅ`},
+                {"pid": `66`, "q": `ryo`, "p": `りょ`},
+        {"pid": `67`, "q": `wa`, "p": `わ`},
+        {"pid": `68`, "q": `i (wi)`, "p": `ゐ`},
+        // {"pid": `69`, "q": `u(wu)`, "p": `𛄟`},
+        {"pid": `70`, "q": `e (we)`, "p": `ゑ`},
+        {"pid": `71`, "q": `o (wo)`, "p": `を`},
+        {"pid": `72`, "q": `ga`, "p": `が`},
+        {"pid": `73`, "q": `gi`, "p": `ぎ`},
+        {"pid": `74`, "q": `gu`, "p": `ぐ`},
+        {"pid": `75`, "q": `ge`, "p": `げ`},
+        {"pid": `76`, "q": `go`, "p": `ご`},
+                {"pid": `77`, "q": `gya`, "p": `ぎゃ`},
+                {"pid": `78`, "q": `gyu`, "p": `ぎゅ`},
+                {"pid": `79`, "q": `gyo`, "p": `ぎょ`},
+        {"pid": `80`, "q": `za`, "p": `ざ`},
+        {"pid": `81`, "q": `ji (zi)`, "p": `じ`},
+        {"pid": `82`, "q": `zu`, "p": `ず`},
+        {"pid": `83`, "q": `ze`, "p": `ぜ`},
+        {"pid": `84`, "q": `zo`, "p": `ぞ`},
+                {"pid": `85`, "q": `ja (zya)`, "p": `じゃ`},
+                {"pid": `86`, "q": `ju (zyu)`, "p": `じゅ`},
+                {"pid": `87`, "q": `jo (zyo)`, "p": `じょ`},
+        {"pid": `88`, "q": `da`, "p": `だ`},
+        {"pid": `89`, "q": `ji (di)`, "p": `ぢ`},
+        {"pid": `90`, "q": `zu (du)`, "p": `づ`},
+        {"pid": `91`, "q": `de`, "p": `で`},
+        {"pid": `92`, "q": `do`, "p": `ど`},
+                {"pid": `93`, "q": `ja (dya)`, "p": `ぢゃ`},
+                {"pid": `94`, "q": `ju (dyu)`, "p": `ぢゅ`},
+                {"pid": `95`, "q": `jo (dyo)`, "p": `ぢょ`},
+        {"pid": `96`, "q": `ba`, "p": `ば`},
+        {"pid": `97`, "q": `bi`, "p": `び`},
+        {"pid": `98`, "q": `bu`, "p": `ぶ`},
+        {"pid": `99`, "q": `be`, "p": `べ`},
+        {"pid": `100`, "q": `bo`, "p": `ぼ`},
+                {"pid": `101`, "q": `bya`, "p": `びゃ`},
+                {"pid": `102`, "q": `byu`, "p": `びゅ`},
+                {"pid": `103`, "q": `byo`, "p": `びょ`},
+        {"pid": `104`, "q": `pa`, "p": `ぱ`},
+        {"pid": `105`, "q": `pi`, "p": `ぴ`},
+        {"pid": `106`, "q": `pu`, "p": `ぷ`},
+        {"pid": `107`, "q": `pe`, "p": `ぺ`},
+        {"pid": `108`, "q": `po`, "p": `ぽ`},
+                {"pid": `109`, "q": `pya`, "p": `ぴゃ`},
+                {"pid": `110`, "q": `pyu`, "p": `ぴゅ`},
+                {"pid": `111`, "q": `pyo`, "p": `ぴょ`},
     ],
     "template": [
         // {"pid": `0`, "q": `9 + 2`, "p": `11`},
@@ -450,6 +565,13 @@ function sortCards(){
         board.appendChild(e);
     }
 }
+function sortCards2(){
+    let board = document.getElementById('board');
+    let qcards = document.querySelectorAll(".card-q");
+    for (let i = 0; i < qcards.length; i++) {
+        board.appendChild(qcards[i]);
+    }
+}
 
 function DeckStart(deckType){
     settings["deck-size"] = settings["n-of-pairs"] * 2;
@@ -499,8 +621,8 @@ var settings = {
     // "deck": "opp",
     // "n-of-pairs": 8,
     // "deck-size": 16,
-    "n-of-pairs": 10,
-    "deck-size": 20,
+    "n-of-pairs": 30,
+    "deck-size": 60,
     // "n-of-pairs": 20,
     // "deck-size": 40,
 }
