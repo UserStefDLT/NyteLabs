@@ -14,6 +14,7 @@
     
     <style>
         @import url('https://fonts.googleapis.com/css?family=Alegreya|Ubuntu|Satisfy&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Carter+One&family=Fugaz+One&display=swap');
         :root {
             /* --hue-math: 210;
             --hue-english: 0;
@@ -22,25 +23,34 @@
             --hue: var(--hue-math);
             --card-color-1: hsla(var(--hue), 80%, 25%, 1);
             --card-color-2: hsla(var(--hue), 80%, 15%, 1); */
+            --j2i: 0;
             
             --card-color-1: hsla(0, 80%, 25%, 1);
             --card-color-2: hsla(0, 80%, 15%, 1);
             --card-bg-02: radial-gradient(circle at 50% 50%, #700 50%, #0000 50%) 10px 10px / 100px 100px no-repeat, linear-gradient(135deg, #fff5 50%, #0002 50%), #aaa;
             --card-bg-02: radial-gradient(circle at 50% 50%, #700 50%, #0000 50%) 10px 10px / 60px 60px no-repeat, linear-gradient(135deg, #fff5 50%, #0002 50%), #aaa;
+            /* --card-bg-02: radial-gradient(circle at 50% 50%, #700 50%, #0000 50%) 15px 15px / 70px 70px no-repeat, linear-gradient(135deg, #fff5 50%, #0002 50%), #aaa; */
         }
         main {margin-top: 8vmin;}
         .board {
             grid-template-columns: repeat(10, 1fr);
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(4, 1fr);
         }
         .card {
             height: 100px; width: 100px;
             height: 60px; width: 60px;
             height: 70px; width: 70px;
             margin: 4px;
-
+            
             height: 80px; width: 80px;
+            /* height: 100px; width: 100px; */
             margin: 8px;
             font-size: 32px;
+            font-size: 16px;
+            --hue: calc(var(--j2i) * 240);
+            color: hsla(var(--hue), 100%, 50%, 1);
+            color: hsla(var(--hue), 65%, 35%, 1);
         }
         .card::before {
             background: var(--card-bg-02);
@@ -418,6 +428,70 @@ let cards = {
                 {"pid": `110`, "q": `pyu`, "p": `ぴゅ`},
                 {"pid": `111`, "q": `pyo`, "p": `ぴょ`},
     ],
+    "j2words": [
+        ["y","と","/to/"],
+        ["es","です","/de su/"],
+        ["agua","みず","/mi zu/"],
+        ["te","おちゃ","/o cha/"],
+        ["arroz","ごはん","/go ha n/"],
+        ["por favor","ください","/ku da sa i/"],
+        ["persona","ひと","/hi to/"],
+        ["genial","かつこいい","/ka ko i i/"],
+        ["abogado","べんごし","/be n go shi/"],
+        ["doctor","いしゃ","/i sha/"],
+        ["amable","やさしい","/ya sa shi i/"],
+        ["estudiante","がくせい","/ga ku se i/"],
+        ["profesor","せんせん","/se n se n/"],
+        ["a","は","/wa/"],
+        ["?","か","/ka/"],
+        ["de","の","/no/"],
+        ["señor","さん","/sa n/"],
+        ["si","はい","/ha i/"],
+        ["esto","これ","/ko re/"],
+        ["torta","ケーキ","/kee ki/"],
+        ["pizza","ピザ","/pi za/"],
+        ["bus","バス","/ba su/"],
+        ["aqui","ここ","/ko ko/"],
+        ["donde","どこ","/do ko/"],
+        ["parada","てい","/te i/"],
+        ["estacion","えき","/e ki/"],
+        ["abrigo","コート","/koo to/"],
+        ["zapatos","くつ","/ku tsu/"],
+        ["ramen", "ラーメン", "/raa me n/"],
+        ["ensalada", "サラダ", "/sa ra da/"],
+        ["Japan", "にほん", "/ni ho n/"],
+        ["Canada", "カナダ", "/ka na da/"],
+        ["no", "いいえ", "/i i e/"],
+        ["no es", "じゃない", "/ja na i/"],
+        ["hotel", "ホテル", "/ho te ru/"],
+        ["almacen", "デパート", "/de pa to/"],
+        ["bolso", "かばん", "/ka ba n/"],
+        ["yo", "わたし", "/wa ta shi/"],
+        ["rojo", "あかい", "/a ka i/"],
+        ["blanco", "しろい", "/shi ro i/"],
+        ["azul", "あおい", "/a o i/"],
+        ["negro", "くろい", "/ku ro i/"],
+        ["elegante", "おしゃれ", "/o sha re/"],
+        ["delicioso", "おいしい", "/o i shi i/"],    
+        ["America", "アメリカ", "/a me ri ka/"],
+        ["Brazil", "ブルジル", "/bu ra ji ru/"],
+        ["Vietnam", "ベトナム", "/be to na mu/"],
+        ["grande", "おおきい", "/o o ki i/"],
+        ["pequeño", "ちいさい", "/chi i sa i/"],
+        ["parada de bus", "バスてい", "/ba su te i/"],
+        ["tienda", "コソビニ", "/ko so bi ni/"],
+        ["universidad", "だいがく", "/da i ga ku/"],
+        ["mi", "わたしの", "/wa ta shi no/"],
+        ["guantes", "てぶくろ", "/te bu ku ro/"],
+        ["hola", "こんにちは", "/ko n ni chi wa/"],
+        ["buenas noches", "こんばんは", "/ko n ba n wa/"],
+        ["hasta mañana", "またあした", "/ma ta a shi ta/"],
+        ["japones", "にほんじん", "/ni ho n ji n/"],
+        ["canadadiense", "カナダじん", "/ka na da ji n/"],
+        ["americano", "アメリカじん", "/a me ri ka ji n/"],
+        ["brazilero", "ブルジルじん", "/bu ra ji ru ji n/"],
+        ["vietnamita", "ベトナムじん", "/be to na mu ji n/"],
+    ],
     "template": [
         // {"pid": `0`, "q": `9 + 2`, "p": `11`},
     ],
@@ -469,7 +543,7 @@ function MakeOppPairs(amount = 1){
     }
 }
 
-function DisplayNCards(list, n){
+function DisplayNCards1(list, n){
     let display = document.getElementById('board');
     let keys = Object.keys(list);
     for (let i = 0; i < n; i++) {
@@ -492,6 +566,60 @@ function DisplayNCards(list, n){
         pcard.dataset.pairid = p;
         pcard.dataset.listid = ri;
         pcard.id = `p${i}`;
+        // pcard.innerText = p;
+        pcard.innerHTML = p;
+        
+        qcard.addEventListener("click", (ev) => {
+            console.log(`you clicked q${ev.target.dataset.listid}`);
+            console.log(ev.target.classList);
+            // ev.target.classList.add("selected");
+            ClickCard(ev.target.id);
+        });
+        pcard.addEventListener("click", (ev) => {
+            console.log(`you clicked q${ev.target.dataset.listid}`);
+            console.log(ev.target.classList);
+            // ev.target.classList.add("selected");
+            ClickCard(ev.target.id);
+        });
+        
+        display.appendChild(qcard);
+        display.appendChild(pcard);
+    }
+}
+function DisplayNCards(list, n){
+    let display = document.getElementById('board');
+    let keys = Object.keys(list);
+    for (let i = 0; i < n; i++) {
+        const ri = keys.splice(Math.floor(Math.random()*keys.length),1)[0];
+        const pair = list[ri];
+        // let q = pair.q;
+        // let p = pair.p;
+        let pairdrop = [...pair];
+        let pairindex = Object.keys(pairdrop);
+        let qindex = pairindex.splice(Math.floor(Math.random()*pairindex.length),1);
+        let pindex = pairindex.splice(Math.floor(Math.random()*pairindex.length),1);
+        console.log(`i: ${i} | qi: ${qindex}, pi: ${pindex};`);
+        let q = pairdrop[qindex];
+        let p = pairdrop[pindex];
+
+        let qcard = document.createElement("div");
+        qcard.classList.add("card");
+        qcard.classList.add("card-q");
+        // qcard.dataset.pairid = p;
+        qcard.dataset.pairid = `id${i}`;
+        qcard.dataset.listid = ri;
+        qcard.id = `q${i}`;
+        qcard.style = `--j2i: ${qindex};`;
+        // qcard.innerText = q;
+        qcard.innerHTML = q;
+        let pcard = document.createElement("div");
+        pcard.classList.add("card");
+        pcard.classList.add("card-p");
+        // pcard.dataset.pairid = p;
+        pcard.dataset.pairid = `id${i}`;
+        pcard.dataset.listid = ri;
+        pcard.id = `p${i}`;
+        pcard.style = `--j2i: ${pindex};`;
         // pcard.innerText = p;
         pcard.innerHTML = p;
         
@@ -616,13 +744,14 @@ css--border-style
 */
 var settings = {
     // "deck": "css--border-style",
-    "deck": "hiragana",
+    // "deck": "hiragana",
+    "deck": "j2words",
     // "deck": "css--background-color",
     // "deck": "opp",
     // "n-of-pairs": 8,
     // "deck-size": 16,
-    "n-of-pairs": 30,
-    "deck-size": 60,
+    "n-of-pairs": 10,
+    "deck-size": 20,
     // "n-of-pairs": 20,
     // "deck-size": 40,
 }
@@ -640,6 +769,281 @@ window.addEventListener('load', (ev) => {
     DeckStart(settings["deck"]);
         
 });
+
+
+const j2WordList = {
+    "L1": [["ichi","一"], ["1️⃣","|"], ["i","い"], ["chi","ち"]],
+    "y": [["to","と"]],
+    "es": [["de","で"], ["su","す"]],
+    "agua": [["mi","み"], ["zu","ず"]],
+    "te": [["o","お"], ["cha","ちゃ"]],
+    "arroz": [["go","ご"], ["ha","は"], ["n","ん"]],
+    "por favor": [["ku","く"], ["da","だ"], ["sa","さ"], ["i","い"]],
+    
+    "L2": [["ni","二"], ["2️⃣","|"], ["ni","に"]],
+    "persona": [["hi","ひ"], ["to","と"]],
+    "genial": [["ka","か"], ["kko","つこ"], ["i","い"], ["i","い"]],
+    "abogado": [["be","べ"], ["n","ん"], ["go","ご"], ["shi","し"]],
+    "doctor": [["i","い"], ["sha","しゃ"]],
+    "amable": [["ya","や"], ["sa","さ"], ["shi","し"], ["i","い"]],
+    "estudiante": [["ga","が"], ["ku","く"], ["se","せ"], ["i","い"]],
+    "profesor": [["se","せ"], ["n","ん"], ["se","せ"], ["n","ん"]],
+    
+    "L3": [["san","三"], ["3️⃣","|"], ["sa","さ"], ["n","ん"]],
+    "señor": [["sa","さ"], ["n","ん"]],
+    "hola": [["ko","こ"], ["n","ん"], ["ni","に"], ["chi","ち"], ["wa","は"]],
+    "buenas noches": [["ko","こ"], ["n","ん"], ["ba","ば"], ["n","ん"], ["wa","は"]],
+    "hasta mañana": [["ma","ま"], ["ta","た"], ["a","あ"], ["shi","し"], ["ta","た"]],
+    
+    "L4": [["shi","四"], ["4️⃣","|"], ["shi","し"]],
+    "ramen": [["raa","ラー"], ["me","メ"], ["n","ン"]],
+    "ensalada": [["sa","サ"], ["ra","ラ"], ["da","ダ"]],
+    "delicioso": [["o","お"], ["i","い"], ["shi","し"], ["i","い"]],
+    "si": [["ha","は"], ["i","い"]],
+    "esto": [["ko","こ"], ["re","れ"]],
+    "a": [["wa","は"]],
+    "?": [["ka","か"]],
+    "torta": [["kee","ケー"], ["ki","キ"]],
+    "pizza": [["pi","ピ"], ["za","ザ"]],
+
+    "L5": [["go","五"], ["5️⃣","|"], ["go","ご"]],
+    "Japan": [["ni","に"], ["ho","ほ"], ["n","ん"]],
+    "America": [["a","ア"], ["me","メ"], ["ri","リ"], ["ka","カ"]],
+    "Canada": [["ka","カ"], ["na","ナ"], ["da","ダ"]],
+    "Brazil": [["bu","ブ"], ["ra","ル"], ["ji","ジ"], ["ru","ル"]],
+    "Vietnam": [["be","ベ"], ["to","ト"], ["na","ナ"], ["mu","ム"]],
+
+    "grande": [["o","お"], ["o","お"], ["ki","き"], ["i","い"]],
+    "pequeño": [["chi","ち"], ["i","い"], ["sa","さ"], ["i","い"]],
+
+    "japones": [["ni","に"], ["ho","ほ"], ["n","ん"], ["ji","じ"], ["n","ん"]],
+    "americano": [["a","ア"], ["me","メ"], ["ri","リ"], ["ka","カ"], ["ji","じ"], ["n","ん"]],
+    "canadadiense": [["ka","カ"], ["na","ナ"], ["da","ダ"], ["ji","じ"], ["n","ん"]],
+    "brazilero": [["bu","ブ"], ["ra","ル"], ["ji","ジ"], ["ru","ル"], ["ji","じ"], ["n","ん"]],
+    "vietnamita": [["be","ベ"], ["to","ト"], ["na","ナ"], ["mu","ム"], ["ji","じ"], ["n","ん"]],
+    
+    "L6": [["roku","六"], ["6️⃣","|"], ["ro","ろ"], ["ku","く"]],
+    "aqui": [["ko","こ"], ["ko","こ"]],
+    "donde": [["do","ど"], ["ko","こ"]],
+    "parada de": [["te","て"], ["i","い"]],
+    "universidad": [["da","だ"], ["i","い"], ["ga","が"], ["ku","く"]],
+    "estacion": [["e","え"], ["ki","き"]],
+    "no": [["i","い"], ["i","い"], ["e","え"]],
+    "no es": [["ja","じゃ"], ["na","な"], ["i","い"]],
+    
+    "parada de bus": [["ba","バ"], ["su","ス"], ["te","て"], ["i","い"]],
+    "hotel": [["ho","ホ"], ["te","テ"], ["ru","ル"]],
+    "bus": [["ba","バ"], ["su","ス"]],
+    "tienda": [["ko","コ"], ["so","ソ"], ["bi","ビ"], ["ni","ニ"]],
+    "almacen": [["de","デ"], ["pa","パー"], ["to","ト"]],
+
+    "L7": [["shichi","七"], ["7️⃣","|"], ["shi","し"], ["chi","ち"]],
+    "bolso": [["ka","か"], ["ba","ば"], ["n","ん"]],
+    "abrigo": [["koo","コー"], ["to","ト"]],
+    "yo": [["wa","わ"], ["ta","た"], ["shi","し"]],
+    "mi": [["wa","わ"], ["ta","た"], ["shi","し"], ["no","の"]],
+    "de": [["no","の"]],
+    "rojo": [["a","あ"], ["ka","か"], ["i","い"]],
+    "blanco": [["shi","し"], ["ro","ろ"], ["i","い"]],
+    "azul": [["a","あ"], ["o","お"], ["i","い"]],
+    "negro": [["ku","く"], ["ro","ろ"], ["i","い"]],
+    "zapatos": [["ku","く"], ["su","つ"]],
+    "guantes": [["te","て"], ["bu","ぶ"], ["ku","く"], ["ro","ろ"]],
+    "elegante": [["o","お"], ["sha","しゃ"], ["re","れ"]],
+
+    /*
+    "": [["",""], ["",""]],
+    "bolso": [["ka","か"], ["ba","ば"], ["n","ん"]],
+    "abrigo": [["koo","コー"], ["to","ト"]],
+    "mi": [["wa","わ"], ["ta","た"], ["shi","し"], ["no","の"]],
+    "rojo": [["a","あ"], ["ka","か"], ["i","い"]],
+    "blanco": [["shi","し"], ["ro","ろ"], ["i","い"]],
+
+    "rojo": [["a","あ"], ["ka","か"]],
+    "blanco": [["shi","し"], ["ro","ろ"]],
+    "azul": [["a","あ"], ["o","お"]],
+    "negro": [["ku","く"], ["ro","ろ"]],
+    "zapatos": [["ku","く"], ["su","つ"]],
+
+    "": [["te","て"], ["bu","ぶ"], ["ku","く"], ["ro","ろ"]],
+    te bu ku ro
+てぶくろ
+
+ka ba n = bolso
+かばん
+
+koo to = abrigo
+コート
+
+wa ta shi no = mi
+わたしの
+
+a ka i = rojo
+あかい
+
+a o i = azul
+あおい
+
+shi ro i = blanco
+しろい
+
+くろ = negro
+kuro
+
+te bu ku ro
+てぶくろ
+
+ku tsu = zapatos
+くつ
+
+ka ba wa
+かばん
+    
+    
+    */
+
+
+
+    "L7": [["shichi","七"], ["7️⃣","|"], ["shi","し"], ["chi","ち"]],
+    "L8": [["hachi","八"], ["8️⃣","|"], ["ha","は"], ["chi","ち"]],
+    "L9": [["ku, kyū","九"], ["9️⃣","|"], ["ku","く, "], ["kyū","きゅう"]],
+    "L10": [["jū","十"], ["🔟","|"], ["jū","じゅう"]],
+}
+/*
+["y","と","/to/"],
+["es","です","/de su/"],
+["agua","みず","/mi zu/"],
+["te","おちゃ","/o cha/"],
+["arroz","ごはん","/go ha n/"],
+["por favor","ください","/ku da sa i/"],
+
+["persona","ひと","/hi to/"],
+["genial","かつこいい","/ka ko i i/"],
+["abogado","べんごし","/be n go shi/"],
+["doctor","いしゃ","/i sha/"],
+["amable","やさしい","/ya sa shi i/"],
+["estudiante","がくせい","/ga ku se i/"],
+["profesor","せんせん","/se n se n/"],
+
+["a","は","/wa/"],
+["?","か","/ka/"],
+["de","の","/no/"],
+
+["señor","さん","/sa n/"],
+["si","はい","/ha i/"],
+["esto","これ","/ko re/"],
+["torta","ケーキ","/kee ki/"],
+["pizza","ピザ","/pi za/"],
+["bus","バス","/ba su/"],
+["aqui","ここ","/ko ko/"],
+["donde","どこ","/do ko/"],
+["parada","てい","/te i/"],
+["estacion","えき","/e ki/"],
+["abrigo","コート","/koo to/"],
+["zapatos","くつ","/ku tsu/"],
+
+    ["ramen", "ラーメン", "/raa me n/"],
+    ["ensalada", "サラダ", "/sa ra da/"],
+    ["Japan", "にほん", "/ni ho n/"],
+    ["Canada", "カナダ", "/ka na da/"],
+    ["no", "いいえ", "/i i e/"],
+    ["no es", "じゃない", "/ja na i/"],
+    ["hotel", "ホテル", "/ho te ru/"],
+    ["almacen", "デパート", "/de pa to/"],
+    ["bolso", "かばん", "/ka ba n/"],
+    ["yo", "わたし", "/wa ta shi/"],
+    ["rojo", "あかい", "/a ka i/"],
+    ["blanco", "しろい", "/shi ro i/"],
+    ["azul", "あおい", "/a o i/"],
+    ["negro", "くろい", "/ku ro i/"],
+    ["elegante", "おしゃれ", "/o sha re/"],
+
+    ["delicioso", "おいしい", "/o i shi i/"],    
+    ["America", "アメリカ", "/a me ri ka/"],
+    ["Brazil", "ブルジル", "/bu ra ji ru/"],
+    ["Vietnam", "ベトナム", "/be to na mu/"],
+    ["grande", "おおきい", "/o o ki i/"],
+    ["pequeño", "ちいさい", "/chi i sa i/"],
+    ["parada de bus", "バスてい", "/ba su te i/"],
+    ["tienda", "コソビニ", "/ko so bi ni/"],
+    ["universidad", "だいがく", "/da i ga ku/"],
+    ["mi", "わたしの", "/wa ta shi no/"],
+    ["guantes", "てぶくろ", "/te bu ku ro/"],
+    
+    ["hola", "こんにちは", "/ko n ni chi wa/"],
+    ["buenas noches", "こんばんは", "/ko n ba n wa/"],
+    ["hasta mañana", "またあした", "/ma ta a shi ta/"],
+    ["japones", "にほんじん", "/ni ho n ji n/"],
+    ["canadadiense", "カナダじん", "/ka na da ji n/"],
+
+    ["americano", "アメリカじん", "/a me ri ka ji n/"],
+    ["brazilero", "ブルジルじん", "/bu ra ji ru ji n/"],
+    ["vietnamita", "ベトナムじん", "/be to na mu ji n/"],
+    
+
+
+    ---------------
+
+    "L3": [["san","三"], ["3️⃣","|"], ["sa","さ"], ["n","ん"]],
+    "señor": [["sa","さ"], ["n","ん"]],
+    "hola": [["ko","こ"], ["n","ん"], ["ni","に"], ["chi","ち"], ["wa","は"]],
+    "buenas noches": [["ko","こ"], ["n","ん"], ["ba","ば"], ["n","ん"], ["wa","は"]],
+    "hasta mañana": [["ma","ま"], ["ta","た"], ["a","あ"], ["shi","し"], ["ta","た"]],
+    
+    "L4": [["shi","四"], ["4️⃣","|"], ["shi","し"]],
+    "a": [["wa","は"]],
+    "?": [["ka","か"]],
+    "si": [["ha","は"], ["i","い"]],
+    "esto": [["ko","こ"], ["re","れ"]],
+    "torta": [["kee","ケー"], ["ki","キ"]],
+    "pizza": [["pi","ピ"], ["za","ザ"]],
+    "ramen": [["raa","ラー"], ["me","メ"], ["n","ン"]],
+    "ensalada": [["sa","サ"], ["ra","ラ"], ["da","ダ"]],
+    "delicioso": [["o","お"], ["i","い"], ["shi","し"], ["i","い"]],
+
+    "L5": [["go","五"], ["5️⃣","|"], ["go","ご"]],
+    "Japan": [["ni","に"], ["ho","ほ"], ["n","ん"]],
+    "Canada": [["ka","カ"], ["na","ナ"], ["da","ダ"]],
+    "America": [["a","ア"], ["me","メ"], ["ri","リ"], ["ka","カ"]],
+    "Brazil": [["bu","ブ"], ["ra","ル"], ["ji","ジ"], ["ru","ル"]],
+    "Vietnam": [["be","ベ"], ["to","ト"], ["na","ナ"], ["mu","ム"]],
+    "grande": [["o","お"], ["o","お"], ["ki","き"], ["i","い"]],
+    "pequeño": [["chi","ち"], ["i","い"], ["sa","さ"], ["i","い"]],
+
+    "japones": [["ni","に"], ["ho","ほ"], ["n","ん"], ["ji","じ"], ["n","ん"]],
+    "canadadiense": [["ka","カ"], ["na","ナ"], ["da","ダ"], ["ji","じ"], ["n","ん"]],
+    "americano": [["a","ア"], ["me","メ"], ["ri","リ"], ["ka","カ"], ["ji","じ"], ["n","ん"]],
+    "brazilero": [["bu","ブ"], ["ra","ル"], ["ji","ジ"], ["ru","ル"], ["ji","じ"], ["n","ん"]],
+    "vietnamita": [["be","ベ"], ["to","ト"], ["na","ナ"], ["mu","ム"], ["ji","じ"], ["n","ん"]],
+    
+    "L6": [["roku","六"], ["6️⃣","|"], ["ro","ろ"], ["ku","く"]],
+    "bus": [["ba","バ"], ["su","ス"]],
+    "aqui": [["ko","こ"], ["ko","こ"]],
+    "donde": [["do","ど"], ["ko","こ"]],
+    "parada de": [["te","て"], ["i","い"]],
+    "estacion": [["e","え"], ["ki","き"]],
+    "no": [["i","い"], ["i","い"], ["e","え"]],
+    "no es": [["ja","じゃ"], ["na","な"], ["i","い"]],
+    "hotel": [["ho","ホ"], ["te","テ"], ["ru","ル"]],
+    "almacen": [["de","デ"], ["pa","パー"], ["to","ト"]],
+    "parada de bus": [["ba","バ"], ["su","ス"], ["te","て"], ["i","い"]],
+    "tienda": [["ko","コ"], ["so","ソ"], ["bi","ビ"], ["ni","ニ"]],
+    "universidad": [["da","だ"], ["i","い"], ["ga","が"], ["ku","く"]],
+
+    "L7": [["shichi","七"], ["7️⃣","|"], ["shi","し"], ["chi","ち"]],
+    "de": [["no","の"]],
+    "abrigo": [["koo","コー"], ["to","ト"]],
+    "zapatos": [["ku","く"], ["su","つ"]],
+    "bolso": [["ka","か"], ["ba","ば"], ["n","ん"]],
+    "yo": [["wa","わ"], ["ta","た"], ["shi","し"]],
+    "rojo": [["a","あ"], ["ka","か"], ["i","い"]],
+    "blanco": [["shi","し"], ["ro","ろ"], ["i","い"]],
+    "azul": [["a","あ"], ["o","お"], ["i","い"]],
+    "negro": [["ku","く"], ["ro","ろ"], ["i","い"]],
+    "elegante": [["o","お"], ["sha","しゃ"], ["re","れ"]],
+    "mi": [["wa","わ"], ["ta","た"], ["shi","し"], ["no","の"]],
+    "guantes": [["te","て"], ["bu","ぶ"], ["ku","く"], ["ro","ろ"]],
+*/
 
 </script>
 </body>
