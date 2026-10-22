@@ -20,14 +20,51 @@
     </style>
 <style>
     :root {
+        --hue: 0;
+        --sat: 50%; /* border-bottom + box-shadow */
+        --lum: 70%; /* background-color */
+
         --tile-sz: 24px;
         --tile-sz: 36px;
         --tile-sz: 32px;
-        --tile-m: 1px;
+        --tile-m: 2px;
         --tile-space: calc(var(--tile-sz) + var(--tile-m) * 2);
         --tile-count: 12;
         --grid-sz: calc(var(--tile-space) * var(--tile-count));
     }
+    /* [data-val="⭐️"]{--hue: 60;}
+    [data-val="🦖"]{--hue: 150;}
+    [data-val="🌊"]{--hue: 210;}
+    [data-val="🛸"]{--hue: 0; --sat: 0%;}
+    [data-val="🦑"]{--hue: 315;}
+    [data-val="💣"]{--hue: 350; --sat: 0%; --lum: 40%;}
+    [data-val="🎲"]{--hue: 0; --sat: 0%; --lum: 90%;}
+    [data-val="🍟"]{--hue: 0;} */
+    /* '⭐️','🦖','🌊','🛸','🦑','💣','🎲','🍟' */
+    /* [data-val="⭐️"]{--hue: 210;}
+    [data-val="🦖"]{--hue: 0;}
+    [data-val="🌊"]{--hue: 210; --sat: 0%; --lum: 90%;}
+    [data-val="🛸"]{--hue: 0; --sat: 0%;}
+    [data-val="🦑"]{--hue: 135;}
+    [data-val="💣"]{--hue: 350; --sat: 0%; --lum: 90%;}
+    [data-val="🎲"]{--hue: 0; --sat: 0%; --lum: 40%;}
+    [data-val="🍟"]{--hue: 50;} */
+    /* '⭐️','🦖','🌊','🛸','🦑','💣','🎲','🍟' */
+    [data-val="⭐️"]{--hue: 210; --sat: 65%; --lum: 45%;}
+    [data-val="🦖"]{--hue: 0; --sat: 40%; --lum: 50%;}
+    [data-val="🌊"]{--hue: 210; --sat: 0%; --lum: 90%;}
+    [data-val="🛸"]{--hue: 0; --sat: 0%; --lum: 25%;}
+    [data-val="🦑"]{--hue: 180; --sat: 55%; --lum: 45%;}
+    [data-val="💣"]{--hue: 350; --sat: 0%; --lum: 90%;}
+    [data-val="🎲"]{--hue: 270; --sat: 70%; --lum: 70%;}
+    [data-val="🍟"]{--hue: 50;}
+    
+    [data-val="💣"]{--hue: 40; --sat: 100%; --lum: 60%;}
+    [data-val="🌊"]{--hue: 50; --sat: 20%; --lum: 75%;}
+    [data-val="🌊"]{--hue: 210; --sat: 100%; --lum: 20%;}
+    [data-val="🌊"]{--hue: 210; --sat: 50%; --lum: 30%;}
+    [data-val="🛸"]{--hue: 270; --sat: 50%; --lum: 25%;}
+    [data-val="🦑"]{--hue: 170; --sat: 60%; --lum: 30%;}
     .grid, .row, .tile,
     .mgrid, .mrow, .mtile {
         position: relative;
@@ -47,6 +84,7 @@
     }
     .mtile,
     .tile {
+        box-sizing: border-box;
         margin: var(--tile-m);
         width: var(--tile-sz);
         height: var(--tile-sz);
@@ -61,7 +99,10 @@
     .mgrid {cursor: grab;}
     .mgrid.grabbing {cursor: grabbing;}
     .tile {
-        outline: 1px solid #39f;
+        /* outline: 1px solid #39f; */
+        /* outline: 1px solid #fff3; */
+        /* border: 1px solid;
+        border: 1px dashed; */
     }
     /* .tile:hover {
         background-color: #39f6;
@@ -104,7 +145,7 @@
         background-color: hsla(50, 100%, 60%, 0.2);
         outline: 1px solid hsl(39, 100%, 30%);
     }
-    .match-found,
+    /* .match-found,
     .fox-head {
         position: relative;
         --hue: 50;
@@ -114,7 +155,7 @@
         outline: 1px solid orange;
         outline: 1px solid hsl(var(--hue), 100%, 50%);
         text-shadow: 2px 2px 2px #000;
-    }
+    } */
     .fox-tail {
         --hue: 50;
         background-color: #fd33;
@@ -164,6 +205,7 @@
         opacity: .25;
         font-size: 8px;
         transition: transform 100ms ease-in-out;
+        opacity: 0;
     }
     .tile:hover::before {
         content: attr(data-count);
@@ -175,6 +217,73 @@
         transform: translateX(50%) translateY(0%) rotateX(0deg) scale(1);
         opacity: 1;
     }
+
+    /* new design */
+    .tile {
+        /* text-shadow: 1px 1px 1px #0000;
+        background-color: hsla(var(--hue), 50%, 70%, 1);
+        border-bottom: 2px solid hsla(var(--hue), 30%, 60%, 1);
+        box-shadow: 0px 0px 1px 0px hsla(var(--hue), 30%, 25%, .5), 0px 3px 0px 0px hsla(var(--hue), 100%, 50%, 0);
+        color: hsla(var(--hue), 50%, 30%, 1); */
+        
+        --sat1: 50%; /* background-color + color */
+        --sat2: calc(var(--sat) / 2); /* border-bottom + box-shadow */
+        --lum1: 70%; /* background-color */
+        --lum2: calc(var(--lum) - 10%); /* border-bottom */
+        --lum3: calc(var(--lum2) / 2); /* color */
+        --lum4: calc(var(--lum3) - 5%); /* box-shadow */
+
+        /* --background-color: hsla(210, 50%, 70%, 1);
+        --border-bottom: hsla(210, 30%, 60%, 1);
+        --box-shadow: hsla(210, 30%, 25%, .5);
+        --color: hsla(210, 50%, 30%, 1); */
+
+        /* --background-color: hsla(var(--hue), var(--sat2), var(--lum), 1);
+        --border-bottom: hsla(var(--hue), var(--sat), var(--lum2), 1);
+        --box-shadow: hsla(var(--hue), var(--sat), var(--lum4), .5);
+        --color: hsla(var(--hue), var(--sat2), var(--lum3), 1); */
+
+        
+        text-shadow: 1px 1px 1px #000;
+        text-shadow: 0px 0px 8px hsla(var(--hue), var(--sat2), var(--lum4), .5);
+        text-shadow: 1px 1px 1px #000, 0px 0px 8px hsla(var(--hue), var(--sat2), var(--lum4), .5);
+        font-size: 24px;
+
+        
+        text-shadow: 1px 1px 1px #0008, -1px 1px 1px #0008;
+        background-color: hsla(var(--hue), var(--sat), var(--lum), 0);
+        /* border-bottom: 2px solid hsla(var(--hue), var(--sat2), var(--lum2), 0); */
+        box-shadow: 0px 0px 2px 0px hsla(var(--hue), var(--sat2), var(--lum4), 0);
+        color: hsla(var(--hue), var(--sat), var(--lum3), 1);
+        color: hsla(var(--hue), var(--sat), 30%, 1);
+        color: hsla(var(--hue), 60%, 20%, 1);
+        border-radius: 4px;
+        border: 1px solid;
+        /* border: 1px dashed hsla(var(--hue), var(--sat2), var(--lum2), .7); */
+        border: 1px dashed;
+        font-size: 24px;
+        /* transition: text-shadow 200ms ease-in-out, background-color 200ms ease-in-out, border 200ms ease-in-out, box-shadow 200ms ease-in-out; */
+    }
+    .match-found,
+    .fox-head {
+        /* position: relative; */
+        /* --hue: 50;
+        background-color: hsla(var(--hue), 100%, 60%, 0.6);
+        outline: 1px solid hsl(var(--hue), 100%, 50%);
+        text-shadow: 2px 2px 2px #000; */
+        
+        text-shadow: 1px 1px 1px #0008, -1px 1px 1px #000a;
+        background-color: hsla(var(--hue), var(--sat), var(--lum), 1);
+        /* border-bottom: 2px solid hsla(var(--hue), var(--sat2), var(--lum2), 1); */
+        /* border: 1px solid hsla(var(--hue), var(--sat2), var(--lum2), 1); */
+        /* border: 0px 0px 1px 0px solid hsla(var(--hue), var(--sat2), var(--lum2), 1); */
+        box-shadow: 0px 0px 2px 0px hsla(var(--hue), var(--sat2), var(--lum4), .5);
+        color: hsla(var(--hue), var(--sat), var(--lum3), 1);
+        border-radius: 4px;
+        font-size: 32px;
+        border: 1px solid;
+    }
+
 
     .match-found::before {
         transform: translateX(50%) translateY(0%) rotateY(0deg) scale(1);
@@ -248,8 +357,11 @@
         min-width: 312px;
         min-height: var(--grid-sz);
         min-width: var(--grid-sz);
-        outline: 1px dashed #fff;
-        outline-offset: 2px;
+        /* outline: 1px dashed #fff; */
+        /* outline-offset: 2px; */
+        /* background-color: #fff; */
+        /* background-image: linear-gradient(90deg, #fff 50%, transparent 50%); */
+        padding: 0px;
     }
     #grids > div {
         position: absolute;
@@ -279,6 +391,15 @@
         transform: translateX(-50%) translateY(-100%) scale(1);
         opacity: 1;
 
+    }
+
+    .mtile {
+        display: none;
+    }
+    .tile.hover {
+        border: 1px solid;
+        background: hsla(var(--hue), var(--sat2), var(--lum4), .5);
+        background: hsla(var(--hue), 50%, 50%, .5);
     }
     /* #mouse-display {
         outline: 1px dashed #0f0;
@@ -412,7 +533,7 @@
             w: 20,
             sz: 20,
             sz2: 10,
-            margin: 16,
+            margin: 4,
             fill: 0
         },
         grid: {
@@ -437,6 +558,17 @@
             z2: 250,
             d: 1000,
             p: 1000,
+        },
+        grid: {
+            mouse: {
+                x: 0,
+                y: 0,
+            },
+            mousetracking: false,
+            hover: {
+                x: 0,
+                y: 0,
+            },
         },
 
         timeOut: 40,
@@ -960,7 +1092,7 @@ function HighlightMatch(list,n){
         const e = list[i];
         let tile = document.getElementById(`d,y${e.y},x${e.x}`);
         tile.classList.add("match-found");
-        tile.style = `--x-off: ${e.x}; --y-off: ${e.y}; --hue: ${n*10};`;
+        tile.style = `--x-off: ${e.x}; --y-off: ${e.y}; --hue-m: ${n*10};`;
         tile.dataset.count = parseInt(tile.dataset.count)+1;
     }
 }
@@ -1508,8 +1640,67 @@ function EvalMap(){
 }
 
 /* ─── Events ─── */
+function AddingGridEvents(){
+   let grids = document.getElementById("grids"); 
+    grids.addEventListener('mousemove', (ev) =>{
+        // console.log(`clientX: ${ev.clientX}; | clientY: ${ev.clientY};`);
+        // console.log(`offsetX: ${ev.offsetX}; | offsetY: ${ev.offsetY};`);
 
+        if(s.grid.mousetracking){
+            if(!s.q && !s.pause){
+                s.grid.mouse.x = ev.offsetX;
+                s.grid.mouse.y = ev.offsetY;
+                let tileSquareSize = s.tile.sz + s.tile.margin * 2;
+                let col = Math.floor(s.grid.mouse.x / tileSquareSize);
+                let row = Math.floor(s.grid.mouse.y / tileSquareSize);
+                console.log(`x: ${s.grid.mouse.x}; | y: ${s.grid.mouse.y};`);
+                // console.log(`col: ${col}; | row: ${row};`);
+                if(col < gs.w && row < gs.h && (col != s.grid.hover.x || row != s.grid.hover.y)){
+                    // let tile1 = document.getElementById(`d,y${s.grid.hover.y},x${s.grid.hover.x}`);
+                    // tile1.classList.remove("hover");
 
+                    console.log(`🥏 hover.x: ${s.grid.hover.x}; | hover.y: ${s.grid.hover.y};`);
+                    s.grid.hover.x = Math.floor(s.grid.mouse.x / tileSquareSize);
+                    s.grid.hover.y = Math.floor(s.grid.mouse.y / tileSquareSize);
+
+                    if(sVar.selecting) {
+                        console.log(`entering: ${s.grid.hover.y},${s.grid.hover.x}`);
+                        SwapTiles(sVar.selected_id,{"x": s.grid.hover.x, "y": s.grid.hover.y});
+                    }
+
+                    let hoverTiles = document.querySelectorAll(".hover");
+                    for (let i = 0; i < hoverTiles.length; i++) {
+                        const e = hoverTiles[i];
+                        e.classList.remove("hover");
+                    }
+                    
+                    let tile2 = document.getElementById(`d,y${row},x${col}`);
+                    tile2.classList.add("hover");
+
+                    
+                    // setTimeout(() => {
+                    // }, 50);
+                }
+                // console.log(`x: ${s.grid.mouse.x}; | y: ${s.grid.mouse.y};`);
+                // console.log(`col: ${s.grid.hover.x}; | row: ${s.grid.hover.y};`);
+
+            }
+        }
+    });
+
+    grids.addEventListener("click", ev => {
+        SelectingTile({"x": s.grid.hover.x, "y": s.grid.hover.y});
+    });
+}
+
+function UpdateTileSizes(){
+    s.tile.h = 32;
+    s.tile.w = 32;
+    s.tile.sz = 32;
+    s.tile.sz2 = 16;
+    s.tile.margin = 2;
+    s.grid.mousetracking = true;
+}
 
     /* ─── Events ─── */
     function updateSettings(){
@@ -1632,6 +1823,9 @@ Dates:
         // // update();
 
         TilesInDiv(gs.w,gs.h);
+
+        AddingGridEvents();
+        UpdateTileSizes();
     });
     /* Version Log:
     [index-nds-00]: Default Template.

@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
+    <title> J2 - Memocards | NyteLabs</title>
+    <link rel="stylesheet" href="../../../stylesheets/start.css">
+    <link rel="stylesheet" href="../../../stylesheets/labst.css">
+    <link rel="stylesheet" href="../../../stylesheets/logo.css">
+    <!-- <link rel="stylesheet" href="../../../stylesheets/canvas.css"> -->
+    <style>
+        /* *::before, *::after {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        } */
+        /* :root {} */
+        </style>
+<style>
+    :root {
+        --c: hsla(150, 100%, 40%, 1);
+        --c1: hsla(150, 80%, 100%, 1);
+        --c2: hsla(150, 50%, 30%, .75);
+        --c3: hsla(150, 50%, 70%, .75);
+    }
+    .class {}
+    .display {
+        display: flex; align-items: center; justify-content: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .word {
+        --c: hsla(150, 100%, 40%, 1);
+        --c: hsla(210, 100%, 40%, 1);
+        --c1: hsla(150, 80%, 100%, 1);
+        --c2: hsla(150, 50%, 30%, .75);
+        --c3: hsla(0, 50%, 70%, .75);
+        padding: 2px 8px;
+        padding: 8px 12px;
+        margin: 8px;
+        border: 2px solid var(--c);
+        border-radius: 8px;
+        color: var(--c1);
+        font-size: 16px;
+        box-shadow: 0px 0px 2px 0px var(--c), inset 0px 0px 4px 0px var(--c);
+
+        display: flex;
+        align-items: center; justify-content: center;
+        flex-direction: column;
+    }
+    .japanese {
+        display: flex;
+        flex-direction: row;
+    }
+    .syl {
+        flex-direction: column;
+    }
+    /* first is Romaji */
+    .syl > div:nth-child(1) {
+        color: var(--c2);
+        color: #0000;
+    }
+    .syl > div:nth-child(2) {
+        font-weight: bold;
+        font-size: 20px;
+        font-weight: 500;
+        font-size: 36px;
+    }
+    .spanish {
+        color: var(--c3);
+        color: #0000;
+    }
+
+    #toggleRomaji:not(:checked) ~ main .syl > div:nth-child(1) {
+        color: #0000;
+    }
+    #toggleRomaji:checked ~ main .syl > div:nth-child(1) {
+        color: var(--c2);
+    }
+    #toggleSpanish:not(:checked) ~ main .spanish {
+        color: #0000;
+    }
+    #toggleSpanish:checked ~ main .spanish {
+        color: var(--c3);
+    }
+
+    #toggleSpanish,
+    #toggleRomaji {display: none;}
+    #toggleSpanish:checked ~ .options .toggleCheckboxLabel[for="toggleSpanish"],
+    #toggleRomaji:checked ~ .options .toggleCheckboxLabel[for="toggleRomaji"] {
+        color: var(--bwe);
+        --clr-outline: var(--bwc);
+        --bgc-before: #063;
+        --bgc-after: #0c6;
+        --ttx-after: 1rem;
+    }
+
+    /* @font-face {
+        font-family: "Twemoji Country Flags";
+        unicode-range: U +1F1E6 -1F1FF, U +1F3F4, U + E0062-E0063, U + E0065, U + E0067, U + E006C, U + E006E, U + E0073-E0074, U + E0077, U + E007F;
+        src: url(https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill@0.1/dist/TwemojiCountryFlags.woff2) format('woff2');
+        font-display: swap;
+    } */
+    .emoji {
+        font-family: Twemoji Country Flags, Inter var, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+        /* font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif; */
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        font-variant-emoji: emoji;
+    }
+
+    .z {}
+</style>
+    <link rel="stylesheet" href="../../../stylesheets/settings2.css">
+    <link rel="stylesheet" href="../../../stylesheets/end.css">
+</head>
+<body>
+    <header>
+        <a href="../../../index.html" class="backLink hidden"><div class="backBtn">Back?</div></a>
+        <a href="../../../o.html" style="height: 46px;">
+            <svg id="logo" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <filter id="moon-shadow" x="-25%" y="-25%" width="150%" height="150%">
+                        <feDropShadow dx="0" dy="0" stdDeviation="0" />
+                    </filter>
+                    <filter id="moon-shadow2" x="-250%" y="-250%" width="600%" height="600%">
+                        <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#fff6" />
+                        <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#00f" />
+                        <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#0f0" />
+                        <feDropShadow dx="0" dy="0" stdDeviation="16" flood-color="#f00" />
+                    </filter>
+                </defs>
+                <rect class="svgmoon" x="60" y="60" width="20" height="20" rx="0" />
+                <path class="smile" 
+                  d="M 0,80L 20,80 L 20,100 L 120,100 
+                    L 120,80 L 140,80 L 140 120 L 0 120 z" />
+                <path class="smile-border" 
+                  d="M 0,80 L 20,80 L 20,100 L 120,100 L 120,80 L 140,80
+                    L 140,81 L 121,81 L 121,101 L 19,101 L 19,81 L 0,81 z" />
+            </svg>
+        </a>
+        <h1 class="title">NyteLabs</h1>
+        <!-- <div class="subtitle">J2</div> -->
+    </header>
+    <input type="checkbox" name="toggle" id="toggleAnimation">
+    <input type="checkbox" name="toggle" id="toggleOpacity">
+    <input type="checkbox" name="toggle" id="toggleLights">
+    <input type="checkbox" name="toggle" id="toggleRomaji" checked>
+    <input type="checkbox" name="toggle" id="toggleSpanish" checked>
+
+<main>
+    <!-- <div class="shelf">
+        <h3 class="shelf-title">Lesson 1</h3>
+        <div id="display1" class="display">
+        </div>
+    </div>
+    <div class="shelf">
+        <h3 class="shelf-title">Lesson 2</h3>
+        <div id="display2" class="display">
+        </div>
+    </div> -->
+    <div class="shelf hidden">
+        <h3 class="shelf-title">test</h3>
+        <div id="display2">
+            <div class="word">
+                <div class="japanese">
+                    <div class="syl">
+                        <div>mi</div>
+                        <div>み</div>
+                    </div>
+                    <div class="syl">
+                        <div>zu</div>
+                        <div>ず</div>
+                    </div>
+                </div>
+                <div class="spanish">agua</div>
+            </div>
+        </div>
+    </div>
+    <!-- <canvas id="canvas"></canvas> -->
+</main>
+
+<div class="options">
+    <!-- <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
+    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
+    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label> -->
+    <label for="toggleRomaji" class="toggleCheckboxLabel" data-toggle="Romaji">Romaji</label>
+    <label for="toggleSpanish" class="toggleCheckboxLabel" data-toggle="Spanish">Spanish</label>
+</div>
+
+<footer>
+    <div class="my-name">
+        <a id="BackToTop" class="hidden" href="#">Back To Top</a>
+        &copy; 2022 - 2026 | by Stéfano De La Torre 
+    </div>
+</footer>
+<div class="name-end">by St&eacute;fano.</div>
+<!-- <script src="main.js"></script> -->
+<script>
+    /* Constant Variables */
+    const s = {
+        h: window.innerHeight,
+        w: window.innerWidth,
+
+        touch: {
+            x: 0,
+            y: 0,
+            z: 0,
+            paths: {},
+            path_len: 20,
+            tracking: false
+        },
+        mouse: {
+            x: 0,
+            y: 0,
+            z: 0,
+            path: [],
+            path_len: 20,
+            tracking: false
+        },
+        tile: {
+            h: 20,
+            w: 20,
+            sz: 20,
+            sz2: 10,
+            margin: 16,
+            fill: 0
+        },
+        grid: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            cols: 15,
+            rows: 15,
+            margin: 24
+        },
+        canvas: {
+            h: window.innerHeight,
+            w: window.innerWidth,
+            padding: 0,
+            brush: "p",
+        },
+        box: {
+            x: 500,
+            y: 500,
+            z: 500,
+            x2: 250,
+            y2: 250,
+            z2: 250,
+            d: 1000,
+            p: 1000,
+        },
+
+        timeOut: 40,
+        player: false,
+        
+        s: false,
+        steps: false,
+        tags: false,
+        log: true,
+        lockKeys: false,
+        pause: false,
+        q: false
+    }
+    const particles = [];
+    const pg = {}
+    const box = {
+        x: -50,
+        y: -45,
+        z: 0,
+        start: {
+            x: 0,
+            y: 0,
+            z: 0,
+        },
+        touches: [],
+        touch_xyz: {'x': 0, 'y': 0, 'z': 0},
+
+        grabing: false
+    };
+
+</script>
+<script src="../../../scripts/settings-02.js"></script>
+<script>
+
+// `[あ], [い], [う], [え], [お], 
+// [か], [き], [く], [け], [こ], [きゃ], [きゅ], [きょ], 
+// [さ], [し], [す], [せ], [そ], [しゃ], [しゅ], [しょ], 
+// [た], [ち], [つ], [て], [と], [ちゃ], [ちゅ], [ちょ], 
+// [な], [に], [ぬ], [ね], [の], [にゃ], [にゅ], [にょ], 
+// [は], [ひ], [ふ], [へ], [ほ], [ひゃ], [ひゅ], [ひょ], 
+// [ま], [み], [む], [め], [も], [みゃ], [みゅ], [みょ], 
+// [や], [𛀆], [ゆ], [𛀁], [よ], 
+// [ら], [り], [る], [れ], [ろ], [りゃ], [りゅ], [りょ], 
+// [わ], [ゐ], [𛄟], [ゑ], [を]
+
+// [が], [ぎ], [ぐ], [げ], [ご], [ぎゃ], [ぎゅ], [ぎょ], 
+// [ざ], [じ], [ず], [ぜ], [ぞ], [じゃ], [じゅ], [じょ], 
+// [だ], [ぢ], [づ], [で], [ど], [ぢゃ], [ぢゅ], [ぢょ], 
+// [ば], [び], [ぶ], [べ], [ぼ], [びゃ], [びゅ], [びょ], 
+// [ぱ], [ぴ], [ぷ], [ぺ], [ぽ], [ぴゃ], [ぴゅ], [ぴょ]`
+
+const lessons = [
+    ["y", "es", "agua", "te", "arroz", "sushi", "por favor"],
+    ["persona", "genial", "abogado", "doctor", "amable", "estudiante", "profesor"],
+    ["señor", "hola", "buenas noches", "hasta mañana"],
+    ["ramen", "ensalada", "delicioso", "si", "esto", "a", "?", "torta", "pizza"],
+    // [],
+    ["Japan", "America", "Canada", "Brazil", "Vietnam", "grande", "pequeño", "japones", "americano", "canadadiense", "brazilero", "vietnamita"],
+
+    // ["aqui", "donde", "parada de", "universidad", "estacion", "no", "no es", "hotel", "bus", "tienda", "almacen"],
+    ["aqui", "donde", "parada de", "universidad", "estacion", "no", "no es", "parada de bus", "hotel", "bus", "tienda", "almacen"],
+    ["bolso","abrigo","yo","mi","de","rojo","blanco","azul","negro","zapatos","guantes", "elegante"],
+    ["amigo", "alegre", "interesante"],
+    ["ahora", "hora", "uno", "dos", "tres", "perdon", "media", "tiempo"],
+    ["mapa", "boleto", "metro", "aeropuerto", "paraguas", "alli", "sombrero", "smartphone", "pasaporte", "eso es"],
+    ["soy", "como te llamas?", "New York", "mucho gusto", "soy de", "me llamo", "Kioto", "Toronto", "vivo en", "tambien", "como", "ciudad", "Osaka", "Tokio", "animado", "tranquilo", "bonito", "pueblo", "muy", "tambien"],
+]
+/*
+1️⃣2️⃣3️⃣
+4️⃣5️⃣6️⃣
+7️⃣8️⃣9️⃣
+ */
+const wordList = {
+    "L1": [["ichi","一"], ["1️⃣","|"], ["i","い"], ["chi","ち"]],
+    "y": [["to","と"]],
+    "es": [["de","で"], ["su","す"]],
+    "agua": [["mi","み"], ["zu","ず"], [".","💧"]],
+    "te": [["o","お"], ["cha","ちゃ"], [".","🍵"]],
+    "arroz": [["go","ご"], ["ha","は"], ["n","ん"], [".","🍚"]],
+    "sushi": [["su","す"], ["shi","し"], [".","🍣"]],
+    "por favor": [["ku","く"], ["da","だ"], ["sa","さ"], ["i","い"]],
+    
+    "L2": [["ni","二"], ["2️⃣","|"], ["ni","に"]],
+    "persona": [["hi","ひ"], ["to","と"], [".","👤"]],
+    "genial": [["ka","か"], ["kko","つこ"], ["i","い"], ["i","い"]],
+    "abogado": [["be","べ"], ["n","ん"], ["go","ご"], ["shi","し"]],
+    "doctor": [["i","い"], ["sha","しゃ"]],
+    "amable": [["ya","や"], ["sa","さ"], ["shi","し"], ["i","い"]],
+    "estudiante": [["ga","が"], ["ku","く"], ["se","せ"], ["i","い"], [".","🎓"]],
+    "profesor": [["se","せ"], ["n","ん"], ["se","せ"], ["n","ん"]],
+    
+    "L3": [["san","三"], ["3️⃣","|"], ["sa","さ"], ["n","ん"]],
+    "señor": [["sa","さ"], ["n","ん"]],
+    "hola": [["ko","こ"], ["n","ん"], ["ni","に"], ["chi","ち"], ["wa","は"], [".","👋"]],
+    "buenas noches": [["ko","こ"], ["n","ん"], ["ba","ば"], ["n","ん"], ["wa","は"]],
+    "hasta mañana": [["ma","ま"], ["ta","た"], ["a","あ"], ["shi","し"], ["ta","た"]],
+    
+    "L4": [["shi","四"], ["4️⃣","|"], ["shi","し"]],
+    "ramen": [["raa","ラー"], ["me","メ"], ["n","ン"], [".","🍜"]],
+    "ensalada": [["sa","サ"], ["ra","ラ"], ["da","ダ"], [".","🥗"]],
+    "delicioso": [["o","お"], ["i","い"], ["shi","し"], ["i","い"], [".","😋"]],
+    "si": [["ha","は"], ["i","い"], [".","✅"]],
+    "esto": [["ko","こ"], ["re","れ"]],
+    "a": [["wa","は"]],
+    "?": [["ka","か"]],
+    "torta": [["kee","ケー"], ["ki","キ"], [".","🍰"]],
+    "pizza": [["pi","ピ"], ["za","ザ"], [".","🍕"]],
+
+    "L5": [["go","五"], ["5️⃣","|"], ["go","ご"]],
+    "Japan": [["ni","に"], ["ho","ほ"], ["n","ん"], [".🇯🇵.","🗾"], ["ni","日"], ["hon","本"]],
+    "America": [["a","ア"], ["me","メ"], ["ri","リ"], ["ka","カ"], [".","<span class='emoji'>🇺🇸</span>"]],
+    "Canada": [["ka","カ"], ["na","ナ"], ["da","ダ"], [".","🇨🇦"]],
+    "Brazil": [["bu","ブ"], ["ra","ル"], ["ji","ジ"], ["ru","ル"]],
+    "Vietnam": [["be","ベ"], ["to","ト"], ["na","ナ"], ["mu","ム"]],
+
+    "grande": [["o","お"], ["o","お"], ["ki","き"], ["i","い"]],
+    "pequeño": [["chi","ち"], ["i","い"], ["sa","さ"], ["i","い"]],
+
+    "japones": [["ni","に"], ["ho","ほ"], ["n","ん"], ["ji","じ"], ["n","ん"]],
+    "americano": [["a","ア"], ["me","メ"], ["ri","リ"], ["ka","カ"], ["ji","じ"], ["n","ん"]],
+    "canadadiense": [["ka","カ"], ["na","ナ"], ["da","ダ"], ["ji","じ"], ["n","ん"]],
+    "brazilero": [["bu","ブ"], ["ra","ル"], ["ji","ジ"], ["ru","ル"], ["ji","じ"], ["n","ん"]],
+    "vietnamita": [["be","ベ"], ["to","ト"], ["na","ナ"], ["mu","ム"], ["ji","じ"], ["n","ん"]],
+    
+    "L6": [["roku","六"], ["6️⃣","|"], ["ro","ろ"], ["ku","く"]],
+    "aqui": [["ko","こ"], ["ko","こ"], [".","📍"]],
+    "donde": [["do","ど"], ["ko","こ"]],
+    "parada de": [["te","て"], ["i","い"]],
+    "universidad": [["da","だ"], ["i","い"], ["ga","が"], ["ku","く"], [".","🏫"]],
+    "estacion": [["e","え"], ["ki","き"]],
+    "no": [["i","い"], ["i","い"], ["e","え"], [".","🚫"]],
+    "no es": [["ja","じゃ"], ["na","な"], ["i","い"], [".","❌"]],
+    
+    "parada de bus": [["ba","バ"], ["su","ス"], ["te","て"], ["i","い"], [".","🚏"]],
+    "hotel": [["ho","ホ"], ["te","テ"], ["ru","ル"], [".","🏨"]],
+    "bus": [["ba","バ"], ["su","ス"]],
+    "tienda": [["ko","コ"], ["n","ソ"], ["bi","ビ"], ["ni","ニ"], [".","🏪"]],
+    "almacen": [["de","デ"], ["pa","パー"], ["to","ト"]],
+
+    "L7": [["shichi","七"], ["7️⃣","|"], ["shi","し"], ["chi","ち"]],
+    "bolso": [["ka","か"], ["ba","ば"], ["n","ん"], [".","👜"]],
+    "abrigo": [["koo","コー"], ["to","ト"], [".","🧥"]],
+    "yo": [["wa","わ"], ["ta","た"], ["shi","し"]],
+    "mi": [["wa","わ"], ["ta","た"], ["shi","し"], ["no","の"]],
+    "de": [["no","の"]],
+    "rojo": [["a","あ"], ["ka","か"], ["i","い"], [".","🔴"]],
+    "blanco": [["shi","し"], ["ro","ろ"], ["i","い"], [".","⬜"]],
+    "azul": [["a","あ"], ["o","お"], ["i","い"], [".","🔵"]],
+    "negro": [["ku","く"], ["ro","ろ"], ["i","い"], [".","⬛"]],
+    "zapatos": [["ku","く"], ["su","つ"], [".","👞"]],
+    "guantes": [["te","て"], ["bu","ぶ"], ["ku","く"], ["ro","ろ"], [".","🧤"]],
+    "elegante": [["o","お"], ["sha","しゃ"], ["re","れ"]],
+
+    "L8": [["shichi","七"], ["7️⃣","|"], ["shi","し"], ["chi","ち"]],
+    "amigo": [["to","と"], ["mo","も"], ["da","だ"], ["chi","ち"], [".","👥"]],
+    "alegre": [["a","あ"], ["ka","か"], ["ru","る"], ["i","い"], [".","😀"]],
+    "interesante": [["o","お"], ["mo","も"], ["shi","し"], ["ro","ろ"], ["i","い"], [".","✨"]],
+    
+    "L9": [["ku, kyū","九"], ["9️⃣","|"], ["ku","く, "], ["kyū","きゅう"]],
+    "ahora": [["i","い"], ["ma","ま"]],
+    "hora": [["na","な"], ["n","ん"], ["zi","じ"]],
+    "uno": [["ichi","一"], [".","1️⃣"], ["i","い"], ["chi","ち"]],
+    "dos": [["ni","二"], [".","2️⃣"], ["ni","に"]],
+    "tres": [["san","三"], [".","3️⃣"], ["sa","さ"], ["n","ん"]],
+    "perdon": [["su","す"], ["mi","み"], ["ma","ま"], ["se","せ"], ["n","ん"]],
+    "media": [["ha","は"], ["n","ん"]],
+    "tiempo": [["ji", "じ"], [".", "⏳"], ["ji", "時"]],
+
+    "L10": [["jū","十"], ["🔟","|"], ["jū","じゅう"]],
+    "mapa": [["chi","ち"], ["zu","ず"], [".","🗺️"]],
+    "boleto": [["ki","き"], ["ppu","つぷ"], [".","🎫"]],
+    "metro": [["chi","ち"], ["ka","か"], ["te","て"], ["su","つ"], [".","🚇"]],
+    "aeropuerto": [["ku","く"], ["u","う"], ["ko","こ"], ["u","う"], [".","🛬"]],
+    "paraguas": [["ka","か"], ["sa","さ"], [".","🌂"]],
+    "alli": [["a","あ"], ["so","そ"], ["ko","こ"]],
+    "sombrero": [["bo","ぼ"], ["u","う"], ["shi","し"], [".","🎩"]],
+    "smartphone": [["su","ス"], ["ma","マ"], ["ho","ホ"], [".","📱"]],
+    "pasaporte": [["pa","パ"], ["su","ス"], ["poo","ポー"], ["to","ト"]],
+    "eso es": [["so","そ"], ["re","れ"]],
+
+    "L11": [["jū","十"], ["ichi","一"], ["1️⃣1️⃣","|"], ["jū","じゅう"]],
+    "soy": [["i","い"], ["ma","ま"], ["su","す"]],
+    "como te llamas?": [["o","お"], ["ma","ま"], ["na","な"], ["e","え"], ["wa","わ"]],
+    "New York": [["nyuu","ニユー"], ["yoo","ヨー"], ["ku","ク"], [".","🗽"]],
+    "mucho gusto": [["ha","は"], ["ji","じ"], ["me","め"], ["ma","ま"], ["shi","し"], ["te","て"]],
+    "soy de": [["shu","しゅ"], ["sshi","つし"], ["n","ん"]],
+    "me llamo": [["to","と"], ["i","い"], ["i","い"], ["ma","ま"], ["su","す"]],
+    "Kioto": [["kyou","京"], ["to","都"]],
+    "Toronto": [["to","ト"], ["ro","ロ"], ["n","ン"], ["to","ト"]],
+    "vivo en": [["ni","に"], ["su","す"], ["n","ん"], ["de","で"], ["u","う"], ["ma","ま"], ["su","す"]],
+    "tambien": [["watashi","私"], ["mo","も"]],
+    "como": [["do","ど"], ["u","う"]],
+    "ciudad": [["to","と"], ["shi",""]],
+    "Osaka": [["o","お"], ["o","お"], ["sa","さ"], ["ka","か"]],
+    "Tokio": [["tou","東"], ["kyou","京"], [".","🗼"]],
+    "animado": [["ni","に"], ["gi","ぎ"], ["ya","や"], ["ka","か"]],
+    "tranquilo": [["shi","し"], ["zu","ず"], ["ka","か"]],
+    "bonito": [["ki","き"], ["re","れ"], ["i","い"]],
+    "pueblo": [["ma","ま"], ["chi","ち"]],
+    "muy": [["to","と"], ["te","て"], ["mo","も"]],
+
+    "L12": [["jū","十"], ["ni","二"], ["1️⃣2️⃣","|"], ["jū","じゅう"]],
+    "L13": [["jū","十"], ["san","三"], ["1️⃣3️⃣","|"], ["jū","じゅう"]],
+
+/*
+1️⃣2️⃣3️⃣
+4️⃣5️⃣6️⃣
+7️⃣8️⃣9️⃣
+    [["":""], ["":""]]
+
+    
+"soy": [["i","い"], ["ma","ま"], ["su","す"]],
+
+"como te llamas?": [["o","お"], ["ma","ま"], ["na","な"], ["e","え"], ["wa","わ"]],
+
+"New York": [["nyuu","ニユー"], ["yoo","ヨー"], ["ku","ク"]],
+
+"mucho gusto": [["ha","は"], ["ji","じ"], ["me","め"], ["ma","ま"], ["shi","し"], ["te","て"]],
+
+"soy": [["shu","しゅ"], ["sshi","つし"], ["n","ん"]],
+
+"me llamo": [["to","と"], ["i","い"], ["i","い"], ["ma","ま"], ["su","す"]],
+
+"Kioto": kyou to
+[["kyou":"京"], ["to":"都"]]
+"Toronto": to ro n to
+[["to":""], ["ro":""], ["n":""], ["to":""]]
+"vivo en": ni su n de i ma su
+[["ni":"に"], ["su":"す"], ["n":"ん"], ["de":"で"], ["u":"う"], ["ma":"ま"], ["su":"す"]]
+"yo tambien": watashimo
+も
+"como": [["do":"ど"], ["u":"う"]]
+
+"ciudad": [["to":"と"], ["shi":""]]
+
+"Osaka": [["o":"お"], ["o":"お"], ["sa":"さ"], ["ka":"か"]]
+
+"Tokio": [["tou":"東"], ["kyou":"京"]]
+
+"animado": [["ni":"に"], ["gi":"ぎ"], ["ya":"や"], ["ka":"か"]]
+"tranquilo": [["shi":"し"], ["zu":"ず"], ["ka":"か"]]
+
+"limpio": ki re i
+"bonito": [["ki":"き"], ["re":"れ"], ["i":"い"]]
+
+"pueblo": [["ma":"ま"], ["chi":"ち"]]
+"muy": [["to":"と"], ["te":"て"], ["mo":"も"]]
+"tambien": [["watashi","私"]["mo":"も"]]
+
+
+Japon: [["ni":"日"], ["hon":"本"]]
+
+
+---
+
+i ma su		= soy
+
+o na ma e wa	= como te llamas
+		= What is your name?
+
+nyuu yoo ku	= New York
+
+ha ji me ma shi te	= mucho gusto
+
+shu sshi n	= soy
+
+to i i ma su	= me llamo
+
+
+
+---------------
+"mapa": [["chi","ち"], ["zu","ず"], [".",""]],
+"boleto": [["ki","き"], ["ppu","つぷ"], [".",""]],
+"metro": [["chi","ち"], ["ka","か"], ["te","て"], ["su","つ"], [".",""]],
+"aeropuerto": [["ku","く"], ["u","う"], ["ko","こ"], ["u","う"], [".",""]],
+"paraguas": [["ka","か"], ["sa","さ"], [".",""]],
+"alli": [["a","あ"], ["so","そ"], ["ko","こ"]],
+"sombrero": [["bo","ぼ"], ["u","う"], ["shi","し"], [".",""]],
+"smartphone": [["su","ス"], ["ma","マ"], ["ho","ホ"], [".",""]],
+"pasaporte": [["pa","パ"], ["su","ス"], ["poo","ポー"], ["to","ト"]],
+"Eso es": [["so","そ"], ["re","れ"]],
+    
+chi zu
+ちず            = 
+
+ki ppu
+きつぷ          = boleto
+
+chi ka te su
+ちかてつ        = metro
+
+ku u ko u (kuukoo)
+くうこう        = aeropuerto
+
+ka sa
+かさ            = paraguas
+
+a so ko     = alli
+あそこ
+
+
+bo u shi   = sombrero
+ぼうし
+
+su ma ho    = smartphone
+スマホ
+
+pa su poo to
+パスポート      = pasaporte
+
+so re = Eso es
+それ
+
+
+yama guchi
+山口
+Ta naka
+田中
+naka yama
+中山
+
+    */
+
+    /*
+セブンティーン
+Sebuntīn
+十匕
+    "uno": [["ichi","一"], ["|","1️⃣"], ["i","い"], ["chi","ち"]],
+    "dos": [["ni","二"], ["|","2️⃣"], ["ni","に"]],
+    "tres": [["san","三"], ["|","3️⃣"], ["sa","さ"], ["n","ん"]],
+
+    "uno": [["ichi","一"], ["1️⃣","|"], ["i","い"], ["chi","ち"]],
+    "dos": [["ni","二"], ["2️⃣","|"], ["ni","に"]],
+    "tres": [["san","三"], ["3️⃣","|"], ["sa","さ"], ["n","ん"]],
+
+"time": [["ji", "じ"], [".", "|"], ["ji", "時"]]
+
+
+ha n 		= media
+
+su mi ma se n	= perdon
+
+
+--- 10 ---
+
+chi zu
+ちず            = mapa
+
+ki ppu
+きつぷ          = boleto
+
+chi ka te su
+ちかてつ        = metro
+
+ku u ko u (kuukoo)
+くうこう        = aeropuerto
+
+ka sa
+かさ            = paraguas
+
+a so ko     = alli
+あそこ
+
+
+bo u shi   = sombrero
+ぼうし
+
+su ma ho    = smartphone
+スマホ
+
+pa su poo to
+パスポート      = pasaporte
+
+so re = Eso es
+それ
+
+
+yama guchi
+山口
+Ta naka
+田中
+naka yama
+中山
+
+
+--- 11 ---
+
+
+    */
+
+    
+
+
+    "L10": [["jū","十"], ["🔟","|"], ["jū","じゅう"]],
+}
+
+
+/*
+
+	a	i	u	e	o
+∅	ア	イ	ウ	エ	オ
+k	カ	キ	ク	ケ	コ
+g	ガ	ギ	グ	ゲ	ゴ
+s	サ	シ	ス	セ	ソ
+z	ザ	ジ	ズ	ゼ	ゾ
+t	タ	チ	ツ	テ	ト
+d	ダ	ヂ	ヅ	デ	ド
+n	ナ	ニ	ヌ	ネ	ノ
+h	ハ	ヒ	フ	ヘ	ホ
+b	バ	ビ	ブ	ベ	ボ
+p	パ	ピ	プ	ペ	ポ
+m	マ	ミ	ム	メ	モ
+y	ヤ	[5]	ユ	[5]	ヨ
+r	ラ	リ	ル	レ	ロ
+w	ワ	ヰ	[5]	ヱ	ヲ
+ン (n)
+ー
+
+[ラー][メ][ン]
+[サ][ラ][ダ]
+[ケー][キ]
+[ピ][ザ]
+
+ra a me n
+sa ra da
+o i shi i
+ha i
+ko re 
+wa
+kee ki
+pi za
+
+
+
+[こ][ん][に][ち][は]
+[こ][ん][ば][ん][は]
+[ま][た][あ][し][た]
+ko n ni chi wa
+ko n ba n wa
+ma ta a shi ta
+
+
+[か][こ][い]
+[ひ][と]
+[せ]
+[べ][ご][し]
+[や][さ]
+[しゃ]
+[が][く]
+
+ka kko i i
+hi to
+se n se i
+be n go shi
+ya sa shi i
+i sha
+ga ku se i
+
+*/
+
+function MakeWordCard(k){
+    let j2 = wordList[k];
+    //     let whtml = `
+    // <div class="word">
+    //     <div class="japanese">
+    //         <div class="syl">
+    //             <div>mi</div>
+    //             <div>み</div>
+    //         </div>
+    //         <div class="syl">
+    //             <div>zu</div>
+    //             <div>ず</div>
+    //         </div>
+    //     </div>
+    //     <div class="spanish">${k}</div>
+    // </div>`;
+
+    let wordEl = document.createElement("div");
+    wordEl.classList.add("word");
+
+    let syls = [`<div class="japanese">`];
+    // console.log(j2);
+    for (let i = 0; i < j2.length; i++) {
+        const e = j2[i];
+        syls.push(`<div class="syl">
+    <div>${e[0]}</div>
+    <div>${e[1]}</div>
+</div>`);
+    }
+    syls.push(`</div><div class="spanish">${k}</div>`);
+
+    wordEl.innerHTML = syls.join("");
+
+    return wordEl;
+}
+
+function DisplayWords(){
+    // let display = document.getElementById("display");
+    // let words = Object.keys(wordList);
+    // for (let i = 0; i < words.length; i++) {
+    //     const w = words[i];
+    //     display.appendChild(MakeWordCard(w));
+    // }
+
+
+
+    //<div class="shelf">
+    //     <h3 class="shelf-title">Lesson 1</h3>
+    //     <div id="display1" class="display">
+    //     </div>
+    // </div>
+    let main = document.getElementsByTagName("main")[0];
+
+    for (let i = 0; i < lessons.length; i++) {
+        const lesson = lessons[i];
+
+        let shelf = document.createElement('div');
+        shelf.classList.add("shelf");
+        let shelfTitle = document.createElement('h3');
+        shelfTitle.classList.add("shelf-title");
+        shelfTitle.innerText = `Lesson ${i+1}`;
+        shelf.appendChild(shelfTitle);
+        let display = document.createElement('div');
+        display.id = `display${i}`;
+        display.classList.add("display");
+        shelf.appendChild(display);
+
+        for (let j = 0; j < lesson.length; j++) {
+            const w = lesson[j];
+            display.appendChild(MakeWordCard(w));
+        }
+
+        main.append(shelf);
+    }
+}
+
+
+    /* ─── Events ─── */
+    function updateSettings(){
+        s.h = window.innerHeight;
+        s.w = window.innerWidth;
+        s.dim = Math.sqrt(s.h * s.h + s.w * s.w);
+
+        /* ─ Canvas ─ */
+        s.canvas.x = s.w;
+        s.canvas.y = s.h;
+        s.canvas.z = (s.h + s.w)/2;
+
+        s.canvas.x2 = s.canvas.x/2;
+        s.canvas.y2 = s.canvas.y/2;
+        s.canvas.z2 = s.canvas.z/2;
+
+        /* ─ Box ─ */
+        /* resize box for mobile */
+        if(s.h < s.box.y) {s.box.y = s.h;}
+        if(s.w < s.box.x) {s.box.x = s.w;}
+        s.box.z = (s.box.y + s.box.x)/2;
+
+        /* center box */
+        s.box.top = (s.h - s.box.y)/2;
+        s.box.left = (s.w - s.box.x)/2;
+
+        /* determine center */
+        s.box.x2 = s.box.left + (s.box.x / 2);
+        s.box.y2 = s.box.top + (s.box.y / 2);
+        s.box.z2 = (s.box.z / 2);
+
+        /* ─ Grid ─ */
+        s.grid.cols = Math.floor(s.w / s.tile.w);
+        s.grid.rows = Math.floor(s.h / s.tile.h);
+
+        /* ─ Canvas Update ─ */
+        // canvas.width = s.canvas.x;
+        // canvas.height = s.canvas.y;
+        // ctx.clearRect(0,0,canvas.width, canvas.height);
+    }
+    window.addEventListener('resize', () =>{
+        updateSettings();
+    });
+
+    window.addEventListener('load', (ev) => {
+        console.log(`Welcome to my Lab!`);
+        updateSettings();
+        // start();
+        // update();
+        DisplayWords();
+    });
+    /* Version Log:
+    [index-nds-00]: Default Template.
+    [index-nds-01]: 
+    [index-nds-02]: 
+    [index-nds-03]: 
+    [index-nds-04]: 
+    [index-nds-05]: 
+    [index-nds-06]: 
+    [index-nds-07]: 
+    [index-nds-08]: 
+    [index-nds-09]: 
+    [index-nds-10]: 
+    [index-nds-11]: 
+    [index-nds-12]: 
+    
+    */
+
+
+/*
+
+height: 300px; width: 180px;
+background-color: #fff;
+background-image: radial-gradient(circle at 50% 50%, #f00 50%, #0000 50%);
+background: radial-gradient(circle at 50% 50%, #f00 50%, #0000 50%) 50px 40px / 100px 80px repeat, #fff;
+background: radial-gradient(circle at 50% 50%, #f00 50%, #0000 50%) 35px 40px / 70px 80px repeat, #fff;
+background: radial-gradient(circle at 50% 50%, #700 50%, #0000 50%) 35px 40px / 70px 80px repeat, #300;
+background: radial-gradient(circle at 50% 50%, #700 50%, #0000 50%) 35px 40px / 70px 80px repeat, linear-gradient(135deg, #fff5 50%, #0005 50%), #aaa;
+background: radial-gradient(circle at 50% 50%, #700 50%, #0000 50%) 40px 30px / 60px 60px repeat, linear-gradient(135deg, #fff5 50%, #0005 50%), #aaa;
+background: radial-gradient(circle at 50% 50%, #700 50%, #0000 50%) 25px 70px / 100px 100px no-repeat, linear-gradient(135deg, #fff5 50%, #0002 50%), #aaa;
+    --card-bg: radial-gradient(circle at 50% 50%, #700 50%, #0000 50%) 25px 70px / 100px 100px no-repeat, linear-gradient(135deg, #fff5 50%, #0002 50%), #aaa;
+.deck-list a:nth-child(6) .deck {--card-bg: radial-gradient(circle at 50% 50%, #700 50%, #0000 50%) 25px 70px / 100px 100px no-repeat, linear-gradient(135deg, #fff5 50%, #0002 50%), #aaa;}
+.deck-list a:nth-child(6) .deck {--card-bg: radial-gradient(circle at 50% 50%, #700 50%, #0000 50%) 0px 50px / 140px 140px no-repeat, linear-gradient(135deg, #fff5 50%, #0002 50%), #aaa;}
+
+[file]: "japanese-hiragana-deck"
+MemoCards/decks/japanese-hiragana-deck/index.html
+[7] >> <title>Japanese Hiragana Deck | MemoCards</title>
+[25] >> --card-bg-02: radial-gradient(circle at 50% 50%, #700 50%, #0000 50%) 10px 10px / 100px 100px no-repeat, linear-gradient(135deg, #fff5 50%, #0002 50%), #aaa;
+[54] >> © 2026 | by Stéfano De La Torre
+[141] >> "hiragana": [
+        {"pid": `0`, "q": `a`, "p": `あ`},
+        {"pid": `1`, "q": `i`, "p": `い`},
+        {"pid": `2`, "q": `e`, "p": `え`},
+        {"pid": `3`, "q": `o`, "p": `お`},
+        {"pid": `4`, "q": `ba`, "p": `ば`},
+        {"pid": `5`, "q": `be`, "p": `べ`},
+        {"pid": `6`, "q": `cha`, "p": `ちゃ`},
+        {"pid": `7`, "q": `chi`, "p": `ち`},
+        {"pid": `8`, "q": `da`, "p": `だ`},
+        {"pid": `9`, "q": `de`, "p": `で`},
+        {"pid": `10`, "q": `do`, "p": `ど`},
+        {"pid": `11`, "q": `ga`, "p": `が`},
+        {"pid": `12`, "q": `go`, "p": `ご`},
+        {"pid": `13`, "q": `ha`, "p": `は`},
+        {"pid": `14`, "q": `hi`, "p": `ひ`},
+        {"pid": `15`, "q": `ka`, "p": `か`},
+        {"pid": `16`, "q": `ko`, "p": `こ`},
+        {"pid": `17`, "q": `kko`, "p": `つこ`},
+        {"pid": `18`, "q": `ku`, "p": `く`},
+        {"pid": `19`, "q": `ma`, "p": `ま`},
+        {"pid": `20`, "q": `mi`, "p": `み`},
+        {"pid": `21`, "q": `n`, "p": `ん`},
+        {"pid": `22`, "q": `na`, "p": `な`},
+        {"pid": `23`, "q": `ni`, "p": `に`},
+        {"pid": `24`, "q": `re`, "p": `れ`},
+        {"pid": `25`, "q": `sa`, "p": `さ`},
+        {"pid": `26`, "q": `se`, "p": `せ`},
+        {"pid": `27`, "q": `su`, "p": `す`},
+        {"pid": `28`, "q": `sha`, "p": `しゃ`},
+        {"pid": `29`, "q": `shi`, "p": `し`},
+        {"pid": `30`, "q": `ta`, "p": `た`},
+        {"pid": `31`, "q": `te`, "p": `て`},
+        {"pid": `32`, "q": `to`, "p": `と`},
+        {"pid": `33`, "q": `wa`, "p": `は`},
+        {"pid": `34`, "q": `ya`, "p": `や`},
+        {"pid": `35`, "q": `zu`, "p": `ず`},
+        {"pid": `36`, "q": `ja`, "p": `じゃ`},
+    ],
+[332] >>  "deck": "hiragana", 
+
+--- Level 2 ---
+
+{"pid": `0`, "q": `n`, "p": `ん`},
+{"pid": `1`, "q": `a`, "p": `あ`},
+{"pid": `2`, "q": `ka`, "p": `か`},
+{"pid": `3`, "q": `sa`, "p": `さ`},
+{"pid": `4`, "q": `ta`, "p": `た`},
+{"pid": `5`, "q": `na`, "p": `な`},
+{"pid": `6`, "q": `ha`, "p": `は`},
+{"pid": `7`, "q": `ma`, "p": `ま`},
+{"pid": `8`, "q": `ya`, "p": `や`},
+{"pid": `9`, "q": `ra`, "p": `ら`},
+{"pid": `10`, "q": `wa`, "p": `わ`},
+{"pid": `11`, "q": `ga`, "p": `が`},
+{"pid": `12`, "q": `za`, "p": `ざ`},
+{"pid": `13`, "q": `da`, "p": `だ`},
+{"pid": `14`, "q": `ba`, "p": `ば`},
+{"pid": `15`, "q": `pa`, "p": `ぱ`},
+{"pid": `16`, "q": `i`, "p": `い`},
+{"pid": `17`, "q": `ki`, "p": `き`},
+{"pid": `18`, "q": `si`, "p": `し`},
+{"pid": `19`, "q": `ti`, "p": `ち`},
+{"pid": `20`, "q": `ni`, "p": `に`},
+{"pid": `21`, "q": `hi`, "p": `ひ`},
+{"pid": `22`, "q": `mi`, "p": `み`},
+{"pid": `24`, "q": `ri`, "p": `り`},
+{"pid": `25`, "q": `wi`, "p": `ゐ`},
+{"pid": `26`, "q": `gi`, "p": `ぎ`},
+{"pid": `27`, "q": `zi`, "p": `じ`},
+{"pid": `28`, "q": `di`, "p": `ぢ`},
+{"pid": `29`, "q": `bi`, "p": `び`},
+{"pid": `30`, "q": `pi`, "p": `ぴ`},
+{"pid": `31`, "q": `u`, "p": `う`},
+{"pid": `32`, "q": `ku`, "p": `く`},
+{"pid": `33`, "q": `su`, "p": `す`},
+{"pid": `34`, "q": `tu`, "p": `つ`},
+{"pid": `35`, "q": `nu`, "p": `ぬ`},
+{"pid": `36`, "q": `hu`, "p": `ふ`},
+{"pid": `37`, "q": `mu`, "p": `む`},
+{"pid": `38`, "q": `yu`, "p": `ゆ`},
+{"pid": `39`, "q": `ru`, "p": `る`},
+{"pid": `41`, "q": `gu`, "p": `ぐ`},
+{"pid": `42`, "q": `zu`, "p": `ず`},
+{"pid": `43`, "q": `du`, "p": `づ`},
+{"pid": `44`, "q": `bu`, "p": `ぶ`},
+{"pid": `45`, "q": `pu`, "p": `ぷ`},
+{"pid": `46`, "q": `e`, "p": `え`},
+{"pid": `47`, "q": `ke`, "p": `け`},
+{"pid": `48`, "q": `se`, "p": `せ`},
+{"pid": `49`, "q": `te`, "p": `て`},
+{"pid": `50`, "q": `ne`, "p": `ね`},
+{"pid": `51`, "q": `he`, "p": `へ`},
+{"pid": `52`, "q": `me`, "p": `め`},
+{"pid": `53`, "q": `ye`, "p": `𛀁`},
+{"pid": `54`, "q": `re`, "p": `れ`},
+{"pid": `55`, "q": `we`, "p": `ゑ`},
+{"pid": `56`, "q": `ge`, "p": `げ`},
+{"pid": `57`, "q": `ze`, "p": `ぜ`},
+{"pid": `58`, "q": `de`, "p": `で`},
+{"pid": `59`, "q": `be`, "p": `べ`},
+{"pid": `60`, "q": `pe`, "p": `ぺ`},
+{"pid": `61`, "q": `o`, "p": `お`},
+{"pid": `62`, "q": `ko`, "p": `こ`},
+{"pid": `63`, "q": `so`, "p": `そ`},
+{"pid": `64`, "q": `to`, "p": `と`},
+{"pid": `65`, "q": `no`, "p": `の`},
+{"pid": `66`, "q": `ho`, "p": `ほ`},
+{"pid": `67`, "q": `mo`, "p": `も`},
+{"pid": `68`, "q": `yo`, "p": `よ`},
+{"pid": `69`, "q": `ro`, "p": `ろ`},
+{"pid": `70`, "q": `wo`, "p": `を`},
+{"pid": `71`, "q": `go`, "p": `ご`},
+{"pid": `72`, "q": `zo`, "p": `ぞ`},
+{"pid": `73`, "q": `do`, "p": `ど`},
+{"pid": `74`, "q": `bo`, "p": `ぼ`},
+{"pid": `75`, "q": `po`, "p": `ぽ`},
+{"pid": `76`, "q": `kya`, "p": `きゃ`},
+{"pid": `77`, "q": `sya`, "p": `しゃ`},
+{"pid": `78`, "q": `tya`, "p": `ちゃ`},
+{"pid": `79`, "q": `nya`, "p": `にゃ`},
+{"pid": `80`, "q": `hya`, "p": `ひゃ`},
+{"pid": `81`, "q": `mya`, "p": `みゃ`},
+{"pid": `82`, "q": `rya`, "p": `りゃ`},
+{"pid": `83`, "q": `gya`, "p": `ぎゃ`},
+{"pid": `84`, "q": `zya`, "p": `じゃ`},
+{"pid": `85`, "q": `dya`, "p": `ぢゃ`},
+{"pid": `86`, "q": `bya`, "p": `びゃ`},
+{"pid": `87`, "q": `pya`, "p": `ぴゃ`},
+{"pid": `88`, "q": `kyu`, "p": `きゅ`},
+{"pid": `89`, "q": `syu`, "p": `しゅ`},
+{"pid": `90`, "q": `tyu`, "p": `ちゅ`},
+{"pid": `91`, "q": `nyu`, "p": `にゅ`},
+{"pid": `92`, "q": `hyu`, "p": `ひゅ`},
+{"pid": `93`, "q": `myu`, "p": `みゅ`},
+{"pid": `94`, "q": `ryu`, "p": `りゅ`},
+{"pid": `95`, "q": `gyu`, "p": `ぎゅ`},
+{"pid": `96`, "q": `zyu`, "p": `じゅ`},
+{"pid": `97`, "q": `dyu`, "p": `ぢゅ`},
+{"pid": `98`, "q": `byu`, "p": `びゅ`},
+{"pid": `99`, "q": `pyu`, "p": `ぴゅ`},
+{"pid": `100`, "q": `kyo`, "p": `きょ`},
+{"pid": `101`, "q": `syo`, "p": `しょ`},
+{"pid": `102`, "q": `tyo`, "p": `ちょ`},
+{"pid": `103`, "q": `nyo`, "p": `にょ`},
+{"pid": `104`, "q": `hyo`, "p": `ひょ`},
+{"pid": `105`, "q": `myo`, "p": `みょ`},
+{"pid": `106`, "q": `ryo`, "p": `りょ`},
+{"pid": `107`, "q": `gyo`, "p": `ぎょ`},
+{"pid": `108`, "q": `zyo`, "p": `じょ`},
+{"pid": `109`, "q": `dyo`, "p": `ぢょ`},
+{"pid": `110`, "q": `byo`, "p": `びょ`},
+{"pid": `111`, "q": `pyo`, "p": `ぴょ`},
+
+---
+
+
+
+a   あ
+i   い
+e   え
+o   お
+ba  ば
+be  べ
+cha ちゃ
+chi ち
+da  だ
+de  で
+do  ど
+ga  が
+go  ご
+ha  は
+hi  ひ
+ka  か
+ko  こ
+kko つこ
+ku  く
+ma  ま
+mi  み
+n   ん
+na  な
+ni  に
+re  れ
+sa  さ
+se  せ
+su  す
+sha しゃ
+shi し
+ta  た
+te  て
+to  と
+wa  は
+ya  や
+zu  ず
+
+---------------
+
+[[Hiragana]]
+["a","あ"], ["i","い"], ["e","え"], ["o","お"], 
+["ba","ば"], ["be","べ"], 
+["cha","ちゃ"], ["chi","ち"], 
+["da","だ"], ["de","で"], ["do","ど"], 
+["ga","が"], ["go","ご"], 
+["ha","は"], ["hi","ひ"], 
+["ka","か"], ["ko","こ"], ["kko","つこ"], ["ku","く"], 
+["ma","ま"], ["mi","み"], 
+["n","ん"], 
+["na","な"], ["ni","に"]
+["re","れ"], 
+["sa","さ"], ["se","せ"], ["su","す"], 
+["sha","しゃ"], ["shi","し"], 
+["ta","た"], ["te","て"], ["to","と"], 
+["wa","は"], 
+["ya","や"], 
+["zu","ず"]; ["ja","じゃ"]
+
+[[Katakana]]
+["ba","バ"], ["bi", "ビ"],
+["da","ダ"], ["de","デ"], 
+["ko", "コ"], ["kee","ケー"], ["ki","キ"]
+["me","メ"], 
+["n","ン"], 
+["ni", "ニ"],
+["paa","パー"], ["pi","ピ"],
+["ra","ラ"], ["raa","ラー"], 
+["sa","サ"], ["su","ス"],
+["to","ト"],
+["za","ザ"]
+
+
+*/
+/*
+[a], [i], [u], [e], [o], [ya], [yu], [yo]
+[あ], [い], [う], [え], [お], 
+[か], [き], [く], [け], [こ], [きゃ], [きゅ], [きょ], 
+[さ], [し], [す], [せ], [そ], [しゃ], [しゅ], [しょ], 
+[た], [ち], [つ], [て], [と], [ちゃ], [ちゅ], [ちょ], 
+[な], [に], [ぬ], [ね], [の], [にゃ], [にゅ], [にょ], 
+[は], [ひ], [ふ], [へ], [ほ], [ひゃ], [ひゅ], [ひょ], 
+[ま], [み], [む], [め], [も], [みゃ], [みゅ], [みょ], 
+[や], [𛀆], [ゆ], [𛀁], [よ], 
+[ら], [り], [る], [れ], [ろ], [りゃ], [りゅ], [りょ], 
+[わ], [ゐ], [𛄟], [ゑ], [を]
+
+[が], [ぎ], [ぐ], [げ], [ご], [ぎゃ], [ぎゅ], [ぎょ], 
+[ざ], [じ], [ず], [ぜ], [ぞ], [じゃ], [じゅ], [じょ], 
+[だ], [ぢ], [づ], [で], [ど], [ぢゃ], [ぢゅ], [ぢょ], 
+[ば], [び], [ぶ], [べ], [ぼ], [びゃ], [びゅ], [びょ], 
+[ぱ], [ぴ], [ぷ], [ぺ], [ぽ], [ぴゃ], [ぴゅ], [ぴょ]
+
+
+aiueoyayuyo
+[a], [i], [u], [e], [o], [ya], [yu], [yo]
+[k]
+[s]
+[t]
+[n]
+[h]
+[m]
+[y]
+[r]
+[w]
+[g]
+[z]
+[d]
+[b]
+[p]
+[ka], [ki], [ku], [ke], [ko], [kya], [kyu], [kyo]
+[sa], [si], [su], [se], [so], [sya], [syu], [syo]
+[ta], [ti], [tu], [te], [to], [tya], [tyu], [tyo]
+[na], [ni], [nu], [ne], [no], [nya], [nyu], [nyo]
+[ha], [hi], [hu], [he], [ho], [hya], [hyu], [hyo]
+[ma], [mi], [mu], [me], [mo], [mya], [myu], [myo]
+[ya], [yi], [yu], [ye], [yo], 
+[ra], [ri], [ru], [re], [ro], [rya], [ryu], [ryo]
+[wa], [wi], [wu], [we], [wo], 
+[ga], [gi], [gu], [ge], [go], [gya], [gyu], [gyo]
+[za], [zi], [zu], [ze], [zo], [zya], [zyu], [zyo]
+[da], [di], [du], [de], [do], [dya], [dyu], [dyo]
+[ba], [bi], [bu], [be], [bo], [bya], [byu], [byo]
+[pa], [pi], [pu], [pe], [po], [pya], [pyu], [pyo]
+
+
+ka kko i i
+hi to
+se n se i
+be n go shi
+ya sa shi i
+i sha
+ga ku se i
+[か][こ][い]
+[ひ][と]
+[せ]
+[べ][ご][し]
+[や][さ]
+[しゃ]
+[が][く]
+
+
+     [a],  [i],  [u],  [e],  [o],  [ya],  [yu], [yo]
+[ ], [あ], [い], [う], [え], [お], 
+[k], [か], [き], [く], [け], [こ], [きゃ], [きゅ], [きょ], 
+[s], [さ], [し], [す], [せ], [そ], [しゃ], [しゅ], [しょ], 
+[t], [た], [ち], [つ], [て], [と], [ちゃ], [ちゅ], [ちょ], 
+[n], [な], [に], [ぬ], [ね], [の], [にゃ], [にゅ], [にょ], 
+[h], [は], [ひ], [ふ], [へ], [ほ], [ひゃ], [ひゅ], [ひょ], 
+[m], [ま], [み], [む], [め], [も], [みゃ], [みゅ], [みょ], 
+[y], [や], [𛀆], [ゆ], [𛀁], [よ], 
+[r], [ら], [り], [る], [れ], [ろ], [りゃ], [りゅ], [りょ], 
+[w], [わ], [ゐ], [𛄟], [ゑ], [を]
+[g], [が], [ぎ], [ぐ], [げ], [ご], [ぎゃ], [ぎゅ], [ぎょ], 
+[z], [ざ], [じ], [ず], [ぜ], [ぞ], [じゃ], [じゅ], [じょ], 
+[d], [だ], [ぢ], [づ], [で], [ど], [ぢゃ], [ぢゅ], [ぢょ], 
+[b], [ば], [び], [ぶ], [べ], [ぼ], [びゃ], [びゅ], [びょ], 
+[p], [ぱ], [ぴ], [ぷ], [ぺ], [ぽ], [ぴゃ], [ぴゅ], [ぴょ]
+
+
+	a	i	u	e	o
+∅	ア	イ	ウ	エ	オ
+k	カ	キ	ク	ケ	コ
+s	サ	シ	ス	セ	ソ
+t	タ	チ	ツ	テ	ト
+n	ナ	ニ	ヌ	ネ	ノ
+h	ハ	ヒ	フ	ヘ	ホ
+m	マ	ミ	ム	メ	モ
+y	ヤ	[5]	ユ	[5]	ヨ
+r	ラ	リ	ル	レ	ロ
+w	ワ	ヰ	[5]	ヱ	ヲ
+ン (n)
+
+	a	i	u	e	o
+∅	ア	イ	ウ	エ	オ
+k	カ	キ	ク	ケ	コ
+g	ガ	ギ	グ	ゲ	ゴ
+s	サ	シ	ス	セ	ソ
+z	ザ	ジ	ズ	ゼ	ゾ
+t	タ	チ	ツ	テ	ト
+d	ダ	ヂ	ヅ	デ	ド
+n	ナ	ニ	ヌ	ネ	ノ
+h	ハ	ヒ	フ	ヘ	ホ
+b	バ	ビ	ブ	ベ	ボ
+p	パ	ピ	プ	ペ	ポ
+m	マ	ミ	ム	メ	モ
+y	ヤ	[5]	ユ	[5]	ヨ
+r	ラ	リ	ル	レ	ロ
+w	ワ	ヰ	[5]	ヱ	ヲ
+ン (n)
+
+
+Japanese kana: hiragana (left) and katakana (right)
+     –	     k       s     t       n       h       m       y       r      w
+a	あア	かカ	さサ	たタ	なナ	はハ	まマ	やヤ	らラ	わワ
+i	いイ	きキ	しシ	ちチ	にニ	ひヒ	みミ	𛀆𛄠*	りリ	ゐヰ
+u	うウ	くク	すス	つツ	ぬヌ	ふフ	むム	ゆユ	るル	𛄟𛄢*
+e	えエ	けケ	せセ	てテ	ねネ	へヘ	めメ	𛀁𛄡*	れレ	ゑヱ
+o	おオ	こコ	そソ	とト	のノ	ほホ	もモ	よヨ	ろロ	をヲ
+
+
+...Kanji...
+
+<https://www.kanjidamage.com/kanji>
+css:`
+body .container {margin: 0px;}
+.col-md-10 {max-width: 100%; flex: 1;}
+.col-md-2 {display: none;}
+tbody {display: flex; flex-wrap: wrap;}
+tr {display: flex; flex-direction: column;}
+tr td {display: none;}
+tr td:nth-child(3) {display: flex; font-size: 32px; font-weight: 100;}
+tr td:nth-child(4) {display: flex; font-size: 12px;}
+
+'一二三了子女好姦口品言下不否十古叶計七比叱日旨昆唱晶旧早旦白皆水泉氷永泳泊汁混月湖明脂胆朝火炎淡談丁
+灯可河訂田町畑胃入人何信化花苦草荷内肉円市肺姉目冒帽自亭停卒方万訪妨肪又双奴文斉済収叫心必怒息思L亡忙
+忘盲妄慢漫亜悪夕多夢夜液名死外上卓占点宅安字宣喧八穴六沿ム公訟台治始怠能熊態仏立辛幸宰泣位音章暗意億
+憶門闇間問刀前切召昭照分剤罰刃忍認力加協脅努男九究丸熟執小少劣妙省京涼景示宗寂督幼玄畜蓄糸紹線綿細総
+索納紛絹系孫係干刊用肝芋汗宇千舌話活辞憩半判伴平評呼土里量黒童憧埋坊吐塾士仕志吉詰結誌老孝者著緒諸署
+暑煮焦無維唯誰準護馬止雌肯歩渉紫足促踏正是定証歪走超尺駅昼訳沢手択推描提払批指打招拐担接拍挿看耳取最
+撮趣恥聞斤折丘哲誓訴竹筋簡作昨近辺迫込達進述木林森本体休枠析策刺新集棚松枯相箱想禁果課菓東練案杯膝保
+繰操染雑稚和秘私秒移利季委香秋愁末未妹味米迷謎断継粘粋粒粉来番審大奥奇寄臭奮器突央映英犬伏黙然燃太駄
+漢難勤嘆模墓暮募幕漠因恩菌困囚回固個井囲丼王玉国宝理任妊皇望聖程主契喫潔注柱住駐害割素憲青請清精晴情
+生星性姓朱株遊称乙乾母毒毎梅海悔侮中忠患仲虫蛇蚊騒属居尼泥尿尻刷戸所肩雇房戻涙毛尾革靴甘某謀見寛焼境
+現親兄克況競児貝買憤噴貨貧貯賭質賃貞偵員損則側測貫慣責績積貴遺兵浜負魚角触売続読窓探深具元完西票標漂
+酒酔価要腰煙才財材閉夫賛替潜規挟巣光単桜肖削消菜浮受妥授採久各愛客落格絡略路条麦酸秀誘透携及吸級扱穏
+侵浸緑急当婦掃帰帝締躍濯曜工空控紅功巧与写汚極誇号考拷式拭試武代貸閥惑我賊域戦栽幾機職織識区駆巨拒距
+臣堅緊賢覧臨姫匹匠四喚換欠欧歌吹炊数枚敏敗故政放教激繁攻敵適滴摘己改起紀記配求救球厳励歴厚圧粧備灰産
+原源反返坂板仮販成誠越蔵臓歳滅威城幻気決快獣減感憾同筒司伺詞旅派脈遠園環表衣依袋裁褒裏哀衰良娘退浪眼
+恨根限郷響階障院防陥都隠部剖倍壮装状寝北背制製告造酷先洗面百憂優宿縮石砂砕礎山岩帯滞催崩密幽岸炭岳鳥
+島鳴豆喜嬉頭夏願頑頃頂額類題顧傾項川順州訓荒慌首道税説脱磁羊￥南美鮮詳洋遅着養義儀議様天添笑呑送咲関
+巻圏券勝弓弟第沸費強引弾赤湾跡恋変長張帳険検倹剣験金鋭錆録鏡鎖銀針銅茶傘全企食飲飾飯飼幹舎捨余塗途除
+倉創介界合給塔拾搭答ラ今含念令鈴領命冷凍尽冬終次姿資寒奏春棒実冊扁編騙偏論倫寸付附討奪守団符村寿慰尋
+導闘寺詩時持侍等尊噂父交対校郊効絞専博縛薄演恵敷画両満出屈掘缶揺世葉喋歯噛齢凶脳悩離矢疑擬短医族候知
+失鉄観勧権確車重垂乗陣輪軒較軟載軍揮連運輝華睡郵剰種動働腫非輩悲罪俳排軽経怪友抜雄布希怖右左若有堕賄
+差在存片版暖援緩髪彩影顔参修惨膨珍診廊磨腐応府庁庫店座床麻摩広拡庶席度渡鬼魔魅醜塊卑氏底紙低婚抵民眠
+曲豊典遭農濃辱娠振唇登祭際察擦開発廃形研刑型午許牛件特牲犠解物惚易湯揚陽傷場色免逸晩絶勉声肥豚象像縁
+家嫁稼遂隊行徐徒径後往待得従縦術衝微徴育徹撤流陰充銃統至到致倒去法怯屋室握貿留云転伝魂芸会絵街掛涯封
+陸勢熱冗肌抗机風飢処拠凡築恐投役設没殺殴股撃盾循真慎県懸直置値植殖別列裂烈例支皮彼枝技鼓破波マ勇予序
+預野矛柔務束疎頼速整通踊丙柄病痛疲痢痴症痺癒愉諭輸癖避壁療寮僚申痩紳捜伸甲押由抽宙油届偶隅愚雨霧雲曇
+霜雷震漏雪雰露霊湿業僕撲竜滝電俺亀縄需耐端包胞泡砲飽抱胸句敬警驚局拘旬陶匂渇約的釣均皿盗温盟盛塩監鑑
+血衆益溢誉挙舟船航般盤猫猛猥猿狩狂独獄獲狭犯印叩卵却範御腕即節厄危抑迎仰服報狙組阻粗査畳助ネ祖視祝社
+祈祉神福副幅富礼乱札乳初裸被複腹復履谷裕欲俗容溶浴鼻葬算弁昇戒械羽飛翌習弱扇散展譲昔借惜籍黄嬢横共並
+普供選洪巷港異翼暴爆再甫舗補捕構講購溝降年五語悟違偉衛瞬舞隣料科図斜史更硬使便身射謝窮地池他施曽増贈
+憎僧層呂宮官館棺追遣管師営労栄学覚党尚賞償常堂善繕周調週彫高豪向商橋過骨滑率渋楽薬兆逃跳眺挑桃書律事
+筆唐糖逮康棄君群妻凄争静兼嫌謙建健延誕庭銭浅残聴壊懐徳劇慮虚虐膚嘘沈就蹴刻核該咳之乏芝其旗基期欺甚勘
+堪邪既雅概慨屯純鈍逆以似承蒸段興暇龍襲<<<巡災呉誤娯瓜孤弧為偽融隔丈拝互麗クメラホテオノ???丶ユ'
+
+*/
+
+/*
+const wordList = {
+    "L1": [["ichi","一"], ["1️⃣","|"], ["i","い"], ["chi","ち"]],
+    "y": [["to","と"]],
+    "es": [["de","で"], ["su","す"]],
+    "agua": [["mi","み"], ["zu","ず"]],
+    "te": [["o","お"], ["cha","ちゃ"]],
+    "arroz": [["go","ご"], ["ha","は"], ["n","ん"]],
+    "por favor": [["ku","く"], ["da","だ"], ["sa","さ"], ["i","い"]],
+    
+    "L2": [["ni","二"], ["2️⃣","|"], ["ni","に"]],
+    "persona": [["hi","ひ"], ["to","と"]],
+    "genial": [["ka","か"], ["kko","つこ"], ["i","い"], ["i","い"]],
+    "abogado": [["be","べ"], ["n","ん"], ["go","ご"], ["shi","し"]],
+    "doctor": [["i","い"], ["sha","しゃ"]],
+    "amable": [["ya","や"], ["sa","さ"], ["shi","し"], ["i","い"]],
+    "estudiante": [["ga","が"], ["ku","く"], ["se","せ"], ["i","い"]],
+    "profesor": [["se","せ"], ["n","ん"], ["se","せ"], ["n","ん"]],
+    
+    "L3": [["san","三"], ["3️⃣","|"], ["sa","さ"], ["n","ん"]],
+    "señor": [["sa","さ"], ["n","ん"]],
+    "hola": [["ko","こ"], ["n","ん"], ["ni","に"], ["chi","ち"], ["wa","は"]],
+    "buenas noches": [["ko","こ"], ["n","ん"], ["ba","ば"], ["n","ん"], ["wa","は"]],
+    "hasta mañana": [["ma","ま"], ["ta","た"], ["a","あ"], ["shi","し"], ["ta","た"]],
+    
+    "L4": [["shi","四"], ["4️⃣","|"], ["shi","し"]],
+    "ramen": [["raa","ラー"], ["me","メ"], ["n","ン"]],
+    "ensalada": [["sa","サ"], ["ra","ラ"], ["da","ダ"]],
+    "delicioso": [["o","お"], ["i","い"], ["shi","し"], ["i","い"]],
+    "si": [["ha","は"], ["i","い"]],
+    "esto": [["ko","こ"], ["re","れ"]],
+    "a": [["wa","は"]],
+    "?": [["ka","か"]],
+    "torta": [["kee","ケー"], ["ki","キ"]],
+    "pizza": [["pi","ピ"], ["za","ザ"]],
+
+    "L5": [["go","五"], ["5️⃣","|"], ["go","ご"]],
+    "Japan": [["ni","に"], ["ho","ほ"], ["n","ん"]],
+    "America": [["a","ア"], ["me","メ"], ["ri","リ"], ["ka","カ"]],
+    "Canada": [["ka","カ"], ["na","ナ"], ["da","ダ"]],
+    "Brazil": [["bu","ブ"], ["ra","ル"], ["ji","ジ"], ["ru","ル"]],
+    "Vietnam": [["be","ベ"], ["to","ト"], ["na","ナ"], ["mu","ム"]],
+
+    "grande": [["o","お"], ["o","お"], ["ki","き"], ["i","い"]],
+    "pequeño": [["chi","ち"], ["i","い"], ["sa","さ"], ["i","い"]],
+
+    "japones": [["ni","に"], ["ho","ほ"], ["n","ん"], ["ji","じ"], ["n","ん"]],
+    "americano": [["a","ア"], ["me","メ"], ["ri","リ"], ["ka","カ"], ["ji","じ"], ["n","ん"]],
+    "canadadiense": [["ka","カ"], ["na","ナ"], ["da","ダ"], ["ji","じ"], ["n","ん"]],
+    "brazilero": [["bu","ブ"], ["ra","ル"], ["ji","ジ"], ["ru","ル"], ["ji","じ"], ["n","ん"]],
+    "vietnamita": [["be","ベ"], ["to","ト"], ["na","ナ"], ["mu","ム"], ["ji","じ"], ["n","ん"]],
+    
+    "L6": [["roku","六"], ["6️⃣","|"], ["ro","ろ"], ["ku","く"]],
+    "aqui": [["ko","こ"], ["ko","こ"]],
+    "donde": [["do","ど"], ["ko","こ"]],
+    "parada de": [["te","て"], ["i","い"]],
+    "universidad": [["da","だ"], ["i","い"], ["ga","が"], ["ku","く"]],
+    "estacion": [["e","え"], ["ki","き"]],
+    "no": [["i","い"], ["i","い"], ["e","え"]],
+    "no es": [["ja","じゃ"], ["na","な"], ["i","い"]],
+    
+    "parada de bus": [["ba","バ"], ["su","ス"], ["te","て"], ["i","い"]],
+    "hotel": [["ho","ホ"], ["te","テ"], ["ru","ル"]],
+    "bus": [["ba","バ"], ["su","ス"]],
+    "tienda": [["ko","コ"], ["n","ソ"], ["bi","ビ"], ["ni","ニ"]],
+    "almacen": [["de","デ"], ["pa","パー"], ["to","ト"]],
+
+    "L7": [["shichi","七"], ["7️⃣","|"], ["shi","し"], ["chi","ち"]],
+    "bolso": [["ka","か"], ["ba","ば"], ["n","ん"]],
+    "abrigo": [["koo","コー"], ["to","ト"]],
+    "yo": [["wa","わ"], ["ta","た"], ["shi","し"]],
+    "mi": [["wa","わ"], ["ta","た"], ["shi","し"], ["no","の"]],
+    "de": [["no","の"]],
+    "rojo": [["a","あ"], ["ka","か"], ["i","い"]],
+    "blanco": [["shi","し"], ["ro","ろ"], ["i","い"]],
+    "azul": [["a","あ"], ["o","お"], ["i","い"]],
+    "negro": [["ku","く"], ["ro","ろ"], ["i","い"]],
+    "zapatos": [["ku","く"], ["su","つ"]],
+    "guantes": [["te","て"], ["bu","ぶ"], ["ku","く"], ["ro","ろ"]],
+    "elegante": [["o","お"], ["sha","しゃ"], ["re","れ"]],
+
+    "L8": [["shichi","七"], ["7️⃣","|"], ["shi","し"], ["chi","ち"]],
+    "amigo": [["to","と"], ["mo","も"], ["da","だ"], ["chi","ち"]],
+    "alegre": [["a","あ"], ["ka","か"], ["ru","る"], ["i","い"]],
+    "interesante": [["o","お"], ["mo","も"], ["shi","し"], ["ro","ろ"], ["i","い"]],
+
+
+    
+    
+    
+    "L9": [["ku, kyū","九"], ["9️⃣","|"], ["ku","く, "], ["kyū","きゅう"]],
+    "L10": [["jū","十"], ["🔟","|"], ["jū","じゅう"]],
+}
+
+to mo da chi
+と も だ ち	= amigo
+
+a ka ru i	= alegre
+あかるい
+
+o mo shi ro i	= interesante
+おもしろい
+
+
+"": [["",""], ["",""]],
+"bolso": [["ka","か"], ["ba","ば"], ["n","ん"]],
+"abrigo": [["koo","コー"], ["to","ト"]],
+"mi": [["wa","わ"], ["ta","た"], ["shi","し"], ["no","の"]],
+"rojo": [["a","あ"], ["ka","か"], ["i","い"]],
+"blanco": [["shi","し"], ["ro","ろ"], ["i","い"]],
+
+"rojo": [["a","あ"], ["ka","か"]],
+"blanco": [["shi","し"], ["ro","ろ"]],
+"azul": [["a","あ"], ["o","お"]],
+"negro": [["ku","く"], ["ro","ろ"]],
+"zapatos": [["ku","く"], ["su","つ"]],
+
+"": [["te","て"], ["bu","ぶ"], ["ku","く"], ["ro","ろ"]],
+te bu ku ro
+てぶくろ
+
+ka ba n = bolso
+かばん
+
+koo to = abrigo
+コート
+
+wa ta shi no = mi
+わたしの
+
+a ka i = rojo
+あかい
+
+a o i = azul
+あおい
+
+shi ro i = blanco
+しろい
+
+くろ = negro
+kuro
+
+te bu ku ro
+てぶくろ
+
+ku tsu = zapatos
+くつ
+
+ka ba wa
+かばん
+*/
+
+</script>
+</body>
+</html>
