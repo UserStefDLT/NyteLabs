@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://raw.githubusercontent.com/UserStefDLT/WebResources/master/Images/icon_st.png">
-    <title>Roll ar C | NyteLabs</title>
+    <title>Roll at C 🎲🎲🎲🎲 | NyteLabs</title>
     <link rel="stylesheet" href="../../../stylesheets/start.css">
     <link rel="stylesheet" href="../../../stylesheets/labst.css">
     <link rel="stylesheet" href="../../../stylesheets/logo.css">
@@ -21,10 +21,12 @@
 <style>
     :root {
         --sz-tile: 30px;
+        --sz2-tile: calc(var(--sz-tile) / 2);
         --borrad: calc(var(--sz-tile) / 5);
     }
     .class {}
-    .grid, .row, .tile {
+    .grid, .row, .tile, .side {
+        box-sizing: border-box;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -37,24 +39,59 @@
         flex-direction: row;
     }
     .tile {
+        --rotate-x: 0deg;
+        --rotate-y: 0deg;
         --hue: 210;
-        background-color: #ddd;
-        background-image: linear-gradient(hsla(var(--hue), 100%, 60%, 1), hsla(var(--hue), 100%, 30%, 1));
-        background-image: linear-gradient(hsla(var(--hue), 50%, 70%, 1), hsla(var(--hue), 80%, 70%, 1));
+        position: relative;
+        /* box-sizing: border-box; */
+        background-color: #ddd0;
+        /* background-image: linear-gradient(hsla(var(--hue), 100%, 60%, 1), hsla(var(--hue), 100%, 30%, 1)); */
+        /* background-image: linear-gradient(hsla(var(--hue), 50%, 70%, 1), hsla(var(--hue), 80%, 70%, 1)); */
+        /* background-image: repeating-conic-gradient(#0008 0deg 90deg, #fff8 90deg 180deg); */
         color: #222;
         height: 20px; width: 20px;
         height: var(--sz-tile); width: var(--sz-tile);
         user-select: none;
         cursor: pointer;
-        outline: 1px dashed #2220;
+        /* outline: 1px dashed #2220;
         outline-offset: -2px;
         border-radius: 6px;
-        border-radius: var(--borrad);
+        border-radius: var(--borrad); */
         margin: 1px;
+        transform: translateY(0px) translatex(90px) rotate3d(1, 1, -1, 50deg);
+        transform: translateY(0px) rotate3d(0,0,0,90deg);
+        transform: rotateX(var(--rotate-x)) rotateY(var(--rotate-y));
+        transform-style: preserve-3d;
+        transition: transform 200ms ease-in-out;
     }
-    .tile:hover {
-        outline: 1px dashed #2228;
+    /* .tile:hover {outline: 1px dashed #2228;} */
+
+    .side {
+        position: absolute;
+        background-image: linear-gradient(hsla(var(--hue), 50%, 70%, 1), hsla(var(--hue), 80%, 70%, 1));
+        color: hsla(var(--hue), 100%, 20%, 1);
+        height: var(--sz-tile); width: var(--sz-tile);
+        outline: 1px dashed #2220;
+        outline-offset: -2px;
+        /* border-radius: 6px;
+        border-radius: var(--borrad); */
+        border-radius: 0px;
+        transform-origin: 50% 50% -10px;
+        transform-origin: 50% 50% -5px;
+        transform-origin: 50% 50% 0px;
+        transform-style: preserve-3d;
+        backface-visibility: hidden;
     }
+    .side:hover {
+        outline: 1px dashed hsla(var(--hue), 100%, 20%, 1);
+    }
+    .side-1 {transform: rotate3d(0,0,0,90deg) translateZ(var(--sz2-tile));}
+    .side-2 {transform: rotate3d(-1,0,0,90deg) translateZ(var(--sz2-tile));}
+    .side-3 {transform: rotate3d(0,1,0,90deg) translateZ(var(--sz2-tile));}
+    .side-4 {transform: rotate3d(0,-1,0,90deg) translateZ(var(--sz2-tile));}
+    .side-5 {transform: rotate3d(1,0,0,90deg) translateZ(var(--sz2-tile));}
+    .side-6 {transform: rotate3d(1,0,0,180deg) translateZ(var(--sz2-tile));}
+
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
     <link rel="stylesheet" href="../../../stylesheets/end.css">
@@ -93,7 +130,7 @@
 
 <main>
     <div class="shelf">
-        <!-- <h3 class="shelf-title">experiment</h3> -->
+        <h3 class="shelf-title">Roll at C 🎲🎲🎲🎲</h3>
         <div id="display">
             
         </div>
@@ -204,6 +241,17 @@
         "h": 15,
         "w": 15,
     }
+    const sides = [1,2,3,4,5,6];
+    const side_angle = [
+        {x: 0, y: 0},
+        {x: 0, y: 0},
+        {x: 90, y: 0},
+        {x: 0, y: -90},
+        {x: 0, y: 90},
+        {x: -90, y: 0},
+        {x: 180, y: 0},
+        {x: 0, y: 0}
+    ]
 
     function randomVal(r = 10, b = 0){
         // let len = iconRow.length;
@@ -238,14 +286,15 @@
                 tile.id = `y${y},x${x}`;
 
                 
-                // let val = randomVal();
+                // // let val = randomVal();
                 let val = randomD6Val();
-                tile.innerHTML = val;
+                // tile.innerHTML = val;
                 tile.dataset.val = val;
-                // tile.style = `--val: ${val};`;
-                // tile.style = `--hue: ${val*36};`;
-                // tile.style = `--val: ${val}; --hue: ${val*36};`;
-                tile.style = `--val: ${val}; --hue: ${val*60};`;
+                // // tile.style = `--val: ${val};`;
+                // // tile.style = `--hue: ${val*36};`;
+                // // tile.style = `--val: ${val}; --hue: ${val*36};`;
+                // tile.style = `--val: ${val}; --hue: ${val*60};`;
+                tile.style = ` --rotate-x: ${side_angle[val].x}deg; --rotate-y: ${side_angle[val].y}deg;`;
 
                 // tile.dataset.yx = `${y},${x}`;
                 tile.dataset.y = `${y}`;
@@ -253,10 +302,24 @@
                 // tile.dataset.selected = false;
 
                 tile.addEventListener("click", ev => {
-                    console.log(`target id: ${ev.target.id}`);
+                    console.log(`target id: ${ev.target.parentElement.id}`);
+                    // console.log(`target id: ${ev.target.parentElement.id}, val: ${ev.target.parentElement.dataset.val};`);
                     // selectNumber(ev);
-                    resetNumber(ev.target.dataset.x,ev.target.dataset.y);
+                    resetNumber(ev.target.parentElement.dataset.x,ev.target.parentElement.dataset.y);
                 });
+
+                for (let i = 0; i < sides.length; i++) {
+                    const si = sides[i];
+                    let side = document.createElement("div");
+                    side.classList.add("side");
+                    side.classList.add(`side-${si}`);
+                    side.innerHTML = si;
+                    
+                    side.style = `--val: ${si}; --hue: ${si*60};`;
+                    tile.appendChild(side);
+                }
+
+
                 row.appendChild(tile);
             }
             grid.appendChild(row);
@@ -266,42 +329,40 @@
 
     function resetNumber(x,y){
         let tile = document.getElementById(`y${y},x${x}`);
+        // console.log(`tile.val1: ${tile.dataset.val};`);
         let val = randomD6Val();
-        tile.innerHTML = val;
-        tile.dataset.val = val;
-        tile.style = `--val: ${val}; --hue: ${val*60};`;
+        // console.log(`val: ${val};`);
+        if(val == tile.dataset.val){
+            tile.dataset.val = ((val+1)%6)+1;
+        } else {
+            tile.dataset.val = val;
+        }
+        console.log(`tile.val: ${tile.dataset.val};`);
+        // tile.innerHTML = val;
+        // tile.style = `--val: ${val}; --hue: ${val*60};`;
+        tile.style = ` --rotate-x: ${side_angle[tile.dataset.val].x}deg; --rotate-y: ${side_angle[tile.dataset.val].y}deg;`;
     }
 
-    function NumbersInGrid(w,h){
-        let display = document.getElementById("display");
-        let grid = document.createElement("div");
-        grid.classList.add("grid");
-        for (let y = 0; y < h; y++) {
-            let row = document.createElement("div");
-            row.classList.add("row");
-            for (let x = 0; x < w; x++) {
-                let tile = document.createElement("div");
-                tile.classList.add("tile");
-                // let val = Math.floor(Math.random() * 6);
-                let val = randomVal();
-                // tile.innerText = val;
-                tile.innerHTML = val;
-                tile.dataset.val = val;
-                // tile.dataset.val = iconVal[val];
-        
-                tile.id = `y${y},x${x}`;
-                tile.dataset.yx = `${y},${x}`;
-                tile.dataset.y = `${y}`;
-                tile.dataset.x = `${x}`;
-                tile.dataset.selected = false;
-                tile.addEventListener("click", ev => {
-                    selectNumber(ev);
-                });
-                row.appendChild(tile);
-            }
-            grid.appendChild(row);
+    function crossResetNumber_safe(x,y){
+        let xx = parseInt(x);
+        let yy = parseInt(y);
+        resetNumber(xx,yy);
+        setTimeout(() => {
+            resetNumber_safe(xx + 1, yy);
+            resetNumber_safe(xx - 1, yy);
+            resetNumber_safe(xx, yy + 1);
+            resetNumber_safe(xx, yy - 1);
+        }, 300);
+    }
+    function resetNumber_safe(x,y){
+        console.log(`x: ${x}, y: ${y}`);
+        if(x > -1 && y > -1 && x < smap.w && y < smap.h){
+            let tile = document.getElementById(`y${y},x${x}`);
+            let val = randomD6Val();
+            tile.innerHTML = val;
+            tile.dataset.val = val;
+            tile.style = `--val: ${val}; --hue: ${val*60};`;
         }
-        display.appendChild(grid);
     }
 
     /* ─── Events ─── */
