@@ -20,25 +20,48 @@
     </style>
 <style>
     :root {
-        --sz-tile: 30px;
+        --sz-tile: 300px;
+        --sz-tile: 100px; /* it works best on multiples of 4. */
+        --sz-tile: 40px;
         --sz2-tile: calc(var(--sz-tile) / 2);
         --borrad: calc(var(--sz-tile) / 5);
+
+        --rotate-x: 0deg;
+        --rotate-y: 0deg;
+        --rotate-z: 0deg;
     }
     .class {}
+    #display {
+        transform: rotate3d(0, 0, 0, 54deg) rotateZ(0deg);
+        transform: rotate3d(1, 1, 0, .01deg) rotateZ(0deg);
+        transform-style: preserve-3d;
+        transition: transform 300ms ease-in-out;
+    }
     .grid, .row, .tile, .side {
         box-sizing: border-box;
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
+        transform-style: preserve-3d;
     }
     .grid {
-        background-color: #ddd;
+        background-color: #ddd0;
     }
     .row {
+        --y-row: var(--i);
+        /* --y-row: calc(var(--i) - 15); */
         flex-direction: row;
     }
     .tile {
+        --x-col: var(--i);
+        /* --x-col: calc(var(--i) - 15); */
+        --xy: calc(var(--x-col) + var(--y-row));
+        --xy-delay: calc(var(--xy) * 30ms + 10ms);
+        --xy-delay: calc(var(--xy) * 1ms);
+        /* --xy: calc(var(--x-col) * var(--y-row));
+        --xy-delay: calc(2550ms - var(--xy) * 10ms);
+        --xy-delay: calc(var(--xy) * -10ms + 2500ms); */
         --rotate-x: 0deg;
         --rotate-y: 0deg;
         --hue: 210;
@@ -58,11 +81,14 @@
         border-radius: 6px;
         border-radius: var(--borrad); */
         margin: 1px;
+        margin: 0px;
         transform: translateY(0px) translatex(90px) rotate3d(1, 1, -1, 50deg);
         transform: translateY(0px) rotate3d(0,0,0,90deg);
         transform: rotateX(var(--rotate-x)) rotateY(var(--rotate-y));
+        transform: rotateX(var(--rotate-x)) rotateY(var(--rotate-y)) rotateZ(var(--rotate-z));
         transform-style: preserve-3d;
         transition: transform 200ms ease-in-out;
+        transition-delay: var(--xy-delay);
     }
     /* .tile:hover {outline: 1px dashed #2228;} */
 
@@ -70,6 +96,30 @@
         position: absolute;
         background-image: linear-gradient(hsla(var(--hue), 50%, 70%, 1), hsla(var(--hue), 80%, 70%, 1));
         color: hsla(var(--hue), 100%, 20%, 1);
+        
+        background-image: linear-gradient(hsla(130, 50%, 70%, 1), hsla(130, 80%, 70%, 1));
+        color: hsla(210, 100%, 20%, 1);
+
+        background-image: linear-gradient(#000 45%, #fff 45%, #fff 55%, #000 55%);
+        background-image: 
+        linear-gradient(90deg, #0000 45%, #fff 45%, #fff 55%, #0000 55%), 
+        linear-gradient(#0000 45%, #fff 45%, #fff 55%, #0000 55%), 
+        linear-gradient(hsla(130, 50%, 70%, 1), hsla(130, 80%, 70%, 1));
+        background-image: 
+        linear-gradient(90deg, #0000 44%, #f00 44%, #f00 56%, #0000 56%), 
+        linear-gradient(#0000 44%, #0f0 44%, #0f0 56%, #0000 56%), 
+        linear-gradient(hsla(180, 100%, 0%, 1), hsla(180, 80%, 0%, 1));
+        background-image: 
+        linear-gradient(90deg, #0000 43%, #f00 43%, #f00 57%, #0000 57%), 
+        linear-gradient(#0000 43%, #0f0 43%, #0f0 57%, #0000 57%), 
+        linear-gradient(hsla(180, 100%, 0%, 1), hsla(180, 80%, 0%, 1));
+
+        background-image: linear-gradient(hsla(210, 50%, 80%, 1), hsla(210, 50%, 80%, 1));
+        background-image: radial-gradient(#0000, #0003), linear-gradient(hsla(210, 50%, 80%, 1), hsla(210, 50%, 80%, 1));
+        background-image: radial-gradient(#0000 70%, #0147 70%), linear-gradient(hsla(210, 50%, 80%, 1), hsla(210, 50%, 80%, 1));
+        color: hsla(210, 100%, 20%, 1);
+
+
         height: var(--sz-tile); width: var(--sz-tile);
         outline: 1px dashed #2220;
         outline-offset: -2px;
@@ -81,6 +131,8 @@
         transform-origin: 50% 50% 0px;
         transform-style: preserve-3d;
         backface-visibility: hidden;
+        font-size: calc(var(--sz-tile) * 1.4);
+        overflow: hidden;
     }
     .side:hover {
         outline: 1px dashed hsla(var(--hue), 100%, 20%, 1);
@@ -91,9 +143,52 @@
     .side-4 {transform: rotate3d(0,-1,0,90deg) translateZ(var(--sz2-tile));}
     .side-5 {transform: rotate3d(1,0,0,90deg) translateZ(var(--sz2-tile));}
     .side-6 {transform: rotate3d(1,0,0,180deg) translateZ(var(--sz2-tile));}
+    .dice-number {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+    }
+    .dice-path {
+        position: absolute;
+        top: 50%; left: 50%;
+        top: 42.5%; left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .btn-free {
+        background-color: #0000;
+        border: 0px solid #0000;
+        font-size: 16px;
+    }
+    .btn-free:hover {
+        outline: 1px dashed #fff8;
+        outline-offset: 0px;
+        border-radius: 4px;
+    }
+    .side-6 .dice-path {
+        top: 42.5%;
+        left: 56.5%;
+    }
 
 </style>
     <link rel="stylesheet" href="../../../stylesheets/settings2.css">
+    <style>
+        /* Use this template and change the ID of the Checkbox. */
+        #toggleIsometric,
+        #CheckboxID-01 {display: none;}
+        #toggleIsometric:checked ~ .options .toggleCheckboxLabel[for="toggleIsometric"],
+        #CheckboxID-01:checked ~ .options .toggleCheckboxLabel[for="CheckboxID-01"] {
+            color: var(--bwe);
+            --clr-outline: var(--bwc);
+            --bgc-before: #063;
+            --bgc-after: #0c6;
+            --ttx-after: 1rem;
+        }
+        #toggleIsometric:checked ~ main #display {
+            transform: rotate3d(1, 0, 0, 54deg) rotateZ(-45deg);
+        }
+    </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
 </head>
 <body>
@@ -127,10 +222,11 @@
     <input type="checkbox" name="toggle" id="toggleAnimation">
     <input type="checkbox" name="toggle" id="toggleOpacity">
     <input type="checkbox" name="toggle" id="toggleLights">
+    <input type="checkbox" name="toggle" id="toggleIsometric">
 
 <main>
     <div class="shelf">
-        <h3 class="shelf-title">Roll at C 🎲🎲🎲🎲</h3>
+        <h3 class="shelf-title">Roll at C <button class="btn btn-free" onclick="ReSetAll()">🎲</button><button class="btn btn-free" onclick="ReRollAll()">🎲🎲🎲</button><button class="btn btn-free" onclick="FloatAll()">➰🔄</button></h3>
         <div id="display">
             
         </div>
@@ -138,11 +234,12 @@
     <!-- <canvas id="canvas"></canvas> -->
 </main>
 
-<!-- <div class="options">
-    <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label>
-    <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
-    <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label>
-</div> -->
+<div class="options">
+    <!-- <label for="toggleAnimation" class="toggleCheckboxLabel" data-toggle="Animation">Animation</label> -->
+    <!-- <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label> -->
+    <!-- <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label> -->
+    <label for="toggleIsometric" class="toggleCheckboxLabel" data-toggle="Isometric">Iso📦</label>
+</div>
 
 <footer>
     <div class="my-name">
@@ -241,6 +338,9 @@
         "h": 15,
         "w": 15,
     }
+    const side_char2 = ["0","╦","╬","╗","╔","╨","║"];
+    const side_char1 = ["0","┬","┼","┐","┌","╧","│","│─└┴┘├┼┤┌┬┐"];
+    const side_char = ["0","┬","┼","┐","┌"," ","│"];
     const sides = [1,2,3,4,5,6];
     const side_angle = [
         {x: 0, y: 0},
@@ -294,12 +394,16 @@
                 // // tile.style = `--hue: ${val*36};`;
                 // // tile.style = `--val: ${val}; --hue: ${val*36};`;
                 // tile.style = `--val: ${val}; --hue: ${val*60};`;
-                tile.style = ` --rotate-x: ${side_angle[val].x}deg; --rotate-y: ${side_angle[val].y}deg;`;
+                tile.style = ` --rotate-x: ${side_angle[val].x}deg; --rotate-y: ${side_angle[val].y}deg; --rotate-z: 0deg;`;
 
                 // tile.dataset.yx = `${y},${x}`;
+                // tile.dataset.id = `y${y},x${x}`;
                 tile.dataset.y = `${y}`;
                 tile.dataset.x = `${x}`;
                 // tile.dataset.selected = false;
+                tile.dataset.zr = `0`;
+                tile.dataset.yr = `${side_angle[val].y}`;
+                tile.dataset.xr = `${side_angle[val].x}`;
 
                 tile.addEventListener("click", ev => {
                     console.log(`target id: ${ev.target.parentElement.id}`);
@@ -313,8 +417,12 @@
                     let side = document.createElement("div");
                     side.classList.add("side");
                     side.classList.add(`side-${si}`);
-                    side.innerHTML = si;
+                    // side.innerHTML = si;
+                    side.innerHTML = side_char[si];
+                    side.innerHTML = `<span class="dice-number">${si}</span><span class="dice-path">${side_char[si]}</span>`;
                     
+                    side.dataset.y = `${y}`;
+                    side.dataset.x = `${x}`;
                     side.style = `--val: ${si}; --hue: ${si*60};`;
                     tile.appendChild(side);
                 }
@@ -327,6 +435,27 @@
         return grid;
     }
 
+    function floatDice(x,y){
+        let tile = document.getElementById(`y${y},x${x}`);
+        // console.log(`tile.val1: ${tile.dataset.val};`);
+
+        let xVal = randomVal(360);
+        let yVal = randomVal(360);
+        let zVal = randomVal(360);
+        tile.style = ` --rotate-x: ${xVal}deg; --rotate-y: ${yVal}deg; --rotate-z: ${zVal}deg;`;
+
+        // let val = randomD6Val();
+        // // console.log(`val: ${val};`);
+        // if(val == tile.dataset.val){
+        //     tile.dataset.val = ((val+1)%6)+1;
+        // } else {
+        //     tile.dataset.val = val;
+        // }
+        // console.log(`tile.val: ${tile.dataset.val};`);
+        // // tile.innerHTML = val;
+        // // tile.style = `--val: ${val}; --hue: ${val*60};`;
+        // tile.style = ` --rotate-x: ${side_angle[tile.dataset.val].x}deg; --rotate-y: ${side_angle[tile.dataset.val].y}deg;`;
+    }
     function resetNumber(x,y){
         let tile = document.getElementById(`y${y},x${x}`);
         // console.log(`tile.val1: ${tile.dataset.val};`);
@@ -340,8 +469,50 @@
         console.log(`tile.val: ${tile.dataset.val};`);
         // tile.innerHTML = val;
         // tile.style = `--val: ${val}; --hue: ${val*60};`;
+        tile.style = ` --rotate-x: ${side_angle[tile.dataset.val].x}deg; --rotate-y: ${side_angle[tile.dataset.val].y}deg; --rotate-z: 0deg;`;
+    }
+    function setNumber(x,y,n=1){
+        let tile = document.getElementById(`y${y},x${x}`);
+        // console.log(`tile.val1: ${tile.dataset.val};`);
+        tile.dataset.val = n;
+        // let val = randomD6Val();
+        // // console.log(`val: ${val};`);
+        // if(val == tile.dataset.val){
+        //     tile.dataset.val = ((val+1)%6)+1;
+        // } else {
+        //     tile.dataset.val = val;
+        // }
+        // console.log(`tile.val: ${tile.dataset.val};`);
+        // // tile.innerHTML = val;
+        // // tile.style = `--val: ${val}; --hue: ${val*60};`;
         tile.style = ` --rotate-x: ${side_angle[tile.dataset.val].x}deg; --rotate-y: ${side_angle[tile.dataset.val].y}deg;`;
     }
+
+    function resetNumber2(x,y){
+        let tile = document.getElementById(`y${y},x${x}`);
+        // console.log(`tile.val1: ${tile.dataset.val};`);
+
+        let xVal = randomVal(360);
+        let yVal = randomVal(360);
+        let zVal = randomVal(360);
+        tile.style = ` --rotate-x: ${xVal}deg; --rotate-y: ${yVal}deg; --rotate-z: ${zVal}deg;`;
+
+        setTimeout(() => {
+            let val = randomD6Val();
+            // // console.log(`val: ${val};`);
+            // if(val == tile.dataset.val){
+            //     tile.dataset.val = ((val+1)%6)+1;
+            // } else {
+            //     tile.dataset.val = val;
+            // }
+            tile.dataset.val = val;
+            console.log(`tile.val: ${tile.dataset.val};`);
+            // tile.innerHTML = val;
+            // tile.style = `--val: ${val}; --hue: ${val*60};`;
+            tile.style = ` --rotate-x: ${side_angle[tile.dataset.val].x}deg; --rotate-y: ${side_angle[tile.dataset.val].y}deg; --rotate-z: 0deg;`;
+        }, 200);
+    }
+
 
     function crossResetNumber_safe(x,y){
         let xx = parseInt(x);
@@ -362,6 +533,31 @@
             tile.innerHTML = val;
             tile.dataset.val = val;
             tile.style = `--val: ${val}; --hue: ${val*60};`;
+        }
+    }
+
+
+    function ReRollAll(){
+        for (let y = 0; y < smap.h; y++) {
+            for (let x = 0; x < smap.w; x++) {
+                // let tile = document.getElementById(`y${y},x${x}`);
+                resetNumber(x,y);
+            }
+        }
+    }
+    function ReSetAll(){
+        for (let y = 0; y < smap.h; y++) {
+            for (let x = 0; x < smap.w; x++) {
+                // let tile = document.getElementById(`y${y},x${x}`);
+                setNumber(x,y,1);
+            }
+        }
+    }
+    function FloatAll(){
+        for (let y = 0; y < smap.h; y++) {
+            for (let x = 0; x < smap.w; x++) {
+                floatDice(x,y,1);
+            }
         }
     }
 
@@ -432,6 +628,11 @@
     [index-nds-11]: 
     [index-nds-12]: 
     
+    30 -> 42
+    40 -> 54
+    50 -> 70
+   100 -> 140
+
     */
 
 
