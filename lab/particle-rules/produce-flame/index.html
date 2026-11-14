@@ -169,12 +169,15 @@
         .fireColor[data-color="RGB-spiral"]::after {content: "RGB Spiral";}
         .fireColor[data-color="RGB-heat"]::after {content: "RGB Heat";}
         .fireColor[data-color="hue-heat"]::after {content: "Hue Heat";}
+        .fireColor[data-color="hue-blood"]::after {content: "Blood";}
+        .fireColor[data-color="hue-vxy"]::after {content: "VXY";}
+        .fireColor[data-color="hue-try"]::after {content: "Hue Try";}
         .fireColor::after {
             position: absolute;
             top: 100%; left: 50%;
             transform: translateX(-50%) translateY(20%);
             color: #fff;
-            opacity: 0;
+            opacity: 1;
             transition: opacity 200ms ease-in-out;
         }
         .fireColor:hover::after {
@@ -256,6 +259,66 @@
             radial-gradient(circle at 50% 100%, #0ff, #0ff0 50%),
             radial-gradient(circle at 14% 70%, #00f, #00f0 50%),
             radial-gradient(circle at 14% 30%, #f0f, #f0f0 50%);
+        }
+        .fireColor[data-color="hue-blood"] {
+            background-image: 
+            repeating-conic-gradient(
+            #f00, 
+            #f000), radial-gradient(circle at 50% 0%, #f00, #f000 20%);
+        }
+        .fireColor[data-color="hue-vxy"] {
+            background-image: 
+                linear-gradient(from 45deg,
+                #00f, 
+                #00f0, 
+                #0ff, 
+                #0ff0, 
+                #0f0, 
+                #0f00, 
+                #ff0, 
+                #ff00, 
+                #f00, 
+                #f000, 
+                #f0f, 
+                #f0f0, 
+                #00f),
+                linear-gradient(from -45deg,
+                #00f, 
+                #00f0, 
+                #0ff, 
+                #0ff0, 
+                #0f0, 
+                #0f00, 
+                #ff0, 
+                #ff00, 
+                #f00, 
+                #f000, 
+                #f0f, 
+                #f0f0, 
+                #00f);
+            background-image: 
+            linear-gradient(from 45deg,
+            #00f, 
+            #00f0,
+            #0f0, 
+            #0f00, 
+            #f00, 
+            #f000, 
+            #00f),
+            linear-gradient(from -45deg, 
+            #0ff, 
+            #0ff0,
+            #ff0, 
+            #ff00, 
+            #f0f, 
+            #f0f0, 
+            #0ff);
+        }
+        .fireColor[data-color="hue-try"] {
+            background-image: 
+            repeating-conic-gradient(
+            #000 0deg 90deg,
+            #fff 90deg 180deg);
         }
     </style>
     <link rel="stylesheet" href="../../../stylesheets/end.css">
@@ -395,8 +458,8 @@
             },
             // color_index: 6,
             // color: "RGB-wheel", hue-heat
-            colorOptions: ["normal", "gray", "white", "phire", "random", "x", "planet-earth", "RGB-wheel", "RGB-spiral", "RGB-heat", "hue-heat"],
-            colorOptions_name: ["Fire", "Gray Scale", "White", "Phire", "Rand", "x", "Planet Earth", "RGB Wheel", "RGB Spiral", "RGB Heat", "Hue Heat"],
+            colorOptions: ["normal", "gray", "white", "phire", "random", "x", "planet-earth", "RGB-wheel", "RGB-spiral", "RGB-heat", "hue-heat", "hue-blood", "hue-vxy", "hue-try"],
+            colorOptions_name: ["Fire", "Gray Scale", "White", "Phire", "Rand", "x", "Planet Earth", "RGB Wheel", "RGB Spiral", "RGB Heat", "Hue Heat", "Blood", "VXY", "Hue Try"],
         },
 
         player: false,
@@ -432,10 +495,10 @@
         */
 
         // s.cBox.w = Math.min(s.w,200);
-        s.cBox.w = Math.min(s.w,400);
+        s.cBox.w = Math.min(s.w,800);
         // s.cBox.h = 100000 / s.cBox.w;
         // s.cBox.top = s.h - s.cBox.h;
-        s.cBox.top = s.h * .2;
+        s.cBox.top = s.h * .1;
         
         // s.cBox.h = s.h * s.cBox.hh;
         // s.cBox.w = s.w * s.cBox.ww;
@@ -708,6 +771,31 @@
                     // let hueAngle_h = XYtoAngle(xc_h, yc_h);
                     // this.vhue = Math.round((hueAngle + 360 + (this.heat * 1.8)) % 360);
                     this.vhue = (this.heat * 7.2);
+                    break;
+                case "hue-blood":
+                    this.vhue = 0;
+                    break;
+                case "hue-vxy":
+                    // let xc_h = this.x - s.w2;
+                    // let yc_h = this.y - s.h2*1.2;
+                    // let hueAngle_h = XYtoAngle(xc_h, yc_h);
+                    // this.vhue = Math.round((hueAngle + 360 + (this.heat * 1.8)) % 360);
+
+                    // let vxc = this.vx;
+                    // let vyc = this.vy;
+                    let vxy = this.vx + this.vy;
+                    this.vhue = (vxy * 180);
+                    break;
+                case "hue-try":
+                    // let xc_h = this.x - s.w2;
+                    // let yc_h = this.y - s.h2*1.2;
+                    // let hueAngle_h = XYtoAngle(xc_h, yc_h);
+                    // this.vhue = Math.round((hueAngle + 360 + (this.heat * 1.8)) % 360);
+
+                    // let vxc = this.vx;
+                    // let vyc = this.vy;
+                    let vxyc = Math.abs(this.vx) + Math.abs(this.vy);
+                    this.vhue = (vxyc * globRules.htry);
                     break;
                 default:
                     break;
@@ -1186,7 +1274,10 @@
     }
 
     const globRules = {
-        heatloss: 0.35,
+        // heatloss: 0.35,
+        heatloss: 0.85,
+        h9: -150,
+        htry: 180,
     }
     const pr = {}
     pr["orbit"] = function (list1, list2, g = 0, r = 100){
@@ -1301,6 +1392,52 @@
                 let dh = b.heat - a.heat;
                 let d = Math.sqrt(dx*dx + dy*dy);
                 if(d > 0.5 && d < rh){
+                    // let force = g * 1/d;
+                    let hf = g * (50 - a.heat) / 25;
+                    if(a.heat > 50) { hf = 0; }
+                    let hg = g + hf;
+                    let force = hg * 1/d;
+
+                    fx += (force * dx);
+                    fy += (force * dy);
+                    if(dh > 0) {
+                        fh += dh * 1/d;
+                    }
+                }
+            }
+            a.vx = (a.vx + fx) * .99;
+            a.vy = (a.vy + fy) * .99;
+            a.x += a.vx;
+            a.y += a.vy;
+            
+            // a.vh = (a.vh + fh) * 0.20;
+            // a.vh = (a.vh + fh) * 0.45;
+            // a.vh = (a.vh + fh) * 0.35;
+            // a.vh = (a.vh + fh) * 0.45;
+            a.vh = (a.vh + fh) * globRules.heatloss;
+            a.heat += a.vh;
+            if(a.heat > 100){a.heat = 100;}
+        }
+    }
+    pr["heat9"] = function (list1, list2, g = 0, r = 100){
+        for (let i = 0; i < list1.length; i++) {
+            const a = list1[i];
+            let fx = 0;
+            let fy = 0;
+            let fh = 0;
+            if(a.heat > 0) {a.heat -= (a.heat/100);}
+            // let rh = 5 + r + (r * (a.heat / -100));
+            // let rh = 5 + r + (r * (a.heat / -150));
+            let rh = 5 + r + (r * (a.heat / globRules.h9));
+            for (let j = 0; j < list2.length; j++) {
+                const b = list2[j];
+                let dx = a.x - b.x;
+                let dy = a.y - b.y;
+                // let dh = a.heat - b.heat;
+                let dh = b.heat - a.heat;
+                let d = Math.sqrt(dx*dx + dy*dy);
+                if(d > 0.5 && d < rh){
+                // if(d > 0.5 && d < r){
                     // let force = g * 1/d;
                     let hf = g * (50 - a.heat) / 25;
                     if(a.heat > 50) { hf = 0; }
@@ -1579,6 +1716,19 @@
         {rule: "heat8", a: "e", b: "e", g: .09, r: 20},
         {rule: "fall", a: "e", b: "e", g: -.015, r: 100}
     ];
+    var rules10 = [
+        /* [mouse-orbit] is the repulsion from particles to the mouse. */
+        /* [heat7] is the attraction to the sun/fire particle. */
+        /* [fall] is the general gravity for particles to go up. */
+        /* [heat8] is the repulsion from particle to particle. */
+        {rule: "mouse-horbit", a: "e", b: "e", g: -.02, r: 1200},
+        {rule: "orbitSun", a: "sun", b: "sun", g: .025, r: 30},
+        {rule: "orbitSun", a: "sun", b: "sun", g: -.015, r: 1500},
+        {rule: "heat7", a: "e", b: "sun", g: -0.001, r: 1500},
+        /* [heat9] for hue-try */
+        {rule: "heat9", a: "e", b: "e", g: .12, r: 20},
+        {rule: "fall", a: "e", b: "e", g: -.015, r: 100}
+    ];
     var rules = [
         /* [mouse-orbit] is the repulsion from particles to the mouse. */
         /* [heat7] is the attraction to the sun/fire particle. */
@@ -1590,7 +1740,9 @@
         {rule: "orbitSun", a: "sun", b: "sun", g: .025, r: 30},
         {rule: "orbitSun", a: "sun", b: "sun", g: -.015, r: 1500},
         {rule: "heat7", a: "e", b: "sun", g: -0.001, r: 1500},
-        {rule: "heat8", a: "e", b: "e", g: .09, r: 20},
+        // {rule: "heat8", a: "e", b: "e", g: .09, r: 20},
+        // {rule: "heat9", a: "e", b: "e", g: .19, r: 20},
+        {rule: "heat9", a: "e", b: "e", g: .24, r: 12},
         {rule: "fall", a: "e", b: "e", g: -.015, r: 100}
     ];
     

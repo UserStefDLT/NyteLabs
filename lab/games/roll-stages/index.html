@@ -24,6 +24,7 @@
 <style>
     :root {
         --sz-tile: 30px;
+        --sz-coin: calc(var(--sz-tile) * .7);
         --borrad: calc(var(--sz-tile) / 5);
     }
     .class {}
@@ -41,6 +42,7 @@
     }
     .tile {
         --hue: 210;
+        position: relative;
         background-color: #ddd;
         /* background-image: linear-gradient(hsla(var(--hue), 100%, 60%, 1), hsla(var(--hue), 100%, 30%, 1)); */
         /* background-image: linear-gradient(hsla(var(--hue), 50%, 70%, 1), hsla(var(--hue), 80%, 70%, 1)); */
@@ -74,7 +76,9 @@
 
     }
     .coin {
+        position: absolute;
         height: var(--sz-tile); width: var(--sz-tile);
+        height: var(--sz-coin); width: var(--sz-coin);
         background-color: goldenrod;
         background-color: hsl(43, 74%, 49%);
         background-image: radial-gradient(hsl(45, 75%, 50%) 52%, hsl(45, 75%, 30%) 58%, hsl(45, 75%, 50%) 60%);
@@ -84,10 +88,14 @@
         display: flex;
         align-items: center; justify-content: center;
         color: hsl(45, 75%, 15%);
+        transform: translate(0px, calc((var(--i) - 1) * -5px)) rotateX(30deg);
     }
     .coin[data-active="true"] {
         cursor: pointer;
-
+    }
+    .coin[data-playerCount] {
+        position: relative;
+        transform: translate(0px, 0px) rotateX(0deg);
     }
 
 </style>
@@ -327,7 +335,8 @@
                 tile.dataset.y = `${y}`;
                 tile.dataset.x = `${x}`;
                 // tile.dataset.selected = false;
-                tile.dataset.hasACoin = false;
+                // tile.dataset.hasACoin = false;
+                tile.dataset.coinCount = 0;
                 tile.dataset.isTile = true;
 
                 tile.addEventListener("click", ev => {
@@ -339,7 +348,7 @@
                     if(ev.target.dataset.isTile == "true"){
                         // console.log(`tile id: ${ev.target.id} - is a tile!`);
                         let targetTile = document.getElementById(ev.target.id);
-                        if(targetTile.dataset.hasACoin != "true"){
+                        if(targetTile.dataset.coinCount <= 12){
                             // console.log(`tile id: ${ev.target.id} - has no coin!`);
                             PlaceCoin(ev.target.dataset.x,ev.target.dataset.y);
                         }
@@ -378,7 +387,8 @@
             // tile.innerHTML = `<div class="coin" data-active="true"></div>`;
             tile.appendChild(coin);
             gamePhases[`player${gamePhases.currentPlayer}tokens`]++;
-            tile.dataset.hasACoin = true;
+            // tile.dataset.hasACoin = true;
+            tile.dataset.coinCount++;
             // gamePhases.coinsUsed--;
             // gamePhases[`player${gamePhases.currentPlayer}coins`] -= 1;
             // let playerCoinCount = document.querySelector(`[data-player="${gamePhases.currentPlayer}"]`);
