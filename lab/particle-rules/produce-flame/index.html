@@ -171,6 +171,7 @@
         .fireColor[data-color="hue-heat"]::after {content: "Hue Heat";}
         .fireColor[data-color="hue-blood"]::after {content: "Blood";}
         .fireColor[data-color="hue-vxy"]::after {content: "VXY";}
+        .fireColor[data-color="hue-why"]::after {content: "WHY";}
         .fireColor[data-color="hue-try"]::after {content: "Hue Try";}
         .fireColor::after {
             position: absolute;
@@ -201,6 +202,8 @@
             background-image: 
             radial-gradient(#fff, #fff0 30%),
             conic-gradient(#f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+            background-image: 
+            linear-gradient(90deg, #00f, #f0f, #f00, #ff0, #0f0, #0ff, #00f);
         }
         .fireColor[data-color="planet-earth"] {
             background-image: 
@@ -263,41 +266,20 @@
         .fireColor[data-color="hue-blood"] {
             background-image: 
             repeating-conic-gradient(
-            #f00, 
-            #f000), radial-gradient(circle at 50% 0%, #f00, #f000 20%);
+                #f00, 
+                #f000, 
+                #f00, 
+                #f000), 
+            radial-gradient(circle at 50% 0%, #f00, #f000 20%);
+            background-image: radial-gradient(circle at 50% 0%, #f00 30%, #f000 60%), radial-gradient(circle at 50% 100%, #f00 30%, #f000 60%);
+            background-image: radial-gradient(circle at 50% 0%, #f00 0%, #f000 30%), radial-gradient(circle at 50% 100%, #f00 10%, #000 60%);
+            background-image: radial-gradient(circle at 50% 0%, #f00 10%, #f000 60%), radial-gradient(circle at 50% 100%, #f00 0%, #000 30%);
+            background-image: radial-gradient(circle at 50% 0%, #f00 0%, #f000 30%), radial-gradient(circle at 50% 45%, #f00 0%, #f000 20%), radial-gradient(circle at 50% 120%, #f00 10%, #000 60%);
+            background-image: radial-gradient(circle at 50% 0%, #f00 0%, #f000 25%), radial-gradient(circle at 50% 45%, #f00 0%, #f000 25%), radial-gradient(circle at 50% 120%, #f00 10%, #000 55%);
         }
         .fireColor[data-color="hue-vxy"] {
             background-image: 
-                linear-gradient(from 45deg,
-                #00f, 
-                #00f0, 
-                #0ff, 
-                #0ff0, 
-                #0f0, 
-                #0f00, 
-                #ff0, 
-                #ff00, 
-                #f00, 
-                #f000, 
-                #f0f, 
-                #f0f0, 
-                #00f),
-                linear-gradient(from -45deg,
-                #00f, 
-                #00f0, 
-                #0ff, 
-                #0ff0, 
-                #0f0, 
-                #0f00, 
-                #ff0, 
-                #ff00, 
-                #f00, 
-                #f000, 
-                #f0f, 
-                #f0f0, 
-                #00f);
-            background-image: 
-            linear-gradient(from 45deg,
+            linear-gradient(45deg,
             #00f, 
             #00f0,
             #0f0, 
@@ -305,7 +287,7 @@
             #f00, 
             #f000, 
             #00f),
-            linear-gradient(from -45deg, 
+            linear-gradient(-45deg, 
             #0ff, 
             #0ff0,
             #ff0, 
@@ -313,6 +295,56 @@
             #f0f, 
             #f0f0, 
             #0ff);
+            background-image: radial-gradient(#00f,#0ff, 
+            #0f0, #ff0, 
+            #f00, #f0f, 
+            #f000);
+            background-image: radial-gradient(circle at 50% 0%, #841331 20%, #f000 25%), radial-gradient(circle at 85% 15%, #fef5b3 20%, #f000 25%), radial-gradient(circle at 100% 50%, #b2e17a 20%, #f000 25%), radial-gradient(circle at 85% 85%, #c1f5b5 20%, #f000 25%), radial-gradient(circle at 50% 100%, #99e8fb 20%, #f000 25%), radial-gradient(circle at 15% 85%, #9b9df9 20%, #f000 25%), radial-gradient(circle at 0% 50%, #a188ff 20%, #f000 25%), radial-gradient(circle at 15% 15%, #e44fd1 20%, #f000 25%), radial-gradient(circle at 50% 50%, #fff 0%, #f000 25%), radial-gradient(circle at 50% 120%, #000 10%, #000 55%);
+            background-image: radial-gradient(circle at 50% 12%, #de3f58 20%, #f000 25%), radial-gradient(circle at 64% 32%, #fef5b3 20%, #f000 25%), radial-gradient(circle at 84% 53%, #b2e17a 20%, #f000 25%), radial-gradient(circle at 85% 85%, #c1f5b5 20%, #f000 25%), radial-gradient(circle at 50% 88%, #99e8fb 20%, #f000 25%), radial-gradient(circle at 36% 69%, #8183fb 20%, #f000 25%), radial-gradient(circle at 17% 52%, #a188ff 20%, #f000 25%), radial-gradient(circle at 34% 34%, #e44fd1 20%, #f000 25%), radial-gradient(circle at 50% 50%, #fff 0%, #f000 25%), radial-gradient(circle at 50% 120%, #000 10%, #000 55%);
+            background-image: 
+            radial-gradient(circle at 50% 0%, #f00 0%, #f000 25%), 
+            radial-gradient(circle at 85% 15%, #ff0 0%, #f000 25%), 
+            radial-gradient(circle at 100% 50%, #8f0 0%, #f000 25%), 
+            radial-gradient(circle at 85% 85%, #0f0 0%, #f000 25%), 
+            radial-gradient(circle at 50% 100%, #0ff 0%, #f000 25%), 
+            radial-gradient(circle at 15% 85%, #00f 0%, #f000 25%), 
+            radial-gradient(circle at 0% 50%, #80f 0%, #f000 25%), 
+            radial-gradient(circle at 15% 15%, #f0f 0%, #f000 25%), 
+            radial-gradient(circle at 50% 50%, #fff 0%, #f000 25%), 
+            radial-gradient(circle at 50% 120%, #000 10%, #000 55%);
+            background-blend-mode: hard-light;
+
+            background-image: 
+            radial-gradient(circle at 50% 0%, #f008 20%, #f000 25%), 
+            radial-gradient(circle at 85% 15%, #ff08 20%, #f000 25%), 
+            radial-gradient(circle at 100% 50%, #8f08 20%, #f000 25%), 
+            radial-gradient(circle at 85% 85%, #0f08 20%, #f000 25%), 
+            radial-gradient(circle at 50% 100%, #0ff8 20%, #f000 25%), 
+            radial-gradient(circle at 15% 85%, #00f8 20%, #f000 25%), 
+            radial-gradient(circle at 0% 50%, #80f8 20%, #f000 25%), 
+            radial-gradient(circle at 15% 15%, #f0f8 20%, #f000 25%), 
+            radial-gradient(circle at 50% 50%, #fff0 0%, #f000 25%), 
+            radial-gradient(circle at 50% 120%, #0000 10%, #000 50%);
+            background-image: 
+            radial-gradient(circle at 50% 0%, #f008 30%, #f000 35%),
+            radial-gradient(circle at 85% 15%, #ff08 30%, #f000 35%),
+            radial-gradient(circle at 100% 50%, #8f08 30%, #f000 35%),
+            radial-gradient(circle at 85% 85%, #0f08 30%, #f000 35%),
+            radial-gradient(circle at 50% 100%, #0ff8 30%, #f000 35%),
+            radial-gradient(circle at 15% 85%, #00f8 30%, #f000 35%),
+            radial-gradient(circle at 0% 50%, #80f8 30%, #f000 35%),
+            radial-gradient(circle at 15% 15%, #f0f8 30%, #f000 35%);
+            background-blend-mode: difference;
+            background-color: #0000;
+            background-image: radial-gradient(circle at 50% 0%, #f00b 30%, #f000 35%), radial-gradient(circle at 85% 15%, #ff0b 30%, #f000 35%), radial-gradient(circle at 100% 50%, #8f0b 30%, #f000 35%), radial-gradient(circle at 85% 85%, #0f0b 30%, #f000 35%), radial-gradient(circle at 50% 100%, #0ffb 30%, #f000 35%), radial-gradient(circle at 15% 85%, #00fb 30%, #f000 35%), radial-gradient(circle at 0% 50%, #80fb 30%, #f000 35%), radial-gradient(circle at 15% 15%, #f0fb 30%, #f000 35%), radial-gradient(circle at 50% 50%, #fff0 0%, #f000 25%), radial-gradient(circle at 50% 120%, #000 10%, #000 50%);
+            background-blend-mode: screen;
+        }
+        .fireColor[data-color="hue-why"] {
+            background-image: 
+            repeating-conic-gradient(
+                #ff0 0deg 120deg,
+                #0ff 120deg 240deg,
+                #f0f 240deg 360deg);
         }
         .fireColor[data-color="hue-try"] {
             background-image: 
@@ -352,7 +384,8 @@
     <label for="toggleLights" class="toggleCheckboxLabel" data-toggle="Lights">💡</label>
     <label for="toggleOpacity" class="toggleCheckboxLabel" data-toggle="Opacity">Opacity</label> -->
     <!-- <button id="FireColorBtn" class="fireColor" onclick="RandomizeFireColor()"></button> -->
-    <button id="FireColorBtn" class="fireColor" onclick="NextFireColor()" data-color="normal"></button>
+    <!-- <button id="FireColorBtn" class="fireColor" onclick="NextFireColor()" data-color="normal"></button> -->
+    <button id="FireColorBtn" class="fireColor" onclick="NextFireColor()" data-color="hue-try"></button>
     <!-- <button id="FireColorBtn" class="fireColor" onclick="NextFireColor()" data-color="RGB-wheel"></button> -->
     <label for="toggleBlur" class="toggleCheckboxLabel" data-toggle="Blur">Blur</label>
     <label for="toggleFilter" class="toggleCheckboxLabel" data-toggle="Filter">Filter</label>
@@ -447,8 +480,9 @@
             bottom: 0,
         },
         fire: {
-            color_index: 0,
-            color: "normal",
+            color_index: 14,
+            // color: "normal",
+            color: "hue-try",
             size: 4,
             hsla: {
                 hue: 210,
@@ -458,8 +492,12 @@
             },
             // color_index: 6,
             // color: "RGB-wheel", hue-heat
-            colorOptions: ["normal", "gray", "white", "phire", "random", "x", "planet-earth", "RGB-wheel", "RGB-spiral", "RGB-heat", "hue-heat", "hue-blood", "hue-vxy", "hue-try"],
-            colorOptions_name: ["Fire", "Gray Scale", "White", "Phire", "Rand", "x", "Planet Earth", "RGB Wheel", "RGB Spiral", "RGB Heat", "Hue Heat", "Blood", "VXY", "Hue Try"],
+            colorOptions: ["normal", "gray", "white", "phire", "random", 
+                        "x", "planet-earth", "RGB-wheel", "RGB-spiral", "RGB-heat", 
+                        "hue-heat", "hue-blood", "hue-vxy", "hue-why", "hue-try"],
+            colorOptions_name: ["Fire", "Gray Scale", "White", "Phire", "Rand", 
+                        "x", "Planet Earth", "RGB Wheel", "RGB Spiral", "RGB Heat", 
+                        "Hue Heat", "Blood", "VXY", "WHY?", "Hue Try"],
         },
 
         player: false,
@@ -717,6 +755,10 @@
             let xc = this.x - s.w2;
             let yc = this.y - s.h2*1.15;
             let hueAngle = XYtoAngle(xc, yc);
+
+            let colorCode = "hsla";
+            let rgbaCode = "rgba(0,0,0,0)";
+
             // ["normal", "white", "phire", "chromatic"]
             switch(s.fire.color){
                 case "normal":
@@ -774,6 +816,7 @@
                     break;
                 case "hue-blood":
                     this.vhue = 0;
+                    // this.lum = 50 - (this.heat * .25);
                     break;
                 case "hue-vxy":
                     // let xc_h = this.x - s.w2;
@@ -786,16 +829,31 @@
                     let vxy = this.vx + this.vy;
                     this.vhue = (vxy * 180);
                     break;
+                case "hue-why":
+                    let vxyc = Math.abs(this.vx) + Math.abs(this.vy);
+                    this.vhue = (vxyc * globRules.htry);
+                    break;
                 case "hue-try":
                     // let xc_h = this.x - s.w2;
                     // let yc_h = this.y - s.h2*1.2;
                     // let hueAngle_h = XYtoAngle(xc_h, yc_h);
                     // this.vhue = Math.round((hueAngle + 360 + (this.heat * 1.8)) % 360);
 
-                    // let vxc = this.vx;
-                    // let vyc = this.vy;
-                    let vxyc = Math.abs(this.vx) + Math.abs(this.vy);
-                    this.vhue = (vxyc * globRules.htry);
+                    let vhue_r = (this.heat * 7.2);
+                    let vxy_g = 180 + (this.vx + this.vy) * 180;
+                    let vxyc_b = ((Math.abs(this.vx) + Math.abs(this.vy)) * 360);
+
+                    // let vhue_r = (this.heat * 2.5);
+                    // // let vhue_r = 0;
+                    // let vxy_g = 125 + (this.vx + this.vy) * 125;
+                    // // let vxy_g = 0;
+                    // let vxyc_b = ((Math.abs(this.vx) + Math.abs(this.vy)) * 250);
+                    // // let vxyc_b = 0;
+
+                    colorCode = "rgba";
+                    rgbaCode = `rgba(${vhue_r}, ${vxy_g}, ${vxyc_b}, ${this.alp})`;
+
+                    // this.c = `rgba(${vhue_r}, ${vxy_g}, ${vxyc_b}, ${this.alp})`;
                     break;
                 default:
                     break;
@@ -814,6 +872,16 @@
             // this.c = `hsla(${this.vhue}, 100%, ${this.lum}%, ${this.alp})`;
             this.c = `hsla(${this.vhue}, ${this.vsat}%, ${this.lum}%, ${this.alp})`;
             // this.c = `hsla(${this.hue}, 100%, ${this.lum}%, .01)`;
+
+            // if(colorCode == "hsla"){
+            //     this.c = `hsla(${this.vhue}, ${this.vsat}%, ${this.lum}%, ${this.alp})`;
+            // } else 
+            if(colorCode == "rgba"){
+                // this.c = `rgba(${vhue_r}, ${vxy_g}, ${vxyc_b}, ${this.alp})`;
+                this.c = rgbaCode;
+            } else {
+                this.c = `hsla(${this.vhue}, ${this.vsat}%, ${this.lum}%, ${this.alp})`;
+            }
 
             // // this.s = 4;
             // this.s = s.fire.size;
@@ -1729,6 +1797,24 @@
         {rule: "heat9", a: "e", b: "e", g: .12, r: 20},
         {rule: "fall", a: "e", b: "e", g: -.015, r: 100}
     ];
+    var rules11 = [
+        /* [mouse-orbit] is the repulsion from particles to the mouse. */
+        /* [heat7] is the attraction to the sun/fire particle. */
+        /* [fall] is the general gravity for particles to go up. */
+        /* [heat8] is the repulsion from particle to particle. */
+        // {rule: "mouse-horbit", a: "e", b: "e", g: -.09, r: 40},
+        // {rule: "mouse-horbit", a: "e", b: "e", g: -.04, r: 1200},
+        {rule: "mouse-horbit", a: "e", b: "e", g: -.02, r: 1200},
+        {rule: "orbitSun", a: "sun", b: "sun", g: .025, r: 30},
+        {rule: "orbitSun", a: "sun", b: "sun", g: -.015, r: 1500},
+        {rule: "heat7", a: "e", b: "sun", g: -0.001, r: 1500},
+        // {rule: "heat8", a: "e", b: "e", g: .09, r: 20},
+        // {rule: "heat9", a: "e", b: "e", g: .19, r: 20},
+        // {rule: "heat9", a: "e", b: "e", g: .24, r: 12},
+        {rule: "heat9", a: "e", b: "e", g: .29, r: 40},
+        {rule: "fall", a: "e", b: "e", g: 0, r: 100}
+        // {rule: "fall", a: "e", b: "e", g: -.015, r: 100}
+    ];
     var rules = [
         /* [mouse-orbit] is the repulsion from particles to the mouse. */
         /* [heat7] is the attraction to the sun/fire particle. */
@@ -1743,6 +1829,8 @@
         // {rule: "heat8", a: "e", b: "e", g: .09, r: 20},
         // {rule: "heat9", a: "e", b: "e", g: .19, r: 20},
         {rule: "heat9", a: "e", b: "e", g: .24, r: 12},
+        // {rule: "heat9", a: "e", b: "e", g: .24, r: 24},
+        // {rule: "fall", a: "e", b: "e", g: 0, r: 100}
         {rule: "fall", a: "e", b: "e", g: -.015, r: 100}
     ];
     
