@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <!-- Sky Gradient -->
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E3C72" />
+      <stop offset="50%" stop-color="#4A89DC" />
+      <stop offset="100%" stop-color="#F6D365" />
+    </linearGradient>
+
+    <!-- Main Mountain Gradient -->
+    <linearGradient id="mountainMain" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5D6D7E" />
+      <stop offset="100%" stop-color="#2C3E50" />
+    </linearGradient>
+
+    <!-- Mountain Shadow Side -->
+    <linearGradient id="mountainShadow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#34495E" />
+      <stop offset="100%" stop-color="#1A252F" />
+    </linearGradient>
+
+    <!-- Foreground Hills Gradient -->
+    <linearGradient id="hillGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#27AE60" />
+      <stop offset="100%" stop-color="#145A32" />
+    </linearGradient>
+    
+    <linearGradient id="hillGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2ECC71" />
+      <stop offset="100%" stop-color="#1E8449" />
+    </linearGradient>
+
+    <!-- Winding Path Gradient -->
+    <linearGradient id="pathGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E5C185" />
+      <stop offset="100%" stop-color="#B98D4B" />
+    </linearGradient>
+  </defs>
+
+  <!-- Sky Background -->
+  <rect width="800" height="500" fill="url(#skyGrad)" />
+
+  <!-- Sun -->
+  <circle cx="630" cy="120" r="45" fill="#FFF3B0" opacity="0.9" />
+  <circle cx="630" cy="120" r="65" fill="#FFF3B0" opacity="0.25" />
+
+  <!-- Distant Clouds -->
+  <g fill="#FFFFFF" opacity="0.4">
+    <path d="M120,110 Q140,85 170,95 Q195,75 225,95 Q250,95 255,115 Q265,130 240,130 L115,130 Q95,125 120,110 Z" />
+    <path d="M450,80 Q465,65 485,72 Q505,58 525,75 Q540,75 542,90 L445,90 Q435,88 450,80 Z" />
+  </g>
+
+  <!-- Background Mountains -->
+  <polygon points="80,350 240,160 400,350" fill="#7F8C8D" opacity="0.7" />
+  <polygon points="400,350 580,180 760,350" fill="#707B7C" opacity="0.7" />
+
+  <!-- Main Center Mountain -->
+  <!-- Light Side (Left) -->
+  <polygon points="180,360 410,95 410,360" fill="url(#mountainMain)" />
+  <!-- Shadow Side (Right) -->
+  <polygon points="410,95 650,360 410,360" fill="url(#mountainShadow)" />
+
+  <!-- Snow Cap -->
+  <polygon points="410,95 348,167 375,158 392,175 410,152" fill="#FFFFFF" />
+  <polygon points="410,95 410,152 430,170 448,155 474,167" fill="#D6EAF8" />
+
+  <!-- Rolling Hills -->
+  <!-- Midground Left Hill -->
+  <path d="M-20,340 Q200,280 430,350 L430,500 L-20,500 Z" fill="url(#hillGrad1)" />
+  <!-- Midground Right Hill -->
+  <path d="M350,350 Q580,275 820,345 L820,500 L350,500 Z" fill="#196F3D" />
+  <!-- Foreground Meadow -->
+  <path d="M-20,380 Q400,330 820,390 L820,500 L-20,500 Z" fill="url(#hillGrad2)" />
+
+  <!-- Winding Path Leading to the Mountain -->
+  <path d="M 412,338 
+           C 390,342 375,350 405,360 
+           C 445,372 475,385 415,405 
+           C 330,432 250,455 340,500 
+           L 470,500 
+           C 350,460 410,435 465,410 
+           C 515,388 475,370 425,358 
+           C 395,350 405,342 416,338 Z" fill="url(#pathGrad)" />
+
+  <!-- Stylized Pine Trees along the hills -->
+  <!-- Left Cluster -->
+  <g fill="#0E3E22">
+    <polygon points="90,360 75,400 105,400" />
+    <polygon points="90,345 78,378 102,378" />
+    
+    <polygon points="130,375 110,425 150,425" />
+    <polygon points="130,355 114,398 146,398" />
+
+    <polygon points="175,390 162,425 188,425" />
+  </g>
+
+  <!-- Right Cluster -->
+  <g fill="#0B331B">
+    <polygon points="640,365 620,415 660,415" />
+    <polygon points="640,345 624,388 656,388" />
+
+    <polygon points="695,380 670,440 720,440" />
+    <polygon points="695,355 675,408 715,408" />
+  </g>
+</svg>
